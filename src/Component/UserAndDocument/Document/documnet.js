@@ -1,4 +1,5 @@
 import { createNewElement } from '../../../Util/element.js';
+import DocumentForm from './DocumentForm/documentForm.js';
 
 // state = { currentUser : "..." }
 
@@ -7,6 +8,7 @@ export default class Document {
         this.$target = $target;
         this.state = initalState;
         this.$document = createNewElement("div", [{ property: "className", value: "document" }]);
+        this.documentForm = new DocumentForm({ $target: this.$document });
 
         this.init();
     }
