@@ -1,6 +1,7 @@
 import DocumentList from './DocumentList.js';
 import Editor from './Editor.js';
 import { request } from './api.js';
+import { initRouter, push } from './router.js';
 import { removeItem, setItem } from './storage.js';
 
 export default function App({ $target }) {
@@ -39,8 +40,12 @@ export default function App({ $target }) {
     initialState: [],
     onClickDocument: async (id) => {
       await fetchSelectedDocument(id);
+      push(`/${id}`);
     },
-    onClickAddButton: async (id) => {},
+    onClickAddButton: async (id) => {
+      // 하드코딩, 수정 필요
+      await fetchAddDocument(id, '제목 없음');
+    },
   });
 
   const editor = new Editor({
@@ -84,6 +89,35 @@ export default function App({ $target }) {
     editor.setState(selectedDocument);
   };
 
-  fetchRootDocuments();
-  this.render();
+  const fetchAddDocument = async (parentId, title) => {
+    const newDocument = await request('', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: title,
+        parent: parentId,
+      }),
+    });
+  };
+
+  this.route = async () => {
+    await fetchRootDocuments();
+    const { pathname } = window.location;
+    if (pathname === '/') {
+      this.setState({
+        ...this.state,
+        selectedDocument: null,
+      });
+    } else {
+      const id = pathname.slice(1);
+      await fetchSelectedDocument(id);
+    }
+  };
+  
+  window.addEventListener('popstate', async () => {
+    this.route();
+  });
+
+  this.route();
+  initRouter(() => this.route());
+
 }
