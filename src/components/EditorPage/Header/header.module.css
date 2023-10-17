@@ -1,0 +1,8 @@
+.header {
+  border: 1px solid red;
+  display: flex;
+}
+
+.header p {
+  margin-right: 10px;
+}
