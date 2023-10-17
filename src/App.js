@@ -26,7 +26,8 @@ export default function App({ $target }) {
     this.render();
   };
 
-  this.render = () => {
+  this.render = async () => {
+    await fetchRootDocuments();
     const { selectedDocument } = this.state;
     if (selectedDocument) {
       $editorContainer.style.display = 'block';
@@ -43,8 +44,14 @@ export default function App({ $target }) {
       push(`/${id}`);
     },
     onClickAddButton: async (id) => {
-      // 하드코딩, 수정 필요
-      await fetchAddDocument(id, '제목 없음');
+      const addedDocument = await fetchAddDocument(id, '제목 없음');
+
+      this.setState({
+        ...this.state,
+        selectedDocument: addedDocument,
+      });
+      
+      editor.setState(addedDocument);
     },
   });
 
@@ -85,7 +92,6 @@ export default function App({ $target }) {
       ...this.state,
       selectedDocument,
     });
-
     editor.setState(selectedDocument);
   };
 
@@ -97,6 +103,7 @@ export default function App({ $target }) {
         parent: parentId,
       }),
     });
+    return newDocument;
   };
 
   this.route = async () => {
