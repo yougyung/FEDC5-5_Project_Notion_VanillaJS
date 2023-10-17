@@ -1,0 +1,26 @@
+#app {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex: 1;
+}
+
+.sideBarWrapper {
+  flex-grow: 0;
+  flex-shrink: 0;
+  pointer-events: none;
+  position: relative;
+  z-index: 111;
+  background: rgb(251, 251, 250);
+  color: rgba(25, 23, 17, 0.6);
+  transition: width 270ms ease 0s;
+  box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
+  width: 240px;
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
