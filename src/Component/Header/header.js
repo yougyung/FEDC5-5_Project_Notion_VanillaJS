@@ -12,10 +12,8 @@ export default class Header {
 
     init() {
         const $userName = createNewElement("span", [{ property: "className", value: "header__user-name" }]);
-        const $button = createNewElement("button", [{ property: "className", value: "header__button" }], "+");
 
         this.$header.appendChild($userName);
-        this.$header.appendChild($button);
         this.$target.appendChild(this.$header);
 
         this.render();
@@ -30,6 +28,6 @@ export default class Header {
         const $userName = this.$header.querySelector(".header__user-name");
         const { userName } = this.state;
 
-        $userName.innerText = userName;
+        $userName.innerText = `${userName}님`;
     }
 }
