@@ -1,11 +1,11 @@
-function Document() {
+function Editor() {
   return {
     element: `
-      <form class="document">
+      <form>
         <textarea rows=10 cols=100></textarea>
       </form>
     `,
   };
 }
 
-export default Document;
+export default Editor;
