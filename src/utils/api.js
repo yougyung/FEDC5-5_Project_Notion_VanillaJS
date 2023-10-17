@@ -27,9 +27,9 @@ export const DUMMY_DATA = [
   },
 ];
 
-export const request = async () => {
+export const request = async (url) => {
   try {
-    const res = await fetch(`${API_END_POINT}/documents`, {
+    const res = await fetch(`${API_END_POINT}${url}`, {
       headers: {
         "Content-Type": "application/json",
         "x-username": `${DEFAULT_USERNAME}`,
