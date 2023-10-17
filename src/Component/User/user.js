@@ -1,7 +1,7 @@
 import { createNewElement } from '../../Util/element.js';
 
 // state = { currentUser : "..." }
-export default class Header {
+export default class User {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
