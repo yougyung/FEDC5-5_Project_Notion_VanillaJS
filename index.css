@@ -24,3 +24,29 @@
   width: 100%;
   overflow: hidden;
 }
+
+.textArea {
+  flex-grow: 0;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  z-index: 1;
+  height: calc(100vh - 45px);
+  max-height: 100%;
+  position: relative;
+  width: 575px;
+  transition-property: width;
+  transition-duration: 270ms;
+  transition-timing-function: ease;
+}
+
+.textArea-title {
+  width: 575px;
+  /* border: none; */
+}
+
+.textArea-content {
+  width: 575px;
+  /* border: none; */
+}
