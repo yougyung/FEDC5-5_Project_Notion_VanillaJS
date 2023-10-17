@@ -1,0 +1,3 @@
+export const SIDEBAR_VIEW_MODE = {
+  DOCS_INDEX_VIEWER: "DOCS_INDEX_VIEWER",
+};
