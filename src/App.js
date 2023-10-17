@@ -1,6 +1,6 @@
 import { request } from "./api.js";
 
-function App({ $target }) {
+export default function App({ $target }) {
   const $app = document.createElement("section");
   $app.textContent = "Hello World!";
   $target.appendChild($app);
@@ -12,5 +12,3 @@ function App({ $target }) {
 
   fetchDocuments();
 }
-
-export default App;
