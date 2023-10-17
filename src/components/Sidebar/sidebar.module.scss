@@ -1,0 +1,14 @@
+@use "@/styles/color";
+
+.s_sidebar {
+  width: 15rem;
+  height: 100vh;
+  border: 0.01rem solid color.$onSecondary;
+  background-color: color.$secondary;
+  padding: 2rem 1.5rem;
+}
+
+.s_sidebar > ul li {
+  height: 2rem;
+  cursor: pointer;
+}
