@@ -1,16 +1,5 @@
 import DocumentList from './DocumentList.js';
-
-const DUMMY_DATA = [
-  {
-    name: 'test1',
-  },
-  {
-    name: 'test2',
-  },
-  {
-    name: 'test3',
-  },
-];
+import { request } from './api.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -18,6 +7,13 @@ export default function App({ $target }) {
 
   const documentList = new DocumentList({
     $target: $documentListContainer,
-    initialState: DUMMY_DATA,
+    initialState: [],
   });
+
+  const fetchRootDocuments = async () => {
+    const rootDocuments = await request();
+    documentList.setState(rootDocuments);
+  }
+
+  fetchRootDocuments();
 }

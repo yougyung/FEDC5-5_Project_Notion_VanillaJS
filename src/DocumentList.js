@@ -15,7 +15,7 @@ export default function DocumentList({
   this.render = () => {
     $documentList.innerHTML = `
       <ul>
-        ${this.state.map(document => `<li>${document.name}</li>`).join('')}
+        ${this.state.map(document => `<li data-id="${document.id}">${document.title}</li>`).join('')}
       </ul>
     `;
   }
