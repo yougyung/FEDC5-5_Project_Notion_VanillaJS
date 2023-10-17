@@ -25,6 +25,7 @@
 ┃ ┣ 📜app.js<br/>
 ┃ ┗ 📜main.js<br/>
 ┣ 📜README.md<br/>
+┣ 📜index.css<br/>
 ┗ 📜index.html<br/>
 
 ## 요구사항
