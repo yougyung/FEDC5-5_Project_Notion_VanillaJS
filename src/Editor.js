@@ -9,6 +9,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       this.state = nextState;
     } else {
       this.state = {
+        ...nextState,
         title: nextState.title,
         content: '',
       };
