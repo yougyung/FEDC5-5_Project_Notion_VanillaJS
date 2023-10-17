@@ -10,9 +10,10 @@ export const request = async (url, options = {}) => {
     });
 
     if (response.ok) {
-      const json = await response.json();
-      return json;
+      return await response.json();
     }
+
+    throw new Error("API 처리 중 에러가 발생했습니다.");
   } catch (error) {
     console.log(error.message);
   }
