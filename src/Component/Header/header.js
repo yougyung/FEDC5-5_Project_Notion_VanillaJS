@@ -1,6 +1,6 @@
 import { createNewElement } from '../../Util/element.js';
 
-// state = { userName : "..." }
+// state = { currentUser : "..." }
 export default class Header {
     constructor({ $target, initalState }) {
         this.$target = $target;
@@ -26,8 +26,8 @@ export default class Header {
 
     render() {
         const $userName = this.$header.querySelector(".header__user-name");
-        const { userName } = this.state;
+        const { currentUser } = this.state;
 
-        $userName.innerText = `${userName}님`;
+        $userName.innerText = `${currentUser}님`;
     }
 }

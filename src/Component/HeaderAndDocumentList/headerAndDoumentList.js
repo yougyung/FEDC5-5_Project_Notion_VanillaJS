@@ -1,14 +1,14 @@
 import { createNewElement } from '../../Util/element.js';
 import Header from '../Header/header.js';
 
-// state = { userName : "..." }
+// state = { currentUser : "..." }
 
 export default class HeaderAndDocumentList {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
         this.$headerAndDocumentList = createNewElement("div", [{ property: "className", value: "header-documentlist" }]);
-        this.header = new Header({ $target: this.$headerAndDocumentList, initalState: { userName: this.state.userName} });
+        this.header = new Header({ $target: this.$headerAndDocumentList, initalState: { currentUser: this.state.currentUser} });
 
         this.init();
     }

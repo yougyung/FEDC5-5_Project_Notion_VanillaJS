@@ -1,15 +1,15 @@
-import HeaderAndDocumentList from '../Component/HeaderAndDocumentList/headerAndCoumentList.js';
+import HeaderAndDocumentList from '../Component/HeaderAndDocumentList/headerAndDoumentList.js';
 import { createNewElement } from '../Util/element.js';
 import { request } from '../Service/document.js';
 
-// state = { userName : "..." }
+// state = { currentUser : "..." }
 
 export default class RootPage {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
         this.$page = createNewElement("div", [{ property: "className", value: "wrap" }]);
-        this.headerAndDocumentList = new HeaderAndDocumentList({ $target: this.$page, initalState: { userName: this.state.userName }});
+        this.headerAndDocumentList = new HeaderAndDocumentList({ $target: this.$page, initalState: { currentUser: this.state.currentUser }});
 
     }
 
