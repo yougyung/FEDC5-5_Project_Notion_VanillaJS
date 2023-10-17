@@ -5,6 +5,7 @@ export default function SideAreaPage({ $target, initialState }) {
   //   console.log($target);
   // console.log(DUMMY_DATA_SIDE_LIST);
   const $pageList = $.createElement("div");
+  $pageList.className = "sideBarPageList";
   $target.appendChild($pageList);
 
   this.state = initialState;
@@ -19,15 +20,15 @@ export default function SideAreaPage({ $target, initialState }) {
   // id, title이 공통이니 두개만 옮기고 나머지는 api 호출로..?
   const pageListRenderer = (parentTag, page) => {
     page.map((value) => {
-      console.log(value);
-      console.log(value.documents.length);
+      // console.log(value);
+      // console.log(value.documents.length);
       if (value.documents.length > 0) {
         const createdUl = $.createElement("ul");
         const createdLi = $.createElement("li");
 
         createdLi.innerText = value.title;
-        console.log(value.title);
-        console.log(value.documents);
+        // console.log(value.title);
+        // console.log(value.documents);
         parentTag.appendChild(createdUl);
         createdUl.appendChild(createdLi);
         pageListRenderer(createdUl, value.documents);
