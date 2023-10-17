@@ -1,3 +1,5 @@
+import "@/styles/index.scss";
+
 import { createComponent } from "./core";
 import App from "./App";
 
