@@ -1,6 +1,7 @@
 import DocumentList from './DocumentList.js';
 import Editor from './Editor.js';
 import { request } from './api.js';
+import { removeItem, setItem } from './storage.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -8,15 +9,16 @@ export default function App({ $target }) {
 
   const $editorContainer = document.createElement('div');
   $editorContainer.className = 'editor-container';
-  
+
   $target.appendChild($documentListContainer);
   $target.appendChild($editorContainer);
-  
+
+  let timer = null;
 
   this.state = {
     documentList: [],
     selectedDocument: null,
-  }
+  };
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -30,7 +32,7 @@ export default function App({ $target }) {
     } else {
       $editorContainer.style.display = 'none';
     }
-  }
+  };
 
   const documentList = new DocumentList({
     $target: $documentListContainer,
@@ -38,33 +40,49 @@ export default function App({ $target }) {
     onClickDocument: async (id) => {
       await fetchSelectedDocument(id);
     },
-    onClickAddButton: async (id) => {
-      
-    }
+    onClickAddButton: async (id) => {},
   });
 
   const editor = new Editor({
     $target: $editorContainer,
     initialState: this.state.selectedDocument,
-    onEditing: (post) => {
-      
-    }
+    onEditing: (document) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        setItem('temp-post', {
+          ...document,
+          tempSavedAt: new Date(),
+        });
+
+        await request(`/${document.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            title: document.title,
+            content: document.content,
+          }),
+        });
+        
+        removeItem('temp-post');
+      }, 1000);
+    },
   });
 
   const fetchRootDocuments = async () => {
     const rootDocuments = await request();
     documentList.setState(rootDocuments);
   };
-  
+
   const fetchSelectedDocument = async (id) => {
     const selectedDocument = await request(`/${id}`);
     this.setState({
       ...this.state,
       selectedDocument,
-    })
+    });
 
     editor.setState(selectedDocument);
-  }
+  };
 
   fetchRootDocuments();
   this.render();
