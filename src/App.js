@@ -77,6 +77,7 @@ export default function App({ $target }) {
         });
         
         removeItem('temp-post');
+        this.render();
       }, 1000);
     },
   });
