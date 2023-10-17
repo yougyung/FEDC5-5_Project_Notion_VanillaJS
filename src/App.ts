@@ -1,12 +1,38 @@
-import { createComponent } from "./core";
-import { Document, Sidebar } from "./components";
+import { createComponent, useState } from "./core";
+import { Sidebar } from "./components";
 import styles from "./app.module.scss";
+
+const DUMMY_DATA = [
+  {
+    id: 1,
+    title: "노션을 만들자",
+    documents: [
+      {
+        id: 2,
+        title: "블라블라",
+        documents: [
+          {
+            id: 3,
+            title: "함냐함냐",
+            documents: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "hello!",
+    documents: [],
+  },
+];
 
 const { s_container } = styles;
 
 function App() {
-  const documentComponent = createComponent(Document);
-  const sidebarComponent = createComponent(Sidebar);
+  const [documents, setDocuments] = useState(DUMMY_DATA);
+
+  const sidebarComponent = createComponent(Sidebar, { documents });
 
   return {
     element: `
@@ -15,7 +41,6 @@ function App() {
           노션 클로닝 어플리케이션
         </h1>
         ${sidebarComponent.element}
-        ${documentComponent.element}
       </div>
     `,
   };
