@@ -1,12 +1,20 @@
+import SideBarList from "./SideBarList.js";
+import { request } from "./utils/api.js";
+
 export default function SideBar({ $target }) {
   const $sideBar = document.createElement("div");
-  $sideBar.className = "side_bar";
   $target.appendChild($sideBar);
 
-  this.render = () => {
-    $sideBar.innerHTML = `
-            <h1>THIS IS SIDEBAR</h1>
-        `;
+  const sideBarList = new SideBarList({ $target: $sideBar, initialState: [] });
+
+  const fetchDocuments = async () => {
+    const documents = await request("/documents");
+    console.log("GET", documents);
+
+    sideBarList.setState(documents);
+  };
+  this.render = async () => {
+    await fetchDocuments();
   };
   this.render();
 }
