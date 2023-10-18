@@ -1,0 +1,17 @@
+.fold {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.documents-item {
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.end-document-item {
+    cursor: default;
+    color: gray;
+}
