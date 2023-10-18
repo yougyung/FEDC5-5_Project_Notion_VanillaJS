@@ -1,3 +1,4 @@
+import NewPageButon from "./NewPageButton.js";
 import SideBarHeader from "./SideBarHeader.js";
 import SideBarList from "./SideBarList.js";
 import { request } from "./utils/api.js";
@@ -81,6 +82,12 @@ export default function SideBar({ $target }) {
   const sideBarList = new SideBarList({
     $target: $sideBar,
     initialState: [],
+    handleAddNewPage: async () => await this.setState(),
+  });
+
+  new NewPageButon({
+    $target: $sideBar,
+    id: null,
     handleAddNewPage: async () => await this.setState(),
   });
 

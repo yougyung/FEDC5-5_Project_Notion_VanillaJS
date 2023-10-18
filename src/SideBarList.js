@@ -1,6 +1,7 @@
 import NewPageButton from "./NewPageButton.js";
 import { pushRoute } from "./utils/router.js";
 import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
+import { request } from "./utils/api.js";
 
 export default function SideBarList({
   $target,
@@ -46,7 +47,11 @@ export default function SideBarList({
         <span>${doc.title}</span>
         </div>
       `;
-      new NewPageButton({ $target: $subLi.firstChild });
+      new NewPageButton({
+        $target: $subLi.firstChild,
+        id: doc.id,
+        handleAddNewPage,
+      });
       $subUl.appendChild($subLi);
       if (doc.documents.length > 0) {
         const newDocuments = doc.documents;
@@ -70,6 +75,7 @@ export default function SideBarList({
     const { tagName, className } = e.target;
     console.log(e.target);
     if (className === "toggle_button") {
+      // ⩥⊽ 여닫기
       console.log("click toggle_button");
       e.target.innerHTML = e.target.innerHTML === "⊽" ? "⩥" : "⊽";
       const li = e.target.closest("li");
@@ -79,13 +85,14 @@ export default function SideBarList({
           liChilds.style.display !== "none" ? "none" : "block";
       }
     } else if (className === "new_button") {
+      // ➕ 하위 페이지
       console.log("click new_button");
       const closestLi = e.target.closest("li");
       console.log("closestLi", closestLi.dataset.id);
     } else {
+      // 그외 div.each영역 -> editPage에 그 페이지 열어줌
       const li = e.target.closest("li");
       if (li) {
-        handleAddNewPage();
         pushRoute(`/docs/${li.dataset.id}`);
       }
     }
