@@ -1,0 +1,35 @@
+.menubar {
+  /* border: 1px blue solid; */
+  display: flex;
+}
+
+.menubar_docList {
+  /* border: 1px orange solid; */
+}
+
+.menubar_docList_list {
+  position: relative;
+  transition: all 1s;
+  /* border: 1px red solid; */
+}
+
+.menubar_docList_list_info {
+  border: 1px green solid;
+
+  display: flex;
+  width: 320px;
+}
+
+
+
+.menubar_docList_list_childrenList {
+  border: 1px red solid;
+  transition: all 0.5s 0.1s;
+  display: none;
+  opacity: 0;
+}
+
+.toggleChecked {
+  display: inline-block;
+  opacity: 1;
+}

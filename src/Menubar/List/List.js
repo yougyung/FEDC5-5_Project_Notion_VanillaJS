@@ -2,13 +2,16 @@ import ChildrenList from './ChildrenList.js'
 import ListInfo from './ListInfo.js'
 
 export default function List({ target, state }) {
+  this.state = { ...state, isToggle: false }
+  const { title, id, documents, isToggle } = state
+
+
   const listElement = document.createElement('li')
   listElement.setAttribute('class', 'menubar_docList_list')
+  listElement.setAttribute('data-id', id)
   target.appendChild(listElement)
 
 
-  this.state = { ...state, isToggle: false }
-  const { title, id, documents, isToggle } = state
 
 
   this.render = () => {
