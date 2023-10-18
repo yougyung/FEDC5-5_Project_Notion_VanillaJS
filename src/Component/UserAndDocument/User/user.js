@@ -8,13 +8,18 @@ export default class User {
         this.$target = $target;
         this.state = initalState;
         this.$user = createNewElement("div", [{ property: "className", value: "user" }]);
-        this.userForm = new UserForm({ $target: this.$user, initalState: { currentUser: this.state.currentUser }});
+        this.userForm = null;
 
         this.init();
     }
 
     init() {
+        this.render();
+    }
+
+    render() {
         this.$target.appendChild(this.$user);
+        this.userForm = new UserForm({ $target: this.$user, initalState: this.state });
     }
 
     setState(nextState) {

@@ -11,6 +11,6 @@ export default class App {
     }
 
     init() {
-        this.rootPage.init();
+        this.rootPage.render();
     }
 }

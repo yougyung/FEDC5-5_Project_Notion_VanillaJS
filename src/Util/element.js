@@ -6,7 +6,13 @@ export const createNewElement = (tag, properties = [], text = "") => {
     }
 
     properties.forEach(({ property, value }) => {
-        $element[property] = value;
+        if(property.includes('dataset.')) {
+            const dataAttribute = property.split('.')[1];
+            $element.dataset[dataAttribute] = value;
+        } 
+        else{
+            $element[property] = value;
+        }
     });
 
     return $element;
