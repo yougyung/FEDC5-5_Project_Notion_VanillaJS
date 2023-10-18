@@ -1,6 +1,7 @@
 import NavPage from "./page/NavPage.js";
 import { request } from "./utils/api.js";
 import DocumentPage from "./page/DocumentPage.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target, initialState }) {
   this.state = initialState;
@@ -51,5 +52,6 @@ export default function App({ $target, initialState }) {
       documentPage.setState({ documentId, document });
     }
   };
+  initRouter(this.route);
   this.getDocuments();
 }

@@ -25,7 +25,7 @@ export default function DocumentList({
         deleteDocument,
         depth,
       });
-      if (document.documents.length > 0) {
+      if (document.documents.length) {
         new DocumentList({
           $target: $documentList,
           initialState: document.documents,

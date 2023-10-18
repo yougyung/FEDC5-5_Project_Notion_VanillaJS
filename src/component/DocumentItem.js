@@ -1,3 +1,5 @@
+import { push } from "../utils/router.js";
+
 export default function DocumentItem({
   $target,
   initialState,
@@ -17,7 +19,7 @@ export default function DocumentItem({
   this.render = () => {
     $documentItem.innerHTML = `
         <button data-name="more">▽</button>
-        <li style="list-style-type:none; cursor:pointer;" >${this.state.title}</li>
+        <span>${this.state?.title}</span>
         <button data-name="delete-doc">-</button>
         <button data-name="create-doc">+</button>
       `;
@@ -35,8 +37,10 @@ export default function DocumentItem({
       createDocument(id);
     } else if (name === "delete-doc") {
       deleteDocument(id);
-    } else {
-      console.log(id);
+    }
+    if (e.target.tagName === "SPAN") {
+      console.log(e.target);
+      push(`/documents/${id}`);
     }
   });
   this.render();
