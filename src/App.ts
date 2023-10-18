@@ -43,10 +43,10 @@ const DUMMY_DATA = [
   },
 ];
 
-const { s_container } = styles;
+const { s_container, s_mainContainer } = styles;
 
 function App() {
-  const [activeView, setActiveView] = useState<"editor" | "documentView" | null>("documentView");
+  const [activeView, setActiveView] = useState<"editor" | "documentView" | null>("editor");
   const [documents, setDocuments] = useState(DUMMY_DATA);
 
   const addRootDocument = () => {
@@ -68,8 +68,10 @@ function App() {
           노션 클로닝 어플리케이션
         </h1>
         ${sidebarComponent.element}
-        ${activeView === "editor" ? editorComponent.element : ""}
-        ${activeView === "documentView" ? documentViewComponent.element : ""}
+        <main class=${s_mainContainer}>
+          ${activeView === "editor" ? editorComponent.element : ""}
+          ${activeView === "documentView" ? documentViewComponent.element : ""}
+        </main>
       </div>
     `,
     bindEvents,
