@@ -7,7 +7,29 @@ export default function App({ $target, initialState }) {
     this.state = nextState;
     this.route();
   };
-  const navPage = new NavPage({ $target, initialState: this.state });
+  this.getDocuments = async () => {
+    const documentsTree = await request("/documents");
+    this.setState(documentsTree);
+  };
+  const navPage = new NavPage({
+    $target,
+    initialState: this.state,
+    createDocument: async (id) => {
+      const body = { title: "새 Document", parent: id ? id : null };
+      const response = await request("/documents", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      console.log(response);
+      this.getDocuments();
+    },
+    deleteDocument: async (id) => {
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      this.getDocuments();
+    },
+  });
   this.route = () => {
     $target.innerHTML = "";
     const { pathname } = window.location;
@@ -15,9 +37,5 @@ export default function App({ $target, initialState }) {
       navPage.setState(this.state);
     }
   };
-  const getDocuments = async () => {
-    const documentsTree = await request("/documents");
-    this.setState(documentsTree);
-  };
-  getDocuments();
+  this.getDocuments();
 }

@@ -11,6 +11,11 @@ export default function DocumentList({
   $documentList.className = "document-child";
   $target.appendChild($documentList);
   this.state = initialState;
+  this.setState = (nextState) => {
+    this.state = nextState;
+    console.log(this.state);
+    this.render();
+  };
   this.render = () => {
     $documentList.innerHTML = "";
     this.state.forEach((document) => {
@@ -32,6 +37,5 @@ export default function DocumentList({
       }
     });
   };
-
   this.render();
 }
