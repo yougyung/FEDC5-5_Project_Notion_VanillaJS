@@ -1,6 +1,8 @@
 export function makeDocTree(root, depth, domTree) {
   domTree += `
-  <div data-depth="${depth}" class="nav-document-container">
+  <div data-depth="${depth}" class="nav-document-container" style="padding-left: ${
+    5 + (depth - 1) * 10
+  }px">
     <button class="nav-toggle-btn">▼</button>
     <div class="nav-document" data-id="${root.id}">${root.title}</div>
     <button class="nav-plus-btn">➕</button>
