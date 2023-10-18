@@ -57,11 +57,12 @@ export default function DocumentList({ $target, initialState, onDelete }) {
       const { id } = target;
 
       console.log("add!", id);
-    } else if (target.classList.contains("list-item")) {
+    } else if (target.className === "list-item") {
       const document = await request(`${id}`);
 
       editor.setState(document);
     }
+    console.log(target.classList);
   });
 
   this.render();
