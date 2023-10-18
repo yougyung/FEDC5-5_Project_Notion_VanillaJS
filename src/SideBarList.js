@@ -1,3 +1,4 @@
+import NewPageButton from "./NewPageButton.js";
 import { pushRoute } from "./utils/router.js";
 import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
 
@@ -13,8 +14,8 @@ export default function SideBarList({ $target, initialState }) {
     this.render();
   };
 
-  const handleNewButton = () => {
-    console.log(handleNewButton);
+  const handleNewPageButton = () => {
+    //
   };
 
   const showSubLi = ({ $target, documents }) => {
@@ -39,8 +40,9 @@ export default function SideBarList({ $target, initialState }) {
       $subLi.innerHTML = `<div class="each" style="position: relative;padding-left: inherit;right: inherit; width:200px">
         <button class="toggle_button">⩥</button>
         <span>${doc.title}</span>
-        <button class="new_button">➕</button></div>
+        </div>
       `;
+      new NewPageButton({ $target: $subLi.firstChild });
       $subUl.appendChild($subLi);
       if (doc.documents.length > 0) {
         const newDocuments = doc.documents;
@@ -53,7 +55,7 @@ export default function SideBarList({ $target, initialState }) {
   this.render = () => {
     const documents = this.state;
     if (documents.length > 0) {
-      documents.innerHTML = "";
+      $sideBarList.innerHTML = "";
       // innerHTML로 그리는게 아니라 이전값이 남음. 처음 렌더링시 documents=[]일떄 그려지는 빈 ul을 막기 위함
       showSubLi({ $target: $sideBarList, documents });
     }
@@ -65,12 +67,6 @@ export default function SideBarList({ $target, initialState }) {
     console.log(e.target);
     if (className === "toggle_button") {
       console.log("click toggle_button");
-    } else if (className === "new_button") {
-      console.log("click new_button");
-      const closestLi = e.target.closest("li");
-      console.log("closestLi", closestLi.dataset.id);
-    }
-    if (className === "toggle_button") {
       e.target.innerHTML = e.target.innerHTML === "⊽" ? "⩥" : "⊽";
       const li = e.target.closest("li");
       const liChilds = li.lastChild.tagName === "UL" ? li.lastChild : null;
@@ -78,7 +74,15 @@ export default function SideBarList({ $target, initialState }) {
         liChilds.style.display =
           liChilds.style.display !== "none" ? "none" : "block";
       }
-      pushRoute(li.dataset.id);
+    } else if (className === "new_button") {
+      console.log("click new_button");
+      const closestLi = e.target.closest("li");
+      console.log("closestLi", closestLi.dataset.id);
+    } else {
+      const li = e.target.closest("li");
+      if (li) {
+        pushRoute(`/docs/${li.dataset.id}`);
+      }
     }
   });
 }

@@ -1,12 +1,11 @@
 import { request } from "./utils/api.js";
 
-export default function NewButton({ $target }) {
-  const $newButton = document.createElement("button");
-  $newButton.innerHTML = "새 페이지";
-  $target.appendChild($newButton);
+export default function NewPageButon({ $target }) {
+  const $newPageButton = document.createElement("button");
+  $newPageButton.innerHTML = "➕";
+  $target.appendChild($newPageButton);
 
-  $newButton.addEventListener("click", async () => {
-    console.log("Clci");
+  $newPageButton.addEventListener("click", async () => {
     const res = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
@@ -14,6 +13,7 @@ export default function NewButton({ $target }) {
         parent: null,
       }),
     });
+    console.log(res);
     // res는 {id: 101069, title: '새로넣어보야옹22', createdAt: '2023-10-17T08:25:19.785Z', updatedAt: '2023-10-17T08:25:19.791Z'}
     history.pushState(null, null, res.id);
   });

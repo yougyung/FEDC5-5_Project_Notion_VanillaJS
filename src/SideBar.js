@@ -1,4 +1,3 @@
-import NewButton from "./NewButton.js";
 import SideBarHeader from "./SideBarHeader.js";
 import SideBarList from "./SideBarList.js";
 import { request } from "./utils/api.js";
@@ -80,7 +79,6 @@ export default function SideBar({ $target }) {
 
   const sideBarHeader = new SideBarHeader({ $target: $sideBar });
   const sideBarList = new SideBarList({ $target: $sideBar, initialState: [] });
-  const newDocumentButton = new NewButton({ $target: $sideBar });
 
   this.setState = async () => {
     const res = await request("/documents");
