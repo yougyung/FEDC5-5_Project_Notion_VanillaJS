@@ -3,10 +3,10 @@ const CHANGE_PAGE = "change-page";
 // 설정한 커스텀 이벤트를 실행해 페이지 이동
 export const getCustomEvent = (onRoute) => {
   window.addEventListener(CHANGE_PAGE, (e) => {
-    const { changeUrl } = e.changePathName;
+    const changeUrl = e.detail;
 
     if (changeUrl) {
-      history.pushState(null, null, nextUrl);
+      history.pushState(null, null, changeUrl);
       // 실행 할 경로의 페이지 렌더링
       onRoute();
     }
@@ -17,7 +17,7 @@ export const getCustomEvent = (onRoute) => {
 export const setCustomEvent = (changeUrl) => {
   window.dispatchEvent(
     new CustomEvent(CHANGE_PAGE, {
-      changePathName: changeUrl,
+      detail: changeUrl,
     })
   );
 };
