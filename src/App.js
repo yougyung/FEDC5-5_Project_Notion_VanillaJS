@@ -12,10 +12,14 @@ export default function App({ $target }) {
   const sidebar = new Sidebar({ $target, initialState: DUMMY_DATA });
   const editorPage = new EditorPage({
     $target,
-    initialState: DUMMY_SINGLE_POST_DATA,
+    initialState: { documentId: "new" },
   });
 
+  sidebar.setState();
+
   /** SPA 라우팅 */
+  // 위치를 editorPage로 내려야하나?
+  // 아님 그대로 여기에 두되,
   this.route = () => {
     console.log("화면 이동 감지");
 
@@ -24,10 +28,9 @@ export default function App({ $target }) {
 
     // root 접속 시 - 선택 안된 상황
     if (pathname === "/") {
-      sidebar.setState();
+      //sidebar.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
-      console.log(documentId);
       editorPage.setState(documentId);
     }
   };
