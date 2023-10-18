@@ -1,15 +1,11 @@
-export default function Editor({
-  $target,
-  initialState = { title: "", content: "" },
-  onEditing,
-}) {
+export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   const $editor = document.createElement("div");
 
   $editor.innerHTML = `
     <input type="text" name="title" style="width:600px;"  />
-    <div  contentEditable="true" name="content" style="width:600px;height:400px;"></div>
+    <textarea  name="content" style="width:600px;height:400px;"></textarea>
     `;
 
   $target.appendChild($editor);
@@ -20,23 +16,31 @@ export default function Editor({
   };
 
   this.render = () => {
-    const richContent = this.state.content
-      .split("\n")
-      .map(line => {
-        if (line.indexOf("# " === 0)) {
-          return `<h1>${line.substr(2)}</h1>`;
-        } else if (line.indexOf("## " === 0)) {
-          return `<h2>${line.substr(3)}</h2>`;
-        } else if (line.indexOf("### " === 0)) {
-          return `<h3>${line.substr(3)}</h3>`;
-        }
+    const { title, content } = this.state;
 
-        return line;
-      })
-      .join("<br>");
+    $editor.querySelector("[name=title]").value = title;
 
-    console.log("richContent : ", richContent);
-    $editor.querySelector("[name=title]").value = this.state.title;
+    if (!content) {
+      $editor.querySelector("[name=content]").innerHTML = "";
+      return;
+    }
+
+    const richContent = content.split("\n").join("<br>");
+    // .map(line => {
+    //   line = line.trim();
+
+    //   if (line.indexOf("### ") === 0) {
+    //     return `<h3>${line.substr(4)}</h3>`;
+    //   } else if (line.indexOf("## ") === 0) {
+    //     return `<h2>${line.substr(3)}</h2>`;
+    //   } else if (line.indexOf("# ") === 0) {
+    //     return `<h1>${line.substr(2)}</h1>`;
+    //   } else {
+    //     return line;
+    //   }
+    // })
+
+    // console.log("richContent : ", richContent);
     $editor.querySelector("[name=content]").innerHTML = richContent;
   };
 
@@ -48,15 +52,26 @@ export default function Editor({
       title: e.target.value,
     };
     this.setState(nextState);
-    //onEditing(this.state);
+
+    // 업데이트
+    const { title, content } = this.state;
+    const updateBody = { title, content };
+    onEditing(updateBody);
   });
 
+  /** 시간이 좀 지나면 nextState로 변환해야될듯  */
   $editor.querySelector("[name=content]").addEventListener("input", e => {
     const nextState = {
       ...this.state,
-      content: e.target.innerHTML,
+      content: e.target.value,
     };
     this.setState(nextState);
-    //onEditing(this.state);
+
+    console.log("수정 시도하려는 내용", this.state);
+
+    // 업데이트
+    const { title, content } = this.state;
+    const updateBody = { title, content };
+    onEditing(updateBody);
   });
 }
