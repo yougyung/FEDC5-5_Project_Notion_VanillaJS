@@ -22,28 +22,29 @@ export default function App({ $target }) {
   const documentEditComponent = new DocumentEditComponent({
     $target: $documentEditDiv,
     initialState: {
-      id: "95907",
+      id: "",
       title: "",
       content: "",
       documents: [],
     },
   });
 
-  //   this.setState = (nextState) => {
-  //     this.state = nextState;
-  //     this.render();
-  //   };
+  this.setState = (nextState) => {
+    this.state = nextState;
+  };
 
   this.route = () => {
-    const { selectedDocument } = this.state;
-
     const { pathname } = window.location;
+
     documentListComponent.setState();
     if (pathname.indexOf("/documents/") === 0) {
-      $documentEditDiv.style.display = selectedDocument ? "block" : "none";
-      // const [, , postId] = pathname.split("/");
-
-      // postEditPage.setState({ postId });
+      const [, , documnetId] = pathname.split("/");
+      this.setState({ selectedDocument: documnetId });
+      console.log(this.state);
+      $documentEditDiv.style.display = this.state.selectedDocument
+        ? "block"
+        : "none";
+      documentEditComponent.setState({ id: documnetId });
     }
   };
   this.route();
