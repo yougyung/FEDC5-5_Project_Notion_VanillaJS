@@ -9,8 +9,10 @@ export default function SideAreaPage({ $target, initialState }) {
   $target.appendChild($pageList);
 
   this.state = initialState;
+  // console.log(this.state);
 
   this.setState = (nextState) => {
+    $pageList.innerHTML = ""; // 이걸 안해주면 중첩해서 쌓임
     this.state = nextState;
     this.render();
   };
@@ -43,7 +45,8 @@ export default function SideAreaPage({ $target, initialState }) {
   };
 
   this.render = () => {
-    pageListRenderer($pageList, DUMMY_DATA_SIDE_LIST);
+    // state 전체를 넣는게 맞을까?
+    pageListRenderer($pageList, this.state);
   };
   this.render();
 }
