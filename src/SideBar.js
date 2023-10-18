@@ -1,10 +1,7 @@
+import NewButton from "./NewButton.js";
+import SideBarHeader from "./SideBarHeader.js";
 import SideBarList from "./SideBarList.js";
 import { request } from "./utils/api.js";
-import {
-  localStorageGetItem,
-  localStorageSetItem,
-  localStorageSetIsOpen,
-} from "./utils/storage.js";
 
 const DUMMY_DOCUMENTS_LIST = [
   {
@@ -79,22 +76,18 @@ const DUMMY_DOCUMENTS_LIST = [
 
 export default function SideBar({ $target }) {
   const $sideBar = document.createElement("div");
-  $target.appendChild($sideBar);
 
+  const sideBarHeader = new SideBarHeader({ $target: $sideBar });
   const sideBarList = new SideBarList({ $target: $sideBar, initialState: [] });
+  const newDocumentButton = new NewButton({ $target: $sideBar });
 
-  const fetchDocuments = async () => {
-    const documents = await request("/documents");
-    console.log("GET", documents);
-
-    sideBarList.setState(DUMMY_DOCUMENTS_LIST); // 더미데이터로 전환
+  this.setState = async () => {
+    const res = await request("/documents");
+    // sideBarList.setState(res)
+    sideBarList.setState(DUMMY_DOCUMENTS_LIST); // 개발 초기 더미데이터 이용
+    this.render();
   };
-  this.render = async () => {
-    const isOpen = localStorageGetItem("isOpen", []);
-    if (isOpen.length === 0) {
-      localStorageSetItem("isOpen", []);
-    }
-    await fetchDocuments();
+  this.render = () => {
+    $target.appendChild($sideBar);
   };
-  this.render();
 }
