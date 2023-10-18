@@ -17,10 +17,8 @@ export default class DocumentItems {
 
     render() {
         const { documentList, isRoot } = this.state;
-        const $documentItems = createNewElement("ul", [{ property: "className", value: "document-items" }]);
+        const $documentItems = createNewElement("ul", [{ property: "className", value: `${isRoot ? "document-root-items" : "document-items"}`}]);
         const $fragment = document.createDocumentFragment();
-
-        console.log(isRoot)
 
         documentList?.forEach((item) => {
             new DocumentItem({ $target: $fragment, initalState: { ...item }})

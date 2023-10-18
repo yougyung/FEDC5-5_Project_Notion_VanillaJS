@@ -50,9 +50,12 @@ export default class Document {
     // documentList 데이터 가져오기
     async getDocumentList() {
         const { currentUser } = this.state;
-        const documentList = await request("/documents", currentUser);
+        
+        if(currentUser) {
+            const documentList = await request("/documents", currentUser);
 
-        this.setState({ currentUser, documentList });
+            this.setState({ currentUser, documentList });
+        }
     }
 
     // document 데이터 추가하기

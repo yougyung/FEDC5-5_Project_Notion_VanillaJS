@@ -1,6 +1,6 @@
 import { createNewElement } from '../../../../Util/element.js';
 
-// state = { currentUser : "..." }
+// state = { currentUser: "..." }
 
 export default class UserForm {
     constructor({ $target, initalState }) {
@@ -12,9 +12,9 @@ export default class UserForm {
     }
 
     init() {
-        const $name = createNewElement("span", [{ property: "className", value: "name-and-form__name" }]);
+        const $name = createNewElement("h1", [{ property: "className", value: "name-and-form__name" }]);
         const $form = createNewElement("form", [{ property: "className", value: "user-form" }]);
-        const $input = createNewElement("input", [{ property: "className", value: "user-form__input" }]);
+        const $input = createNewElement("input", [{ property: "className", value: "user-form__input" }, { property: "name", value: "name" }]);
         const $button = createNewElement("button", [{ property: "className", value: "user-form__button" }], "+");
 
         $form.appendChild($input);
@@ -35,6 +35,6 @@ export default class UserForm {
         const $name = this.$nameAndForm.querySelector(".name-and-form__name");
         const { currentUser } = this.state;
 
-        $name.innerText = `${currentUser}님`;
+        $name.innerText = `${currentUser ? `${currentUser}님의 Notion` : "사용자를 등록해주세요"}`;
     }
 }
