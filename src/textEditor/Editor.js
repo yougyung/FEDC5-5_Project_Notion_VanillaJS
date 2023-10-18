@@ -1,5 +1,7 @@
 export default function Editor({ $target, initialState }) {
   const $editor = document.createElement("section");
+  $editor.style.display = "flex";
+  $editor.style.flexDirection = "column";
   $target.appendChild($editor);
 
   this.state = initialState;
@@ -12,7 +14,7 @@ export default function Editor({ $target, initialState }) {
   this.render = () => {
     $editor.innerHTML = `
             <input type="text" placeholder="제목" value="${this.state.title}" />
-            <textarea>${this.state.content}</textarea>
+            <textarea>${this.state.content ?? ""}</textarea>
         `;
   };
 
