@@ -39,16 +39,15 @@ export default function App({ $target, initialState }) {
     },
   });
   const getDocument = async (documentId) => {
-    await request(`/documents/${documentId}`);
+    return await request(`/documents/${documentId}`);
   };
-  this.route = () => {
+  this.route = async () => {
     $target.innerHTML = "";
     const { pathname } = window.location;
-    console.log(pathname);
     navPage.setState(this.state);
     if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
-      const document = getDocument(documentId);
+      const document = await getDocument(documentId);
       documentPage.setState({ documentId, document });
     }
   };

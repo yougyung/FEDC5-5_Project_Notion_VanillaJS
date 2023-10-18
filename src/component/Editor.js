@@ -29,6 +29,9 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
       [name]: e.target.value,
     };
     this.setState(nextState);
+    const { id, title, content } = this.state;
+    const requestBody = { title, content };
+    documentAutoSave(id, requestBody);
   });
   this.render();
 }

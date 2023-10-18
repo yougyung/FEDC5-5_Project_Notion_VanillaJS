@@ -11,6 +11,7 @@ export default function DocumentPage({ $target, initialState }) {
     editor.setState(this.state.document);
     this.render();
   };
+  let timerOfSetTimeout;
   this.render = () => {
     $target.appendChild($documentPage);
   };
@@ -21,15 +22,16 @@ export default function DocumentPage({ $target, initialState }) {
       title: "",
       content: "",
     },
-    documentAutoSave: (body) => {
-      if (timer !== null) {
-        clearTimeout(timer);
+    documentAutoSave: (documentId, requestBody) => {
+      if (timerOfSetTimeout !== null) {
+        clearTimeout(timerOfSetTimeout);
       }
-      timer = setTimeout(async () => {
-        const response = await request("/documents", {
-          method: "POST",
-          body,
+      timerOfSetTimeout = setTimeout(async () => {
+        const response = await request(`/documents/${documentId}`, {
+          method: "PUT",
+          body: JSON.stringify(requestBody),
         });
+        console.log(response);
       }, 1500);
     },
   });
