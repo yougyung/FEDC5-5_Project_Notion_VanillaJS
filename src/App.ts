@@ -64,7 +64,7 @@ function App() {
   return {
     element: `
       <div class=${s_container}>
-        <h1 class="a11y-hidden">
+        <h1 class="a11yHidden">
           노션 클로닝 어플리케이션
         </h1>
         ${sidebarComponent.element}
