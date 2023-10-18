@@ -22,7 +22,7 @@ export default function SideBarList({ $target, initialState }) {
     const padding = $target.style.paddingLeft;
     $subUl.style.position = "relative";
     $subUl.style.paddingLeft = padding
-      ? Number(padding.split("px")[0]) + 40 + "px"
+      ? Number(padding.split("px")[0]) + 10 + "px"
       : "0px";
     $subUl.style.right = padding ? padding : "0px";
     $target.appendChild($subUl);
@@ -30,10 +30,10 @@ export default function SideBarList({ $target, initialState }) {
       const $subLi = document.createElement("li");
       $subLi.style.position = "relative";
       $subLi.style.paddingLeft = padding
-        ? Number(padding.split("px")[0]) + 40 + "px"
+        ? Number(padding.split("px")[0]) + 10 + "px"
         : "0px";
       $subLi.style.right = padding
-        ? Number(padding.split("px")[0]) + 40 + "px"
+        ? Number(padding.split("px")[0]) + 10 + "px"
         : "0px";
       $subLi.dataset.id = doc.id;
       $subLi.innerHTML = `<div class="each" style="position: relative;padding-left: inherit;right: inherit; width:200px">

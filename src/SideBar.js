@@ -76,6 +76,7 @@ const DUMMY_DOCUMENTS_LIST = [
 
 export default function SideBar({ $target }) {
   const $sideBar = document.createElement("div");
+  $sideBar.className = "sidebar";
 
   const sideBarHeader = new SideBarHeader({ $target: $sideBar });
   const sideBarList = new SideBarList({ $target: $sideBar, initialState: [] });
