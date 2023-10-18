@@ -2,13 +2,18 @@
 
 .s_sidebar {
   width: 15rem;
-  height: 100vh;
   border: 0.01rem solid color.$onSecondary;
   background-color: color.$secondary;
   padding: 2rem 1.5rem;
 }
 
-.s_sidebar > ul li {
-  height: 2rem;
-  cursor: pointer;
+.s_button {
+  border: none;
+  background-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.s_button:hover {
+  border: 0.01rem solid;
+  border-radius: 50%;
 }
