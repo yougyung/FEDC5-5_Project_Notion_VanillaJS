@@ -2,7 +2,11 @@ import NewPageButton from "./NewPageButton.js";
 import { pushRoute } from "./utils/router.js";
 import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
 
-export default function SideBarList({ $target, initialState }) {
+export default function SideBarList({
+  $target,
+  initialState,
+  handleAddNewPage,
+}) {
   const $sideBarList = document.createElement("div");
   $sideBarList.className = "sideBarList";
   $target.appendChild($sideBarList);
@@ -81,6 +85,7 @@ export default function SideBarList({ $target, initialState }) {
     } else {
       const li = e.target.closest("li");
       if (li) {
+        handleAddNewPage();
         pushRoute(`/docs/${li.dataset.id}`);
       }
     }

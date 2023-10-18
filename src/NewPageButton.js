@@ -9,7 +9,7 @@ export default function NewPageButon({ $target }) {
     const res = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
-        title: "새로넣어보야옹3",
+        title: "새로",
         parent: null,
       }),
     });

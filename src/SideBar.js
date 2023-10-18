@@ -78,12 +78,16 @@ export default function SideBar({ $target }) {
   $sideBar.className = "sidebar";
 
   const sideBarHeader = new SideBarHeader({ $target: $sideBar });
-  const sideBarList = new SideBarList({ $target: $sideBar, initialState: [] });
+  const sideBarList = new SideBarList({
+    $target: $sideBar,
+    initialState: [],
+    handleAddNewPage: async () => await this.setState(),
+  });
 
   this.setState = async () => {
     const res = await request("/documents");
-    // sideBarList.setState(res)
-    sideBarList.setState(DUMMY_DOCUMENTS_LIST); // 개발 초기 더미데이터 이용
+    sideBarList.setState(res);
+    // sideBarList.setState(DUMMY_DOCUMENTS_LIST); // 개발 초기 더미데이터 이용
     this.render();
   };
   this.render = () => {
