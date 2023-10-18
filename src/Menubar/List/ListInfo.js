@@ -1,10 +1,15 @@
 export default function ListInfo({ target, state }) {
-  const listInfoElement = document.createElement('div')
-  listInfoElement.setAttribute('class', 'menubar_docList_list')
-  target.appendChild(listInfoElement)
-
   this.state = state
   const { title, isToggle, id } = this.state
+
+
+  const listInfoElement = document.createElement('div')
+  listInfoElement.setAttribute('class', 'menubar_docList_list')
+  listInfoElement.setAttribute('data-id', id)
+
+  target.appendChild(listInfoElement)
+
+
 
 
   /* checkbox */

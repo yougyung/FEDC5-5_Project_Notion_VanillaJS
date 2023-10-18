@@ -23,29 +23,20 @@ export async function request(url, options) {
 
 // 넣기
 
-// const obj = {
-//   'title': 'Test Children 1 100994 Document',
-//   'parent': 100994
-// }
+export async function insertDocument(params) {
+  const createdPost = await request('documents', {
+    method: 'POST',
+    body: JSON.stringify(params)
+  })
 
-
-// async function pushDocument(url, params) {
-
-//   const createdPost = await request(url, {
-//     method: 'POST',
-//     body: JSON.stringify(params)
-//   })
-
-//   console.log(createdPost)
-// }
-// pushDocument('/documents', obj)
+  return createdPost
+}
 
 /* 삭제 */
 
-// async function deleteDoc(url, id) {
-//   await request(`${url}/${id}`, {
-//     method: 'DELETE'
-//   })
-// }
+export async function deleteDocumnet(id) {
+  await request(`/documents/${id}`, {
+    method: 'DELETE'
+  })
+}
 
-// deleteDoc('/documents', 100983)

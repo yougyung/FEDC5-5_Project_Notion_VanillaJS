@@ -1,4 +1,4 @@
-import { request } from './API/API.js'
+import { deleteDocumnet, insertDocument, request } from './API/API.js'
 import Menubar from './Menubar/Menubar.js'
 
 
@@ -26,9 +26,33 @@ export default function App({ target }) {
 
   /* 렌더링 */
   this.render = () => {
-    new Menubar({
+    const menubar = new Menubar({
       target: appElement,
-      state: this.state
+      state: this.state,
+      onEvent: async (params) => {
+        const { id } = params
+        console.log(id)
+
+        /* delete */
+        if (params.delete) {
+          await deleteDocumnet(id)
+          const newState = await request('/documents')
+          menubar.setState(newState)
+        }
+
+        /* insert */
+        if (params.insert) {
+          const newDocument = await insertDocument({
+            title: "제목 없음",
+            parent: id
+          })
+          const newState = await request('/documents')
+          menubar.setState(newState)
+
+          console.log(newDocument)
+
+        }
+      }
     })
   }
 

@@ -29,7 +29,6 @@ export default function List({ target, state }) {
 
 
 
-
   // if (documents.length !== 0) {
   //   const listElement = document.createElement('li')
   //   target.appendChild(listElement)
