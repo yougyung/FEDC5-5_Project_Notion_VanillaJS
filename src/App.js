@@ -13,7 +13,7 @@ export default function App({ target }) {
   this.state = []
 
   /* API 호출 */
-  const fetchDocuments = async (url) => {
+  const getDocuments = async (url) => {
     const lists = await request(url)
     this.setState(lists)
   }
@@ -31,7 +31,6 @@ export default function App({ target }) {
       state: this.state,
       onEvent: async (params) => {
         const { id } = params
-        console.log(id)
 
         /* delete */
         if (params.delete) {
@@ -50,8 +49,9 @@ export default function App({ target }) {
           menubar.setState(newState)
 
           console.log(newDocument)
-
         }
+
+
       }
     })
   }
@@ -60,5 +60,5 @@ export default function App({ target }) {
 
 
 
-  fetchDocuments('/documents')
+  getDocuments('/documents')
 }

@@ -19,12 +19,11 @@ export async function request(url, options) {
 }
 
 
-// TEST
 
-// 넣기
+/* insert */
 
 export async function insertDocument(params) {
-  const createdPost = await request('documents', {
+  const createdPost = await request('/documents', {
     method: 'POST',
     body: JSON.stringify(params)
   })
@@ -32,7 +31,7 @@ export async function insertDocument(params) {
   return createdPost
 }
 
-/* 삭제 */
+/* delete */
 
 export async function deleteDocumnet(id) {
   await request(`/documents/${id}`, {
