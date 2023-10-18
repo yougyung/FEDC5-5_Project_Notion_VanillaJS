@@ -1,6 +1,10 @@
 import DocsIndexViewer from "../components/DocsViewer/DocsIndexViewer.js";
 import { SIDEBAR_VIEW_MODE } from "../utils/constants.js";
 
+const SidebarProps = {
+  sidebarViewMode: "string",
+};
+
 /**
  * @description Sidbar root 컴포넌트
  */
@@ -9,14 +13,16 @@ export default function Sidebar({ $parent, initState }) {
   $component.setAttribute("id", "sidebar");
   $component.classList.add("view");
 
-  $parent.appendChild($component);
-
   const sidebarViewRender = (sidebarViewMode) => {
     // init component render //
     $component.innerHTML = "";
 
     if (sidebarViewMode === SIDEBAR_VIEW_MODE.DOCS_INDEX_VIEWER) {
-      new DocsIndexViewer({ $parent: $component });
+      const docsIndexViewer = new DocsIndexViewer({
+        $parent: $component,
+        initState: { data: [] },
+      });
+      docsIndexViewer.setState();
     }
   };
 
@@ -27,7 +33,7 @@ export default function Sidebar({ $parent, initState }) {
   };
 
   this.render = () => {
-    sidebarViewRender("DOCS_INDEX_VIEWER");
+    sidebarViewRender(this.state.sidebarViewMode);
+    $parent.appendChild($component);
   };
-  this.render();
 }

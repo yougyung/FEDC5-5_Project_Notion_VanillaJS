@@ -1,3 +1,14 @@
+const EditorBottomUtilProps = {
+  childDocuments: [
+    {
+      id: "number",
+      title: "string",
+      createdAt: "string",
+      updatedAt: "string",
+    },
+  ],
+};
+
 /**
  * @description 편집기 뷰의 하단 유틸리티 컴포넌트
  */

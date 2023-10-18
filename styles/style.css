@@ -1,4 +1,4 @@
-*:not([contenteditable="true"]) {
+*:not([contenteditable="true"], div) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -39,20 +39,20 @@
   background: #f8f9f6;
   box-shadow: 2px 2px 12px #d6d6d6, -2px -2px 12px #f8f9f6;
 }
-.view:nth-child(1) {
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-}
 .view:last-child {
   margin-right: 1rem;
   margin-left: 0.5rem;
+}
+.view:nth-child(1) {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
 }
 .view::-webkit-scrollbar {
   opacity: 0;
   width: 1rem;
 }
-.view > .view-inner {
-  border-radius: 14px;
+.view-inner {
+  border-radius: 10px;
 }
 
 #sidebar {
@@ -88,6 +88,7 @@
 }
 .editor-title-input {
   font-size: x-large;
+  font-weight: 800;
   padding: 1rem 0rem;
 }
 .editor-input {
@@ -158,4 +159,48 @@
 
 #pre-view em {
   font-style: italic;
+}
+
+/*  */
+#docs-index-viewer {
+  display: flex;
+  flex-direction: column;
+}
+#docs-index-viewer ul li {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+#docs-index-viewer li {
+  margin-left: 10px;
+}
+#docs-index-viewer > ul > li {
+  margin-left: 0px;
+}
+
+.docs-index-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+}
+.docs-index-card:hover {
+  background-color: #18181809;
+}
+.docs-index-a {
+  font-size: 14px;
+  font-weight: 600;
+}
+.docs-index-card button {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0rem 0.4rem;
+  cursor: pointer;
+}
+.new-docs-a {
+  color: #18181880;
 }
