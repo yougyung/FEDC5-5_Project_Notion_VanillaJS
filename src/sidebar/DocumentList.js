@@ -1,9 +1,18 @@
 import { request } from "../api.js";
+import Editor from "../textEditor/Editor.js";
 import SidebarHeader from "./SidebarHeader.js";
 
 export default function DocumentList({ $target, initialState }) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
+
+  const editor = new Editor({
+    $target,
+    initialState: {
+      title: "",
+      content: "",
+    },
+  });
 
   this.state = initialState;
 
@@ -32,7 +41,7 @@ export default function DocumentList({ $target, initialState }) {
 
       const document = await request(`${id}`);
 
-      console.log(document);
+      editor.setState(document);
     }
   });
 

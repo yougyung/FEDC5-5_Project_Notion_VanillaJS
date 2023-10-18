@@ -2,10 +2,7 @@ export default function Editor({ $target, initialState }) {
   const $editor = document.createElement("section");
   $target.appendChild($editor);
 
-  this.state = {
-    title: "",
-    content: "",
-  };
+  this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
