@@ -13,8 +13,10 @@ export default function Editor({ $target, initialState }) {
 
   this.render = () => {
     $editor.innerHTML = `
-            <input type="text" placeholder="제목" value="${this.state.title}" />
-            <textarea>${this.state.content ?? ""}</textarea>
+            <input class="title" type="text" placeholder="제목" value="${
+              this.state.title
+            }" />
+            <textarea class="content">${this.state.content ?? ""}</textarea>
         `;
   };
 

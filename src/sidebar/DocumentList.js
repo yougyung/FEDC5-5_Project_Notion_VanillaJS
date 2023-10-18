@@ -6,8 +6,10 @@ export default function DocumentList({ $target, initialState }) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
 
+  const $app = document.querySelector("#app");
+
   const editor = new Editor({
-    $target,
+    $target: $app,
     initialState: {
       title: "",
       content: "",
