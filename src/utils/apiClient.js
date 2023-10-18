@@ -17,6 +17,6 @@ export const apiClient = async (url = "", options = {}) => {
 
     throw new Error("Api 호출 오류");
   } catch (err) {
-    alert(e.message);
+    alert(err.message);
   }
 };
