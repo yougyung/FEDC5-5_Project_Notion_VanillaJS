@@ -1,12 +1,10 @@
-import NewPageButton from "./NewPageButton.js";
+import { DeletPageButton, NewPageButton } from "./PageButton.js";
 import { pushRoute } from "./utils/router.js";
-import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
-import { request } from "./utils/api.js";
 
 export default function SideBarList({
   $target,
   initialState,
-  handleAddNewPage,
+  handleChangeList,
 }) {
   const $sideBarList = document.createElement("div");
   $sideBarList.className = "sideBarList";
@@ -17,10 +15,6 @@ export default function SideBarList({
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
-  };
-
-  const handleNewPageButton = () => {
-    //
   };
 
   const showSubLi = ({ $target, documents }) => {
@@ -50,7 +44,12 @@ export default function SideBarList({
       new NewPageButton({
         $target: $subLi.firstChild,
         id: doc.id,
-        handleAddNewPage,
+        handleChangeList,
+      });
+      new DeletPageButton({
+        $target: $subLi.firstChild,
+        id: doc.id,
+        handleChangeList,
       });
       $subUl.appendChild($subLi);
       if (doc.documents.length > 0) {
