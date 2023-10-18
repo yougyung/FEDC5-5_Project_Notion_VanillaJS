@@ -1,10 +1,18 @@
-export default function DocumentAddButton({ $target }) {
+export default function DocumentAddButton({ $target, documentId }) {
   const $documentAddButton = document.createElement("button");
-  $target.appendChild($documentAddButton);
+  $documentAddButton.className = "add-button";
+  $documentAddButton.type = "button";
+  $documentAddButton.innerHTML = `+`;
 
   this.render = () => {
-    $documentAddButton.innerHTML = `+`;
+    $target.appendChild($documentAddButton);
+    return $documentAddButton;
   };
+
+  $documentAddButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    console.log("클릭!");
+  });
 
   this.render();
 }
