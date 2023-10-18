@@ -1,33 +1,19 @@
-import SidebarHeader from "./SidebarHeader.js";
+import { request } from "../api.js";
+import DocumentList from "./DocumentList.js";
 
-export default function Sidebar({ $target, initialState }) {
+export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("aside");
   $target.appendChild($sidebar);
 
-  this.state = initialState;
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
-
-  this.render = () => {
-    $sidebar.innerHTML = `
-            <ul>
-                ${this.state
-                  .map(
-                    (document) =>
-                      `<li data-id=${document.id}>${document.title}</li>`
-                  )
-                  .join("")}
-            </ul>
-        `;
-  };
-
-  new SidebarHeader({
-    $target,
-    username: "Roto",
+  const sidebar = new DocumentList({
+    $target: $sidebar,
+    initialState: [],
   });
 
-  this.render();
+  const fetchDocuments = async () => {
+    const documents = await request("");
+    sidebar.setState(documents);
+  };
+
+  fetchDocuments();
 }
