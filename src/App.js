@@ -6,7 +6,7 @@ export default function App({ $target }) {
   $target.appendChild($app);
 
   const sidebar = new Sidebar({
-    $target,
+    $target: $app,
     initialState: [],
   });
 

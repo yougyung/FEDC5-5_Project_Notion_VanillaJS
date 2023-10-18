@@ -1,6 +1,8 @@
+import SidebarHeader from "./SidebarHeader.js";
+
 export default function Sidebar({ $target, initialState }) {
-  const $siderbar = document.createElement("aside");
-  $target.appendChild($siderbar);
+  const $sidebar = document.createElement("aside");
+  $target.appendChild($sidebar);
 
   this.state = initialState;
 
@@ -10,7 +12,7 @@ export default function Sidebar({ $target, initialState }) {
   };
 
   this.render = () => {
-    $siderbar.innerHTML = `
+    $sidebar.innerHTML = `
             <ul>
                 ${this.state
                   .map(
@@ -21,6 +23,11 @@ export default function Sidebar({ $target, initialState }) {
             </ul>
         `;
   };
+
+  new SidebarHeader({
+    $target,
+    username: "Roto",
+  });
 
   this.render();
 }
