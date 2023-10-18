@@ -1,12 +1,9 @@
 import { createNewElement } from '../../../../Util/element.js';
-import { request } from '../../../../Service/document.js';
-// state = { currentUser : "..." }
 
 export default class DocumentForm {
-    constructor({ $target, initalState, callback }) {
+    constructor({ $target, onSubmitPost }) {
         this.$target = $target;
-        this.state = initalState;
-        this.callback = callback;
+        this.onSubmitPost = onSubmitPost;
         this.$documentForm = createNewElement("form", [{ property: "className", value: "title-and-form"}]);
 
         this.init();
@@ -26,26 +23,12 @@ export default class DocumentForm {
         this.$documentForm.appendChild($button);
     }
 
-    setState(nextState) {
-        this.state = nextState;
-    }
-
     handleOnSubmit(e) {
         e.preventDefault();
-        const { target: { className } } = e;
+        const { className } = e.target;
 
         if(className === "title-and-form") {
-            const res = this.postDocument();
-            
-            res && this.callback();
+            this.onSubmitPost(null);
         }
-    }
-
-    // document 데이터 추가하기
-    async postDocument(title = "문서 제목") {
-        const { currentUser } = this.state;
-        const res = await request("/documents", currentUser, { method: "POST", body: JSON.stringify({ title, parent: null })});
-        
-        return res;
     }
 }
