@@ -2,14 +2,12 @@
 initialState = {title,content,caret:{title,content}} 
 */
 import Storage from "../utils/storage.js";
-export default function Editor({ $target, initialState, handleTyping }) {
+export default function Editor({ $target, initialState, documentAutoSave }) {
   const $editor = document.createElement("section");
-  const storage = new Storage(window.sessionStorage);
+  $editor.classList.add("editor");
+  const storage = new Storage(window.localStorage);
   $target.appendChild($editor);
   this.state = initialState;
-  $editor.style.width = "600px";
-  $editor.style.height = "600px";
-  $editor.style.border = "2px solid green";
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();

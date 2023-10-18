@@ -1,5 +1,4 @@
 import DocumentList from "../component/DocumentList.js";
-import { request } from "../utils/api.js";
 
 export default function NavPage({
   $target,

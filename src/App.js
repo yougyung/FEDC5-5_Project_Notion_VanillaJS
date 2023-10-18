@@ -1,5 +1,6 @@
 import NavPage from "./page/NavPage.js";
 import { request } from "./utils/api.js";
+import DocumentPage from "./page/DocumentPage.js";
 
 export default function App({ $target, initialState }) {
   this.state = initialState;
@@ -30,11 +31,25 @@ export default function App({ $target, initialState }) {
       this.getDocuments();
     },
   });
+  const documentPage = new DocumentPage({
+    $target,
+    initialState: {
+      documentId: null,
+      document: [],
+    },
+  });
+  const getDocument = async (documentId) => {
+    await request(`/documents/${documentId}`);
+  };
   this.route = () => {
     $target.innerHTML = "";
     const { pathname } = window.location;
-    if (pathname === "/") {
-      navPage.setState(this.state);
+    console.log(pathname);
+    navPage.setState(this.state);
+    if (pathname.indexOf("/documents/") === 0) {
+      const [, , documentId] = pathname.split("/");
+      const document = getDocument(documentId);
+      documentPage.setState({ documentId, document });
     }
   };
   this.getDocuments();
