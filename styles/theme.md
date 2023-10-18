@@ -1,9 +1,9 @@
-background - #f8f5de #f8f7f4
+background - #f8f5de #f8f9f6
 
 lemon-sub - #ffe27c
 lemon-main - #FED31E #FFC42A 
 
-lemon-green - #5A8D25
+lemon-green - #5A8F25 #486a26
 
 lime-1 - #014421
 lime-2 - #043927

@@ -1,4 +1,4 @@
-import DocsIndexViewer from "../components/sidebar/DocsIndexViewer.js";
+import DocsIndexViewer from "../components/DocsViewer/DocsIndexViewer.js";
 import { SIDEBAR_VIEW_MODE } from "../utils/constants.js";
 
 /**

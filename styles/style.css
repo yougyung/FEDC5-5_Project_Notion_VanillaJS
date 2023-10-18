@@ -3,6 +3,9 @@
   padding: 0;
   box-sizing: border-box;
   all: unset;
+  color: #486a26;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 #app {
@@ -74,22 +77,28 @@
 
 #editor {
   width: 100%;
-  height: calc(100% - 90px);
-  padding-top: 90px;
+  height: calc(100% - 110px);
+  padding-top: 65px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   border-radius: 0px;
   overflow: hidden;
   overflow-y: scroll;
 }
+.editor-title-input {
+  font-size: x-large;
+  padding: 1rem 0rem;
+}
 .editor-input {
+  display: block;
   width: 100%;
-  height: calc(100% - 65px);
+  /* min-height: 200px; */
+  min-height: 100%;
+  overflow: hidden;
   word-wrap: break-word;
   word-break: break-word;
-  color: #3e6219;
   font-weight: 600;
-  outline: none;
 }
 #editor::-webkit-scrollbar {
   opacity: 0;
@@ -100,8 +109,8 @@
   position: absolute;
   left: 50%;
   bottom: 20px;
-  transform: translate(-50%, 0%);
-  width: 50%;
+  transform: translate(-50%, 100%);
+  width: 30%;
   height: 60px;
   background-color: #fed31e99;
   backdrop-filter: blur(6px);
@@ -110,7 +119,43 @@
 
 #pre-view {
   flex: 1;
-
+  overflow: hidden;
+  overflow-y: scroll;
   background: #f8f9f6;
-  box-shadow: inset 2px 2px 12px #d6d6d6, inset -2px -2px 12px #f8f9f6;
+  box-shadow: inset 1px 1px 6px #d6d6d6, inset -1px -1px 6px #f8f9f6;
+}
+
+/* Pre view Styles */
+#pre-view h1 {
+  display: block;
+  margin-top: 24px;
+  font-size: 48px;
+  font-weight: bolder;
+}
+
+#pre-view h2 {
+  display: block;
+  margin-top: 19px;
+  font-size: 38px;
+  font-weight: bolder;
+}
+
+#pre-view h3 {
+  display: block;
+  margin-top: 14px;
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+#pre-view p {
+  display: block;
+  font-weight: 600;
+}
+
+#pre-view strong {
+  font-weight: 900;
+}
+
+#pre-view em {
+  font-style: italic;
 }
