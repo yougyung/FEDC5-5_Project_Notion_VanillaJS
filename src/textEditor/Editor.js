@@ -1,5 +1,5 @@
 export default function Editor({ $target, initialState }) {
-  const $editor = document.createElement("section");
+  const $editor = document.createElement("form");
   $editor.style.display = "flex";
   $editor.style.flexDirection = "column";
   $target.appendChild($editor);
@@ -12,6 +12,10 @@ export default function Editor({ $target, initialState }) {
   };
 
   this.render = () => {
+    // $editor.innerHTML = `
+    // <div>${this.state.title}</div>
+    // <div>${this.state.content ?? ""}</div>
+    // `;
     $editor.innerHTML = `
             <input class="title" type="text" placeholder="제목" value="${
               this.state.title
