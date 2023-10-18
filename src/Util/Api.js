@@ -1,6 +1,6 @@
 const API_URL = "https://kdt-frontend.programmers.co.kr/documents";
 
-export const request = async (url, payload = {}) => {
+export const HTTPRequest = async (url, payload = {}) => {
   try {
     const res = await fetch(`${API_URL}${url}`, {
       ...payload,
