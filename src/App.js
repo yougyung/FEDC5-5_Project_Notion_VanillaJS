@@ -1,25 +1,23 @@
-import Editor from "./component/Editor.js";
+import NavPage from "./page/NavPage.js";
+import { request } from "./utils/api.js";
 
 export default function App({ $target, initialState }) {
-  const $documentList = document.createElement("div");
-  $target.appendChild($documentList);
   this.state = initialState;
-  console.log(this.state);
-  new Editor({
-    $target,
-    initialState: {
-      title: "제목입니다",
-      content: "내용이에요",
-    },
-  });
-  this.render = () => {
-    $documentList.innerHTML = `
-        <ul>
-            ${this.state
-              .map((document) => `<li>${document.id} | ${document.title}</li>`)
-              .join("")}
-        </ul>
-        `;
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.route();
   };
-  this.render();
+  const navPage = new NavPage({ $target, initialState: this.state });
+  this.route = () => {
+    $target.innerHTML = "";
+    const { pathname } = window.location;
+    if (pathname === "/") {
+      navPage.setState(this.state);
+    }
+  };
+  const getDocuments = async () => {
+    const documentsTree = await request("/documents");
+    this.setState(documentsTree);
+  };
+  getDocuments();
 }

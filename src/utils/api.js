@@ -7,6 +7,7 @@ export const request = async (url, options = {}) => {
       {
         headers: {
           "x-username": X_USERNAME,
+          "Content-Type": "application/json",
         },
         ...options,
       }
