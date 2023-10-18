@@ -1,4 +1,5 @@
 import { createNewElement } from '../../../../Util/element.js';
+import { CURRENT_USER_KEY, setItem } from '../../../../Store/localStroage.js';
 
 // state = { currentUser: "..." }
 
@@ -29,6 +30,7 @@ export default class UserForm {
     setState(nextState) {
         this.state = nextState;
         this.render();
+        setItem(CURRENT_USER_KEY, this.state.currentUser);
     }
 
     render() {

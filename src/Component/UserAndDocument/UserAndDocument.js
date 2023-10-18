@@ -1,7 +1,7 @@
 import User from './User/user.js';
 import Document from './Document/document.js';
 import { createNewElement } from '../../Util/element.js';
-import { CURRENT_USER_KEY, USER_LIST_KEY, getItem, setItem } from '../../Store/localStroage.js'
+import { CURRENT_USER_KEY, USER_LIST_KEY, getItem } from '../../Store/localStroage.js'
 
 // state = { currentUser : "...", userList: [] }
 
@@ -39,7 +39,6 @@ export default class UserAndDocument {
     setState(nextState) {
         const { currentUser } = nextState;
 
-        setItem(CURRENT_USER_KEY, currentUser);
         this.state = nextState;
         this.user.setState(nextState); // user 컴포넌트에서도 사용중인 사용자와, 사용자 목룍 state가 필요
         this.document.setState({ currentUser }); // documnet 컴포넌트에서도 사용중인 사용자 state가 필요
