@@ -1,3 +1,5 @@
+import PostListPage from "./pages/PostListPage.js";
+
 export default function App({ $target }) {
-  console.log("연결됨!");
+  new PostListPage({ $target });
 }
