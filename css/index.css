@@ -54,3 +54,52 @@ img {
   display: block;
 }
 /* reset CSS */
+
+.documentListDiv {
+  width: 200px;
+  height: 100vh;
+  background-color: rgba(232, 246, 254, 0.751);
+}
+.rootDocument {
+  padding: 20px;
+}
+.subDocument li div {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.rootDocument_data {
+  padding: 5px;
+}
+.rootDocument_data div {
+  display: flex;
+  justify-content: space-between;
+}
+.rootDocumentCreateButton {
+  display: none;
+  width: 20px;
+}
+.rootDocumentCreateDiv {
+  padding: 20px;
+}
+
+.rootDocumentCreateButton:hover {
+  background-color: rgba(148, 162, 170, 0.722);
+}
+.rootDocumentCreateDiv:hover {
+  cursor: pointer;
+  background-color: rgba(203, 220, 230, 0.722);
+}
+
+.rootDocument li:hover {
+  cursor: pointer;
+  background-color: rgba(203, 220, 230, 0.722);
+}
+.rootDocument li:hover > div .rootDocumentCreateButton {
+  display: block;
+}
+
+.subDocument li div:hover {
+  cursor: pointer;
+  background-color: rgba(203, 220, 230, 0.722);
+}
