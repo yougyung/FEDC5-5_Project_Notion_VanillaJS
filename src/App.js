@@ -1,3 +1,4 @@
+import DocumentList from "./DocumentList.js";
 import { request } from "./api.js";
 
 export default function App({ $target }) {
@@ -13,13 +14,19 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
+
+    documnetList.setState(nextState);
     this.render();
   };
   this.render = () => {
     const { selectedDocument } = this.state;
     $documentEditDiv.style.display = selectedDocument ? "block" : "none";
   };
+
+  //문서 리스트
+  const documnetList = new DocumentList({
+    $target,
+  });
 
   const fetchDocumentList = async () => {
     const documentList = await request("/documents");
