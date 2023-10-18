@@ -1,4 +1,5 @@
 import Editor from './Editor/Editor.js'
+import SubPageList from './SubPageList/SubPageList.js'
 
 export default function PageViewer({ target, state }) {
   const pageViewerElement = document.createElement('article')
@@ -18,6 +19,13 @@ export default function PageViewer({ target, state }) {
       target: pageViewerElement,
       state: this.state
     })
+
+    new SubPageList({
+      target: pageViewerElement,
+      /* documents 에 대한 error 처리 */
+      documents: this.state.documents
+    })
+
   }
 
   this.render()
