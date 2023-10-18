@@ -39,3 +39,13 @@ export async function deletePage(id) {
   })
 }
 
+/* getPage */
+
+export async function getPage(id) {
+  const page = await request(`/documents/${id}`, {
+    method: 'GET'
+  })
+
+  return page
+}
+

@@ -40,6 +40,11 @@ export default function PageList({ target, state, onEvent }) {
       const { id } = targetElement.dataset
       const eventName = e.target.className
 
+      /* Link */
+
+      if (eventName === 'menubar_pageList_list_info_title') {
+        onEvent({ id, link: true })
+      }
 
       /* Delete Event */
       if (eventName === 'menubar_pageList_list_info_deleteButton') {
