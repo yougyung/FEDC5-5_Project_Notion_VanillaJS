@@ -1,6 +1,7 @@
 import EditPage from "./EditPage.js";
 import SideBar from "./SideBar.js";
 import { initRouter } from "./utils/router.js";
+import { customSideBarList } from "./utils/customEvent.js";
 
 export default function App({ $target }) {
   const $wrap = document.createElement("div");
@@ -34,4 +35,5 @@ export default function App({ $target }) {
   this.route();
 
   initRouter(() => this.route());
+  customSideBarList(() => sideBar.setState());
 }

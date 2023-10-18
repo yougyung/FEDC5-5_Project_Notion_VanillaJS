@@ -21,5 +21,15 @@ export default function Editor({ $target, initialState, onEditing }) {
     const nextState = { ...this.state, [e.target.name]: e.target.value };
 
     onEditing(nextState);
+    if (e.target.name === "title") {
+      const content = e.target.value;
+      window.dispatchEvent(
+        new CustomEvent("render-SideBarList", {
+          detail: {
+            content,
+          },
+        })
+      );
+    }
   });
 }
