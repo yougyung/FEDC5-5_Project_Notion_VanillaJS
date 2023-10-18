@@ -7,7 +7,7 @@ export default function List({ target, state }) {
 
 
   const listElement = document.createElement('li')
-  listElement.setAttribute('class', 'menubar_docList_list')
+  listElement.setAttribute('class', 'menubar_pageList_list')
   listElement.setAttribute('data-id', id)
   target.appendChild(listElement)
 

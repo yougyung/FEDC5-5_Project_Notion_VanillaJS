@@ -22,7 +22,7 @@ export async function request(url, options) {
 
 /* insert */
 
-export async function insertDocument(params) {
+export async function insertPage(params) {
   const createdPost = await request('/documents', {
     method: 'POST',
     body: JSON.stringify(params)
@@ -33,7 +33,7 @@ export async function insertDocument(params) {
 
 /* delete */
 
-export async function deleteDocumnet(id) {
+export async function deletePage(id) {
   await request(`/documents/${id}`, {
     method: 'DELETE'
   })

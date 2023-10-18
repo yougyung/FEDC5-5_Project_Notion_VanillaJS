@@ -1,5 +1,5 @@
-import { deleteDocumnet, insertDocument, request } from './API/API.js'
-import Menubar from './Menubar/Menubar.js'
+import { deletePage, insertPage, request } from './API/API.js'
+import Menubar from './Components/Menubar/Menubar.js'
 
 
 export default function App({ target }) {
@@ -13,7 +13,7 @@ export default function App({ target }) {
   this.state = []
 
   /* API 호출 */
-  const getDocuments = async (url) => {
+  const getPages = async (url) => {
     const lists = await request(url)
     this.setState(lists)
   }
@@ -34,21 +34,21 @@ export default function App({ target }) {
 
         /* delete */
         if (params.delete) {
-          await deleteDocumnet(id)
+          await deletePage(id)
           const newState = await request('/documents')
           menubar.setState(newState)
         }
 
         /* insert */
         if (params.insert) {
-          const newDocument = await insertDocument({
+          const newPage = await insertPage({
             title: "제목 없음",
             parent: id
           })
           const newState = await request('/documents')
           menubar.setState(newState)
 
-          console.log(newDocument)
+          console.log(newPage)
         }
 
 
@@ -60,5 +60,5 @@ export default function App({ target }) {
 
 
 
-  getDocuments('/documents')
+  getPages('/documents')
 }

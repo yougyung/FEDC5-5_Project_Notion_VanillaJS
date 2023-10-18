@@ -1,4 +1,4 @@
-import DocumentList from './DocumentList.js'
+import PageList from './PageList.js'
 
 export default function Menubar({ target, state, onEvent }) {
   /* 왼쪽 메뉴 관련 */
@@ -11,14 +11,14 @@ export default function Menubar({ target, state, onEvent }) {
 
   this.setState = (newState) => {
     this.state = newState
-    docList.setState(this.state)
+    pageList.setState(this.state)
   }
 
   // url index 값 처리 ++
 
 
   /* 렌더링 */
-  const docList = new DocumentList({
+  const pageList = new PageList({
     target: menubarElement,
     state: this.state,
     onEvent
