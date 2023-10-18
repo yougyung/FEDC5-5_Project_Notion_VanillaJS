@@ -29,7 +29,7 @@ export default function DocumentList({ $target, initialState, onDelete }) {
                   .map(
                     (document) =>
                       `<li class="list-item" data-id=${document.id}>
-                        ${document.title ?? ""}
+                        ${document.title ?? "제목 없음"}
                         <div class="list-item-buttons">
                         <button class="delete-button" type="button">
                           <i class="fa-regular fa-trash-can delete-button"></i>

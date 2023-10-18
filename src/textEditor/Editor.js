@@ -18,7 +18,7 @@ export default function Editor({ $target, initialState }) {
     // `;
     $editor.innerHTML = `
             <input class="title" type="text" placeholder="제목 없음" value="${
-              this.state.title
+              this.state.title ?? ""
             }" />
             <textarea class="content" placeholder="빈 페이지">${
               this.state.content ?? ""
