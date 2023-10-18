@@ -13,3 +13,8 @@ nav{
     background-color: #f1f1f1;
     padding: 0;
 }
+
+.display-none{
+    display: none;
+}
+

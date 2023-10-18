@@ -17,7 +17,7 @@ export default function DocumentItem({
   this.render = () => {
     $documentItem.innerHTML = `
         <button data-name="more">▽</button>
-        <li style="list-style-type:none" >${this.state.title}</li>
+        <li style="list-style-type:none; cursor:pointer;" >${this.state.title}</li>
         <button data-name="delete-doc">-</button>
         <button data-name="create-doc">+</button>
       `;
@@ -27,13 +27,16 @@ export default function DocumentItem({
     const { name } = e.target.dataset;
     const { id } = e.target.parentNode.dataset;
     if (name === "more") {
-    }
-    if (name === "create-doc") {
+      const { nextSibling } = e.currentTarget;
+      if (nextSibling) {
+        nextSibling.classList.toggle("display-none");
+      }
+    } else if (name === "create-doc") {
       createDocument(id);
-      return;
-    }
-    if (name === "delete-doc") {
+    } else if (name === "delete-doc") {
       deleteDocument(id);
+    } else {
+      console.log(id);
     }
   });
   this.render();
