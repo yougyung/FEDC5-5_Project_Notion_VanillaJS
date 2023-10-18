@@ -5,7 +5,7 @@
 }
 
 aside {
-  width: 30%;
+  width: 20%;
   height: 100vh;
   background-color: #fbfbfa;
   padding: 1rem;
@@ -42,4 +42,27 @@ button {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
+}
+
+form {
+  width: 900px;
+  padding-top: calc(96px + env(safe-area-inset-top));
+  padding-left: calc(96px + env(safe-area-inset-left));
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: inherit;
+  border: none;
+  padding: 2px 3px;
+}
+
+.title::placeholder {
+  color: #e4e4e3;
+}
+
+.content {
+  font-size: 1.5rem;
+  padding-top: 5px;
+  border: none;
 }
