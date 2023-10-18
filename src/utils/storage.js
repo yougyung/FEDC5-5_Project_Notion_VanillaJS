@@ -13,6 +13,6 @@ export const localStorageSetIsOpen = (isOpen, value) => {
 export const localStorageSetItem = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
-export const locallocalStorageRemoveItem = (key) => {
+export const localStorageRemoveItem = (key) => {
   localStorage.removeItem(key);
 };

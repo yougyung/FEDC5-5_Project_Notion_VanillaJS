@@ -8,6 +8,7 @@ export default function App({ $target }) {
 
   const $wrapSideBar = document.createElement("div");
   const $wrapEditPage = document.createElement("div");
+  $wrapEditPage.style.display = "none";
 
   $wrap.appendChild($wrapSideBar);
   $wrap.appendChild($wrapEditPage);
@@ -15,17 +16,17 @@ export default function App({ $target }) {
 
   const sideBar = new SideBar({ $target: $wrapSideBar });
   //prettier-ignore
-  const editPage = new EditPage(
-    { $target: $wrapEditPage },
-    { docId: "new", doc: { title: "", content: "", }, }
+  const editPage = new EditPage({ 
+    $target: $wrapEditPage ,
+    initialState : { docId: "new", doc: { title: "", content: "", } }}
   );
   this.route = () => {
+    console.log("route 발생");
     const { pathname } = location;
     if (pathname === "/") {
       sideBar.setState();
     } else if (pathname.indexOf("/") === 0) {
       const [, , docId] = pathname.split("/");
-      console.log(pathname, docId);
       $wrapEditPage.style.display = docId ? "block" : "none";
       editPage.setState({ docId });
     }
