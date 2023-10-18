@@ -8,8 +8,7 @@
 }
 
 .menubar_docList_list {
-  position: relative;
-  transition: all 1s;
+
   /* border: 1px red solid; */
 }
 
@@ -22,7 +21,7 @@
 
 
 
-.menubar_docList_list_childrenList {
+/* .menubar_docList_list_childrenList {
   border: 1px red solid;
   transition: all 0.5s 0.1s;
   display: none;
@@ -32,4 +31,4 @@
 .toggleChecked {
   display: inline-block;
   opacity: 1;
-}
+} */

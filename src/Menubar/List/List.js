@@ -2,8 +2,8 @@ import ChildrenList from './ChildrenList.js'
 import ListInfo from './ListInfo.js'
 
 export default function List({ target, state }) {
-  this.state = { ...state, isToggle: false }
-  const { title, id, documents, isToggle } = state
+  this.state = state
+  const { title, id, documents } = state
 
 
   const listElement = document.createElement('li')
@@ -17,7 +17,7 @@ export default function List({ target, state }) {
   this.render = () => {
     new ListInfo({
       target: listElement,
-      state: this.state
+      state: { title, id }
     })
 
     new ChildrenList({
@@ -29,34 +29,4 @@ export default function List({ target, state }) {
   }
 
   this.render()
-
-
-
-  // if (documents.length !== 0) {
-  //   const listElement = document.createElement('li')
-  //   target.appendChild(listElement)
-  //   listElement.setAttribute('data-id', `${id}`)
-  //   listElement.textContent = title
-
-
-
-  //   documents.forEach(list => {
-  //     new DocList({
-
-
-  //       target: listElement,
-  //       state: list
-  //     })
-  //   })
-  // }
-
-  // if (documents.length === 0) {
-  //   const listElement = document.createElement('li')
-  //   target.appendChild(listElement)
-  //   listElement.setAttribute('data-id', `${id}`)
-  //   listElement.textContent = title
-
-  // }
-
-
 }
