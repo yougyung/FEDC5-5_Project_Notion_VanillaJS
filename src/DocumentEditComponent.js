@@ -1,7 +1,11 @@
 import DocumentEditor from "./DocumentEditor.js";
 import { request } from "./api.js";
 
-export default function DocumentEditComponent({ $target, initialState }) {
+export default function DocumentEditComponent({
+  $target,
+  initialState,
+  onRefresh,
+}) {
   const $page = document.createElement("div");
 
   this.state = initialState;
@@ -45,12 +49,14 @@ export default function DocumentEditComponent({ $target, initialState }) {
       if (timer !== null) {
         clearTimeout(timer); // clearTimeout을 해줘야 5초동안 이전 타이핑했을 때의 요청을 지워준다.
       }
+
       timer = setTimeout(async () => {
         await request(`/documents/${document.id}`, {
           method: "PUT",
           body: JSON.stringify(document),
         });
-      }, 5000);
+        onRefresh();
+      }, 0);
     },
   });
 

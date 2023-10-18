@@ -27,6 +27,9 @@ export default function App({ $target }) {
       content: "",
       documents: [],
     },
+    onRefresh: () => {
+      documentListComponent.setState();
+    },
   });
 
   this.setState = (nextState) => {
