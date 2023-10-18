@@ -1,6 +1,22 @@
 import { createComponent, useState } from "./core";
-import { Sidebar } from "./components";
+import { DocumentView, Editor, Sidebar } from "./components";
 import styles from "./app.module.scss";
+
+const DUMMY_DOCUMENT = {
+  id: 1,
+  title: "노션을 만들자",
+  content: "즐거운 자바스크립트의 세계!",
+  documents: [
+    {
+      id: 2,
+      title: "",
+      createdAt: "",
+      updatedAt: "",
+    },
+  ],
+  createdAt: "",
+  updatedAt: "",
+};
 
 const DUMMY_DATA = [
   {
@@ -30,9 +46,12 @@ const DUMMY_DATA = [
 const { s_container } = styles;
 
 function App() {
+  const [activeView, setActiveView] = useState<"editor" | "documentView" | null>("documentView");
   const [documents, setDocuments] = useState(DUMMY_DATA);
 
   const sidebarComponent = createComponent(Sidebar, { documents });
+  const editorComponent = createComponent(Editor);
+  const documentViewComponent = createComponent(DocumentView, { document: DUMMY_DOCUMENT });
 
   return {
     element: `
@@ -41,6 +60,8 @@ function App() {
           노션 클로닝 어플리케이션
         </h1>
         ${sidebarComponent.element}
+        ${activeView === "editor" ? editorComponent.element : ""}
+        ${activeView === "documentView" ? documentViewComponent.element : ""}
       </div>
     `,
   };
