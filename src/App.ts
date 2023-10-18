@@ -49,9 +49,17 @@ function App() {
   const [activeView, setActiveView] = useState<"editor" | "documentView" | null>("documentView");
   const [documents, setDocuments] = useState(DUMMY_DATA);
 
-  const sidebarComponent = createComponent(Sidebar, { documents });
+  const addRootDocument = () => {
+    setActiveView("editor");
+  };
+
+  const sidebarComponent = createComponent(Sidebar, { documents, addRootDocument });
   const editorComponent = createComponent(Editor);
   const documentViewComponent = createComponent(DocumentView, { document: DUMMY_DOCUMENT });
+
+  const bindEvents = () => {
+    sidebarComponent.bindEvents?.();
+  };
 
   return {
     element: `
@@ -64,6 +72,7 @@ function App() {
         ${activeView === "documentView" ? documentViewComponent.element : ""}
       </div>
     `,
+    bindEvents,
   };
 }
 
