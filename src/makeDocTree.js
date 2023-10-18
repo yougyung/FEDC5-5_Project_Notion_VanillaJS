@@ -5,7 +5,8 @@ export function makeDocTree(root, depth, domTree) {
   }px">
     <button class="nav-toggle-btn">▼</button>
     <div class="nav-document" data-id="${root.id}">${root.title}</div>
-    <button class="nav-plus-btn">➕</button>
+    <button data-id="${root.id}" class="nav-delete-btn">✖</button>
+    <button data-id="${root.id}" class="nav-plus-btn">➕</button>
   </div>
   `;
 
