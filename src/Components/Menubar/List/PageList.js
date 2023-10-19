@@ -1,4 +1,4 @@
-import List from './List/List.js'
+import List from './List.js'
 
 export default function PageList({ target, state, onEvent }) {
 

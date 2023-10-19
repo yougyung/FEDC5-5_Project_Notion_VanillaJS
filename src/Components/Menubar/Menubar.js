@@ -1,4 +1,4 @@
-import PageList from './PageList.js'
+import PageList from './List/PageList.js'
 
 export default function Menubar({ target, state, onEvent }) {
   /* 왼쪽 메뉴 관련 */

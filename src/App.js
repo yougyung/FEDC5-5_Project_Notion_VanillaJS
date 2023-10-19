@@ -1,4 +1,4 @@
-import { deletePage, insertPage, request, getPage } from './API/API.js'
+import { deletePage, insertPage, request, getPage, updatePage } from './API/API.js'
 import Menubar from './Components/Menubar/Menubar.js'
 import PageViewer from './Components/PageViewer/PageViewer.js'
 
@@ -55,12 +55,28 @@ export default function App({ target }) {
   })
 
 
+  let timer = null
   const pageViewer = new PageViewer({
     target: appElement,
     state: {
       title: '초기값 입니다',
       content: '컨텐츠 란!',
       documents: []
+    },
+    onEditing: (params) => {
+
+
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(async () => {
+        updatePage(params)
+        /* Promise 이슈 해결해야함!! */
+
+        // const page = await getPage(params.id)
+        // pageViewer.setState(page)
+        // console.log(page)
+      }, 2000)
     }
   })
 

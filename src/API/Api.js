@@ -49,3 +49,15 @@ export async function getPage(id) {
   return page
 }
 
+/* UpdatePage */
+
+export async function updatePage({ id, title, content }) {
+  return await request(`/documents/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      title,
+      content
+    })
+  })
+}
+

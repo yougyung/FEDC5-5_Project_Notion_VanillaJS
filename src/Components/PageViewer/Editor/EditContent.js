@@ -1,9 +1,11 @@
 export default function EditContent({ target, content }) {
-  const editElement = document.createElement('div')
-  editElement.setAttribute('class', 'pageViewer_editor_content')
-  target.appendChild(editElement)
+  const editContentElement = document.createElement('div')
+  editContentElement.setAttribute('class', 'pageViewer_editor_content')
+  editContentElement.setAttribute('data-name', 'content')
+  editContentElement.setAttribute('contentEditable', 'true')
+  target.appendChild(editContentElement)
 
-  editElement.textContent = content
+  editContentElement.textContent = content
 
 
 }
