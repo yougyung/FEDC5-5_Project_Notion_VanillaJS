@@ -19,7 +19,10 @@ export default class App {
     init() {
         const router = Router.getInstance();
 
-        router.setPages([this.rootPage]);
+        router.setPages([
+            { path: '/index.html', page: this.rootPage },
+            { path: '/document', page: null },
+        ]);
     }
 
     setState(nextState) {

@@ -32,17 +32,18 @@ export default class Router {
 
     routeUrl() {
         const { pathname } = window.location;
-        const [rootPage] = this.pages;
 
         if (pathname === '/index.html' || pathname === '/') {
-            rootPage.render();
-        } else if (pathname.indexOf('/document') === 0) {
-            const documnetId = pathname.split('/')[2];
+            const { page } = this.pages.find(({ path }) => path === pathname);
 
-            console.log(documnetId);
-            //postEditPage.setState({ postId });
+            page.render();
+        } else if (pathname.indexOf('/document') === 0) {
+            const { page } = this.pages.find(({ path }) => path === '/document');
+            const documentId = pathname.split('/')[2];
+
+            console.log(documentId, page);
         } else {
-            rootPage.render();
+            alert('404 ERROR!');
         }
     }
 }
