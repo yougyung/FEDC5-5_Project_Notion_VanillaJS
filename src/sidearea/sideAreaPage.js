@@ -1,7 +1,7 @@
 import { DUMMY_DATA_SIDE_LIST } from "../utils/api.js";
 
 const $ = document;
-export default function SideAreaPage({ $target, initialState }) {
+export default function SideAreaPage({ $target, initialState, onClick }) {
   //   console.log($target);
   // console.log(DUMMY_DATA_SIDE_LIST);
   const $pageList = $.createElement("div");
@@ -71,7 +71,8 @@ export default function SideAreaPage({ $target, initialState }) {
   const addEventDocs = () => {
     $pageList.querySelectorAll("li").forEach(($li) => {
       $li.addEventListener("click", (e) => {
-        console.log(e.target.dataset.id);
+        // console.log(e.target.dataset.id);
+        onClick(e.target.dataset.id);
       });
     });
   };
