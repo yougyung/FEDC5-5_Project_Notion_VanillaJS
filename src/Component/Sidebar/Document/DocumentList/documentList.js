@@ -8,13 +8,13 @@ export default class DocumentList {
         this.state = initalState;
         this.onClickPost = onClickPost;
         this.onClickDelete = onClickDelete;
-        this.$documentDiv = createNewElement("div", [{ property: "className", value: "document-list" }]);
+        this.$documentDiv = createNewElement('div', [{ property: 'className', value: 'document-list' }]);
 
         this.init();
     }
 
     init() {
-        this.$documentDiv.addEventListener("click", (e) => this.handleOnClick(e));
+        this.$documentDiv.addEventListener('click', (e) => this.handleOnClick(e));
         this.$target.appendChild(this.$documentDiv);
         this.render();
     }
@@ -23,7 +23,7 @@ export default class DocumentList {
         const { documentList } = this.state;
 
         this.$documentDiv.replaceChildren();
-        new DocumentItems({ $target: this.$documentDiv, initalState: { documentList, isRoot: true }});
+        new DocumentItems({ $target: this.$documentDiv, initalState: { documentList, isRoot: true } });
     }
 
     setState(nextState) {
@@ -32,20 +32,29 @@ export default class DocumentList {
     }
 
     handleOnClick(e) {
-        const { target, target: { className } } = e;
+        const {
+            target,
+            target: { className },
+        } = e;
 
         // document 추가 이벤트
-        if(className === "document__buttons--insert") {
-            const currentId = target.closest(".document__item").dataset.id;
+        if (className === 'document__buttons--insert') {
+            const documentId = target.closest('.document__item').dataset.id;
 
-            this.onClickPost(currentId);
+            this.onClickPost(documentId);
         }
 
         // document 삭제 이벤트
-        if(className === "document__buttons--delete") {
-            const currentId = target.closest(".document__item").dataset.id;
+        if (className === 'document__buttons--delete') {
+            const documentId = target.closest('.document__item').dataset.id;
 
-            this.onClickDelete(currentId);
+            this.onClickDelete(documentId);
+        }
+
+        if (className === 'title-and-buttons__title') {
+            const documentId = target.closest('.document__item').dataset.id;
+
+            history.pushState(null, null, `/document${documentId}`);
         }
     }
 }

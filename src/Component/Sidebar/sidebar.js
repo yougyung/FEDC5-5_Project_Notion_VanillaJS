@@ -1,7 +1,7 @@
 import User from './User/user.js';
 import Document from './Document/document.js';
 import { createNewElement } from '../../Util/element.js';
-import { USER_LIST_KEY, getItem } from '../../Store/localStroage.js'
+import { USER_LIST_KEY, getItem } from '../../Store/localStroage.js';
 
 // state = { currentUser : "..." }
 
@@ -21,19 +21,19 @@ export default class Sidebar {
     }
 
     render() {
-        const $userAndDocument = createNewElement("div", [{ property: "className", value: "user-and-document" }]);
+        const $userAndDocument = createNewElement('div', [{ property: 'className', value: 'user-and-document' }]);
         const { currentUser } = this.state;
         const userList = getItem(USER_LIST_KEY, []);
 
         this.$target.appendChild($userAndDocument);
-        this.user = new User({ 
-            $target: $userAndDocument, 
+        this.user = new User({
+            $target: $userAndDocument,
             initalState: { currentUser, userList },
             setUser: this.setUser,
         });
-        this.document = new Document({ 
-            $target: $userAndDocument, 
-            initalState: { currentUser, documentList: [] }
+        this.document = new Document({
+            $target: $userAndDocument,
+            initalState: { currentUser, documentList: [] },
         });
     }
 

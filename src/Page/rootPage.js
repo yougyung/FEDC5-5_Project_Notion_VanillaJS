@@ -1,4 +1,4 @@
-import SideBar from '../Component/Sidebar/sidebar.js'
+import SideBar from '../Component/Sidebar/sidebar.js';
 import { createNewElement } from '../Util/element.js';
 
 // state = { currentUser : "..." }
@@ -8,22 +8,20 @@ export default class RootPage {
         this.$target = $target;
         this.state = initalState;
         this.setUser = setUser;
-        this.userAndDocument = null; 
-    
+        this.sideBar = null;
+
         this.init();
     }
 
-    init() {
-
-    }
+    init() {}
 
     render() {
-        const $page = createNewElement("div", [{ property: "className", value: "wrap" }]);
+        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
 
         this.$target.appendChild($page);
-        this.userAndDocument = new SideBar({ 
-            $target: $page, 
-            initalState: { ...this.state } ,
+        this.sideBar = new SideBar({
+            $target: $page,
+            initalState: { ...this.state },
             setUser: this.setUser,
         });
     }
@@ -32,6 +30,6 @@ export default class RootPage {
         const { currentUser } = nextState;
 
         this.state = { currentUser };
-        this.userAndDocument.setState(nextState);
+        this.sideBar.setState(nextState);
     }
 }

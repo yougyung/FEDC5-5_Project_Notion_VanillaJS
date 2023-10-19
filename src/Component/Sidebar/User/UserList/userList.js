@@ -7,12 +7,12 @@ export default class UserList {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
-        this.$ul = createNewElement("ul", [{ property: "className", value: "user-items" }]);
+        this.$ul = createNewElement('ul', [{ property: 'className', value: 'user-items' }]);
 
         this.init();
     }
 
-    init(){
+    init() {
         this.$target.appendChild(this.$ul);
         this.render();
     }
@@ -23,10 +23,13 @@ export default class UserList {
 
         this.$ul.replaceChildren();
 
-        userList?.forEach(userName => {
-            const $li = createNewElement("li", [{ property: "className", value: `${currentUser === userName ? "user-item--current" : "user-item"}`}, { property: "dataset.name", value: userName }]);
-            const $name = createNewElement("span", [{ property: "className", value: "user-item__name" }], userName);
-            const $delete = createNewElement("button", [{ property: "className", value: "user-item__button" }], "-");
+        userList?.forEach((userName) => {
+            const $li = createNewElement('li', [
+                { property: 'className', value: `${currentUser === userName ? 'user-item--current' : 'user-item'}` },
+                { property: 'dataset.name', value: userName },
+            ]);
+            const $name = createNewElement('span', [{ property: 'className', value: 'user-item__name' }], userName);
+            const $delete = createNewElement('button', [{ property: 'className', value: 'user-item__button' }], '-');
 
             $li.appendChild($name);
             $li.appendChild($delete);
@@ -37,7 +40,6 @@ export default class UserList {
     }
 
     setState(nextState) {
-        console.log(nextState)
         setItem(USER_LIST_KEY, nextState.userList);
         this.state = nextState;
         this.render();

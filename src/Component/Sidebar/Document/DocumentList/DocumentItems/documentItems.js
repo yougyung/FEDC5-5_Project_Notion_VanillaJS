@@ -17,11 +17,13 @@ export default class DocumentItems {
 
     render() {
         const { documentList, isRoot } = this.state;
-        const $documentItems = createNewElement("ul", [{ property: "className", value: `${isRoot ? "document-items--root" : "document-items"}`}]);
+        const $documentItems = createNewElement('ul', [
+            { property: 'className', value: `${isRoot ? 'document-items--root' : 'document-items'}` },
+        ]);
         const $fragment = document.createDocumentFragment();
 
         documentList?.forEach((item) => {
-            new DocumentItem({ $target: $fragment, initalState: { ...item }});
+            new DocumentItem({ $target: $fragment, initalState: { ...item } });
         });
 
         $documentItems.appendChild($fragment);

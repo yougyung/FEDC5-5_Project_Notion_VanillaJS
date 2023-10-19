@@ -7,8 +7,8 @@ export default class App {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
-        this.rootPage = new RootPage({ 
-            $target, 
+        this.rootPage = new RootPage({
+            $target,
             initalState: { ...this.state },
             setUser: (nextState) => this.setState(nextState),
         });
@@ -33,14 +33,11 @@ export default class App {
 
         this.$target.replaceChildren();
 
-        if(pathname === "index.html" || "/") {
+        if (pathname === 'index.html' || '/') {
             this.rootPage.render();
-        }
-        else if(pathname.includes("/document")) {
-            const postId = pathname.split("/")[2];
-
-        }
-        else {
+        } else if (pathname.includes('/document')) {
+            const postId = pathname.split('/')[2];
+        } else {
             this.rootPage.render();
         }
     }
