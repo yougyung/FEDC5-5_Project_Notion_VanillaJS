@@ -35,5 +35,13 @@ export default function App({ $target }) {
   this.route();
 
   initRouter(() => this.route());
-  customSideBarList(() => sideBar.setState());
+  customSideBarList(async () => {
+    console.log("custom에서 콜백 handle");
+    await sideBar.setState();
+  });
+
+  // 새로고침시 반영 잠간 스누즈
+  // window.addEventListener("beforeunload", function (event) {
+  //   event.returnValue = "!!";
+  // });
 }

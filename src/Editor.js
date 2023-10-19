@@ -21,12 +21,13 @@ export default function Editor({ $target, initialState, onEditing }) {
     isInit = false;
   };
 
-  $editor.addEventListener("keyup", (e) => {
+  $editor.addEventListener("keyup", async (e) => {
     const nextState = { ...this.state, [e.target.name]: e.target.value };
     this.setState(nextState);
-    onEditing(nextState);
     if (e.target.name === "title") {
+      await onEditing(nextState, "title");
       const content = e.target.value;
+      console.log("CustomEvent 타이틀수정실행");
       window.dispatchEvent(
         new CustomEvent("render-SideBarList", {
           detail: {
@@ -34,6 +35,8 @@ export default function Editor({ $target, initialState, onEditing }) {
           },
         })
       );
+    } else {
+      onEditing(nextState, "content");
     }
   });
 }
