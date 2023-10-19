@@ -3,7 +3,7 @@ import DocumentAddButton from "./DocumentAddButton.js";
 import DocumentList from "./DocumentList.js";
 import SidebarHeader from "./SidebarHeader.js";
 
-export default function Sidebar({ $target, initialState, onAdd }) {
+export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const $sidebar = document.createElement("aside");
   $target.appendChild($sidebar);
 
@@ -33,30 +33,7 @@ export default function Sidebar({ $target, initialState, onAdd }) {
       documents: [],
       selectedDocumentId: this.state.selectedDocumentId,
     },
-    onDelete: async (id) => {
-      const documentIndex = this.state.documents.findIndex(
-        (document) => document.id === id
-      );
-
-      const nextDocuments = [...this.state.documents];
-      nextDocuments.splice(documentIndex, 1);
-
-      // 낙관적 업데이트
-      documentList.setState({ ...this.state, documents: nextDocuments });
-
-      try {
-        await request(`${id}`, {
-          method: "DELETE",
-        });
-        console.log(id, ": 삭제 완료");
-      } catch (error) {
-        console.log(error);
-        documentList.setState({
-          documents: this.state.documents,
-          selectedDocumentId: this.state.selectedDocumentId,
-        });
-      }
-    },
+    onDelete,
   });
 
   this.render = async () => {
