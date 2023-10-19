@@ -1,5 +1,6 @@
 const API_ENDPOINT = `https://kdt-frontend.programmers.co.kr`
 const headers = {
+  'Content-Type': 'application/json',
   'x-username': 'whdgur5717',
 }
 export const requestDocumentInfo = async (url, option) => {
