@@ -8,28 +8,42 @@ export default function DocumentList({ $target, initialState, onDelete }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    // console.log(this.state.selectedDocumentId);
     this.render();
   };
 
+  const renderDocuments = (nextDocuments) => `
+  ${nextDocuments
+    .map(
+      ({ id, title, documents }) => `
+      <ul>
+        <li data-id="${id}" class="list-item">
+          <p>${title ?? "제목 없음"}</p>
+          <div class="list-item-buttons">
+            <button class="delete-button" type="button">
+              <i class="fa-regular fa-trash-can delete-button"></i>
+            </button>
+            <button class="add-button" type="button">
+              <i class="fa-solid fa-plus add-button"></i>
+            </button>
+          </div>
+        </li>
+          <li>
+          ${
+            documents.length === 0
+              ? "하위 페이지 없음"
+              : renderDocuments(documents)
+          }
+          </li>
+        </ul>
+      `
+    )
+    .join("")}
+`;
+
   this.render = () => {
+    const { documents } = this.state;
     $documentList.innerHTML = `
-            <ul>
-                ${this.state.documents
-                  .map(
-                    (document) =>
-                      `<li class="list-item" data-id=${document.id}>
-                        ${document.title ?? "제목 없음"}
-                        <div class="list-item-buttons">
-                        <button class="delete-button" type="button">
-                          <i class="fa-regular fa-trash-can delete-button"></i>
-                        </button>
-                      <button class="add-button" type="button">+</button>
-                      </div>
-                      </li>`
-                  )
-                  .join("")}
-            </ul>
+           ${documents.length > 0 ? renderDocuments(documents) : ""}
         `;
   };
 

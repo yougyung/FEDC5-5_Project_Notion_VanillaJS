@@ -57,18 +57,21 @@ export const DUMMY_DATA = [
       {
         id: 1,
         title: "실험용",
+        documents: [],
         createdAt: "",
         updatedAt: "",
       },
       {
         id: 2,
         title: "더미데이터",
+        documents: [],
         createdAt: "",
         updatedAt: "",
       },
       {
         id: 3,
         title: "성공해라",
+        documents: [],
         createdAt: "",
         updatedAt: "",
       },
