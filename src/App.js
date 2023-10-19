@@ -62,26 +62,7 @@ export default function App({ $target }) {
       id: 3,
       title: "노션을 만들자3",
       content: "행복하니? 아니~",
-      documents: [
-        {
-          id: 1,
-          title: "실험용",
-          createdAt: "",
-          updatedAt: "",
-        },
-        {
-          id: 2,
-          title: "더미데이터",
-          createdAt: "",
-          updatedAt: "",
-        },
-        {
-          id: 3,
-          title: "성공해라",
-          createdAt: "",
-          updatedAt: "",
-        },
-      ],
+      documents: [],
       createdAt: "",
       updatedAt: "",
     },
