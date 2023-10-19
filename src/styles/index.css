@@ -1,9 +1,28 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#app {
+    display: flex;
+    height: 100%;
+}
+
 .fold {
     display: none;
 }
 
 .show {
     display: block;
+}
+
+.documents-container {
+    width: 300px;
+    height: 100%;
+    padding: 10px;
+    border-right: 1px solid gray;
+    background: #fbfbfa;
+    box-sizing: border-box;
 }
 
 .documents-item {
@@ -14,4 +33,18 @@
 .end-document-item {
     cursor: default;
     color: gray;
+}
+
+.editor-section {
+    width: 100%;
+}
+
+#editor-content {
+    resize: none;
+    height: 300px;
+}
+
+.editor-container {
+    display: flex;
+    flex-direction: column;
 }
