@@ -1,10 +1,13 @@
 import Sidebar from "./sidebar/Sidebar.js";
 import DocumentEditPage from "./textEditor/DocumentEditPage.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target }) {
   const sidebar = new Sidebar({
     $target,
-    initialState: [],
+    initialState: {
+      selectedDocumentId: null,
+    },
   });
 
   const documentEditPage = new DocumentEditPage({
@@ -17,4 +20,31 @@ export default function App({ $target }) {
       },
     },
   });
+
+  this.route = () => {
+    const { pathname } = window.location;
+
+    if (pathname === "/") {
+      return;
+    }
+
+    if (pathname.indexOf("/documents") !== 0) return;
+
+    const [, , documentId] = pathname.split("/");
+    documentEditPage.setState({
+      documentId: isNaN(documentId) ? documentId : parseInt(documentId),
+    });
+
+    if (!isNaN(documentId)) {
+      sidebar.setState({
+        selectedId: parseInt(documentId),
+      });
+    }
+  };
+
+  window.addEventListener("popstate", () => this.route());
+
+  this.route();
+
+  initRouter(() => this.route());
 }
