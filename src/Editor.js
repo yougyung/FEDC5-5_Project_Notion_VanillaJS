@@ -1,4 +1,4 @@
-export default function Editor({ $target, initialState }) {
+export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
   $editor.className = "editor";
   $target.appendChild($editor);
@@ -24,4 +24,13 @@ export default function Editor({ $target, initialState }) {
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=content]").innerHTML = this.state.content;
   };
+
+  $editor.addEventListener("keyup", (e) => {
+    const { target } = e;
+    const name = target.getAttribute("name");
+    const nextState = { ...this.state, [name]: e.target.value };
+
+    this.setState(nextState);
+    onEditing(this.state);
+  });
 }
