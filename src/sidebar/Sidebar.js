@@ -1,4 +1,5 @@
 import { request } from "../utils/api.js";
+import DocumentAddButton from "./DocumentAddButton.js";
 import DocumentList from "./DocumentList.js";
 import SidebarHeader from "./SidebarHeader.js";
 
@@ -19,7 +20,7 @@ export default function Sidebar({ $target, initialState }) {
   });
 
   const documentAddButton = new DocumentAddButton({
-    $target: $sidebarHeader,
+    $target: $sidebar,
     initialState: {
       documentId: "new",
     },
