@@ -1,19 +1,19 @@
+import { request } from "../utils/api.js";
 import Editor from "./Editor.js";
 
 export default function DocumentEditPage({ $target, initialState, onEditing }) {
   const $documentEditPage = document.createElement("section");
-  $target.appendChild($documentEditPage);
-
   this.state = initialState;
 
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
+  console.log(this.state.documentId);
+
+  const fetchDocument = async () => {
+    const { title, content } = await request(`${this.state.documentId}`);
+    editor.setState({
+      title,
+      content,
+    });
   };
-
-  this.render = () => {};
-
-  this.render();
 
   const editor = new Editor({
     $target,
@@ -22,4 +22,23 @@ export default function DocumentEditPage({ $target, initialState, onEditing }) {
       content: "",
     },
   });
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+
+    if (this.state.documentId === "new") {
+      editor.setState({
+        title: "",
+        content: "",
+      });
+    } else {
+      fetchDocument();
+    }
+
+    this.render();
+  };
+
+  this.render = () => {
+    $target.appendChild($documentEditPage);
+  };
 }

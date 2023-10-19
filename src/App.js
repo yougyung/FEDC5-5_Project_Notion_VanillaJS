@@ -28,21 +28,24 @@ export default function App({ $target }) {
       return;
     }
 
-    if (pathname.indexOf("/documents") !== 0) return;
+    if (pathname.indexOf("/") === 0) {
+      const documentId = pathname.substring(1);
 
-    const [, , documentId] = pathname.split("/");
-    documentEditPage.setState({
-      documentId: isNaN(documentId) ? documentId : parseInt(documentId),
-    });
+      console.log(pathname, documentId);
 
-    if (!isNaN(documentId)) {
-      sidebar.setState({
-        selectedId: parseInt(documentId),
+      documentEditPage.setState({
+        documentId: isNaN(documentId) ? documentId : parseInt(documentId),
       });
+
+      if (!isNaN(documentId)) {
+        sidebar.setState({
+          selectedId: parseInt(documentId),
+        });
+      }
     }
   };
 
-  window.addEventListener("popstate", () => this.route());
+  // window.addEventListener("popstate", () => this.route());
 
   this.route();
 

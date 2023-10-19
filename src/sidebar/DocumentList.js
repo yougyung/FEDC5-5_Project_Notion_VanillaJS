@@ -1,3 +1,5 @@
+import { push } from "../utils/router.js";
+
 export default function DocumentList({ $target, initialState, onDelete }) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
@@ -6,13 +8,14 @@ export default function DocumentList({ $target, initialState, onDelete }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    // console.log(this.state.selectedDocumentId);
     this.render();
   };
 
   this.render = () => {
     $documentList.innerHTML = `
             <ul>
-                ${this.state
+                ${this.state.documents
                   .map(
                     (document) =>
                       `<li class="list-item" data-id=${document.id}>
@@ -37,6 +40,7 @@ export default function DocumentList({ $target, initialState, onDelete }) {
 
     let { id } = $li.dataset;
     id = parseInt(id);
+    this.state.selectedDocumentId = id;
 
     if (target.classList.contains("delete-button")) {
       onDelete(id);
@@ -47,8 +51,12 @@ export default function DocumentList({ $target, initialState, onDelete }) {
       console.log("add!", id);
     } else if (target.className === "list-item") {
       // document open 로직
-      // const document = await request(`${id}`);
-      // editor.setState(document);
+      push(`${id}`);
+
+      this.setState({
+        ...this.state,
+        selectedDocumentId: id,
+      });
     }
   });
 
