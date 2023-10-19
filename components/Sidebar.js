@@ -14,6 +14,9 @@ export default class Sidebar {
     this.$directory.id = 'directory'
     this.$add = document.createElement('div')
     this.$add.innerText = '추가'
+    this.$sidebar.appendChild(this.$directory)
+    this.$sidebar.appendChild(this.$add)
+    this.$target.appendChild(this.$sidebar)
   }
   renderTreeByDiv(data, parentElement) {
     for (const item of data) {
@@ -58,7 +61,7 @@ export default class Sidebar {
     requestDocumentInfo('documents', {
       method: 'POST',
       body: JSON.stringify(newDocument),
-    }).then((data) => console.log(data))
+    }).then((data) => this.fetchDirectory())
     //추가했으면 -> 데이터 새로 요청할수도 or 현재 state에 껴넣을수도
   }
 
@@ -76,30 +79,31 @@ export default class Sidebar {
 
   setState(nextState) {
     this.state = nextState
-    this.replace()
+    console.log(this.state.length)
+    !this.prevChild ? this.render() : this.replace()
   }
 
   render() {
-    const fragment = new DocumentFragment()
-    this.renderTreeByDiv(this.state, fragment)
-    this.$directory.appendChild(fragment)
-    this.$sidebar.appendChild(this.$directory)
-    this.$sidebar.appendChild(this.$add)
-    this.$target.appendChild(this.$sidebar)
-
-    return fragment
+    const $documentList = document.createElement('div')
+    this.renderTreeByDiv(this.state, $documentList)
+    this.$directory.appendChild($documentList)
+    this.prevChild = $documentList
   }
 
   replace() {
-    const fragment = new DocumentFragment()
-    this.renderTreeByDiv(this.state, fragment)
-    this.$sidebar.replaceChild(fragment, this.prev)
-    this.prevChildren = fragment
+    const $documentList = document.createElement('div')
+    this.renderTreeByDiv(this.state, $documentList)
+    this.$directory.replaceChild($documentList, this.prevChild)
+    this.prevChild = $documentList
   }
 
   async fetchDirectory() {
-    this.state = await requestDocumentInfo('documents')
-    this.render()
+    try {
+      const data = await requestDocumentInfo('documents')
+      this.setState(data)
+    } catch (err) {
+      alert('데이터를 가져오는데 실패했습니다')
+    }
   }
 
   setEvent() {
