@@ -17,6 +17,27 @@ export default function App({ $target }) {
       history.pushState(null, null, "/posts/new");
       this.route();
     },
+    onPostSubClick: async (classType, id) => {
+      if (classType === "addPost") {
+        const createdPost = await request("/documents", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "새로운 문서",
+            parent: id,
+          }),
+        });
+        history.pushState(null, null, createdPost.id);
+        this.route();
+      }
+      if (classType === "removePost") {
+        await request(`/documents/${id}`, {
+          method: "DELETE",
+        });
+        this.setState();
+        history.pushState(null, null, "/");
+        this.route();
+      }
+    },
   });
 
   const postViewPage = new PostViewPage({

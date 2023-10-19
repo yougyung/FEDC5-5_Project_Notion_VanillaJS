@@ -6,6 +6,7 @@ export default function PostListPage({
   initialState,
   onPostClick,
   onAddPostClick,
+  onPostSubClick,
 }) {
   const $header = document.createElement("h1");
   const $page = document.createElement("div");
@@ -16,6 +17,9 @@ export default function PostListPage({
 
   $header.innerText = "🔥 Sangmin의 NO션";
 
+  /* 
+    [{ title: string }]
+  */
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
@@ -29,6 +33,7 @@ export default function PostListPage({
     initialState: [],
     onPostClick,
     onAddPostClick,
+    onPostSubClick,
   });
 
   this.render = () => {};

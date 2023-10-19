@@ -3,6 +3,7 @@ export default function PostList({
   initialState,
   onPostClick,
   onAddPostClick,
+  onPostSubClick,
 }) {
   const $postList = document.createElement("ul");
   const $addPostWrapper = document.createElement("div");
@@ -28,8 +29,8 @@ export default function PostList({
 
         $li.innerHTML = `
           ↓📄${postArray[i].title}
-          <button class="delete">x</button>
-          <button class"add">+</button>
+          <button class="removePost">x</button>
+          <button class="addPost">+</button>
         `;
 
         ul.appendChild($li);
@@ -51,9 +52,15 @@ export default function PostList({
 
   $postList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
+    const $btn = e.target.closest("button");
     const { id } = $li.dataset;
 
-    onPostClick(id);
+    if ($btn) {
+      const className = $btn.className;
+      onPostSubClick(className, id);
+    } else {
+      onPostClick(id);
+    }
   });
 
   $addPostWrapper.querySelector("button").addEventListener("click", () => {
