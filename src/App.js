@@ -1,8 +1,6 @@
 import Sidebar from "./sidebar/Sidebar.js";
 import DocumentEditPage from "./textEditor/DocumentEditPage.js";
-import { request } from "./utils/api.js";
-import { initRouter, push } from "./utils/router.js";
-import { getItem, removeItem } from "./utils/storage.js";
+import { request, initRouter, push, getItem, removeItem } from "./utils.js";
 
 export default function App({ $target }) {
   const onAdd = async () => {
