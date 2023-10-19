@@ -8,6 +8,11 @@ export default function Editor({ $target, initialState }) {
       <textarea name="content"></textarea>
   `;
 
+  /* 
+    {
+      post: {}
+    }
+  */
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;

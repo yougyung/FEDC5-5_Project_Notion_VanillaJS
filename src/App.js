@@ -13,20 +13,40 @@ export default function App({ $target }) {
       history.pushState(null, null, `/posts/${id}`);
       this.route();
     },
+    onAddPostClick: () => {
+      history.pushState(null, null, "/posts/new");
+      this.route();
+    },
   });
 
-  const postViewPage = new PostViewPage({ $target });
+  const postViewPage = new PostViewPage({
+    $target,
+    initialState: {
+      id: "new",
+      post: {
+        title: "",
+        content: "",
+      },
+    },
+  });
 
   this.route = async () => {
     const { pathname } = window.location;
 
     if (pathname === "/") {
-    } else if (pathname.indexOf("/posts/") === 0) {
+      return;
+    }
+    if (pathname.indexOf("/posts/") === 0) {
       const [, , id] = pathname.split("/");
-      const post = await request(`/documents/${id}`);
+      if (id === "new") {
+        postViewPage.setState({ id: "new", post: { title: "", content: "" } });
+        return;
+      }
 
-      postViewPage.setState(post);
+      const post = await request(`/documents/${id}`);
+      postViewPage.setState({ id, post });
     }
   };
+
   this.route();
 }

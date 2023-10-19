@@ -6,11 +6,20 @@ export default function PostViewPage({ $target, initialState }) {
 
   $target.appendChild($page);
 
+  /* 
+    {
+      id: num || "new"
+      posts: {
+        title: string,
+        content: string,
+      }
+    }
+  */
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
 
-    editor.setState(this.state);
+    editor.setState(this.state.post);
     this.render();
   };
 

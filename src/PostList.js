@@ -1,4 +1,9 @@
-export default function PostList({ $target, initialState, onPostClick }) {
+export default function PostList({
+  $target,
+  initialState,
+  onPostClick,
+  onAddPostClick,
+}) {
   const $postList = document.createElement("ul");
   const $addPostWrapper = document.createElement("div");
   $addPostWrapper.innerHTML = `<button>문서생성!</button`;
@@ -49,5 +54,9 @@ export default function PostList({ $target, initialState, onPostClick }) {
     const { id } = $li.dataset;
 
     onPostClick(id);
+  });
+
+  $addPostWrapper.querySelector("button").addEventListener("click", () => {
+    onAddPostClick();
   });
 }
