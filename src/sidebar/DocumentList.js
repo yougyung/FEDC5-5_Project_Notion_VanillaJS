@@ -24,7 +24,7 @@ export default function DocumentList({
                     <li data-id="${id}" class="list-item" style="padding-left: ${
           depth * 10
         }px;">
-                     ${title ?? "제목 없음"}
+                     ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
                       <div class="list-item-buttons">
                         <button class="delete-button" type="button">
                           <i class="fa-regular fa-trash-can delete-button"></i>
@@ -52,6 +52,7 @@ export default function DocumentList({
   `;
 
   this.render = () => {
+    // console.log(this.state.documents);
     const { documents } = this.state;
     $documentList.innerHTML = `
            ${documents.length > 0 ? renderList(documents, 1) : ""}
@@ -65,7 +66,7 @@ export default function DocumentList({
 
     let { id } = $li.dataset;
     id = parseInt(id);
-    this.state.selectedDocumentId = id;
+    // this.state.selectedDocumentId = id;
 
     if (target.classList.contains("delete-button")) {
       onDelete(id);
@@ -74,8 +75,6 @@ export default function DocumentList({
       onAdd(id);
     } else if (target.className === "list-item" && !isNaN(id)) {
       // document 조회 로직
-
-      console.log(id);
       push(`${id}`);
 
       // this.setState({
