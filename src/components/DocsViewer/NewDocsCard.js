@@ -5,7 +5,9 @@ import { NEW_DOCUMENT_INIT_ID } from "../../utils/constants.js";
  */
 export default function NewDocsCard({ $parent }) {
   const $component = document.createElement("li");
+  $component.classList.add("docs-new-card");
   $component.classList.add("docs-index-card");
+
   $component.dataset.id = NEW_DOCUMENT_INIT_ID;
   const $cardName = document.createElement("a");
   $cardName.classList.add("docs-index-a");
@@ -18,4 +20,8 @@ export default function NewDocsCard({ $parent }) {
     $cardName.textContent = "new docs";
   };
   this.render();
+
+  $component.addEventListener("click", () => {
+    console.log("NEW ROOT");
+  });
 }

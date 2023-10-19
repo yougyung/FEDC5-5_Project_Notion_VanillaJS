@@ -24,6 +24,14 @@ export const _GET = async (url) => {
   return await request(url, {});
 };
 
-export const _POST = async (url) => {
-  return await request(url, {});
+export const _POST = async (url, data) => {
+  return await request(url, { method: "POST", body: JSON.stringify(data) });
+};
+
+export const _PUT = async (url, data) => {
+  return await request(url, { method: "PUT", body: JSON.stringify(data) });
+};
+
+export const _DELETE = async (url) => {
+  return await request(url, { method: "DELETE" });
 };

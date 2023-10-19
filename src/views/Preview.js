@@ -25,11 +25,13 @@ export default function PreView({ $parent, initState }) {
   };
 
   this.render = () => {
+    console.log(useDocument.state);
     // subscriber 최초 등록시 발생하는 랜더링 블로킹
     if (!this.state) return;
 
+    $component.innerHTML =
+      `<h1><h1>${useDocument.state.title}<br/>` +
+      parseContent(useDocument.state.content ?? "");
     $parent.appendChild($component);
-    console.log(useDocument.state);
-    $component.innerHTML = parseContent(useDocument.state.content);
   };
 }

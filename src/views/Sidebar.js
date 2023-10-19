@@ -1,5 +1,9 @@
 import DocsIndexViewer from "../components/DocsViewer/DocsIndexViewer.js";
+
 import { SIDEBAR_VIEW_MODE } from "../utils/constants.js";
+import { useDocsIndex } from "../utils/store.js";
+
+import { _GET } from "../api/api.js";
 
 const SidebarProps = {
   sidebarViewMode: "string",
@@ -11,18 +15,21 @@ const SidebarProps = {
 export default function Sidebar({ $parent, initState }) {
   const $component = document.createElement("section");
   $component.setAttribute("id", "sidebar");
-  $component.classList.add("view");
+  $component.classList.add("slide");
 
-  const sidebarViewRender = (sidebarViewMode) => {
+  const docsIndexViewer = new DocsIndexViewer({
+    $parent: $component,
+  });
+
+  const sidebarViewRender = async (sidebarViewMode) => {
     // init component render //
     $component.innerHTML = "";
 
     if (sidebarViewMode === SIDEBAR_VIEW_MODE.DOCS_INDEX_VIEWER) {
-      const docsIndexViewer = new DocsIndexViewer({
-        $parent: $component,
-        initState: { data: [] },
-      });
-      docsIndexViewer.setState();
+      // update data //
+      const fetchData = await fetchDocuments();
+      useDocsIndex.setState(fetchData);
+      // render child component
     }
   };
 
@@ -36,4 +43,16 @@ export default function Sidebar({ $parent, initState }) {
     sidebarViewRender(this.state.sidebarViewMode);
     $parent.appendChild($component);
   };
+
+  // API CALL ========================================================== //
+  const fetchDocuments = async () => {
+    const documents = await _GET("documents");
+    // this.setState({ data: documents });
+
+    return await { data: documents };
+  };
+  // ========================================================== API CALL //
+
+  // subscribers //
+  useDocsIndex.setState({ subscribers: [docsIndexViewer] });
 }

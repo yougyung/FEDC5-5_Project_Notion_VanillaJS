@@ -2,7 +2,7 @@ import Editor from "../components/editor/Editor.js";
 import EditorBottomUtil from "../components/editor/EditorBottomUtil.js";
 import EditorHeader from "../components/editor/EditorHeader.js";
 
-import { _GET } from "../api/api.js";
+import { _GET, _POST, _PUT } from "../api/api.js";
 import { NEW_DOCUMENT_INIT_ID } from "../utils/constants.js";
 import { useDocument } from "../utils/store.js";
 import { MOCK_DOC_DATA } from "../mockdata.js";
@@ -26,6 +26,7 @@ const DocumentProps = {
 const EditorViewProps = {
   documentId: "number",
   documentData: "DocumentProps",
+  documentParentId: "number",
 };
 
 /**
@@ -36,22 +37,58 @@ export default function EditorView({ $parent, initState }) {
   $component.setAttribute("id", "editor-view");
   $component.classList.add("view");
 
+  let timer = null;
+
   // COMPONENTS =========================================================== //
   const editorHeader = new EditorHeader({ $parent: $component });
-  const editor = new Editor({ $parent: $component });
+  const editor = new Editor({
+    $parent: $component,
+    onEditing: (data) => {
+      // JS 의 기초적인 Debounce 기법 //
+      if (timer !== null) {
+        // 에디팅이 발생하면 예약되어있던 setTimeout 지워줌 Debounce
+        clearTimeout(timer);
+      }
+      // 그 후 새로운 setTimeout 을 실행시켜줌
+      timer = setTimeout(async () => {
+        // setItem(postLocalSaveKey, { ...post, tempSaveDate: new Date() });
+
+        const isNew = this.state.documentId === NEW_DOCUMENT_INIT_ID;
+        if (isNew) {
+          const createdDocument = await _POST("documents", {
+            title: data.title,
+            parent: this.state.documentParentId,
+          });
+
+          history.replaceState(null, null, `/documents/${createdDocument.id}`);
+          // removeItem(postLocalSaveKey);
+          this.setState({ documentId: createdDocument.id });
+        } else {
+          console.log(data);
+          await _PUT(`documents/${data.id}`, {
+            title: data.title,
+            content: data.content,
+          });
+          // removeItem(postLocalSaveKey);
+        }
+      }, 2000);
+    },
+  });
   const editorBottom = new EditorBottomUtil({ $parent: $component });
   // =========================================================== COMPONENTS //
 
   this.state = initState;
   this.setState = async (nextState) => {
     editorHeader.render();
-    // init hook data
-
+    // document data 업데이트가 필요한 상황
     if (this.state.documentId !== nextState.documentId) {
       this.state = { ...this.state, ...nextState };
-
-      // 경로명이 new 인 경우
+      // 경로명이 new 인 경우 - 모든 editor 데이터를 초기화
       if (this.state.documentId === NEW_DOCUMENT_INIT_ID) {
+        this.setState({
+          documentId: NEW_DOCUMENT_INIT_ID,
+          documentData: { id: NEW_DOCUMENT_INIT_ID, title: "", content: "" },
+        });
         editor.setState({
           id: NEW_DOCUMENT_INIT_ID,
           title: "",
@@ -66,21 +103,26 @@ export default function EditorView({ $parent, initState }) {
         editorBottom.setState({ childDocuments: [] });
 
         this.render();
+        return;
       } else {
         // 이전에 보던 경로와 다른 경우
         // 새 document fetch -> 다시 setState 호출
         // useDocument 데이터 삽입
         await fetchDocument();
       }
-
       return;
     }
-
+    // document data 업데이트가 필요 없는 상황 -> 원본 데이터이므로 다시 데이터를 덮음
     this.state = { ...this.state, ...nextState };
     this.render();
 
+    const { id, title, content } = this.state.documentData;
     editor.setState(
-      this.state.documentData || { id: "", title: "", content: "" }
+      { id, title, content } || {
+        id: "",
+        title: "",
+        content: "",
+      }
     );
   };
 
@@ -94,8 +136,8 @@ export default function EditorView({ $parent, initState }) {
     const { documentId } = this.state;
 
     if (documentId !== "new") {
-      // const documentData = await _GET(`documents/${documentId}`);
-      const documentData = MOCK_DOC_DATA;
+      const documentData = await _GET(`documents/${documentId}`);
+      // const documentData = MOCK_DOC_DATA;
 
       this.setState({ ...this.state, documentData });
 

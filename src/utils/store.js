@@ -25,3 +25,8 @@ export const useDocument = new useStatePublisher({
   content: "",
   subscribers: [],
 });
+
+export const useDocsIndex = new useStatePublisher({
+  data: null,
+  subscribers: [],
+});

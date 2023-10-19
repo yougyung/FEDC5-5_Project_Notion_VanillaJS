@@ -1,3 +1,6 @@
+import { _DELETE } from "../../api/api.js";
+import { Cross, Plus } from "../../icons.js";
+import { push } from "../../router.js";
 import DocsButton from "./DocsButton.js";
 
 const DocsIndexCardProps = {
@@ -19,21 +22,25 @@ export default function DocsIndexCard({ $parent, initState }) {
   $component.appendChild($buttonWrapper);
   $parent.appendChild($component);
 
+  // 계층 구조 업데이트 & API CALL
   const addButton = new DocsButton({
     $parent: $buttonWrapper,
-    initState: { content: "+" },
+    initState: { content: Plus("icon-micro") },
     onClick: (event) => {
       event.stopPropagation();
-      console.log("ADD");
+      push(`/documents/new?parent=${this.state.id}`);
     },
   });
 
   const deleteButton = new DocsButton({
     $parent: $buttonWrapper,
-    initState: { content: "x" },
-    onClick: (event) => {
+    initState: {
+      content: Cross("icon-micro"),
+    },
+    onClick: async (event) => {
       event.stopPropagation();
-      console.log("DEL");
+      push("/");
+      await _DELETE(`documents/${this.state.id}`);
     },
   });
 

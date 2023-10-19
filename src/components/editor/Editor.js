@@ -14,6 +14,7 @@ const EditorPtops = {
 export default function Editor({
   $parent,
   initState = { id: "", title: "", content: "" },
+  onEditing,
 }) {
   const $component = document.createElement("div");
   $component.setAttribute("id", "editor");
@@ -44,6 +45,22 @@ export default function Editor({
     $textarea.style.minHeight = height + "px";
   });
   $textarea?.addEventListener("keyup", () => {
-    useDocument.setState({ content: $textarea.value });
+    const nextState = {
+      ...useDocument.state,
+      content: $textarea.value,
+    };
+    useDocument.setState(nextState);
+    onEditing(useDocument.state);
   });
+
+  $component
+    .querySelector("[name=title]")
+    .addEventListener("keyup", (event) => {
+      const nextState = {
+        title: event.target.value,
+      };
+      useDocument.setState(nextState);
+      // console.log(useDocument.state);
+      onEditing(useDocument.state);
+    });
 }

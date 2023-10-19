@@ -18,7 +18,7 @@ export default function DocsButton({ $parent, initState, onClick }) {
   };
 
   this.render = () => {
-    $component.innerText = this.state.content;
+    $component.innerHTML = this.state.content;
   };
   this.render();
 
