@@ -1,5 +1,3 @@
-import { push } from "../utils/router.js";
-
 export default function DocumentAddButton({ $target, initialState, onAdd }) {
   const $documentAddButton = document.createElement("button");
   $documentAddButton.className = "add-button";
