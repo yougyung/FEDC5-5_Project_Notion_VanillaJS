@@ -18,6 +18,13 @@ export default function Sidebar({ $target, initialState }) {
     username: "Roto",
   });
 
+  const documentAddButton = new DocumentAddButton({
+    $target: $sidebarHeader,
+    initialState: {
+      documentId: "new",
+    },
+  });
+
   const documentList = new DocumentList({
     $target: $sidebar,
     initialState: {

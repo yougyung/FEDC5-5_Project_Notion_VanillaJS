@@ -1,6 +1,3 @@
-import { request } from "../utils/api.js";
-import DocumentAddButton from "./DocumentAddButton.js";
-
 export default function SidebarHeader({ $target, username }) {
   const $sidebarHeader = document.createElement("header");
   $target.appendChild($sidebarHeader);
@@ -10,18 +7,4 @@ export default function SidebarHeader({ $target, username }) {
   };
 
   this.render();
-
-  new DocumentAddButton({
-    $target: $sidebarHeader,
-    onAdd: async () => {
-      console.log("add!");
-      await request("", {
-        method: "POST",
-        body: JSON.stringify({
-          title: "제목 없음",
-          parent: null,
-        }),
-      });
-    },
-  });
 }
