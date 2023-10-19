@@ -7,4 +7,16 @@ export default function Editor({ $target, initialState }) {
       <input type="text" placeholder="Untitled" name="title" />
       <textarea name="content"></textarea>
   `;
+
+  this.state = initialState;
+  this.setState = (nextState) => {
+    this.state = nextState;
+
+    this.render();
+  };
+
+  this.render = () => {
+    $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=content]").innerHTML = this.state.content;
+  };
 }

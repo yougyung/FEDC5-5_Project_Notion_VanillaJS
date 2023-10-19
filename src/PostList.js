@@ -1,4 +1,4 @@
-export default function PostList({ $target, initialState }) {
+export default function PostList({ $target, initialState, onPostClick }) {
   const $postList = document.createElement("ul");
   const $addPostWrapper = document.createElement("div");
   $addPostWrapper.innerHTML = `<button>문서생성!</button`;
@@ -48,6 +48,6 @@ export default function PostList({ $target, initialState }) {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
 
-    history.pushState(null, null, `/posts/${id}`);
+    onPostClick(id);
   });
 }

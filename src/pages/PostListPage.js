@@ -1,7 +1,7 @@
 import PostList from "../PostList.js";
 import { request } from "../api.js";
 
-export default function PostListPage({ $target, initialState }) {
+export default function PostListPage({ $target, initialState, onPostClick }) {
   const $header = document.createElement("h1");
   const $page = document.createElement("div");
   $page.classList.add("post-list-page");
@@ -19,7 +19,11 @@ export default function PostListPage({ $target, initialState }) {
     this.render();
   };
 
-  const postList = new PostList({ $target: $page, initialState: [] });
+  const postList = new PostList({
+    $target: $page,
+    initialState: [],
+    onPostClick,
+  });
 
   this.render = () => {};
   this.render();
