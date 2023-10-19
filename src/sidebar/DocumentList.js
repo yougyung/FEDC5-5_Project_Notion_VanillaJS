@@ -54,10 +54,12 @@ export default function DocumentList({ $target, initialState, onDelete }) {
     if (target.classList.contains("delete-button")) {
       onDelete(id);
     } else if (target.classList.contains("add-button")) {
+      // 하위 document 생성 로직
       const { id } = target;
 
       console.log("add!", id);
     } else if (target.className === "list-item") {
+      // document open 로직
       const document = await request(`${id}`);
 
       editor.setState(document);
