@@ -16,7 +16,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
 
   new SidebarHeader({
     $target: $sidebar,
-    username: "Roto",
+    username: "Judi",
   });
 
   const documentAddButton = new DocumentAddButton({
