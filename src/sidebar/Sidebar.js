@@ -33,6 +33,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
       documents: [],
       selectedDocumentId: this.state.selectedDocumentId,
     },
+    onAdd,
     onDelete,
   });
 

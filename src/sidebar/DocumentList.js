@@ -1,6 +1,11 @@
 import { push } from "../utils.js";
 
-export default function DocumentList({ $target, initialState, onDelete }) {
+export default function DocumentList({
+  $target,
+  initialState,
+  onAdd,
+  onDelete,
+}) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
 
@@ -19,7 +24,7 @@ export default function DocumentList({ $target, initialState, onDelete }) {
                     <li data-id="${id}" class="list-item" style="padding-left: ${
           depth * 10
         }px;">
-                      <span>${title ?? "제목 없음"}</span>
+                     ${title ?? "제목 없음"}
                       <div class="list-item-buttons">
                         <button class="delete-button" type="button">
                           <i class="fa-regular fa-trash-can delete-button"></i>
@@ -66,17 +71,17 @@ export default function DocumentList({ $target, initialState, onDelete }) {
       onDelete(id);
     } else if (target.classList.contains("add-button")) {
       // 하위 document 생성 로직
-      const { id } = target;
+      onAdd(id);
+    } else if (target.className === "list-item" && !isNaN(id)) {
+      // document 조회 로직
 
-      console.log("add!", id);
-    } else if (target.className === "list-item") {
-      // document open 로직
+      console.log(id);
       push(`${id}`);
 
-      this.setState({
-        ...this.state,
-        selectedDocumentId: id,
-      });
+      // this.setState({
+      //   ...this.state,
+      //   selectedDocumentId: id,
+      // });
     }
   });
 
