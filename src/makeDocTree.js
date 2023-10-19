@@ -1,18 +1,22 @@
-export function makeDocTree(root, depth, domTree) {
-  domTree += `
-  <div data-depth="${depth}" class="nav-document-container" style="padding-left: ${
-    5 + (depth - 1) * 10
-  }px">
-    <button class="nav-toggle-btn">▼</button>
-    <div class="nav-document" data-id="${root.id}">${root.title}</div>
-    <button data-id="${root.id}" class="nav-delete-btn">✖</button>
-    <button data-id="${root.id}" class="nav-plus-btn">➕</button>
-  </div>
-  `;
+export function makeDocTree(root, depth, domTree = []) {
+  root.forEach((child) => {
+    const dom = `
+    <div data-depth="${depth}" class="nav-document-container" style="padding-left: ${
+      5 + (depth - 1) * 10
+    }px">
+      <button class="nav-toggle-btn">▼</button>
+      <div class="nav-document" data-id="${child.id}">${child.title}</div>
+      <button data-id="${child.id}" class="nav-delete-btn">✖</button>
+      <button data-id="${child.id}" class="nav-plus-btn">➕</button>
+    </div>
+    `;
 
-  if (root.documents.length === 0) {
-    return domTree;
-  }
+    domTree.push(dom);
 
-  return makeDocTree(root.documents[0], depth + 1, domTree);
+    if (child.documents.length === 0) {
+      return domTree;
+    }
+
+    makeDocTree(child.documents, depth + 1, domTree);
+  });
 }
