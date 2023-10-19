@@ -1,6 +1,7 @@
 import { deletePage, insertPage, request, getPage, updatePage } from './API/API.js'
 import Menubar from './Components/Menubar/Menubar.js'
 import PageViewer from './Components/PageViewer/PageViewer.js'
+import { getStorage, removeStorage, setStorage } from './LocalStorage/LocalStorage.js'
 
 
 export default function App({ target }) {
@@ -11,11 +12,28 @@ export default function App({ target }) {
   appElement.setAttribute('class', 'app')
 
 
-  /* API 호출 */
+  /* PageList 호출 */
   const getPageList = async (url) => {
     const lists = await request(url)
     menubar.setState(lists)
   }
+
+  /* Page 호출후 local과 검사 */
+  const getChechkedPage = async (id) => {
+    const apiPage = await getPage(id)
+    const localPage = getStorage(id)
+
+    if (
+      localPage &&
+      localPage.updatedAt > apiPage.updatedAt &&
+      confirm("저장에 성공하지 못한 이전 내용이 존재합니다! 불러오시겠나요 ✏️")
+    ) {
+
+      return localPage
+    }
+    return apiPage
+  }
+
 
 
   /* 렌더링 */
@@ -29,6 +47,7 @@ export default function App({ target }) {
       if (params.delete) {
         await deletePage(id)
         getPageList('/documents')
+        // 보고있는 페이지를 삭제했다면?..
       }
 
       /* insert */
@@ -38,6 +57,7 @@ export default function App({ target }) {
           parent: id
         })
         getPageList('/documents')
+
         pageViewer.setState({
           ...newPage,
           content: '',
@@ -47,15 +67,15 @@ export default function App({ target }) {
 
       /* link */
       if (params.link) {
-        const page = await getPage(id)
+        const page = await getChechkedPage(id)
         pageViewer.setState(page)
       }
-
     }
   })
 
-
+  // 디바운드를 위한 timer
   let timer = null
+
   const pageViewer = new PageViewer({
     target: appElement,
     state: {
@@ -63,20 +83,26 @@ export default function App({ target }) {
       content: '컨텐츠 란!',
       documents: []
     },
-    onEditing: (params) => {
 
+    onEditing: (params) => {
+      const { id } = params
+      setStorage(params)
 
       if (timer !== null) {
         clearTimeout(timer)
       }
       timer = setTimeout(async () => {
-        updatePage(params)
-        /* Promise 이슈 해결해야함!! */
+        const res = await updatePage(params)
 
-        // const page = await getPage(params.id)
-        // pageViewer.setState(page)
-        // console.log(page)
-      }, 2000)
+        // 정상 응답에 대한 조건
+        if (res.id === id) {
+          removeStorage(id)
+        }
+
+        await getPageList('/documents')
+        const page = await getChechkedPage(id)
+        pageViewer.setState(page)
+      }, 1300)
     }
   })
 

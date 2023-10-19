@@ -50,7 +50,9 @@ export default function Editor({ target, state, onEditing }) {
       const newState = {
         id: this.state.id,
         title: titleState,
-        content: contentState
+        content: contentState,
+        createdAt: this.state.createdAt,
+        updatedAt: this.state.updatedAt
       }
       onEditing(newState)
     }
