@@ -1,3 +1,4 @@
+import { initRouter } from '../Util/router.js';
 import RootPage from '../Page/RootPage.js';
 
 // state = { currentUser : "..." }
@@ -16,7 +17,8 @@ export default class App {
     }
 
     init() {
-        this.rootPage.render();
+        initRouter();
+        this.router();
     }
 
     setState(nextState) {
@@ -24,5 +26,22 @@ export default class App {
 
         this.state = { currentUser };
         this.rootPage.setState(nextState);
+    }
+
+    router() {
+        const { pathname } = window.location;
+
+        this.$target.replaceChildren();
+
+        if(pathname === "index.html" || "/") {
+            this.rootPage.render();
+        }
+        else if(pathname.includes("/document")) {
+            const postId = pathname.split("/")[2];
+
+        }
+        else {
+            this.rootPage.render();
+        }
     }
 }

@@ -35,14 +35,14 @@ export default class DocumentList {
         const { target, target: { className } } = e;
 
         // document 추가 이벤트
-        if(className === "document__buttons__insert") {
+        if(className === "document__buttons--insert") {
             const currentId = target.closest(".document__item").dataset.id;
 
             this.onClickPost(currentId);
         }
 
         // document 삭제 이벤트
-        if(className === "document__buttons__delete") {
+        if(className === "document__buttons--delete") {
             const currentId = target.closest(".document__item").dataset.id;
 
             this.onClickDelete(currentId);

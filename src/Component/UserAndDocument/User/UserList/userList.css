@@ -1,14 +1,17 @@
 .user-items {
-    height: 200px;
+    height: 12em;
     padding: 1em;
     margin: 2em 0 2em 0;
     border: 1px solid var(--gray);
     border-radius: 5px;
 
+    display: flex;
+    flex-direction: column;
+
     overflow-y: scroll;
 }
 
-.user-items > .user-item {
+.user-items > .user-item, .user-item--current {
     display: flex;
     justify-content: space-between;
     padding: 0.5em;
@@ -18,13 +21,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    flex-shrink: 0;
 }
 .user-items > .user-item:hover {
     background-color: var(--gray);
 }
 
-
-
-.user-items > .user-item > .user-item__name--current {
+.user-items > .user-item--current {
+    order: -1;
+}
+.user-items > .user-item--current > span {
     color: var(--main);
+}
+
+.user-items > .user-item > .user-item__button {
+
 }

@@ -1,0 +1,8 @@
+.title-and-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-and-form > .title-and-form__title {
+    color: var(--main);
+}
