@@ -28,7 +28,7 @@ export default class UserForm {
     }
 
     setState(nextState) {
-        setItem(CURRENT_USER_KEY, this.state.currentUser);
+        setItem(CURRENT_USER_KEY, nextState.currentUser);
         this.state = nextState;
         this.render();
     }
@@ -37,6 +37,6 @@ export default class UserForm {
         const { currentUser } = this.state;
         const $name = this.$nameAndForm.querySelector(".name-and-form__name");
 
-        $name.innerText = `${currentUser ? `${currentUser}님의 Notion` : "사용자를 등록해주세요"}`;
+        $name.innerText = `${currentUser ? `${currentUser}님` : "사용자 없음"}`;
     }
 }

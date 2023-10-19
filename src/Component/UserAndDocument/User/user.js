@@ -74,6 +74,9 @@ export default class User {
             const { currentUser, userList } = this.state;
             const name = target.name.value;
 
+            if(name.length > 10) {
+                return alert("10자 이내로 작성해주세요.")
+            }
             if(!name) {
                 return alert("이름을 입력해주세요.");
             }

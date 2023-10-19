@@ -1,0 +1,19 @@
+@import url(./reset.css);
+@import url(/src/Component/UserAndDocument/UserAndDocument.css);
+@import url(/src//Component/UserAndDocument/User/user.css);
+@import url(/src/Component/UserAndDocument/User/UserForm/userForm.css);
+@import url(/src//Component/UserAndDocument/User/UserList/userList.css);
+
+:root {
+    --main: #FF6701;
+    --black: #000000;
+    --gray: #EBEBEB;
+}
+
+#app, .wrap {
+    height: 100vh;
+}
+
+.document-items {
+    padding-left: 40px;
+}

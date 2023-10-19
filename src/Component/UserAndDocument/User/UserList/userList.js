@@ -22,7 +22,7 @@ export default class UserList {
         const $fragment = document.createDocumentFragment();
 
         this.$ul.replaceChildren();
-
+        console.log(currentUser, userList)
         userList?.forEach(userName => {
             const $li = createNewElement("li", [{ property: "className", value: "user-item"}, { property: "dataset.name", value: userName }]);
             const $name = createNewElement("span", [{ property: "className", value: `${currentUser === userName ? "user-item__name--current" : "user-item__name"}` }], userName);
@@ -37,7 +37,8 @@ export default class UserList {
     }
 
     setState(nextState) {
-        setItem(USER_LIST_KEY, [...this.state.userList]);
+        console.log(nextState)
+        setItem(USER_LIST_KEY, nextState.userList);
         this.state = nextState;
         this.render();
     }

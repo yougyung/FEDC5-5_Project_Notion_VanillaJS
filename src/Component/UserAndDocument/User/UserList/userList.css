@@ -1,0 +1,30 @@
+.user-items {
+    height: 200px;
+    padding: 1em;
+    margin: 2em 0 2em 0;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+
+    overflow-y: scroll;
+}
+
+.user-items > .user-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+    border-radius: 5px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+.user-items > .user-item:hover {
+    background-color: var(--gray);
+}
+
+
+
+.user-items > .user-item > .user-item__name--current {
+    color: var(--main);
+}

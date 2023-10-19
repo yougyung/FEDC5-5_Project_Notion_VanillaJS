@@ -1,0 +1,8 @@
+.user-and-document {
+    width: 25%;
+    height: 100%;
+
+    padding: 2em;
+
+    border-right: 2px solid var(--gray);
+}
