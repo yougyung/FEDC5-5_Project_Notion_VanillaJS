@@ -4,6 +4,7 @@ import { push } from "./router.js";
 export default function DocumentList({
   $target,
   initialState = { selectedDocument: null, documentList: [] },
+  onToggle,
 }) {
   const $div = document.createElement("div");
 
@@ -19,22 +20,32 @@ export default function DocumentList({
   //하위 요소를 모두 탐색해서 저장하고 출력하는 함수
   const documentDepth = (list, depth, arr) => {
     for (let i = 0; i < list.length; i++) {
-      const { id, title, documents } = list[i];
+      const { id, title, documents, isToggle } = list[i];
       arr.push(
         `
-          <ul class="subDocument">
-            <li data-id="${id}" style="padding-left:${depth}px;">
-                <div>
-                    <a>${title}</a>
-                    <button class="rootDocumentCreateButton">+</button>
-                </div>
-            </li>
-        </ul>
-        `
+            <ul class="rootDocument">
+              <li class="rootDocument_data" data-id="${id}" style="padding-left:${depth}px;">
+                  <div class="documentHover">
+                      <div>
+                      <button class="documentToggleButton" data-istoggle="${isToggle}">></button>
+                        <a>${title}</a>
+                      </div>
+                        <div class="buttonGroup">
+                          <button class="documentDeleteButton">x</button>
+                          <button class="documentCreateButton">+</button>
+                        </div>
+                  </div>
+                  ${
+                    isToggle
+                      ? documents.length > 0
+                        ? documentDepth(documents, depth + 15, [])
+                        : "<div style>하위 문서 없음</div>"
+                      : ""
+                  }
+              </li>
+          </ul>
+          `
       );
-      if (documents) {
-        documentDepth(documents, depth + 15, arr);
-      }
     }
     return arr.join("");
   };
@@ -48,16 +59,29 @@ export default function DocumentList({
                   .map(
                     (doc) => `
                     <li data-id="${doc.id}" class="rootDocument_data">
-                        <div>
-                            <a>${doc.title}</a>
-                            <button class="rootDocumentCreateButton">+</button>
-                        </div>
                         
+                        <div class="documentHover">
+                            <div>
+                              <button class="documentToggleButton" data-istoggle="${
+                                doc.isToggle
+                              }">></button>
+                              <a>${doc.title}</a>
+                            </div>
+                          <div class="buttonGroup">
+                            <button class="documentDeleteButton">x</button>
+                            <button class="documentCreateButton">+</button>
+                          </div>
+                        </div>
+                        ${
+                          //doc.documents <- 이걸로만 검사했더니 true가 반환된다. 요렇게 해야함.->doc.documents.length > 0
+                          doc.isToggle
+                            ? doc.documents.length > 0
+                              ? documentDepth(doc.documents, 15, [])
+                              : "<div style>하위 문서 없음</div>"
+                            : ""
+                        }
                     </li>
-                            ${
-                              doc.documents &&
-                              documentDepth(doc.documents, 15, [])
-                            }
+                            
                         
                 `
                   )
@@ -80,23 +104,37 @@ export default function DocumentList({
         fetchPostDocument();
       } else {
         const { id } = $li.dataset;
-        if (e.target.className == "rootDocumentCreateButton") {
+
+        if (e.target.className == "documentCreateButton") {
           fetchPostDocument(id);
+        } else if (e.target.className == "documentDeleteButton") {
+          fetchDeleteDocument(id);
+        } else if (e.target.className == "documentToggleButton") {
+          const parent = e.target.closest(".rootDocument_data");
+          onToggle(parent.dataset.id, id);
+
+          push(`/documents/${id}`);
         } else {
           push(`/documents/${id}`);
         }
       }
     }
   });
+  const fetchDeleteDocument = async (id) => {
+    const DeletedDocument = await request(`/documents/${id}`, {
+      method: "DELETE",
+    });
+    push("/");
+  };
 
   const fetchPostDocument = async (id) => {
-    const createdSubDocument = await request(`/documents`, {
+    const createdDocument = await request(`/documents`, {
       method: "POST",
       body: JSON.stringify({
         title: "새 문서",
         parent: id,
       }),
     });
-    push("/");
+    push(`/documents/${createdDocument.id}`);
   };
 }

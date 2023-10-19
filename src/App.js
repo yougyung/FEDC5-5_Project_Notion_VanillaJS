@@ -17,6 +17,7 @@ export default function App({ $target }) {
   //문서 리스트
   const documentListComponent = new DocumentListComponent({
     $target: $documentListDiv,
+    initialState: { toggleData: [] },
   });
 
   const documentEditComponent = new DocumentEditComponent({
@@ -38,15 +39,15 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
-
     documentListComponent.setState();
-    if (pathname.indexOf("/documents/") === 0) {
+    if (pathname === "/") {
+      $documentEditDiv.style.display = "none";
+    } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documnetId] = pathname.split("/");
       this.setState({ selectedDocument: documnetId });
       console.log(this.state);
-      $documentEditDiv.style.display = this.state.selectedDocument
-        ? "block"
-        : "none";
+      $documentEditDiv.style.display =
+        this.state.selectedDocument !== null ? "block" : "none";
       documentEditComponent.setState({ id: documnetId });
     }
   };

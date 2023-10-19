@@ -3,35 +3,36 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
 
   this.state = initialState;
 
+  $editor.innerHTML = `
+            <div class="editorDiv" >
+              <div contenteditable="true" name="title" placeholder="제목 없음">${
+                "### " + this.state.title
+              }</div>
+              <div contenteditable="true" name="content" style="display:block;width:600px;height:400px;padding:8px">${
+                this.state.content
+              }</div>
+            </div>
+          `;
+
   let isinitialize = false;
   $target.appendChild($editor);
   this.setState = (nextState) => {
     this.state = nextState;
-
-    $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").value = this.state.content;
-    this.render();
+    $editor.querySelector("[name=title]").innerHTML = this.state.title;
+    $editor.querySelector("[name=content]").innerHTML = this.state.content;
   };
 
-  this.render = () => {
-    if (!isinitialize) {
-      $editor.innerHTML = `
-            <input type="text" name="title" style="display:block;width:600px;" value=${this.state.title}>
-            <textarea name="content" style="display:block;width:600px;height:400px;border:1px solid black;padding:8px">${this.state.content}</textarea>
-          `;
-      isinitialize = true;
-    }
-  };
+  this.render = () => {};
 
   this.render();
 
-  $editor.addEventListener("keyup", (e) => {
+  $editor.addEventListener("input", (e) => {
     const { target } = e;
     const name = target.getAttribute("name");
     if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
-        [name]: target.value,
+        [name]: target.innerHTML,
       };
       this.setState(nextState);
       onEditing(this.state);

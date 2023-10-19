@@ -18,53 +18,87 @@ button {
   flex-basis: 300px;
   flex-grow: 0;
   flex-shrink: 0;
-  background-color: rgba(232, 246, 254, 0.751);
+  background-color: rgba(23, 35, 52);
+  color: white;
 }
 .rootDocument {
-  padding: 20px;
+  padding: 0px;
 }
 .subDocument li div {
   padding: 5px;
   display: flex;
+
   justify-content: space-between;
 }
 .rootDocument_data {
   padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .rootDocument_data div {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
-.rootDocumentCreateButton {
+.documentCreateButton {
+  display: none;
+  font-size: 25px;
+  text-align: center;
+  width: 20px;
+  border-radius: 5px;
+}
+.documentDeleteButton {
   display: none;
   width: 20px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 5px;
 }
+
 .rootDocumentCreateDiv {
   padding: 20px;
+}
+
+.documentToggleButton {
+  font-size: 20px;
+  text-align: center;
+  width: 20px;
+  border-radius: 5px;
+}
+.documentToggleButton {
+  color: white;
 }
 
 /*에디터 부분 스타일링 해야됨*/
 .documentEditDiv {
   width: 100%;
+  display: none;
+}
+.editorDiv {
+  padding-top: 100px;
+  padding-left: 100px;
 }
 
-.rootDocumentCreateButton:hover {
-  background-color: rgba(148, 162, 170, 0.722);
+.documentCreateButton:hover {
+  background-color: rgba(23, 35, 52, 0.757);
+}
+.documentDeleteButton:hover {
+  background-color: rgba(23, 35, 52, 0.757);
 }
 .rootDocumentCreateDiv:hover {
   cursor: pointer;
   background-color: rgba(203, 220, 230, 0.722);
 }
 
-.rootDocument li:hover {
+.documentHover:hover {
   cursor: pointer;
   background-color: rgba(203, 220, 230, 0.722);
 }
-.rootDocument li:hover > div .rootDocumentCreateButton {
+.documentHover:hover > .buttonGroup .documentCreateButton,
+.documentHover:hover > .buttonGroup .documentDeleteButton {
   display: block;
 }
-
-.subDocument li div:hover {
-  cursor: pointer;
-  background-color: rgba(203, 220, 230, 0.722);
+.documentToggleButton:hover {
+  background-color: rgba(23, 35, 52, 0.757);
 }

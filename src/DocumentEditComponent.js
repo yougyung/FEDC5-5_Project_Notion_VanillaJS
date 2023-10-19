@@ -9,7 +9,9 @@ export default function DocumentEditComponent({
   const $page = document.createElement("div");
 
   this.state = initialState;
+
   $target.appendChild($page);
+
   this.setState = async (nextState) => {
     if (this.state.id !== nextState.id) {
       //1. 먼저 받아온 아이디를 상태에 저장
