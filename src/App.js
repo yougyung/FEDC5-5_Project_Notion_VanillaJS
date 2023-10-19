@@ -4,11 +4,12 @@ import { request, initRouter, push, getItem, removeItem } from "./utils.js";
 
 export default function App({ $target }) {
   const onAdd = async (id) => {
+    console.log(typeof id);
     try {
       if (id === "new") {
         push("new");
 
-        const createDocument = await request("", {
+        const { id: newRootId } = await request("", {
           method: "POST",
           body: JSON.stringify({
             title: "",
@@ -16,49 +17,54 @@ export default function App({ $target }) {
           }),
         });
 
-        history.replaceState(null, null, `${createDocument.id}`);
+        console.log(newRootId);
+        history.replaceState(null, null, `${newRootId}`);
 
-        documentEditPage.setState({ documentId: createDocument.id });
+        documentEditPage.setState({ documentId: newRootId });
 
         sidebar.setState({
-          selectedId: parseInt(createDocument.id),
+          ...sidebar.state,
+          selectedDocumentId: parseInt(newRootId),
+        });
+      } else if (typeof id === "number") {
+        push(`${id}`);
+
+        const { id: newSubId, ...newSubDocument } = await request("", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "",
+            parent: id,
+          }),
+        });
+
+        console.log("sidebar 상태변경:", sidebar.state);
+
+        history.replaceState(null, null, `${newSubId}`);
+
+        documentEditPage.setState({
+          documentId: newSubId,
+          document: newSubDocument,
+        });
+
+        const documents = await request("");
+
+        sidebar.setState({
+          ...this.state,
+          documents,
         });
       }
-
-      if (isNaN(id) || typeof id === "string") {
-        throw new Error("접근 가능한 id가 아닙니다.");
-      }
-
-      console.log(id);
-      push(`${id}`);
-
-      const createSubDocument = await request("", {
-        method: "POST",
-        body: JSON.stringify({
-          title: "",
-          parent: id,
-        }),
-      });
-
-      console.log(createSubDocument);
-
-      // history.replaceState(null, null, `${createdDocument.id}`);
-      // removeItem("new-parent");
-
-      documentEditPage.setState({ documentId: createSubDocument.id });
-
-      sidebar.render();
     } catch (error) {
       console.log(error);
     }
   };
 
   const onDelete = async (id) => {
+    console.log(id, ": 삭제 요청");
     try {
       await request(`${id}`, {
         method: "DELETE",
       });
-      console.log(id, ": 삭제 완료");
+      // console.log(id, ": 삭제 완료");
 
       documentEditPage.setState({
         documentId: "new",
@@ -79,6 +85,7 @@ export default function App({ $target }) {
   const sidebar = new Sidebar({
     $target,
     initialState: {
+      documents: [],
       selectedDocumentId: null,
     },
     onAdd,
@@ -112,7 +119,8 @@ export default function App({ $target }) {
 
       if (!isNaN(documentId)) {
         sidebar.setState({
-          selectedId: parseInt(documentId),
+          ...sidebar.state,
+          selectedDocumentId: parseInt(documentId),
         });
       }
     }
