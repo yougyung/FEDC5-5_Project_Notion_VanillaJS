@@ -5,7 +5,7 @@ import { USER_LIST_KEY, getItem } from '../../Store/localStroage.js'
 
 // state = { currentUser : "..." }
 
-export default class UserAndDocument {
+export default class Sidebar {
     constructor({ $target, initalState, setUser }) {
         this.$target = $target;
         this.state = initalState;

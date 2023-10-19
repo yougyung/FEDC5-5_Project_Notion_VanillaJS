@@ -1,4 +1,4 @@
-import UserAndDocument from '../Component/UserAndDocument/UserAndDocument.js';
+import SideBar from '../Component/Sidebar/sidebar.js'
 import { createNewElement } from '../Util/element.js';
 
 // state = { currentUser : "..." }
@@ -21,7 +21,7 @@ export default class RootPage {
         const $page = createNewElement("div", [{ property: "className", value: "wrap" }]);
 
         this.$target.appendChild($page);
-        this.userAndDocument = new UserAndDocument({ 
+        this.userAndDocument = new SideBar({ 
             $target: $page, 
             initalState: { ...this.state } ,
             setUser: this.setUser,

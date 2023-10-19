@@ -1,13 +1,14 @@
 @import url(./reset.css);
-@import url(/src/Component/UserAndDocument/UserAndDocument.css);
-@import url(/src//Component/UserAndDocument/User/user.css);
-@import url(/src/Component/UserAndDocument/User/UserForm/userForm.css);
-@import url(/src//Component/UserAndDocument/User/UserList/userList.css);
-@import url(/src/Component/UserAndDocument/Document/document.css);
-@import url(/src/Component/UserAndDocument/Document/DocumentForm/documentForm.css);
-@import url(/src/Component/UserAndDocument/Document/DocumentList/documentList.css);
-@import url(/src/Component/UserAndDocument/Document/DocumentList/DocumentItems/documentItems.css);
-@import url(/src/Component/UserAndDocument/Document/DocumentList/DocumentItems/DocumentItem/documentitem.css);
+@import url(/src/Component/Sidebar/sidebar.css);
+@import url(/src//Component/Sidebar/User/user.css);
+@import url(/src/Component/Sidebar/User/UserForm/userForm.css);
+@import url(/src//Component/Sidebar/User/UserList/userList.css);
+@import url(/src/Component/Sidebar/Document/document.css);
+@import url(/src/Component/Sidebar/Document/DocumentForm/documentForm.css);
+@import url(/src/Component/Sidebar/Document/DocumentList/documentList.css);
+@import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/documentItems.css);
+@import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItem/documentitem.css);
+
 :root {
     --main: #FF6701;
     --black: #000000;
