@@ -1,20 +1,48 @@
-const ROUTE_CHANGE_EVENT_NAME = 'route-change';
+// $taget = 자식 노드로 추가할 타겟
+// pages = 모든 페이지 목록
 
-export const initRouter = (onRoute) => {
-    window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
-        const { nextUrl } = e.detail;
+export default class Router {
+    static instance = null;
+    pages = [];
 
-        if (nextUrl) {
-            history.pushState(null, null, nextUrl);
-            onRoute();
+    static getInstance() {
+        if (!Router.instance) {
+            Router.instance = new Router();
         }
-    });
-};
+        return Router.instance;
+    }
 
-export const push = (nextUrl) => {
-    window.dispatchEvent(
-        new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
-            detail: { nextUrl },
-        })
-    );
-};
+    constructor() {
+        if (Router.instance) {
+            return Router.instance;
+        }
+
+        window.onpopstate = () => this.routeUrl();
+    }
+
+    setPages(pages) {
+        this.pages = pages;
+        this.routeUrl();
+    }
+
+    changeUrl(url) {
+        history.pushState(null, null, url);
+        this.routeUrl();
+    }
+
+    routeUrl() {
+        const { pathname } = window.location;
+        const [rootPage] = this.pages;
+
+        if (pathname === '/index.html' || pathname === '/') {
+            rootPage.render();
+        } else if (pathname.indexOf('/document') === 0) {
+            const documnetId = pathname.split('/')[2];
+
+            console.log(documnetId);
+            //postEditPage.setState({ postId });
+        } else {
+            rootPage.render();
+        }
+    }
+}

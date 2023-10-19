@@ -9,8 +9,6 @@ export default class User {
         this.$target = $target;
         this.state = initalState;
         this.setUser = setUser;
-        this.userForm = null;
-        this.userList = null;
         this.$user = createNewElement('div', [{ property: 'className', value: 'user' }]);
 
         this.init();

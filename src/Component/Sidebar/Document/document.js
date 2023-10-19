@@ -10,8 +10,6 @@ export default class Document {
         this.$target = $target;
         this.state = initalState;
         this.$document = createNewElement('div', [{ property: 'className', value: 'document' }]);
-        this.documentForm = null;
-        this.documentList = null;
 
         this.init();
     }

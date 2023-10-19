@@ -1,6 +1,6 @@
-import { createNewElement } from '../../../../Util/element.js';
 import DocumentItems from './DocumentItems/documentItems.js';
-
+import { createNewElement } from '../../../../Util/element.js';
+import Router from '../../../../Util/router.js';
 // state = { currentUser : "...", documentList: [] }
 export default class DocumentList {
     constructor({ $target, initalState, onClickPost, onClickDelete }) {
@@ -53,8 +53,9 @@ export default class DocumentList {
 
         if (className === 'title-and-buttons__title') {
             const documentId = target.closest('.document__item').dataset.id;
+            const router = Router.getInstance();
 
-            history.pushState(null, null, `/document${documentId}`);
+            router.changeUrl(`/document/${documentId}`);
         }
     }
 }

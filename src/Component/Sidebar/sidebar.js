@@ -10,8 +10,6 @@ export default class Sidebar {
         this.$target = $target;
         this.state = initalState;
         this.setUser = setUser;
-        this.user = null;
-        this.document = null;
 
         this.init();
     }

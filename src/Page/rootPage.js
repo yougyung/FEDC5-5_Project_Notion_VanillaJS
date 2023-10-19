@@ -8,12 +8,7 @@ export default class RootPage {
         this.$target = $target;
         this.state = initalState;
         this.setUser = setUser;
-        this.sideBar = null;
-
-        this.init();
     }
-
-    init() {}
 
     render() {
         const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
