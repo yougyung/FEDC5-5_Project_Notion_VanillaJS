@@ -1,5 +1,5 @@
-import { request } from "../utils/api.js";
 import Editor from "../textEditor/Editor.js";
+import { request } from "../utils/api.js";
 
 export default function DocumentList({ $target, initialState, onDelete }) {
   const $documentList = document.createElement("section");
@@ -64,7 +64,6 @@ export default function DocumentList({ $target, initialState, onDelete }) {
 
       editor.setState(document);
     }
-    console.log(target.classList);
   });
 
   this.render();
