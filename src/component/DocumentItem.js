@@ -39,7 +39,6 @@ export default function DocumentItem({
       deleteDocument(id);
     }
     if (e.target.tagName === "SPAN") {
-      console.log(e.target);
       push(`/documents/${id}`);
     }
   });
