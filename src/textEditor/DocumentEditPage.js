@@ -5,8 +5,6 @@ export default function DocumentEditPage({ $target, initialState, onEditing }) {
   const $documentEditPage = document.createElement("section");
   this.state = initialState;
 
-  console.log(this.state.documentId);
-
   const fetchDocument = async () => {
     const { title, content } = await request(`${this.state.documentId}`);
     editor.setState({
