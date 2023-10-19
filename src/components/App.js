@@ -1,4 +1,4 @@
-import { initRouter } from './util/router.js';
+import { initRouter } from '../util/router.js';
 
 export default function App({ $target }) {
   this.route = () => {
