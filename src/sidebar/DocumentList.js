@@ -11,13 +11,15 @@ export default function DocumentList({ $target, initialState, onDelete }) {
     this.render();
   };
 
-  const renderList = (nextDocuments) => `
+  const renderList = (nextDocuments, depth) => `
     ${nextDocuments
       .map(
         ({ id, title, documents }) => `
                   <ul>
-                    <li data-id="${id}" class="list-item">
-                      <p>${title ?? "제목 없음"}</p>
+                    <li data-id="${id}" class="list-item" style="padding-left: ${
+          depth * 10
+        }px;">
+                      <span>${title ?? "제목 없음"}</span>
                       <div class="list-item-buttons">
                         <button class="delete-button" type="button">
                           <i class="fa-regular fa-trash-can delete-button"></i>
@@ -30,8 +32,12 @@ export default function DocumentList({ $target, initialState, onDelete }) {
                       <li>
                       ${
                         documents.length === 0
-                          ? "하위 페이지 없음"
-                          : renderList(documents)
+                          ? `<li class="list-item" style="padding-left: ${
+                              (depth + 2) * 10
+                            }px;">
+                               하위 페이지 없음
+                              </li>`
+                          : renderList(documents, depth + 2)
                       }
                       </li>
                     </ul>
@@ -43,7 +49,7 @@ export default function DocumentList({ $target, initialState, onDelete }) {
   this.render = () => {
     const { documents } = this.state;
     $documentList.innerHTML = `
-           ${documents.length > 0 ? renderList(documents) : ""}
+           ${documents.length > 0 ? renderList(documents, 1) : ""}
         `;
   };
 
