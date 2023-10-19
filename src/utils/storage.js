@@ -6,10 +6,6 @@ export const localStorageGetItem = (key, defaultValue) => {
     return defaultValue;
   }
 };
-export const localStorageSetIsOpen = (isOpen, value) => {
-  const newIsOpen = [...isOpen, value];
-  localStorage.setItem("isOpen", JSON.stringify(newIsOpen));
-};
 export const localStorageSetItem = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };

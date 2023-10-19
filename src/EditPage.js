@@ -11,12 +11,33 @@ export default function EditPage({ $target, initialState }) {
 
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
 
+  let timer = null;
+
   const editor = new Editor({
     $target,
     initialState: { title: "", content: "" },
-    onEditing: (nextState) => {
-      localStorageSetItem(DOC_TMP_KEY, nextState);
-      console.log(nextState);
+    onEditing: async (nextState) => {
+      // console.log(nextState);
+
+      // 디바운스
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        localStorageSetItem(DOC_TMP_KEY, {
+          ...nextState,
+          updatedAt: new Date(),
+        });
+      }, 1000);
+
+      // const res = await request(`/documents/${nextState.id}`, {
+      //   method: "PUT",
+      //   body: JSON.stringify({
+      //     title: nextState.title,
+      //     content: nextState.content,
+      //   }),
+      // });
+      // console.log(res);
     },
   });
 
