@@ -1,22 +1,46 @@
 import EditPage from './EditPage.js';
 import SideNav from './SideNav.js';
-import { DUMMY_DATA, request } from './api.js';
+import { request } from './api.js';
+import { addStorage, getStorage } from './storage.js';
 
 export default function App({ $target }) {
-  // this.state = []
+  // 상태 관리
+  this.state = {
+    docsTree: [],
+    selectedDoc: {
+      ...getStorage('selectedDoc', null),
+    },
+  };
 
-  // this.setState = (nextState) => {
-  //   this.state = nextState
+  this.setState = (nextState) => {
+    this.state = nextState;
 
-  //   sideNav.setState()
-  //   this.render()
-  // }
+    sideNav.setState(nextState);
+    editPage.setState(nextState);
+
+    this.render();
+  };
 
   this.render = () => {};
 
+  // 전체 DocTree 가져오기
+  const fetchDocTree = async () => {
+    const docs = await request('/documents', {
+      method: 'GET',
+    });
+
+    this.setState({
+      ...this.state,
+      docsTree: docs,
+    });
+  };
+
+  fetchDocTree();
+  // 사이드 네비바
   const sideNav = new SideNav({
     $target,
-    initialState: [],
+    initialState: this.state,
+    // 추가 버튼
     onClickPlusBtn: async (id) => {
       const newDoc = await request(`/documents`, {
         method: 'POST',
@@ -32,21 +56,34 @@ export default function App({ $target }) {
       await request(`/documents/${newDoc.id}`, {
         method: 'PUT',
         body: JSON.stringify({
-          title: `${newDoc.id}`,
-          content: '',
+          title: `${newDoc.id}의 title`,
+          content: `${newDoc.id}의 content`,
         }),
       });
 
-      sideNav.fetchDocTree();
+      fetchDocTree();
     },
+    // 삭제 버튼
     onClickDeleteBtn: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
       });
 
-      sideNav.fetchDocTree();
+      fetchDocTree();
+    },
+    // 문서 클릭
+    onClickDoc: async (id) => {
+      const doc = await request(`/documents/${id}`, {
+        method: 'GET',
+      });
+
+      addStorage('selectedDoc', doc);
+      this.setState({
+        ...this.state,
+        selectedDoc: doc,
+      });
     },
   });
 
-  new EditPage({ $target, initialState: DUMMY_DATA });
+  const editPage = new EditPage({ $target, initialState: this.state });
 }

@@ -1,4 +1,3 @@
-import { request } from './api.js';
 import { makeDocTree } from './makeDocTree.js';
 
 export default function SideNav({
@@ -6,6 +5,7 @@ export default function SideNav({
   initialState,
   onClickPlusBtn,
   onClickDeleteBtn,
+  onClickDoc,
 }) {
   const $sideNav = document.createElement('nav');
   $sideNav.className = 'nav-container';
@@ -22,40 +22,31 @@ export default function SideNav({
 
   this.state = initialState;
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     this.state = nextState;
+
     this.render();
   };
 
-  this.render = async () => {
+  this.render = () => {
     $navHeader.innerHTML = `
     <div class="nav-header-title">개인 페이지</div>
     <button data-id="root" class="nav-plus-btn">➕</button>
     `;
 
-    let docList = ``;
+    let docList = [];
 
-    this.state.map((document) => {
-      docList = makeDocTree(document, 1, docList);
-    });
+    makeDocTree(this.state.docsTree, 1, docList);
 
-    $navDocuments.innerHTML = docList;
+    const joinDoc = docList.join('');
+
+    $navDocuments.innerHTML = joinDoc;
   };
 
   this.render();
 
-  this.fetchDocTree = async () => {
-    const docs = await request('/documents', {
-      method: 'GET',
-    });
-
-    this.setState(docs);
-  };
-
-  this.fetchDocTree();
-
-  // onClickButton
-  $sideNav.addEventListener('click', (e) => {
+  // onClickPlusBtn & onClickDeleteBtn & onClickDoc
+  $sideNav.addEventListener('click', async (e) => {
     const { className, dataset } = e.target;
 
     if (className === 'nav-plus-btn') {
@@ -64,6 +55,10 @@ export default function SideNav({
 
     if (className === 'nav-delete-btn') {
       onClickDeleteBtn(dataset.id);
+    }
+
+    if (className === 'nav-document') {
+      onClickDoc(dataset.id);
     }
   });
 }
