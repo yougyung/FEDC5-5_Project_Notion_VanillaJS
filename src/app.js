@@ -52,7 +52,7 @@ export default function App({ $target }) {
     ],
   });
 
-  // 초기 렌더링 시 실행되는 코드
+  // x-username에 해당하는 전체 문서 불러오는 API request function
   const fetchRootDocs = async () => {
     const rootDocsRespond = await request(`/documents`);
     // console.log(rootDocsRespond);
@@ -86,6 +86,8 @@ export default function App({ $target }) {
     if (pathname === "/") {
       // 루트인 경우
       await fetchRootDocs();
+      history.pushState(null, null, `/documents/${this.state[0].id}`);
+
       // console.log(this.state);
       // 일단 루트의 id를 입력하고 나중에는 localStorage로 마지막에 봤던 페이지를 출력해주자
       await fetchSelectedDocs(this.state[0].id); //localstorage에서 뭔가를 해보자
@@ -104,6 +106,6 @@ export default function App({ $target }) {
       `;
     }
   };
-
+  window.addEventListener("popstate", () => this.route());
   this.route();
 }
