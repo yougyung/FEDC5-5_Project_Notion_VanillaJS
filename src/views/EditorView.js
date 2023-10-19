@@ -5,7 +5,6 @@ import EditorHeader from "../components/editor/EditorHeader.js";
 import { _GET, _POST, _PUT } from "../api/api.js";
 import { NEW_DOCUMENT_INIT_ID } from "../utils/constants.js";
 import { useDocument } from "../utils/store.js";
-import { MOCK_DOC_DATA } from "../mockdata.js";
 
 const DocumentProps = {
   id: "string",
@@ -38,6 +37,7 @@ export default function EditorView({ $parent, initState }) {
   $component.classList.add("view");
 
   let timer = null;
+  let isCreate = false;
 
   // COMPONENTS =========================================================== //
   const editorHeader = new EditorHeader({ $parent: $component });
@@ -52,19 +52,24 @@ export default function EditorView({ $parent, initState }) {
       // 그 후 새로운 setTimeout 을 실행시켜줌
       timer = setTimeout(async () => {
         // setItem(postLocalSaveKey, { ...post, tempSaveDate: new Date() });
-
         const isNew = this.state.documentId === NEW_DOCUMENT_INIT_ID;
         if (isNew) {
           const createdDocument = await _POST("documents", {
             title: data.title,
             parent: this.state.documentParentId,
           });
+          // content 데이터 보정 - API body 에 content 가 포함되지 않기 때문에
+          isCreate = true;
+          createdDocument["content"] = data.content;
 
           history.replaceState(null, null, `/documents/${createdDocument.id}`);
           // removeItem(postLocalSaveKey);
-          this.setState({ documentId: createdDocument.id });
+          this.setState({
+            documentId: createdDocument.id,
+            documentData: createdDocument,
+          });
+          // useDocument.setState({ title: data.title, content: data.content });
         } else {
-          console.log(data);
           await _PUT(`documents/${data.id}`, {
             title: data.title,
             content: data.content,
@@ -101,9 +106,7 @@ export default function EditorView({ $parent, initState }) {
         });
 
         editorBottom.setState({ childDocuments: [] });
-
-        this.render();
-        return;
+        // this.render();
       } else {
         // 이전에 보던 경로와 다른 경우
         // 새 document fetch -> 다시 setState 호출
@@ -133,18 +136,23 @@ export default function EditorView({ $parent, initState }) {
 
   // API CALL =========================================================== //
   const fetchDocument = async () => {
-    const { documentId } = this.state;
+    const { documentId, documentData } = this.state;
 
     if (documentId !== "new") {
-      const documentData = await _GET(`documents/${documentId}`);
-      // const documentData = MOCK_DOC_DATA;
+      const fethedData = await _GET(`documents/${documentId}`);
 
-      this.setState({ ...this.state, documentData });
+      // content 데이터 보정 - API body 에 content 가 포함되지 않기 때문에
+      if (isCreate && documentData.content?.length > 0) {
+        fethedData.content = documentData.content;
+        isCreate = false;
+      }
+
+      this.setState({ ...this.state, documentData: fethedData });
 
       useDocument.setState({
-        id: documentData.id,
-        title: documentData.title,
-        content: documentData.content,
+        id: fethedData.id,
+        title: fethedData.title,
+        content: fethedData.content,
       });
     }
   };

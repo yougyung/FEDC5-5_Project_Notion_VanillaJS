@@ -1,5 +1,6 @@
 import calcHeight from "../../utils/calcTextareaHeight.js";
 
+import { NEW_DOCUMENT_INIT_ID } from "../../utils/constants.js";
 import { useDocument } from "../../utils/store.js";
 
 const EditorPtops = {
@@ -31,6 +32,11 @@ export default function Editor({
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
     this.render();
+
+    if (this.state.id !== NEW_DOCUMENT_INIT_ID) {
+      const $textarea = $component.querySelector("[name=content]");
+      $textarea.focus();
+    }
   };
 
   this.render = () => {
@@ -38,6 +44,16 @@ export default function Editor({
     $component.querySelector("[name=content]").value = this.state.content;
   };
   this.render();
+
+  $component
+    .querySelector("[name=title]")
+    .addEventListener("keyup", (event) => {
+      const nextState = {
+        title: event.target.value,
+      };
+      useDocument.setState(nextState);
+      onEditing(useDocument.state);
+    });
 
   const $textarea = $component.querySelector("[name=content]");
   $textarea?.addEventListener("keydown", () => {
@@ -52,15 +68,4 @@ export default function Editor({
     useDocument.setState(nextState);
     onEditing(useDocument.state);
   });
-
-  $component
-    .querySelector("[name=title]")
-    .addEventListener("keyup", (event) => {
-      const nextState = {
-        title: event.target.value,
-      };
-      useDocument.setState(nextState);
-      // console.log(useDocument.state);
-      onEditing(useDocument.state);
-    });
 }

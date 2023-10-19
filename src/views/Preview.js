@@ -25,7 +25,6 @@ export default function PreView({ $parent, initState }) {
   };
 
   this.render = () => {
-    console.log(useDocument.state);
     // subscriber 최초 등록시 발생하는 랜더링 블로킹
     if (!this.state) return;
 
