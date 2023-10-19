@@ -1,4 +1,3 @@
-import { DUMMY_DATA } from "../dummyData.js";
 import { request } from "../utils.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 import DocumentList from "./DocumentList.js";
@@ -31,7 +30,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const documentList = new DocumentList({
     $target: $sidebar,
     initialState: {
-      documents: DUMMY_DATA,
+      documents: [],
       selectedDocumentId: this.state.selectedDocumentId,
     },
     onDelete,
@@ -40,7 +39,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   this.render = async () => {
     const documents = await request("");
     documentList.setState({
-      documents: DUMMY_DATA,
+      documents,
       selectedDocumentId: this.state.selectedDocumentId,
     });
   };
