@@ -10,7 +10,7 @@ export default function PostViewPage({ $target, initialState }) {
   /* 
     {
       id: num || "new"
-      posts: {
+      post: {
         title: string,
         content: string,
       }
@@ -24,30 +24,42 @@ export default function PostViewPage({ $target, initialState }) {
     this.render();
   };
 
+  let timer = null;
+
   const editor = new Editor({
     $target: $page,
     initialState,
-    onEditing: async (post) => {
-      const isNew = this.state.id === "new";
-      if (isNew) {
-        const createdPost = await request(`/documents`, {
-          method: "POST",
-          body: JSON.stringify({
-            title: post.title,
-            parent: null,
-          }),
-        });
-        history.replaceState(null, null, `/posts/${createdPost.id}`);
-        this.setState({ ...this.state, id: createdPost.id });
-      } else {
-        await request(`/documents/${this.state.id}`, {
-          method: "PUT",
-          body: JSON.stringify({
-            title: post.title,
-            content: post.content,
-          }),
-        });
-      }
+    onEditing: (post) => {
+      if (timer !== null) clearTimeout(timer);
+
+      timer = setTimeout(async () => {
+        const isNew = this.state.id === "new";
+        if (isNew) {
+          const createdPost = await request(`/documents`, {
+            method: "POST",
+            body: JSON.stringify({
+              title: post.title,
+              parent: null,
+            }),
+          });
+          history.replaceState(null, null, `/posts/${createdPost.id}`);
+          this.setState({
+            id: createdPost.id,
+            post: {
+              title: createdPost.title,
+              content: createdPost.content,
+            },
+          });
+        } else {
+          await request(`/documents/${this.state.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              title: post.title,
+              content: post.content,
+            }),
+          });
+        }
+      }, 2000);
     },
   });
 
