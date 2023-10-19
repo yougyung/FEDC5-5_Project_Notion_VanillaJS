@@ -1,19 +1,6 @@
-import Editor from "../textEditor/Editor.js";
-import { request } from "../utils/api.js";
-
 export default function DocumentList({ $target, initialState, onDelete }) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
-
-  const $app = document.querySelector("#app");
-
-  const editor = new Editor({
-    $target: $app,
-    initialState: {
-      title: "",
-      content: "",
-    },
-  });
 
   this.state = initialState;
 
@@ -60,9 +47,8 @@ export default function DocumentList({ $target, initialState, onDelete }) {
       console.log("add!", id);
     } else if (target.className === "list-item") {
       // document open 로직
-      const document = await request(`${id}`);
-
-      editor.setState(document);
+      // const document = await request(`${id}`);
+      // editor.setState(document);
     }
   });
 
