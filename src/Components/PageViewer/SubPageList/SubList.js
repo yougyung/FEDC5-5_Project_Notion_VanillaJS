@@ -1,14 +1,13 @@
 export default function SubList({ target, state }) {
-  const { id, title } = state
+  const { id, title } = state;
 
-  const listElement = document.createElement('li')
-  listElement.setAttribute('data-id', id)
-  listElement.setAttribute('class', 'pageViewer_subPageList_sublist')
-  target.appendChild(listElement)
+  const listElement = document.createElement("li");
+  listElement.setAttribute("data-id", id);
+  listElement.setAttribute("class", "pageViewer_subPageList_sublist");
+  target.appendChild(listElement);
 
-
-  const titleElement = document.createElement('p')
-  titleElement.setAttribute('class', 'pageViewer_subPageList_sublist_title')
-  titleElement.textContent = title
-  listElement.appendChild(titleElement)
+  const titleElement = document.createElement("p");
+  titleElement.setAttribute("class", "pageViewer_subPageList_sublist_title");
+  titleElement.textContent = title;
+  listElement.appendChild(titleElement);
 }
