@@ -8,11 +8,17 @@ export default function Editor({ $target, initialState }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    const { selectedDoc } = nextState;
+
+    this.state = selectedDoc.content;
+
     this.render();
   };
 
-  this.render = () => {};
+  this.render = () => {
+    // 선택한 문서 content 값 표시
+    $editor.value = `${this.state}`;
+  };
 
   this.render();
 }

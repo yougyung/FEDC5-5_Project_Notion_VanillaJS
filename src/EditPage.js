@@ -4,20 +4,31 @@ import Editor from './Editor.js';
 export default function EditPage({ $target, initialState }) {
   const $editPage = document.createElement('div');
   $editPage.className = 'edit-main';
-  $target.appendChild($editPage);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
+
+    editHeader.setState(nextState);
+    editor.setState(nextState);
+
     this.render();
   };
 
   this.render = () => {};
 
-  this.render();
+  $target.appendChild($editPage);
 
-  new EditHeader({ $target: $editPage });
-
-  new Editor({ $target: $editPage, initialState });
+  const { selectedDoc } = this.state;
+  //  edit header
+  const editHeader = new EditHeader({
+    $target: $editPage,
+    initialState: selectedDoc.title,
+  });
+  // editor
+  const editor = new Editor({
+    $target: $editPage,
+    initialState: selectedDoc.content,
+  });
 }

@@ -6,18 +6,20 @@ export default function EditHeader({ $target, initialState }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    const { selectedDoc } = nextState;
+    this.state = selectedDoc.title;
+
     this.render();
   };
 
   this.render = () => {
     $editHeader.innerHTML = `
-     <input type="text" id="title" name="title" placeholder="제목 없음"/>
+     <input type="text" id="title" name="title" placeholder="제목 없음" value="${this.state}"/>
     `;
   };
 
   this.render();
-
+  // focus 이벤트
   const $editHeaderInput = document.querySelector('input#title');
 
   $editHeaderInput.addEventListener('focus', (e) => {
