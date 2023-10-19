@@ -4,7 +4,6 @@ import { localStorageSetItem } from "./utils/storage.js";
 
 export default function EditPage({ $target, initialState }) {
   // $wrapEditPage , 초기디폴트는 {docId: "new",  doc: {  title: "",  content: "",}, }
-
   const $editPage = document.createElement("div");
   $editPage.className = "edit-page";
   this.state = initialState;
@@ -15,7 +14,7 @@ export default function EditPage({ $target, initialState }) {
   let timerPost = null;
 
   const editor = new Editor({
-    $target,
+    $target: $editPage,
     initialState: { title: "", content: "" },
     onEditing: async (nextState, type = "") => {
       console.log("On eedinting 실행");
