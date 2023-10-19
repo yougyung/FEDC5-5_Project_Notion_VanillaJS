@@ -15,13 +15,22 @@ main{
 }
 nav{
     background-color: #f3f3f2;
-    padding: 0;
+    padding: 10px 0 0 10px;
     width: 250px;
+    height: 100vh;
+    position: fixed;
+    flex:1
+}
+.title{
+    padding:10px 0 0 10px;
 }
 .document-page{
-    flex:1;
+    padding-left: 250px;
+    flex:9;
+    height: 200vh;
 }
 .editor{
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,8 +1,13 @@
 import Editor from "../component/Editor.js";
+import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 
 // initialState : {doucmentId :null, document:null}
-export default function DocumentPage({ $target, initialState }) {
+export default function DocumentPage({
+  $target,
+  initialState,
+  documentAutoSave,
+}) {
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
   this.stae = initialState;
@@ -13,30 +18,26 @@ export default function DocumentPage({ $target, initialState }) {
     const document = await fetchDocument(nextState.id);
     this.state = document;
     this.render();
+    const { id, title } = this.state;
+    header.setState({ id, title });
     editor.setState(this.state);
   };
-  let timerOfSetTimeout;
   this.render = () => {
     $target.appendChild($documentPage);
   };
-  //오른쪽 페이지
+  const header = new Title({
+    $target: $documentPage,
+    initialState: {
+      title: "",
+      id: null,
+    },
+  });
   const editor = new Editor({
     $target: $documentPage,
     initialState: {
       title: "",
       content: "",
     },
-    documentAutoSave: (documentId, requestBody) => {
-      if (timerOfSetTimeout !== null) {
-        clearTimeout(timerOfSetTimeout);
-      }
-      timerOfSetTimeout = setTimeout(async () => {
-        const response = await request(`/documents/${documentId}`, {
-          method: "PUT",
-          body: JSON.stringify(requestBody),
-        });
-        console.log(response);
-      }, 1500);
-    },
+    documentAutoSave,
   });
 }

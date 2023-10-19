@@ -1,1 +1,3 @@
-export default function DocumentTitle({ $target, initialState }) {}
+export default function DocumentTitle({ $target, initialState }) {
+  //받아와야할 정보는 title...
+}

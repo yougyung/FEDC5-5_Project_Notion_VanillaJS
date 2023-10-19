@@ -1,5 +1,4 @@
-const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
-const X_USERNAME = "5AKimyoungheon";
+import { API_END_POINT, X_USERNAME } from "../../env.js";
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(

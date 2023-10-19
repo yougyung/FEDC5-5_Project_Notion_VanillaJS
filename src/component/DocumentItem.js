@@ -19,7 +19,7 @@ export default function DocumentItem({
   this.render = () => {
     $documentItem.innerHTML = `
         <button data-name="more">▽</button>
-        <span>${this.state?.title}</span>
+        <a href="/documents/${this.state?.id}">${this.state?.title}</a>
         <button data-name="delete-doc">-</button>
         <button data-name="create-doc">+</button>
       `;
@@ -38,7 +38,8 @@ export default function DocumentItem({
     } else if (name === "delete-doc") {
       deleteDocument(id);
     }
-    if (e.target.tagName === "SPAN") {
+    if (e.target.tagName === "A") {
+      e.preventDefault();
       push(`/documents/${id}`);
     }
   });
