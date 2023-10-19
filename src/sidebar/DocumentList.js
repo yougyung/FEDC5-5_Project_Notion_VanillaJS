@@ -1,4 +1,4 @@
-import { push } from "../utils/router.js";
+import { push } from "../utils.js";
 
 export default function DocumentList({ $target, initialState, onDelete }) {
   const $documentList = document.createElement("section");

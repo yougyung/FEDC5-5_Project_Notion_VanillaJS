@@ -1,4 +1,4 @@
-import { request } from "../utils/api.js";
+import { request } from "../utils.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 import DocumentList from "./DocumentList.js";
 import SidebarHeader from "./SidebarHeader.js";

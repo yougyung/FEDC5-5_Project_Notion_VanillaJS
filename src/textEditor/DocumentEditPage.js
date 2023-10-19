@@ -1,4 +1,4 @@
-import { request } from "../utils/api.js";
+import { request } from "../utils.js";
 import Editor from "./Editor.js";
 
 export default function DocumentEditPage({ $target, initialState, onEditing }) {
