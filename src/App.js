@@ -1,15 +1,13 @@
-import api from "./api/api.js";
-import { API_DOCUMENT } from "./api/url.js";
+import DocumentTree from "./components/DocumentTree.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
-  $container.innerHTML = "Hello World!";
+  $container.className = "container";
   $target.appendChild($container);
 
-  this.render = async () => {
-    const data = await api.get(API_DOCUMENT);
-    console.log(data);
-  };
+  new DocumentTree({ $target: $container });
+
+  this.render = () => {};
 
   this.render();
 }
