@@ -37,8 +37,8 @@ export default class UserList {
     }
 
     setState(nextState) {
+        setItem(USER_LIST_KEY, [...this.state.userList]);
         this.state = nextState;
         this.render();
-        setItem(USER_LIST_KEY, [...this.state.userList]);
     }
 }

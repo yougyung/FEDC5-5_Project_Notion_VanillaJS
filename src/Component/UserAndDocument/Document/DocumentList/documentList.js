@@ -7,7 +7,7 @@ export default class DocumentList {
         this.$target = $target;
         this.state = initalState;
         this.onClickPost = onClickPost;
-        this.onClickDelete =onClickDelete;
+        this.onClickDelete = onClickDelete;
         this.$documentDiv = createNewElement("div", [{ property: "className", value: "document-list" }]);
 
         this.init();
@@ -31,15 +31,17 @@ export default class DocumentList {
         this.render();
     }
 
-    async handleOnClick(e) {
+    handleOnClick(e) {
         const { target, target: { className } } = e;
 
+        // document 추가 이벤트
         if(className === "document__buttons__insert") {
             const currentId = target.closest(".document__item").dataset.id;
 
             this.onClickPost(currentId);
         }
 
+        // document 삭제 이벤트
         if(className === "document__buttons__delete") {
             const currentId = target.closest(".document__item").dataset.id;
 

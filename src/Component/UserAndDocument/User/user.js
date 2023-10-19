@@ -5,10 +5,10 @@ import UserList from './UserList/userList.js';
 // state = { currentUser: "...", userList: [] }
 
 export default class User {
-    constructor({ $target, initalState, onClickCallback }) {
+    constructor({ $target, initalState, setUser }) {
         this.$target = $target;
         this.state = initalState;
-        this.onClickCallback = onClickCallback;
+        this.setUser = setUser;
         this.userForm = null;
         this.userList = null;
         this.$user = createNewElement("div", [{ property: "className", value: "user" }]);
@@ -20,22 +20,22 @@ export default class User {
         this.$user.addEventListener("click" , (e) => this.handleOnClick(e));
         this.$user.addEventListener("submit" , (e) => this.handleOnSubmit(e));
         this.render();
-
     }
 
     render() {
+        const { currentUser, userList } = this.state;
 
         this.$target.appendChild(this.$user);
-        this.userForm = new UserForm({ $target: this.$user, initalState: { ...this.state } });
-        this.userList = new UserList({ $target: this.$user, initalState: { ...this.state } });
+        this.userForm = new UserForm({ $target: this.$user, initalState: { currentUser } });
+        this.userList = new UserList({ $target: this.$user, initalState: { currentUser, userList } });
     }
 
     setState(nextState) {
-        const { currentUser } = nextState;
+        const { currentUser, userList } = nextState;
 
-        currentUser !== this.state.currentUser && this.userForm.setState({ currentUser }); // 현재 사용자 state만 필요
-        this.userList.setState(nextState); // 현재 사용자, 사용자 목록 state 필요
-        this.state = nextState;
+        this.state = { currentUser, userList };
+        this.userForm.setState({ currentUser }); // 현재 사용자 state만 필요
+        this.userList.setState({ currentUser, userList }); // 현재 사용자, 사용자 목록 state 필요
     }
 
     handleOnClick(e) {
@@ -45,7 +45,7 @@ export default class User {
         if(className === "user-item__name") {
             const { innerText: currentUser } = target;
 
-            this.onClickCallback({ ...this.state, currentUser });
+            this.setUser({ ...this.state, currentUser });
         }
 
         // 사용자 삭제
@@ -55,11 +55,11 @@ export default class User {
             const newUserList = userList.filter(userName => userName !== name);
 
             // 현재 사용자를 삭제한다면
-            if(name === this.state.currentUser) {
-                this.onClickCallback({ currentUser: null, userList: newUserList });
+            if(name === currentUser) {
+                this.setUser({ currentUser: null, userList: newUserList });
             }
             else {
-                this.onClickCallback({ currentUser, userList: newUserList });
+                this.setState({ currentUser, userList: newUserList });
             }
         }
     }
@@ -74,18 +74,16 @@ export default class User {
             const { currentUser, userList } = this.state;
             const name = target.name.value;
 
-             // 이름이 비었으면 종료
             if(!name) {
                 return alert("이름을 입력해주세요.");
             }
-            //  이미 등록되었으면 종료
             if(this.state.userList.includes(name)) {
-                return alert("이미 등록된 사용자입니다.")
+                return alert("이미 등록된 사용자입니다.");
             }
             
             target.name.value = "";
             target.name.focus();
-            this.onClickCallback({ currentUser, userList: [...userList, name] })
+            this.setState({ currentUser, userList: [ ...userList, name ] });
         }
         
     }

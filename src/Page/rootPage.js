@@ -1,10 +1,13 @@
 import UserAndDocument from '../Component/UserAndDocument/UserAndDocument.js';
 import { createNewElement } from '../Util/element.js';
 
+// state = { currentUser : "..." }
+
 export default class RootPage {
-    constructor({ $target, initalState }) {
+    constructor({ $target, initalState, setUser }) {
         this.$target = $target;
         this.state = initalState;
+        this.setUser = setUser;
         this.userAndDocument = null; 
     
         this.init();
@@ -18,11 +21,17 @@ export default class RootPage {
         const $page = createNewElement("div", [{ property: "className", value: "wrap" }]);
 
         this.$target.appendChild($page);
-        this.userAndDocument = new UserAndDocument({ $target: $page, initalState: { currentUser: "", userList: [] } });
+        this.userAndDocument = new UserAndDocument({ 
+            $target: $page, 
+            initalState: { ...this.state } ,
+            setUser: this.setUser,
+        });
     }
 
     setState(nextState) {
-        this.state = nextState;
+        const { currentUser } = nextState;
+
+        this.state = { currentUser };
         this.userAndDocument.setState(nextState);
     }
 }

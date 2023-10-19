@@ -37,7 +37,6 @@ export default class Document {
 
     setState(nextState) {
         // 유저가 바뀌면 새로 해당 유저의 documentList를 불러와서 보여줘야한다.
-        // 유저가 바뀌는 경우에만 form 컴포넌트에 state를 변경
         if(this.state.currentUser !== nextState.currentUser) {
             this.state = { currentUser: nextState.currentUser, documentList: [] };
             return this.getDocumentList();
@@ -70,14 +69,13 @@ export default class Document {
 
     // document 데이터 삭제하기
     async deleteDocument(documentId) {
-        if(!documentId){
-            return;
-        }
-        const { currentUser } = this.state;
-        const res = await request(`/documents/${documentId}`, currentUser, { method: "DELETE"});
+        if(documentId) {
+            const { currentUser } = this.state;
+            const res = await request(`/documents/${documentId}`, currentUser, { method: "DELETE"});
 
-        if(res) {
-            this.getDocumentList();
+            if(res) {
+                this.getDocumentList();
+            }
         }
     }
 }
