@@ -1,35 +1,7 @@
 import PostList from "../PostList.js";
+import { request } from "../api.js";
 
-const rootData = [
-  {
-    id: 1,
-    title: "노션을 만들자",
-    documents: [
-      {
-        id: 2,
-        title: "블라블라",
-        documents: [
-          {
-            id: 3,
-            title: "함냐함냐",
-            documents: [],
-          },
-        ],
-      },
-      {
-        title: "테스트으",
-        documents: [],
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "hello!",
-    documents: [],
-  },
-];
-
-export default function PostListPage({ $target }) {
+export default function PostListPage({ $target, initialState }) {
   const $header = document.createElement("h1");
   const $page = document.createElement("div");
   $page.classList.add("post-list-page");
@@ -37,12 +9,25 @@ export default function PostListPage({ $target }) {
   $page.appendChild($header);
   $target.appendChild($page);
 
-  const postList = new PostList({ $target: $page, initialState: rootData });
+  $header.innerText = "🔥 Sangmin의 NO션";
 
-  this.render = () => {
-    $header.innerText = "🔥 Sangmin의 NO션";
+  this.state = initialState;
+  this.setState = (nextState) => {
+    this.state = nextState;
+
+    postList.setState(this.state);
+    this.render();
   };
 
-  postList.render();
+  const postList = new PostList({ $target: $page, initialState: [] });
+
+  this.render = () => {};
   this.render();
+
+  const getPostList = async () => {
+    const postArr = await request("/documents");
+    this.setState(postArr);
+  };
+
+  getPostList();
 }

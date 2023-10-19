@@ -4,6 +4,10 @@ export default function PostList({ $target, initialState }) {
   $target.appendChild($postList);
 
   this.state = initialState;
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
 
   const createDocumentHtml = (docList, ul, listDepth) => {
     if (docList.length === 0) return;
@@ -12,7 +16,6 @@ export default function PostList({ $target, initialState }) {
         const $li = document.createElement("li");
         $li.style.paddingLeft = "15px";
 
-        // ${docList[i].documents.length >= 1 ? "↓" : ""} 📄${docList[i].title}
         $li.innerHTML = `
           ↓📄${docList[i].title}
           <button>+</button>
@@ -30,7 +33,8 @@ export default function PostList({ $target, initialState }) {
     }
   };
 
-  createDocumentHtml(this.state, $postList, 2);
-
-  this.render = () => {};
+  this.render = () => {
+    createDocumentHtml(this.state, $postList, 2);
+  };
+  this.render();
 }
