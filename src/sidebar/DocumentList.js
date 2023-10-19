@@ -43,7 +43,7 @@ export default function DocumentList({ $target, initialState, onDelete }) {
   this.render = () => {
     const { documents } = this.state;
     $documentList.innerHTML = `
-           ${documents.length > 0 ? renderDocuments(documents) : ""}
+           ${documents.length > 0 ? renderList(documents) : ""}
         `;
   };
 
