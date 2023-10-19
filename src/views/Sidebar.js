@@ -28,8 +28,8 @@ export default function Sidebar({ $parent, initState }) {
     if (sidebarViewMode === SIDEBAR_VIEW_MODE.DOCS_INDEX_VIEWER) {
       // update data //
       const fetchData = await fetchDocuments();
-      useDocsIndex.setState(fetchData);
       // render child component
+      useDocsIndex.setState(fetchData);
     }
   };
 

@@ -40,7 +40,7 @@ export default function DocsIndexViewer({ $parent }) {
       $li.dataset.id = doc.id;
       const docCard = new DocsIndexCard({
         $parent: $li,
-        initState: { id: doc.id, title: doc.title },
+        initState: { id: doc.id, title: doc.title, documents: doc.documents },
       });
 
       if (doc.documents.length > 0) {
@@ -54,8 +54,6 @@ export default function DocsIndexViewer({ $parent }) {
 
   // RENDER ============================================================ //
   this.render = () => {
-    console.log("totalDocsTree: ", useDocsIndex.state.data);
-
     $component.innerHTML = "";
 
     $component.appendChild(createIndex(useDocsIndex.state.data));

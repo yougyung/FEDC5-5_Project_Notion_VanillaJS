@@ -4,7 +4,8 @@ import EditorHeader from "../components/editor/EditorHeader.js";
 
 import { _GET, _POST, _PUT } from "../api/api.js";
 import { NEW_DOCUMENT_INIT_ID } from "../utils/constants.js";
-import { useDocument } from "../utils/store.js";
+import { useDocsIndex, useDocument } from "../utils/store.js";
+import { createDocumentFromIndex } from "../utils/updateDocumentsIndex.js";
 
 const DocumentProps = {
   id: "string",
@@ -68,7 +69,18 @@ export default function EditorView({ $parent, initState }) {
             documentId: createdDocument.id,
             documentData: createdDocument,
           });
-          // useDocument.setState({ title: data.title, content: data.content });
+
+          // 목차 낙관적 업데이트
+          createDocumentFromIndex(
+            useDocsIndex.state.data,
+            parseInt(this.state.documentParentId),
+            {
+              id: createdDocument.id,
+              title: createdDocument.title,
+              documents: [],
+            }
+          );
+          useDocsIndex.setState({ data: useDocsIndex.state.data });
         } else {
           await _PUT(`documents/${data.id}`, {
             title: data.title,
