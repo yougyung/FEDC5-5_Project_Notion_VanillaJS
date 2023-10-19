@@ -1,3 +1,4 @@
+import { makeRouterEvent } from '../../../Router/Router.js'
 import List from './List.js'
 
 export default function PageList({ target, state, onEvent }) {
@@ -43,7 +44,9 @@ export default function PageList({ target, state, onEvent }) {
       /* Link */
 
       if (eventName === 'menubar_pageList_list_info_title') {
-        onEvent({ id, link: true })
+        e.preventDefault()
+        makeRouterEvent({ url: `/documents/${id}`, event: 'push' })
+
       }
 
       /* Delete Event */

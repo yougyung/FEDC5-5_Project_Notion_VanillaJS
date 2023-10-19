@@ -10,7 +10,7 @@ export default function Editor({ target, state, onEditing }) {
   this.state = state
 
   this.render = () => {
-    const { title, createdAt, updatedAt, id, content } = this.state
+    const { title, createdAt, updatedAt, content } = this.state
 
     new EditTitle({
       target: editorElement,
@@ -40,22 +40,18 @@ export default function Editor({ target, state, onEditing }) {
   /* Event */
 
   editorElement.addEventListener('keyup', (e) => {
-    if (this.state.id !== undefined) {
-      const targetElement = e.target
 
-      const { name } = targetElement.dataset
-      const titleState = editorElement.querySelector('[data-name=title]').value ?? ""
-      const contentState = editorElement.querySelector('[data-name=content]').innerText ?? ""
+    const titleValue = editorElement.querySelector('[data-name=title]').value ?? ""
+    const contentValue = editorElement.querySelector('[data-name=content]').innerText ?? ""
 
-      const newState = {
-        id: this.state.id,
-        title: titleState,
-        content: contentState,
-        createdAt: this.state.createdAt,
-        updatedAt: this.state.updatedAt
-      }
-      onEditing(newState)
+    const newState = {
+      id: this.state.id,
+      title: titleValue,
+      content: contentValue,
+      createdAt: this.state.createdAt,
+      updatedAt: this.state.updatedAt
     }
+    onEditing(newState)
   })
 
 }

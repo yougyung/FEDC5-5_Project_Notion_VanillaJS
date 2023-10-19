@@ -2,6 +2,7 @@ import { deletePage, insertPage, request, getPage, updatePage } from './API/API.
 import Menubar from './Components/Menubar/Menubar.js'
 import PageViewer from './Components/PageViewer/PageViewer.js'
 import { getStorage, removeStorage, setStorage } from './LocalStorage/LocalStorage.js'
+import { makeRouterEvent, pushRouter } from './Router/Router.js'
 
 
 export default function App({ target }) {
@@ -19,6 +20,7 @@ export default function App({ target }) {
   }
 
   /* Page 호출후 local과 검사 */
+  // 이후 검사 항목을 담은 .js 파일에 옮겨담을 예정
   const getChechkedPage = async (id) => {
     const apiPage = await getPage(id)
     const localPage = getStorage(id)
@@ -28,9 +30,9 @@ export default function App({ target }) {
       localPage.updatedAt > apiPage.updatedAt &&
       confirm("저장에 성공하지 못한 이전 내용이 존재합니다! 불러오시겠나요 ✏️")
     ) {
-
       return localPage
     }
+
     return apiPage
   }
 
@@ -47,7 +49,14 @@ export default function App({ target }) {
       if (params.delete) {
         await deletePage(id)
         getPageList('/documents')
-        // 보고있는 페이지를 삭제했다면?..
+
+        /* 현재 보고 있는 페이지에 대한 삭제 처리 */
+        const { pathname } = window.location
+        const checkId = pathname.split('/')[2]
+
+        if (checkId && checkId === id) {
+          makeRouterEvent({ url: '/', event: 'push' })
+        }
       }
 
       /* insert */
@@ -56,20 +65,12 @@ export default function App({ target }) {
           title: '제목 없음',
           parent: id
         })
-        getPageList('/documents')
-
-        pageViewer.setState({
-          ...newPage,
-          content: '',
-          documents: []
-        })
+        // 새로운 Page 추가시 List update
+        await getPageList('/documents')
+        // 만들어진 Page로 route 이동
+        makeRouterEvent({ url: `/documents/${newPage.id}`, event: 'push' })
       }
 
-      /* link */
-      if (params.link) {
-        const page = await getChechkedPage(id)
-        pageViewer.setState(page)
-      }
     }
   })
 
@@ -79,9 +80,7 @@ export default function App({ target }) {
   const pageViewer = new PageViewer({
     target: appElement,
     state: {
-      title: '초기값 입니다',
-      content: '컨텐츠 란!',
-      documents: []
+      id: 'Index'
     },
 
     onEditing: (params) => {
@@ -106,6 +105,27 @@ export default function App({ target }) {
     }
   })
 
+  this.route = async () => {
+    const { pathname } = window.location
+
+    if (pathname === '/') {
+      pageViewer.setState({ id: 'Index' })
+    }
+
+    if (pathname.indexOf('/documents/') === 0) {
+      const id = pathname.split('/')[2]
+
+      // 해당 조건 처리가 맞을까
+      if (id) {
+        const page = await getChechkedPage(id)
+        pageViewer.setState(page)
+      }
+    }
+  }
 
   getPageList('/documents')
+  pushRouter(() => this.route())
+
 }
+
+
