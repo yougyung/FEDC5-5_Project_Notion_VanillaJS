@@ -24,7 +24,7 @@ export default function TextAreaPage({ $target, initialState }) {
     if (this.state.title) {
       $titleInputArea.value = this.state.title;
     } else {
-      $titleInputArea.value = "Loading...";
+      $titleInputArea.value = "👋 안녕하세요!";
     }
     // <input type="text" name="title" style="width:600px;" value="${this.state.title}" />
     // <textarea name="content" style="width:600px;height:400px;"
@@ -32,9 +32,11 @@ export default function TextAreaPage({ $target, initialState }) {
     $contentTextArea.className = "textArea-content";
     $contentTextArea.name = "content";
     if (this.state.title) {
+      // $contentTextArea.value = this.state.title + "\n" + this.state.content;
       $contentTextArea.value = this.state.content;
     } else {
-      $contentTextArea.value = "";
+      $contentTextArea.value =
+        "노션 클로닝 by KSJ 페이지에 오신 것을 환영합니다!\n좌측 문서를 클릭해서 편집을 시작해보세요.";
     }
 
     $textArea.appendChild($titleInputArea);
