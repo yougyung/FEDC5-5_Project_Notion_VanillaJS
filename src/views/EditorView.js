@@ -106,11 +106,7 @@ export default function EditorView({ $parent, initState }) {
           documentId: NEW_DOCUMENT_INIT_ID,
           documentData: { id: NEW_DOCUMENT_INIT_ID, title: "", content: "" },
         });
-        editor.setState({
-          id: NEW_DOCUMENT_INIT_ID,
-          title: "",
-          content: "",
-        });
+
         useDocument.setState({
           id: NEW_DOCUMENT_INIT_ID,
           title: "",
@@ -132,13 +128,8 @@ export default function EditorView({ $parent, initState }) {
     this.render();
 
     const { id, title, content } = this.state.documentData;
-    editor.setState(
-      { id, title, content } || {
-        id: "",
-        title: "",
-        content: "",
-      }
-    );
+    useDocument.setState({ id, title, content });
+    editor.render();
   };
 
   this.render = () => {
@@ -154,18 +145,14 @@ export default function EditorView({ $parent, initState }) {
       const fethedData = await _GET(`documents/${documentId}`);
 
       // content 데이터 보정 - API body 에 content 가 포함되지 않기 때문에
-      if (isCreate && documentData.content?.length > 0) {
-        fethedData.content = documentData.content;
+      if (isCreate) {
+        if (documentData.content?.length > 0) {
+          fethedData.content = documentData.content;
+        }
         isCreate = false;
       }
 
       this.setState({ ...this.state, documentData: fethedData });
-
-      useDocument.setState({
-        id: fethedData.id,
-        title: fethedData.title,
-        content: fethedData.content,
-      });
     }
   };
   // =========================================================== API CALL //

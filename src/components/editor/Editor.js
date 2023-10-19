@@ -3,20 +3,10 @@ import calcHeight from "../../utils/calcTextareaHeight.js";
 import { NEW_DOCUMENT_INIT_ID } from "../../utils/constants.js";
 import { useDocument } from "../../utils/store.js";
 
-const EditorPtops = {
-  id: "number",
-  title: "string",
-  content: "string",
-};
-
 /**
  * @description 편집기 뷰의 편집 컴포넌트
  */
-export default function Editor({
-  $parent,
-  initState = { id: "", title: "", content: "" },
-  onEditing,
-}) {
+export default function Editor({ $parent, onEditing }) {
   const $component = document.createElement("div");
   $component.setAttribute("id", "editor");
   $component.classList.add("view-inner");
@@ -28,20 +18,14 @@ export default function Editor({
   <textarea class="editor-input" name="content" placeholder="내용을 입력하세요..."></textarea>
   `;
 
-  this.state = initState;
-  this.setState = (nextState) => {
-    this.state = { ...this.state, ...nextState };
-    this.render();
-
-    if (this.state.id !== NEW_DOCUMENT_INIT_ID) {
-      const $textarea = $component.querySelector("[name=content]");
-      $textarea.focus();
-    }
-  };
-
   this.render = () => {
-    $component.querySelector("[name=title]").value = this.state.title;
-    $component.querySelector("[name=content]").value = this.state.content;
+    const { id, title, content } = useDocument.state;
+    const $textarea = $component.querySelector("[name=content]");
+
+    $component.querySelector("[name=title]").value = title;
+    $textarea.value = content;
+
+    if (id !== NEW_DOCUMENT_INIT_ID) $textarea.focus();
   };
   this.render();
 
