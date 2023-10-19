@@ -4,11 +4,11 @@ const $app = document.querySelector("#app");
 
 new App({
   $target: $app,
-  initialState: {
-    documentId: 0,
-    document: {
-      title: "",
-      content: "",
-    },
-  },
+  // initialState: {
+  //   documentId: 0,
+  //   document: {
+  //     title: "",
+  //     content: "",
+  //   },
+  // },
 });
