@@ -8,7 +8,7 @@
 .sideBarWrapper {
   flex-grow: 0;
   flex-shrink: 0;
-  pointer-events: none;
+  /* pointer-events: none; */
   position: relative;
   z-index: 111;
   background: rgb(251, 251, 250);
@@ -16,6 +16,19 @@
   transition: width 270ms ease 0s;
   box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
   width: 240px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin: 1px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  list-style-type: none;
 }
 
 .textAreaWrapper {

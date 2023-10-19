@@ -2,7 +2,7 @@ import TextAreaPage from "./textAreaPage.js";
 const $ = document;
 
 export default function TextAreaRender({ $target, initialState }) {
-  console.log(initialState);
+  // console.log(initialState);
   this.state = initialState;
 
   this.setState = (nextState) => {

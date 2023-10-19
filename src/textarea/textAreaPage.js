@@ -6,12 +6,12 @@ export default function TextAreaPage({ $target, initialState }) {
   $textArea.className = "textArea";
 
   this.state = initialState;
-  console.log(this.state);
+  // console.log(this.state);
 
   this.setState = (nextState) => {
     $textArea.innerHTML = "";
     this.state = nextState;
-    console.log(nextState);
+    // console.log(nextState);
 
     this.render();
   };

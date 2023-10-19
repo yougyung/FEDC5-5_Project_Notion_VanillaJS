@@ -22,7 +22,7 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state[0].id);
+    // console.log(this.state[0].id);
     this.render();
   };
 
