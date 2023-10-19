@@ -30,7 +30,7 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
         const createdUl = $.createElement("ul");
         const createdLi = $.createElement("li");
         const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
-        console.log(inheritedParentStyle);
+        // console.log(inheritedParentStyle);
         if (inheritedParentStyle) {
           createdUl.style.paddingLeft = `${inheritedParentStyle + 10}px`;
         } else {
@@ -50,7 +50,7 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
         createdLi.dataset.id = id;
         createdLi.innerText = title;
         const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
-        console.log(inheritedParentStyle);
+        // console.log(inheritedParentStyle);
         if (inheritedParentStyle) {
           createdUl.style.paddingLeft = `${inheritedParentStyle + 4}px`;
         } else {
@@ -71,8 +71,15 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
   const addEventDocs = () => {
     $pageList.querySelectorAll("li").forEach(($li) => {
       $li.addEventListener("click", (e) => {
+        // console.log(e.target.href);
+        // console.log(e);
         // console.log(e.target.dataset.id);
+        // 요 방식은 리로딩이 일어납니다. !SPA
+        // e.preventDefault();
+        // location.pathname = `/documents/${e.target.dataset.id}`;
+        history.pushState(null, null, `/documents/${e.target.dataset.id}`);
         onClick(e.target.dataset.id);
+        // console.log(`${$li}, 안녕 나는 li야, `);
       });
     });
   };

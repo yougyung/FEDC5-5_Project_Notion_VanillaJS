@@ -82,7 +82,7 @@ export default function App({ $target }) {
 
   this.route = async () => {
     const { pathname } = location;
-    console.log(pathname.indexOf("/documents/"));
+    // console.log(pathname.indexOf("/documents/"));
     if (pathname === "/") {
       // 루트인 경우
       await fetchRootDocs();
