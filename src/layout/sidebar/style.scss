@@ -1,0 +1,27 @@
+.sidebar {
+	width: 220px;
+	padding: 20px 0px;
+	font-size: 17px;
+	height: calc(100vh - 40px);
+	background-color: rgb(247, 247, 245);
+	box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
+
+	&__info {
+		margin: 4px;
+		padding: 3px 14px;
+		display: flex;
+		color: rgb(55, 53, 47);
+		font-weight: 500;
+		text-overflow: ellipsis;
+		&-emoji {
+			font-size: x-large;
+			padding: 5%;
+		}
+		&-text {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+}
