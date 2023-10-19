@@ -1,4 +1,4 @@
-import { request } from "../api.js";
+import { request } from "../utils/api.js";
 import Editor from "../textEditor/Editor.js";
 
 export default function DocumentList({ $target, initialState, onDelete }) {

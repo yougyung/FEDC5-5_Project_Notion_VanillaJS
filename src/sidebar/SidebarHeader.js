@@ -1,4 +1,4 @@
-import { request } from "../api.js";
+import { request } from "../utils/api.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 
 export default function SidebarHeader({ $target, username }) {
