@@ -26,7 +26,7 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     // 토글 버튼으로 루트 폴더와 하위 폴더 생성
     // 추후 재귀 함수로 리팩토링 예정
     $postList.innerHTML = `
-    <div name="editor">
+    <div class="postlist" name="editor">
       ${this.state
         .map(
           ({ title, id, documents }) => `
