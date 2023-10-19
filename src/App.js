@@ -1,13 +1,37 @@
 import Sidebar from "./sidebar/Sidebar.js";
 import DocumentEditPage from "./textEditor/DocumentEditPage.js";
-import { initRouter } from "./utils/router.js";
+import { request } from "./utils/api.js";
+import { initRouter, push } from "./utils/router.js";
+import { getItem, removeItem } from "./utils/storage.js";
 
 export default function App({ $target }) {
+  const onAdd = async () => {
+    push("new");
+
+    const createdDocument = await request("", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "",
+        parent: getItem("new-parent", null),
+      }),
+    });
+
+    history.replaceState(null, null, `${createdDocument.id}`);
+    removeItem("new-parent");
+
+    documentEditPage.setState({ documentId: createdDocument.id });
+
+    sidebar.setState({
+      selectedId: parseInt(createdDocument.id),
+    });
+  };
+
   const sidebar = new Sidebar({
     $target,
     initialState: {
       selectedDocumentId: null,
     },
+    onAdd,
   });
 
   const documentEditPage = new DocumentEditPage({

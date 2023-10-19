@@ -3,7 +3,7 @@ import DocumentAddButton from "./DocumentAddButton.js";
 import DocumentList from "./DocumentList.js";
 import SidebarHeader from "./SidebarHeader.js";
 
-export default function Sidebar({ $target, initialState }) {
+export default function Sidebar({ $target, initialState, onAdd }) {
   const $sidebar = document.createElement("aside");
   $target.appendChild($sidebar);
 
@@ -24,6 +24,7 @@ export default function Sidebar({ $target, initialState }) {
     initialState: {
       documentId: "new",
     },
+    onAdd,
   });
 
   const documentList = new DocumentList({
