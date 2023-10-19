@@ -3,6 +3,8 @@ import DocumentEditPage from "./textEditor/DocumentEditPage.js";
 import { request, initRouter, push, getItem, removeItem } from "./utils.js";
 
 export default function App({ $target }) {
+  let timer = null;
+
   const onAdd = async (id) => {
     console.log(typeof id);
     try {
@@ -82,6 +84,33 @@ export default function App({ $target }) {
     }
   };
 
+  const onEdit = ({ title, content }) => {
+    try {
+      const { pathname } = window.location;
+      const documentId = pathname.substring(1);
+
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(async () => {
+        const editedDocument = await request(documentId, {
+          method: "PUT",
+          body: JSON.stringify({ title, content }),
+        });
+
+        documentEditPage.setState({
+          documentId: editedDocument.id,
+          document: editedDocument,
+        });
+
+        sidebar.render();
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const sidebar = new Sidebar({
     $target,
     initialState: {
@@ -101,6 +130,7 @@ export default function App({ $target }) {
         content: "",
       },
     },
+    onEdit,
   });
 
   this.route = () => {
@@ -114,6 +144,7 @@ export default function App({ $target }) {
       const documentId = pathname.substring(1);
 
       documentEditPage.setState({
+        ...documentEditPage.state,
         documentId: isNaN(documentId) ? documentId : parseInt(documentId),
       });
 

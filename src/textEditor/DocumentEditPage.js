@@ -1,7 +1,7 @@
 import { request } from "../utils.js";
 import Editor from "./Editor.js";
 
-export default function DocumentEditPage({ $target, initialState, onEditing }) {
+export default function DocumentEditPage({ $target, initialState, onEdit }) {
   const $documentEditPage = document.createElement("section");
   this.state = initialState;
 
@@ -19,6 +19,7 @@ export default function DocumentEditPage({ $target, initialState, onEditing }) {
       title: "",
       content: "",
     },
+    onEdit,
   });
 
   this.setState = (nextState) => {
