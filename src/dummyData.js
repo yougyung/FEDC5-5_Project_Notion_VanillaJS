@@ -11,7 +11,7 @@ export const DUMMY_DATA = [
         documents: [
           {
             id: 1,
-            title: "하위의 하위 문서",
+            title: "실험용의 하위 문서",
             content: "하위의 하위 문서입니다.",
             documents: [],
             createdAt: "",
@@ -19,7 +19,7 @@ export const DUMMY_DATA = [
           },
           {
             id: 2,
-            title: "하위의 하위 문서2",
+            title: "실험용의 하위 문서2",
             content: "하위의 하위 문서2입니다.",
             documents: [],
             createdAt: "",
