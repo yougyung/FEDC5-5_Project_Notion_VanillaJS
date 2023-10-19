@@ -19,7 +19,6 @@ export default function App({ $target }) {
           }),
         });
 
-        console.log(newRootId);
         history.replaceState(null, null, `${newRootId}`);
 
         documentEditPage.setState({ documentId: newRootId });
@@ -38,8 +37,6 @@ export default function App({ $target }) {
             parent: id,
           }),
         });
-
-        console.log("sidebar 상태변경:", sidebar.state);
 
         history.replaceState(null, null, `${newSubId}`);
 
