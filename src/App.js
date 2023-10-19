@@ -3,26 +3,51 @@ import DocumentEditPage from "./textEditor/DocumentEditPage.js";
 import { request, initRouter, push, getItem, removeItem } from "./utils.js";
 
 export default function App({ $target }) {
-  const onAdd = async () => {
+  const onAdd = async (id) => {
     try {
-      push("new");
+      if (id === "new") {
+        push("new");
 
-      const createdDocument = await request("", {
+        const createDocument = await request("", {
+          method: "POST",
+          body: JSON.stringify({
+            title: "",
+            parent: null,
+          }),
+        });
+
+        history.replaceState(null, null, `${createDocument.id}`);
+
+        documentEditPage.setState({ documentId: createDocument.id });
+
+        sidebar.setState({
+          selectedId: parseInt(createDocument.id),
+        });
+      }
+
+      if (isNaN(id) || typeof id === "string") {
+        throw new Error("접근 가능한 id가 아닙니다.");
+      }
+
+      console.log(id);
+      push(`${id}`);
+
+      const createSubDocument = await request("", {
         method: "POST",
         body: JSON.stringify({
           title: "",
-          parent: getItem("new-parent", null),
+          parent: id,
         }),
       });
 
-      history.replaceState(null, null, `${createdDocument.id}`);
-      removeItem("new-parent");
+      console.log(createSubDocument);
 
-      documentEditPage.setState({ documentId: createdDocument.id });
+      // history.replaceState(null, null, `${createdDocument.id}`);
+      // removeItem("new-parent");
 
-      sidebar.setState({
-        selectedId: parseInt(createdDocument.id),
-      });
+      documentEditPage.setState({ documentId: createSubDocument.id });
+
+      sidebar.render();
     } catch (error) {
       console.log(error);
     }
@@ -80,8 +105,6 @@ export default function App({ $target }) {
 
     if (pathname.indexOf("/") === 0) {
       const documentId = pathname.substring(1);
-
-      console.log(pathname, documentId);
 
       documentEditPage.setState({
         documentId: isNaN(documentId) ? documentId : parseInt(documentId),
