@@ -1,7 +1,9 @@
 import { request } from "../utils.js";
-import DocumentHeader from "./documentComponents/DocumentHeader.js";
-import Editor from "./documentComponents/Editor.js";
-import SubDocumentList from "./documentComponents/SubDocumentList.js";
+import {
+  Editor,
+  DocumentHeader,
+  SubDocumentList,
+} from "./documentComponents/DocumentComponents.js";
 
 export default function DocumentEditPage({
   $target,
