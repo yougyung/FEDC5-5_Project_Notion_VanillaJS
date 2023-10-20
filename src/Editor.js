@@ -5,7 +5,6 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    console.log("EIDI", nextState);
     let isInit = this.state.id === nextState.id; //같은 id면 수정중일테니까 새로 렌더하진 않는다.
 
     this.state = nextState; //{id: 101456, title: '새로 만든 페이지', createdAt: '2023-10-18T04:52:39.676Z', updatedAt: '2023-10-18T04:52:39.680Z', content: null, …}

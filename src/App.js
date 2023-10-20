@@ -5,11 +5,9 @@ import { customSideBarList } from "./utils/customEvent.js";
 
 export default function App({ $target }) {
   const $wrap = document.createElement("div");
-  $wrap.style.display = "flex";
 
   const $wrapSideBar = document.createElement("div");
   const $wrapEditPage = document.createElement("div");
-  $wrapEditPage.style.display = "none";
 
   $wrap.appendChild($wrapSideBar);
   $wrap.appendChild($wrapEditPage);
@@ -22,6 +20,9 @@ export default function App({ $target }) {
     initialState : { docId: "new", doc: { title: "", content: "", } }}
   );
   this.route = () => {
+    $wrap.style.display = "flex";
+    $wrapEditPage.style.display = "none";
+
     console.log("route 발생");
     const { pathname } = location;
     if (pathname === "/") {
@@ -29,6 +30,7 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/") === 0) {
       const [, , docId] = pathname.split("/");
       $wrapEditPage.style.display = docId ? "block" : "none";
+      sideBar.setState();
       editPage.setState({ docId });
     }
   };

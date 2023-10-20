@@ -7,7 +7,7 @@ export default function SideBarList({
   handleChangeList,
 }) {
   const $sideBarList = document.createElement("div");
-  $sideBarList.className = "sideBarList";
+  $sideBarList.className = "side_bar_list";
   $target.appendChild($sideBarList);
 
   this.state = initialState;
@@ -36,13 +36,10 @@ export default function SideBarList({
         ? Number(padding.split("px")[0]) + 10 + "px"
         : "0px";
       $subLi.dataset.id = doc.id;
-      $subLi.innerHTML = `<div class="each" style="position: relative;padding-left: inherit;right: inherit; width:200px">
-        <button class="toggle_button">⩥</button>
-        <span>${doc.title}</span>
-        </div>
-      `;
+      $subLi.innerHTML = `<div class="each"><img class="toggle_button" src="../assets/right.png"></img><div class="list_title_wrap"><div class="list_title">${doc.title}</div></div></div>`;
+
       new NewPageButton({
-        $target: $subLi.firstChild,
+        $target: $subLi.firstChild, // 말고 div.list_title 안에 넣어서 div를 relative, 버튼두개를 fixed로 두고 호버할때만 보이게/ 호버했을때는  글자나올 부분 크기를 div길이 -버튼두개길이 로 두고 그거 넘어가면 ... 호버 안했을 땐 div 전체길이
         id: doc.id,
         handleChangeList,
       });
@@ -76,7 +73,11 @@ export default function SideBarList({
     if (className === "toggle_button") {
       // ⩥⊽ 여닫기
       console.log("click toggle_button");
-      e.target.innerHTML = e.target.innerHTML === "⊽" ? "⩥" : "⊽";
+      e.target.innerHTML =
+        e.target.innerHTML ===
+        `<img src="../assets/down.png" style="width:12px; height:12px"></img>`
+          ? `<img src="../assets/right.png" style="width:12px; height:12px"></img>`
+          : `<img src="../assets/down.png" style="width:12px; height:12px"></img>`;
       const li = e.target.closest("li");
       const liChilds = li.lastChild.tagName === "UL" ? li.lastChild : null;
       if (liChilds) {

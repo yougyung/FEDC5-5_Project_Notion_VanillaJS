@@ -5,7 +5,7 @@ import { localStorageSetItem } from "./utils/storage.js";
 export default function EditPage({ $target, initialState }) {
   // $wrapEditPage , 초기디폴트는 {docId: "new",  doc: {  title: "",  content: "",}, }
   const $editPage = document.createElement("div");
-  $editPage.className = "edit-page";
+  $editPage.className = "edit_page";
   this.state = initialState;
 
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
