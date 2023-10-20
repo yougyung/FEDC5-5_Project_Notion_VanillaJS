@@ -19,7 +19,10 @@ export default function SubDocumentList({ $target, initialState }) {
       ${documents.map(
         ({ id, title }) => `
         <li data-id=${id} class="subdocument-link">
-          ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
+        <i class="fa-regular fa-file"></i>
+          <span class="subdocument-link-title">${
+            (title ?? "제목 없음") || (title === "" && "제목 없음")
+          }</span>
         </li>
         `
       )}

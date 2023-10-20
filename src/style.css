@@ -98,3 +98,26 @@ form {
 .subdocument-list {
   display: flex;
 }
+
+.fa-file {
+  font-size: 1.2rem;
+}
+
+.subdocument-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b3b2b0;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.subdocument-link-title {
+  font-weight: 500;
+  color: #37352f;
+  line-height: 1.3px;
+  text-decoration: underline;
+  text-decoration-color: rgba(55, 53, 47, 0.16);
+  text-decoration-thickness: 0.8px;
+  text-underline-offset: 5px;
+}
