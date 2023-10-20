@@ -1,8 +1,8 @@
-export default function Document({ $target }) {
+export default function Document({ $container }) {
   const $document = document.createElement("div");
   $document.className = "document";
   $document.textContent = "document";
-  $target.appendChild($document);
+  $container.appendChild($document);
 
   this.state = null;
 

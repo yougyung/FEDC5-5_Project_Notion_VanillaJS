@@ -1,11 +1,11 @@
 export default function DocumentTree({
-  $target,
+  $container,
   initialState = [],
   onAddClick,
 }) {
   const $tree = document.createElement("div");
   $tree.className = "document-tree";
-  $target.appendChild($tree);
+  $container.appendChild($tree);
 
   this.state = initialState;
 

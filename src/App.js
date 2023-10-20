@@ -9,7 +9,7 @@ export default function App({ $target }) {
   $target.appendChild($container);
 
   const documentTree = new DocumentTree({
-    $target: $container,
+    $container,
     onAddClick: (id) => {
       const parent = id ?? null;
       const body = {
@@ -20,7 +20,7 @@ export default function App({ $target }) {
     },
   });
 
-  new Document({ $target: $container });
+  new Document({ $container });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT);
