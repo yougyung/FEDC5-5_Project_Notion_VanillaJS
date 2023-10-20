@@ -11,7 +11,9 @@ export default function App({ $target }) {
   const sidebar = new Sidebar({
     $target: $sidebarContainer,
     initialState: this.state,
-    onDocumentClick: (id) => {},
+    onDocumentClick: (nextState) => {
+      this.setState(nextState);
+    },
     onAddDocumen: async () => {
       await this.setState();
     },
@@ -20,6 +22,7 @@ export default function App({ $target }) {
     },
   });
 
+  // 초기 통신을 통해 받아온 Documents 객체에 추가 프로퍼티를 부여
   this.addIsFolded = (documents) => {
     return documents.map((document) => ({
       ...document,
@@ -31,6 +34,7 @@ export default function App({ $target }) {
   this.setState = (nextState) => {
     this.state = nextState;
     sidebar.setState(this.state);
+    console.log(this.state);
   };
 
   this.init = async () => {
