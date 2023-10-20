@@ -1,7 +1,9 @@
 import { request } from "../utils.js";
-import DocumentAddButton from "./sidebarComponents/DocumentAddButton.js";
-import DocumentList from "./sidebarComponents/DocumentList.js";
-import SidebarHeader from "./sidebarComponents/SidebarHeader.js";
+import {
+  DocumentAddButton,
+  DocumentList,
+  SidebarHeader,
+} from "./sidebarComponents/SidebarComponents.js";
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const $sidebar = document.createElement("aside");
