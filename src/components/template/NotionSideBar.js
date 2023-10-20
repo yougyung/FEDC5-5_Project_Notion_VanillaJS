@@ -1,6 +1,7 @@
 import { push } from '../../utils/router.js';
 import NotionTitle from '../molecules/NotionTitle.js';
 import DocumentsList from '../organisms/DocumentsList.js';
+import NewDocumentButton from '../molecules/NewDocumentButton.js';
 
 /*
  * NotionSideBar
@@ -37,6 +38,7 @@ export default function NotionSideBar({ $target, initialState }) {
   this.render = () => {
     if (!Array.isArray(this.state)) return;
     new DocumentsList({ $target: $notionSideBar, initialState: this.state });
+    new NewDocumentButton({ $target: $notionSideBar, parentId: null, isHidden: false });
   };
 
   this.render();

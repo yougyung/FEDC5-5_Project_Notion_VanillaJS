@@ -1,16 +1,113 @@
 import DocumentDetail from '../components/template/DocumentDetail.js';
 import NotionSideBar from '../components/template/NotionSideBar.js';
+import { request } from '../services/api.js';
+import { initRouter } from '../utils/router.js';
 
 /*
  * HomePage
  * - NotionSideBar
  * - DocumentDetail
  * */
-export default function HomePage({ $target, initialState }) {
+
+const DUMMY_DATA = [
+  {
+    id: 100997,
+    title: 'A',
+    documents: [
+      {
+        id: 101002,
+        title: 'B',
+        documents: [],
+      },
+    ],
+  },
+  {
+    id: 100998,
+    title: 'C',
+    documents: [],
+  },
+];
+
+export default function HomePage({ $target }) {
   const $homePage = document.createElement('div');
   $homePage.style.display = 'flex';
   $homePage.style.flexDirection = 'row';
   $target.appendChild($homePage);
-  new NotionSideBar({ $target: $homePage, initialState });
-  new DocumentDetail({ $target: $homePage, initialState });
+
+  this.state = [];
+
+  let initRender = false;
+  this.setState = nextState => {
+    this.state = nextState;
+
+    this.route();
+  };
+
+  this.init = async () => {
+    const resqonseData = await request('/documents?delay=5000 ');
+
+    this.setState(resqonseData);
+    this.route();
+  };
+
+  this.init();
+
+  const findDocumentDataById = id => {
+    const documentPath = [];
+
+    const findDocument = (documents, id) => {
+      for (const document of documents) {
+        if (document.id === id) {
+          documentPath.push({ title: document.title, id: document.id });
+          documentPath.push();
+
+          return true;
+        }
+        if (document.documents.length > 0) {
+          documentPath.push({ title: document.title, id: document.id });
+          if (findDocument(document.documents, id)) return true;
+          documentPath.pop();
+        }
+      }
+    };
+    findDocument(this.state, id);
+
+    return documentPath;
+  };
+
+  this.route = async () => {
+    $homePage.innerHTML = '';
+    const notionSideBar = new NotionSideBar({ $target: $homePage, initialState: this.state });
+    const documentDetail = new DocumentDetail({
+      $target: $homePage,
+      documentState: { title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
+    });
+
+    const { pathname } = window.location;
+
+    if (pathname === '/') {
+      // home 보여주기
+      console.log('home');
+    } else if (pathname.indexOf('/documents/') === 0) {
+      // document 보여주기
+      const [, , postId] = pathname.split('/');
+      const documentContent = request(`/documents/${postId}`);
+      const documentPathData = findDocumentDataById(Number(postId));
+      const { content } = await documentContent;
+
+      const nextState = {
+        title: documentPathData.at(-1).title,
+        content: content || '내용을 채워주세요',
+        documentPath: documentPathData,
+      };
+      console.log(nextState);
+      documentDetail.setState(nextState);
+    }
+  };
+
+  initRouter(this.route);
+
+  window.addEventListener('popstate', e => {
+    this.route();
+  });
 }

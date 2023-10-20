@@ -15,7 +15,7 @@ export default function DocumentObject({ $target, state }) {
   $target.appendChild($summary);
 
   new DocumentLinkButton({ $target: $summary, title: state.title, documentId: state.id });
-  const newDocumentButton = new NewDocumentButton({ $target: $summary, parentId: state.id });
+  const newDocumentButton = new NewDocumentButton({ $target: $summary, parentId: state.id, isHidden: true });
 
   $summary.addEventListener('mouseover', e => {
     newDocumentButton.$addDocumentButton.style.visibility = 'visible';
