@@ -1,0 +1,25 @@
+.document {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.document > div {
+    margin: 0 5px 0 5px;
+}
+
+.document > img {
+    width: 10px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.document > img:hover {
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.leaf_document {
+    font-size: 14px;
+    color: rgb(185, 183, 183);
+}
