@@ -1,5 +1,4 @@
-export const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
-export const DEFAULT_USERNAME = "ksj-notion-cloning";
+import { DEFAULT_USERNAME, API_END_POINT } from "../../env.js";
 
 // 일단 더미데이터로 실험해보고 이후에 API 연결하기
 export const DUMMY_DATA_SIDE_LIST = [
