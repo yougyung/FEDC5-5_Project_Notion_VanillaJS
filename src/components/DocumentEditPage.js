@@ -1,7 +1,7 @@
 import { request } from "../utils/api.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
-import { NEW, NEWPARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
+import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -36,10 +36,10 @@ export default function DocumentEditPage({ $target, initialState }) {
             method: "POST",
             body: JSON.stringify({
               title: document.title,
-              parent: getItem(NEWPARENT, null),
+              parent: getItem(NEW_PARENT, null),
             }),
           });
-          removeItem(NEWPARENT);
+          removeItem(NEW_PARENT);
           history.replaceState(null, null, `${DOCUMENTS_ROUTE}/${createdDocument.id}`);
           removeItem(documentLocalSaveKey);
 

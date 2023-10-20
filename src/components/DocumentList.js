@@ -1,9 +1,11 @@
-import { DOCUMENTS_ROUTE, NEW, NEWPARENT } from "../utils/constants.js";
+import { DOCUMENTS_ROUTE, NEW, NEW_PARENT } from "../utils/constants.js";
 import { push } from "../utils/router.js";
 import { setItem } from "../utils/storage.js";
 
 export default function DocumentList({ $target, initialState }) {
   const $documentlist = document.createElement("div");
+  $documentlist.className = "document-list";
+
   $target.appendChild($documentlist);
 
   this.state = initialState;
@@ -20,9 +22,9 @@ export default function DocumentList({ $target, initialState }) {
                 ({ id, title, documents }) => `
                 <li data-id= ${id} class="document-item">
                     ${title}
-                    <button class="add" type="button">+</button>
+                    <button class="add" type="button"><i class="fa-solid fa-plus add-icon"></i></button>
                 </li>
-                ${documents.length ? renderDocument(documents) : "No Pages"}`
+                ${documents.length ? renderDocument(documents) : '<li class="no-subapage">페이지 없음</li>'}`
               )
               .join("")}
         </ul>
@@ -40,7 +42,7 @@ export default function DocumentList({ $target, initialState }) {
     if (e.target.className === "document-item") {
       push(`${DOCUMENTS_ROUTE}/${id}`);
     } else if (e.target.className === "add") {
-      setItem(NEWPARENT, id);
+      setItem(NEW_PARENT, id);
       push(`${DOCUMENTS_ROUTE}/${NEW}`);
     }
   });

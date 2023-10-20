@@ -4,6 +4,8 @@ import { DOCUMENTS_ROUTE } from "../utils/constants.js";
 
 export default function SidebarContainer({ $target }) {
   const $sidebar = document.createElement("div");
+  $sidebar.className = "sidebar";
+
   $target.appendChild($sidebar);
 
   const documentList = new DocumentList({

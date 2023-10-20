@@ -1,8 +1,10 @@
+import { UNTITLED } from "../utils/constants.js";
+
 export default function Editor({ $target, initialState = { title: "", content: "" }, onEditing }) {
   const $editor = document.createElement("div");
   $editor.innerHTML = `
-    <input type="text" name="title" style="width: 600px;" class="title" placeholder="" autofocus/>
-    <textarea name="content" style="width: 600px; height: 400px;"class="content" placeholder=""></textarea>
+    <input type="text" name="title" class="title" placeholder="${UNTITLED}" autofocus/>
+    <textarea name="content" class="content" placeholder="내용을 입력하세요."></textarea>
   `;
 
   //$editor.className = "editor";
