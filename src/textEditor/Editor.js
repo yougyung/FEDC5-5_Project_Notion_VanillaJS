@@ -8,7 +8,6 @@ export default function Editor({ $target, initialState, onEdit }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    console.log(this.state.content);
     this.state = { ...this.state, ...nextState };
     this.render();
   };
@@ -38,7 +37,6 @@ export default function Editor({ $target, initialState, onEdit }) {
 
       this.setState(nextState);
       onEdit(this.state);
-      console.log("editor 작동하면 나오는 상태:", this.state);
     }
   });
 
