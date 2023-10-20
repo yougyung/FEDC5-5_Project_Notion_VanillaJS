@@ -1,3 +1,4 @@
+import { $ } from "./utils/DOM.js";
 import { initRouter } from "./utils/router.js";
 import {
   DUMMY_DATA,
@@ -9,9 +10,13 @@ import Sidebar from "./components/Sidebar/Sidebar.js";
 import EditorPage from "./components/EditorPage/EditorPage.js";
 import Header from "./components/Header/Header.js";
 import Modal from "./components/CreateModal/Modal.js";
-import { getPost, getPostList } from "./utils/api.js";
+import OnBoarding from "./components/onBoarding/OnBoarding.js";
+import { createPost, getPost, getPostList } from "./utils/api.js";
 
 export default function App({ $target }) {
+  const $leftContainer = $("#left-container");
+  const $rightContainer = $("#right-container");
+
   /**
    * App에서 모든 State 관리
    */
@@ -23,23 +28,26 @@ export default function App({ $target }) {
 
   this.setState = nextState => {
     this.state = nextState;
+    reRender();
   };
 
-  // Sidebar
-  const sidebar = new Sidebar({ $target, initialState: DUMMY_DATA });
-  sidebar.setState();
+  // 모달 열기
+  const displayModal = async parentId => {
+    if (parentId === null || parentId !== "close") {
+      const newDocument = await createPost({
+        title: "제목 없음",
+        parent: parentId,
+      });
+      const newDocumentBody = await getPost(newDocument.id);
+      this.setState({ ...this.state, selectedDocument: newDocument });
+    }
 
-  // Editor
-  const editorPage = new EditorPage({
-    $target,
-    initialState: DUMMY_SINGLE_POST_DATA,
-  });
+    $(".modal").classList.toggle("hidden");
+  };
 
-  // Header
-  const header = new Header({ $target, initialState: [] });
-
-  // New Modal
-  const modal = new Modal({ $target, initialState: {} });
+  const onAddSubDocument = async parentId => {
+    await displayModal(parentId);
+  };
 
   /** 문서 목록 가져오기 + state 변경 + 사이드바 리렌더링 */
   const fetchDocuments = async () => {
@@ -62,14 +70,44 @@ export default function App({ $target }) {
     editorPage.setState(this.state.selectedDocument);
   };
 
+  // Sidebar
+  const sidebar = new Sidebar({
+    $target: $leftContainer,
+    displayModal,
+    onAddSubDocument,
+  });
+  sidebar.setState();
+
+  const onboarding = new OnBoarding({ $target: $rightContainer });
+
+  // Header
+  const header = new Header({ $target: $rightContainer, initialState: [] });
+
+  // Editor
+  const editorPage = new EditorPage({
+    $target: $rightContainer,
+    initialState: DUMMY_SINGLE_POST_DATA,
+  });
+
+  // New Modal
+  const modal = new Modal({
+    $target,
+    initialState: this.state.selectedDocument,
+    displayModal,
+  });
+
+  const reRender = () => {
+    modal.setState(this.state.selectedDocument);
+  };
+
   this.route = () => {
     //$target.innerHTML = ""; // 화면 비우기
     const { pathname } = window.location;
 
+    onboarding.render();
+
     // root 접속 시 - 선택 안된 상황
     if (pathname === "/") {
-      // 루트 ui 추가 필요
-      // editor가 있다면 지우기
     } else if (pathname.indexOf("/documents/") === 0) {
       // 루트 ui 삭제 필요
       const [, , documentId] = pathname.split("/");
