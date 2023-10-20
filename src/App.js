@@ -17,7 +17,7 @@ export default function App({ $target, initialState }) {
     $target,
     initialState: this.state,
     createDocument: async (id) => {
-      const body = { title: "새 Document", parent: id ? id : null };
+      const body = { title: "제목 없음", parent: id ? id : null };
       const response = await request("/documents", {
         method: "POST",
         body: JSON.stringify(body),
@@ -30,6 +30,7 @@ export default function App({ $target, initialState }) {
         method: "DELETE",
       });
       push("/");
+      this.getDocuments();
     },
   });
   let timerOfSetTimeout = null;
@@ -54,6 +55,7 @@ export default function App({ $target, initialState }) {
       }, 1500);
     },
   });
+  const testRoute = [{ path: "/documents/", component: "test" }];
   this.route = async () => {
     const { pathname } = window.location;
     navPage.setState(this.state);

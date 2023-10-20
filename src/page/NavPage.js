@@ -1,5 +1,6 @@
 import DocumentList from "../component/DocumentList.js";
 
+//initialState = [{id:num, title:string, content:string, createdAt:time, updatedAt:time,}]
 export default function NavPage({
   $target,
   initialState,

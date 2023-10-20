@@ -13,8 +13,8 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     this.render();
   };
   $editor.innerHTML = `
-  <input style="width:1000px" data-name="title" value="${this.state.title}" />
-  <textarea style="border:solid 2px black; width:1000px; height:500px;" data-name="content" value="${this.state.content}"/>
+  <input style="width:700px; height:100px; font-size:36px; font-weight:600" data-name="title" value="${this.state.title}" />
+  <textarea style="border:solid 2px black; width:700px; height:500px;" data-name="content" value="${this.state.content}"/>
   `;
   this.render = () => {
     $editor
