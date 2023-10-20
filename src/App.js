@@ -53,6 +53,16 @@ export default function App({ $target }) {
       
       editor.setState(addedDocument);
     },
+    onClickInitialAddButton: async () => {
+      const addedDocument = await fetchAddDocument(null, '제목 없음');
+
+      this.setState({
+        ...this.state,
+        selectedDocument: addedDocument,
+      })
+
+      editor.setState(addedDocument);
+    }
   });
 
   const editor = new Editor({
