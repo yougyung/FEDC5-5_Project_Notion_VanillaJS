@@ -11,6 +11,8 @@ import EditorPage from "./components/EditorPage/EditorPage.js";
 import Header from "./components/Header/Header.js";
 import Modal from "./components/CreateModal/Modal.js";
 import OnBoarding from "./components/onBoarding/OnBoarding.js";
+import Footer from "./components/Footer/Footer.js";
+
 import { createPost, getPost, getPostList } from "./utils/api.js";
 
 export default function App({ $target }) {
@@ -89,6 +91,12 @@ export default function App({ $target }) {
     initialState: DUMMY_SINGLE_POST_DATA,
   });
 
+  // Footer
+  const footer = new Footer({
+    $target: $rightContainer,
+    initialState: this.state.selectedDocument.documents,
+  });
+
   // New Modal
   const modal = new Modal({
     $target,
@@ -100,7 +108,7 @@ export default function App({ $target }) {
     modal.setState(this.state.selectedDocument);
   };
 
-  this.route = () => {
+  this.route = async () => {
     //$target.innerHTML = ""; // 화면 비우기
     const { pathname } = window.location;
 
@@ -111,7 +119,8 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       // 루트 ui 삭제 필요
       const [, , documentId] = pathname.split("/");
-      fetchDocument(documentId);
+      await fetchDocument(documentId);
+      footer.setState(this.state.selectedDocument.documents);
     } else if (pathname === "/new") {
       editorPage.setState("new");
     }
