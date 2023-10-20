@@ -1,16 +1,21 @@
 import { push } from '../../utils/router.js';
 import NotionTitle from '../molecules/NotionTitle.js';
+import DocumentsList from '../organisms/DocumentsList.js';
 
 /*
  * NotionSideBar
  * - NotionTitle
- * - DocumentList
+ * - DocumentsList
  * */
 
 export default function NotionSideBar({ $target, initialState }) {
   const $notionSideBar = document.createElement('div');
-  $target.style.display = 'flex';
+  $notionSideBar.style.display = 'flex';
   $notionSideBar.style.flexDirection = 'column';
+  $notionSideBar.style.width = '300px';
+  $notionSideBar.style.height = '100vh';
+  $notionSideBar.style.backgroundColor = '#e9ecef';
+
   $target.appendChild($notionSideBar);
 
   this.state = initialState;
@@ -18,36 +23,20 @@ export default function NotionSideBar({ $target, initialState }) {
     this.state = nextState;
     this.render();
   };
-  const $documentList = document.createElement('div');
 
-  $documentList.addEventListener('click', e => {
-    const $li = e.target.closest('li');
-    if (!$li) return;
-    e.preventDefault();
-    const { id } = e.target.dataset;
-    console.log(id);
-    push(`/documents/${id}`);
+  $notionSideBar.addEventListener('click', e => {
+    const { type, id } = e.target.dataset;
+    if (type === 'document') {
+      e.preventDefault();
+      push(`/documents/${id}`);
+    }
   });
 
   new NotionTitle({ $target: $notionSideBar, title: "Hun's Notion" });
 
-  this.createDocumentTree = state =>
-    state
-      .map(
-        document =>
-          `<details><summary>${document.title}</summary> ${
-            document.documents.length ? `<ul>${this.createDocumentTree(document.documents)}</ul>` : '<ul>undefined</ul>'
-          }</details>`
-      )
-      .join('');
-
   this.render = () => {
     if (!Array.isArray(this.state)) return;
-    console.log(this.state);
-
-    // $documentList.innerHTML = this.createDocumentTree(this.state);
-    $documentList.innerHTML = this.createDocumentTree(this.state);
-    $notionSideBar.appendChild($documentList);
+    new DocumentsList({ $target: $notionSideBar, initialState: this.state });
   };
 
   this.render();

@@ -26,8 +26,10 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
     if (pathname === '/') {
+      // home 보여주기
       console.log('home');
     } else if (pathname.indexOf('/documents/') === 0) {
+      // document 보여주기
       console.log('document');
     }
   };
