@@ -14,7 +14,7 @@ export default function App({ $target }) {
 
   const $editorSection = document.createElement("div");
   $target.appendChild($editorSection);
-  $editorSection.setAttribute("class", "editor-section");
+  $editorSection.setAttribute("class", "editor-page");
 
   const documentEditSection = new DocumentEditSection({
     $target: $editorSection,

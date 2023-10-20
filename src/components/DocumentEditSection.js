@@ -3,43 +3,16 @@ import { request } from "../utils/api.js";
 import { setItem, removeItem, getItem } from "../utils/storage.js";
 
 export default function DocumentEditSection({ $target, initialState }) {
-  const $section = document.createElement("div");
-  $target.appendChild($section);
+  const $div = document.createElement("div");
 
   this.state = initialState;
 
   let documentLocalSaveKey = `temp-post-${this.state.documentId}`;
 
-  this.setState = (nextState) => {
-    if (this.state.documentId !== nextState.documentId) {
-      this.state = nextState;
-      if (this.state.documentId === "new") {
-        documentLocalSaveKey = `temp-document-${this.state.document.id}`;
-
-        setItem(documentLocalSaveKey, {
-          ...this.state,
-          tempSaveDate: new Date(),
-        });
-      } else {
-        fetchDocument();
-      }
-    }
-
-    this.state = nextState;
-    documentLocalSaveKey = `temp-document-${this.state.document.id}`;
-
-    setItem(documentLocalSaveKey, {
-      ...this.state.document,
-      tempSaveDate: new Date(),
-    });
-
-    editor.setState(this.state.document);
-  };
-
   let timer = null;
 
   const editor = new Editor({
-    $target: $section,
+    $target: $div,
     initialState: {
       documentId: 0,
       document: {
@@ -90,6 +63,37 @@ export default function DocumentEditSection({ $target, initialState }) {
       }, 1000);
     },
   });
+
+  this.setState = (nextState) => {
+    if (this.state.documentId !== nextState.documentId) {
+      this.state = nextState;
+      if (this.state.documentId === "new") {
+        documentLocalSaveKey = `temp-document-${this.state.document.id}`;
+
+        setItem(documentLocalSaveKey, {
+          ...this.state,
+          tempSaveDate: new Date(),
+        });
+      } else {
+        fetchDocument();
+      }
+    }
+
+    this.state = nextState;
+    this.render();
+    documentLocalSaveKey = `temp-document-${this.state.document.id}`;
+
+    setItem(documentLocalSaveKey, {
+      ...this.state.document,
+      tempSaveDate: new Date(),
+    });
+
+    editor.setState(this.state.document);
+  };
+
+  this.render = () => {
+    $target.appendChild($div);
+  };
 
   const fetchDocument = async () => {
     const { documentId } = this.state;
