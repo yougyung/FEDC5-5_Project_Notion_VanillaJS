@@ -3,8 +3,6 @@ export default function Editor({ $target, initialState }) {
   $editor.setAttribute('id', 'editor');
   $editor.setAttribute('name', 'text');
 
-  $target.appendChild($editor);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -17,7 +15,14 @@ export default function Editor({ $target, initialState }) {
 
   this.render = () => {
     // 선택한 문서 content 값 표시
-    $editor.value = `${this.state}`;
+
+    if (!this.state) {
+      $editor.remove();
+    } else {
+      $target.appendChild($editor);
+    }
+
+    $editor.value = !this.state ? '' : `${this.state}`;
   };
 
   this.render();
