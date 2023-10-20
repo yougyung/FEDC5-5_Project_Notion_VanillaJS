@@ -2,8 +2,9 @@ import DocumentList from './DocumentList/documentList.js';
 import DocumentForm from './DocumentForm/documentForm.js';
 import { createNewElement } from '../../../Util/element.js';
 import { request } from '../../../Service/document.js';
+import Observer from '../../../Store/userObserver.js';
 
-// state = { currentUser : "...", documentList: [] }
+// state = { documentList: [] }
 
 export default class Document {
     constructor({ $target, initalState }) {
@@ -20,7 +21,6 @@ export default class Document {
     }
 
     render() {
-        this.$target.appendChild(this.$document);
         this.documentForm = new DocumentForm({
             $target: this.$document,
             onSubmitPost: (parent, title) => this.postDocument(parent, title),
@@ -31,6 +31,7 @@ export default class Document {
             onClickPost: (parentId, title) => this.postDocument(parentId, title),
             onClickDelete: (documentId) => this.deleteDocument(documentId),
         });
+        this.$target.appendChild(this.$document);
     }
 
     setState(nextState) {

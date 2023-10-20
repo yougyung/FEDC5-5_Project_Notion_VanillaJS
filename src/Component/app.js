@@ -1,34 +1,22 @@
 import RootPage from '../Page/RootPage.js';
 import Router from '../Util/router.js';
-
-// state = { currentUser : "..." }
+import Observer from '../Store/userObserver.js';
 
 export default class App {
-    constructor({ $target, initalState }) {
+    constructor({ $target }) {
         this.$target = $target;
-        this.state = initalState;
-        this.rootPage = new RootPage({
-            $target,
-            initalState: { ...this.state },
-            setUser: (nextState) => this.setState(nextState),
-        });
+        this.rootPage = new RootPage({ $target });
 
         this.init();
     }
 
     init() {
         const router = Router.getInstance();
+        Observer.getInstance();
 
         router.setPages([
             { path: '/index.html', page: this.rootPage },
             { path: '/document', page: null },
         ]);
-    }
-
-    setState(nextState) {
-        const { currentUser } = nextState;
-
-        this.state = { currentUser };
-        this.rootPage.setState(nextState);
     }
 }

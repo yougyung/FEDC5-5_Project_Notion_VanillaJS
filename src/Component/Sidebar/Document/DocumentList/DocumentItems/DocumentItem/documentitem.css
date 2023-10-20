@@ -1,5 +1,4 @@
 .document__item {
-    
 }
 
 .document__item > .title-and-buttons {
@@ -9,4 +8,8 @@
 }
 .document__item > .title-and-buttons:hover {
     background-color: var(--gray);
+}
+
+.document__item > .title-and-buttons > .title-and-buttons__title--current {
+    color: var(--main);
 }

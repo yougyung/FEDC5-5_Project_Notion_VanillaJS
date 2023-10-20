@@ -1,6 +1,3 @@
-// $taget = 자식 노드로 추가할 타겟
-// pages = 모든 페이지 목록
-
 export default class Router {
     static instance = null;
     pages = [];
