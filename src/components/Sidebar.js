@@ -1,6 +1,6 @@
 import { request } from "../utils.js";
+import DocumentListHeader from "./sidebarComponents/DocumentListHeader.js";
 import {
-  DocumentAddButton,
   DocumentList,
   SidebarHeader,
 } from "./sidebarComponents/SidebarComponents.js";
@@ -21,11 +21,8 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
     username: "Judi",
   });
 
-  const documentAddButton = new DocumentAddButton({
+  new DocumentListHeader({
     $target: $sidebar,
-    initialState: {
-      documentId: "new",
-    },
     onAdd,
   });
 
