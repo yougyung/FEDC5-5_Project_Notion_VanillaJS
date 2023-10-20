@@ -1,4 +1,4 @@
-export const deleteDocumentFromIndex = (data, id) => {
+export const deleteDocumentTreeFromIndex = (data, id) => {
   for (let i = 0; i < data.length; i++) {
     const currDoc = data[i];
 
@@ -11,12 +11,12 @@ export const deleteDocumentFromIndex = (data, id) => {
       }
       return;
     } else if (currDoc.documents && currDoc.documents.length > 0) {
-      deleteDocumentFromIndex(currDoc.documents, id);
+      deleteDocumentTreeFromIndex(currDoc.documents, id);
     }
   }
 };
 
-export const createDocumentFromIndex = (data, id, newData) => {
+export const createDocumentTreeFromIndex = (data, id, newData) => {
   if (!id) {
     data.push(newData);
     return;
@@ -31,7 +31,22 @@ export const createDocumentFromIndex = (data, id, newData) => {
       currDoc.documents.push(newData);
       return;
     } else if (currDoc.documents && currDoc.documents.length > 0) {
-      createDocumentFromIndex(currDoc.documents, id, newData);
+      createDocumentTreeFromIndex(currDoc.documents, id, newData);
     }
   }
+};
+
+export const flattenDocumentIndex = (data) => {
+  if (!data) return;
+
+  return data.reduce((acc, item) => {
+    if (Array.isArray(item.documents)) {
+      const copyItem = { ...item };
+      const { documents, ...rest } = copyItem;
+      const itemWithOutDocs = rest;
+      return acc.concat(itemWithOutDocs, flattenDocumentIndex(documents));
+    } else {
+      return acc.concat(item);
+    }
+  }, []);
 };

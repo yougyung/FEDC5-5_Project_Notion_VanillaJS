@@ -38,6 +38,24 @@
   align-items: center;
   z-index: 10;
 }
+
+#leef-view {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+  margin: 4rem;
+}
+.leef {
+  position: absolute;
+  padding: 0.6rem 0.8rem;
+  background-color: #6A9F35;
+  cursor: pointer;
+  border-radius: 100px;
+}
+.leef-title {
+  color: #f8f9f6;
+}
+
 .app-title {
   position: relative;
   font-family: "Pacifico", cursive;

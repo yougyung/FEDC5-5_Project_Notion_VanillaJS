@@ -2,7 +2,10 @@ import { _DELETE } from "../../api/api.js";
 import { Cross, Plus } from "../../icons.js";
 import { push } from "../../router.js";
 import { useDocsIndex } from "../../utils/store.js";
-import { deleteDocumentFromIndex } from "../../utils/updateDocumentsIndex.js";
+import {
+  deleteDocumentTreeFromIndex,
+  flattenDocumentIndex,
+} from "../../utils/updateDocumentsIndex.js";
 import DocsButton from "./DocsButton.js";
 
 const DocsIndexCardProps = {
@@ -44,8 +47,13 @@ export default function DocsIndexCard({ $parent, initState }) {
       push("/");
 
       // 목차 낙관적 업데이트
-      deleteDocumentFromIndex(useDocsIndex.state.data, parseInt(this.state.id));
-      useDocsIndex.setState({ data: useDocsIndex.state.data });
+      deleteDocumentTreeFromIndex(useDocsIndex.state.data, parseInt(this.state.id));
+
+      const { data } = useDocsIndex.state;
+      useDocsIndex.setState({
+        data,
+        flattenData: flattenDocumentIndex(data),
+      });
 
       await _DELETE(`documents/${this.state.id}`);
     },

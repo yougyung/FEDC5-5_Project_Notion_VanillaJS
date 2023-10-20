@@ -4,6 +4,7 @@ import { SIDEBAR_VIEW_MODE } from "../utils/constants.js";
 import { useDocsIndex } from "../utils/store.js";
 
 import { _GET } from "../api/api.js";
+import { flattenDocumentIndex } from "../utils/updateDocumentsIndex.js";
 
 const SidebarProps = {
   sidebarViewMode: "string",
@@ -29,7 +30,10 @@ export default function Sidebar({ $parent, initState }) {
       // update data //
       const fetchData = await fetchDocuments();
       // render child component
-      useDocsIndex.setState(fetchData);
+      useDocsIndex.setState({
+        data: fetchData,
+        flattenData: flattenDocumentIndex(fetchData),
+      });
     }
   };
 
@@ -49,10 +53,12 @@ export default function Sidebar({ $parent, initState }) {
     const documents = await _GET("documents");
     // this.setState({ data: documents });
 
-    return await { data: documents };
+    return await documents;
   };
   // ========================================================== API CALL //
 
   // subscribers //
-  useDocsIndex.setState({ subscribers: [docsIndexViewer] });
+  useDocsIndex.setState({
+    subscribers: [...useDocsIndex.state.subscribers, docsIndexViewer],
+  });
 }

@@ -28,5 +28,6 @@ export const useDocument = new useStatePublisher({
 
 export const useDocsIndex = new useStatePublisher({
   data: null,
+  flattenData: null,
   subscribers: [],
 });

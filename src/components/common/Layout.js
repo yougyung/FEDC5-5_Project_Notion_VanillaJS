@@ -3,8 +3,9 @@ import PreView from "../../views/PreView.js";
 import Welcome from "./Welcome.js";
 
 import { initRouter } from "../../router.js";
-import { useDocument } from "../../utils/store.js";
+import { useDocsIndex, useDocument } from "../../utils/store.js";
 import { parseQuery } from "../../utils/parseQuery.js";
+import LeefView from "../../views/LeefView.js";
 
 /**
  * @description 레이아웃 컴포넌트 - view 렌더링 루트
@@ -15,6 +16,7 @@ export default function Layout({ $app, initState }) {
   $app.appendChild($layout);
 
   const welcome = new Welcome({ $parent: $layout });
+  const leefView = new LeefView({ $parent: $layout });
   const editorView = new EditorView({
     $parent: $layout,
     initState: {
@@ -30,6 +32,7 @@ export default function Layout({ $app, initState }) {
 
     if (pathname === "/") {
       welcome.render();
+      leefView.render()
     } else if (pathname.indexOf("/documents/") === 0) {
       const [_, __, documentId] = pathname.split("/");
 
@@ -50,5 +53,8 @@ export default function Layout({ $app, initState }) {
   window.addEventListener("popstate", () => this.route());
 
   // subscribers //
+  useDocsIndex.setState({
+    subscribers: [...useDocsIndex.state.subscribers, leefView],
+  });
   useDocument.setState({ subscribers: [preView] });
 }
