@@ -1,3 +1,5 @@
+import { EMPTY_TITLE } from '../constants/messages.js';
+
 export default function DocumentList({ $target, initialState }) {
 	const $nav = document.createElement('nav');
 	const $ul = document.createElement('ul');
