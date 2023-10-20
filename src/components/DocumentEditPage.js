@@ -1,5 +1,5 @@
 import { request } from "../utils.js";
-import Editor from "./documentComponents/Editor.js";
+import Editor from "./documentComponents/DocumentComponents.js";
 
 export default function DocumentEditPage({ $target, initialState, onEdit }) {
   const $documentEditPage = document.createElement("section");
