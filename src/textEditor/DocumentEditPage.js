@@ -3,6 +3,9 @@ import Editor from "./Editor.js";
 
 export default function DocumentEditPage({ $target, initialState, onEdit }) {
   const $documentEditPage = document.createElement("section");
+
+  $documentEditPage.className = "document-edit-page";
+
   this.state = initialState;
 
   const fetchDocument = async () => {
@@ -14,7 +17,7 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
   };
 
   const editor = new Editor({
-    $target,
+    $target: $documentEditPage,
     initialState: {
       title: "",
       content: "",
@@ -38,6 +41,8 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
   };
 
   this.render = () => {
-    $target.appendChild($documentEditPage);
+    if (!$target.querySelector("#document-edit-page")) {
+      $target.appendChild($documentEditPage);
+    }
   };
 }
