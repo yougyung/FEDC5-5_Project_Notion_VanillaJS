@@ -1,8 +1,4 @@
-const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
-const HEADERS = {
-  "x-username": "yoonseo",
-  "Content-Type": "application/json",
-};
+import { API_END_POINT, HEADERS } from "./url.js";
 
 const request = async (url, options = {}) => {
   try {
