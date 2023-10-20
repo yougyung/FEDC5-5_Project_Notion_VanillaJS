@@ -1,3 +1,5 @@
+import RootPage from '../Page/RootPage.js';
+import EditPage from '../Page/editPage.js';
 export default class Router {
     static instance = null;
     pages = [];
@@ -28,17 +30,20 @@ export default class Router {
     }
 
     routeUrl() {
+        const $target = document.querySelector('#app');
         const { pathname } = window.location;
 
+        $target.replaceChildren();
+
         if (pathname === '/index.html' || pathname === '/') {
-            const { page } = this.pages.find(({ path }) => path === pathname);
+            const rootPage = new RootPage({ $target });
 
-            page.render();
+            rootPage.render();
         } else if (pathname.indexOf('/document') === 0) {
-            const { page } = this.pages.find(({ path }) => path === '/document');
             const documentId = pathname.split('/')[2];
+            const editPage = new EditPage({ $target, initalState: { documentId } });
 
-            console.log(documentId, page);
+            editPage.render();
         } else {
             alert('404 ERROR!');
         }

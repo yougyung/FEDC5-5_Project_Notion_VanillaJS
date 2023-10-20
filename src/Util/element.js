@@ -1,19 +1,18 @@
-export const createNewElement = (tag, properties = [], text = "") => {
+export const createNewElement = (tag, properties = [], text = '') => {
     const $element = document.createElement(tag);
 
-    if(text) {
+    if (text) {
         $element.innerText = text;
     }
 
     properties.forEach(({ property, value }) => {
-        if(property.includes('dataset.')) {
+        if (property.includes('dataset.')) {
             const dataAttribute = property.split('.')[1];
             $element.dataset[dataAttribute] = value;
-        } 
-        else{
+        } else {
             $element[property] = value;
         }
     });
 
     return $element;
-}
+};

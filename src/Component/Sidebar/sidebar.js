@@ -14,7 +14,7 @@ export default class Sidebar {
     }
 
     render() {
-        const $userAndDocument = createNewElement('div', [{ property: 'className', value: 'user-and-document' }]);
+        const $userAndDocument = createNewElement('div', [{ property: 'className', value: 'sidebar' }]);
 
         this.user = new User({
             $target: $userAndDocument,
