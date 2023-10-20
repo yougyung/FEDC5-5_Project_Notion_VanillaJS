@@ -69,10 +69,6 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
       $editor.focus({ preventScroll: true });
     },
   });
-
-  const editorFooterBar = new EditorFooterBar({
-    $target: document.querySelector("#root"),
-  });
 }
 
 /*

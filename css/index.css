@@ -104,6 +104,12 @@ button {
   padding-left: 100px;
 }
 
+/*footerBar*/
+.treeFooterBar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 .documentCreateButton:hover {
   background-color: rgba(23, 35, 52, 0.757);
 }

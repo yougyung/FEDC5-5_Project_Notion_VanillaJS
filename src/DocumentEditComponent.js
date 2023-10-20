@@ -1,4 +1,5 @@
 import DocumentEditor from "./DocumentEditor.js";
+import EditorFooterBar from "./EditorFooterBar.js";
 import { request } from "./api.js";
 
 export default function DocumentEditComponent({
@@ -31,6 +32,7 @@ export default function DocumentEditComponent({
     } else {
       //이 조건은 API요청 후에 this.state에 nextState를 넣어줘야하기 때문에 넣어주고 렌더링
       this.state = nextState;
+      editorFooterBar.setState({ document: this.state.document });
       this.render();
       documentEditor.setState(
         this.state.document || { title: "", content: "" }
@@ -59,6 +61,13 @@ export default function DocumentEditComponent({
         });
         onRefresh();
       }, 0);
+    },
+  });
+
+  const editorFooterBar = new EditorFooterBar({
+    $target: document.querySelector("#root"),
+    initialState: {
+      document: [],
     },
   });
 

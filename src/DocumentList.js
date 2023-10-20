@@ -14,7 +14,6 @@ export default function DocumentList({
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     this.render();
   };
 
@@ -121,7 +120,7 @@ export default function DocumentList({
       }
     }
   });
-  const fetchDeleteDocument = async (parentId, id) => {
+  const fetchDeleteDocument = async (id) => {
     const DeletedDocument = await request(`/documents/${id}`, {
       method: "DELETE",
     });
