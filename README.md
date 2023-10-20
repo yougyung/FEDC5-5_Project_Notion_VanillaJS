@@ -28,3 +28,11 @@
 - [x] 편집기 최하단에는 현재 편집 중인 Document의 하위 Document 링크를 렌더링하도록 추가합니다.
 - 그외 개선하거나 구현했으면 좋겠다는 부분이 있으면 적극적으로 구현해봅니다!
 
+---
+
+![레몬나무를키워보아요](https://github.com/prgrms-fe-devcourse/FEDC5-5_Project_Notion_VanillaJS/assets/42432063/1a1bef70-7525-4803-b9bc-e05bb99d5cd5)
+
+
+https://github.com/prgrms-fe-devcourse/FEDC5-5_Project_Notion_VanillaJS/assets/42432063/ce1e88b7-ce3e-4de1-a25e-eb81288b02e2
+
+
