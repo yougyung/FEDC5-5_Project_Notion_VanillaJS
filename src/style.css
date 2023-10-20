@@ -30,6 +30,7 @@ aside {
   color: rgba(55, 53, 47, 0.5);
 }
 
+/* documentlist styles */
 ul {
   padding: 0;
   margin: 0;
@@ -64,6 +65,7 @@ button {
   color: rgb(55, 53, 47);
 }
 
+/* editor styles */
 form {
   width: 900px;
   padding-top: calc(96px + env(safe-area-inset-top));
