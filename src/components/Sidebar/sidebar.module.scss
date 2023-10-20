@@ -2,13 +2,12 @@
 
 .s_sidebar {
   width: 15rem;
+  min-height: 100vh;
+  max-height: 100vh;
   border: 0.01rem solid color.$onSecondary;
   background-color: color.$secondary;
-  padding: 2rem 1.5rem;
-}
-
-.s_sidebar > ul > li {
-  margin-bottom: 3rem;
+  padding: 2rem 1.5rem 0;
+  overflow-x: scroll;
 }
 
 .s_button {
