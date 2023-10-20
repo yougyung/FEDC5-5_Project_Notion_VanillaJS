@@ -16,8 +16,9 @@ export default function SubDocumentList({ $target, initialState }) {
     const { documents } = this.state;
     $editorFooter.innerHTML = `
     <ul class="subdocument-list">
-      ${documents.map(
-        ({ id, title }) => `
+      ${documents
+        .map(
+          ({ id, title }) => `
         <li data-id=${id} class="subdocument-link">
         <i class="fa-regular fa-file"></i>
           <span class="subdocument-link-title">${
@@ -25,7 +26,8 @@ export default function SubDocumentList({ $target, initialState }) {
           }</span>
         </li>
         `
-      )}
+        )
+        .join("")}
     </ul>
         `;
   };
