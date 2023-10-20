@@ -6,6 +6,7 @@ export default function SideNav({
   onClickPlusBtn,
   onClickDeleteBtn,
   onClickDoc,
+  onClickMain,
 }) {
   const $sideNav = document.createElement('nav');
   $sideNav.className = 'nav-container';
@@ -59,6 +60,10 @@ export default function SideNav({
 
     if (className === 'nav-document') {
       onClickDoc(dataset.id);
+    }
+
+    if (className === 'nav-header-title') {
+      onClickMain();
     }
   });
 }
