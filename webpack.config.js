@@ -8,6 +8,15 @@ dotenv.config();
 module.exports = {
 	mode: 'development',
 	entry: './src/main.js',
+	resolve: {
+		extensions: ['.js'],
+		alias: {
+			'@api': path.resolve(__dirname, 'src/api'),
+			'@component': path.resolve(__dirname, 'src/component'),
+			'@layout': path.resolve(__dirname, 'src/layout'),
+			'@util': path.resolve(__dirname, 'src/util'),
+		},
+	},
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'dist'),
@@ -23,12 +32,7 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['@babel/preset-env'],
-					},
-				},
+				loader: 'babel-loader',
 			},
 			{
 				test: /\.scss$/,
