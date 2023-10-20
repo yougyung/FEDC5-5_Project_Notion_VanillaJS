@@ -1,4 +1,5 @@
 import Editor from "./Editor.js";
+import SearchBox from "./SearchBox.js";
 import SubPages from "./SubPages.js";
 import { request } from "./utils/api.js";
 import { localStorageSetItem } from "./utils/storage.js";
@@ -9,8 +10,14 @@ export default function EditPage({ $target, initialState }) {
   $editPage.className = "edit_page";
   this.state = initialState;
 
-  let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
+  const searchBox = new SearchBox({
+    $target: $editPage,
+  });
 
+  const $pageTitle = document.createElement("div");
+  $editPage.appendChild($pageTitle);
+
+  let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
   let timer = null;
   let timerPost = null;
 
@@ -59,12 +66,15 @@ export default function EditPage({ $target, initialState }) {
     $target: $editPage,
     initialState: [],
   });
+
   this.setState = async ({ docId }) => {
     this.state = docId;
     DOC_TMP_KEY = `doc_tmp_${docId}`;
 
     const res = await request(`/documents/${docId}`);
     console.log(res);
+    $pageTitle.innerHTML = `<h2>${res.title}</h2>`;
+
     editor.setState(res);
     subPages.setState(res.documents);
     this.render();
