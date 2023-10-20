@@ -30,6 +30,8 @@
 ### 기타 챌린지
 
 - [ ] 노션과 유사한 스타일 형태를 구현합니다.
+  - [ ] document 페이지의 header를 추가합니다.
+    - [ ] document header에는 crumbs와 delete button이 추가됩니다.
 - [ ] 사이드바에 토글 버튼을 추가합니다.
   - [ ] 토글 버튼을 누르면 하위 documents가 펼쳐집니다. 다시 누르면 닫힙니다.
   - [ ] 펼쳐둔 documents는 창을 닫고 다시 열어도 유지되어있습니다.
