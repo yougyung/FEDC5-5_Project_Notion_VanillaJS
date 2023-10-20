@@ -1,22 +1,33 @@
 const API_ENDPOINT = `https://kdt-frontend.programmers.co.kr`
 const headers = {
   'Content-Type': 'application/json',
-  'x-username': 'whdgur5717',
+  'x-username': 'dlwhd5717',
 }
 export const requestDocumentInfo = async (url, option) => {
-  try {
-    const res = await fetch(`${API_ENDPOINT}/${url}`, {
-      headers,
-      ...option,
-    })
-    if (!res.ok) {
-      console.log(res.status, res.statusText)
-      throw new Error(res)
+  const res = await fetch(`${API_ENDPOINT}/${url}`, {
+    headers,
+    ...option,
+  })
+  if (!res.ok) {
+    const { status, statusText } = res
+    throw new HTTPError(status, statusText)
+  }
+  return await res.json()
+}
+
+export class HTTPError extends Error {
+  constructor(status, message) {
+    super(message)
+    this.name = 'HTTPError'
+    this.status = status
+    console.log(this.status)
+  }
+  get showAlert() {
+    switch (this.status) {
+      case 404:
+        return alert('잘못된 접근입니다')
+      case 401:
+        return alert('header를 확인해주세요')
     }
-    const data = await res.json()
-    return data
-  } catch (e) {
-    console.error(e.statusText)
-    throw new Error(e.statusText)
   }
 }
