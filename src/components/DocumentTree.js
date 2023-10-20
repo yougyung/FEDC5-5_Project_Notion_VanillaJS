@@ -1,4 +1,8 @@
-export default function DocumentTree({ $target, initialState = [] }) {
+export default function DocumentTree({
+  $target,
+  initialState = [],
+  onAddClick,
+}) {
   const $tree = document.createElement("div");
   $tree.className = "document-tree";
   $target.appendChild($tree);
@@ -49,12 +53,13 @@ export default function DocumentTree({ $target, initialState = [] }) {
 
     $ul.addEventListener("click", (e) => {
       const $span = e.target.closest("span");
-
-      if (!$span || e.target.className !== "add-button") return;
+      if (!$span) return;
 
       const { id } = $span.dataset;
-      console.log(id, $span);
-      history.pushState(null, null, `/document/${id}`);
+      if (e.target.className === "add-button") onAddClick(id);
+      else {
+        // history.pushState(null, null, `/document/${id}`);
+      }
     });
   };
 }

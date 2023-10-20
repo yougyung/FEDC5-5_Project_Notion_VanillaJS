@@ -7,7 +7,17 @@ export default function App({ $target }) {
   $container.className = "container";
   $target.appendChild($container);
 
-  const documentTree = new DocumentTree({ $target: $container });
+  const documentTree = new DocumentTree({
+    $target: $container,
+    onAddClick: (id) => {
+      const parent = id ?? null;
+      const body = {
+        parent,
+      };
+      console.log(parent);
+      // history.pushState(null, null, "/document/new");
+    },
+  });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT);
