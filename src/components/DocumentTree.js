@@ -1,10 +1,12 @@
+import TreeList from "./TreeList.js";
+
 export default function DocumentTree({
   $container,
   initialState = [],
   onAddClick,
 }) {
   const $tree = document.createElement("div");
-  $tree.className = "document-tree";
+  $tree.id = "document-tree";
   $container.appendChild($tree);
 
   this.state = initialState;
@@ -17,17 +19,7 @@ export default function DocumentTree({
   this.makeDocumentTree = (children, element) => {
     for (const child of children) {
       const $li = document.createElement("li");
-
-      const $span = document.createElement("span");
-      $span.textContent = child.title;
-      $span.dataset.id = child.id;
-
-      const $button = document.createElement("button");
-      $button.textContent = "+";
-      $button.className = "add-button";
-
-      $span.appendChild($button);
-      $li.appendChild($span);
+      new TreeList({ $container: $li, child });
 
       if (child.documents.length) {
         const $ul = document.createElement("ul");
@@ -41,14 +33,7 @@ export default function DocumentTree({
   this.render = () => {
     const $ul = document.createElement("ul");
     this.makeDocumentTree(this.state, $ul);
-
-    const $span = document.createElement("span");
-    const $button = document.createElement("button");
-    $button.textContent = "새 문서 만들기";
-    $button.className = "add-button";
-
-    $span.appendChild($button);
-    $ul.appendChild($span);
+    new TreeList({ $container: $ul });
     $tree.appendChild($ul);
 
     $ul.addEventListener("click", (e) => {
