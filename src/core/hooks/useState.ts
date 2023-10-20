@@ -27,9 +27,7 @@ const useState = (() => {
       const currentState = componentsState[id][stateIndex] as T;
 
       componentsState[id][stateIndex] =
-        typeof newValue === "function"
-          ? (newValue as (previousValue: T) => T)(currentState)
-          : newValue;
+        typeof newValue === "function" ? (newValue as (previousValue: T) => T)(currentState) : newValue;
 
       render();
     };

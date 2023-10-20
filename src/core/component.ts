@@ -17,17 +17,11 @@ const hasSigleRoot = (componentElements: string) => {
 
 export let currentComponent: CurrentComponent | null = null;
 
-function createComponent<T>(
-  component: (props: T) => ComponentInstance,
-  props: T,
-): ComponentInstance;
+function createComponent<T>(component: (props: T) => ComponentInstance, props: T): ComponentInstance;
 
 function createComponent(component: () => ComponentInstance): ComponentInstance;
 
-function createComponent<T>(
-  component: (props?: T) => ComponentInstance,
-  props?: T,
-) {
+function createComponent<T>(component: (props?: T) => ComponentInstance, props?: T) {
   const previousComponent = currentComponent;
 
   currentComponent = { id: component.name, stateIndex: 0 };
@@ -38,10 +32,7 @@ function createComponent<T>(
     throw new Error(`컴포넌트가 하나의 상위 요소로 감싸져 있지 않습니다!`);
   }
 
-  const idAttributeAddedElement = componentInstance.element.replace(
-    /(<\w+)(\s|>)/,
-    `$1 id="${currentComponent.id}"$2`,
-  );
+  const idAttributeAddedElement = componentInstance.element.replace(/(<\w+)(\s|>)/, `$1 id="${currentComponent.id}"$2`);
 
   currentComponent = previousComponent;
 
