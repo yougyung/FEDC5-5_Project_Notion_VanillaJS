@@ -1,15 +1,17 @@
 .s_documentItem {
   cursor: pointer;
-  height: 2rem;
-  line-height: 2rem;
-  margin: 1rem 0;
+  height: auto;
 }
 
 .s_childrenDocumentList {
   margin-left: 0.5rem;
 }
 
-.s_childrenDocumentList li {
-  height: 2rem;
-  line-height: 2rem;
+.s_document_title {
+  display: inline-block;
+  max-width: calc(90% - 2rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
