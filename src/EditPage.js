@@ -24,6 +24,14 @@ export default function EditPage({ $target, initialState, onNewTitle }) {
     onEditing: async (nextState) => {
       const { id } = nextState;
       onNewTitle(id);
+      //   setItem("savepoint", nextState);
+      //   if (timer != null) clearTimeout(timer);
+      //   newContent = async (nextState) => {
+      //     await request('',)
+      //   };
+      //   timer = setTimeout(async (nextState) => {
+      //     console.log(nextState);
+      //   }, 1000);
     },
     // onEditing : (nextState) => {
     //     setItem('localsavepoint', nextState);

@@ -1,62 +1,50 @@
-import Post from './Post.js';
-import { request } from './Api.js'
+import Post from "./Post.js";
+import { request } from "./Api.js";
 
-export default function PostList({ $target, initialState, getRootData,}) {
-    const $ul = document.createElement('ul');
-    $target.appendChild($ul);
+export default function PostList({
+  $target,
+  initialState,
+  getRootData,
+  onSelect,
+  onInsert,
+  onDelete,
+}) {
+  const $ul = document.createElement("ul");
+  $target.appendChild($ul);
 
-    this.state = initialState;
+  this.state = initialState;
 
+  let isAlreadyRender = false;
 
-    let isAlreadyRender = false;
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
 
-    this.setState = nextState => {
-        this.state = nextState;
-        this.render();
+  getRootData();
+
+  // node.prototype.replaceChild();
+
+  this.render = () => {
+    if (isAlreadyRender === true) {
+      $ul.innerHTML = "";
+      isAlreadyRender = false;
     }
 
-    getRootData();
+    const $div = document.createElement("div"); // div
 
-
-    this.render = () => {
-        if (isAlreadyRender === true) {
-            $ul.innerHTML = ''
-            isAlreadyRender = false;
-        }
-
-        const $div = document.createElement('div'); // div
-
-        this.state.forEach(({ id, title, documents }) => {
-            Post({
-                id,
-                title,
-                documents,
-                $target: $div,
-                onInsert : async (id) => {
-                    const insertData = { title : '추가 버튼을 누르면 추가', parent : id }; 
-                    await request('', {
-                        method : "POST",
-                        body : JSON.stringify(insertData),
-                    })
-                    const newData = await request('');
-                    this.setState(newData);
-                },
-                onDelete: async (id) => {
-                    console.log(id)
-                    await request(`/${id}`, {
-                        method: "DELETE",
-                    })
-                    const newData = await request('');
-                    this.setState(newData);
-                }
-            });
-        })
-        console.log($div);
-        isAlreadyRender = true
-        $ul.appendChild($div);
-
-
-
-    }
-
+    this.state.forEach(({ id, title, documents }) => {
+      Post({
+        id,
+        title,
+        documents,
+        $target: $div,
+        onSelect,
+        onInsert,
+        onDelete,
+      });
+    });
+    isAlreadyRender = true;
+    $ul.appendChild($div);
+  };
 }
