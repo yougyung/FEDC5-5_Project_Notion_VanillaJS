@@ -44,9 +44,16 @@ export default function DocumentTree({ $target }) {
   this.makeDocumentTree = (children, element) => {
     for (const child of children) {
       const $li = document.createElement("li");
+
       const $span = document.createElement("span");
       $span.textContent = child.title;
       $span.dataset.id = child.id;
+
+      const $button = document.createElement("button");
+      $button.textContent = "+";
+      $button.className = "add-button";
+
+      $span.appendChild($button);
       $li.appendChild($span);
 
       if (child.documents.length) {
@@ -62,6 +69,16 @@ export default function DocumentTree({ $target }) {
     const $ul = document.createElement("ul");
     this.makeDocumentTree(this.state, $ul);
     $tree.appendChild($ul);
+
+    $ul.addEventListener("click", (e) => {
+      const $span = e.target.closest("span");
+
+      if (!$span || e.target.className !== "add-button") return;
+
+      const { id } = $span.dataset;
+      console.log(id, $span);
+      history.pushState(null, null, `/document/${id}`);
+    });
   };
 
   this.render();
