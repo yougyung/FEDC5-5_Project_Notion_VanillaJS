@@ -15,7 +15,6 @@ export const request = async (documentId, options = {}) => {
 
     if (response.ok) {
       const result = await response.json();
-      console.log("응답 결과:", result);
       return result;
     }
 
