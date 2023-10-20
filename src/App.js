@@ -3,6 +3,18 @@ import PostListPage from "./pages/PostListPage.js";
 import PostViewPage from "./pages/PostViewPage.js";
 
 export default function App({ $target }) {
+  /* 
+    {
+      postListPage: [post]
+      postViewPage: {
+        id: number || new
+        post: {
+          title: string
+          content: string
+        }
+      }
+    }
+  */
   this.state = {};
   this.setState = () => {};
 
@@ -15,6 +27,10 @@ export default function App({ $target }) {
     },
     onAddPostClick: () => {
       history.pushState(null, null, "/posts/new");
+      postListPage.setState([
+        ...postListPage.state,
+        { title: "제목 없음", documents: [] },
+      ]);
       this.route();
     },
     onPostSubClick: async (classType, id) => {
@@ -22,7 +38,7 @@ export default function App({ $target }) {
         const createdPost = await request("/documents", {
           method: "POST",
           body: JSON.stringify({
-            title: "새로운 문서",
+            title: "",
             parent: id,
           }),
         });

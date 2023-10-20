@@ -4,7 +4,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   $target.appendChild($editor);
 
   $editor.innerHTML = `
-      <input type="text" placeholder="Untitled" name="title" />
+      <input type="text" placeholder="제목 없음" name="title" />
       <textarea name="content"></textarea>
   `;
 

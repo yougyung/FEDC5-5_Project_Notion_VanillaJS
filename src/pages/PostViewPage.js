@@ -28,7 +28,10 @@ export default function PostViewPage({ $target, initialState }) {
 
   const editor = new Editor({
     $target: $page,
-    initialState,
+    initialState: {
+      title: "",
+      content: "",
+    },
     onEditing: (post) => {
       if (timer !== null) clearTimeout(timer);
 

@@ -28,7 +28,7 @@ export default function PostList({
         $li.style.paddingLeft = "15px";
 
         $li.innerHTML = `
-          ↓📄${postArray[i].title}
+          ↓📄${postArray[i].title || "제목 없음"}
           <button class="removePost">x</button>
           <button class="addPost">+</button>
         `;
