@@ -1,9 +1,11 @@
 import { request } from "../utils/api.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
+import { NEW, NEWPARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
+  $page.className = "document-edit-page";
 
   this.state = initialState;
 
@@ -28,13 +30,17 @@ export default function DocumentEditPage({ $target, initialState }) {
           ...document,
           tempSaveDate: new Date(),
         });
-        if (this.state.documentId === "new") {
+        if (this.state.documentId === NEW) {
           // document 생성
-          const createdDocument = await request("/documents", {
+          const createdDocument = await request(DOCUMENTS_ROUTE, {
             method: "POST",
-            body: JSON.stringify(document),
+            body: JSON.stringify({
+              title: document.title,
+              parent: getItem(NEWPARENT, null),
+            }),
           });
-          history.replaceState(null, null, `/documents/${createdDocument.id}`);
+          removeItem(NEWPARENT);
+          history.replaceState(null, null, `${DOCUMENTS_ROUTE}/${createdDocument.id}`);
           removeItem(documentLocalSaveKey);
 
           this.setState({
@@ -42,7 +48,7 @@ export default function DocumentEditPage({ $target, initialState }) {
           });
         } else {
           // document 수정
-          await request(`/documents/${document.id}`, {
+          await request(`${DOCUMENTS_ROUTE}/${document.id}`, {
             method: "PUT",
             body: JSON.stringify(document),
           });
@@ -68,7 +74,7 @@ export default function DocumentEditPage({ $target, initialState }) {
     documentLocalSaveKey = `temp-document-${nextState.documentId}`;
     this.state = nextState;
 
-    if (this.state.documentId === "new") {
+    if (this.state.documentId === NEW) {
       const document = getItem(documentLocalSaveKey, {
         title: "",
         content: "",
@@ -86,14 +92,14 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   const fetchDocument = async () => {
     const { documentId } = this.state;
-    const document = await request(`/documents/${documentId}`);
+    const document = await request(`${DOCUMENTS_ROUTE}/${documentId}`);
 
     const tempDocument = getItem(documentLocalSaveKey, {
       title: "",
       content: "",
     });
     console.log(tempDocument);
-    if (tempDocument.tempSaveDate && tempDocument > document.update_at) {
+    if (tempDocument.tempSaveDate && tempDocument.tempSaveDate > document.update_at) {
       if (confirm("저장되지 않은 임시 데이터가 있습니다. 불러올까요?")) {
         this.setState({
           ...this.state,

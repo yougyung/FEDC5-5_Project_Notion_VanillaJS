@@ -1,4 +1,6 @@
+import { DOCUMENTS_ROUTE, NEW, NEWPARENT } from "../utils/constants.js";
 import { push } from "../utils/router.js";
+import { setItem } from "../utils/storage.js";
 
 export default function DocumentList({ $target, initialState }) {
   const $documentlist = document.createElement("div");
@@ -36,9 +38,10 @@ export default function DocumentList({ $target, initialState }) {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
     if (e.target.className === "document-item") {
-      push(`/documents/${id}`);
+      push(`${DOCUMENTS_ROUTE}/${id}`);
     } else if (e.target.className === "add") {
-      push(`/documents/new`);
+      setItem(NEWPARENT, id);
+      push(`${DOCUMENTS_ROUTE}/${NEW}`);
     }
   });
 

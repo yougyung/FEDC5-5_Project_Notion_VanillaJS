@@ -24,8 +24,8 @@ export default function App({ $target }) {
 
     if (pathname.indexOf("/documents") === 0) {
       const [, , documentId] = pathname.split("/");
-      console.log(pathname);
-      console.log(documentId);
+      //console.log(pathname);
+      //console.log(documentId);
       documentEditPage.setState({ documentId });
     }
   };

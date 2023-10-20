@@ -1,11 +1,11 @@
 export default function Editor({ $target, initialState = { title: "", content: "" }, onEditing }) {
   const $editor = document.createElement("div");
   $editor.innerHTML = `
-    <input type="text" name="title" class="title" placeholder="" autofocus/></br>
-    <textarea name="content" class="content" placeholder=""></textarea>
+    <input type="text" name="title" style="width: 600px;" class="title" placeholder="" autofocus/>
+    <textarea name="content" style="width: 600px; height: 400px;"class="content" placeholder=""></textarea>
   `;
 
-  $editor.className = "editor";
+  //$editor.className = "editor";
 
   $target.appendChild($editor);
 
@@ -20,19 +20,20 @@ export default function Editor({ $target, initialState = { title: "", content: "
     const { title, content } = this.state;
 
     $editor.querySelector("[name=title]").value = title;
-    $editor.querySelector("[name=content").value = content;
+    $editor.querySelector("[name=content]").value = content;
   };
+
+  this.render();
 
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;
     const name = target.getAttribute("name");
 
-    const nextState = { ...this.state, [name]: target.value };
-    console.log(nextState);
-
-    this.setState(nextState);
-    onEditing(this.state);
+    if (this.state[name] != undefined) {
+      const nextState = { ...this.state, [name]: target.value };
+      this.setState(nextState);
+      console.log(nextState);
+      onEditing(this.state);
+    }
   });
-
-  this.render();
 }

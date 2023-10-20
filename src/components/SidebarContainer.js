@@ -1,6 +1,6 @@
 import DocumentList from "./DocumentList.js";
 import { request } from "../utils/api.js";
-import Editor from "./Editor.js";
+import { DOCUMENTS_ROUTE } from "../utils/constants.js";
 
 export default function SidebarContainer({ $target }) {
   const $sidebar = document.createElement("div");
@@ -12,7 +12,7 @@ export default function SidebarContainer({ $target }) {
   });
 
   this.render = async () => {
-    const document = await request("/documents");
+    const document = await request(DOCUMENTS_ROUTE);
     documentList.setState(document);
   };
 
