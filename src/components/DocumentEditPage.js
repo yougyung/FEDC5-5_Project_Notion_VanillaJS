@@ -1,5 +1,6 @@
 import { request } from "../utils.js";
 import Editor from "./documentComponents/Editor.js";
+import SubDocumentList from "./documentComponents/SubDocumentList.js";
 
 export default function DocumentEditPage({ $target, initialState, onEdit }) {
   const $documentEditPage = document.createElement("section");
@@ -9,10 +10,17 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
   this.state = initialState;
 
   const fetchDocument = async () => {
-    const { title, content } = await request(`${this.state.documentId}`);
+    const { title, content, documents } = await request(
+      `${this.state.documentId}`
+    );
+
     editor.setState({
       title,
       content,
+    });
+
+    subDocumentList.setState({
+      documents,
     });
   };
 
@@ -23,6 +31,14 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
       content: "",
     },
     onEdit,
+  });
+
+  const subDocumentList = new SubDocumentList({
+    $target: $documentEditPage,
+    initialState: {
+      documents: [],
+    },
+    // onRoute
   });
 
   this.setState = (nextState) => {
