@@ -19,3 +19,14 @@ export const postDocument = async ({ title, parent }: { title: string; parent: n
     console.error(error);
   }
 };
+
+export const updateDocument = async (id: number, title: string, content: string) => {
+  try {
+    const result = await api.put({ url: `/documents/${id}`, body: { title, content } });
+
+    console.log(result);
+    return await result;
+  } catch (error) {
+    console.error(error);
+  }
+};
