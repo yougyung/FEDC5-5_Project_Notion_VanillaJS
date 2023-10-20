@@ -12,7 +12,7 @@ export default function SubDocumentList({ $target, initialState }) {
 
   this.render = () => {
     $editorFooter.innerHTML = `
-      <ul>
+      <ul class="subdocument-list">
         ${this.state.documents.map(
           ({ id, title }) => `
           <li data-id=${id}>

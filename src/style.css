@@ -88,3 +88,13 @@ form {
   padding-top: 5px;
   border: none;
 }
+
+/* subdocumentlist style */
+.editor-bottom-nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.subdocument-list {
+  display: flex;
+}
