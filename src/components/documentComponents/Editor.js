@@ -1,5 +1,6 @@
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("form");
+  $editor.className = "editor";
   $editor.style.display = "flex";
   $editor.style.flexDirection = "column";
 

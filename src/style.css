@@ -65,8 +65,22 @@ button {
   color: rgb(55, 53, 47);
 }
 
+.document-edit-page {
+  width: calc(100% - 20%);
+}
+
+/* document header styles */
+.document-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  color: rgb(55, 53, 47);
+}
+
 /* editor styles */
-form {
+.editor {
   width: 900px;
   padding-top: calc(96px + env(safe-area-inset-top));
   padding-left: calc(96px + env(safe-area-inset-left));
