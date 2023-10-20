@@ -42,7 +42,6 @@ export default function SubDocumentList({ $target, initialState }) {
     id = parseInt(id);
 
     if (!isNaN(id)) {
-      console.log(id);
       push(`${id}`);
     }
   });
