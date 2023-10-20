@@ -12,7 +12,7 @@ interface DocumentItemReturnType {
   bindEvents?: () => void;
 }
 
-const { s_documentItem, s_childrenDocumentList } = styles;
+const { s_documentItem, s_childrenDocumentList, s_document_title } = styles;
 
 function DocumentItem({ document, parentId }: DocumentItem): DocumentItemReturnType {
   const { id, title, documents } = document;
@@ -34,8 +34,8 @@ function DocumentItem({ document, parentId }: DocumentItem): DocumentItemReturnT
 
   return {
     element: `
-      <li data-id="${id}" class=${s_documentItem}>
-        ${title}
+      <li data-id="${id}" class="${s_documentItem}">
+        <span class="${s_document_title}">${title}</span>
         <button data-parent-id="${parentId}" class="add-document-button" type="button">+</button>
         ${childrenDocuments}
       </li>
