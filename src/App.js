@@ -127,6 +127,7 @@ export default function App({ $target }) {
       },
     },
     onEdit,
+    onDelete,
   });
 
   this.route = () => {

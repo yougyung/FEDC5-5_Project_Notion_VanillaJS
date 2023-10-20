@@ -3,7 +3,12 @@ import DocumentHeader from "./documentComponents/DocumentHeader.js";
 import Editor from "./documentComponents/Editor.js";
 import SubDocumentList from "./documentComponents/SubDocumentList.js";
 
-export default function DocumentEditPage({ $target, initialState, onEdit }) {
+export default function DocumentEditPage({
+  $target,
+  initialState,
+  onEdit,
+  onDelete,
+}) {
   const $documentEditPage = document.createElement("section");
 
   $documentEditPage.className = "document-edit-page";
@@ -11,29 +16,38 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
   this.state = initialState;
 
   const fetchDocument = async () => {
-    const { title, content, documents } = await request(
-      `${this.state.documentId}`
-    );
+    try {
+      const { documentId } = this.state;
+      const { id, title, content, documents } = await request(documentId);
 
-    documentHeader.setState({
-      title,
-    });
+      documentHeader.setState({
+        ...documentHeader.state,
+        id,
+        title,
+      });
 
-    editor.setState({
-      title,
-      content,
-    });
+      editor.setState({
+        ...editor.state,
+        title,
+        content,
+      });
 
-    subDocumentList.setState({
-      documents,
-    });
+      subDocumentList.setState({
+        ...subDocumentList.state,
+        documents,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const documentHeader = new DocumentHeader({
     $target: $documentEditPage,
     initialState: {
+      id: 1,
       title: "",
     },
+    onDelete,
   });
 
   const editor = new Editor({
@@ -50,7 +64,6 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
     initialState: {
       documents: [],
     },
-    // onRoute
   });
 
   this.setState = (nextState) => {
