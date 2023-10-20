@@ -15,11 +15,9 @@ const API_TEST = async () => {
   //   }),
   // });
   // console.log(createDocument);
-
   // GET
-  const documents = await request('/documents');
-  console.log(documents);
-
+  // const documents = await request('/documents');
+  // console.log(documents);
   // // PUT
   // const updateDocument = await request("/documents/100997", {
   //   method: "PUT",
@@ -29,7 +27,6 @@ const API_TEST = async () => {
   //   }),
   // });
   // console.log(updateDocument);
-
   // // DELETE
   // const deleteDocument = await request("/documents/100999", {
   //   method: "DELETE",
