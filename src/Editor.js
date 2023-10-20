@@ -15,7 +15,7 @@ export default function Editor({ $target, initialState }) {
 
   this.render = () => {
     // 선택한 문서 content 값 표시
-
+    // state 유효성 검사
     if (!this.state) {
       $editor.remove();
     } else {

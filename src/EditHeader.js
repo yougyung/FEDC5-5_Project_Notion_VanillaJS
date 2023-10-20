@@ -19,9 +19,6 @@ export default function EditHeader({ $target, initialState }) {
       <input type="text" id="title" name="title" placeholder="제목 없음" value="${this.state}"/>
      `
       : '';
-    // $editHeader.innerHTML = `
-    //  <input type="text" id="title" name="title" placeholder="제목 없음" value="${this.state}"/>
-    // `;
   };
 
   this.render();

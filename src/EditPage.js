@@ -18,9 +18,10 @@ export default function EditPage({ $target, initialState }) {
 
   this.render = () => {};
 
+  const { selectedDoc } = this.state;
+
   $target.appendChild($editPage);
 
-  const { selectedDoc } = this.state;
   //  edit header
   const editHeader = new EditHeader({
     $target: $editPage,
