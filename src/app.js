@@ -86,14 +86,14 @@ export default function App({ $target }) {
     if (pathname === "/") {
       // 루트인 경우
       await fetchRootDocs();
-      history.pushState(null, null, `/documents/${this.state[0].id}`);
+      // history.pushState(null, null, `/documents/${this.state[0].id}`);
 
       // console.log(this.state);
       // 일단 루트의 id를 입력하고 나중에는 localStorage로 마지막에 봤던 페이지를 출력해주자
-      await fetchSelectedDocs(this.state[0].id); //localstorage에서 뭔가를 해보자
+      // await fetchSelectedDocs(this.state[0].id); //localstorage에서 뭔가를 해보자
     } else if (pathname.indexOf("/documents/") > -1) {
       const [, , Id] = pathname.split("/");
-      console.log(Id);
+      // console.log(Id);
       await fetchRootDocs();
       await fetchSelectedDocs(Id);
     } else {
