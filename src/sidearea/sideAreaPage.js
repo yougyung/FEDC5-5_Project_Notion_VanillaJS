@@ -1,7 +1,7 @@
 import { request } from "../utils/api.js";
 
 const $ = document;
-export default function SideAreaPage({ $target, initialState, onClick }) {
+export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton }) {
   //   console.log($target);
   // console.log(DUMMY_DATA_SIDE_LIST);
   const $pageList = $.createElement("div");
@@ -93,7 +93,8 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
       const targetTag = e.target;
       if (targetTag.tagName === "BUTTON") {
         console.log(targetTag);
-        createNewPage("/documents", null);
+        onClickButton(null);
+        // createNewPage("/documents", null);
       }
     });
   };
@@ -113,13 +114,14 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
         // li 내부 button 이 클릭되는 경우와 구분하기 위함
         if (targetTag.tagName === "LI") {
           history.pushState(null, null, `/documents/${targetTag.dataset.id}`);
-          onClick(targetTag.dataset.id);
+          onClickPage(targetTag.dataset.id);
         }
 
         if (targetTag.tagName === "BUTTON") {
           console.log(targetTag.parentElement.parentElement);
           console.log(targetTag.parentElement.dataset.id);
-          createNewPage("/documents", targetTag.parentElement.dataset.id);
+          onClickButton(targetTag.parentElement.dataset.id);
+          // createNewPage("/documents", targetTag.parentElement.dataset.id);
           // pageListRenderer(targetTag.parentElement.parentElement, [
           //   { title: "new_child_page", content: "", documents: [] },
           // ]);
@@ -127,16 +129,5 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
         // console.log(`${$li}, 안녕 나는 li야, `);
       });
     });
-  };
-
-  const createNewPage = async (url, parentTag) => {
-    const createdDefaultTitleText = "새 페이지";
-    const createdDefaultParent = parentTag ? parentTag : "null";
-    console.log(createdDefaultParent, createdDefaultTitleText);
-    const newPageRes = await request(url, {
-      method: "POST",
-      body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
-    });
-    console.log(newPageRes);
   };
 }

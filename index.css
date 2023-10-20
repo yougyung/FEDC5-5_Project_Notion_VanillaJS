@@ -48,6 +48,10 @@ li {
   list-style-type: none;
 }
 
+li:hover {
+  background-color: rgb(229, 229, 229);
+}
+
 .textAreaWrapper {
   display: flex;
   flex-direction: column;

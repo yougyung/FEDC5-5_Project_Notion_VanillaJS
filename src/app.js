@@ -33,9 +33,12 @@ export default function App({ $target }) {
   const sideAreaRender = new SideAreaRender({
     $target: $sideBarWrapperDiv,
     initialState: this.state,
-    onClick: async (id) => {
+    onClickPage: async (id) => {
       // console.log(`hello folks! im ${id}`); // 잘 나옴!
       await fetchSelectedDocs(id);
+    },
+    onClickButton: async (id) => {
+      createNewPage("/documents", id);
     },
   });
   // 더미가 렌더링 되었다가 api 호출되면 바뀐다.
@@ -50,6 +53,18 @@ export default function App({ $target }) {
       isLoading: false,
     },
   });
+
+  // 새로운 글을 post하는 함수
+  const createNewPage = async (url, parentTag) => {
+    const createdDefaultTitleText = "새 페이지";
+    const createdDefaultParent = parentTag ? parentTag : "null";
+    console.log(createdDefaultParent, createdDefaultTitleText);
+    const newPageRes = await request(url, {
+      method: "POST",
+      body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
+    });
+    console.log(newPageRes);
+  };
 
   // x-username에 해당하는 전체 문서 불러오는 API request function
   const fetchRootDocs = async () => {
