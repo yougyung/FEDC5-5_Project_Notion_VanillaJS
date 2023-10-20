@@ -3,27 +3,24 @@ import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 
 // initialState : {doucmentId :null, document:null}
-export default function DocumentPage({
-  $target,
-  initialState,
-  documentAutoSave,
-}) {
+export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
-  this.stae = initialState;
+  this.state = initialState;
   const fetchDocument = async (documentId) => {
-    return await request(`/documents/${documentId}`);
+    const document = await request(`/documents/${documentId}`);
+    this.setState(document);
   };
+  fetchDocument(this.state.id);
   this.setState = async (nextState) => {
-    const document = await fetchDocument(nextState.id);
-    this.state = document;
-    this.render();
+    this.state = nextState;
     const { id, title } = this.state;
+    this.render();
     header.setState({ id, title });
     editor.setState(this.state);
   };
   this.render = () => {
-    $target.appendChild($documentPage);
+    $target.replaceChildren($documentPage);
   };
   const header = new Title({
     $target: $documentPage,
@@ -32,12 +29,23 @@ export default function DocumentPage({
       id: null,
     },
   });
+  let timerOfSetTimeout = null;
   const editor = new Editor({
     $target: $documentPage,
     initialState: {
       title: "",
       content: "",
     },
-    documentAutoSave,
+    documentAutoSave: (documentId, requestBody) => {
+      if (timerOfSetTimeout !== null) {
+        clearTimeout(timerOfSetTimeout);
+      }
+      timerOfSetTimeout = setTimeout(async () => {
+        const response = await request(`/documents/${documentId}`, {
+          method: "PUT",
+          body: JSON.stringify(requestBody),
+        });
+      }, 1500);
+    },
   });
 }

@@ -1,69 +1,34 @@
 import NavPage from "./page/NavPage.js";
-import { request } from "./utils/api.js";
 import DocumentPage from "./page/DocumentPage.js";
-import { initRouter, push } from "./utils/router.js";
+import { initRouter } from "./utils/router.js";
+import ErrorPage from "./page/ErrorPage.js";
 
-export default function App({ $target, initialState }) {
-  this.state = initialState;
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.route();
-  };
-  this.getDocuments = async () => {
-    const documentsTree = await request("/documents");
-    this.setState(documentsTree);
-  };
-  const navPage = new NavPage({
+export default function App({ $target }) {
+  const $app = document.getElementById("app");
+  //이친구는 항상 렌더된다
+  new NavPage({
     $target,
-    initialState: this.state,
-    createDocument: async (id) => {
-      const body = { title: "제목 없음", parent: id ? id : null };
-      const response = await request("/documents", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      console.log(response);
-      this.getDocuments();
-    },
-    deleteDocument: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
-      push("/");
-      this.getDocuments();
-    },
   });
-  let timerOfSetTimeout = null;
-  const documentPage = new DocumentPage({
-    $target,
+  const documentPageProps = {
+    $target: $app,
     initialState: {
       documentId: null,
       document: [],
     },
-    documentAutoSave: (documentId, requestBody) => {
-      if (timerOfSetTimeout !== null) {
-        clearTimeout(timerOfSetTimeout);
-      }
-      timerOfSetTimeout = setTimeout(async () => {
-        const response = await request(`/documents/${documentId}`, {
-          method: "PUT",
-          body: JSON.stringify(requestBody),
-        });
-        if (response.content) {
-          this.getDocuments();
-        }
-      }, 1500);
-    },
-  });
-  const testRoute = [{ path: "/documents/", component: "test" }];
-  this.route = async () => {
-    const { pathname } = window.location;
-    navPage.setState(this.state);
-    if (pathname.indexOf("/documents/") === 0) {
-      const [, , documentId] = pathname.split("/");
-      documentPage.setState({ id: documentId });
-    }
   };
-  initRouter(this.route);
-  this.getDocuments();
+  const routes = [{ path: "documents", component: DocumentPage }];
+  this.render = async (url) => {
+    const path = url ?? window.location.pathname;
+    const [, pathname, pathData] = path.split("/");
+    if (pathname === "") return; //메인이면 그냥 리턴
+    const component =
+      routes.find((route) => route.path === pathname)?.component ||
+      new ErrorPage({ $target: $app });
+    //라우팅 되는 자식들은 replaceChildren으로 사용해야한다.
+    new component({
+      ...documentPageProps,
+      initialState: { id: pathData },
+    });
+  };
+  initRouter(this.render);
 }

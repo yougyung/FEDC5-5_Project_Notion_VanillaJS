@@ -24,6 +24,10 @@ nav{
 .title{
     padding:10px 0 0 10px;
 }
+.document-item{
+    display: flex;
+    margin-top:5px;
+}
 .document-page{
     padding-left: 250px;
     flex:9;

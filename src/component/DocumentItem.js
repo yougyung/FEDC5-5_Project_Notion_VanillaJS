@@ -9,13 +9,10 @@ export default function DocumentItem({
 }) {
   this.state = initialState;
   const $documentItem = document.createElement("div");
-  $target.appendChild($documentItem);
   $documentItem.dataset.id = this.state.id;
-  $documentItem.style.display = "flex";
-  $documentItem.style.marginTop = "5px";
   $documentItem.className = "document-item";
   $documentItem.style.paddingLeft = `${depth * 20}px`;
-
+  $target.appendChild($documentItem);
   this.render = () => {
     $documentItem.innerHTML = `
         <button data-name="more">▽</button>
