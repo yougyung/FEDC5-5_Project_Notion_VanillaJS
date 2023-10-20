@@ -1,4 +1,5 @@
 import Editor from "./Editor.js";
+import SubPages from "./SubPages.js";
 import { request } from "./utils/api.js";
 import { localStorageSetItem } from "./utils/storage.js";
 
@@ -54,6 +55,10 @@ export default function EditPage({ $target, initialState }) {
     },
   });
 
+  const subPages = new SubPages({
+    $target: $editPage,
+    initialState: [],
+  });
   this.setState = async ({ docId }) => {
     this.state = docId;
     DOC_TMP_KEY = `doc_tmp_${docId}`;
@@ -61,6 +66,7 @@ export default function EditPage({ $target, initialState }) {
     const res = await request(`/documents/${docId}`);
     console.log(res);
     editor.setState(res);
+    subPages.setState(res.documents);
     this.render();
   };
 
