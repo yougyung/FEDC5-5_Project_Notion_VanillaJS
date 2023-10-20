@@ -3,7 +3,7 @@ const headers = {
   'Content-Type': 'application/json',
   'x-username': 'dlwhd5717',
 }
-export const requestDocumentInfo = async (url, option) => {
+export const requestDocument = async (url, option) => {
   const res = await fetch(`${API_ENDPOINT}/${url}`, {
     headers,
     ...option,

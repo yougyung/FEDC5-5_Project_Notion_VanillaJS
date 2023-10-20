@@ -1,4 +1,4 @@
-import { requestDocumentInfo } from '../apis/documents.js'
+import { requestDocument, HTTPError } from '../apis/documents.js'
 export default class Sidebar {
   constructor({ $target }) {
     this.$target = $target
@@ -12,32 +12,38 @@ export default class Sidebar {
     this.$sidebar.id = 'sidebar'
     this.$directory = document.createElement('div')
     this.$directory.id = 'directory'
-    this.$add = document.createElement('div')
-    this.$add.innerText = '추가'
+    this.$addDocumentNode = document.createElement('div')
+    this.$addDocumentNode.innerText = '페이지 추가'
     this.$sidebar.appendChild(this.$directory)
-    this.$sidebar.appendChild(this.$add)
+    this.$sidebar.appendChild(this.$addDocumentNode)
     this.$target.appendChild(this.$sidebar)
   }
   renderTreeByDiv(data, parentElement) {
     for (const item of data) {
-      const $node = document.createElement('div')
+      const $document = document.createElement('div')
+      const $link = document.createElement('a')
+      const $span = document.createElement('span')
       const $button = document.createElement('button')
-      $node.textContent = item.title
-      $node.appendChild($button)
+      $span.textContent = item.title
+      $button.textContent = '➕'
+      $link.appendChild($span)
+      $document.append($link, $button)
       $button.addEventListener('click', (e) => {
         e.stopPropagation()
-        this.findNodeById(this.state, +e.target.parentNode.dataset.id)
+        const { id } = e.target.parentNode.dataset
+        this.createNewDocument(Number(id))
         //해당 id값으로 post요청하면 -> 생성된 객체 전달
         //찾은 객체의 documents에 응답받은 데이터 넣으면 됨
       })
-      $node.dataset.id = item.id
-      $node.classList.add('document')
-      parentElement.appendChild($node)
+      $document.dataset.id = item.id
+      $document.classList.add('document')
+      parentElement.appendChild($document)
       if (item.documents.length) {
-        this.renderTreeByDiv(item.documents, $node)
+        this.renderTreeByDiv(item.documents, $document)
       }
     }
   }
+
   renderTreeByList(data, parentElement) {
     const $ul = document.createElement('ul')
     for (const item of data) {
@@ -58,7 +64,7 @@ export default class Sidebar {
       title: 'new document',
       parent: parentId ?? null,
     }
-    requestDocumentInfo('documents', {
+    requestDocument('documents', {
       method: 'POST',
       body: JSON.stringify(newDocument),
     }).then((data) => this.fetchDirectory())
@@ -79,30 +85,26 @@ export default class Sidebar {
 
   setState(nextState) {
     this.state = nextState
-    console.log(this.state.length)
-    !this.prevChild ? this.render() : this.replace()
+    this.render()
   }
 
   render() {
     const $documentList = document.createElement('div')
+    $documentList.id = 'document_list'
     this.renderTreeByDiv(this.state, $documentList)
-    this.$directory.appendChild($documentList)
+    !this.prevChild
+      ? this.$directory.appendChild($documentList)
+      : this.$directory.replaceChild($documentList, this.prevChild)
     this.prevChild = $documentList
   }
-
-  replace() {
-    const $documentList = document.createElement('div')
-    this.renderTreeByDiv(this.state, $documentList)
-    this.$directory.replaceChild($documentList, this.prevChild)
-    this.prevChild = $documentList
-  }
-
   async fetchDirectory() {
     try {
-      const data = await requestDocumentInfo('documents')
+      const data = await requestDocument('documents')
       this.setState(data)
     } catch (err) {
-      alert('데이터를 가져오는데 실패했습니다')
+      if (err instanceof HTTPError) {
+        err.showAlert
+      }
     }
   }
 
@@ -112,6 +114,8 @@ export default class Sidebar {
       console.log(id)
       //
     })
-    this.$add.addEventListener('click', (e) => this.createNewDocument())
+    this.$addDocumentNode.addEventListener('click', (e) =>
+      this.createNewDocument()
+    )
   }
 }
