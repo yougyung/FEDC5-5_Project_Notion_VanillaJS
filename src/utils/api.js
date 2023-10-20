@@ -54,9 +54,11 @@ export const DUMMY_DATA_TEXT_CONTENT = {
   updatedAt: "",
 };
 
-export const request = async (url) => {
+export const request = async (url, options = {}) => {
+  console.log(options);
   try {
     const res = await fetch(`${API_END_POINT}${url}`, {
+      ...options,
       headers: {
         "Content-Type": "application/json",
         "x-username": `${DEFAULT_USERNAME}`,

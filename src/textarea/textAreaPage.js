@@ -19,10 +19,10 @@ export default function TextAreaPage({ $target, initialState }) {
     $titleInputArea.className = "textArea-title";
     $titleInputArea.type = "text";
     $titleInputArea.name = "title";
-    console.log(this.state, `in textAreaPage`);
-    const $tempDiv = $.createElement("div");
-    $tempDiv.innerText = this.state.isLoading;
-    $textArea.appendChild($tempDiv);
+    // console.log(this.state, `in textAreaPage`);
+    // const $tempDiv = $.createElement("div");
+    // $tempDiv.innerText = this.state.isLoading;
+    // $textArea.appendChild($tempDiv);
 
     if (this.state.isLoading) {
       $titleInputArea.value = "Title Loading...";

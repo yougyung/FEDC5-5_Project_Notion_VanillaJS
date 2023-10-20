@@ -71,7 +71,7 @@ export default function App({ $target }) {
     const nowDocsId = id;
     if (nowDocsId !== 0) {
       const selectedDocs = await request(`/documents/${nowDocsId}`);
-      console.log(selectedDocs);
+      // console.log(selectedDocs);
       textAreaRender.setState({ ...selectedDocs, isLoading: false });
     } else {
       console.error(`nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`);

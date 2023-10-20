@@ -83,3 +83,15 @@ li {
   height: 600px;
   /* border: none; */
 }
+
+button {
+  /* 상우하좌 */
+  margin: 0px, 1px, 0px, 1px;
+  border-radius: 2px;
+  border: none;
+}
+
+button:hover {
+  border-radius: 5px;
+  background-color: #949494;
+}
