@@ -1,4 +1,4 @@
-import { push } from "../utils.js";
+import { push } from "../../utils.js";
 
 export default function DocumentList({
   $target,
