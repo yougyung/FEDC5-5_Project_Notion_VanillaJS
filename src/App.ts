@@ -1,10 +1,13 @@
 import { createComponent } from "./core";
 import { Editor, Sidebar, UserGuide } from "./components";
+import { useDocuments } from "./hooks";
 import styles from "./app.module.scss";
 
 const { s_container, s_mainContainer } = styles;
 
 function App() {
+  const { documents, createDocument } = useDocuments();
+
   function matchRoute(path: string) {
     switch (path) {
       case "/":
