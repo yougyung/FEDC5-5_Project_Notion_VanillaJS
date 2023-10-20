@@ -1,7 +1,8 @@
 import EditPage from './EditPage.js';
 import SideNav from './SideNav.js';
 import { request } from './api.js';
-import { addStorage, getStorage } from './storage.js';
+import { initRouter, push } from './router.js';
+import { addStorage, getStorage, removeStorage } from './storage.js';
 
 export default function App({ $target }) {
   // 상태 관리
@@ -23,19 +24,6 @@ export default function App({ $target }) {
 
   this.render = () => {};
 
-  // 전체 DocTree 가져오기
-  const fetchDocTree = async () => {
-    const docs = await request('/documents', {
-      method: 'GET',
-    });
-
-    this.setState({
-      ...this.state,
-      docsTree: docs,
-    });
-  };
-
-  fetchDocTree();
   // 사이드 네비바
   const sideNav = new SideNav({
     $target,
@@ -63,6 +51,7 @@ export default function App({ $target }) {
 
       fetchDocTree();
     },
+
     // 삭제 버튼
     onClickDeleteBtn: async (id) => {
       await request(`/documents/${id}`, {
@@ -71,9 +60,64 @@ export default function App({ $target }) {
 
       fetchDocTree();
     },
+
     // 문서 클릭
     onClickDoc: async (id) => {
       const doc = await request(`/documents/${id}`, {
+        method: 'GET',
+      });
+
+      addStorage('selectedDoc', doc);
+      push(`/documents/${id}`);
+      this.setState({
+        ...this.state,
+        selectedDoc: doc,
+      });
+    },
+
+    // 메인 클릭
+    onClickMain: () => {
+      removeStorage('selectedDoc');
+      push('/');
+      this.setState({
+        ...this.state,
+        selectedDoc: {},
+      });
+    },
+  });
+
+  // edit Page
+  const editPage = new EditPage({ $target, initialState: this.state });
+
+  // 전체 DocTree 가져오기
+  const fetchDocTree = async () => {
+    const docs = await request('/documents', {
+      method: 'GET',
+    });
+
+    this.setState({
+      ...this.state,
+      docsTree: docs,
+    });
+  };
+
+  fetchDocTree();
+
+  // 라우팅
+  this.route = async () => {
+    const { pathname } = window.location;
+    // 메인화면
+    if (pathname === '/') {
+      removeStorage('selectedDoc');
+      this.setState({
+        ...this.state,
+        selectedDoc: {},
+      });
+    } // 문서 id 접속
+    else if (pathname.indexOf('/documents/') === 0) {
+      const [, , documentId] = pathname.split('/');
+
+      const doc = await request(`/documents/${documentId}`, {
         method: 'GET',
       });
 
@@ -82,8 +126,10 @@ export default function App({ $target }) {
         ...this.state,
         selectedDoc: doc,
       });
-    },
-  });
+    }
+  };
 
-  const editPage = new EditPage({ $target, initialState: this.state });
+  this.route();
+  // 라우팅 url 변경
+  initRouter(() => this.route());
 }
