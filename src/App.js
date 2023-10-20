@@ -1,5 +1,4 @@
-import Sidebar from "./components/Sidebar.js";
-import DocumentEditPage from "./components/DocumentEditPage.js";
+import { Sidebar, DocumentEditPage } from "./components/components.js";
 import { request, initRouter, push } from "./utils.js";
 
 export default function App({ $target }) {
