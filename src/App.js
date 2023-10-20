@@ -119,10 +119,10 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       // 루트 ui 삭제 필요
       const [, , documentId] = pathname.split("/");
+
+      header.setState(documentId);
       await fetchDocument(documentId);
       footer.setState(this.state.selectedDocument.documents);
-    } else if (pathname === "/new") {
-      editorPage.setState("new");
     }
   };
 
