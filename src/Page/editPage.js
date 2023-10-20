@@ -11,7 +11,7 @@ export default class EditPage {
     }
 
     render() {
-        const $page = createNewElement('div', [{ property: 'className', value: 'f2' }]);
+        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
 
         this.sideBar = new Sidebar({ $target: $page });
         this.documentManager = new DocumentManager({ $target: $page, initalState: { ...this.state } });

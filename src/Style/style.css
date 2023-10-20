@@ -10,13 +10,18 @@
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItem/documentitem.css);
 
 :root {
-    --main: #FF6701;
+    --main: #ff6701;
     --black: #000000;
-    --gray: #EBEBEB;
+    --gray: #ebebeb;
 }
 
-#app, .wrap {
+#app {
     height: 100vh;
+}
+
+.wrap {
+    height: 100vh;
+    display: flex;
 }
 
 .document-items {
