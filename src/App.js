@@ -62,6 +62,10 @@ export default function App({ $target }) {
       })
 
       editor.setState(addedDocument);
+    },
+    onClickRemoveButton: async (id) => {
+      await fetchRemoveDocument(id);
+      this.render();
     }
   });
 
@@ -116,6 +120,12 @@ export default function App({ $target }) {
     });
     return newDocument;
   };
+
+  const fetchRemoveDocument = async (id) => {
+    await request(`/${id}`, {
+      method: 'DELETE',
+    });
+  }
 
   this.route = async () => {
     await fetchRootDocuments();

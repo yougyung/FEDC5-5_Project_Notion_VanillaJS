@@ -4,6 +4,7 @@ export default function DocumentList({
   onClickDocument,
   onClickAddButton,
   onClickInitialAddButton,
+  onClickRemoveButton,
 }) {
   const $documentList = document.createElement('div');
   $documentList.className = 'document-list';
@@ -28,8 +29,14 @@ export default function DocumentList({
           .map(
             (document) => `
           <li data-id="${document.id}" class="document-item">
-            <span>${document.title}</span>
-            <button class='add-button'>+</button>
+            <div class='main-document-item'>
+              <span class="title">${document.title}</span>
+              <div class='button-group'>
+                <button class='remove-button'>x</button>
+                <button class='add-button'>+</button>
+              </div>
+            </div>
+            
             ${
               document.documents && document.documents.length > 0
                 ? renderDocuments(document.documents)
@@ -54,6 +61,7 @@ export default function DocumentList({
       onClickInitialAddButton();
     }
   });
+  
   $documentList.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
 
@@ -63,8 +71,10 @@ export default function DocumentList({
 
       if (className === 'add-button') {
         onClickAddButton(id);
-      } else {
+      } else if (className === 'title') {
         onClickDocument(id);
+      } else if (className === 'remove-button') {
+        onClickRemoveButton(id);
       }
     }
   });
