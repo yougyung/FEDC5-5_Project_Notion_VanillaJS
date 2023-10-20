@@ -8,7 +8,7 @@ const { s_container, s_mainContainer } = styles;
 function App() {
   const { documents, createDocument } = useDocuments();
 
-  function matchRoute(path: string) {
+  const matchRoute = (path: string) => {
     switch (path) {
       case "/":
         return createComponent(UserGuide);
@@ -17,7 +17,7 @@ function App() {
       default:
         return createComponent(UserGuide);
     }
-  }
+  };
 
   const sidebarComponent = createComponent(Sidebar, { documents, createDocument });
   const mainComponent = matchRoute(window.location.pathname);
