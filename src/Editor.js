@@ -16,13 +16,14 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log("sdf");
 
     this.render();
   };
 
   this.render = () => {
     $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").innerHTML = this.state.content;
+    $editor.querySelector("[name=content]").value = this.state.content;
   };
 
   $editor.addEventListener("keyup", (e) => {

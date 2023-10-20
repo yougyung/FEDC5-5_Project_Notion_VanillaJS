@@ -50,7 +50,7 @@ export default function PostViewPage({ $target, initialState }) {
             id: createdPost.id,
             post: {
               title: createdPost.title,
-              content: createdPost.content,
+              content: createdPost.content || "",
             },
           });
         } else {
