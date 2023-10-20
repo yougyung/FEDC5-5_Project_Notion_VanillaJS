@@ -5,7 +5,7 @@
     "commonjs": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "prettier/prettier"],
+  "extends": ["eslint:recommended", "plugin:jest/recommended", "prettier/prettier"],
   "plugins": ["prettier"],
   "overrides": [],
   "parserOptions": {
