@@ -23,7 +23,6 @@ export default function PostListPage({
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
-
     postList.setState(this.state);
     this.render();
   };

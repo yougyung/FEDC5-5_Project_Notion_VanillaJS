@@ -6,7 +6,7 @@ export default function App({ $target }) {
   this.state = {};
   this.setState = () => {};
 
-  new PostListPage({
+  const postListPage = new PostListPage({
     $target,
     initialState: [],
     onPostClick: async (id) => {
@@ -27,16 +27,18 @@ export default function App({ $target }) {
           }),
         });
         history.pushState(null, null, createdPost.id);
-        this.route();
       }
+
       if (classType === "removePost") {
         await request(`/documents/${id}`, {
           method: "DELETE",
         });
-        this.setState();
         history.pushState(null, null, "/");
-        this.route();
       }
+
+      const postArr = await request("/documents");
+      postListPage.setState(postArr);
+      this.route();
     },
   });
 

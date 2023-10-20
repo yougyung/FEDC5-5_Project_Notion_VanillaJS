@@ -46,6 +46,7 @@ export default function PostList({
   };
 
   this.render = () => {
+    $postList.innerHTML = "";
     createDocumentHtml(this.state, $postList, 2);
   };
   this.render();
