@@ -21,7 +21,6 @@ export default class Sidebar {
         });
         this.document = new Document({
             $target: $userAndDocument,
-            initalState: { documentList: [] },
         });
         this.$target.appendChild($userAndDocument);
     }
