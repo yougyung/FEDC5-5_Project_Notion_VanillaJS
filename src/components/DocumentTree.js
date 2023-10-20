@@ -1,45 +1,14 @@
-const DUMMY = [
-  {
-    id: 1, // Document id
-    title: "노션을 만들자", // Document title
-    documents: [
-      {
-        id: 2,
-        title: "블라블라",
-        documents: [
-          {
-            id: 3,
-            title: "함냐함냐",
-            documents: [
-              {
-                id: 5,
-                title: "제발제발",
-                documents: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 6,
-        title: "밥 묵자",
-        documents: [],
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "hello!",
-    documents: [],
-  },
-];
-
-export default function DocumentTree({ $target }) {
+export default function DocumentTree({ $target, initialState = [] }) {
   const $tree = document.createElement("div");
   $tree.className = "document-tree";
   $target.appendChild($tree);
 
-  this.state = DUMMY;
+  this.state = initialState;
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
 
   this.makeDocumentTree = (children, element) => {
     for (const child of children) {
@@ -80,6 +49,4 @@ export default function DocumentTree({ $target }) {
       history.pushState(null, null, `/document/${id}`);
     });
   };
-
-  this.render();
 }
