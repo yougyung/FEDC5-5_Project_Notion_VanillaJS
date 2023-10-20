@@ -1,4 +1,5 @@
 import { setItem, getItem } from "./Storage.js";
+import Index from "./index.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $div = document.createElement("div");
@@ -7,14 +8,23 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
-    $div.querySelector("[name=title").value = this.state.title;
-    $div.querySelector("[name=content]").value = this.state.content;
-    setItem("savepoint", this.state);
-    this.render();
+    if (nextState.id === "index") {
+      this.init();
+    } else {
+      this.state = nextState;
+      console.log(this.state.title);
+      //   $div.querySelector("[name=title").value = this.state.title;
+      //   $div.querySelector("[name=content]").value = this.state.content;
+      setItem("savepoint", this.state);
+      this.render();
+    }
   };
 
   let isAlreadyRender = false;
+
+  this.init = () => {
+    Index({ $target });
+  };
 
   this.render = () => {
     if (!isAlreadyRender) {
@@ -36,6 +46,4 @@ export default function Editor({ $target, initialState, onEditing }) {
     this.setState(nextState);
     onEditing(nextState);
   });
-
-  this.render();
 }

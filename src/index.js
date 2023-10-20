@@ -1,9 +1,5 @@
-export default function index({ $target }) {
+export default function Index({ $target }) {
   const $div = document.createElement("div");
   $target.appendChild($div);
-  this.render = () => {
-    $div.innerText = "이 페이지는 메인페이지입니다.";
-  };
-
-  this.render();
+  $div.innerText = "이 페이지는 메인 페이지 입니다.";
 }

@@ -6,6 +6,7 @@ export default function Post({
   onSelect,
   onInsert,
   onDelete,
+  onNewPost,
 }) {
   const $li = document.createElement("li");
   $li.innerText = title;
@@ -52,6 +53,7 @@ export default function Post({
       onSelect,
       onInsert,
       onDelete,
+      onNewPost,
     });
   });
 }

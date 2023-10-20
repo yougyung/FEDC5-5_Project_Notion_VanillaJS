@@ -4,10 +4,12 @@ import { request } from "./Api.js";
 export default function PostList({
   $target,
   initialState,
-  getRootData,
+  //라우터 설명
+  //   getRootData,
   onSelect,
   onInsert,
   onDelete,
+  onNewPost,
 }) {
   const $ul = document.createElement("ul");
   $target.appendChild($ul);
@@ -21,7 +23,8 @@ export default function PostList({
     this.render();
   };
 
-  getRootData();
+  //라우터 설명
+  //   getRootData();
 
   // node.prototype.replaceChild();
 
@@ -42,9 +45,21 @@ export default function PostList({
         onSelect,
         onInsert,
         onDelete,
+        onNewPost,
       });
     });
     isAlreadyRender = true;
     $ul.appendChild($div);
+
+    const $button = document.createElement("button");
+    $ul.appendChild($button);
+    $button.className = "newpage-button";
+    $button.innerText = "+ 새페이지";
+
+    const $newPageCreateButton = document.querySelector(".newpage-button");
+    $newPageCreateButton.addEventListener("click", (e) => {
+      const value = this.state;
+      onNewPost(value);
+    });
   };
 }

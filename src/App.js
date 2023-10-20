@@ -5,8 +5,15 @@ import { request } from "./Api.js";
 import { getItem } from "./Storage.js";
 
 export default function App({ $target }) {
-  this.setState = (nextState) => {
-    postList.setState(nextState);
+  //리팩토링
+  const getPostListApi = async () => {
+    const rootData = await request("");
+    postList.setState(rootData);
+  };
+  const getPostApi = async (id) => {
+    const selectedData = await request(`/${id}`);
+    console.log(selectedData);
+    editpage.setState(selectedData);
   };
 
   new Header({
@@ -19,8 +26,8 @@ export default function App({ $target }) {
     $target: $editPage,
     initialState: "",
     onNewTitle: async (id) => {
+      // 로컬에 저장된 title, content 불러옴
       const newTitle = getItem("savepoint", "");
-      console.log(newTitle.title);
 
       await request(`/${id}`, {
         method: "PUT",
@@ -38,10 +45,12 @@ export default function App({ $target }) {
   const postList = new PostList({
     $target,
     initialState: [],
-    getRootData: async () => {
-      const newData = await request("");
-      this.setState(newData);
-    },
+    // 라우터 설명
+    // getRootData: async () => {
+    //   const newData = await request("");
+    //   this.setState(newData);
+    //   await getListApi();
+    // },
     onSelect: async (id) => {
       const newData = await request(`/${id}`);
       editpage.setState(newData);
@@ -55,7 +64,7 @@ export default function App({ $target }) {
       const newState = await request(`/${newData.id}`);
       editpage.setState(newState);
       const nextState = await request("");
-      this.setState(nextState);
+      postList.setState(nextState);
     },
     onDelete: async (id) => {
       console.log(id);
@@ -63,8 +72,39 @@ export default function App({ $target }) {
         method: "DELETE",
       });
       const newData = await request("");
-      this.setState(newData);
+      postList.setState(newData);
       editpage.setState;
     },
+    onNewPost: async (value) => {
+      const newData = await request("", {
+        method: "POST",
+        body: JSON.stringify({ title: "제목 없음", parent: null }),
+      });
+      //   this.setState([
+      //     ...this.state.bind(postList),
+      //     { ...newData, documents: [] },
+      //   ]);
+
+      const newPage = {
+        ...newData,
+        documents: [],
+      };
+      postList.setState([...postList.state, newPage]);
+    },
   });
+
+  this.route = () => {
+    const { pathname } = window.location;
+
+    if (pathname === "/") {
+      getPostListApi();
+      editpage.setState({ id: "index" });
+      console.log("렌더가된다");
+    } else if (pathname !== "/" && pathname.indexOf("/") === 0) {
+      const id = pathname.split("/")[1];
+      getPostListApi();
+      getPostApi(id);
+    }
+  };
+  this.route();
 }
