@@ -3,7 +3,7 @@ export default function SidebarHeader({ $target, username }) {
   $target.appendChild($sidebarHeader);
 
   this.render = () => {
-    $sidebarHeader.innerHTML = `<h2>${username}의 Notion</h2>`;
+    $sidebarHeader.innerHTML = `<h4>${username}의 Notion</h5>`;
   };
 
   this.render();
