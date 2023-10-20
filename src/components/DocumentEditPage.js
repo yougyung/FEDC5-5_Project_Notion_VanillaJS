@@ -1,4 +1,5 @@
 import { request } from "../utils.js";
+import DocumentHeader from "./documentComponents/DocumentHeader.js";
 import Editor from "./documentComponents/Editor.js";
 import SubDocumentList from "./documentComponents/SubDocumentList.js";
 
@@ -14,6 +15,10 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
       `${this.state.documentId}`
     );
 
+    documentHeader.setState({
+      title,
+    });
+
     editor.setState({
       title,
       content,
@@ -23,6 +28,13 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
       documents,
     });
   };
+
+  const documentHeader = new DocumentHeader({
+    $target: $documentEditPage,
+    initialState: {
+      title: "",
+    },
+  });
 
   const editor = new Editor({
     $target: $documentEditPage,
