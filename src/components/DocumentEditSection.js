@@ -38,7 +38,7 @@ export default function DocumentEditSection({ $target, initialState }) {
             method: "POST",
             body: JSON.stringify({
               title: document.title,
-              parent: document.parent || null,
+              parent: document.parentId,
             }),
           });
 

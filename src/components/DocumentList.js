@@ -1,7 +1,9 @@
+import { push } from "../utils/route.js";
+import { request } from "../utils/api.js";
+
 export default function DocumentList({
   $target,
   initialState,
-  onDocumentItemClick,
 }) {
   const $document = document.createElement("div");
   $document.setAttribute("class", "documents-container");
@@ -19,10 +21,11 @@ export default function DocumentList({
     let htmlString = "";
     documents.forEach((document) => {
       htmlString += `
-        <div class="documents-item" data-id="${document.id}">
-            <div class="document-item-title-wrap">
+        <div class="documents-item">
+            <div class="document-item-title-wrap" data-id="${document.id}">
                 <button class="toggle">></button>
                 <span>${document.title}</span>
+                <button class="add-document">➕</button>
             </div>
             <div class="documents-item fold">
                 ${
@@ -39,40 +42,37 @@ export default function DocumentList({
   };
 
   this.render = () => {
+    $document.innerHTML = `
+        <button class="add-document">➕</button>
+        <div class="document-items"></div>
+    `;
+
     if (this.state.length === 0) {
-      $document.innerHTML += "";
       return;
     }
 
-    $document.innerHTML += `
-            ${documentPrint(this.state)}
-        `;
+    $document.querySelector(".document-items").innerHTML = `
+        ${documentPrint(this.state)}
+    `;
   };
 
   this.render();
 
   $document.addEventListener("click", (e) => {
-    const $documentItem = e.target.closest(".documents-item");
+    const $documentItem = e.target.closest(".document-item-title-wrap");
+    const id = $documentItem ? $documentItem.dataset.id : null;
 
-    if ($documentItem) {
-      const $child = $documentItem.children[1];
-      const { id } = $documentItem.dataset;
-
-      if ($child) {
-        if (e.target.className === "toggle") {
-          const isFolded = $child.classList.contains("fold");
-
-          if (isFolded) {
-            $child.classList.remove("fold");
-            $child.classList.add("show");
-          } else {
-            $child.classList.remove("show");
-            $child.classList.add("fold");
-          }
-        } else {
-          onDocumentItemClick(id);
-        }
+    if (e.target.className === "add-document") {
+      let state = { parentId: id };
+      push("/document/new", state);
+    } else if (e.target.className === "toggle") {
+      const $hideItem = $documentItem.closest(".documents-item").children[1];
+      if ($hideItem) {
+        $hideItem.classList.toggle("fold");
+        $hideItem.classList.toggle("show");
       }
+    } else if ($documentItem) {
+      push(`/document/${id}`);
     }
   });
 }

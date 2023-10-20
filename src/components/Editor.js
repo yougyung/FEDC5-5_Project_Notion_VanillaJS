@@ -31,11 +31,13 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   $editor.addEventListener("keyup", (e) => {
     const { name } = e.target;
+    const parentId = history.state ? history.state.parentId : null;
 
     if (this.state[name] !== undefined) {
       this.setState({
         ...this.state,
         [name]: e.target.value,
+        parentId,
       });
 
       onEditing(this.state);
