@@ -85,7 +85,7 @@ button {
 .editor {
   width: 900px;
   height: 90%;
-  padding-top: calc(96px + env(safe-area-inset-top));
+  /* padding-top: calc(96px + env(safe-area-inset-top)); */
   padding-left: calc(96px + env(safe-area-inset-left));
 }
 
