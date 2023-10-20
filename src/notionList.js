@@ -14,7 +14,6 @@ export default function NotionList({
     }
 
     this.render = () => {
-        console.log(this.state)
         $notionList.innerHTML = `
             <ul>
                 ${this.state.map(list => `
