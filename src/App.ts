@@ -1,5 +1,5 @@
 import { createComponent } from "./core";
-import { Editor, Sidebar, UserGuide } from "./components";
+import { Editor, NotFound, Sidebar, UserGuide } from "./components";
 import { useDocuments } from "./hooks";
 import styles from "./app.module.scss";
 
@@ -15,7 +15,7 @@ function App() {
       case /^\/documents\/(?<documentId>\d+)$/.test(path) ? path : null:
         return createComponent(Editor, { documentId: Number(path.match(/\/documents\/(\d+)/)?.[1]) ?? null });
       default:
-        return createComponent(UserGuide);
+        return createComponent(NotFound);
     }
   };
 
