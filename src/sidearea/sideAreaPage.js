@@ -48,7 +48,7 @@ export default function SideAreaPage({ $target, initialState, onClick }) {
         }
 
         createdLi.dataset.id = id;
-        console.log(title.length);
+        // console.log(title.length);
         createdLi.innerText = title;
         // console.log(title);
         // console.log(documents);
