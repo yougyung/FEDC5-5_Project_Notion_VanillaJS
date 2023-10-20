@@ -1,11 +1,13 @@
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
+const X_USERNAME = "Parkkyungbin";
 
 export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}/documents/${url}`, {
+    const res = await fetch(`${API_END_POINT}/documents${url}`, {
       ...options,
       headers: {
-        "x-username": "kyungbin",
+        'Content-Type': 'application/json',
+        "x-username": "roto",  // 눈에 안보여서 일단 roto로 진행
       },
     });
 
