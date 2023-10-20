@@ -5,7 +5,7 @@ import Document from "./components/Document.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
-  $container.className = "container";
+  $container.id = "container";
   $target.appendChild($container);
 
   const documentTree = new DocumentTree({
