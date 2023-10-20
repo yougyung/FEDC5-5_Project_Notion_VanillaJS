@@ -37,6 +37,14 @@ export default function DocumentTree({ $target, initialState = [] }) {
   this.render = () => {
     const $ul = document.createElement("ul");
     this.makeDocumentTree(this.state, $ul);
+
+    const $span = document.createElement("span");
+    const $button = document.createElement("button");
+    $button.textContent = "새 문서 만들기";
+    $button.className = "add-button";
+
+    $span.appendChild($button);
+    $ul.appendChild($span);
     $tree.appendChild($ul);
 
     $ul.addEventListener("click", (e) => {
