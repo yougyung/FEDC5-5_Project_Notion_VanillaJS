@@ -1,10 +1,10 @@
-import Header from "./Header/Header.js";
+import Header from "../Header/Header.js";
 import Editor from "./Editor/Editor.js";
 
 import { DUMMY_SINGLE_POST_DATA } from "../../mock.js";
 import { getPost, createPost, updatePost } from "../../utils/api.js";
 
-import { setItem, removeItem } from "../../utils/storage.js";
+import { setItem, removeItem, getItem } from "../../utils/storage.js";
 
 export default function EditorPage({ $target, initialState }) {
   this.state = initialState;
@@ -12,62 +12,60 @@ export default function EditorPage({ $target, initialState }) {
   const $editorPage = document.createElement("div");
   $editorPage.className = "editor-container";
 
-  let postLocalSaveKey = `temp-document-${this.state.documentId}`;
+  let postLocalSaveKey = `temp-document-${this.state.id}`;
 
-  // 1) Header
-  const header = new Header({ $target: $editorPage, initialState: [] });
   // 2) Editor
   let timer = null;
 
   const editor = new Editor({
     $target: $editorPage,
-    initialState: DUMMY_SINGLE_POST_DATA,
+    initialState,
     onEditing: post => {
+      // 즉시 임시 저장
+      setItem(postLocalSaveKey, {
+        ...this.state,
+        ...post,
+        tempSaveDate: new Date(),
+      });
+
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        console.log(">>", this.state);
-        // 로컬
-        setItem(postLocalSaveKey, {
-          ...post,
-          tempSaveDate: new Date(),
-        });
-
-        // 현재 위치
-        const isNew = this.state.documentId === "new";
-
-        if (isNew) {
-          // 새로운 포스트 생성
-          const createdDocument = await createPost({
-            title: "새로운 포스트",
-            conent: "",
-          });
-
-          // route 이동
-          history.replaceState(null, null, `/documents/${createdDocument.id}`);
-          removeItem(postLocalSaveKey);
-
-          this.setState({
-            postId: createdDocument.id,
-          });
-        } else {
-          console.log("수정 시도", this.state.documentId, post);
-          await updatePost(this.state.documentId, post);
-          removeItem(postLocalSaveKey);
-        }
-      }, 2000);
+        await updatePost(this.state.id, post);
+        removeItem(postLocalSaveKey);
+        console.log("자동저장");
+      }, 1000);
     },
   });
 
-  this.setState = async documentId => {
-    this.state = {
-      ...this.state,
-      documentId,
-    };
-    const postData = await getPost(documentId);
-    editor.setState(postData);
+  let tempFlag = true;
+
+  this.setState = selectedDocument => {
+    this.state = selectedDocument;
+    postLocalSaveKey = `temp-document-${this.state.id}`;
+
+    // 임시 저장이 있는지 검사하기
+    const tempPost = getItem(postLocalSaveKey, {
+      title: "",
+      content: "",
+    });
+
+    if (tempFlag) checkTempLocalDocument(tempPost);
+
+    editor.setState(this.state);
     this.render();
+  };
+
+  const checkTempLocalDocument = tempPost => {
+    console.log(tempPost, this.state);
+    if (tempPost.tempSaveDate && tempPost.tempSaveDate > this.state.updatedAt) {
+      if (confirm("불러올까요?")) {
+        tempFlag = false;
+        this.setState(tempPost);
+        return;
+      }
+    }
   };
 
   this.render = () => {

@@ -44,8 +44,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     $editor.querySelector("[name=content]").innerHTML = richContent;
   };
 
-  this.render();
-
   $editor.querySelector("[name=title]").addEventListener("keyup", e => {
     const nextState = {
       ...this.state,
@@ -66,8 +64,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       content: e.target.value,
     };
     this.setState(nextState);
-
-    console.log("수정 시도하려는 내용", this.state);
 
     // 업데이트
     const { title, content } = this.state;
