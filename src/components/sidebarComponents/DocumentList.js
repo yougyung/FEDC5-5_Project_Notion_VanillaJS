@@ -52,7 +52,6 @@ export default function DocumentList({
   `;
 
   this.render = () => {
-    // console.log(this.state.documents);
     const { documents } = this.state;
     $documentList.innerHTML = `
            ${documents.length > 0 ? renderList(documents, 1) : ""}
