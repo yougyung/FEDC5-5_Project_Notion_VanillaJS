@@ -19,6 +19,9 @@ button {
   flex-grow: 0;
   flex-shrink: 0;
   background-color: rgba(23, 35, 52);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: white;
 }
 .rootDocument {
@@ -27,19 +30,27 @@ button {
 .subDocument li div {
   padding: 5px;
   display: flex;
-
   justify-content: space-between;
 }
 .rootDocument_data {
   padding: 5px;
+}
+.rootDocument_dataRoot {
+  padding: 5px;
+}
+.documentHeader {
+  display: flex;
+}
+.documentHeader div {
+  display: block;
+  width: 250px;
+  height: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
+
   white-space: nowrap;
 }
 .rootDocument_data div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 .documentCreateButton {
   display: none;
@@ -69,11 +80,21 @@ button {
 .documentToggleButton {
   color: white;
 }
+.buttonGroup {
+  display: flex;
+  position: absolute;
+  right: 0;
+}
+.documentHover {
+  display: flex;
+  position: relative;
+}
 
 /*에디터 부분 스타일링 해야됨*/
 .documentEditDiv {
-  width: 100%;
   display: none;
+  width: 600px;
+  white-space: wrap;
 }
 .editorDiv {
   padding-top: 100px;

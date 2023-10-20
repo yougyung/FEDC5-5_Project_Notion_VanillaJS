@@ -35,8 +35,9 @@ export default function DocumentListComponent({ $target, initialState }) {
     onToggle: (parentId, id) => {
       //this.state.tggleData가 중복되는데 변수로 바꿔서하면 오류가 남 -> 해결책 찾기
       let hasToggle = checkToggle(this.state.toggleData, id);
-
+      //토글이 되었다면
       if (hasToggle) {
+        //해당 되는 부모만 닫아줌으로써 하위 문서들도 안보이게된다 -> 하위 문서들은 isToggle이 true로 존재하게 됨 -> 해결책 찾기
         this.state.toggleData = this.state.toggleData.filter(
           (el) => el.parentId !== parentId
         );
@@ -71,7 +72,6 @@ export default function DocumentListComponent({ $target, initialState }) {
   //현재 toggle된 id가 모여있는 배열에서 체크할 id가 있는지
   const checkToggle = (toggleData, id) => {
     let hasToggle = false;
-    //객체라서 반복문으로 계속 검사해야됨 -> 해결책 찾기
     for (const { parentId: toggleParentId, id: toggleId } of toggleData) {
       if (toggleId === id.toString()) {
         hasToggle = true;

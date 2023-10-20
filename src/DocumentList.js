@@ -24,11 +24,11 @@ export default function DocumentList({
       arr.push(
         `
             <ul class="rootDocument">
-              <li class="rootDocument_data" data-id="${id}" style="padding-left:${depth}px;">
+              <li class="rootDocument_data" id="${id}" style="padding-left:${depth}px;">
                   <div class="documentHover">
-                      <div>
+                      <div class="documentHeader">
                       <button class="documentToggleButton" data-istoggle="${isToggle}">></button>
-                        <a>${title}</a>
+                        <div style="width:${250 - depth * 2}px">${title}</div>
                       </div>
                         <div class="buttonGroup">
                           <button class="documentDeleteButton">x</button>
@@ -38,7 +38,7 @@ export default function DocumentList({
                   ${
                     isToggle
                       ? documents.length > 0
-                        ? documentDepth(documents, depth + 15, [])
+                        ? documentDepth(documents, depth + 6, [])
                         : "<div style>하위 문서 없음</div>"
                       : ""
                   }
@@ -58,14 +58,14 @@ export default function DocumentList({
                 ${documentList
                   .map(
                     (doc) => `
-                    <li data-id="${doc.id}" class="rootDocument_data">
+                    <li id="${doc.id}" class="rootDocument_data">
                         
                         <div class="documentHover">
-                            <div>
+                            <div class="documentHeader">
                               <button class="documentToggleButton" data-istoggle="${
                                 doc.isToggle
                               }">></button>
-                              <a>${doc.title}</a>
+                              <div>${doc.title}</div>
                             </div>
                           <div class="buttonGroup">
                             <button class="documentDeleteButton">x</button>
@@ -76,7 +76,7 @@ export default function DocumentList({
                           //doc.documents <- 이걸로만 검사했더니 true가 반환된다. 요렇게 해야함.->doc.documents.length > 0
                           doc.isToggle
                             ? doc.documents.length > 0
-                              ? documentDepth(doc.documents, 15, [])
+                              ? documentDepth(doc.documents, 6, [])
                               : "<div style>하위 문서 없음</div>"
                             : ""
                         }
@@ -103,15 +103,15 @@ export default function DocumentList({
       if ($li.className == "rootDocumentCreateDiv") {
         fetchPostDocument();
       } else {
-        const { id } = $li.dataset;
+        const { id } = $li;
+        const parent = e.target.closest(".rootDocument_data");
 
         if (e.target.className == "documentCreateButton") {
           fetchPostDocument(id);
         } else if (e.target.className == "documentDeleteButton") {
           fetchDeleteDocument(id);
         } else if (e.target.className == "documentToggleButton") {
-          const parent = e.target.closest(".rootDocument_data");
-          onToggle(parent.dataset.id, id);
+          onToggle(parent.id, id);
 
           push(`/documents/${id}`);
         } else {
@@ -120,10 +120,11 @@ export default function DocumentList({
       }
     }
   });
-  const fetchDeleteDocument = async (id) => {
+  const fetchDeleteDocument = async (parentId, id) => {
     const DeletedDocument = await request(`/documents/${id}`, {
       method: "DELETE",
     });
+
     push("/");
   };
 
