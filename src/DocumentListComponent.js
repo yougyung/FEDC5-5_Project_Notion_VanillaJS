@@ -25,6 +25,7 @@ export default function DocumentListComponent({ $target, initialState }) {
     documentDepth(lists, toggleData);
 
     documentList.setState({
+      userName: null,
       selectedDocument: null,
       documentList: lists,
     });

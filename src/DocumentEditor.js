@@ -1,3 +1,4 @@
+import EditorFooterBar from "./EditorFooterBar.js";
 import EditorStyle from "./EditorStyle.js";
 
 export default function DocumentEditor({ $target, initialState, onEditing }) {
@@ -20,8 +21,11 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
   $target.appendChild($editor);
 
   this.setState = (nextState) => {
+    //아래 render를 한번만 하게되면 다른 문서를 클릭했을 때 새로운 데이터가 안그려지는 현상 해결
+    if (this.state.id !== nextState.id) {
+      isinitialized = true;
+    }
     this.state = nextState;
-
     //render를 한번만 함으로써 커서가 계속 앞으로 가는 현상 해결
     if (isinitialized) {
       this.render();
@@ -64,6 +68,10 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
       document.execCommand(style);
       $editor.focus({ preventScroll: true });
     },
+  });
+
+  const editorFooterBar = new EditorFooterBar({
+    $target: document.querySelector("#root"),
   });
 }
 

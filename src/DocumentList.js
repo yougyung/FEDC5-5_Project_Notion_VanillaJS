@@ -14,6 +14,7 @@ export default function DocumentList({
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state);
     this.render();
   };
 
