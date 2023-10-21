@@ -14,14 +14,15 @@ export default function EditInfo({ target, state }) {
   this.state = state;
 
   this.setState = (newState) => {
-    console.log(newState);
     this.state = newState;
     this.render();
   };
 
   this.render = () => {
     const { createdAt, updatedAt } = this.state;
-    createdAtElement.textContent = `생성 일시 : ${createdAt}`;
-    updatedAtElement.textContent = `업데이트 날짜 : ${updatedAt}`;
+    const createdTime = new Date(createdAt);
+    const updatedTime = new Date(updatedAt);
+    createdAtElement.textContent = `Create - ${createdTime.toLocaleString()}`;
+    updatedAtElement.textContent = `Update - ${updatedTime.toLocaleString()}`;
   };
 }

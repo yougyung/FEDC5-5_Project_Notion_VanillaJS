@@ -63,7 +63,6 @@ export default function PageList({ target, state, onEvent }) {
         if (!checkBoxElement.checked) {
           display.classList.remove("toggleChecked");
         }
-        console.log(display);
       }
     }
   });
