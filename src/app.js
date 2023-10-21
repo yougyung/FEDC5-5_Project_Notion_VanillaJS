@@ -58,6 +58,7 @@ export default function App({ $target }) {
         selectedDocument: currentDocument,
         isDocumentsLoading: false,
       });
+      posting.setState(currentDocument);
     }
   };
 
