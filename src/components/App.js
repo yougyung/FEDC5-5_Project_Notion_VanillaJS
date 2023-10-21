@@ -1,6 +1,8 @@
 import Sidebar from '../pages/Sidebar.js';
 import { request } from '../util/api.js';
 import { initRouter } from '../util/router.js';
+import DocumentEditPage from '../pages/DocumentEditPage.js';
+import IndexPage from '../pages/IndexPage.js';
 
 export default function App({ $target }) {
   const $sidebarContainer = document.createElement('div');
@@ -21,12 +23,22 @@ export default function App({ $target }) {
       });
 
       // 추후 낙관적 업데이트를 적용해봐도 좋을 듯 함
-      fetchDocuments();
+      fetchDocumentList();
+    },
+    onDocumentClick: async (documentId) => {
+      const selectedDocument = await request(`/documents/${documentId}`, {
+        method: 'GET',
+      });
+      documentEditPage.setState(selectedDocument);
+      console.log(selectedDocument);
     },
     onDocumentDeleted: async () => {
       await this.setState();
     },
   });
+
+  const indexPage = new IndexPage({ $target: $editorContainer });
+  const documentEditPage = new DocumentEditPage({ $target: $editorContainer });
 
   // 초기 통신을 통해 받아온 Documents 객체에 추가 프로퍼티를 부여
   this.addIsFolded = (documents) => {
@@ -40,26 +52,24 @@ export default function App({ $target }) {
   this.setState = (nextState) => {
     this.state = nextState;
     sidebar.setState(this.state);
-    console.log(this.state);
   };
 
-  const fetchDocuments = async () => {
+  const fetchDocumentList = async () => {
     const documents = await request('/documents', { method: 'GET' });
     this.setState(this.addIsFolded(documents));
   };
 
-  fetchDocuments();
+  fetchDocumentList();
 
   this.route = () => {
     $editorContainer.innerHTML = '';
     const { pathname } = window.location;
 
     if (pathname === '/') {
-      // documentPage.setState();
+      indexPage.render();
     } else if (pathname.indexOf('/documents/') === 0) {
-      const [, , postId] = pathname.split('/');
-      console.log(postId);
-      // documentEditPage.setState({ postId });
+      const [, , documentId] = pathname.split('/');
+      documentEditPage.render();
     }
   };
 

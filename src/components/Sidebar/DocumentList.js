@@ -6,6 +6,7 @@ export default function DocumentList({
   initialState,
   onDocumentFoldToggle,
   onDocumentAdded,
+  onDocumentClick,
 }) {
   const $documentList = document.createElement('div');
   $target.appendChild($documentList);
@@ -55,6 +56,7 @@ export default function DocumentList({
       onDocumentAdded(Number($addButton.dataset.id));
     } else if ($li) {
       const { id } = $li.dataset;
+      onDocumentClick(id);
       push(`/documents/${id}`);
     }
   });

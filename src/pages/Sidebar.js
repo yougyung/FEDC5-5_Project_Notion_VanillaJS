@@ -6,6 +6,7 @@ export default function Sidebar({
   initialState,
   onDocumentFoldToggle,
   onDocumentAdded,
+  onDocumentClick,
 }) {
   const $sidebar = document.createElement('div');
   $target.appendChild($sidebar);
@@ -30,12 +31,15 @@ export default function Sidebar({
   const documentList = new DocumentList({
     $target: $sidebar,
     initialState,
-    onDocumentFoldToggle: (id) => {
-      const nextState = this.toggleIsFolded(this.state, id);
+    onDocumentFoldToggle: (documentId) => {
+      const nextState = this.toggleIsFolded(this.state, documentId);
       onDocumentFoldToggle(nextState);
     },
     onDocumentAdded: (documentId) => {
       onDocumentAdded(documentId);
+    },
+    onDocumentClick: (documentId) => {
+      onDocumentClick(documentId);
     },
   });
 
