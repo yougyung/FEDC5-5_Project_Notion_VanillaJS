@@ -66,7 +66,6 @@ export default function DocumentList({
   };
 
   $documentList.addEventListener("click", async (event) => {
-    // event.stopPropagation();
     const { target } = event;
     console.dir(target.classList);
     const $li = target.closest(".list-item");
