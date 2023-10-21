@@ -1,3 +1,4 @@
+import DocumentEditPage from './components/DocumentEditPage.js';
 import DocumentList from './components/DocumentList.js';
 
 export default function App({ $target, initialState }) {
@@ -20,6 +21,10 @@ export default function App({ $target, initialState }) {
 
 			documentEditPage.setState(nextState);
 		},
+	});
+	const documentEditPage = new DocumentEditPage({
+		$target,
+		initialState,
 	});
 	this.setState = (nextState) => {
 		this.state = nextState;
