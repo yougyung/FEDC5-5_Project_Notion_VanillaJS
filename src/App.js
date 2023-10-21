@@ -22,9 +22,16 @@ export default function App({ $target, initialState }) {
 			documentEditPage.setState(nextState);
 		},
 	});
+	let timer = null;
 	const documentEditPage = new DocumentEditPage({
 		$target,
-		initialState,
+		onTitleChange: (title) => {
+			if (timer !== null) clearTimeout(timer);
+			timer = setTimeout(() => {
+				const data = { ...title, updatedAt: new Date().toJSON() };
+			}, 500);
+		},
+		onContentChange: () => {},
 	});
 	this.setState = (nextState) => {
 		this.state = nextState;
