@@ -1,12 +1,30 @@
+import request from "../../api.js";
+import MenuItem from "./MenuItem.js";
+
 export default class MenuList {
-    constructor() {
+
+    arr = [];
+
+    constructor(sidebar) {
+        this.sidebar = sidebar;
+        this.init()
 
     }
+
+    async init() {
+        this.menulist = await request("/documents");
+        this.menulist.map((menuItem) => {
+            this.arr.push(new MenuItem(menuItem, 0));
+        });
+        this.render();
+    }
+
     render() {
-        return (`
-            <div>
-            </div>
-        `);
+        this.sidebar.innerHTML = `
+        <div>
+            ${this.arr.map((menuItem) => (menuItem.render())).join('')} 
+        </div>`
+        console.log(this.sidebar.innerHTML);
     }
 }
 

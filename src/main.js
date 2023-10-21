@@ -1,6 +1,5 @@
-import { getRootDocumentsList, query } from "./api.js";
+import MenuList from "./component/sidebar/MenuList.js";
 
 const $target = document.querySelector('#app');
-
-const c = getRootDocumentsList();
-console.log(c);
+const $sidebar = document.querySelector('.sidebar');
+new MenuList($sidebar);
