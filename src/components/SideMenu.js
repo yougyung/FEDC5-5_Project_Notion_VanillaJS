@@ -10,7 +10,12 @@ export default function SideMenu({ $target, initialState, onSelect }) {
 
   this.render = () => {
     $nav.innerHTML = `<h1>Documents</h1><ul>${this.state
-      .map((document) => `<li data-id="${document.id}">${document.title}</li>`)
+      .map(
+        ({ id, title, documents }) => `<li data-id="${id}">${title}${buildTree(
+          documents
+        )}
+      </li>`
+      )
       .join(
         ""
       )}<li><form><input class="new-document" type="text" placeholder="Add document"></form></li></ul>`;
@@ -24,3 +29,12 @@ export default function SideMenu({ $target, initialState, onSelect }) {
     }
   });
 }
+
+const buildTree = (arr) => {
+  if (arr.length) {
+    return `<ul>${arr.map(
+      ({ id, title, documents }) =>
+        `<li data-id="${id}">${title}${buildTree(documents)}</li>`
+    )}</ul>`;
+  } else return "";
+};
