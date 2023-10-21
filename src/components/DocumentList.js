@@ -1,6 +1,11 @@
 import { EMPTY_TITLE } from '../constants/messages.js';
 
-export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({
+	$target,
+	initialState,
+	onTitleClick,
+	onCreatePage,
+}) {
 	const $nav = document.createElement('nav');
 	const $divCreateNewDocument = document.createElement('div');
 	const $divListContainer = document.createElement('div');
@@ -52,10 +57,12 @@ export default function DocumentList({ $target, initialState }) {
 		if (target.tagName !== 'SPAN') return;
 
 		const { id } = target.closest('li').dataset;
+		onTitleClick(id);
 	});
 
 	$divCreateNewDocument.addEventListener('click', (event) => {
 		const { target } = event;
 		if (target.tagName !== 'SPAN') return;
+		onCreatePage();
 	});
 }
