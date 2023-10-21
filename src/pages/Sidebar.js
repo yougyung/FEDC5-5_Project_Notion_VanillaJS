@@ -1,6 +1,12 @@
 import DocumentList from '../components/Sidebar/DocumentList.js';
+import SidebarHeader from '../components/Sidebar/SidebarHeader.js';
 
-export default function Sidebar({ $target, initialState, onDocumentClick }) {
+export default function Sidebar({
+  $target,
+  initialState,
+  onDocumentFoldToggle,
+  onDocumentAdded,
+}) {
   const $sidebar = document.createElement('div');
   $target.appendChild($sidebar);
 
@@ -14,12 +20,22 @@ export default function Sidebar({ $target, initialState, onDocumentClick }) {
     }));
   };
 
+  const sidebarHeader = new SidebarHeader({
+    $target: $sidebar,
+    onDocumentAdded: (documentId) => {
+      onDocumentAdded(documentId);
+    },
+  });
+
   const documentList = new DocumentList({
     $target: $sidebar,
     initialState,
-    onDocumentClick: (id) => {
+    onDocumentFoldToggle: (id) => {
       const nextState = this.toggleIsFolded(this.state, id);
-      onDocumentClick(nextState);
+      onDocumentFoldToggle(nextState);
+    },
+    onDocumentAdded: (documentId) => {
+      onDocumentAdded(documentId);
     },
   });
 

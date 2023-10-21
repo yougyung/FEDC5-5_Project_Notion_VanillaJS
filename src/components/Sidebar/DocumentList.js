@@ -2,7 +2,8 @@
 export default function DocumentList({
   $target,
   initialState,
-  onDocumentClick,
+  onDocumentFoldToggle,
+  onDocumentAdded,
 }) {
   const $documentList = document.createElement('div');
   $target.appendChild($documentList);
@@ -22,8 +23,11 @@ export default function DocumentList({
             .map(
               (document) =>
                 `<li data-id="${document.id}">
-                <button data-id="${document.id}">▶︎</button>
+                  <button class="toggle-button" data-id="${
+                    document.id
+                  }">▶︎</button>
                   ${document.title}
+                  <button class="add-button" data-id="${document.id}">+</button>
                   ${
                     document.documents.length > 0 && !document.isFolded
                       ? renderDocuments(document.documents)
@@ -39,13 +43,13 @@ export default function DocumentList({
   };
 
   $documentList.addEventListener('click', (e) => {
-    const $toggleButton = e.target.closest('button');
+    const $toggleButton = e.target.closest('.toggle-button');
+    const $addButton = e.target.closest('.add-button');
 
-    // 각 li 태그에 부착된 접기/펼치기 버튼 클릭 시 해당 버튼의 id를 상위 컴포넌트에 전달
-    // id와 매칭된 document의 isFolded 값을 토글
     if ($toggleButton) {
-      const { id } = $toggleButton.dataset;
-      onDocumentClick(Number(id));
+      onDocumentFoldToggle(Number($toggleButton.datasert.id));
+    } else if ($addButton) {
+      onDocumentAdded(Number($addButton.dataset.id));
     }
   });
 }
