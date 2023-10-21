@@ -16,6 +16,45 @@ export default function DocumentList({
     this.render();
   };
 
+  const openIds = [];
+  let isOpen = false;
+
+  const findDocumentById = (id, documents) => {
+    for (const document of documents) {
+      if (document.id === id) {
+        return document;
+      }
+
+      if (document.documents.length > 0) {
+        const foundDocument = findDocumentById(id, document.documents);
+        if (foundDocument) {
+          return foundDocument;
+        }
+      }
+    }
+
+    return null;
+  };
+
+  const toggleDocument = (id) => {
+    const index = openIds.indexOf(id);
+    if (index === -1) {
+      openIds.push(id);
+    } else {
+      openIds.splice(index, 1);
+    }
+
+    renderList(this.state.documents, 0);
+  };
+
+  const toggleButton = (id) => {
+    isOpen = openIds.includes(id);
+
+    return `<i class="fa-solid fa-angle-${
+      isOpen ? "down" : "right"
+    } toggle-button"></i>`;
+  };
+
   const listItemButtons = `
     <div class="list-item-buttons">
       <button class="delete-button" type="button">
@@ -27,8 +66,6 @@ export default function DocumentList({
     </div>
   `;
 
-  let isOpen = false;
-
   const renderList = (nextDocuments, depth) => `
     ${nextDocuments
       .map(
@@ -38,9 +75,7 @@ export default function DocumentList({
           depth * 10
         }px;">
                 <div data-id=${id} class="toggle-and-title">
-                  <i class="fa-solid fa-angle-${
-                    isOpen ? "down" : "right"
-                  } toggle-button"></i>
+                ${toggleButton(id)}
                   <span class="list-item-title">
                   ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
                   </span>
@@ -48,13 +83,15 @@ export default function DocumentList({
                       ${listItemButtons}
               </li>
                 ${
-                  documents.length === 0
-                    ? `<li class="list-item" style="padding-left: ${
-                        (depth + 2) * 10
-                      }px;">
+                  openIds.includes(id)
+                    ? documents.length === 0
+                      ? `<li class="list-item" style="padding-left: ${
+                          (depth + 2) * 10
+                        }px;">
                    하위 페이지 없음
                     </li>`
-                    : renderList(documents, depth + 2)
+                      : renderList(documents, depth + 2)
+                    : ""
                 }
                     </ul>
                   `
@@ -80,12 +117,8 @@ export default function DocumentList({
     if (target.classList.contains("delete-button")) {
       onDelete(id);
     } else if (target.classList.contains("add-button")) {
-      // 하위 document 생성 로직
       onAdd(id);
-    } else if (
-      target.className === "list-item" ||
-      ("list-item-title" && !isNaN(id))
-    ) {
+    } else {
       // document 조회 로직
       push(`${id}`);
 
@@ -96,7 +129,15 @@ export default function DocumentList({
     }
   });
 
-  $documentList.addEventListener("click", (event) => {});
+  $documentList.addEventListener("click", (event) => {
+    const { target } = event;
+    const $li = target.closest(".list-item");
+
+    if (target.classList.contains("toggle-button")) {
+      const { id } = $li.dataset;
+      toggleDocument(parseInt(id));
+    }
+  });
 
   this.render();
 }
