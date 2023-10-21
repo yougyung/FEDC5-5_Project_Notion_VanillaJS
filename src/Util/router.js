@@ -1,35 +1,34 @@
 import RootPage from '../Page/RootPage.js';
-import EditPage from '../Page/editPage.js';
-export default class Router {
+import EditPage from '../Page/EditPage.js';
+
+export default class RouterManger {
     static instance = null;
-    pages = [];
 
     static getInstance() {
-        if (!Router.instance) {
-            Router.instance = new Router();
+        if (!RouterManger.instance) {
+            RouterManger.instance = new RouterManger();
         }
-        return Router.instance;
+        return RouterManger.instance;
     }
 
     constructor() {
-        if (Router.instance) {
-            return Router.instance;
+        if (RouterManger.instance) {
+            return RouterManger.instance;
         }
 
-        window.onpopstate = () => this.routeUrl();
+        this.init();
     }
 
-    setPages(pages) {
-        this.pages = pages;
-        this.routeUrl();
+    init() {
+        window.onpopstate = () => this.route();
     }
 
     changeUrl(url) {
         history.pushState(null, null, url);
-        this.routeUrl();
+        this.route();
     }
 
-    routeUrl() {
+    route() {
         const $target = document.querySelector('#app');
         const { pathname } = window.location;
 
@@ -38,16 +37,16 @@ export default class Router {
         if (pathname === '/index.html' || pathname === '/') {
             const rootPage = new RootPage({ $target });
 
-            rootPage.render();
+            rootPage.init();
         } else if (pathname.indexOf('/document') === 0) {
             const documentId = pathname.split('/')[2];
-            const editPage = new EditPage({ $target, initalState: { documentId } });
+            const page = new EditPage({ $target, initalState: { documentId } });
 
-            editPage.render();
+            page.init();
         } else {
             const rootPage = new RootPage({ $target });
 
-            rootPage.render();
+            rootPage.init();
         }
     }
 }

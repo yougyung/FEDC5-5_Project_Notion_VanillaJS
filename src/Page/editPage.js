@@ -1,6 +1,6 @@
 import Sidebar from '../Component/Sidebar/sidebar.js';
 import DocumentManager from '../Component/DocumentManager/documentManager.js';
-import { createNewElement } from '../Util/element.js';
+import { createNewElement } from '../Util/Element.js';
 
 // state = { documentId : ""}
 
@@ -10,7 +10,7 @@ export default class EditPage {
         this.state = initalState;
     }
 
-    render() {
+    init() {
         const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
 
         this.sideBar = new Sidebar({ $target: $page });

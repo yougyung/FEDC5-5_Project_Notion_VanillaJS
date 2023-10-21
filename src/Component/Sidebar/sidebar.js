@@ -1,6 +1,7 @@
-import User from './User/user.js';
+import Header from './Header/Header.js';
 import Document from './Document/document.js';
-import { createNewElement } from '../../Util/element.js';
+import { getUserName } from '../../Util/userName.js';
+import { createNewElement } from '../../Util/Element.js';
 
 export default class Sidebar {
     constructor({ $target }) {
@@ -10,18 +11,17 @@ export default class Sidebar {
     }
 
     init() {
-        this.render();
-    }
+        const $sidebar = createNewElement('div', [{ property: 'className', value: 'sidebar' }]);
+        const userName = getUserName();
 
-    render() {
-        const $userAndDocument = createNewElement('div', [{ property: 'className', value: 'sidebar' }]);
-
-        this.user = new User({
-            $target: $userAndDocument,
+        this.user = new Header({
+            $target: $sidebar,
+            userName,
         });
         this.document = new Document({
-            $target: $userAndDocument,
+            $target: $sidebar,
         });
-        this.$target.appendChild($userAndDocument);
+
+        this.$target.appendChild($sidebar);
     }
 }

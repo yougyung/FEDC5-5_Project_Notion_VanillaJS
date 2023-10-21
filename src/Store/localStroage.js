@@ -1,5 +1,3 @@
-export const USER_LIST_KEY = 'USER_LIST_KEY';
-export const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 const localStorage = window.localStorage;
 
 export const setItem = (key, value) => {

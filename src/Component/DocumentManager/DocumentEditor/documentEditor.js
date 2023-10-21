@@ -1,4 +1,4 @@
-import { createNewElement } from '../../../Util/element.js';
+import { createNewElement } from '../../../Util/Element.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
 

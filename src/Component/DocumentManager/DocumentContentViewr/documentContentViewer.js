@@ -1,4 +1,4 @@
-import { createNewElement } from '../../../Util/element.js';
+import { createNewElement } from '../../../Util/Element.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
 
@@ -34,6 +34,11 @@ export default class DocumentContentViewr {
         this.render();
     }
 
+    setState(nextState) {
+        this.state = nextState;
+        this.render();
+    }
+
     render() {
         const { isView, title, content } = this.state;
 
@@ -42,10 +47,5 @@ export default class DocumentContentViewr {
 
         this.$title.innerHTML = title;
         this.$content.innerHTML = content && content;
-    }
-
-    setState(nextState) {
-        this.state = nextState;
-        this.render();
     }
 }

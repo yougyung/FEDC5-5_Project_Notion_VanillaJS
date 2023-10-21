@@ -1,5 +1,4 @@
-import Router from '../Util/router.js';
-import Observer from '../Store/userObserver.js';
+import RouterManger from '../Util/Router.js';
 
 export default class App {
     constructor() {
@@ -7,7 +6,6 @@ export default class App {
     }
 
     init() {
-        Router.getInstance().routeUrl();
-        Observer.getInstance();
+        RouterManger.getInstance({}).route();
     }
 }

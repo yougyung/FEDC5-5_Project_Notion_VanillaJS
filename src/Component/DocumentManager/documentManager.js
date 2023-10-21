@@ -1,9 +1,8 @@
 import DocumentEditor from './DocumentEditor/documentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
 import DocumentContentViewr from './DocumentContentViewr/documentContentViewer.js';
-import { createNewElement } from '../../Util/element.js';
-import Observer from '../../Store/userObserver.js';
-import { request } from '../../Service/document.js';
+import { createNewElement } from '../../Util/Element.js';
+import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/localStroage.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
@@ -19,6 +18,7 @@ export default class DocumentManager {
 
     init() {
         this.$documentManager = createNewElement('div', [{ property: 'className', value: 'documentManager' }]);
+
         this.documentEditor = new DocumentEditor({
             $taregt: this.$documentManager,
             initalState: { ...this.state },
@@ -66,14 +66,13 @@ export default class DocumentManager {
 
     // 해당 document content 가져오기
     async getDocumentContent() {
-        const currentUser = Observer.getInstance().getState();
         const { documentId } = this.state;
-        const { id, title, content, updatedAt, documents } = await request(`/documents/${documentId}`, currentUser);
+        const { id, title, content, updatedAt, documents } = await fetchGetDocumentContent(documentId);
         const {
             title: localTitle,
             content: localContent,
             tempSaveData,
-        } = getItem(DOCUMENT_CONTENT_SAVE_KEY(id), { title: '', content: '' });
+        } = getItem(DOCUMENT_CONTENT_SAVE_KEY(documentId), { title: '', content: '' });
 
         if (tempSaveData && tempSaveData > updatedAt) {
             if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
@@ -87,19 +86,14 @@ export default class DocumentManager {
 
     // 해당 document content 수정하기
     async putDocumentContent(documentState) {
-        const currentUser = Observer.getInstance().getState();
-        const { documentId } = this.state;
-        const { title, content } = documentState;
+        const { documentId, title, content } = documentState;
 
         setItem(DOCUMENT_CONTENT_SAVE_KEY(documentId), {
             ...documentState,
             tempSaveData: new Date(),
         });
 
-        const res = await request(`/documents/${documentId}`, currentUser, {
-            method: 'PUT',
-            body: JSON.stringify({ title, content }),
-        });
+        const res = await fetchPutDocument(documentId, title, content);
 
         if (res) {
             this.setState({ ...this.state, title, content });

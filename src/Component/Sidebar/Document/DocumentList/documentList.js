@@ -1,39 +1,42 @@
 import DocumentItems from './DocumentItems/documentItems.js';
-import { createNewElement } from '../../../../Util/element.js';
-import { request } from '../../../../Service/document.js';
-import Router from '../../../../Util/router.js';
-import Observer from '../../../../Store/userObserver.js';
+import { createNewElement } from '../../../../Util/Element.js';
+import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
+import RouterManger from '../../../../Util/Router.js';
 
 // state = { documentList: [] }
+
 export default class DocumentList {
-    constructor({ $target, initalState, onClickCallback }) {
+    constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
-        this.onClickCallback = onClickCallback;
-        this.$documentDiv = createNewElement('div', [{ property: 'className', value: 'document-list' }]);
 
         this.init();
     }
 
     init() {
-        // 유저가 바뀌면 새로 해당 유저의 documentList를 불러와서 보여줘야한다.
-        Observer.getInstance().subscribe((currentUser) => this.getDocumentList());
-        this.$documentDiv.addEventListener('click', (e) => this.handleOnClick(e));
-        this.$target.appendChild(this.$documentDiv);
+        this.$documentList = createNewElement('div', [{ property: 'className', value: 'document-list' }]);
+
+        this.$target.appendChild(this.$documentList);
+        this.$documentList.addEventListener('click', (e) => this.handleOnClick(e));
+
         this.getDocumentList();
+        this.render();
+    }
+
+    setState(nextState) {
+        this.state = nextState;
         this.render();
     }
 
     render() {
         const { documentList } = this.state;
 
-        this.$documentDiv.replaceChildren();
-        new DocumentItems({ $target: this.$documentDiv, initalState: { documentList, isRoot: true } });
-    }
+        if (!documentList || documentList.length === 0) {
+            return;
+        }
 
-    setState(nextState) {
-        this.state = nextState;
-        this.render();
+        this.$documentList.replaceChildren();
+        new DocumentItems({ $target: this.$documentList, initalState: { documentList, isRoot: true } });
     }
 
     handleOnClick(e) {
@@ -42,46 +45,58 @@ export default class DocumentList {
             target: { className },
         } = e;
 
-        // document 추가
-        if (className === 'document__buttons--insert') {
-            const documentId = target.closest('.document__item').dataset.id;
+        // document 추가 이벤트
+        if (className === 'document-item__insert') {
+            const documentId = target.closest('.document-item').dataset.id;
 
-            this.onClickCallback(documentId);
+            this.postDocument(documentId);
         }
 
-        // document 삭제
-        if (className === 'document__buttons--delete') {
-            const documentId = target.closest('.document__item').dataset.id;
+        // document 삭제 이벤트
+        if (className === 'document-item__delete') {
+            const documentId = target.closest('.document-item').dataset.id;
 
             this.deleteDocument(documentId);
         }
 
         // 해당 document 페이지로 이동
-        if (className === 'title-and-buttons') {
-            const documentId = target.closest('.document__item').dataset.id;
-            const router = Router.getInstance();
+        if (className === 'document-item__title') {
+            const documentId = target.closest('.document-item').dataset.id;
 
-            router.changeUrl(`/document/${documentId}`);
+            RouterManger.getInstance().changeUrl(`/document/${documentId}`);
         }
     }
 
-    // documnet 데이터 가져오기
+    // document 데이터 가져오기
     async getDocumentList() {
-        const currentUser = Observer.getInstance().getState();
-        const documentList = await request('/documents', currentUser);
+        const res = await fetchGetDocumentList();
 
-        this.setState({ documentList });
+        if (res) {
+            this.setState({ documentList: res });
+        }
+    }
+
+    // document 데이터 추가하기
+    async postDocument(documentId) {
+        if (!documentId) {
+            return;
+        }
+        const res = await fetchPostDocument(documentId);
+
+        if (res) {
+            this.getDocumentList();
+        }
     }
 
     // document 데이터 삭제하기
     async deleteDocument(documentId) {
-        if (documentId) {
-            const currentUser = Observer.getInstance().getState();
-            const res = await request(`/documents/${documentId}`, currentUser, { method: 'DELETE' });
+        if (!documentId) {
+            return;
+        }
+        const res = await fetchDeleteDocument(documentId);
 
-            if (res) {
-                this.getDocumentList();
-            }
+        if (res) {
+            this.getDocumentList();
         }
     }
 }
