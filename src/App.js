@@ -1,55 +1,40 @@
 import Document from './layout/document';
 import SideBar from './layout/sidebar';
+import { getAllDocumentList, getDocument } from './api/document';
 import './app.scss';
 
-import { getAllDocumentList } from './api/document';
-
-// [
-// 	{
-// 	  "id": 1, // Document id
-// 	  "title": "노션을 만들자", // Document title
-// 	  "documents": [
-// 		{
-// 		  "id": 2,
-// 		  "title": "블라블라",
-// 		  "documents": [
-// 			{
-// 			  "id": 3,
-// 			  "title": "함냐함냐",
-// 			  "documents": []
-// 			}
-// 		  ]
-// 		}
-// 	  ]
-// 	},
-// 	{
-// 	  "id": 4,
-// 	  "title": "hello!",
-// 	  "documents": []
-// 	}
-//   ]
-const ROOT_DIRECTORY = [{ id: 1, title: '제목 없음', documents: [] }];
 export default function App({ $target }) {
-	this.state = { documentList: ROOT_DIRECTORY, focusedDocument: 1 };
+	this.state = {};
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
 	};
+	const handleState = (nextState) => {
+		this.setState({ ...this.state, ...nextState });
+	};
 
-	this.render = () => {
-		const { documentList, focusedDocument } = this.state;
+	const fetchDocumentContents = async (focusedDocumentId) => {
+		const response = await getDocument(focusedDocumentId);
+		return response;
+	};
+
+	this.render = async () => {
+		const { documentList, focusedDocumentId } = this.state;
+		$target.innerHTML = ''; // change고려
 		new SideBar({
 			$target,
 			initialState: documentList,
+			handleState,
 		});
 		new Document({
 			$target,
-			initialState: focusedDocument,
+			initialState: await fetchDocumentContents(focusedDocumentId),
 		});
 	};
 
 	const init = async () => {
-		this.setState({ ...this.state, documentList: await getAllDocumentList() });
+		const data = await getAllDocumentList();
+		this.setState({ documentList: data, focusedDocumentId: data[0].id });
 	};
 	init();
 }

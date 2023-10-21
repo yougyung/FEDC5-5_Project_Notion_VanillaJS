@@ -1,9 +1,22 @@
-export default function Document({ $target }) {
-	const $div = document.createElement('div');
+import { createElementWithClass } from '../../util/dom';
+import './style.scss';
 
-	$target.appendChild($div);
+export default function Document({ $target, initialState }) {
+	const $document = createElementWithClass('div', 'document');
+	$target.appendChild($document);
+
+	this.state = initialState;
+	this.setState = (nextState) => {
+		this.state = nextState;
+		this.render();
+	};
+
 	this.render = () => {
-		$div.innerHTML = 'docunemt';
+		const { title, content } = this.state;
+		$document.innerHTML = `
+		<h1 contenteditable="true" class="document__title">${title}</h1>
+		<div contenteditable="true" class="document__content">${content}</div>
+		`;
 	};
 	this.render();
 }

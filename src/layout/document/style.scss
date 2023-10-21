@@ -1,0 +1,11 @@
+.document {
+	padding: 100px;
+	font-size: x-large;
+
+	&__title {
+	}
+	&__content {
+		font-size: smaller;
+		line-height: 30px;
+	}
+}
