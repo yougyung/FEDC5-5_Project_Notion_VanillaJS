@@ -1,5 +1,5 @@
 export default function ListInfo({ target, state }) {
-  const { title } = state;
+  const { title, id } = state;
 
   const listInfoElement = document.createElement("div");
   listInfoElement.setAttribute("class", "menubar_pageList_list_info");
@@ -9,7 +9,14 @@ export default function ListInfo({ target, state }) {
   const checkboxElement = document.createElement("input");
   checkboxElement.setAttribute("type", "checkbox");
   checkboxElement.setAttribute("class", "menubar_pageList_list_info_checkbox");
+  checkboxElement.setAttribute("id", `checkBox_${id}`);
   listInfoElement.appendChild(checkboxElement);
+
+  const labelElement = document.createElement("label");
+  labelElement.setAttribute("class", "menubar_pageList_list_info_label");
+  labelElement.setAttribute("for", `checkBox_${id}`);
+  labelElement.textContent = ">";
+  listInfoElement.appendChild(labelElement);
 
   /* title */
 
@@ -22,13 +29,13 @@ export default function ListInfo({ target, state }) {
 
   const insertButton = document.createElement("button");
   insertButton.setAttribute("class", "menubar_pageList_list_info_insertButton");
-  insertButton.textContent = "insert";
+  insertButton.textContent = "+";
   listInfoElement.appendChild(insertButton);
 
   /* delete */
 
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("class", "menubar_pageList_list_info_deleteButton");
-  deleteButton.textContent = "delete";
+  deleteButton.textContent = "X";
   listInfoElement.appendChild(deleteButton);
 }
