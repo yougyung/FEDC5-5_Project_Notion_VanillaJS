@@ -1,7 +1,7 @@
 import { request } from "../utils/api.js";
 
 const $ = document;
-export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton }) {
+export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
   //   console.log($target);
   // console.log(DUMMY_DATA_SIDE_LIST);
   const $pageList = $.createElement("div");
@@ -32,7 +32,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
   // id, title이 공통이니 두개만 옮기고 나머지는 api 호출로..?
   // 재귀의 끝을 알 수 있는 방법...?
   const pageListRenderer = (parentTag, page) => {
-    page.map(({ id, title, documents }, index) => {
+    page.map(({ id, title, documents }) => {
       // console.log(;
       // console.log(documents.length);
       if (documents.length > 0) {
@@ -40,6 +40,12 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         const createdLi = $.createElement("li");
         const addPageButton = $.createElement("button");
         addPageButton.innerText = "+";
+        addPageButton.id = "addPageButton";
+
+        const addDeletePageButton = $.createElement("button");
+        addDeletePageButton.innerText = "X";
+        addDeletePageButton.id = "addDeletePageButton";
+
         const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
         // console.log(inheritedParentStyle);
         if (inheritedParentStyle) {
@@ -50,10 +56,11 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         // console.log(title.length);
-        createdLi.innerText = title;
+        createdLi.innerText = `> ${title}`;
         // console.log(title);
         // console.log(documents);
         createdLi.appendChild(addPageButton);
+        createdLi.appendChild(addDeletePageButton);
         createdUl.appendChild(createdLi);
         parentTag.appendChild(createdUl);
         pageListRenderer(createdUl, documents);
@@ -62,12 +69,17 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         const createdLi = $.createElement("li");
         const addPageButton = $.createElement("button");
         addPageButton.innerText = "+";
+        addPageButton.id = "addPageButton";
+
+        const addDeletePageButton = $.createElement("button");
+        addDeletePageButton.innerText = "X";
+        addDeletePageButton.id = "addDeletePageButton";
 
         // console.log(title);
         // 공란 방어코드 추가해야함
         if (title) {
           createdLi.dataset.id = id;
-          createdLi.innerText = title;
+          createdLi.innerText = `> ${title}`;
           const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
           // console.log(inheritedParentStyle);
           if (inheritedParentStyle) {
@@ -76,6 +88,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
             createdUl.style.paddingLeft = "3px";
           }
           createdLi.appendChild(addPageButton);
+          createdLi.appendChild(addDeletePageButton);
           createdUl.appendChild(createdLi);
           parentTag.appendChild(createdUl);
         }
@@ -117,10 +130,18 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
           onClickPage(targetTag.dataset.id);
         }
 
-        if (targetTag.tagName === "BUTTON") {
+        if (targetTag.id === "addPageButton") {
           console.log(targetTag.parentElement.parentElement);
           console.log(targetTag.parentElement.dataset.id);
           onClickButton(targetTag.parentElement.dataset.id);
+          // createNewPage("/documents", targetTag.parentElement.dataset.id);
+          // pageListRenderer(targetTag.parentElement.parentElement, [
+          //   { title: "new_child_page", content: "", documents: [] },
+          // ]);
+        }
+
+        if (targetTag.id === "addDeletePageButton") {
+          onClickDeleteButton(targetTag.parentElement.dataset.id);
           // createNewPage("/documents", targetTag.parentElement.dataset.id);
           // pageListRenderer(targetTag.parentElement.parentElement, [
           //   { title: "new_child_page", content: "", documents: [] },

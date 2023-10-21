@@ -8,13 +8,13 @@ export default function TextAreaPage({ $target, initialState }) {
   // console.log(this.state);
 
   this.setState = (nextState) => {
-    $textArea.innerHTML = "";
     this.state = nextState;
     // console.log(nextState);
     this.render();
   };
 
   this.render = () => {
+    $textArea.innerHTML = "";
     const $titleInputArea = $.createElement("input");
     $titleInputArea.className = "textArea-title";
     $titleInputArea.type = "text";
@@ -59,7 +59,11 @@ export default function TextAreaPage({ $target, initialState }) {
     $textArea.appendChild($contentTextArea);
 
     $target.appendChild($textArea);
-    // console.log($target);
-    // console.log(DUMMY_DATA_TEXT_CONTENT.title);
   };
+  // 바뀌지 않는 것은 렌더 밖으로
+  // 이벤트 는 밖으로
+  $textArea.addEventListener("click", (e) => {
+    // e.preventDefault();
+    console.log(e.target);
+  });
 }

@@ -38,7 +38,36 @@ export default function App({ $target }) {
       await fetchSelectedDocs(id);
     },
     onClickButton: async (id) => {
-      createNewPage("/documents", id);
+      const newPageLog = await createNewPage("/documents", id);
+      await fetchRootDocs();
+      await fetchSelectedDocs(newPageLog.id);
+      textAreaRender.setState({ title: newPageLog.title, content: newPageLog.content });
+      history.pushState(null, null, `/documents/${newPageLog.id}`);
+    },
+    onClickDeleteButton: async (id) => {
+      console.log(id);
+      const deleteResult = await deletePage(id);
+      // console.log(deleteResult.parent.id === undefined);
+      await fetchRootDocs();
+
+      //일단 가장 가까운 페이지로 이동하도록 처리
+      if (deleteResult.parent.id === undefined) {
+        let temp = [10000, 0];
+        for (const value of this.state) {
+          // console.log(Math.abs(value.id - id));
+          if (Math.abs(value.id - id) < temp[0]) {
+            temp[0] = Math.abs(value.id - id);
+            temp[1] = value.id;
+          }
+        }
+        // console.log(temp);
+        await fetchSelectedDocs(temp[1]);
+        history.pushState(null, null, `/documents/${temp[1]}`);
+        // console.log(this.state);
+      } else {
+        await fetchSelectedDocs(deleteResult.parent.id);
+        history.pushState(null, null, `/documents/${deleteResult.parent.id}`);
+      }
     },
   });
   // 더미가 렌더링 되었다가 api 호출되면 바뀐다.
@@ -54,6 +83,13 @@ export default function App({ $target }) {
     },
   });
 
+  const deletePage = async (id) => {
+    const deleteRequest = await request(`/documents/${id}`, {
+      method: "DELETE",
+    });
+    return deleteRequest;
+  };
+
   // 새로운 글을 post하는 함수
   const createNewPage = async (url, parentTag) => {
     const createdDefaultTitleText = "새 페이지";
@@ -63,7 +99,7 @@ export default function App({ $target }) {
       method: "POST",
       body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
     });
-    console.log(newPageRes);
+    return newPageRes;
   };
 
   // x-username에 해당하는 전체 문서 불러오는 API request function
