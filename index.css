@@ -1,3 +1,11 @@
+:root {
+  --color-white: rgb(255, 255, 255);
+  --color-semi-white: rgb(247, 247, 245);
+  --color-grey: rgb(232, 232, 230);
+  --color-dark-grey: rgb(202, 202, 200);
+
+  --color-font: rgb(115, 115, 111);
+}
 * {
   box-sizing: border-box;
 }
@@ -12,6 +20,13 @@ html {
   height: 100%;
 }
 
+button {
+  background-color: var(--color-semi-white);
+  outline: none;
+  border: none;
+}
+
+h1,
 p,
 section,
 button,
@@ -22,19 +37,4 @@ body,
 ul {
   margin: 0;
   padding: 0;
-}
-
-button {
-  background-color: var(--color-semi-white);
-  outline: none;
-  border: none;
-}
-
-:root {
-  --color-white: rgb(255, 255, 255);
-  --color-semi-white: rgb(247, 247, 245);
-  --color-grey: rgb(232, 232, 230);
-  --color-dark-grey: rgb(202, 202, 200);
-
-  --color-font: rgb(115, 115, 111);
 }

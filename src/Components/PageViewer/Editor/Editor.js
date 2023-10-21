@@ -55,4 +55,8 @@ export default function Editor({ target, state, onEditing }) {
     };
     onEditing(newState);
   });
+
+  this.getElement = () => {
+    return editorElement;
+  };
 }

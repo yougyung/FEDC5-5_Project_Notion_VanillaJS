@@ -10,21 +10,22 @@ export default function PageViewer({ target, state, onEditing }) {
   this.state = state;
 
   this.setState = (newState) => {
-    console.log(newState);
     this.state = newState;
-
-    // if (id === "Index") {
-    //   return new IndexPage({
-    //     target: pageViewerElement,
-    //   });
-    // }
-
     const { id, documents } = this.state;
+
+    if (id === "Index") {
+      indexPage.getElement().classList.add("view");
+      editor.getElement().classList.remove("view");
+      return;
+    }
+    indexPage.getElement().classList.remove("view");
+    editor.getElement().classList.add("view");
+
     editor.setState(this.state);
     subPageList.setState(documents);
   };
 
-  new IndexPage({
+  const indexPage = new IndexPage({
     target: pageViewerElement,
   });
 
@@ -36,6 +37,6 @@ export default function PageViewer({ target, state, onEditing }) {
 
   const subPageList = new SubPageList({
     target: pageViewerElement,
-    documents: [],
+    state: [],
   });
 }

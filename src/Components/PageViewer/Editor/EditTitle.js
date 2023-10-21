@@ -3,6 +3,7 @@ export default function EditTitle({ target, state }) {
   inputElement.focus();
   inputElement.setAttribute("class", "pageViewer_editor_title");
   inputElement.setAttribute("data-name", "title");
+  inputElement.setAttribute("placeholder", "제목 없음");
   target.appendChild(inputElement);
 
   this.state = state;

@@ -1,0 +1,27 @@
+.pageViewer {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pageViewer_indexPage {
+  background-color: blue;
+  display: none;
+  width: 80%;
+  height: 100%;
+}
+
+.pageViewer_editor {
+  background-color: var(--color-grey);
+  display: none;
+  width: 80%;
+  height: 100%;
+
+  flex-direction: column;
+}
+
+.view {
+  display: flex;
+}

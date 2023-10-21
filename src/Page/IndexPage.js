@@ -1,6 +1,11 @@
 export default function IndexPage({ target }) {
-  const TestElement = document.createElement('h1')
-  TestElement.textContent = 'IndexPage'
+  const indexPageElement = document.createElement("h1");
+  indexPageElement.setAttribute("class", "pageViewer_indexPage");
+  indexPageElement.textContent = "IndexPage";
 
-  target.appendChild(TestElement)
+  target.appendChild(indexPageElement);
+
+  this.getElement = () => {
+    return indexPageElement;
+  };
 }

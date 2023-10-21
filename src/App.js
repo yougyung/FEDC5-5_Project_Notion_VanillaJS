@@ -120,7 +120,7 @@ export default function App({ target }) {
     const { pathname } = window.location;
 
     if (pathname === "/") {
-      // pageViewer.setState({ id: "Index" });
+      pageViewer.setState({ id: "Index" });
     }
 
     if (pathname.indexOf("/documents/") === 0) {
@@ -137,6 +137,7 @@ export default function App({ target }) {
     }
   };
 
-  getPageList("/documents");
   pushRouter(() => this.route());
+  getPageList("/documents");
+  this.route();
 }

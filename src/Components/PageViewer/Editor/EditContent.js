@@ -4,6 +4,7 @@ export default function EditContent({ target, state }) {
   editContentElement.setAttribute("class", "pageViewer_editor_content");
   editContentElement.setAttribute("data-name", "content");
   editContentElement.setAttribute("contentEditable", "true");
+  editContentElement.setAttribute("placeholder", "내용을 입력하세요!");
   target.appendChild(editContentElement);
 
   this.state = state;
