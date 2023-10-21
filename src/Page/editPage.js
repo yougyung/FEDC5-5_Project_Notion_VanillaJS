@@ -14,7 +14,10 @@ export default class EditPage {
         const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
 
         this.sideBar = new Sidebar({ $target: $page });
-        this.documentManager = new DocumentManager({ $target: $page, initalState: { ...this.state } });
+        this.documentManager = new DocumentManager({
+            $target: $page,
+            initalState: { ...this.state, isView: true, title: '', content: '' },
+        });
         this.$target.appendChild($page);
     }
 }

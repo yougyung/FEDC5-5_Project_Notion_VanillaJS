@@ -31,7 +31,7 @@ export default class User {
         });
         this.userList = new UserList({
             $target: this.$user,
-            initalState: { userList: getItem(USER_LIST_KEY, null) },
+            initalState: { userList: getItem(USER_LIST_KEY, []) },
         });
         this.$target.appendChild(this.$user);
     }

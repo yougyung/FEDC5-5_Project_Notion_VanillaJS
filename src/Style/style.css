@@ -8,6 +8,8 @@
 @import url(/src/Component/Sidebar/Document/DocumentList/documentList.css);
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/documentItems.css);
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItem/documentitem.css);
+@import url(/src/Component/DocumentManager/DocumentEditor/documentEditor.css);
+@import url(/src/Component/DocumentManager/DocumentContentViewr/documentContentViewer.css);
 
 :root {
     --main: #ff6701;

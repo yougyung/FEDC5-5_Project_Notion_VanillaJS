@@ -45,7 +45,9 @@ export default class Router {
 
             editPage.render();
         } else {
-            alert('404 ERROR!');
+            const rootPage = new RootPage({ $target });
+
+            rootPage.render();
         }
     }
 }

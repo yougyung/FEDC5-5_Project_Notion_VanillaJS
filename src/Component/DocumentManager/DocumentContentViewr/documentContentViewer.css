@@ -1,0 +1,15 @@
+.viewer {
+}
+
+.viewer--hidden {
+    display: none;
+}
+
+.viewer--visible {
+    display: block;
+}
+
+.viewer > .title-and-button {
+    display: flex;
+    align-items: center;
+}
