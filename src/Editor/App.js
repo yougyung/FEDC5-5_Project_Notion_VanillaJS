@@ -34,6 +34,8 @@ export default function App({ $target, initialState }) {
             content,
           }),
         });
+
+        console.log("받은 데이터 :", title, content, id);
       }, 2000);
     },
   });
