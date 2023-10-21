@@ -1,9 +1,18 @@
-export default function Editor({ $target, initialState }) {
-  const $ediotr = document.createElement("div");
-  $target.appendChild($ediotr);
-  $ediotr.style.display = "flex";
-  $ediotr.style.flexDirection = "column"
-  $ediotr.style.width = "800px"
+export default function Editor({
+  $target,
+  initialState = { title: "", content: "" },
+  onEditing,
+}) {
+  const $editor = document.createElement("div");
+  $editor.style.display = "flex";
+  $editor.style.flexDirection = "column"
+
+  $editor.innerHTML = `
+      <input type="text" name="title" style="width: 600px;" placeholder="untitled"/>
+      <textarea name="content" style="width: 600px; height: 400px;" placeholder="내용을 입력해주세요.."</textarea>
+  `;
+
+  $target.appendChild($editor);
 
   this.state = initialState;
 
@@ -13,14 +22,24 @@ export default function Editor({ $target, initialState }) {
   };
 
   this.render = () => {
-    $ediotr.innerHTML = `
-        
-            <input type = "text" placeholder="제목" value="${
-              this.state.title
-            }" />
-            <textarea style="height: 600px" placeholder="내용을 입력해주세요">${this.state.content ?? ""}</textarea>
-        
-    `;
+    const { title, content } = this.state;
+
+    $editor.querySelector("[name=title]").value = title;
+    $editor.querySelector("[name=content]").value = content;
   };
+
   this.render();
+
+  $editor.addEventListener("keyup", (e) => {
+    const { target } = e;
+
+    const name = target.getAttribute("name");
+
+    if (this.state[name] !== undefined) {
+      const nextState = { ...this.state, [name]: target.value };
+
+      this.setState(nextState);
+      onEditing(this.state);
+    }
+  });
 }
