@@ -2,7 +2,6 @@ import { $ } from "../../utils/DOM";
 
 /**
  * api 실패 시 안지워지게 해야함
- * 낙관적 렌더링... 흠
  */
 
 export const editDocumentTitle = (id, newTitle) => {
@@ -12,17 +11,22 @@ export const editDocumentTitle = (id, newTitle) => {
 
 export const deleteDocument = id => {
   const $deleteTarget = $(`ul[data-id="${id}"]`);
-  // 지우기 전에 하위 자식 요소 꺼내기
 
+  // 자식 요소
   const parser = new DOMParser();
-  const $subElement = parser.parseFromString(
-    $deleteTarget.querySelector(".document-title").innerHTML,
-    "text/html",
-  ).body;
+  const $deleteTargetSub = $deleteTarget.querySelector(".document-title");
 
-  console.log($subElement);
-  // 삭제하기
-  $deleteTarget.replaceWith($subElement);
+  // 자식 요소가 있는 경우
+  if ($deleteTargetSub) {
+    const $subElement = parser.parseFromString(
+      $deleteTargetSub.innerHTML,
+      "text/html",
+    ).body;
 
-  // 원래 있던 곳에 붙이기..
+    // 상위 요소와 바꿔치기
+    $deleteTarget.replaceWith($subElement);
+  } else {
+    // 리프 노드인 경우
+    $deleteTarget.remove();
+  }
 };
