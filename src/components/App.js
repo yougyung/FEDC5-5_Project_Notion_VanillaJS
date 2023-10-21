@@ -1,6 +1,6 @@
 import Sidebar from '../pages/Sidebar.js';
 import { request } from '../util/api.js';
-// import { initRouter } from '../util/router.js';
+import { initRouter } from '../util/router.js';
 
 export default function App({ $target }) {
   const $sidebarContainer = document.createElement('div');
@@ -19,6 +19,8 @@ export default function App({ $target }) {
         method: 'POST',
         body: JSON.stringify({ title: '새 문서', parent: documentId }),
       });
+
+      // 추후 낙관적 업데이트를 적용해봐도 좋을 듯 함
       fetchDocuments();
     },
     onDocumentDeleted: async () => {
@@ -48,19 +50,20 @@ export default function App({ $target }) {
 
   fetchDocuments();
 
-  // this.route = () => {
-  //   $target.innerHTML = '';
-  //   const { pathname } = window.location;
+  this.route = () => {
+    $editorContainer.innerHTML = '';
+    const { pathname } = window.location;
 
-  //   if (pathname === '/') {
-  //     // documentPage.setState();
-  //   } else if (pathname.indexOf('/documents/') === 0) {
-  //     const [, , postId] = pathname.split('/');
-  //     // documentEditPage.setState({ postId });
-  //   }
-  // };
+    if (pathname === '/') {
+      // documentPage.setState();
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const [, , postId] = pathname.split('/');
+      console.log(postId);
+      // documentEditPage.setState({ postId });
+    }
+  };
 
-  // this.route();
+  this.route();
 
-  // initRouter(() => this.route());
+  initRouter(() => this.route());
 }

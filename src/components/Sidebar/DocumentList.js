@@ -1,3 +1,5 @@
+import { push } from '../../util/router.js';
+
 // GET 요청을 통해 Document List를 호출, 사이드바에 렌더링
 export default function DocumentList({
   $target,
@@ -45,11 +47,15 @@ export default function DocumentList({
   $documentList.addEventListener('click', (e) => {
     const $toggleButton = e.target.closest('.toggle-button');
     const $addButton = e.target.closest('.add-button');
+    const $li = e.target.closest('li');
 
     if ($toggleButton) {
-      onDocumentFoldToggle(Number($toggleButton.datasert.id));
+      onDocumentFoldToggle(Number($toggleButton.dataset.id));
     } else if ($addButton) {
       onDocumentAdded(Number($addButton.dataset.id));
+    } else if ($li) {
+      const { id } = $li.dataset;
+      push(`/documents/${id}`);
     }
   });
 }
