@@ -2,8 +2,11 @@ import { EMPTY_TITLE } from '../constants/messages.js';
 
 export default function DocumentList({ $target, initialState }) {
 	const $nav = document.createElement('nav');
-	const $ul = document.createElement('ul');
+	const $divCreateNewDocument = document.createElement('div');
+	const $divListContainer = document.createElement('div');
 
+	$nav.appendChild($divCreateNewDocument);
+	$nav.appendChild($divListContainer);
 	$target.appendChild($nav);
 
 	this.state = initialState;
@@ -34,8 +37,10 @@ export default function DocumentList({ $target, initialState }) {
 	};
 
 	this.render = () => {
-		this.stateRecursion(this.state, $ul);
-		$nav.appendChild($ul);
+		const $fragment = document.createDocumentFragment();
+
+		this.stateRecursion(this.state, $fragment);
+		$divListContainer.appendChild($fragment);
 	};
 	this.render();
 }
