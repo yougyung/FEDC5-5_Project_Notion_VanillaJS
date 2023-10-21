@@ -1,5 +1,5 @@
-import DocumentList from './DocumentList/documentList.js';
-import DocumentForm from './DocumentForm/documentForm.js';
+import DocumentList from './DocumentList/DocumentList.js';
+import DocumentForm from './DocumentForm/DocumentForm.js';
 import { createNewElement } from '../../../Util/Element.js';
 import { fetchGetDocumentList } from '../../../Service/PostApi.js';
 
@@ -13,7 +13,7 @@ export default class Document {
     init() {
         const $document = createNewElement('div', [{ property: 'className', value: 'document' }]);
 
-        const documentForm = new DocumentForm({
+        new DocumentForm({
             $target: $document,
             onSubmitCallback: () => this.onSubmitCallback(),
         });

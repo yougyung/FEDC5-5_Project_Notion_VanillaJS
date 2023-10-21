@@ -1,5 +1,5 @@
 import { createNewElement } from '../../../../../Util/Element.js';
-import DocumentItem from './DocumentItem/documentItem.js';
+import DocumentItem from './DocumentItem/DocumentItem.js';
 
 // state = { documuentList: [], isRoot: boolean }
 

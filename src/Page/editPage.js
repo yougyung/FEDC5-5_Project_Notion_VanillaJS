@@ -1,5 +1,5 @@
-import Sidebar from '../Component/Sidebar/sidebar.js';
-import DocumentManager from '../Component/DocumentManager/documentManager.js';
+import Sidebar from '../Component/Sidebar/Sidebar.js';
+import DocumentManager from '../Component/DocumentManager/DocumentManager.js';
 import { createNewElement } from '../Util/Element.js';
 
 // state = { documentId : ""}

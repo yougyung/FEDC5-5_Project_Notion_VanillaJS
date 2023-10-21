@@ -1,5 +1,5 @@
 import Header from './Header/Header.js';
-import Document from './Document/document.js';
+import Document from './Document/Document.js';
 import { getUserName } from '../../Util/userName.js';
 import { createNewElement } from '../../Util/Element.js';
 

@@ -1,4 +1,4 @@
-import SideBar from '../Component/Sidebar/sidebar.js';
+import SideBar from '../Component/Sidebar/Sidebar.js';
 import { createNewElement } from '../Util/Element.js';
 
 export default class RootPage {

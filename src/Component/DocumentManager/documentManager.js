@@ -1,9 +1,9 @@
-import DocumentEditor from './DocumentEditor/documentEditor.js';
+import DocumentEditor from './DocumentEditor/DocumentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
-import DocumentContentViewr from './DocumentContentViewr/documentContentViewer.js';
+import DocumentContentViewr from './DocumentContentViewr/DocumentContentViewer.js';
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
-import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/localStroage.js';
+import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
 

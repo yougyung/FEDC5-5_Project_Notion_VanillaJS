@@ -1,5 +1,5 @@
 import { createNewElement } from '../../../../../../Util/Element.js';
-import DocumentItems from '../../DocumentItems/documentItems.js';
+import DocumentItems from '../DocumentItems.js';
 
 // state = { id: "", title = "", documents: [] }
 
