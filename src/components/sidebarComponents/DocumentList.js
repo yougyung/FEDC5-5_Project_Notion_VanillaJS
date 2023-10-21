@@ -16,35 +16,42 @@ export default function DocumentList({
     this.render();
   };
 
+  const listItemButtons = `
+    <div class="list-item-buttons">
+      <button class="delete-button" type="button">
+        <i class="fa-regular fa-trash-can delete-button"></i>
+      </button>
+      <button class="add-button" type="button">
+        <i class="fa-solid fa-plus add-button"></i>
+      </button>
+    </div>
+  `;
+
   const renderList = (nextDocuments, depth) => `
     ${nextDocuments
       .map(
         ({ id, title, documents }) => `
-                  <ul>
-                    <li data-id="${id}" class="list-item" style="padding-left: ${
+            <ul class="document-list">
+              <li data-id="${id}" class="list-item" style="padding-left: ${
           depth * 10
         }px;">
-                     ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
-                      <div class="list-item-buttons">
-                        <button class="delete-button" type="button">
-                          <i class="fa-regular fa-trash-can delete-button"></i>
-                        </button>
-                        <button class="add-button" type="button">
-                          <i class="fa-solid fa-plus add-button"></i>
-                        </button>
-                      </div>
-                    </li>
-                      <li>
-                      ${
-                        documents.length === 0
-                          ? `<li class="list-item" style="padding-left: ${
-                              (depth + 2) * 10
-                            }px;">
-                               하위 페이지 없음
-                              </li>`
-                          : renderList(documents, depth + 2)
-                      }
-                      </li>
+                <div data-id=${id} class="toggle-and-title">
+                  <i class="fa-solid fa-angle-right toggle-button"></i>
+                  <span class="list-item-title">
+                  ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
+                  </span>
+                  </div>
+                      ${listItemButtons}
+              </li>
+                ${
+                  documents.length === 0
+                    ? `<li class="list-item" style="padding-left: ${
+                        (depth + 2) * 10
+                      }px;">
+                   하위 페이지 없음
+                    </li>`
+                    : renderList(documents, depth + 2)
+                }
                     </ul>
                   `
       )
@@ -59,11 +66,13 @@ export default function DocumentList({
   };
 
   $documentList.addEventListener("click", async (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     const { target } = event;
-    const $li = target.closest("li");
+    console.dir(target.classList);
+    const $li = target.closest(".list-item");
 
     let { id } = $li.dataset;
+    console.log(id);
     id = parseInt(id);
     // this.state.selectedDocumentId = id;
 
@@ -72,7 +81,10 @@ export default function DocumentList({
     } else if (target.classList.contains("add-button")) {
       // 하위 document 생성 로직
       onAdd(id);
-    } else if (target.className === "list-item" && !isNaN(id)) {
+    } else if (
+      target.className === "list-item" ||
+      ("list-item-title" && !isNaN(id))
+    ) {
       // document 조회 로직
       push(`${id}`);
 
