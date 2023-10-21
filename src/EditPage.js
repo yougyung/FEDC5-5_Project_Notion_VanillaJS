@@ -80,6 +80,7 @@ export default function EditPage({ $target, initialState }) {
 
     editor.setState(res);
     subPages.setState(res.documents);
+    searchBox.setState();
     this.render();
   };
 

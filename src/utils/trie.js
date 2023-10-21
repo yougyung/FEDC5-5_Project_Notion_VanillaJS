@@ -3,6 +3,7 @@ class Node {
     this.value = value;
     this.end = false; // 마지막 리프 노드인지 여부
     this.children = new Map();
+    this.idx = null;
   }
 }
 
@@ -11,7 +12,7 @@ export default class Trie {
     this.root = new Node();
   }
 
-  insert(title) {
+  insert(id, title) {
     let currentNode = this.root;
     for (const t of title) {
       if (!currentNode.children.has(t)) {
@@ -20,6 +21,7 @@ export default class Trie {
       currentNode = currentNode.children.get(t);
     }
     currentNode.end = true;
+    currentNode.idx = id;
   }
 
   exists(title) {
@@ -56,7 +58,7 @@ export default class Trie {
       for (const next of q.children) {
         queue.push(next[1]);
         if (next[1].end) {
-          result.push(next[1].value);
+          result.push([next[1].idx, next[1].value]);
         }
       }
     }

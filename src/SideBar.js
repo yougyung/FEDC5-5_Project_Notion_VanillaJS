@@ -32,8 +32,8 @@ export default function SideBar({ $target }) {
     if (isInit) {
       initPageAll(res);
       for (let page of pageAll) {
-        const title = page[1];
-        searchTrie.insert(title);
+        const [id, title] = page;
+        searchTrie.insert(id, title);
       }
       console.log("TRIRI", searchTrie);
     }
