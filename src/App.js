@@ -25,6 +25,7 @@ export default function App({ $target, initialState }) {
 	let timer = null;
 	const documentEditPage = new DocumentEditPage({
 		$target,
+		initialState,
 		onTitleChange: (title) => {
 			if (timer !== null) clearTimeout(timer);
 			timer = setTimeout(() => {
