@@ -4,14 +4,6 @@
 	"tabWidth": 4,
 	"useTabs": true,
 	"printWidth": 120,
-	"importOrder": [
-		"^@public/(.*)$",
-		"^@api/(.*)$",
-		"^@assets/(.*)$",
-		"^@component/(.*)$",
-		"^@layout/(.*)$",
-		"^@util/(.*)$",
-		"^[./]"
-	],
+	"importOrder": ["^@api/(.*)$", "^@asset/(.*)$", "^@component/(.*)$", "^@layout/(.*)$", "^@util/(.*)$", "^[./]"],
 	"importOrderSortSpecifiers": true
 }

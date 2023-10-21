@@ -4,8 +4,9 @@
 		"paths": {
 			"@api/*": ["./src/api/*"],
 			"@util/*": ["./src/util/*"],
+			"@asset/*": ["./public/asset/*"],
 			"@component/*": ["./src/component/*"],
-			"@public/*": ["./public/*"]
+			"@layout/*": ["./src/layout/*"]
 		}
 	}
 }

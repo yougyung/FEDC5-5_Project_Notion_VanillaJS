@@ -15,6 +15,7 @@ module.exports = {
 			'@component': path.resolve(__dirname, 'src/component'),
 			'@layout': path.resolve(__dirname, 'src/layout'),
 			'@util': path.resolve(__dirname, 'src/util'),
+			'@asset': path.resolve(__dirname, 'src/asset'),
 		},
 	},
 	output: {
@@ -39,10 +40,8 @@ module.exports = {
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
-				test: /\.(png|jpe?g|svg)$/i,
-				use: {
-					loader: 'file-loader',
-				},
+				test: /\.(svg|png|jpe?g)$/i,
+				loader: 'file-loader',
 			},
 		],
 	},
