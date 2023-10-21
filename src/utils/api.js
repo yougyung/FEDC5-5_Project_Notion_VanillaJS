@@ -7,7 +7,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        "x-username": "roto",  // 눈에 안보여서 일단 roto로 진행
+        "x-username": "kimyuri",  // 눈에 안보여서 일단 roto로 진행
       },
     });
 

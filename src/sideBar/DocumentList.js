@@ -1,8 +1,21 @@
-import { request } from "../api.js";
+import { request } from "../utils/api.js";
+import Editor from "../textEditor/Editor.js";
 
 export default function DocumentList({ $target, initialState }) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
+  const $content = document.createElement("div");
+  const $app = document.querySelector("#app");
+  $app.appendChild($content);
+  $app.style.display= "flex";
+
+  const editor = new Editor({
+    $target: $content,
+    initialState: {
+      title: "",
+      content: "",
+    },
+  });
 
   this.state = initialState;
 
@@ -31,7 +44,7 @@ export default function DocumentList({ $target, initialState }) {
 
       const document = await request(`/${id}`);
 
-      console.log(document);
+      editor.setState(document);
     }
   });
   this.render();
