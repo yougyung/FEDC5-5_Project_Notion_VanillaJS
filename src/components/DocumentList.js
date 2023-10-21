@@ -5,6 +5,8 @@ export default function DocumentList({ $target, initialState }) {
 	const $divCreateNewDocument = document.createElement('div');
 	const $divListContainer = document.createElement('div');
 
+	$divCreateNewDocument.innerHTML = `<span>새 페이지</span>`;
+
 	$nav.appendChild($divCreateNewDocument);
 	$nav.appendChild($divListContainer);
 	$target.appendChild($nav);
@@ -43,4 +45,17 @@ export default function DocumentList({ $target, initialState }) {
 		$divListContainer.appendChild($fragment);
 	};
 	this.render();
+
+	$divListContainer.addEventListener('click', (event) => {
+		const { target } = event;
+
+		if (target.tagName !== 'SPAN') return;
+
+		const { id } = target.closest('li').dataset;
+	});
+
+	$divCreateNewDocument.addEventListener('click', (event) => {
+		const { target } = event;
+		if (target.tagName !== 'SPAN') return;
+	});
 }
