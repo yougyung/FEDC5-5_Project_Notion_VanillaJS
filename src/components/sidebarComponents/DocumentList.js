@@ -27,6 +27,8 @@ export default function DocumentList({
     </div>
   `;
 
+  let isOpen = false;
+
   const renderList = (nextDocuments, depth) => `
     ${nextDocuments
       .map(
@@ -36,7 +38,9 @@ export default function DocumentList({
           depth * 10
         }px;">
                 <div data-id=${id} class="toggle-and-title">
-                  <i class="fa-solid fa-angle-right toggle-button"></i>
+                  <i class="fa-solid fa-angle-${
+                    isOpen ? "down" : "right"
+                  } toggle-button"></i>
                   <span class="list-item-title">
                   ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
                   </span>
@@ -67,11 +71,9 @@ export default function DocumentList({
 
   $documentList.addEventListener("click", async (event) => {
     const { target } = event;
-    console.dir(target.classList);
     const $li = target.closest(".list-item");
 
     let { id } = $li.dataset;
-    console.log(id);
     id = parseInt(id);
     // this.state.selectedDocumentId = id;
 
@@ -93,6 +95,8 @@ export default function DocumentList({
       // });
     }
   });
+
+  $documentList.addEventListener("click", (event) => {});
 
   this.render();
 }
