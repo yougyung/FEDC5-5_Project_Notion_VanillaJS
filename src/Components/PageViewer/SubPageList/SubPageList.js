@@ -1,9 +1,10 @@
 import { makeRouterEvent } from "../../../Router/Router.js";
+import SubEmptyList from "./SubEmptyList.js";
 import SubList from "./SubList.js";
 
 export default function SubPageList({ target, state }) {
   const subPageListElement = document.createElement("ul");
-  subPageListElement.setAttribute("class", "pageViewer_subPageList");
+  subPageListElement.setAttribute("class", "pageViewer_subPage_subPageList");
   target.appendChild(subPageListElement);
 
   this.state = state;
@@ -16,6 +17,11 @@ export default function SubPageList({ target, state }) {
   this.render = () => {
     subPageListElement.replaceChildren();
 
+    if (this.state.length === 0) {
+      new SubEmptyList({ target: subPageListElement });
+      return;
+    }
+
     this.state.forEach((list) => {
       new SubList({
         target: subPageListElement,
@@ -25,7 +31,9 @@ export default function SubPageList({ target, state }) {
   };
 
   subPageListElement.addEventListener("click", (e) => {
-    const liTargetElement = e.target.closest(".pageViewer_subPageList_sublist");
+    const liTargetElement = e.target.closest(
+      ".pageViewer_subPage_subPageList_subList"
+    );
     const { id } = liTargetElement.dataset;
 
     if (id) {

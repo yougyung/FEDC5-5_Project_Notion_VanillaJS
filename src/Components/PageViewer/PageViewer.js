@@ -1,6 +1,6 @@
 import IndexPage from "../../Page/IndexPage.js";
 import Editor from "./Editor/Editor.js";
-import SubPageList from "./SubPageList/SubPageList.js";
+import SubPage from "./SubPageList/SubPage.js";
 
 export default function PageViewer({ target, state, onEditing }) {
   const pageViewerElement = document.createElement("article");
@@ -11,18 +11,21 @@ export default function PageViewer({ target, state, onEditing }) {
 
   this.setState = (newState) => {
     this.state = newState;
-    const { id, documents } = this.state;
+    const { id } = this.state;
 
     if (id === "Index") {
       indexPage.getElement().classList.add("view");
       editor.getElement().classList.remove("view");
+      subPage.getElement().classList.remove("view");
       return;
     }
+
     indexPage.getElement().classList.remove("view");
     editor.getElement().classList.add("view");
+    subPage.getElement().classList.add("view");
 
     editor.setState(this.state);
-    subPageList.setState(documents);
+    subPage.setState(this.state);
   };
 
   const indexPage = new IndexPage({
@@ -35,8 +38,8 @@ export default function PageViewer({ target, state, onEditing }) {
     onEditing,
   });
 
-  const subPageList = new SubPageList({
+  const subPage = new SubPage({
     target: pageViewerElement,
-    state: [],
+    state: this.state,
   });
 }
