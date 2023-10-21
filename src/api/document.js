@@ -5,10 +5,10 @@ export async function getAllDocumentList() {
 	return response;
 }
 export async function getDocument(documentId) {
-	const response = await requestInstance(`/documents${documentId}`);
+	const response = await requestInstance(`/documents/${documentId}`);
 	return response;
 }
-export async function createDocument(title = '제목 없음', parent = null) {
+export async function createDocument(title, parent) {
 	const response = await requestInstance('/documents', {
 		method: 'POST',
 		body: JSON.stringify({
