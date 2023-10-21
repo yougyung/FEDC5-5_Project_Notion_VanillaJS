@@ -9,31 +9,32 @@ export default function Editor({ target, state, onEditing }) {
 
   this.state = state;
 
-  this.render = () => {
+  this.setState = (newState) => {
+    this.state = newState;
     const { title, createdAt, updatedAt, content } = this.state;
 
-    new EditTitle({
-      target: editorElement,
-      title: title,
-    });
-
-    if (createdAt && updatedAt) {
-      new EditInfo({
-        target: editorElement,
-        state: {
-          createdAt,
-          updatedAt,
-        },
-      });
-    }
-
-    new EditContent({
-      target: editorElement,
-      content,
-    });
+    editTitlte.setState(title);
+    editInfo.setState({ createdAt, updatedAt });
+    editContent.setState(content);
   };
 
-  this.render();
+  const editTitlte = new EditTitle({
+    target: editorElement,
+    state: "",
+  });
+
+  const editInfo = new EditInfo({
+    target: editorElement,
+    state: {
+      createdAt: "",
+      updatedAt: "",
+    },
+  });
+
+  const editContent = new EditContent({
+    target: editorElement,
+    state: "",
+  });
 
   /* Event */
 
@@ -43,7 +44,7 @@ export default function Editor({ target, state, onEditing }) {
     const contentValue =
       editorElement.querySelector("[data-name=content]").innerText ?? "";
 
-    // const focus = document.getSelection().focusOffset;
+    const focus = document.getSelection().focusOffset;
 
     const newState = {
       id: this.state.id,

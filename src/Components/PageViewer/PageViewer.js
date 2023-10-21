@@ -10,32 +10,32 @@ export default function PageViewer({ target, state, onEditing }) {
   this.state = state;
 
   this.setState = (newState) => {
-    pageViewerElement.replaceChildren();
+    console.log(newState);
     this.state = newState;
 
-    this.render();
-  };
+    // if (id === "Index") {
+    //   return new IndexPage({
+    //     target: pageViewerElement,
+    //   });
+    // }
 
-  this.render = () => {
     const { id, documents } = this.state;
-
-    if (id === "Index") {
-      return new IndexPage({
-        target: pageViewerElement,
-      });
-    }
-
-    new Editor({
-      target: pageViewerElement,
-      state: this.state,
-      onEditing,
-    });
-
-    new SubPageList({
-      target: pageViewerElement,
-      documents,
-    });
+    editor.setState(this.state);
+    subPageList.setState(documents);
   };
 
-  this.render();
+  new IndexPage({
+    target: pageViewerElement,
+  });
+
+  const editor = new Editor({
+    target: pageViewerElement,
+    state: this.state,
+    onEditing,
+  });
+
+  const subPageList = new SubPageList({
+    target: pageViewerElement,
+    documents: [],
+  });
 }
