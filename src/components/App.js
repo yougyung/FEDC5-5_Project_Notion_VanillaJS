@@ -1,12 +1,19 @@
 import DocumentList from "./DocumentList.js";
 import DocumentEditSection from "./DocumentEditSection.js";
 import { request } from "../utils/api.js";
-import { initRouter } from "../utils/route.js";
+import { initRouter, push } from "../utils/route.js";
 
 export default function App({ $target }) {
   const documentList = new DocumentList({
     $target,
     initialState: [],
+    onDocumentRemove: async (id) => {
+      await request(`/documents/${id}`, {
+        method: "DELETE",
+      });
+      push("/");
+      fetchDocments();
+    },
   });
 
   const $editorSection = document.createElement("div");

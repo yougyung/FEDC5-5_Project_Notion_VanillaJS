@@ -1,9 +1,9 @@
 import { push } from "../utils/route.js";
-import { request } from "../utils/api.js";
 
 export default function DocumentList({
   $target,
   initialState,
+  onDocumentRemove,
 }) {
   const $document = document.createElement("div");
   $document.setAttribute("class", "documents-container");
@@ -26,6 +26,7 @@ export default function DocumentList({
                 <button class="toggle">></button>
                 <span>${document.title}</span>
                 <button class="add-document">➕</button>
+                <button class="remove-document">❌</button>
             </div>
             <div class="documents-item fold">
                 ${
@@ -71,6 +72,8 @@ export default function DocumentList({
         $hideItem.classList.toggle("fold");
         $hideItem.classList.toggle("show");
       }
+    } else if (e.target.className === "remove-document") {
+      onDocumentRemove(id);
     } else if ($documentItem) {
       push(`/document/${id}`);
     }
