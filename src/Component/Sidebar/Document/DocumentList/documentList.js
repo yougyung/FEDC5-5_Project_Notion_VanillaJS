@@ -57,7 +57,7 @@ export default class DocumentList {
         }
 
         // 해당 document 페이지로 이동
-        if (className === 'title-and-buttons__title') {
+        if (className === 'title-and-buttons') {
             const documentId = target.closest('.document__item').dataset.id;
             const router = Router.getInstance();
 

@@ -5,3 +5,8 @@
 .editor--visible {
     display: block;
 }
+
+.editor > .editor__content:empty::before {
+    content: '내용을 입력해주세요...';
+    color: #ccc;
+}

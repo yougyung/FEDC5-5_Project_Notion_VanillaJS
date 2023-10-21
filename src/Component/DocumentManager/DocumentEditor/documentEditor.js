@@ -23,6 +23,7 @@ export default class DocumentEditor {
             { property: 'type', value: 'text' },
             { property: 'name', value: 'title' },
             { property: 'className', value: 'title-and-button__title' },
+            { property: 'placeholder', value: '제목을 입력해주세요...' },
         ]);
         this.$content = createNewElement('div', [
             { property: 'name', value: 'content' },

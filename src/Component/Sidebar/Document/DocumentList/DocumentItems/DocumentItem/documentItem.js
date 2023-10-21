@@ -17,15 +17,12 @@ export default class DocumentItem {
 
     render() {
         const { id, title, documents } = this.state;
-        const pathname = window.location.pathname.split('/')[2];
-        const isCurrent =
-            pathname && Number(pathname) === id ? 'title-and-buttons__title--current' : 'title-and-buttons__title';
         const $li = createNewElement('li', [
             { property: 'className', value: 'document__item' },
             { property: 'dataset.id', value: id },
         ]);
         const $div = createNewElement('div', [{ property: 'className', value: 'title-and-buttons' }]);
-        const $title = createNewElement('span', [{ property: 'className', value: isCurrent }], title);
+        const $title = createNewElement('span', [{ property: 'className', value: 'title-and-buttons__title' }], title);
         const $buttons = createNewElement('div', [{ property: 'className', value: 'document__buttons' }]);
         const $insert = createNewElement(
             'button',
