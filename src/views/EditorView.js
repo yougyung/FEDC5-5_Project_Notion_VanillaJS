@@ -119,6 +119,9 @@ export default function EditorView({ $parent, initState }) {
           id: NEW_DOCUMENT_INIT_ID,
           title: "",
           content: "",
+          documents: [],
+          createdAt: "",
+          updatedAt: "",
         });
 
         editorBottom.setState({ childDocuments: [] });
@@ -135,8 +138,7 @@ export default function EditorView({ $parent, initState }) {
     this.state = { ...this.state, ...nextState };
     this.render();
 
-    const { id, title, content } = this.state.documentData;
-    useDocument.setState({ id, title, content });
+    useDocument.setState(this.state.documentData);
     editor.render();
   };
 

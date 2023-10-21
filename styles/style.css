@@ -48,7 +48,7 @@
 .leef {
   position: absolute;
   padding: 0.6rem 0.8rem;
-  background-color: #6A9F35;
+  background-color: #6a9f35;
   cursor: pointer;
   border-radius: 100px;
 }
@@ -229,6 +229,23 @@
 
 #pre-view em {
   font-style: italic;
+}
+
+.preview-info {
+  margin-bottom: 3rem;
+}
+.preview-info > .preview-date {
+  font-size: small;
+}
+.preview-footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
+}
+
+.preview-footer a {
+  cursor: pointer;
+  font-weight: 900;
 }
 
 /*  */

@@ -23,6 +23,9 @@ export const useDocument = new useStatePublisher({
   id: "",
   title: "",
   content: "",
+  documents: [],
+  createdAt: "",
+  updatedAt: "",
   subscribers: [],
 });
 
