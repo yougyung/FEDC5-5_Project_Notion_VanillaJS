@@ -15,7 +15,7 @@ export default function ListInfo({ target, state }) {
   const labelElement = document.createElement("label");
   labelElement.setAttribute("class", "menubar_pageList_list_info_label");
   labelElement.setAttribute("for", `checkBox_${id}`);
-  labelElement.textContent = ">";
+  labelElement.textContent = "≡";
   listInfoElement.appendChild(labelElement);
 
   /* title */
@@ -36,6 +36,6 @@ export default function ListInfo({ target, state }) {
 
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("class", "menubar_pageList_list_info_deleteButton");
-  deleteButton.textContent = "X";
+  deleteButton.textContent = "×";
   listInfoElement.appendChild(deleteButton);
 }

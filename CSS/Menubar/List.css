@@ -32,7 +32,7 @@
   width: 20px;
   height: 20px;
 
-  font-size: 20px;
+  font-size: 24px;
   color: var(--color-font);
 
   display: flex;
@@ -42,10 +42,9 @@
   transition: all 0.3s;
   cursor: pointer;
 }
-
-.menubar_pageList_list_info_deleteButton {
-  font-size: 16px;
-  font-weight: 400;
+.menubar_pageList_list_info_label {
+  font-size: 28px;
+  padding-top: 2px;
 }
 
 .menubar_pageList_list_info_title {

@@ -34,10 +34,13 @@ export default function SubPageList({ target, state }) {
     const liTargetElement = e.target.closest(
       ".pageViewer_subPage_subPageList_subList"
     );
-    const { id } = liTargetElement.dataset;
 
-    if (id) {
-      makeRouterEvent({ url: `/documents/${id}`, event: "push" });
+    if (liTargetElement === e.target) {
+      const { id } = liTargetElement.dataset;
+
+      if (id) {
+        makeRouterEvent({ url: `/documents/${id}`, event: "push" });
+      }
     }
   });
 }

@@ -7,14 +7,12 @@
 }
 
 .pageViewer_indexPage {
-  background-color: blue;
   display: none;
   width: 80%;
   height: 100%;
 }
 
 .pageViewer_editor {
-  border: 1px solid red;
   display: none;
   width: 920px;
   height: 85%;
@@ -23,7 +21,7 @@
 }
 
 .pageViewer_subPage {
-  border: 1px solid blue;
+  border-top: 2px solid var(--color-dark-grey);
   display: none;
   width: 920px;
   height: 15%;
