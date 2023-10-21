@@ -3,18 +3,29 @@
   height: 100vh;
 }
 
+/* 메뉴바 */
 .menuBar {
-  width: 15vw;
+  width: 20vw;
   height: 100vh;
   background-color: #f6f6f6;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  /* cursor: pointer; */
 }
 
 .postlist {
   margin-top: 20px;
   margin-left: 20px;
 }
+.summary {
+  font-size: 18px;
+}
 
+.addBtn {
+  margin-left: 3px;
+  background-color: white;
+}
+
+/* 에디터 */
 .editor {
   width: 100%;
   height: 100%;
@@ -25,4 +36,44 @@
   width: 100%;
   height: 100%;
   padding: 10px;
+}
+
+/* 모달 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal .background {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modalBox {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  background-color: #fff;
+  width: 40vw;
+  height: 70vh;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.modalBox button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  margin: 10px;
+}
+
+.hidden {
+  display: none;
 }

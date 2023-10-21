@@ -27,7 +27,7 @@ export default function App({ $target, initialState }) {
       if (timerId !== null) clearTimeout(timerId);
 
       timerId = setTimeout(async () => {
-        const data = await fetchPost(id, {
+        const data = await fetchData(id, {
           method: "PUT",
           body: JSON.stringify({
             title,
@@ -38,7 +38,7 @@ export default function App({ $target, initialState }) {
     },
   });
 
-  const fetchPost = async (url, payload = {}) => {
+  const fetchData = async (url, payload = {}) => {
     const data = await HTTPRequest(`/${url}`, payload);
 
     return data;

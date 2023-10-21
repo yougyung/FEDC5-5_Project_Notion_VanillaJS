@@ -38,10 +38,8 @@ export default function Editor({ $target, initialState, EditPost }) {
     const { title, id, content } = this.state;
 
     $editor.innerHTML = `
-      
         <h1 name="title">${title}</h1>
         <div name="content">${content}</div>
-  
     `;
 
     $target.appendChild($editor);

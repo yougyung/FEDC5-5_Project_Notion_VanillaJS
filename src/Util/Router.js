@@ -26,3 +26,10 @@ export const setCustomEvent = (changeUrl) => {
 export const replaceState = (pathname) => {
   history.replaceState(null, null, pathname);
 };
+
+// 뒤로가기 시 pathname에 맞는 라우팅
+export const popState = (route) => {
+  window.addEventListener("popstate", (e) => {
+    route();
+  });
+};

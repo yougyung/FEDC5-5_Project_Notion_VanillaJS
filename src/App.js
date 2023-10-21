@@ -1,7 +1,7 @@
 import EditorApp from "./Editor/App.js";
 import MenuBarApp from "./MenuBar/App.js";
 import { HTTPRequest } from "./Util/Api.js";
-import { getCustomEvent } from "./Util/Router.js";
+import { getCustomEvent, popState } from "./Util/Router.js";
 
 export default function App({ $target, initialState }) {
   this.state = initialState;
@@ -27,15 +27,15 @@ export default function App({ $target, initialState }) {
     const { pathname } = window.location;
 
     if (pathname === "/") {
-      const postList = await getFetchList("");
+      const postList = await fetchData("");
 
       menuBarApp.setState(postList);
     } else {
       // 해당 id를 가진 문서를 에디터 App의 state에 전송
       const [_, id] = pathname.split("/");
       const [post, postList] = await Promise.all([
-        getFetchList(`/${id}`),
-        getFetchList(""),
+        fetchData(`/${id}`),
+        fetchData(""),
       ]);
 
       menuBarApp.setState(postList);
@@ -44,7 +44,7 @@ export default function App({ $target, initialState }) {
   };
 
   // document 리스트 get 요청
-  const getFetchList = async (url, payload = {}) => {
+  const fetchData = async (url, payload = {}) => {
     const postList = await HTTPRequest(url, payload);
 
     return postList;
@@ -55,17 +55,15 @@ export default function App({ $target, initialState }) {
   // window의 이벤트 대기
   getCustomEvent(route);
 
-  /*
-  임시로 서버에 데이터 넣기 위한 로직 
-  const dummy = {
-    title: "타입스크립트의 변수",
-    content: "타입스크립트의 변수는 자바스크립트와 유사합니다.",
-  };
-  const data = HTTPRequest("/101677", {
-    method: "PUT",
-    body: JSON.stringify(dummy),
-  });
+  // 뒤로가기 라우팅
+  popState(route);
 
-  console.log(data);
-  */
+  // 임시로 서버에 데이터 넣기 위한 로직
+  // const dummy = {
+  //   title: "타입스크립트의 변수",
+  //   content: "타입스크립트의 변수는 자바스크립트와 유사합니다.",
+  // };
+  // const data = HTTPRequest("");
+
+  // console.log(data);
 }
