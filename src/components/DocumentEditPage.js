@@ -1,3 +1,4 @@
+import { EMPTY_TITLE } from '../constants/messages.js';
 export default function DocumentEditPage({
 	$target,
 	initialState,
@@ -31,4 +32,9 @@ export default function DocumentEditPage({
 		$textarea.value = content ? content : '';
 	};
 	this.render();
+
+	$input.addEventListener('input', (event) => {
+	});
+
+	$textarea.addEventListener('change', (event) => {});
 }
