@@ -29,7 +29,7 @@ export default function DocumentList({ $target, initialState }) {
 
 			$li.setAttribute('data-id', id);
 			$li.innerHTML = `
-			<span>${title ? title : EMPTY_TITLE}<span>
+				<span>${title ? title : EMPTY_TITLE}<span><button>+</button>
 			`;
 
 			if (documents.length) this.stateRecursion(documents, $li);
