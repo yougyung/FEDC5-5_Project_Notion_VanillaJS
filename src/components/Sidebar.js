@@ -4,6 +4,7 @@ import { DocumentList, SidebarHeader } from "./sidebarComponents/index.js";
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   const $sidebar = document.createElement("aside");
+  $sidebar.className = "sidebar";
   $target.appendChild($sidebar);
 
   this.state = initialState;
