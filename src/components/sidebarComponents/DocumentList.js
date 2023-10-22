@@ -48,7 +48,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                       : renderList(documents, depth + 2)
                     : ""
                 }
-                    </ul>
+            </ul>
                   `
       )
       .join("")}
