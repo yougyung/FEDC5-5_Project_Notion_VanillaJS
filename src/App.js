@@ -5,7 +5,6 @@ export default function App({ $target }) {
   let timer = null;
 
   const onAdd = async (id) => {
-    console.log(typeof id);
     try {
       if (id === "new") {
         push("new");
@@ -57,12 +56,10 @@ export default function App({ $target }) {
   };
 
   const onDelete = async (id) => {
-    console.log(id, ": 삭제 요청");
     try {
       await request(`${id}`, {
         method: "DELETE",
       });
-      // console.log(id, ": 삭제 완료");
 
       documentEditPage.setState({
         documentId: "new",
