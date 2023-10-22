@@ -66,6 +66,17 @@ button {
   color: rgb(55, 53, 47);
 }
 
+.toggle-button {
+  color: #b8b8b5;
+  font-size: 0.8rem;
+}
+
+.list-item-title {
+  color: #73726e;
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .document-edit-page {
   width: calc(100% - 20%);
   height: 100%;
