@@ -10,6 +10,18 @@ export const getDocuments = async () => {
   }
 };
 
+export const getDocument = async (id: number) => {
+  try {
+    const document = await api.get({ url: `/documents/${id}` });
+
+    return await document;
+  } catch (error) {
+    console.error(error);
+
+    throw new Error(`error : ${error}`);
+  }
+};
+
 export const postDocument = async ({ title, parent }: { title: string; parent: null | number }) => {
   try {
     const postedDocument = await api.post({ url: "/documents", body: { title, parent } });
