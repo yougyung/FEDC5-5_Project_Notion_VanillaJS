@@ -5,6 +5,7 @@ export default function DocumentEditPage({
   $target,
   initialState = { id: undefined, title: '', content: '' },
   onEditing,
+  onRemoveDocument,
 }) {
   const $documentEditPage = document.createElement('div');
 
@@ -12,16 +13,19 @@ export default function DocumentEditPage({
 
   const editorHeader = new EditorHeader({
     $target: $documentEditPage,
-    title: this.state.title,
-    onEditing: (title) => {
+    initialState: this.state,
+    onEditing: ({ title }) => {
       onEditing({ ...this.state, title });
+    },
+    onRemoveDocument: (documentId) => {
+      onRemoveDocument(documentId);
     },
   });
 
   const editorBody = new EditorBody({
     $target: $documentEditPage,
-    content: this.state.content,
-    onEditing: (content) => {
+    initialState: this.state,
+    onEditing: ({ content }) => {
       onEditing({ ...this.state, content });
     },
   });
@@ -29,8 +33,8 @@ export default function DocumentEditPage({
   this.setState = (nextState) => {
     if (nextState) {
       this.state = nextState;
-      editorHeader.setState(this.state.title);
-      editorBody.setState(this.state.content);
+      editorHeader.setState(this.state);
+      editorBody.setState(this.state);
       this.render();
     }
   };

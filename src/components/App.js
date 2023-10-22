@@ -1,7 +1,7 @@
 import Sidebar from '../pages/Sidebar.js';
 import { request } from '../util/api.js';
 import { initRouter, push } from '../util/router.js';
-import { setItem, getItem } from '../util/storage.js';
+import { setItem, getItem, removeItem } from '../util/storage.js';
 
 import DocumentEditPage from '../pages/DocumentEditPage.js';
 import IndexPage from '../pages/IndexPage.js';
@@ -29,9 +29,6 @@ export default function App({ $target, initialState }) {
       fetchDocumentList();
     },
     onDocumentClick: async (documentId) => fetchDocument(documentId),
-    onDocumentDeleted: async () => {
-      await this.setState();
-    },
   });
 
   let documentEditTimer = null;
@@ -44,6 +41,7 @@ export default function App({ $target, initialState }) {
 
       documentEditTimer = setTimeout(async () => {
         const { id, title, content } = editedDocument;
+        console.log(editedDocument);
         let documentLocalSaveKey = `temp-document-${id}`;
         setItem(documentLocalSaveKey, editedDocument);
 
@@ -55,8 +53,17 @@ export default function App({ $target, initialState }) {
 
         this.setState({ ...this.state, editingDocument: editedDocument });
         fetchDocumentList();
+
         console.log('저장완료');
       }, 2000);
+    },
+    onRemoveDocument: async (documentId) => {
+      await request(`/documents/${documentId}`, {
+        method: 'DELETE',
+      });
+
+      fetchDocumentList();
+      push('/');
     },
   });
 
@@ -94,6 +101,7 @@ export default function App({ $target, initialState }) {
     const { pathname } = window.location;
 
     if (pathname === '/') {
+      this.setState({ ...this.state, editingDocument: null });
       indexPage.render();
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
