@@ -36,3 +36,15 @@
 
   height: 100%;
 }
+
+.pageViewer_editor_content > div {
+  border: 1px red solid;
+
+  margin-bottom: 8px;
+}
+
+.pageViewer_editor_content > .h1 {
+  border: 1px blue solid;
+
+  font-size: 40px;
+}

@@ -1,3 +1,4 @@
+import converterToArray from "../../../Function/ConverterToArray.js";
 import EditContent from "./EditContent.js";
 import EditInfo from "./EditInfo.js";
 import EditTitle from "./EditTitle.js";
@@ -42,17 +43,16 @@ export default function Editor({ target, state, onEditing }) {
     const titleValue =
       editorElement.querySelector("[data-name=title]").value ?? "";
     const contentValue =
-      editorElement.querySelector("[data-name=content]").innerText ?? "";
-
-    const focus = document.getSelection().focusOffset;
+      editorElement.querySelector("[data-name=content]").innerHTML ?? "";
 
     const newState = {
       id: this.state.id,
       title: titleValue,
-      content: contentValue,
+      content: converterToArray(contentValue),
       createdAt: this.state.createdAt,
       updatedAt: this.state.updatedAt,
     };
+
     onEditing(newState);
   });
 

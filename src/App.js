@@ -93,25 +93,27 @@ export default function App({ target }) {
 
     onEditing: (params) => {
       const { id } = params;
-      setStorage(params);
 
+      setStorage(params);
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
         const res = await updatePage(params);
 
-        // 정상 응답에 대한 조건
         if (res.id === id) {
           removeStorage(id);
         }
-
         await getPageList("/documents");
-        const page = await getChechkedPage(id);
-        /* 유효성 검사 */
-        if (pagePropValidation(page)) {
-          pageViewer.setState(page);
-        }
+
+        /* 백업 */
+        /* 꼭... 새로운 데이터를 불러와야하는가? */
+
+        // const page = await getChechkedPage(id);
+        // /* 유효성 검사 */
+        // if (pagePropValidation(page)) {
+        //   pageViewer.setState(page);
+        // }
       }, 1300);
     },
   });
