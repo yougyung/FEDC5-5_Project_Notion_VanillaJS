@@ -69,11 +69,11 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     let { id } = $li.dataset;
     id = parseInt(id);
 
-    if (target.classList.contains("delete-button")) {
+    if (target.classList.contains("delete-button") || target.classList.contains("delete-icon")) {
       onDelete(id);
-    } else if (target.classList.contains("add-button")) {
+    } else if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
       onAdd(id);
-    } else if (target.classList.contains("list-item-title")) {
+    } else if (target.classList.contains("list-item-title") || target.classList.contains("list-item")) {
       push(`${id}`);
     }
   });
