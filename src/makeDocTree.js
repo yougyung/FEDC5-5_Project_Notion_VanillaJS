@@ -2,7 +2,9 @@ export function makeDocTree(root, depth, domTree = []) {
   // 루트 문서 순회
   root.forEach((child) => {
     const dom = `
-      <div data-depth="${depth}" class="nav-document-container" style="padding-left: ${
+      <div data-depth="${depth}" data-id="${
+      child.id
+    }"class="nav-document-container" style="padding-left: ${
       5 + (depth - 1) * 10
     }px">
         <button class="nav-toggle-btn">▼</button>
