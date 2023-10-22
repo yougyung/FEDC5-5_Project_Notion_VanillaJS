@@ -1,6 +1,7 @@
 import Post from "./Post.js";
 import { push } from "../../router/router.js";
 import { addNewData, deleteData } from "../../api/Api.js";
+import LinkButton from "../common/LinkButton.js";
 
 export default function PostList({ $target, initialState }) {
   const $div = document.createElement("div");
@@ -34,15 +35,10 @@ export default function PostList({ $target, initialState }) {
     isRender = true;
     $div.appendChild($ul);
 
-    const $button = document.createElement("button");
-    $ul.appendChild($button);
-    $button.className = "newpage-button";
-    $button.innerText = "+ 새페이지";
-
-    const $newPageCreateButton = document.querySelector(".newpage-button");
-    $newPageCreateButton.addEventListener("click", async () => {
-      const newData = await addNewData(null);
-      push(newData.id);
+    LinkButton({
+      $target: $ul,
+      buttonName: "+ 새 페이지",
+      className: "newpage-button",
     });
   };
 
@@ -61,6 +57,9 @@ export default function PostList({ $target, initialState }) {
       const { id } = $li.dataset;
       await deleteData(id);
       push("");
+    } else if (className === "newpage-button") {
+      const newData = await addNewData(null);
+      push(newData.id);
     }
   });
 }
