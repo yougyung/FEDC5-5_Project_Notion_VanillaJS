@@ -21,7 +21,10 @@
 }
 
 .addBtn {
-  margin-left: 3px;
+  background-color: white;
+}
+
+.deleteBtn {
   background-color: white;
 }
 

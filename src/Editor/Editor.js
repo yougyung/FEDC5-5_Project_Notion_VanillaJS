@@ -6,11 +6,13 @@ export default function Editor({ $target, initialState, EditPost }) {
   $editor.setAttribute("class", "editDiv");
   $editor.setAttribute("name", "editor");
   $editor.setAttribute("contentEditable", "true");
+  $editor.style.outline = 0;
 
   // 편집기 title 엘리먼트
   const $title = document.createElement("h1");
   $title.setAttribute("contentEditable", "true");
   $title.setAttribute("name", "title");
+  $title.style.outline = 0;
 
   this.state = initialState;
 

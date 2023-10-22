@@ -54,14 +54,23 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
   // 리스트의 + 버튼을 누를 시 -> 버튼 id에 해당하는 하위 문서 생성 HTTP 요청
   const onClickButton = ($element) => {
-    $element.addEventListener("click", (e) => {
+    $element.addEventListener("click", async (e) => {
       const { id } = e.target.dataset;
+      const className = e.target.className;
 
-      if (id) {
+      if (className === "addBtn") {
         modal.setState({
           id: id,
           $target: $element,
         });
+      } else if (className === "deleteBtn") {
+        await fetchData(`/${id}`, {
+          method: "DELETE",
+        });
+
+        const data = await fetchData(``);
+        this.setState(data);
+        console.log(data);
       }
     });
   };
@@ -79,12 +88,18 @@ export default function PostList({ $target, initialState, onRenderContents }) {
         .map(
           ({ title, id, documents }) => `
         <details>
-           <summary class="summary">${title}<button data-id="${id}"class="addBtn">+</button></summary>
+           <summary class="summary">${title}
+            <button data-id="${id}" class="addBtn"> + </button>
+            <button data-id="${id}" class="deleteBtn"> - </button>
+           </summary>
            <ul id="${id}">
             ${documents
               .map(
                 ({ title, id }) =>
-                  `<li id="${id}" >${title}<button data-id="${id}"class="addBtn">+</button></li>`
+                  `<li id="${id}" >${title}
+                    <button data-id="${id}"class="addBtn"> + </button>
+                    <button data-id="${id}" class="deleteBtn"> - </button>
+                  </li>`
               )
               .join("")} 
            </ul>
