@@ -3,7 +3,7 @@ import {
   Editor,
   DocumentHeader,
   SubDocumentList,
-} from "./documentComponents/DocumentComponents.js";
+} from "./documentComponents/index.js";
 
 export default function DocumentEditPage({
   $target,
