@@ -1,8 +1,10 @@
 import Editor from "./Editor.js";
 import { HTTPRequest } from "../Util/Api.js";
+import { setItem } from "../Util/Storage.js";
 
 // Editor 폴더의 App
 export default function App({ $target, initialState }) {
+  const LOCAL_STORAGE_KEY = "PostID-";
   const $editor = document.createElement("div");
   // 편집기 최상위 DOM의 클래스 설정
   $editor.setAttribute("class", "editor");
@@ -23,6 +25,7 @@ export default function App({ $target, initialState }) {
     $target: $editor,
     initialState,
     EditPost: async (title, content, id) => {
+      setItem();
       // 디바운스 -> 2초 이내에 입력된 값들은 HTTP 요청 X
       if (timerId !== null) clearTimeout(timerId);
 
