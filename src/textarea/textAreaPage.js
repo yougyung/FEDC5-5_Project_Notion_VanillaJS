@@ -1,6 +1,6 @@
 // 요기서 나오는 DOCS로 하위 페이지 버튼을 하단에 구현해 줄 수 있다.
 const $ = document;
-export default function TextAreaPage({ $target, initialState }) {
+export default function TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing }) {
   const $textArea = $.createElement("div");
   $textArea.className = "textArea";
 
@@ -58,12 +58,28 @@ export default function TextAreaPage({ $target, initialState }) {
     $textArea.appendChild($titleInputArea);
     $textArea.appendChild($contentTextArea);
 
+    $contentTextArea.addEventListener("keyup", (e) => {
+      onTextEditing(this.state.id, this.state.title, e.target);
+      // console.log(e.target.value);
+      // console.log({ ...this.state });
+      // this.setState({ ...this.state, content: e.target.value });
+      // $.querySelector(".textArea-content").focus();
+    });
+
+    $titleInputArea.addEventListener("keyup", (e) => {
+      onTitleEditing(e.target);
+      // console.log(e.target);
+      // this.setState({ ...this.state, title: e.target.value });
+      // console.log(this.state);
+      // $.querySelector(".textArea-title").focus();
+      console.log(this.state);
+    });
+
     $target.appendChild($textArea);
   };
   // 바뀌지 않는 것은 렌더 밖으로
   // 이벤트 는 밖으로
-  $textArea.addEventListener("click", (e) => {
-    // e.preventDefault();
-    console.log(e.target);
-  });
+  // $textArea.addEventListener("click", (e) => {
+  //   console.log(e.target);
+  // });
 }

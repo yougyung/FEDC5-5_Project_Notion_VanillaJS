@@ -74,12 +74,31 @@ export default function App({ $target }) {
 
   // 텍스트 편집기에 initialState는 그냥 파라미터 안에서 빈값 주면 된다.
   // 텍스트 렌더러
+  let timer = null;
   const textAreaRender = new TextAreaRender({
     $target: $textAreaWrapperDiv,
     initialState: {
       title: "DEFAULT",
       content: "DEFAULT",
       isLoading: false,
+    },
+    onTextEditing: async (id, title, target) => {
+      console.log(target.value);
+      console.log(id);
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        const modifyTextPageTitle = await request(`/documents/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ title: title, content: target.value }),
+        });
+        console.log(modifyTextPageTitle);
+        $.querySelector(".textArea-content").focus();
+      }, 1000);
+    },
+    onTitleEditing: async (value) => {
+      console.log(value);
     },
   });
 
