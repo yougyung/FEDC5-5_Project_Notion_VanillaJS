@@ -11,19 +11,15 @@ export default function EditorHeader({
 
   $target.appendChild($editorHeader);
   $editorHeader.appendChild($titleContainer);
+  $editorHeader.appendChild($statusContainer);
   $editorHeader.appendChild($removeContainer);
 
   $titleContainer.innerHTML = `
   <input type="text" name="title" style="width:500px" value="">`;
 
-  $statusContainer.innerHTML = `
-  <i class="fa fa-spinner"></i>
-  <i class="fa fa-check"></i>`;
+  $removeContainer.innerHTML = `<i class="fa fa-trash remove-button"></i>`;
 
-  $removeContainer.innerHTML = `
-  <i class="fa fa-trash remove-button"></i>`;
-
-  this.state = initialState;
+  this.state = { initialState, isSaving: null };
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -32,8 +28,18 @@ export default function EditorHeader({
 
   this.render = () => {
     if (this.state) {
-      const { title } = this.state;
+      const { title, isSaving } = this.state;
       $titleContainer.querySelector('[name=title]').value = title;
+
+      if (isSaving) {
+        $statusContainer.innerHTML = '<i class="fa fa-spinner"></i>';
+      } else if (isSaving === false) {
+        $statusContainer.innerHTML = '<i class="fa fa-check"></i>';
+
+        setTimeout(() => {
+          $statusContainer.innerHTML = '';
+        }, 2000);
+      }
     }
   };
 

@@ -41,7 +41,8 @@ export default function App({ $target, initialState }) {
 
       documentEditTimer = setTimeout(async () => {
         const { id, title, content } = editedDocument;
-        console.log(editedDocument);
+        documentEditPage.setState({ ...editedDocument, isSaving: true });
+
         let documentLocalSaveKey = `temp-document-${id}`;
         setItem(documentLocalSaveKey, editedDocument);
 
@@ -52,6 +53,8 @@ export default function App({ $target, initialState }) {
         });
 
         this.setState({ ...this.state, editingDocument: editedDocument });
+        documentEditPage.setState({ ...editedDocument, isSaving: false });
+
         fetchDocumentList();
 
         console.log('저장완료');
