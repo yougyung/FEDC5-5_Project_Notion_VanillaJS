@@ -25,7 +25,14 @@ export default function App({ $target, initialState }) {
     $target: $editor,
     initialState,
     EditPost: async (title, content, id) => {
-      setItem();
+      // 제목, 내용, id, 현재 시간 로컬에 저장
+      setItem(LOCAL_STORAGE_KEY + id, {
+        title,
+        content,
+        id,
+        RecentlyAt: new Date(),
+      });
+
       // 디바운스 -> 2초 이내에 입력된 값들은 HTTP 요청 X
       if (timerId !== null) clearTimeout(timerId);
 

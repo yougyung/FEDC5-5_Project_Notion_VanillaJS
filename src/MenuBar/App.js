@@ -1,6 +1,5 @@
 import PostList from "./PostList.js";
 import { setCustomEvent } from "../Util/Router.js";
-import { HTTPRequest } from "../Util/Api.js";
 
 // menuBar 폴더의 App
 export default function App({ $target, initialState }) {

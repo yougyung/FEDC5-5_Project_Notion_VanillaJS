@@ -13,7 +13,7 @@
 }
 
 .postlist {
-  margin-top: 100px;
+  margin-top: 70px;
   margin-left: 20px;
 }
 .summary {
@@ -32,8 +32,8 @@
 .editor {
   width: 100%;
   height: 100%;
-  padding-left: 10vw;
-  padding-top: 10vw;
+  padding-left: 7vw;
+  padding-top: 7vw;
 }
 
 .editDiv {
