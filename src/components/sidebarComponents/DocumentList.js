@@ -18,10 +18,10 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   const listItemButtons = `
     <div class="list-item-buttons">
       <button class="delete-button" type="button">
-        <i class="fa-regular fa-trash-can delete-button"></i>
+        <i class="fa-regular fa-trash-can delete-icon"></i>
       </button>
       <button class="add-button" type="button">
-        <i class="fa-solid fa-plus add-button"></i>
+        <i class="fa-solid fa-plus add-icon"></i>
       </button>
     </div>
   `;

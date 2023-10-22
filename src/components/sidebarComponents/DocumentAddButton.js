@@ -8,7 +8,9 @@ export default function DocumentAddButton({ $target, initialState, onAdd }) {
 
   this.render = () => {
     $documentAddButton.innerHTML = `
-    <i class="fa-solid fa-plus add-button"></i>
+    <button class="header add-button" type="button">
+    <i class="fa-solid fa-plus add-icon"></i>
+    </button>
     `;
   };
 

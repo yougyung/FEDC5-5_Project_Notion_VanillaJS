@@ -77,17 +77,6 @@ button {
   border-radius: 0.3rem;
 }
 
-.list-item:hover .list-item-buttons {
-  display: flex;
-}
-
-.toggle-button:hover,
-.add-button:hover,
-.delete-button:hover {
-  background-color: #e3e2e2;
-  border-radius: 0.3rem;
-}
-
 .toggle-icon {
   color: #b3b2b0;
   font-size: 0.8rem;
@@ -99,15 +88,26 @@ button {
   font-weight: 500;
 }
 
-.list-item-buttons {
-  display: none;
-  align-items: center;
+.list-item:hover .list-item-buttons {
+  display: block;
 }
 
+.list-item-buttons {
+  display: none;
+}
+
+.toggle-button,
 .add-button,
 .delete-button {
   color: #444444c6;
-  padding: 2px;
+  padding: 2px 4px;
+}
+
+.toggle-button:hover,
+.add-button:hover,
+.delete-button:hover {
+  background-color: #e3e2e2;
+  border-radius: 0.3rem;
 }
 
 .document-edit-page {
