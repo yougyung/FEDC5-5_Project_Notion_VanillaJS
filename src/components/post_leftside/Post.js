@@ -1,5 +1,5 @@
-import { push } from "./router.js";
-import { addNewData, deleteData } from "./Api.js";
+import { push } from "../../router/router.js";
+import { addNewData, deleteData } from "../../api/Api.js";
 
 export default function Post({
   id,

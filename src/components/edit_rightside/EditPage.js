@@ -1,7 +1,7 @@
 import Editor from "./Editor.js";
-import { request } from "./Api.js";
-import { setItem, getItem } from "./Storage.js";
-import Index from "./index.js";
+import { request } from "../../api/Api.js";
+import { setItem } from "../../storage/Storage.js";
+import Index from "../common/index.js";
 
 export default function EditPage({
   $target,

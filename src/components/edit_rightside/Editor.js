@@ -1,5 +1,4 @@
-import { setItem, getItem } from "./Storage.js";
-import Index from "./index.js";
+import { setItem, getItem } from "../../storage/Storage.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $div = document.createElement("div");

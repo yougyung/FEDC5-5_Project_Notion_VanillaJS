@@ -1,9 +1,9 @@
-import Header from "./Header.js";
-import PostList from "./PostList.js";
-import EditPage from "./EditPage.js";
-import { request } from "./Api.js";
-import { getItem } from "./Storage.js";
-import { initRouter } from "./router.js";
+import Header from "../header_upside/Header.js";
+import PostList from "../post_leftside/PostList.js";
+import EditPage from "../edit_rightside/EditPage.js";
+import { request } from "../../api/Api.js";
+import { getItem } from "../../storage/Storage.js";
+import { initRouter } from "../../router/router.js";
 
 export default function App({ $target }) {
   //리팩토링

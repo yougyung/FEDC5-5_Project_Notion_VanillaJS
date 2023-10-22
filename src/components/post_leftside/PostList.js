@@ -1,6 +1,6 @@
 import Post from "./Post.js";
-import { push } from "./router.js";
-import { addNewData } from "./Api.js";
+import { push } from "../../router/router.js";
+import { addNewData } from "../../api/Api.js";
 
 export default function PostList({
   $target,
