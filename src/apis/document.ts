@@ -42,3 +42,13 @@ export const updateDocument = async ({ id, title, content }: { id: number; title
     console.error(error);
   }
 };
+
+export const deleteDocument = async ({ id }: { id: number }) => {
+  try {
+    const deletedDocument = await api.delete({ url: `/documents/${id}` });
+
+    return await deletedDocument;
+  } catch (error) {
+    console.error(error);
+  }
+};
