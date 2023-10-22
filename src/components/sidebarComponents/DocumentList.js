@@ -31,7 +31,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       .map(
         ({ id, title, documents }) => `
             <ul class="document-list">
-              <li data-id="${id}" class="list-item" style="padding-left: ${depth * 10}px;">
+              <li data-id="${id}" class="list-item" style="padding-left: ${depth * 5}px;">
                 <div data-id=${id} class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
