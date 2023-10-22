@@ -1,5 +1,5 @@
 import { request } from '.';
-import { API_END_POINT } from '../constants/api';
+import { API_END_POINT } from '@/constants/api';
 
 export const getAllDocuments = async (options = {}) => {
   return await request(API_END_POINT.DOCUMENTS, {

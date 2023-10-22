@@ -24,6 +24,12 @@ module.exports = (_env, argv) => {
       historyApiFallback: true,
     },
 
+    resolve: {
+      alias: {
+        '@': path.resolve('./src/'),
+      },
+    },
+
     module: {
       rules: [
         {
