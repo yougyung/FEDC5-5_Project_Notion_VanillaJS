@@ -21,16 +21,16 @@ export const request = async (url = "", options) => {
 };
 
 /** API에 더미 데이터 추가 */
-const testData = { title: "여기에도!", parent: null };
+// const testData = { title: "여기에도!", parent: null };
 
-async function add(params) {
-  const newData = await request("", {
-    method: "POST",
-    body: JSON.stringify(params),
-  });
+// async function add(params) {
+//   const newData = await request("", {
+//     method: "POST",
+//     body: JSON.stringify(params),
+//   });
 
-  return newData;
-}
+//   return newData;
+// }
 // add(testData)
 
 /** 루트 데이터 가져오기 */
@@ -46,9 +46,19 @@ export async function getRootData() {
 export async function addNewData(targetParentId) {
   const newData = await request("", {
     method: "POST",
-    body: JSON.stringify({ title: "제목없음", parent: targetParentId }),
+    body: JSON.stringify({ title: "제목 없음", parent: targetParentId }),
   });
   return await newData;
+}
+
+export async function updateData({ documentId, title, content }) {
+  await request(`/${documentId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      title: title,
+      content: content,
+    }),
+  });
 }
 
 /** 데이터 삭제하기 */

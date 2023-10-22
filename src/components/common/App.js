@@ -1,12 +1,13 @@
 import Header from "../header_upside/Header.js";
 import PostList from "../post_leftside/PostList.js";
 import EditPage from "../edit_rightside/EditPage.js";
-import { request } from "../../api/Api.js";
+import { request, updateData } from "../../api/Api.js";
 import { getItem } from "../../storage/Storage.js";
 import { initRouter } from "../../router/router.js";
 
+const NOTION_NAME = "Minho's Notion";
+
 export default function App({ $target }) {
-  //리팩토링
   const getPostListApi = async () => {
     const rootData = await request("");
     postList.setState(rootData);
@@ -17,26 +18,19 @@ export default function App({ $target }) {
     editpage.setState(data);
   };
 
-  new Header({
-    $target,
-    title: "Minho's Notion",
-  });
+  new Header({ $target, title: NOTION_NAME });
 
   const $editPage = document.querySelector("#edit-page");
   const editpage = new EditPage({
     $target: $editPage,
-    initialState: "",
+    initialState: {},
     onNewTitle: async (id) => {
       // 로컬에 저장된 title, content 불러옴
       const newTitle = getItem("savepoint", "");
+      const { title, content } = newTitle;
 
-      await request(`/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: newTitle.title,
-          content: newTitle.content,
-        }),
-      });
+      await updateData({ documentId: id, title, content });
+      //await 안붙이면 한박자 늦게 업로드
 
       const nextState = await request("");
       postList.setState(nextState);
@@ -57,7 +51,7 @@ export default function App({ $target }) {
       const id = pathname.split("/")[1];
       getPostApi(id);
     } else {
-      // 홈화면 Or 404로
+      editpage.setState({ id: "index" });
     }
   };
   this.route();

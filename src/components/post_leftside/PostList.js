@@ -32,6 +32,7 @@ export default function PostList({ $target, initialState }) {
         $target: $div,
       });
     });
+
     isRender = true;
     $div.appendChild($ul);
 

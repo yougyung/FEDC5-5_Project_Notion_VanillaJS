@@ -10,14 +10,10 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (nextState.id === "index") {
       $div.innerHTML = "";
       return;
-    } else {
-      this.state = nextState;
-      //   $div.querySelector("[name=title").value = this.state.title;
-      //   $div.querySelector("[name=content]").value = this.state.content;
-      setItem("savepoint", this.state);
-      console.log(this.state.isRender);
-      this.render();
     }
+    this.state = nextState;
+    setItem("savepoint", this.state);
+    this.render();
   };
 
   this.render = () => {
@@ -38,6 +34,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       [name]: e.target.value,
     };
     this.setState(nextState);
-    onEditing(nextState);
+    onEditing(nextState.id);
   });
 }
