@@ -73,7 +73,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       onDelete(id);
     } else if (target.classList.contains("add-button")) {
       onAdd(id);
-    } else {
+    } else if (target.classList.contains("list-item-title")) {
       push(`${id}`);
     }
   });
@@ -82,8 +82,9 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     const { target } = event;
     const $li = target.closest(".list-item");
 
-    if (target.classList.contains("toggle-button")) {
+    if (target.classList.contains("toggle-button") || target.classList.contains("toggle-icon")) {
       const { id } = $li.dataset;
+      console.log(id);
       toggleDocument(parseInt(id));
     }
   });
