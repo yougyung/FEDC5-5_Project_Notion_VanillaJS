@@ -33,8 +33,8 @@ export const ToggleButton = () => {
   const toggleButton = (id) => {
     isOpen = openIds.includes(id);
 
-    return `<button>
-    <i class="fa-solid fa-angle-${isOpen ? "down" : "right"} toggle-button"></i>
+    return `<button class="toggle-button">
+    <i class="fa-solid fa-angle-${isOpen ? "down" : "right"} toggle-icon"></i>
     </button>`;
   };
 

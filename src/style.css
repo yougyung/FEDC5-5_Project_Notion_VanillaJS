@@ -51,6 +51,7 @@ li {
 }
 
 button {
+  padding-inline: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -80,8 +81,15 @@ button {
   display: flex;
 }
 
-.toggle-button {
-  color: #b8b8b5;
+.toggle-button:hover,
+.add-button:hover,
+.delete-button:hover {
+  background-color: #e3e2e2;
+  border-radius: 0.3rem;
+}
+
+.toggle-icon {
+  color: #b3b2b0;
   font-size: 0.8rem;
 }
 
@@ -98,7 +106,8 @@ button {
 
 .add-button,
 .delete-button {
-  color: #b3b2b0;
+  color: #444444c6;
+  padding: 2px;
 }
 
 .document-edit-page {
