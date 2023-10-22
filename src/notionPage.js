@@ -1,6 +1,6 @@
 import NotionList from './notionList.js'
 import { request } from './api.js'
-
+import LinkButton from './linkButton.js'
 export default function NotionPage({
     $target,
 }) {
@@ -12,18 +12,28 @@ export default function NotionPage({
         initialState: [],  //
     }) 
 
-    const $newNotionButton = document.createElement('button')
-    $newNotionButton.textContent = "+"
-    $page.appendChild($newNotionButton)
+    new LinkButton({
+        $target:$page,
+        initialState:{
+            text: '+',
+            link: '/documents/new'
+        }
+    })
+
+ 
 
     //notionList를 렌더링 하는 로직 
-    const fetchPost = async () => {
+    // const fetchPost = async () => {
+    //     const lists = await request('/documents')
+    //     notionList.setState(lists)
+    // }
+    this.setState = async() => {
         const lists = await request('/documents')
         notionList.setState(lists)
+        this.render()
     }
 
     this.render = async() => {
-        await fetchPost()
         $target.appendChild($page)
     }
 }

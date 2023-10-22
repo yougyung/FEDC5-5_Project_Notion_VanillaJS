@@ -10,10 +10,12 @@ export default function Editor({
     console.log("editor")
     this.state = initialState
     const $editor = document.createElement('div')
+    $editor.style.display = 'flex'
+    $editor.style.flexDirection = 'column'
 
-    let isinitialize = true
     $target.appendChild($editor)
 
+    let isinitialize = true
 
     this.setState = (nextState) => {
         this.state = nextState

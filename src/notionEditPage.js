@@ -1,3 +1,4 @@
+import LinkButton from './linkButton.js'
 import {
     getItem,
     removeItem,
@@ -57,7 +58,7 @@ export default function NotionEditPage({
                 })
 
                 const isNew = this.state.postId === 'new'
-                console.log(post,"포스트")
+              
                 if(isNew) {
                     const createdPost = await request('/documents',{
                         method:'POST',
@@ -65,6 +66,7 @@ export default function NotionEditPage({
                     })
                     history.replaceState(null,null, `/documents/${createdPost.id}`)
                     removeItem(notionLocalSaveKey)
+                    this.setState({postId: createdPost.id} )
                 } else {
                     await request(`/documents/${post.id}`,{
                         method: 'PUT',
@@ -77,12 +79,22 @@ export default function NotionEditPage({
     })
 
     this.setState = async (nextState) => {
-        console.log(nextState.postId,this.state.postId)
+        //console.log(this.state.postId,nextState.postId)
         if (this.state.postId !== nextState.postId) {
             notionLocalSaveKey = `temp-post-${nextState.postId}`
             console.log("set"+ notionLocalSaveKey)
             this.state = nextState
-            await fetchPost()
+            if(this.state.postId === 'new') {
+                const post = getItem(notionLocalSaveKey,{
+                    title: '',
+                    content: ''
+                })
+                this.render()
+                editor.setState(post)
+            }else {
+                await fetchPost()
+            }
+            
             return
         }
         this.state = nextState
@@ -105,26 +117,6 @@ export default function NotionEditPage({
         } = this.state
         if (postId !== 'new') {
             const post = await request(`/documents/${postId}`) 
-            //const post = DUMMY_DATA_ID
-    
-            /*
-            //localstorage에 더 최신값 불러오기
-            const tempPost = getItem(notionLocalSaveKey, {
-                title: '',
-                content: ''
-            })
-
-            if(tempPost.tempSaveDate && tempPost.tempSaveDate > post.updated_at) {
-                if(confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
-                    this.setState({
-                        ...this.state,
-                        post: tempPost
-                    })
-                    return 
-                }
-            }
-            */
-            
 
             this.setState({
                 ...this.state,
@@ -134,5 +126,20 @@ export default function NotionEditPage({
     }
 
 
+    new LinkButton({
+        $target:$page,
+        initialState:{
+            text: '목록으로',
+            link: '/'
+        }
+    })
+
+    // const $moveListButton = document.createElement('button')
+    // $moveListButton.innerHTML = '목록으로'
+    // $page.appendChild($moveListButton)
+
+    // $moveListButton.addEventListener('click', () => {
+    //     push('/')
+    // })
 
 }

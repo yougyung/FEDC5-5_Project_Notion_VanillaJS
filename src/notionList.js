@@ -1,7 +1,8 @@
+import { push } from "./router.js"
+
 export default function NotionList({
     $target,
     initialState,
-    onListClick
 }){
     const $notionList = document.createElement('div')
     $target.appendChild($notionList)
@@ -24,4 +25,13 @@ export default function NotionList({
     }
 
     this.render()
+
+    $notionList.addEventListener('click', (e)=> {
+        const $li = e.target.closest('li')
+        
+        if($li){
+            const {id} = $li.dataset
+            push(`/documents/${id}`)
+        }
+    })
 }

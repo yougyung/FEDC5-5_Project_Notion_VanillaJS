@@ -1,10 +1,9 @@
 //Document 생성하기
 //import NotionEditPage from './notionEditPage.js'
 import App from "./app.js"
-const $target = document.querySelector('#app')
+const $app = document.querySelector('#app')
 
-
-new App({$target})
+new App({$app})
 
 
 
