@@ -22,8 +22,11 @@ export default function EditorHeader({ $target, title, onEditing }) {
 
   $titleContainer
     .querySelector('[name=title]')
-    .addEventListener('input', (e) => {
-      console.log(e.target.value);
+    .addEventListener('keyup', (e) => {
+      const nextState = e.target.value;
+      this.setState(nextState);
+
+      onEditing(this.state);
     });
 
   this.render();

@@ -4,6 +4,7 @@ import EditorHeader from '../components/Editor/EditorHeader.js';
 export default function DocumentEditPage({
   $target,
   initialState = { id: undefined, title: '', content: '' },
+  onEditing,
 }) {
   const $documentEditPage = document.createElement('div');
 
@@ -12,13 +13,17 @@ export default function DocumentEditPage({
   const editorHeader = new EditorHeader({
     $target: $documentEditPage,
     title: this.state.title,
-    onEditing: () => {},
+    onEditing: (title) => {
+      onEditing({ ...this.state, title });
+    },
   });
 
   const editorBody = new EditorBody({
     $target: $documentEditPage,
     content: this.state.content,
-    onEditing: () => {},
+    onEditing: (content) => {
+      onEditing({ ...this.state, content });
+    },
   });
 
   this.setState = (nextState) => {
