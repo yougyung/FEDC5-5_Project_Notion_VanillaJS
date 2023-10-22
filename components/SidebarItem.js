@@ -3,10 +3,15 @@ export default class SidebarItem {
     const { id, title, documents } = item
     return `
     <div>
-    <div class="title" data-id=${id}>${title}</div>
+    <div class="title" data-id=${id}>
+    <button class='fold'>-</button>
+    ${title}
+    <button class='add'>+</button>
+    <button class='popover'>...</button>
+    </div>
         <div class="sub">${documents
-          .map((item) => this.render(item))
-          .join('')}</div>
+          .map(document => this.render(document))
+          .join("")}</div>
     </div>
       `
   }
