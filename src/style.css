@@ -64,7 +64,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   padding-right: 0.3rem;
   cursor: pointer;
   color: rgb(55, 53, 47);
@@ -81,7 +81,7 @@ button {
 }
 
 .list-item-title {
-  color: #73726e;
+  color: rgba(115, 114, 110, 0.8);
   font-weight: 500;
 }
 
