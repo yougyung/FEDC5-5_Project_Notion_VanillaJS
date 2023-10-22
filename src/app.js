@@ -76,7 +76,8 @@ export default function App({ $target }) {
 
   // 텍스트 편집기에 initialState는 그냥 파라미터 안에서 빈값 주면 된다.
   // 텍스트 렌더러
-  let timer = null;
+  let timerForText = null;
+  let timerForTitle = null;
   const textAreaRender = new TextAreaRender({
     $target: $textAreaWrapperDiv,
     initialState: {
@@ -86,10 +87,10 @@ export default function App({ $target }) {
     },
     onTextEditing: async (id, title, target) => {
       console.log(target);
-      if (timer !== null) {
-        clearTimeout(timer);
+      if (timerForText !== null) {
+        clearTimeout(timerForText);
       }
-      timer = setTimeout(async () => {
+      timerForText = setTimeout(async () => {
         /**
          * !!!!
          * 크리티컬한 문제
@@ -105,13 +106,18 @@ export default function App({ $target }) {
       }, 1000);
     },
     onTitleEditing: async (id, content, target) => {
-      const modifyTextPageTitle = await request(`/documents/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({ title: target.value, content: content }),
-      });
-      console.log(modifyTextPageTitle);
-      await fetchRootDocs();
-      $.querySelector(".textArea-title").focus();
+      if (timerForTitle !== null) {
+        clearTimeout(timerForTitle);
+      }
+      timerForTitle = setTimeout(async () => {
+        const modifyTextPageTitle = await request(`/documents/${location.pathname.split("/")[2]}`, {
+          method: "PUT",
+          body: JSON.stringify({ title: target.value, content: content }),
+        });
+        console.log(modifyTextPageTitle);
+        await fetchRootDocs();
+        $.querySelector(".textArea-title").focus();
+      }, 500);
     },
   });
 
