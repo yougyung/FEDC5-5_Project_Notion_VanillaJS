@@ -15,19 +15,19 @@ export default function Editor({ $target, initialState, onEditing }) {
       //   $div.querySelector("[name=title").value = this.state.title;
       //   $div.querySelector("[name=content]").value = this.state.content;
       setItem("savepoint", this.state);
+      console.log(this.state.isRender);
       this.render();
     }
   };
 
-  let isAlreadyRender = false;
-
   this.render = () => {
-    if (!isAlreadyRender) {
+    if (!this.state.isRender) {
+      // << 꺼내어쓰면 왜 안되지..
+      this.state.isRender = true;
       $div.innerHTML = `
             <input name="title" type="text" value="${this.state.title}"></input>
             <textarea name="content" style="width: 400px; height: 500px">${this.state.content}</textarea>
             `;
-      //   isAlreadyRender = true;
     }
   };
 

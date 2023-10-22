@@ -13,7 +13,8 @@ export default function App({ $target }) {
   };
   const getPostApi = async (id) => {
     const selectedData = await request(`/${id}`);
-    editpage.setState(selectedData);
+    const data = { ...selectedData, isRender: false };
+    editpage.setState(data);
   };
 
   new Header({
