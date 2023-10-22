@@ -1,12 +1,7 @@
 import { push } from "../../utils.js";
 import { ToggleButton } from "./ToggleButton.js";
 
-export default function DocumentList({
-  $target,
-  initialState,
-  onAdd,
-  onDelete,
-}) {
+export default function DocumentList({ $target, initialState, onAdd, onDelete }) {
   const $documentList = document.createElement("section");
   $target.appendChild($documentList);
 
@@ -35,9 +30,7 @@ export default function DocumentList({
       .map(
         ({ id, title, documents }) => `
             <ul class="document-list">
-              <li data-id="${id}" class="list-item" style="padding-left: ${
-          depth * 10
-        }px;">
+              <li data-id="${id}" class="list-item" style="padding-left: ${depth * 10}px;">
                 <div data-id=${id} class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
@@ -49,11 +42,9 @@ export default function DocumentList({
                 ${
                   openIds.includes(id)
                     ? documents.length === 0
-                      ? `<li class="list-item" style="padding-left: ${
-                          (depth + 2) * 10
-                        }px;">
-                   하위 페이지 없음
-                    </li>`
+                      ? `<li class="list-item" style="padding-left: ${(depth + 2) * 10}px;">
+                          하위 페이지 없음
+                        </li>`
                       : renderList(documents, depth + 2)
                     : ""
                 }
