@@ -67,12 +67,12 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
     });
 
     $titleInputArea.addEventListener("keyup", (e) => {
-      onTitleEditing(e.target);
+      onTitleEditing(this.state.id, this.state.content, e.target);
       // console.log(e.target);
       // this.setState({ ...this.state, title: e.target.value });
       // console.log(this.state);
       // $.querySelector(".textArea-title").focus();
-      console.log(this.state);
+      // console.log(this.state);
     });
 
     $target.appendChild($textArea);

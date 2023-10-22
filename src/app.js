@@ -89,16 +89,22 @@ export default function App({ $target }) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        const modifyTextPageTitle = await request(`/documents/${id}`, {
+        const modifyTextPageText = await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: title, content: target.value }),
         });
-        console.log(modifyTextPageTitle);
+        console.log(modifyTextPageText);
         $.querySelector(".textArea-content").focus();
       }, 1000);
     },
-    onTitleEditing: async (value) => {
-      console.log(value);
+    onTitleEditing: async (id, content, target) => {
+      const modifyTextPageTitle = await request(`/documents/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ title: target.value, content: content }),
+      });
+      console.log(modifyTextPageTitle);
+      await fetchRootDocs();
+      $.querySelector(".textArea-title").focus();
     },
   });
 
