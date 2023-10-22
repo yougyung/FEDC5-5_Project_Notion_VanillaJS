@@ -12,11 +12,10 @@ export default class Sidebar {
 
     init() {
         const $sidebar = createNewElement('div', [{ property: 'className', value: 'sidebar' }]);
-        const userName = getUserName();
 
         this.user = new Header({
             $target: $sidebar,
-            userName,
+            userName: getUserName(),
         });
         this.document = new Document({
             $target: $sidebar,

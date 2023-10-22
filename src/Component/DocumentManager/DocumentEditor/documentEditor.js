@@ -53,18 +53,41 @@ export default class DocumentEditor {
         this.$editor.classList.toggle('editor--visible', !isView);
 
         this.$title.value = title;
-        this.$content.innerHTML = content && content;
+        this.$content.innerHTML = content;
     }
 
     // 수정하면 onEditing으로 DB에 수정하고 View 컴포넌트에 전달해준다.
-    HandleOnKeyup(e) {
-        const { value, innerHTML, name } = e.target;
+    async HandleOnKeyup(e) {
+        const {
+            target,
+            target: { value, innerHTML, name },
+        } = e;
 
         if (name === 'title') {
-            this.onEditing({ ...this.state, [name]: value });
+            const nextState = { ...this.state, [name]: value };
+
+            this.onEditing(nextState);
         }
         if (name === 'content') {
-            this.onEditing({ ...this.state, [name]: innerHTML });
+            const nextState = { ...this.state, [name]: `${innerHTML}<span id="cur"></span>` };
+
+            await this.onEditing(nextState);
+
+            target.focus();
+
+            const range = document.createRange();
+            const selection = window.getSelection();
+
+            // Make sure the element exists in the DOM before selecting it
+            const curElement = document.getElementById('cur');
+            if (curElement) {
+                range.selectNode(curElement);
+
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                range.deleteContents();
+            }
         }
     }
 }

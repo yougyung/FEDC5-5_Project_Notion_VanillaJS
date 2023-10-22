@@ -22,12 +22,13 @@ export default class DocumentManager {
         this.documentEditor = new DocumentEditor({
             $taregt: this.$documentManager,
             initalState: { ...this.state },
-            onEditing: (documentState) => {
+            onEditing: (nextState) => {
                 if (this.timer !== null) {
                     clearTimeout(this.timer);
                 }
                 this.timer = setTimeout(async () => {
-                    this.putDocumentContent(documentState);
+                    this.putDocumentContent(nextState);
+                    this.documentEditor.setState(nextState);
                 }, 1000);
             },
         });
@@ -36,20 +37,22 @@ export default class DocumentManager {
             initalState: { ...this.state },
         });
         this.childDocumentsViewer = new ChildDocumentsViewer({
-            $taregt: this.$documentManager,
-            initalState: { ...this.state },
+            $target: this.$documentManager,
+            initalState: { documentList: [] },
+            postDocumentCallback: (documentId) => this.getDocumentContent(documentId),
         });
 
         this.$target.appendChild(this.$documentManager);
         this.$documentManager.addEventListener('click', (e) => this.HandleOnclick(e));
-        this.getDocumentContent();
+        this.getDocumentContent(this.state.documentId);
     }
 
     setState(nextState) {
-        if (nextState.isView !== this.state.isView) {
-            this.documentEditor.setState(nextState);
-        }
+        // if (nextState.isView !== this.state.isView) {
+        //     this.documentEditor.setState(nextState);
+        // }
         this.state = nextState;
+        this.documentEditor.setState(nextState);
         this.documentContentViewer.setState(nextState);
     }
 
@@ -65,8 +68,7 @@ export default class DocumentManager {
     }
 
     // 해당 document content 가져오기
-    async getDocumentContent() {
-        const { documentId } = this.state;
+    async getDocumentContent(documentId) {
         const { id, title, content, updatedAt, documents } = await fetchGetDocumentContent(documentId);
         const {
             title: localTitle,
@@ -81,15 +83,16 @@ export default class DocumentManager {
             }
         }
 
+        this.childDocumentsViewer.setState({ documentList: documents });
         this.setState({ ...this.state, title, content });
     }
 
     // 해당 document content 수정하기
-    async putDocumentContent(documentState) {
-        const { documentId, title, content } = documentState;
+    async putDocumentContent(nextState) {
+        const { documentId, title, content } = nextState;
 
         setItem(DOCUMENT_CONTENT_SAVE_KEY(documentId), {
-            ...documentState,
+            ...nextState,
             tempSaveData: new Date(),
         });
 
