@@ -18,9 +18,9 @@ export async function createDocument(title, parent) {
 	});
 	return response;
 }
-export async function modifyDocument(document, documentId) {
+export async function updateDocument(document, documentId) {
 	// const { title = '', content = '' } = document;
-	const response = await requestInstance(`/documents${documentId}`, {
+	const response = await requestInstance(`/documents/${documentId}`, {
 		method: 'PUT',
 		body: JSON.stringify(document),
 	});

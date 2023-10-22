@@ -5,5 +5,5 @@ export const createElementWithClass = (tagName, className) => {
 };
 export const addEvent = ($dom, className, type, callback) => {
 	const $target = $dom.querySelector(`.${className}`);
-	$target.addEventListener(type, () => callback());
+	$target.addEventListener(type, (e) => callback(e));
 };

@@ -29,6 +29,7 @@ export default function App({ $target }) {
 		new Document({
 			$target,
 			initialState: await fetchDocumentContents(focusedDocumentId),
+			handleState,
 		});
 	};
 

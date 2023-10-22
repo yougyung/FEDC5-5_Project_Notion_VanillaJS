@@ -1,4 +1,6 @@
-import { createElementWithClass } from '../../util/dom';
+import { updateDocument } from '@api/document';
+import debounce from '@util/debounce';
+import { createElementWithClass, addEvent } from '../../util/dom';
 import './style.scss';
 
 export default function Document({ $target, initialState }) {
@@ -19,4 +21,14 @@ export default function Document({ $target, initialState }) {
 		`;
 	};
 	this.render();
+
+	const handleKeyUpContent = (e) => {
+		// content의 저장은 의존성이 전혀존재하지않음
+		debounce(async () => {
+			const { id, title } = this.state;
+			const newDocument = { title, content: e.target.innerHTML };
+			await updateDocument(newDocument, id);
+		});
+	};
+	addEvent($document, 'document__content', 'keyup', handleKeyUpContent);
 }
