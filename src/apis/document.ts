@@ -32,7 +32,7 @@ export const postDocument = async ({ title, parent }: { title: string; parent: n
   }
 };
 
-export const updateDocument = async (id: number, title: string, content: string) => {
+export const updateDocument = async ({ id, title, content }: { id: number; title: string; content: string }) => {
   try {
     const result = await api.put({ url: `/documents/${id}`, body: { title, content } });
 
