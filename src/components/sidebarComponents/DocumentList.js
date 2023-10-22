@@ -3,6 +3,7 @@ import { ToggleButton } from "./ToggleButton.js";
 
 export default function DocumentList({ $target, initialState, onAdd, onDelete }) {
   const $documentList = document.createElement("section");
+  $documentList.className = "document-list-container";
   $target.appendChild($documentList);
 
   this.state = initialState;

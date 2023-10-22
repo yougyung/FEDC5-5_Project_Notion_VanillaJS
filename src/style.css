@@ -56,8 +56,8 @@ button {
   cursor: pointer;
 }
 
-.document-list {
-  margin: 0 4px;
+.document-list-container {
+  padding: 0 4px;
 }
 
 .list-item {
