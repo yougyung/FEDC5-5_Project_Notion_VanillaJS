@@ -21,7 +21,6 @@ export default function EditPage({
       editor.setState({ id: "index" });
       return;
     } else {
-      console.log(nextState);
       editor.setState(nextState);
       this.render();
     }
@@ -38,28 +37,7 @@ export default function EditPage({
     onEditing: async (nextState) => {
       const { id } = nextState;
       onNewTitle(id);
-      //   onNewContent(id);
-      //   setItem("savepoint", nextState);
-      //   if (timer != null) clearTimeout(timer);
-      //   newContent = async (nextState) => {
-      //     await request('',)
-      //   };
-      //   timer = setTimeout(async (nextState) => {
-      //     console.log(nextState);
-      //   }, 1000);
     },
-    // onEditing : (nextState) => {
-    //     setItem('localsavepoint', nextState);
-
-    //     if (timer !== null) {
-    //         clearTimeout(timer);
-    //     }
-
-    //     timer = setTimeout(async (nextState) => {
-    //         request
-    //     },3000)
-
-    // }
   });
 
   this.render = () => {

@@ -42,11 +42,18 @@ export async function getRootData() {
   return await rootData;
 }
 
+/** 데이터 추가하기 */
+export async function addNewData(targetParentId) {
+  const newData = await request("", {
+    method: "POST",
+    body: JSON.stringify({ title: "제목없음", parent: targetParentId }),
+  });
+  return await newData;
+}
+
 /** 데이터 삭제하기 */
 export async function deleteData(documentId) {
-  const deletedData = await request(`/${documentId}`, {
+  await request(`/${documentId}`, {
     method: "DELETE",
   });
-
-  return deletedData;
 }

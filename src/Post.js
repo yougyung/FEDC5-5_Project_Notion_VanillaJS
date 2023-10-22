@@ -1,9 +1,12 @@
+import { push } from "./router.js";
+import { addNewData, deleteData } from "./Api.js";
+
 export default function Post({
   id,
   title,
   documents,
   $target,
-  onSelect,
+
   onInsert,
   onDelete,
   onNewPost,
@@ -24,23 +27,25 @@ export default function Post({
   $li.appendChild($deleteButton);
   $li.appendChild(tempElement);
 
-  $insertButton.addEventListener("click", (e) => {
+  $insertButton.addEventListener("click", async (e) => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
-    onInsert(id);
+    const newData = await addNewData(id); // await 붙이면 왜 되지..?
+    push(newData.id);
     e.stopImmediatePropagation();
   });
 
-  $deleteButton.addEventListener("click", (e) => {
+  $deleteButton.addEventListener("click", async (e) => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
-    onDelete(id);
+    await deleteData(id);
+    push("");
   });
 
   $li.addEventListener("click", (e) => {
     const $targetLi = e.target.closest("li");
     const { id } = $targetLi.dataset;
-    onSelect(id);
+    push(id);
     e.stopImmediatePropagation();
   });
 
@@ -50,7 +55,7 @@ export default function Post({
       title,
       documents: childDocuments,
       $target: tempElement,
-      onSelect,
+
       onInsert,
       onDelete,
       onNewPost,

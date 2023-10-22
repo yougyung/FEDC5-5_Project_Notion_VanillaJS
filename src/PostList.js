@@ -1,12 +1,13 @@
 import Post from "./Post.js";
-import { request } from "./Api.js";
+import { push } from "./router.js";
+import { addNewData } from "./Api.js";
 
 export default function PostList({
   $target,
   initialState,
   //라우터 설명
   //   getRootData,
-  onSelect,
+
   onInsert,
   onDelete,
   onNewPost,
@@ -42,7 +43,7 @@ export default function PostList({
         title,
         documents,
         $target: $div,
-        onSelect,
+
         onInsert,
         onDelete,
         onNewPost,
@@ -57,9 +58,9 @@ export default function PostList({
     $button.innerText = "+ 새페이지";
 
     const $newPageCreateButton = document.querySelector(".newpage-button");
-    $newPageCreateButton.addEventListener("click", (e) => {
-      const value = this.state;
-      onNewPost(value);
+    $newPageCreateButton.addEventListener("click", async () => {
+      const newData = await addNewData(null);
+      push(newData.id);
     });
   };
 }

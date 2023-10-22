@@ -9,10 +9,10 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.setState = (nextState) => {
     if (nextState.id === "index") {
-      this.init();
+      $div.innerHTML = "";
+      return;
     } else {
       this.state = nextState;
-      console.log(this.state.title);
       //   $div.querySelector("[name=title").value = this.state.title;
       //   $div.querySelector("[name=content]").value = this.state.content;
       setItem("savepoint", this.state);
@@ -22,17 +22,13 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   let isAlreadyRender = false;
 
-  this.init = () => {
-    Index({ $target });
-  };
-
   this.render = () => {
     if (!isAlreadyRender) {
       $div.innerHTML = `
             <input name="title" type="text" value="${this.state.title}"></input>
             <textarea name="content" style="width: 400px; height: 500px">${this.state.content}</textarea>
             `;
-      isAlreadyRender = true;
+      //   isAlreadyRender = true;
     }
   };
 
@@ -42,7 +38,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       ...this.state,
       [name]: e.target.value,
     };
-    console.log(nextState);
     this.setState(nextState);
     onEditing(nextState);
   });
