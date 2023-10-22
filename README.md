@@ -19,7 +19,7 @@
 - [x] Root Document를 클릭하면 오른쪽 편집기 영역에 해당 Document의 Content를 렌더링합니다.
 - [x] 해당 Root Document에 하위 Document가 있는 경우, 해당 Document 아래에 트리 형태로 렌더링 합니다.
 - [x] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
-- [ ] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
+- [x] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
 - [x] History API를 이용해 SPA 형태로 만듭니다.
 - [x] 루트 URL 접속 시엔 별다른 편집기 선택이 안 된 상태입니다.
 - [x] /documents/{documentId} 로 접속시, 해당 Document 의 content를 불러와 편집기에 로딩합니다.
@@ -63,3 +63,4 @@
 - fast 3G에서도 종종 failed to fetch 오류 및 데이터 누락 현상 발견
 - 하위 페이지가 없는 페이지에서 제목이 공란일 때 화면에 렌더링 되지 않는 현상 발견
 - 특정한 상황에서 API가 처리되지 않은 채로 title, content 사이를 왔다갔다 하면 focus문제와 API 호출 오류 문제를 야기하는 현상 발견
+- 최초 화면에서 Title, Content 조작 시 예외처리 안되는 현상 발견
