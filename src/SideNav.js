@@ -58,7 +58,10 @@ export default function SideNav({
       onClickDeleteBtn(dataset.id);
     }
 
-    if (className === 'nav-document') {
+    if (
+      className === 'nav-document' ||
+      className === 'nav-document-container'
+    ) {
       onClickDoc(dataset.id);
     }
 
