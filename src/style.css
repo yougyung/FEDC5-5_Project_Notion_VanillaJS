@@ -53,16 +53,6 @@ button {
   cursor: pointer;
 }
 
-.list-item-buttons {
-  display: flex;
-  align-items: center;
-}
-
-.add-button,
-.delete-button {
-  color: #b3b2b0;
-}
-
 .list-item {
   display: flex;
   align-items: center;
@@ -86,6 +76,16 @@ button {
   color: #73726e;
   font-size: 14px;
   font-weight: 500;
+}
+
+.list-item-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.add-button,
+.delete-button {
+  color: #b3b2b0;
 }
 
 .document-edit-page {
