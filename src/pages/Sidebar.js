@@ -3,7 +3,7 @@ import SidebarHeader from '../components/Sidebar/SidebarHeader.js';
 
 export default function Sidebar({
   $target,
-  initialState,
+  initialState = [],
   onDocumentFoldToggle,
   onDocumentAdded,
   onDocumentClick,

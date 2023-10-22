@@ -27,10 +27,12 @@ export default function DocumentEditPage({
   });
 
   this.setState = (nextState) => {
-    this.state = nextState;
-    editorHeader.setState(this.state.title);
-    editorBody.setState(this.state.content);
-    this.render();
+    if (nextState) {
+      this.state = nextState;
+      editorHeader.setState(this.state.title);
+      editorBody.setState(this.state.content);
+      this.render();
+    }
   };
 
   this.render = () => {
