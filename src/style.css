@@ -23,7 +23,6 @@ aside {
 .sidebar-header {
   color: rgb(55, 53, 47);
   font-weight: 500;
-  font-size: 14px;
   padding: 0.8rem;
 }
 
@@ -83,7 +82,6 @@ button {
 
 .list-item-title {
   color: #73726e;
-  font-size: 14px;
   font-weight: 500;
 }
 
