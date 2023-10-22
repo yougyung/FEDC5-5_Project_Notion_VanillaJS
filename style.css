@@ -9,24 +9,60 @@ iframe {border:0}
 table {border-collapse:collapse;border-spacing:0}
 td, th {padding:0}
 
+
 main{
     display: flex;
     height: 100vh;
 }
 nav{
-    background-color: #f3f3f2;
-    padding: 10px 0 0 10px;
+    background-color: #fbfbfa;
+    padding-top: 10px;
     width: 250px;
     height: 100vh;
     position: fixed;
-    flex:1
+    border-right: solid 1px #e1e1e1;
+}
+a, a:visited, a:link {
+    text-decoration: none;
+    color:#6D6C68;
+    font-weight: 450;
+    font-size: 14px;
+}
+button{
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 .title{
     padding:10px 0 0 10px;
 }
 .document-item{
     display: flex;
-    margin-top:5px;
+    margin: 5px;
+    height: 25px;
+    border-radius: 3px;
+    cursor: pointer;
+    align-items: center;
+}
+.document-item:hover{
+    background-color: #ebebea;
+}
+.display-none{
+    display: none;
+}
+.arrow-btn{
+    border-radius: 3px;
+}
+.arrow-btn:hover{
+    background-color:#dddddc;
+}
+.arrow-btn>svg{
+        width: 9px;
+        height: 9px;
+        fill:#6D6C68;
+}
+.rotate-90edge{
+    transform: rotate(90deg);
 }
 .document-page{
     padding-left: 250px;
@@ -38,8 +74,5 @@ nav{
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-.display-none{
-    display: none;
 }
 

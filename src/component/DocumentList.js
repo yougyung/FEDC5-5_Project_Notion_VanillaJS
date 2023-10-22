@@ -8,7 +8,9 @@ export default function DocumentList({
   depth = 0,
 }) {
   const $documentList = document.createElement("div");
-  $documentList.className = "document-child";
+  $documentList.classList.add("document-list");
+  depth > 0 &&
+    $documentList.classList.add("document-item-children", "display-none");
   $target.appendChild($documentList);
   this.state = initialState;
   this.setState = (nextState) => {
