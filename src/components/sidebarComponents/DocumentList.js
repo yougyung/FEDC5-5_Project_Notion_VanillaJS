@@ -43,7 +43,7 @@ export default function DocumentList({
                   <span class="list-item-title">
                   ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
                   </span>
-                  </div>
+                </div>
                       ${listItemButtons}
               </li>
                 ${
@@ -76,20 +76,13 @@ export default function DocumentList({
 
     let { id } = $li.dataset;
     id = parseInt(id);
-    // this.state.selectedDocumentId = id;
 
     if (target.classList.contains("delete-button")) {
       onDelete(id);
     } else if (target.classList.contains("add-button")) {
       onAdd(id);
     } else {
-      // document 조회 로직
       push(`${id}`);
-
-      // this.setState({
-      //   ...this.state,
-      //   selectedDocumentId: id,
-      // });
     }
   });
 
