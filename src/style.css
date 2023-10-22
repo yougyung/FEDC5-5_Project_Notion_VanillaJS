@@ -75,6 +75,10 @@ button {
   border-radius: 0.3rem;
 }
 
+.list-item:hover .list-item-buttons {
+  display: flex;
+}
+
 .toggle-button {
   color: #b8b8b5;
   font-size: 0.8rem;
@@ -86,7 +90,7 @@ button {
 }
 
 .list-item-buttons {
-  display: flex;
+  display: none;
   align-items: center;
 }
 
