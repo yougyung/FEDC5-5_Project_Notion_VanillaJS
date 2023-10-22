@@ -1,3 +1,4 @@
+import SidebarItem from './SidebarItem.js'
 import { requestDocument, HTTPError } from '../apis/documents.js'
 export default class Sidebar {
   constructor({ $target }) {
@@ -5,7 +6,6 @@ export default class Sidebar {
     this.state = []
     this.setup()
     this.fetchDirectory()
-    this.setEvent()
   }
   setup() {
     this.$target.innerHTML = `<div id=sidebar>
@@ -18,20 +18,10 @@ export default class Sidebar {
   }
 
   renderTreeByDiv() {
-    return this.state
-      .map((document) => this.createSbInnerHTML(document))
+    const template = this.state
+      .map((item) => new SidebarItem().render(item))
       .join('')
-  }
-
-  createSbInnerHTML(item) {
-    return `
-    <div>
-    <div class="title" data-id=${item.id}>${item.title}</div>
-        <div class="sub">${item.documents
-          .map((data) => this.createSbInnerHTML(data))
-          .join('')}</div>
-    </div>
-      `
+    return template
   }
 
   createNewDocument(parentId) {
@@ -52,8 +42,9 @@ export default class Sidebar {
   }
 
   render() {
-    document.querySelector('#directory').innerHTML = this.renderTreeByDiv()
+    this.$directory.innerHTML = this.renderTreeByDiv()
   }
+
   async fetchDirectory() {
     try {
       const data = await requestDocument('documents')
@@ -65,16 +56,5 @@ export default class Sidebar {
         console.error(err)
       }
     }
-  }
-
-  setEvent() {
-    this.$directory.addEventListener('click', (e) => {
-      const { id } = e.target.dataset
-      console.log(id)
-      //
-    })
-    this.$addDocumentNode.addEventListener('click', (e) =>
-      this.createNewDocument()
-    )
   }
 }
