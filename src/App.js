@@ -11,10 +11,15 @@ export default function App({ $target }) {
     selectedDoc: {
       ...getStorage('selectedDoc', null),
     },
+    currentFocus: {
+      id: null,
+      element: null,
+    },
   };
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(nextState);
 
     sideNav.setState(nextState);
     editPage.setState(nextState);
@@ -33,7 +38,7 @@ export default function App({ $target }) {
       const newDoc = await request(`/documents`, {
         method: 'POST',
         body: JSON.stringify({
-          title: ``,
+          title: `제목 없음`,
           // parent가 null이면 루트 Document가 됩니다.
           // 특정 Document에 속하게 하려면 parent에
           // 해당 Document id를 넣으세요.
@@ -44,12 +49,22 @@ export default function App({ $target }) {
       await request(`/documents/${newDoc.id}`, {
         method: 'PUT',
         body: JSON.stringify({
-          title: `${newDoc.id}의 title`,
-          content: `${newDoc.id}의 content`,
+          content: '',
         }),
       });
 
       fetchDocTree();
+      // 해당 페이지 에디터 열기
+      const doc = await request(`/documents/${newDoc.id}`, {
+        method: 'GET',
+      });
+
+      addStorage('selectedDoc', doc);
+      push(`/documents/${newDoc.id}`);
+      this.setState({
+        ...this.state,
+        selectedDoc: doc,
+      });
     },
 
     // 삭제 버튼
@@ -87,7 +102,13 @@ export default function App({ $target }) {
   });
 
   // edit Page
-  const editPage = new EditPage({ $target, initialState: this.state });
+  const editPage = new EditPage({
+    $target,
+    initialState: this.state,
+    onEditDoc: (nextState) => {
+      this.setState(nextState);
+    },
+  });
 
   // 전체 DocTree 가져오기
   const fetchDocTree = async () => {
@@ -117,19 +138,48 @@ export default function App({ $target }) {
     else if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
 
-      const doc = await request(`/documents/${documentId}`, {
-        method: 'GET',
-      });
+      try {
+        const doc = await request(`/documents/${documentId}`, {
+          method: 'GET',
+        });
 
-      addStorage('selectedDoc', doc);
-      this.setState({
-        ...this.state,
-        selectedDoc: doc,
-      });
+        if (!doc) {
+          throw new Error(
+            '해당 페이지를 없는 페이지입니다. 메인 화면으로 돌아가시겠습니까?'
+          );
+        }
+
+        this.setState({
+          ...this.state,
+          selectedDoc: doc,
+        });
+
+        const currentStorage = getStorage('selectedDoc', {});
+
+        if (Object.keys(currentStorage).length !== 0) {
+          addStorage('selectedDoc', currentStorage);
+        }
+      } catch (e) {
+        const check = confirm(e.message);
+
+        if (check) {
+          push('/');
+          removeStorage('selectedDoc');
+          this.setState({
+            ...this.state,
+            selectedDoc: {},
+          });
+        }
+      }
     }
   };
 
   this.route();
   // 라우팅 url 변경
   initRouter(() => this.route());
+
+  // 뒤로가기 & 앞으로가기
+  window.addEventListener('popstate', () => {
+    this.route();
+  });
 }
