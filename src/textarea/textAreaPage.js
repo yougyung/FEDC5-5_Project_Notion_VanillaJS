@@ -59,7 +59,9 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
     $textArea.appendChild($contentTextArea);
 
     $contentTextArea.addEventListener("keyup", (e) => {
-      onTextEditing(this.state.id, this.state.title, e.target);
+      console.log(e.target.value);
+      console.log(this.state);
+      onTextEditing(this.state.id, this.state.title, e.target.value);
       // console.log(e.target.value);
       // console.log({ ...this.state });
       // this.setState({ ...this.state, content: e.target.value });

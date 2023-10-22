@@ -41,6 +41,8 @@ export default function App({ $target }) {
       const newPageLog = await createNewPage("/documents", id);
       await fetchRootDocs();
       await fetchSelectedDocs(newPageLog.id);
+      // console.log(location.pathname.split("/")[2]);
+      // console.log(newPageLog);
       textAreaRender.setState({ title: newPageLog.title, content: newPageLog.content });
       history.pushState(null, null, `/documents/${newPageLog.id}`);
     },
@@ -83,15 +85,20 @@ export default function App({ $target }) {
       isLoading: false,
     },
     onTextEditing: async (id, title, target) => {
-      console.log(target.value);
-      console.log(id);
+      console.log(target);
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        const modifyTextPageText = await request(`/documents/${id}`, {
+        /**
+         * !!!!
+         * 크리티컬한 문제
+         * 페이지를 생성하고 즉시 수정하면 이 부분에서 에러가 남
+         * 원인은 새로운 페이지의 아이디를 받아오지 못해서
+         */
+        const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
           method: "PUT",
-          body: JSON.stringify({ title: title, content: target.value }),
+          body: JSON.stringify({ title: title, content: target }),
         });
         console.log(modifyTextPageText);
         $.querySelector(".textArea-content").focus();
