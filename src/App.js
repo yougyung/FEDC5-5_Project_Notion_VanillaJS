@@ -1,11 +1,9 @@
+import MainPage from '@/pages/MainPage';
+
 export default class App {
   constructor({ $target }) {
-    this.$target = $target;
-
-    this.render();
+    this.$editorPage = new MainPage($target);
   }
 
-  render() {
-    this.$target.innerHTML = '<div>안녕하세요. App입니다.</div>';
-  }
+  route() {}
 }
