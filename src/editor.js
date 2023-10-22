@@ -7,7 +7,6 @@ export default function Editor({
     },
     onEditing
 }) {
-    console.log("editor")
     this.state = initialState
     const $editor = document.createElement('div')
     $editor.style.display = 'flex'
@@ -25,7 +24,6 @@ export default function Editor({
     }
 
     this.render = () => {
-        console.log("editor_render")
         if (isinitialize) {
             $editor.innerHTML = `
             <input type = "text" name = "title" style = "width: 600px;" value = "${this.state.title}"/>

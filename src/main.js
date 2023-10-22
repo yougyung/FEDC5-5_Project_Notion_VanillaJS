@@ -8,20 +8,3 @@ new App({$app})
 
 
 
-
-
-
-
-// const notionEditPage = new NotionEditPage({
-//     $target,
-//     initialState: {
-//         postId: 'new'
-//     }
-// })
-
-// // console.log("2")
-// // notionEditPage.render()
-
-// notionEditPage.setState({
-//     postId: 1
-// })

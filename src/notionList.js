@@ -8,30 +8,40 @@ export default function NotionList({
     $target.appendChild($notionList)
 
     this.state = initialState
-    console.log(this.state)
     this.setState = nextState => {
         this.state = nextState
         this.render()
     }
 
-    this.render = () => {
-        $notionList.innerHTML = `
+    const renderList = (list) => {
+        return `
             <ul>
-                ${this.state.map(list => `
-                    <li data-id = ${list.id} >${list.title}</li>
-                `).join('')}
+                ${list.map(list =>     
+                    `<li data-id=${list.id}>${list.title}<button data-id=${list.id}>+</button>
+                        ${list.documents.length > 0 ? renderList(list.documents) : ''}
+                    </li>`).join('')}
             </ul>
         `
+    };
+
+    this.render = () => {
+        $notionList.innerHTML = renderList(this.state);
     }
 
     this.render()
 
     $notionList.addEventListener('click', (e)=> {
+        
         const $li = e.target.closest('li')
+        const $button = e.target.closest('button')
         
         if($li){
             const {id} = $li.dataset
             push(`/documents/${id}`)
         }
+        if($button){
+            const {id} = $button.dataset
+            push(`/documents/${id}new`)
+       }
     })
 }

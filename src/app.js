@@ -27,12 +27,10 @@ export default function App({
 
     this.route = () => {
         //$target.innerHTML = '' 
-        console.log($app.innerHTML)
         const {
             pathname
         } = window.location
-        console.log(pathname)
-
+        
         if (pathname === '/') {
             notionSidebar.setState()
         } else if (pathname.indexOf(`/documents/`) === 0) {

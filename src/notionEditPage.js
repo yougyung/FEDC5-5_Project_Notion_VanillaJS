@@ -29,7 +29,6 @@ export default function NotionEditPage({
         updatedAt: "12"
     }
 
-    console.log("notionEditePage")
     const $page = document.createElement('div')
     this.state = initialState //{Postid: "new"} 
 
@@ -38,6 +37,7 @@ export default function NotionEditPage({
 
     //storage_get
     const post = getItem(notionLocalSaveKey, {
+        id: '',
         title: '',
         content: ''
     })
@@ -57,8 +57,11 @@ export default function NotionEditPage({
                     tempSaveDate: new Date()
                 })
 
-                const isNew = this.state.postId === 'new'
-              
+                const isNew =isNaN(this.state.postId) && this.state.postId.includes("new")
+                if(isNew){
+                    post.parent = this.state.postId.replace("new", "");
+                }
+                
                 if(isNew) {
                     const createdPost = await request('/documents',{
                         method:'POST',
@@ -75,16 +78,18 @@ export default function NotionEditPage({
                     removeItem(notionLocalSaveKey)
                 }
             }, 1000)
+           
         }
     })
 
     this.setState = async (nextState) => {
-        //console.log(this.state.postId,nextState.postId)
         if (this.state.postId !== nextState.postId) {
             notionLocalSaveKey = `temp-post-${nextState.postId}`
-            console.log("set"+ notionLocalSaveKey)
             this.state = nextState
-            if(this.state.postId === 'new') {
+
+            const isNew = isNaN(this.state.postId) && this.state.postId.includes("new")
+            
+            if(isNew) {
                 const post = getItem(notionLocalSaveKey,{
                     title: '',
                     content: ''
@@ -99,15 +104,13 @@ export default function NotionEditPage({
         }
         this.state = nextState
         this.render()
-        console.log(this.state)
-        editor.setState(this.state.post ?? {
+        editor.setState(this.state.post || {
             title: '',
             content: ''
         })
     }
 
     this.render = () => {
-        console.log("notionEditor_render")
         $target.appendChild($page)
     }
 
