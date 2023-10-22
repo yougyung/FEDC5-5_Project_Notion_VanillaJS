@@ -7,8 +7,7 @@ export default class MenuList {
 
     constructor(sidebar) {
         this.sidebar = sidebar;
-        this.init()
-
+        this.init();
     }
 
     async init() {
@@ -20,11 +19,12 @@ export default class MenuList {
     }
 
     render() {
+        console.log("*");
         this.sidebar.innerHTML = `
         <div>
             ${this.arr.map((menuItem) => (menuItem.render())).join('')} 
         </div>`
-        console.log(this.sidebar.innerHTML);
+        this.arr[0].onEvent();
     }
 }
 
