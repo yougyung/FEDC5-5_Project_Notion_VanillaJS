@@ -1,41 +1,27 @@
 import Post from "./Post.js";
 import { push } from "../../router/router.js";
-import { addNewData } from "../../api/Api.js";
+import { addNewData, deleteData } from "../../api/Api.js";
 
-export default function PostList({
-  $target,
-  initialState,
-  //라우터 설명
-  //   getRootData,
-
-  onInsert,
-  onDelete,
-  onNewPost,
-}) {
-  const $ul = document.createElement("ul");
-  $target.appendChild($ul);
+export default function PostList({ $target, initialState }) {
+  const $div = document.createElement("div");
+  $target.appendChild($div);
 
   this.state = initialState;
 
-  let isAlreadyRender = false;
+  let isRender = false;
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
 
-  //라우터 설명
-  //   getRootData();
-
-  // node.prototype.replaceChild();
-
   this.render = () => {
-    if (isAlreadyRender === true) {
-      $ul.innerHTML = "";
-      isAlreadyRender = false;
+    if (isRender === true) {
+      $div.innerHTML = "";
+      isRender = false;
     }
 
-    const $div = document.createElement("div"); // div
+    const $ul = document.createElement("ul");
 
     this.state.forEach(({ id, title, documents }) => {
       Post({
@@ -43,14 +29,10 @@ export default function PostList({
         title,
         documents,
         $target: $div,
-
-        onInsert,
-        onDelete,
-        onNewPost,
       });
     });
-    isAlreadyRender = true;
-    $ul.appendChild($div);
+    isRender = true;
+    $div.appendChild($ul);
 
     const $button = document.createElement("button");
     $ul.appendChild($button);
@@ -63,4 +45,22 @@ export default function PostList({
       push(newData.id);
     });
   };
+
+  $div.addEventListener("click", async (e) => {
+    const { className } = e.target;
+    if (className === "list") {
+      const { id } = e.target.dataset;
+      push(id);
+    } else if (className === "insert-button") {
+      const $li = e.target.closest("li");
+      const { id } = $li.dataset;
+      const newData = await addNewData(id);
+      push(newData.id);
+    } else if (className === "delete-button") {
+      const $li = e.target.closest("li");
+      const { id } = $li.dataset;
+      await deleteData(id);
+      push("");
+    }
+  });
 }
