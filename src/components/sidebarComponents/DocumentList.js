@@ -42,7 +42,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                 ${
                   openIds.includes(id)
                     ? documents.length === 0
-                      ? `<li class="list-item" style="padding-left: ${(depth + 2) * 10}px;">
+                      ? `<li class="list-item no-subdocuments" style="padding-left: ${(depth + 2) * 10}px;">
                           하위 페이지 없음
                         </li>`
                       : renderList(documents, depth + 2)
