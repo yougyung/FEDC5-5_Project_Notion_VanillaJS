@@ -84,10 +84,8 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
     if (target.classList.contains("toggle-button") || target.classList.contains("toggle-icon")) {
       const { id } = $li.dataset;
-      console.log(id);
       toggleDocument(parseInt(id));
+      this.render();
     }
   });
-
-  this.render();
 }
