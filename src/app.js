@@ -1,4 +1,4 @@
-import NotionPage from "./notionPage.js"
+import NotionSidebar from "./notionSidebar.js"
 import NotionEditPage from "./notionEditPage.js"
 import {initRouter} from "./router.js"
 
@@ -10,7 +10,7 @@ export default function App({
     $app.appendChild($target)
     $target.style.display = 'flex';
 
-    const notionPage = new NotionPage({
+    const notionSidebar = new NotionSidebar({
         $target,
     })
 
@@ -34,7 +34,7 @@ export default function App({
         console.log(pathname)
 
         if (pathname === '/') {
-            notionPage.setState()
+            notionSidebar.setState()
         } else if (pathname.indexOf(`/documents/`) === 0) {
             const [, , postId] = pathname.split('/')
             notionEditPage.setState({

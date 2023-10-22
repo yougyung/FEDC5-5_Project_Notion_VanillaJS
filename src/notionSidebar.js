@@ -1,7 +1,7 @@
 import NotionList from './notionList.js'
 import { request } from './api.js'
 import LinkButton from './linkButton.js'
-export default function NotionPage({
+export default function NotionSidebar({
     $target,
 }) {
 
