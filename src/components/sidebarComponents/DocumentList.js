@@ -1,4 +1,5 @@
 import { push } from "../../utils.js";
+import { ToggleButton } from "./ToggleButton.js";
 
 export default function DocumentList({
   $target,
@@ -16,44 +17,7 @@ export default function DocumentList({
     this.render();
   };
 
-  const openIds = [];
-  let isOpen = false;
-
-  const findDocumentById = (id, documents) => {
-    for (const document of documents) {
-      if (document.id === id) {
-        return document;
-      }
-
-      if (document.documents.length > 0) {
-        const foundDocument = findDocumentById(id, document.documents);
-        if (foundDocument) {
-          return foundDocument;
-        }
-      }
-    }
-
-    return null;
-  };
-
-  const toggleDocument = (id) => {
-    const index = openIds.indexOf(id);
-    if (index === -1) {
-      openIds.push(id);
-    } else {
-      openIds.splice(index, 1);
-    }
-
-    renderList(this.state.documents, 0);
-  };
-
-  const toggleButton = (id) => {
-    isOpen = openIds.includes(id);
-
-    return `<i class="fa-solid fa-angle-${
-      isOpen ? "down" : "right"
-    } toggle-button"></i>`;
-  };
+  const { openIds, toggleButton, toggleDocument } = ToggleButton();
 
   const listItemButtons = `
     <div class="list-item-buttons">
