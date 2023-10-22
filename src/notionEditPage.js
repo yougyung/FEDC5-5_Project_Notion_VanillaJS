@@ -11,24 +11,9 @@ import {
 
 export default function NotionEditPage({
     $target,
-    initialState
+    initialState,
+    listSetState
 }) {
-    const DUMMY_DATA_ID = {
-        id: 1,
-        title: "더미데이터",
-        content: "더미데이터 입니다. ",
-        document: [{
-            id: 2,
-            title: "더미데이터1-2",
-            content: "더미데이터1-2 입니다. ",
-            document: [],
-            createdAt: "00", //생성
-            updatedAt: "12"
-        }],
-        createdAt: "00",
-        updatedAt: "12"
-    }
-
     const $page = document.createElement('div')
     this.state = initialState //{Postid: "new"} 
 
@@ -38,7 +23,7 @@ export default function NotionEditPage({
     //storage_get
     const post = getItem(notionLocalSaveKey, {
         id: '',
-        title: '',
+        title: ' ',
         content: ''
     })
 
@@ -55,7 +40,7 @@ export default function NotionEditPage({
                 setItem(notionLocalSaveKey, {
                     ...post,
                     tempSaveDate: new Date()
-                })
+                }) //storage저장
 
                 const isNew =isNaN(this.state.postId) && this.state.postId.includes("new")
                 if(isNew){
@@ -65,8 +50,8 @@ export default function NotionEditPage({
                 if(isNew) {
                     const createdPost = await request('/documents',{
                         method:'POST',
-                        body: JSON.stringify(post)//title만 들어감
-                    })
+                        body: JSON.stringify(post)
+                    }) //서버 저장
                     history.replaceState(null,null, `/documents/${createdPost.id}`)
                     removeItem(notionLocalSaveKey)
                     this.setState({postId: createdPost.id} )
@@ -77,13 +62,17 @@ export default function NotionEditPage({
                     })
                     removeItem(notionLocalSaveKey)
                 }
-            }, 1000)
+                listSetState()
+            }, 500)
            
         }
     })
 
     this.setState = async (nextState) => {
+        console.log("set")
+        console.log(this.state.postId ,nextState.postId)
         if (this.state.postId !== nextState.postId) {
+            console.log("1.ne.setState")
             notionLocalSaveKey = `temp-post-${nextState.postId}`
             this.state = nextState
 
@@ -95,6 +84,7 @@ export default function NotionEditPage({
                     content: ''
                 })
                 this.render()
+                console.log(post)
                 editor.setState(post)
             }else {
                 await fetchPost()
@@ -102,6 +92,8 @@ export default function NotionEditPage({
             
             return
         }
+        console.log("엥")
+        console.log("3.render")
         this.state = nextState
         this.render()
         editor.setState(this.state.post || {
@@ -119,12 +111,14 @@ export default function NotionEditPage({
             postId
         } = this.state
         if (postId !== 'new') {
+            console.log("2.fetchPost")
             const post = await request(`/documents/${postId}`) 
 
             this.setState({
                 ...this.state,
                 post
-            })
+            }
+            )
         }
     }
 
@@ -137,12 +131,5 @@ export default function NotionEditPage({
         }
     })
 
-    // const $moveListButton = document.createElement('button')
-    // $moveListButton.innerHTML = '목록으로'
-    // $page.appendChild($moveListButton)
-
-    // $moveListButton.addEventListener('click', () => {
-    //     push('/')
-    // })
 
 }

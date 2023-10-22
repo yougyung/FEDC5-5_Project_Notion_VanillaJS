@@ -3,6 +3,7 @@ import { push } from "./router.js"
 export default function NotionList({
     $target,
     initialState,
+    onDelete
 }){
     const $notionList = document.createElement('div')
     $target.appendChild($notionList)
@@ -17,7 +18,7 @@ export default function NotionList({
         return `
             <ul>
                 ${list.map(list =>     
-                    `<li data-id=${list.id}>${list.title}<button data-id=${list.id}>+</button>
+                    `<li data-id=${list.id}>${list.title}<button data-id=${list.id} data-name="createButton" >+</button><button data-id=${list.id} data-name="deleteButton">-</button>
                         ${list.documents.length > 0 ? renderList(list.documents) : ''}
                     </li>`).join('')}
             </ul>
@@ -35,13 +36,20 @@ export default function NotionList({
         const $li = e.target.closest('li')
         const $button = e.target.closest('button')
         
-        if($li){
-            const {id} = $li.dataset
-            push(`/documents/${id}`)
-        }
         if($button){
-            const {id} = $button.dataset
-            push(`/documents/${id}new`)
+            
+            const {id, name} = $button.dataset
+
+            if(name === 'createButton'){
+                push(`/documents/${id}new`)
+            }
+            else if(name === 'deleteButton'){
+                onDelete(id);
+            }    
        }
+       else if($li){
+        const {id} = $li.dataset
+        push(`/documents/${id}`)
+        }
     })
 }

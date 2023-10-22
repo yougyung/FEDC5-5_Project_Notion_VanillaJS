@@ -3,26 +3,29 @@ import NotionEditPage from "./notionEditPage.js"
 import {initRouter} from "./router.js"
 
 export default function App({
-    $app
+    $target
 }) {
 
-    const $target = document.createElement('div')
-    $app.appendChild($target)
+    const $Sidebar = document.createElement('aside')
+    const $Document = document.createElement('div')
     $target.style.display = 'flex';
+    $target.appendChild($Sidebar)
+    $target.appendChild($Document)
 
     const notionSidebar = new NotionSidebar({
-        $target,
+        $target: $Sidebar,
     })
 
     const notionEditPage = new NotionEditPage({
-        $target,
+        $target:$Document,
         initialState: {
             postId: 'new',
             post: {
-                title: '',
+                title: ' ',
                 content: ''
             }
-        }
+        },
+        listSetState: notionSidebar.setState
     })
 
     this.route = () => {
@@ -43,6 +46,8 @@ export default function App({
 
     this.route()
 
-    initRouter(()=> {this.route()})
+    initRouter(()=> {
+        this.route()
+    })
     
 }

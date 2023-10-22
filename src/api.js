@@ -9,7 +9,7 @@ export const request = async (url,options = {})=>{
                 'x-username': 'hyeon'
             }
         })
-        
+
         if(res.ok) {
             console.log("성공")
             return await res.json()
