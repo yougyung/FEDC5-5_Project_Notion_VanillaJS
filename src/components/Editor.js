@@ -1,4 +1,4 @@
-export default function Document({ $container }) {
+export default function Editor({ $container }) {
   const $document = document.createElement("div");
   $document.id = "document";
   $container.appendChild($document);
@@ -10,7 +10,8 @@ export default function Document({ $container }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    console.log(this.state);
+    // this.render();
   };
 
   this.render = () => {
@@ -23,9 +24,10 @@ export default function Document({ $container }) {
   $document.addEventListener("input", (e) => {
     const { name } = e.target;
 
-    if (name === "title") {
-    } else if (name === "content") {
-    }
+    this.setState({
+      ...this.state,
+      [name]: e.target.value,
+    });
   });
 
   this.render();

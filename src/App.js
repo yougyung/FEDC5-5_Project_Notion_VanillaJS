@@ -1,7 +1,7 @@
 import api from "./api/api.js";
 import { GET_API_DOCUMENT, POST_API_DOCUMENT } from "./api/url.js";
 import DocumentTree from "./components/DocumentTree.js";
-import Document from "./components/Document.js";
+import Editor from "./components/Editor.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
@@ -16,7 +16,7 @@ export default function App({ $target }) {
     },
   });
 
-  new Document({ $container });
+  const editor = new Editor({ $container });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT);
