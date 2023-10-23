@@ -35,7 +35,11 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
           $titleInputArea.readOnly = true;
           break;
         case "NOT_ROOT":
-          $titleInputArea.value = this.state.title;
+          if (this.state.title) {
+            $titleInputArea.value = this.state.title;
+          } else {
+            $titleInputArea.placeholder = "제목 없음";
+          }
           $titleInputArea.readOnly = false;
           break;
         default:
@@ -71,7 +75,11 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
           $contentTextArea.readOnly = true;
           break;
         case "NOT_ROOT":
-          $contentTextArea.value = this.state.content;
+          if (this.state.content) {
+            $contentTextArea.value = this.state.content;
+          } else {
+            $contentTextArea.placeholder = "빈 페이지입니다. 내용을 입력해주세요.";
+          }
           $contentTextArea.readOnly = false;
           break;
         default:
