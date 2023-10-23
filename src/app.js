@@ -42,7 +42,9 @@ export default function App({ $target }) {
       await fetchSelectedDocs(newPageLog.id);
       // console.log(location.pathname.split("/")[2]);
       // console.log(newPageLog);
-      textAreaRender.setState({ title: newPageLog.title, content: newPageLog.content });
+      // console.log(textAreaRender.state);
+      // 에휴 해주고 있는데 또해줬니..
+      // textAreaRender.setState({ title: newPageLog.title, content: newPageLog.content });
       history.pushState(null, null, `/documents/${newPageLog.id}`);
     },
     onClickDeleteButton: async (id) => {
@@ -53,7 +55,7 @@ export default function App({ $target }) {
 
       //일단 가장 가까운 페이지로 이동하도록 처리
       if (deleteResult.parent.id === undefined) {
-        let temp = [10000, 0];
+        let temp = [Infinity, 0];
         for (const value of this.state) {
           // console.log(Math.abs(value.id - id));
           if (Math.abs(value.id - id) < temp[0]) {
