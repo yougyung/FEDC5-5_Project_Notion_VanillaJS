@@ -41,7 +41,7 @@ const useDocuments = () => {
 
   const removeDocument = async (id: number) => {
     try {
-      const deletedDocument = await deleteDocument({ id });
+      const deletedDocument = await deleteDocument(id);
 
       fetchDocuments();
       return await deletedDocument;
