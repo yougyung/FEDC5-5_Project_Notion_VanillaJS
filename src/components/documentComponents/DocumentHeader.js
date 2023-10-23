@@ -1,3 +1,4 @@
+import { MAX_TITLE_LENGTH } from "../../constants.js";
 import { filterTitle } from "../../utils/filterTitle.js";
 
 export default function DocumentHeader({ $target, initialState, onDelete }) {
@@ -15,7 +16,7 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
   this.render = () => {
     const { id, title } = this.state;
     $documentHeader.innerHTML = `
-    <section class="document-header-left">${filterTitle(title, 23)}</section>
+    <section class="document-header-left">${filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_HEADER)}</section>
     <section data-id=${id} class="document-header-right">
         <i class="fa-regular fa-trash-can delete-button"></i>
     </section>

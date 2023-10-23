@@ -1,4 +1,5 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
+import { MAX_TITLE_LENGTH } from "./constants.js";
 import { request, initRouter, push } from "./utils.js";
 import { filterTitle } from "./utils/filterTitle.js";
 
@@ -91,8 +92,9 @@ export default function App({ $target }) {
     try {
       const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
       const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
-      selectedDocumentSidebarTitle.textContent = filterTitle(title, 15);
-      selectedDocumentHeaderTitle.textContent = filterTitle(title, 23);
+
+      selectedDocumentSidebarTitle.textContent = filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM);
+      selectedDocumentHeaderTitle.textContent = filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_HEADER);
 
       const { pathname } = window.location;
       const documentId = pathname.substring(1);

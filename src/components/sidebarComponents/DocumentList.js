@@ -1,3 +1,4 @@
+import { MAX_TITLE_LENGTH } from "../../constants.js";
 import { push } from "../../utils.js";
 import { filterTitle } from "../../utils/filterTitle.js";
 import { ToggleButton } from "./ToggleButton.js";
@@ -36,7 +37,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                 <div data-id=${id} class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
-                  ${filterTitle(title, 15)}
+                  ${filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM)}
                   </span>
                 </div>
                       ${listItemButtons}
