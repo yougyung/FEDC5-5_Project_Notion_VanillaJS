@@ -1,3 +1,4 @@
+import DocumentHeader from './DocumentHeader.js';
 import DocumentList from './DocumentList.js';
 import Editor from './Editor.js';
 import { request } from './api.js';
@@ -36,6 +37,19 @@ export default function App({ $target }) {
     }
   };
 
+  const documentHeader = new DocumentHeader({
+    $target: $documentListContainer,
+    onClickPageAddButton: async () => {
+      const addedDocument = await fetchAddDocument(null, '제목 없음');
+
+      this.setState({
+        ...this.state,
+        selectedDocument: addedDocument,
+      })
+
+      editor.setState(addedDocument);
+    }
+  })
   const documentList = new DocumentList({
     $target: $documentListContainer,
     initialState: [],

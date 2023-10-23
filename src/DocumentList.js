@@ -9,10 +9,6 @@ export default function DocumentList({
   const $documentList = document.createElement('div');
   $documentList.className = 'document-list';
 
-  const $initialAddButton = document.createElement('button');
-  $initialAddButton.className = 'initial-add-button';
-  $initialAddButton.textContent = '최상위 문서 추가';
-
   $target.appendChild($documentList);
 
   this.state = initialState;
@@ -52,16 +48,8 @@ export default function DocumentList({
 
   this.render = () => {
     $documentList.innerHTML = renderDocuments(this.state);
-
-    $documentList.prepend($initialAddButton);
   };
 
-  $initialAddButton.addEventListener('click', async () => {
-    if (onClickInitialAddButton) {
-      onClickInitialAddButton();
-    }
-  });
-  
   $documentList.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
 
