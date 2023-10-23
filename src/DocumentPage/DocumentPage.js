@@ -9,8 +9,9 @@ export default function DocumentPage({ $target }) {
   new DocumentUser({ $target: $page });
   const documentList = new DocumentList({ $target: $page, initialState: [] });
 
+  // documents GET 후 documentList.setState()호출
   this.setState = async () => {
-    const documents = await request("/");
+    const documents = await request("/documents");
     documentList.setState(documents);
     this.render();
   };
@@ -18,6 +19,4 @@ export default function DocumentPage({ $target }) {
   this.render = () => {
     $target.appendChild($page);
   };
-
-  this.setState();
 }
