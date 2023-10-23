@@ -163,7 +163,7 @@ button {
 
 /* editor styles */
 .editor {
-  width: 900px;
+  width: 708px;
   display: flex;
   flex-direction: column;
 }
@@ -171,15 +171,20 @@ button {
 .title {
   font-size: 3rem;
   border: none;
-  padding: 2px 3px;
-}
-
-.title::placeholder {
-  color: #e4e4e3;
+  padding: 2px 0;
+  margin-bottom: 0;
 }
 
 .title:focus {
   outline: none;
+}
+
+[contenteditable="true"]:empty:after {
+  content: attr(placeholder);
+}
+
+.title[contenteditable="true"]:empty:after {
+  color: #e4e4e3;
 }
 
 .content::-webkit-scrollbar {
@@ -195,6 +200,10 @@ button {
 
 .content:focus {
   outline: none;
+}
+
+.content[contenteditable="true"]:empty:after {
+  color: rgba(55, 53, 47, 0.65);
 }
 
 /* subdocumentlist style */
