@@ -8,8 +8,6 @@ export default class Component {
     this.props = props;
 
     this.setup();
-    this.attachToTarget();
-    this.addChildElements();
     this.setEvent();
     this.render();
   }
@@ -21,11 +19,21 @@ export default class Component {
     this.render();
   }
 
-  attachToTarget() {}
-
-  addChildElements() {}
+  createDom() {}
 
   setEvent() {}
 
-  render() {}
+  addEvent(eventType, selector, callback) {
+    // const children = [...this.$target.querySelectorAll(selector)];
+
+    this.$target.addEventListener(eventType, (e) => {
+      if (!e.target.closest(selector)) return false;
+
+      callback(e);
+    });
+  }
+
+  render() {
+    this.createDom();
+  }
 }
