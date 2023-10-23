@@ -140,6 +140,7 @@ export default function App({ $target }) {
       subDocuments: selectedDocument.documents,
     });
     editor.setState(selectedDocument);
+    subDocumentFooter.setState(selectedDocument.documents);
   };
 
   const fetchAddDocument = async (parentId, title) => {
