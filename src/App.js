@@ -1,6 +1,7 @@
 import DocumentHeader from './DocumentHeader.js';
 import DocumentList from './DocumentList.js';
 import Editor from './Editor.js';
+import SubDocumentFooter from './SubDocumentFooter.js';
 import { request } from './api.js';
 import { initRouter, push } from './router.js';
 import { removeItem, setItem } from './storage.js';
@@ -50,12 +51,14 @@ export default function App({ $target }) {
       editor.setState(addedDocument);
     }
   })
+
   const documentList = new DocumentList({
     $target: $documentListContainer,
     initialState: [],
     onClickDocument: async (id) => {
       await fetchSelectedDocument(id);
       push(`/${id}`);
+      subDocumentFooter.setState(this.state.selectedDocument.documents);
     },
     onClickAddButton: async (id) => {
       const addedDocument = await fetchAddDocument(id, '제목 없음');
@@ -110,6 +113,12 @@ export default function App({ $target }) {
     },
   });
 
+  const subDocumentFooter = new SubDocumentFooter({
+    $target: $editorContainer,
+    initialState: this.state.selectedDocument ? this.state.selectedDocument.documents : [],
+    onClick: () => {}
+  });
+
   const fetchRootDocuments = async () => {
     const rootDocuments = await request();
     documentList.setState(rootDocuments);
@@ -122,6 +131,7 @@ export default function App({ $target }) {
       selectedDocument,
     });
     editor.setState(selectedDocument);
+    console.log(selectedDocument);
   };
 
   const fetchAddDocument = async (parentId, title) => {
