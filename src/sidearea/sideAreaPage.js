@@ -76,21 +76,24 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         // console.log(title);
         // 공란 방어코드 추가해야함
-        if (title) {
-          createdLi.dataset.id = id;
+        createdLi.dataset.id = id;
+        console.log("?" + title + "?");
+        if (title.length) {
           createdLi.innerText = `> ${title}`;
-          const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
-          // console.log(inheritedParentStyle);
-          if (inheritedParentStyle) {
-            createdUl.style.paddingLeft = `${inheritedParentStyle + 4}px`;
-          } else {
-            createdUl.style.paddingLeft = "3px";
-          }
-          createdLi.appendChild(addPageButton);
-          createdLi.appendChild(addDeletePageButton);
-          createdUl.appendChild(createdLi);
-          parentTag.appendChild(createdUl);
+        } else {
+          createdLi.innerText = `>  `;
         }
+        const inheritedParentStyle = Number(parentTag.style.paddingLeft.replace("px", ""));
+        // console.log(inheritedParentStyle);
+        if (inheritedParentStyle) {
+          createdUl.style.paddingLeft = `${inheritedParentStyle + 4}px`;
+        } else {
+          createdUl.style.paddingLeft = "3px";
+        }
+        createdLi.appendChild(addPageButton);
+        createdLi.appendChild(addDeletePageButton);
+        createdUl.appendChild(createdLi);
+        parentTag.appendChild(createdUl);
       }
     });
   };
