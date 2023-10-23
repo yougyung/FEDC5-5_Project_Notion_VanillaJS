@@ -88,7 +88,6 @@ export default function App({ $target }) {
   };
 
   const onEdit = ({ title, content }) => {
-    console.log(title.length);
     try {
       const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
       const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
