@@ -1,6 +1,7 @@
-.document-items {
+.document-item {
 }
-
+.title-button--current {
+    background-color: var(--gray);
+}
 .document-items--root {
-
 }

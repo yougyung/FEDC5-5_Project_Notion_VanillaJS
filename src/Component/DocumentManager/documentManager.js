@@ -4,6 +4,7 @@ import DocumentContentViewr from './DocumentContentViewr/DocumentContentViewer.j
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
+import DocumentObserver from '../../Util/DocumentObserver.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
 
@@ -39,11 +40,13 @@ export default class DocumentManager {
         this.childDocumentsViewer = new ChildDocumentsViewer({
             $target: this.$documentManager,
             initalState: { documentList: [] },
-            postDocumentCallback: (documentId) => this.getDocumentContent(documentId),
         });
 
         this.$target.appendChild(this.$documentManager);
         this.$documentManager.addEventListener('click', (e) => this.HandleOnclick(e));
+
+        // document가 수정되면 자식 document도 최신화를 해줘야한다.
+        DocumentObserver.getInstance().subscribe(() => this.getDocumentContent(this.state.documentId));
         this.getDocumentContent(this.state.documentId);
     }
 
@@ -101,6 +104,8 @@ export default class DocumentManager {
         if (res) {
             this.setState({ ...this.state, title, content });
             removeItem(DOCUMENT_CONTENT_SAVE_KEY(documentId));
+            // 수정 완료 되면 사이드 바 제목도 수정
+            DocumentObserver.getInstance().notifyAll();
         } else {
             alert('수정 실패!');
         }

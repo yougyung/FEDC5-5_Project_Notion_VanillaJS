@@ -2,6 +2,7 @@ import DocumentItems from './DocumentItems/DocumentItems.js';
 import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';
+import DocumentObserver from '../../../../Util/DocumentObserver.js';
 
 // state = { documentList: [] }
 
@@ -19,6 +20,8 @@ export default class DocumentList {
         this.$target.appendChild(this.$documentList);
         this.$documentList.addEventListener('click', (e) => this.handleOnClick(e));
 
+        // documnet가 수정되면 사이드바의 documentList도 수정되야 한다.
+        DocumentObserver.getInstance().subscribe(() => this.getDocumentList());
         this.getDocumentList();
         this.render();
     }
@@ -46,24 +49,25 @@ export default class DocumentList {
         } = e;
 
         // document 추가 이벤트
-        if (className === 'document-item__insert') {
+        if (className === 'title-button__insert') {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.postDocument(documentId);
         }
 
         // document 삭제 이벤트
-        if (className === 'document-item__delete') {
+        if (className === 'title-button__delete') {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.deleteDocument(documentId);
         }
 
         // 해당 document 페이지로 이동
-        if (className === 'document-item__title') {
+        if (className === 'title-button__title') {
             const documentId = target.closest('.document-item').dataset.id;
 
             RouterManger.getInstance().changeUrl(`/document/${documentId}`);
+            DocumentObserver.getInstance().notifyAll();
         }
     }
 

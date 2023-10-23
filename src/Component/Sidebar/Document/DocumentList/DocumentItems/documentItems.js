@@ -17,6 +17,7 @@ export default class DocumentItems {
 
     render() {
         const { documentList, isRoot } = this.state;
+
         const className = isRoot ? 'document-items--root' : 'document-items';
         const $documentItems = createNewElement('ul', [{ property: 'className', value: `${className}` }]);
         const $fragment = document.createDocumentFragment();

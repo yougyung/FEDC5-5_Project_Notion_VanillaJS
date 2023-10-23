@@ -1,15 +1,15 @@
-import SideBar from '../Component/Sidebar/Sidebar.js';
 import { createNewElement } from '../Util/Element.js';
 
 export default class RootPage {
     constructor({ $target }) {
         this.$target = $target;
+
+        this.init();
     }
 
     init() {
-        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
+        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }], 'Notion');
 
-        this.sideBar = new SideBar({ $target: $page });
         this.$target.appendChild($page);
     }
 }

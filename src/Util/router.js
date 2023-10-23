@@ -1,5 +1,7 @@
 import RootPage from '../Page/RootPage.js';
 import EditPage from '../Page/EditPage.js';
+import Sidebar from '../Component/Sidebar/Sidebar.js';
+import { createNewElement } from './Element.js';
 
 export default class RouterManger {
     static instance = null;
@@ -15,11 +17,13 @@ export default class RouterManger {
         if (RouterManger.instance) {
             return RouterManger.instance;
         }
+        this.$target = document.querySelector('#app');
 
         this.init();
     }
 
     init() {
+        new Sidebar({ $target: this.$target });
         window.onpopstate = () => this.route();
     }
 
@@ -29,24 +33,20 @@ export default class RouterManger {
     }
 
     route() {
-        const $target = document.querySelector('#app');
         const { pathname } = window.location;
+        const $last = this.$target.lastElementChild;
 
-        $target.replaceChildren();
+        if ($last.className !== 'sidebar') {
+            this.$target.removeChild($last);
+        }
 
         if (pathname === '/index.html' || pathname === '/') {
-            const rootPage = new RootPage({ $target });
-
-            rootPage.init();
+            new RootPage({ $target: this.$target });
         } else if (pathname.indexOf('/document') === 0) {
             const documentId = pathname.split('/')[2];
-            const page = new EditPage({ $target, initalState: { documentId } });
-
-            page.init();
+            new EditPage({ $target: this.$target, initalState: { documentId } });
         } else {
-            const rootPage = new RootPage({ $target });
-
-            rootPage.init();
+            new RootPage({ $target: this.$target });
         }
     }
 }

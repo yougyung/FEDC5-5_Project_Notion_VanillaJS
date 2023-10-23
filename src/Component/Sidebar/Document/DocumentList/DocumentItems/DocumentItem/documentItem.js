@@ -17,26 +17,37 @@ export default class DocumentItem {
 
     render() {
         const { id, title, documents } = this.state;
+        const documentId = window.location.pathname.split('/')[2];
 
         const $li = createNewElement('li', [
-            { property: 'className', value: 'document-item' },
+            {
+                property: 'className',
+                value: 'document-item',
+            },
             { property: 'dataset.id', value: id },
         ]);
-        const $title = createNewElement('span', [{ property: 'className', value: 'document-item__title' }], title);
+        const $div = createNewElement('div', [
+            {
+                property: 'className',
+                value: `${documentId && Number(documentId) === id ? 'title-button--current' : 'title-button'}`,
+            },
+        ]);
+        const $title = createNewElement('span', [{ property: 'className', value: 'title-button__title' }], title);
         const $insertButton = createNewElement(
             'button',
-            [{ property: 'className', value: 'document-item__insert' }],
+            [{ property: 'className', value: 'title-button__insert' }],
             '+'
         );
         const $deleteButton = createNewElement(
             'button',
-            [{ property: 'className', value: 'document-item__delete' }],
+            [{ property: 'className', value: 'title-button__delete' }],
             '-'
         );
 
-        $li.appendChild($title);
-        $li.appendChild($insertButton);
-        $li.appendChild($deleteButton);
+        $li.appendChild($div);
+        $div.appendChild($title);
+        $div.appendChild($insertButton);
+        $div.appendChild($deleteButton);
         this.$target.appendChild($li);
 
         // 현재 document에 자식 documets가 존재하면 현재 $li 자식으로 다시 ul 태그를 생성한다.
