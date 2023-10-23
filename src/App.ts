@@ -6,7 +6,7 @@ import styles from "./app.module.scss";
 const { s_container, s_mainContainer } = styles;
 
 function App() {
-  const { documents, createDocument } = useDocuments();
+  const { documents, createDocument, modifyDocument } = useDocuments();
 
   const matchRoute = (path: string) => {
     if (path === "/") {
@@ -17,7 +17,7 @@ function App() {
 
     if (documentMatch) {
       const documentId = Number(documentMatch[1]);
-      return createComponent(Editor, { documentId });
+      return createComponent(Editor, { documentId, modifyDocument });
     }
 
     return createComponent(NotFound);
