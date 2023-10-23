@@ -42,6 +42,15 @@ export async function getRootData() {
   return await rootData;
 }
 
+/** 특정 데이터 가져오기 */
+export async function getData(id) {
+  const data = await request(`/${id}`, {
+    method: "GET",
+  });
+
+  return data;
+}
+
 /** 데이터 추가하기 */
 export async function addNewData(targetParentId) {
   const newData = await request("", {
@@ -51,6 +60,7 @@ export async function addNewData(targetParentId) {
   return await newData;
 }
 
+/** 데이터 수정하기 */
 export async function updateData({ documentId, title, content }) {
   await request(`/${documentId}`, {
     method: "PUT",

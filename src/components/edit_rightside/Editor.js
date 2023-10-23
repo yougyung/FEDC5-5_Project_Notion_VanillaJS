@@ -22,7 +22,9 @@ export default function Editor({ $target, initialState, onEditing }) {
       this.state.isRender = true;
       $div.innerHTML = `
             <input name="title" type="text" value="${this.state.title}"></input>
-            <textarea name="content" style="width: 400px; height: 500px">${this.state.content}</textarea>
+            <textarea name="content" style="width: 400px; height: 500px">${
+              this.state.content ?? ""
+            }</textarea>
             `;
     }
   };

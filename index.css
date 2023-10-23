@@ -1,8 +1,40 @@
 #parent {
-    display : flex;
+  display: flex;
 }
 
 #edit-page {
-    margin-top : 50px;
-    margin-left : 100px;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.title {
+  display: inline-block;
+}
+
+.toggle-button {
+  display: inline-block;
+}
+
+.insert-button {
+  display: inline-block;
+}
+
+.delete-button {
+  display: inline-block;
+}
+
+li {
+  list-style: none;
+}
+
+.children-post {
+  display: none;
+}
+
+.children-post-block {
+  display: block;
+}
+
+#newpage-button {
+  display: block;
 }
