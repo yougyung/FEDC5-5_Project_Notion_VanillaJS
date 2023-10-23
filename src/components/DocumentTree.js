@@ -3,7 +3,7 @@ import TreeList from "./TreeList.js";
 export default function DocumentTree({
   $container,
   initialState = [],
-  onAddClick,
+  onCreateDocument,
 }) {
   const $tree = document.createElement("div");
   $tree.id = "document-tree";
@@ -12,6 +12,7 @@ export default function DocumentTree({
   this.state = initialState;
 
   this.setState = (nextState) => {
+    if ($tree.querySelector("ul")) $tree.querySelector("ul").remove();
     this.state = nextState;
     this.render();
   };
@@ -40,11 +41,22 @@ export default function DocumentTree({
       const $span = e.target.closest("span");
       if (!$span) return;
 
-      const { id } = $span.dataset;
-      if (e.target.className === "add-button") onAddClick(id);
-      else {
+      const $selectedInput = $span.firstElementChild;
+      if (e.target.className === "add-button") {
+        $selectedInput.classList.remove("hide");
+        e.target.classList.add("hide");
+      } else {
         // history.pushState(null, null, `/document/${id}`);
       }
+    });
+
+    $ul.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+
+      const $span = e.target.closest("span");
+      const parent = $span.dataset.id ?? null;
+      const title = e.target.value;
+      onCreateDocument({ parent, title });
     });
   };
 }
