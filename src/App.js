@@ -116,7 +116,10 @@ export default function App({ $target }) {
   const subDocumentFooter = new SubDocumentFooter({
     $target: $editorContainer,
     initialState: this.state.selectedDocument ? this.state.selectedDocument.documents : [],
-    onClick: () => {}
+    onClick: async (id) => {
+      await fetchSelectedDocument(id);
+      push(`/${id}`);
+    }
   });
 
   const fetchRootDocuments = async () => {
@@ -131,7 +134,6 @@ export default function App({ $target }) {
       selectedDocument,
     });
     editor.setState(selectedDocument);
-    console.log(selectedDocument);
   };
 
   const fetchAddDocument = async (parentId, title) => {

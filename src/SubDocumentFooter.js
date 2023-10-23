@@ -23,4 +23,14 @@ export default function SubDocumetFooter({ $target, initialState, onClick }) {
       </div>
     `;
   };
+
+  $subDocumentFooter.addEventListener('click', (e) => {
+    const $subDocumentItem = e.target.closest('.sub-document-item');
+    if ($subDocumentItem) {
+      const { id } = $subDocumentItem.dataset;
+      if (onClick) {
+        onClick(id);
+      }
+    }
+  });
 }
