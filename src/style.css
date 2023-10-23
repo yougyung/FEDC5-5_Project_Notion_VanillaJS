@@ -1,6 +1,5 @@
 html {
   position: relative;
-  height: 100vh;
   font-size: 14px;
 }
 
@@ -19,7 +18,7 @@ body {
   overflow-y: auto;
   position: fixed;
   width: 20%;
-  height: calc(100vh - -1px);
+  height: calc(100% - -1px);
   background-color: #fbfbfa;
 }
 
