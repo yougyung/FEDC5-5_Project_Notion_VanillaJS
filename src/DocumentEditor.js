@@ -44,13 +44,11 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
       this.state.documentList.map((document) => {
         return { id: document.id, title: document.title };
       });
-    console.log(this.state.content);
-
     lines =
       this.state.content == null
         ? ""
         : this.state.content
-            .split(/<div>|<\/div>/)
+            .split(/<div>|<\/div>|<br>/)
             .map((line) => {
               if (line.indexOf("# ") === 0) {
                 return `<h1>${line.substring(2)}</h1>`;
@@ -68,8 +66,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
               return line;
             })
             .join("<br>");
-    console.log(this.state.content.split(/<div>|<\/div>/));
-    console.log(lines);
+
     $editor.querySelector("[name=title]").innerHTML = this.state.title;
     $editor.querySelector("[name=content]").innerHTML = lines;
   };
@@ -90,7 +87,6 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
   });
   $editor.addEventListener("click", (e) => {
     if (e.target.className === "textLink") {
-      console.log(e.target.id);
       push(`${e.target.id}`);
     }
   });

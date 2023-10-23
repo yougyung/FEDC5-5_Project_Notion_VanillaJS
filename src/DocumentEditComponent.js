@@ -92,7 +92,6 @@ export default function DocumentEditComponent({
         document,
         documentList: lists,
       });
-      console.log(this.state);
     }
   };
 }
