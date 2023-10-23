@@ -1,5 +1,5 @@
 export default function Editor({ $target, initialState, onEdit }) {
-  const $editor = document.createElement("form");
+  const $editor = document.createElement("section");
   $editor.className = "editor";
 
   $target.appendChild($editor);
@@ -12,14 +12,14 @@ export default function Editor({ $target, initialState, onEdit }) {
   };
 
   $editor.innerHTML = `
-  <input name="title" class="title" type="text" placeholder="제목 없음" value="${this.state.title ?? ""}" />
+  <h1  name="title" class="title" type="text" placeholder="제목 없음" contentEditable="true">${this.state.title ?? ""}</h1>
   <textarea name="content" class="content" placeholder="빈 페이지">${this.state.content ?? ""}</textarea>
 `;
 
   this.render = () => {
     const { title, content } = this.state;
 
-    $editor.querySelector("[name=title]").value = title;
+    $editor.querySelector("[name=title]").innerHTML = title;
     $editor.querySelector("[name=content]").value = content;
   };
 
