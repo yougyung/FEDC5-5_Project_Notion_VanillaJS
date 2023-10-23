@@ -5,6 +5,7 @@ import SubDocumentFooter from './components/Document/SubDocumentFooter.js';
 import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
 import { removeItem, setItem } from './utils/storage.js';
+import Splitter from './components/UI/Splitter.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -12,9 +13,6 @@ export default function App({ $target }) {
 
   const $editorContainer = document.createElement('div');
   $editorContainer.className = 'editor-container';
-
-  $target.appendChild($documentListContainer);
-  $target.appendChild($editorContainer);
 
   let timer = null;
 
@@ -47,11 +45,11 @@ export default function App({ $target }) {
       this.setState({
         ...this.state,
         selectedDocument: addedDocument,
-      })
+      });
 
       editor.setState(addedDocument);
-    }
-  })
+    },
+  });
 
   const documentList = new DocumentList({
     $target: $documentListContainer,
@@ -68,7 +66,7 @@ export default function App({ $target }) {
         ...this.state,
         selectedDocument: addedDocument,
       });
-      
+
       editor.setState(addedDocument);
       push(`/${addedDocument.id}`);
     },
@@ -78,7 +76,7 @@ export default function App({ $target }) {
       this.setState({
         ...this.state,
         selectedDocument: addedDocument,
-      })
+      });
 
       editor.setState(addedDocument);
     },
@@ -90,6 +88,10 @@ export default function App({ $target }) {
       });
     },
   });
+
+  $target.appendChild($documentListContainer);
+  
+  const splitter = new Splitter({ $target });
 
   const editor = new Editor({
     $target: $editorContainer,
@@ -111,12 +113,14 @@ export default function App({ $target }) {
             content: document.content,
           }),
         });
-        
+
         removeItem('temp-post');
         this.render();
       }, 1000);
     },
   });
+
+  $target.appendChild($editorContainer);
 
   const subDocumentFooter = new SubDocumentFooter({
     $target: $editorContainer,
@@ -124,7 +128,7 @@ export default function App({ $target }) {
     onClick: async (id) => {
       await fetchSelectedDocument(id);
       push(`/${id}`);
-    }
+    },
   });
 
   const fetchRootDocuments = async () => {
@@ -158,7 +162,7 @@ export default function App({ $target }) {
     await request(`/${id}`, {
       method: 'DELETE',
     });
-  }
+  };
 
   this.route = async () => {
     await fetchRootDocuments();
@@ -173,12 +177,11 @@ export default function App({ $target }) {
       await fetchSelectedDocument(id);
     }
   };
-  
+
   window.addEventListener('popstate', async () => {
     this.route();
   });
 
   this.route();
   initRouter(() => this.route());
-
 }
