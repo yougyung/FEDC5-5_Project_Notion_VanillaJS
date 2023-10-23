@@ -1,15 +1,16 @@
-import { useMounted, useState } from "@/core";
+import { useState, useEffect } from "@/core";
 import { getDocuments, postDocument } from "@/apis";
-import { setLocalStorage } from "@/utils";
+import { DocumentResponse } from "@/types";
+import { navigateTo } from "@/utils";
 
-function useDocuments() {
-  const [documents, setDocuments] = useState([]);
+const useDocuments = () => {
+  const [documents, setDocuments] = useState<DocumentResponse[]>([]);
 
-  const fetchDocument = async () => {
+  const fetchDocuments = async () => {
     try {
-      const documents = await getDocuments();
+      const fetchedDocuments = await getDocuments();
 
-      setDocuments(documents);
+      setDocuments(fetchedDocuments);
     } catch (error) {
       console.error(error);
     }
@@ -19,21 +20,19 @@ function useDocuments() {
     try {
       const postedDocument = await postDocument({ title, parent });
 
-      setLocalStorage("document", { title, content: "" });
+      navigateTo(`/documents/${postedDocument.id}`);
 
-      history.pushState(null, "", `/documents/${postedDocument.id}`);
-
-      fetchDocument();
+      fetchDocuments();
     } catch (error) {
       console.error(error);
     }
   };
 
-  useMounted(() => {
-    fetchDocument();
-  });
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
 
   return { documents, createDocument };
-}
+};
 
 export default useDocuments;
