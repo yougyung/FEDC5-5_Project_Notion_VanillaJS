@@ -1,5 +1,6 @@
 import api from "./api/api.js";
 import {
+  DELETE_API_DOCUMENT,
   GET_API_DOCUMENT,
   GET_API_DOCUMENT_DETAIL,
   POST_API_DOCUMENT,
@@ -25,6 +26,10 @@ export default function App({ $target }) {
       // history.pushState(null, null, `/document/${id}`);
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
+    },
+    onDelete: async (id) => {
+      await api.delete(DELETE_API_DOCUMENT(id));
+      this.init();
     },
   });
 

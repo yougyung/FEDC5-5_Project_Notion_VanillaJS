@@ -5,9 +5,13 @@ export default function TreeList({ $container, child = {} }) {
     $span.dataset.id = child.id;
   }
 
-  const $button = document.createElement("button");
-  $button.textContent = "+";
-  $button.className = "add-button";
+  const $addButton = document.createElement("button");
+  $addButton.textContent = "+";
+  $addButton.className = "add-button";
+
+  const $deleteButton = document.createElement("button");
+  $deleteButton.textContent = "-";
+  $deleteButton.className = "delete-button";
 
   const $input = document.createElement("input");
   $input.type = "text";
@@ -16,7 +20,8 @@ export default function TreeList({ $container, child = {} }) {
   $input.classList.add("hide");
 
   $span.appendChild($input);
-  $span.appendChild($button);
+  $span.appendChild($addButton);
+  $span.appendChild($deleteButton);
 
   $container.appendChild($span);
 }

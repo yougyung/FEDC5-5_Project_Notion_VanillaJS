@@ -5,6 +5,7 @@ export default function DocumentTree({
   initialState = [],
   onCreate,
   onClick,
+  onDelete,
 }) {
   const $tree = document.createElement("div");
   $tree.id = "document-tree";
@@ -42,15 +43,14 @@ export default function DocumentTree({
       const $span = e.target.closest("span");
       if (!$span) return;
 
+      const { id } = $span.dataset;
       const $selectedInput = $span.firstElementChild;
       const { className } = e.target;
       if (className === "add-button") {
         $selectedInput.classList.remove("hide");
         e.target.classList.add("hide");
-      } else if (className !== "document-title") {
-        const { id } = $span.dataset;
-        onClick(id);
-      }
+      } else if (className === "delete-button") onDelete(id);
+      else if (className !== "document-title") onClick(id);
     });
 
     $ul.addEventListener("keydown", (e) => {
