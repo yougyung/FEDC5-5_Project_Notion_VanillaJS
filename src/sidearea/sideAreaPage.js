@@ -3,7 +3,6 @@ import { request } from "../utils/api.js";
 const $ = document;
 export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
   //   console.log($target);
-  // console.log(DUMMY_DATA_SIDE_LIST);
   const $pageList = $.createElement("div");
   $pageList.className = "sideBarPageList";
   $target.appendChild($pageList);

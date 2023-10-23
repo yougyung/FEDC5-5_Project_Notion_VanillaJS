@@ -1,6 +1,5 @@
 import SideAreaRender from "./sidearea/sideAreaRender.js";
 import TextAreaRender from "./textarea/textAreaRender.js";
-import { DUMMY_DATA_SIDE_LIST, DUMMY_DATA_TEXT_CONTENT } from "./utils/api.js";
 import { request } from "./utils/api.js";
 
 const $ = document;
