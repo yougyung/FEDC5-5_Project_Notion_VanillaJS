@@ -37,3 +37,13 @@ export interface DocumentPutRequestDto {
   title: string;
   content: string;
 }
+
+export interface DocumentPutResponseDto {
+  id: number;
+  title: string;
+  content: string;
+  parent: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  username: string;
+}
