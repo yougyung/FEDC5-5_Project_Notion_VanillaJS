@@ -193,6 +193,10 @@ button {
   border: none;
 }
 
+.content:focus {
+  outline: none;
+}
+
 /* subdocumentlist style */
 .editor-bottom-nav {
   width: 900px;
