@@ -19,8 +19,8 @@ export default function Editor({ $target, initialState, onEdit }) {
   this.render = () => {
     const { title, content } = this.state;
 
-    $editor.querySelector("[name=title]").innerHTML = title;
-    $editor.querySelector("[name=content]").innerHTML = content;
+    $editor.querySelector("[name=title]").textContent = title;
+    $editor.querySelector("[name=content]").textContent = content;
   };
 
   $editor.addEventListener("input", (event) => {
