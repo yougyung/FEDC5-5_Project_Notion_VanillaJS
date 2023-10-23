@@ -69,6 +69,7 @@ export default function App({ $target }) {
       });
       
       editor.setState(addedDocument);
+      push(`/${addedDocument.id}`);
     },
     onClickInitialAddButton: async () => {
       const addedDocument = await fetchAddDocument(null, '제목 없음');
