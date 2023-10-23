@@ -3,23 +3,25 @@ import Editor from '@/components/Editor';
 import Sidebar from '@/components/Sidebar';
 import Component from '@/core/Component';
 import { appendNewElementToParent } from '@/utils/dom';
+import { push } from '../router';
+import { API_END_POINT } from '../constants/api';
 
 export default class MainPage extends Component {
-  async setup() {
-    this.state = { documentList: [], currentDocument: null };
+  constructor(args) {
+    super(args);
 
-    const documentList = await getAllDocuments();
-    this.setState({ ...this.state, documentList });
+    this.fetchDocumentList();
+  }
+
+  async setup() {
+    this.state = { currentId: null };
   }
 
   setState(nextState) {
-    const { documentList } = this.state;
-    const shouldRerenderDocumentList = documentList.length !== nextState.documentList.length;
+    if (this.state.currentId === nextState.currentId) return;
 
     this.state = nextState;
-
-    if (shouldRerenderDocumentList)
-      this.$sidebar.setState({ documentList: nextState.documentList });
+    this.render();
   }
 
   attachToTarget() {
@@ -28,7 +30,7 @@ export default class MainPage extends Component {
 
   addChildElements() {
     this.$sidebar = new Sidebar(this.$editorPage, {
-      onSelect: (documentId) => this.handleSelectDocument(documentId),
+      onSelect: (documentId) => push(`${API_END_POINT.DOCUMENTS}/${documentId}`),
       onCreate: () => {},
       onToggle: () => {},
       onDelete: () => {},
@@ -39,10 +41,21 @@ export default class MainPage extends Component {
     });
   }
 
-  async handleSelectDocument(documentId) {
+  async fetchDocumentList() {
+    const documentList = await getAllDocuments();
+
+    this.$sidebar.setState({ ...this.$sidebar.state, documentList });
+  }
+
+  async fetchCurrentDocument(documentId) {
     const currentDocument = await getDetailOfDocument(documentId);
 
-    this.setState({ ...this.state, currentDocument });
-    this.$editor.setState({ ...this.state, currentDocument });
+    this.$editor.setState({ ...this.$editor.state, currentDocument });
+  }
+
+  render() {
+    if (!this.state.currentId) return;
+
+    this.fetchCurrentDocument(this.state.currentId);
   }
 }
