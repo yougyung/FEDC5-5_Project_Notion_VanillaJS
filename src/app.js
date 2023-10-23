@@ -18,13 +18,26 @@ export default function App({ $target }) {
   const sideMenu = new SideMenu({
     $target: $sideMenuContainer,
     initialState: this.state.documentList,
-    onSelect: async (document) => {
-      history.pushState(null, null, `?selectedDocument=${document}`);
+    onSelect: async (documentId) => {
+      history.pushState(null, null, `?selectedDocument=${documentId}`);
       this.setState({
         ...this.state,
-        selectedDocument: document,
+        selectedDocument: documentId,
       });
       await fetchSelectedDocument();
+    },
+    onPlusClick: async (parent) => {
+      const res = await request("", {
+        method: "POST",
+        body: JSON.stringify({ title: "제목없음", parent }),
+      });
+      history.pushState(null, null, `?selectedDocument=${res.id}`);
+      this.setState({
+        ...this.state,
+        selectedDocument: res.id,
+      });
+      await fetchSelectedDocument();
+      document.getElementsByTagName("input")[0].select();
     },
   });
 
