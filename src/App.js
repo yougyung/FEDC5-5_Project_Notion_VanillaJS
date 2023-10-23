@@ -4,6 +4,17 @@ import { request, initRouter, push } from "./utils.js";
 export default function App({ $target }) {
   let timer = null;
 
+  const Init = () => {
+    const $documentEditPage = document.querySelector(".document-edit-page");
+    if ($documentEditPage) {
+      $documentEditPage.remove();
+    }
+
+    history.pushState(null, null, "/");
+
+    sidebar.render();
+  };
+
   const onAdd = async (id) => {
     try {
       if (id === "new") {
@@ -57,17 +68,19 @@ export default function App({ $target }) {
 
   const onDelete = async (id) => {
     try {
+      const document = await request(`${id}`);
+
+      if (!document) {
+        alert("존재하지 않는 페이지이므로 초기 페이지로 이동합니다.");
+        Init();
+        return;
+      }
+
       await request(`${id}`, {
         method: "DELETE",
       });
 
-      const $documentEditPage = document.querySelector(".document-edit-page");
-      if ($documentEditPage) {
-        $documentEditPage.remove();
-      }
-
-      history.pushState(null, null, "/");
-      sidebar.render();
+      Init();
     } catch (error) {
       console.log(error);
     }
