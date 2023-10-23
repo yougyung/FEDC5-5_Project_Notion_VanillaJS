@@ -19,6 +19,10 @@ export default function App({ $target }) {
         content: "",
       },
     },
+    onListChange: () => {
+      documentPage.setState();
+      console.log("documentList에 반영되었습니다.");
+    },
   });
 
   // url에 따라 렌더링

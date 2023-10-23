@@ -1,6 +1,7 @@
 export default function Editor({
   $target,
   initialState = { title: "", content: "" },
+  onEditing,
 }) {
   const $editor = document.createElement("div");
   this.state = initialState;
@@ -44,4 +45,25 @@ export default function Editor({
   };
 
   this.render();
+
+  // 제목 key up시 onEditing() 호출
+  $editor.querySelector("[name=title]").addEventListener("keyup", (e) => {
+    const nextState = {
+      ...this.state,
+      title: e.target.value,
+    };
+    this.setState(nextState);
+
+    onEditing(this.state);
+  });
+
+  // 글 내용 입력 시 onEditing() 호출
+  $editor.querySelector("[name=content]").addEventListener("input", (e) => {
+    const nextState = {
+      ...this.state,
+      content: e.target.innerText,
+    };
+    this.setState(nextState);
+    onEditing(this.state);
+  });
 }
