@@ -12,7 +12,7 @@ export default function Editor({ $target, initialState, onEdit }) {
   };
 
   $editor.innerHTML = `
-  <h1  name="title" class="title" type="text" placeholder="제목 없음" contentEditable="true"></h1>
+  <h1 name="title" class="title" type="text" placeholder="제목 없음" contentEditable="true"></h1>
   <div name="content" class="content" placeholder="빈 페이지" contentEditable="true"></div>
 `;
 
