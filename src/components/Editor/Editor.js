@@ -1,4 +1,4 @@
-import { handleCursor } from './utils/handleCursor.js';
+import { handleCursor } from '../../utils/handleCursor.js';
 
 export default function Editor({
   $target,
