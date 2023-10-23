@@ -46,14 +46,16 @@ export default function Editor({ $target, initialState, EditPost }) {
       "focusin",
       (e) => {
         document.querySelectorAll("h1").forEach((e, i) => {
-          if (i !== 0) e.innerText = `# ${e.innerText}`;
+          if (i !== 0 && !e.innerText.startsWith("# "))
+            e.innerText = `# ${e.innerText}`;
         });
-        document
-          .querySelectorAll("h2")
-          .forEach((e) => (e.innerText = `## ${e.innerText}`));
-        document
-          .querySelectorAll("h3")
-          .forEach((e) => (e.innerText = `### ${e.innerText}`));
+        document.querySelectorAll("h2").forEach((e) => {
+          if (!e.innerText.startsWith("## ")) e.innerText = `## ${e.innerText}`;
+        });
+        document.querySelectorAll("h3").forEach((e) => {
+          if (!e.innerText.startsWith("### "))
+            e.innerText = `### ${e.innerText}`;
+        });
       },
       { once: true }
     );
