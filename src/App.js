@@ -87,13 +87,15 @@ export default function App({ $target }) {
   };
 
   const onEdit = ({ title, content }) => {
-    console.log(title);
+    console.log(title.length);
     try {
+      const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
+      const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
+      selectedDocumentSidebarTitle.textContent = title === null || title === "" ? "제목 없음" : title;
+      selectedDocumentHeaderTitle.textContent = title === null || title === "" ? "제목 없음" : title;
+
       const { pathname } = window.location;
       const documentId = pathname.substring(1);
-
-      const selectedDocumentTile = document.querySelector(".list-item.selected .list-item-title");
-      selectedDocumentTile.textContent = title;
 
       if (timer !== null) {
         clearTimeout(timer);
