@@ -4,7 +4,7 @@ export default function handleTyping({ event }) {
   if (event.key !== " ") {
     return;
   }
-  const text = event.target.innerHTML;
+  const text = changeWord(event.target.innerHTML);
   const target = event.target;
 
   /* 제목 관련 */
@@ -13,23 +13,23 @@ export default function handleTyping({ event }) {
     hasClass(target);
     target.classList.add("h1");
 
-    const replaced = text.replace(/#./, "").replace(/nbsp;/, " ");
+    const replaced = changeWord(text, /#./);
     target.innerText = replaced;
     changeFocus(target);
   }
-  if (text.indexOf("## ") === 0 || text.indexOf("##&nbsp;") === 0) {
+  if (text.indexOf("## ") === 0 || text.indexOf("##") === 0) {
     hasClass(target);
     target.classList.add("h2");
 
-    const replaced = text.replace(/##./, "").replace(/nbsp;/, " ");
+    const replaced = changeWord(text, /##./);
     target.innerText = replaced;
     changeFocus(target);
   }
-  if (text.indexOf("### ") === 0 || text.indexOf("###&nbsp;") === 0) {
+  if (text.indexOf("### ") === 0 || text.indexOf("### ") === 0) {
     hasClass(target);
     target.classList.add("h3");
 
-    const replaced = text.replace(/###./, "").replace(/nbsp;/, " ");
+    const replaced = changeWord(text, /###./);
     target.innerText = replaced;
 
     changeFocus(target);
@@ -49,6 +49,34 @@ export default function handleTyping({ event }) {
   }
 
   /* 콜 아웃 */
+  if (
+    text.indexOf("/call&nbsp;") === 0 ||
+    text.indexOf("/Call&nbsp;") === 0 ||
+    text.indexOf("/Call ") === 0 ||
+    text.indexOf("/call ") === 0
+  ) {
+    hasClass(target);
+    target.innerText = "";
+    target.classList.add("callBox");
+    target.removeAttribute("contenteditable");
+    const replaced = changeWord(text, /\/call.|\/Call./);
+
+    const emojiBox = new CreateEditTextElement({
+      target,
+      className: "callBox_emoji",
+      text: "💡",
+      noContentEdit: true,
+      element: "span",
+    });
+
+    new CreateEditTextElement({
+      target,
+      text: replaced,
+      className: "callBox_textBox",
+      focusTarget: emojiBox.getElement(),
+      element: "span",
+    });
+  }
 }
 
 /*  */
@@ -62,4 +90,17 @@ function changeFocus(target) {
   setTimeout(() => {
     target.focus();
   }, 0);
+}
+
+function changeWord(text, reg = "") {
+  return text
+    .replace(reg, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#035;/g, "#")
+    .replace(/&#039;/g, "'");
 }

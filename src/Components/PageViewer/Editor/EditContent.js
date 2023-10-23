@@ -18,6 +18,7 @@ export default function EditContent({ target, state }) {
   };
 
   this.render = () => {
+    console.log(this.state);
     editContentElement.replaceChildren();
     if (!this.state || this.state.length === 0) {
       new CreateEditTextElement({
@@ -30,7 +31,7 @@ export default function EditContent({ target, state }) {
 
     splited.forEach((item) => {
       converterToHtml({
-        state: item,
+        text: item,
         target: editContentElement,
       });
     });

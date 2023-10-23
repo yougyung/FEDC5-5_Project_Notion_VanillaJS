@@ -9,7 +9,7 @@ export function changeplaceFoucs(element, offSetFocus) {
       range.collapse(false);
     } else {
       range.setStart(textNode, offSetFocus);
-      range.collapse(false);
+      range.collapse(true);
     }
     selection.removeAllRanges();
     selection.addRange(range);

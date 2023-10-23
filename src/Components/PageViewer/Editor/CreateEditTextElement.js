@@ -4,15 +4,16 @@ export default function CreateEditTextElement({
   text = "",
   focusTarget,
   noContentEdit,
+  element = "div",
 }) {
-  const createElement = document.createElement("div");
+  const createElement = document.createElement(element);
+  createElement.textContent = text;
   if (!noContentEdit) {
     createElement.setAttribute("contenteditable", "true");
   }
   if (className) {
     createElement.setAttribute("class", className);
   }
-  createElement.textContent = text;
 
   if (focusTarget) {
     target.insertBefore(createElement, focusTarget.nextSibling);

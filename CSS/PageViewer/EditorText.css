@@ -8,6 +8,7 @@
   outline: none;
 }
 
+/* 텍스트가 div를 넘어갈때 크기 늘어나기 */
 .pageViewer_editor_content > .h1 {
   font-size: 30px;
   font-weight: 600;
@@ -16,6 +17,7 @@
   margin-bottom: 4px;
 }
 
+/* 텍스트가 div를 넘어갈때 크기 늘어나기 */
 .pageViewer_editor_content > .h2 {
   font-size: 24px;
   font-weight: 600;
@@ -24,6 +26,7 @@
   margin-bottom: 1px;
 }
 
+/* 텍스트가 div를 넘어갈때 크기 늘어나기 */
 .pageViewer_editor_content > .h3 {
   font-size: 20px;
   font-weight: 600;
@@ -36,4 +39,13 @@
   margin: 13px 0px;
   height: 4px;
   background-color: var(--color-dark-grey);
+}
+
+/* 텍스트가 div를 넘어갈때 크기 늘어나기 */
+.pageViewer_editor_content > .callBox {
+  background-color: var(--color-grey);
+}
+
+.callBox_textBox {
+  width: 100%;
 }

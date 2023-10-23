@@ -53,6 +53,17 @@ export default function converterToArray(text) {
       return text;
     }
 
+    /* 콜 아웃 */
+
+    if (item.includes(' class="callBox"')) {
+      const text = item.replace(
+        /<div class="callBox"><span class="callBox_emoji">💡<\/span><span contenteditable="true" class="callBox_textBox">/,
+        "<callOut>"
+      );
+
+      return text.replace(/<\/span>/g, "");
+    }
+
     /* 일반 div 페이지 줄 변환 */
     const text = item.replace(/<div contenteditable="true">/, "");
     return text;
