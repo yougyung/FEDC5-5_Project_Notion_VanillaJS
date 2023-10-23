@@ -1,3 +1,5 @@
+import { checkToggled } from "../../../LocalStorage/LocalStorage.js";
+
 export default function ListInfo({ target, state }) {
   const { title, id } = state;
 
@@ -11,6 +13,9 @@ export default function ListInfo({ target, state }) {
   checkboxElement.setAttribute("class", "menubar_pageList_list_info_checkbox");
   checkboxElement.setAttribute("id", `checkBox_${id}`);
   listInfoElement.appendChild(checkboxElement);
+  if (checkToggled(id)) {
+    checkboxElement.setAttribute("checked", "true");
+  }
 
   const labelElement = document.createElement("label");
   labelElement.setAttribute("class", "menubar_pageList_list_info_label");

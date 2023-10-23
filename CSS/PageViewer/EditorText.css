@@ -1,5 +1,5 @@
 .pageViewer_editor_content > div {
-  border: 1px red solid;
+  /* border: 1px red solid; */
   display: flex;
   align-items: center;
   height: 30px;
@@ -12,7 +12,7 @@
   font-size: 30px;
   font-weight: 600;
   height: 45px;
-  margin-top: 2em;
+  margin-top: 1.4em;
   margin-bottom: 4px;
 }
 
@@ -20,7 +20,7 @@
   font-size: 24px;
   font-weight: 600;
   height: 38px;
-  margin-top: 1.4em;
+  margin-top: 1.2em;
   margin-bottom: 1px;
 }
 

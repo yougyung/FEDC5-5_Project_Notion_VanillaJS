@@ -19,6 +19,7 @@ export default function List({ target, state }) {
     new ChildrenList({
       target: listElement,
       state: documents,
+      id,
     });
   };
 

@@ -35,4 +35,5 @@
   outline: none;
 
   height: 100%;
+  overflow: scroll;
 }

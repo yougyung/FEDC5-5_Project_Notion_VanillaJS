@@ -11,22 +11,28 @@ export function controlKey({ event, target }) {
   //  선택한 요소 바로 인접 형제요소로 들어가도록
   if (event.key === "Enter") {
     event.preventDefault();
-    new CreateDOM({
-      target,
-      element: "div",
-      focusTarget: eTarget,
-    });
+    setTimeout(() => {
+      new CreateDOM({
+        target,
+        element: "div",
+        focusTarget: eTarget,
+      });
+    }, 10);
   }
-
   // 첫 줄 여러줄 존재할때 삭제
   if (
     event.key === "Backspace" &&
     eTarget.innerText.length === 0 &&
-    prevTarget
+    target.childElementCount > 1
   ) {
     event.preventDefault();
-    prevTarget.focus();
-    changeplaceFoucs(prevTarget, Infinity);
+    if (prevTarget) {
+      prevTarget.focus();
+      changeplaceFoucs(prevTarget, Infinity);
+    } else {
+      nextTarget.focus();
+      changeplaceFoucs(nextTarget, Infinity);
+    }
     eTarget.remove();
   }
 

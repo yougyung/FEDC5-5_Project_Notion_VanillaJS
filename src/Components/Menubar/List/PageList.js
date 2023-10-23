@@ -1,3 +1,7 @@
+import {
+  removeToggleList,
+  setToggleList,
+} from "../../../LocalStorage/LocalStorage.js";
 import { makeRouterEvent } from "../../../Router/Router.js";
 import List from "./List.js";
 
@@ -52,16 +56,23 @@ export default function PageList({ target, state, onEvent }) {
       }
 
       /* Toggle Event */
-      if (eventName === "menubar_pageList_list_info_checkbox") {
+      if (eventName.includes("menubar_pageList_list_info_checkbox")) {
         const checkBoxElement = targetElement.querySelector("input");
         const display = targetElement.querySelector("ul");
+        console.log(checkBoxElement.className.includes("toggleChecked"));
 
-        if (checkBoxElement.checked) {
+        if (!display.className.includes("toggleChecked")) {
+          checkBoxElement.setAttribute("checked", "true");
           display.classList.add("toggleChecked");
+          setToggleList(id);
+          return;
         }
 
-        if (!checkBoxElement.checked) {
+        if (display.className.includes("toggleChecked")) {
+          checkBoxElement.removeAttribute("checked");
           display.classList.remove("toggleChecked");
+          removeToggleList(id);
+          return;
         }
       }
     }
