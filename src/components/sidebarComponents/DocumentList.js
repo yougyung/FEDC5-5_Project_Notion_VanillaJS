@@ -36,7 +36,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                 <div data-id=${id} class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
-                  ${filterTitle(title, 20)}
+                  ${filterTitle(title, 15)}
                   </span>
                 </div>
                       ${listItemButtons}

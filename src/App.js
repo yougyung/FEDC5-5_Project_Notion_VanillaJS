@@ -91,7 +91,7 @@ export default function App({ $target }) {
     try {
       const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
       const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
-      selectedDocumentSidebarTitle.textContent = filterTitle(title, 20);
+      selectedDocumentSidebarTitle.textContent = filterTitle(title, 15);
       selectedDocumentHeaderTitle.textContent = filterTitle(title, 23);
 
       const { pathname } = window.location;
