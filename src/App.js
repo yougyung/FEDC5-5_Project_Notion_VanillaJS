@@ -24,9 +24,8 @@ export default function App({ $target }) {
     $target: $documentEditDiv,
     initialState: {
       id: "",
-      title: "",
-      content: "",
-      documents: [],
+      document: {},
+      documentsList: [],
     },
     onRefresh: () => {
       documentListComponent.setState();
@@ -45,7 +44,6 @@ export default function App({ $target }) {
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documnetId] = pathname.split("/");
       this.setState({ selectedDocument: documnetId });
-      console.log(this.state);
       $documentEditDiv.style.display =
         this.state.selectedDocument !== null ? "block" : "none";
       documentEditComponent.setState({ id: documnetId });

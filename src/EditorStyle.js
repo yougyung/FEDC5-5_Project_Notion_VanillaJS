@@ -1,3 +1,6 @@
+//https://dev-bak.tistory.com/16
+//https://happy-playboy.tistory.com/entry/ContentEditable%EC%97%90%EC%84%9C-%EC%BB%A4%EC%84%9CCaret-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B03-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8
+//https://velog.io/@1g2g/ContentEditable%EC%9D%B4%EB%9E%80
 export default function EditorStyle({ $target, onStyle }) {
   const $div = document.createElement("div");
 

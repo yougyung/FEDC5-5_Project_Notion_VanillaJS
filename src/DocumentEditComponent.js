@@ -23,20 +23,30 @@ export default function DocumentEditComponent({
     }
     //3. API요청에서 setState다시실행
     //4. 현재 nextState에는 API에서 받아온 document가 있음
-    if (this.state.id === nextState.id && this.state.document) {
+    if (
+      this.state.id === nextState.id &&
+      this.state.document &&
+      this.state.documentList
+    ) {
       //이 조건은 현재 뒤로 갔다 왔는데 this.state에는 데이터가 있으니까 바로 렌더링
       this.render();
-      documentEditor.setState(
-        this.state.document || { title: "", content: "" }
-      );
+      documentEditor.setState({
+        id: this.state.document.id || "",
+        title: this.state.document.title || "",
+        content: this.state.document.content || "",
+        documentList: this.state.documentList,
+      });
     } else {
       //이 조건은 API요청 후에 this.state에 nextState를 넣어줘야하기 때문에 넣어주고 렌더링
       this.state = nextState;
       editorFooterBar.setState({ document: this.state.document });
       this.render();
-      documentEditor.setState(
-        this.state.document || { title: "", content: "" }
-      );
+      documentEditor.setState({
+        id: this.state.document.id || "",
+        title: this.state.document.title || "",
+        content: this.state.document.content || "",
+        documentList: this.state.documentList,
+      });
     }
   };
 
@@ -47,7 +57,7 @@ export default function DocumentEditComponent({
 
   const documentEditor = new DocumentEditor({
     $target: $page,
-    initialState: { title: "", content: "" },
+    initialState: { id: "", title: "", content: "", documentList: [] },
     onEditing: (document) => {
       //만약 사용자가 입력을 멈추고 일정시간이 지나면 그때 localStorage에 저장하는 기법
       if (timer !== null) {
@@ -60,7 +70,7 @@ export default function DocumentEditComponent({
           body: JSON.stringify(document),
         });
         onRefresh();
-      }, 0);
+      }, 1000);
     },
   });
 
@@ -74,12 +84,15 @@ export default function DocumentEditComponent({
   const fetchDocument = async () => {
     const { id } = this.state;
 
-    if (id !== "new") {
+    if (id) {
+      const lists = await request("/documents");
       const document = await request(`/documents/${id}`);
       this.setState({
         ...this.state,
         document,
+        documentList: lists,
       });
+      console.log(this.state);
     }
   };
 }
