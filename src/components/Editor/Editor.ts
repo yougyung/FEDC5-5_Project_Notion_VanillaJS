@@ -43,9 +43,9 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     event.preventDefault();
 
     const $title = window.document.querySelector("#title") as HTMLInputElement;
-    const $content = window.document.querySelector("#content") as HTMLTextAreaElement;
+    const $content = window.document.querySelector("#content") as HTMLDivElement;
 
-    debouncedUpdate($title.value, $content.value);
+    debouncedUpdate($title.value, $content.innerText);
   };
 
   const bindEvents = () => {
@@ -62,7 +62,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
           <label for="title">제목</label>
           <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" required/>
           <label for="content">내용</label>
-          <textarea id="content" rows=50 class="${s_editorContent}" >${documentForm.content}</textarea>
+          <div id="content" class="${s_editorContent}" contenteditable="true">${documentForm.content}</div>
         </fieldset>
       </form>
            
