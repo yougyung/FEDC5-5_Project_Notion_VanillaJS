@@ -12,11 +12,9 @@ export const addRouteChangeEvent = (onRoute) => {
   });
 };
 
-export const addPopstateEvent = () => {
+export const addPopstateEvent = (onRoute) => {
   window.addEventListener(POP_STATE_EVENT, () => {
-    const pathname = location.pathname;
-
-    push(pathname);
+    onRoute();
   });
 };
 
