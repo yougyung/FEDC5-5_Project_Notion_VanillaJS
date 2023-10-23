@@ -1,7 +1,9 @@
 export default function TreeList({ $container, child = {} }) {
   const $span = document.createElement("span");
-  $span.textContent = child.title;
-  $span.dataset.id = child.id;
+  if (child.id && child.title) {
+    $span.textContent = child.title;
+    $span.dataset.id = child.id;
+  }
 
   const $button = document.createElement("button");
   $button.textContent = "+";
