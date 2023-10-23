@@ -16,9 +16,6 @@ export default function EditPage({ $target, initialState }) {
   });
   // [ ] 타이틀이랑 같은 레벨에 오른쪽에 있도록
 
-  const $pageTitle = document.createElement("div");
-  $editPage.appendChild($pageTitle);
-
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
   let timer = null;
   let timerPost = null;
@@ -75,7 +72,6 @@ export default function EditPage({ $target, initialState }) {
 
     const res = await request(`/documents/${docId}`);
     console.log(res);
-    $pageTitle.innerHTML = `<h2>${res.title}</h2>`;
     // searchBox.setState(res);
 
     editor.setState(res);

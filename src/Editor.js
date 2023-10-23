@@ -16,17 +16,20 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $editor.innerHTML = `
-      <input type="text" name="title" style="width:300px" value = "${this.state.title}" />
+      <h1 contenteditable="true" class="editor_title" >${this.state.title}</h1>
       <textarea name="content" style="width:300px; height:200px">${this.state.content}</textarea>
     `;
   };
 
   $editor.addEventListener("keyup", async (e) => {
-    const nextState = { ...this.state, [e.target.name]: e.target.value };
-    this.setState(nextState);
-    if (e.target.name === "title") {
+    if (e.target.className === "editor_title") {
+      const nextState = {
+        ...this.state,
+        title: e.target.innerHTML,
+      };
+      this.setState(nextState);
       await onEditing(nextState, "title");
-      const content = e.target.value;
+      const content = e.target.innerText;
       console.log("CustomEvent 타이틀수정실행");
       window.dispatchEvent(
         new CustomEvent("render-SideBarList", {
