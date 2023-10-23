@@ -28,11 +28,17 @@ export default function App({ $target }) {
     },
   });
 
-  const editor = new Editor({ $container });
+  const editor = new Editor({ $container, getDocumentTree: () => this.init() });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT);
     documentTree.setState(data);
+
+    // if (window.location.pathname !== "/") {
+    // console.log(window.location.pathname);
+    // const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
+    // editor.setState(data);
+    // }
   };
 
   this.render = () => {
