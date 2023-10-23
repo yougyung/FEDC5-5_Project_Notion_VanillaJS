@@ -62,6 +62,7 @@ export default class DocumentList {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.deleteDocument(documentId);
+            DocumentObserver.getInstance().notifyAll();
         }
 
         // 해당 document 페이지로 이동

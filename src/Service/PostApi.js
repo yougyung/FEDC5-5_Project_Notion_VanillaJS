@@ -45,6 +45,9 @@ export const fetchGetDocumentList = async () => {
 
 // document 데이터 가져오기
 export const fetchGetDocumentContent = async (documentId) => {
+    if (!documentId) {
+        return;
+    }
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents/${documentId}`, {
             method: 'GET',
@@ -63,6 +66,9 @@ export const fetchGetDocumentContent = async (documentId) => {
 
 // document 데이터 삭제하기
 export const fetchDeleteDocument = async (documentId) => {
+    if (!documentId) {
+        return;
+    }
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents/${documentId}`, { method: 'DELETE', headers });
 
@@ -78,6 +84,9 @@ export const fetchDeleteDocument = async (documentId) => {
 
 // document 데이터 수정하기
 export const fetchPutDocument = async (documentId, title, content) => {
+    if (!documentId) {
+        return;
+    }
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents/${documentId}`, {
             method: 'PUT',
