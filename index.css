@@ -1,2 +1,4 @@
-.button {
+.edit {
+  display: flex;
+  flex-direction: column;
 }
