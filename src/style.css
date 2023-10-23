@@ -89,6 +89,16 @@ button {
   border-radius: 0.3rem;
 }
 
+.list-item.selected {
+  background-color: #f1f1f0;
+  border-radius: 0.3rem;
+}
+
+.list-item.selected span {
+  color: #37352f;
+  font-weight: 500;
+}
+
 .toggle-icon {
   color: #b3b2b0;
   font-size: 0.8rem;
