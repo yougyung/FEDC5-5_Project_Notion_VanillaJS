@@ -8,7 +8,7 @@ export default class RootPage {
     }
 
     init() {
-        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }], 'Notion');
+        const $page = createNewElement('div', [{ property: 'className', value: 'root-wrap' }], 'Notion');
 
         this.$target.appendChild($page);
     }

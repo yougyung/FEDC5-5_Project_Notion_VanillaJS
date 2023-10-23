@@ -1,3 +1,4 @@
+/* sidebar */
 /* 현재 선택 된 li 태그 안의 div */
 .sidebar > .document > .document-list > .document-items--root .title-button--current {
     display: flex;
@@ -10,7 +11,7 @@
     border: 1px solid none;
     border-radius: 3px;
 
-    padding: 5px;
+    padding: 5px 5px 5px 0;
 }
 
 /* li 태그 안의 div */
@@ -18,7 +19,7 @@
     display: flex;
     justify-content: space-between;
 
-    padding: 5px;
+    padding: 5px 5px 5px 0;
 }
 .sidebar > .document > .document-list > .document-items--root .title-button:hover {
     border: 1px solid none;
@@ -65,6 +66,61 @@
 
 /* 모든 버튼 태그 */
 .sidebar > .document > .document-list > .document-items--root button {
+    background-color: transparent;
+
+    border: none;
+
+    font-size: 1.1rem;
+    color: var(--sidebar_c);
+
+    cursor: pointer;
+}
+
+/* child Viewer */
+.document-manager > .document-child-list > .document-items--root .title-button {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 5px 5px 5px 0;
+}
+.document-manager > .document-child-list > .document-items--root .title-button:hover {
+    border: 1px solid none;
+    border-radius: 3px;
+
+    background-color: var(--hover_c);
+}
+
+/* 모든 +, X 버튼들 */
+.document-manager > .document-child-list > .document-items--root .insert-delete {
+    display: flex;
+    align-items: center;
+
+    display: none;
+}
+
+/* title과 > 버튼  */
+.document-manager > .document-child-list > .document-items--root .title-toggle {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모든 title  */
+.document-manager > .document-child-list > .document-items--root .title-toggle__title {
+    width: 100%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모든 버튼 태그 */
+.document-manager > .document-child-list > .document-items--root button {
     background-color: transparent;
 
     border: none;

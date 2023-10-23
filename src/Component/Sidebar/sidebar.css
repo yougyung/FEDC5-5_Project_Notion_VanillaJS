@@ -6,4 +6,7 @@
 
     color: var(--sidebar_c);
     background-color: var(--sidebar_bd);
+
+    resize: horizontal;
+    overflow: auto;
 }

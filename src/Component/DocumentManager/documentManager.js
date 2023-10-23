@@ -1,6 +1,6 @@
 import DocumentEditor from './DocumentEditor/DocumentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
-import DocumentContentViewr from './DocumentContentViewr/DocumentContentViewer.js';
+import DocumentContentViewr from './DocumentContentViewer/DocumentContentViewer.js';
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
@@ -18,7 +18,7 @@ export default class DocumentManager {
     }
 
     init() {
-        this.$documentManager = createNewElement('div', [{ property: 'className', value: 'documentManager' }]);
+        this.$documentManager = createNewElement('div', [{ property: 'className', value: 'document-manager' }]);
 
         this.documentEditor = new DocumentEditor({
             $taregt: this.$documentManager,
@@ -59,10 +59,9 @@ export default class DocumentManager {
         this.documentContentViewer.setState(nextState);
     }
 
-    // 미리보기 버튼 토글 핸들러
     HandleOnclick(e) {
         const { className } = e.target;
-
+        // 미리보기 버튼
         if (className === 'title-and-button__button') {
             const { isView } = this.state;
 

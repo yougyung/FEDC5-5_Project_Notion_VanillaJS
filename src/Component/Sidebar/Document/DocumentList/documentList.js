@@ -54,6 +54,7 @@ export default class DocumentList {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.postDocument(documentId);
+            DocumentObserver.getInstance().notifyAll();
         }
 
         // document 삭제 이벤트

@@ -12,7 +12,7 @@ export default class EditPage {
     }
 
     init() {
-        const $page = createNewElement('div', [{ property: 'className', value: 'wrap' }]);
+        const $page = createNewElement('div', [{ property: 'className', value: 'editor-wrap' }]);
 
         this.documentManager = new DocumentManager({
             $target: $page,

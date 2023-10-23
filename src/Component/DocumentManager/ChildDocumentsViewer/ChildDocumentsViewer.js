@@ -44,31 +44,8 @@ export default class ChildDocumentsViewer {
             target: { className },
         } = e;
 
-        // document 추가 이벤트
-        if (className === 'title-button__insert') {
-            const postDocumentId = target.closest('.document-item').dataset.id;
-            const res = await fetchPostDocument(postDocumentId);
-
-            if (res) {
-                // document가 수정되면 사이드바 및 자식 document viewer 최신화
-                DocumentObserver.getInstance().notifyAll();
-            }
-        }
-
-        // document 삭제 이벤트
-        if (className === 'title-button__delete') {
-            const deleteDocumentId = target.closest('.document-item').dataset.id;
-
-            const res = await fetchDeleteDocument(deleteDocumentId);
-
-            if (res) {
-                // document가 수정되면 사이드바 및 자식 document viewer 최신화
-                DocumentObserver.getInstance().notifyAll();
-            }
-        }
-
         // 해당 document 페이지로 이동
-        if (className === 'title-button__title') {
+        if (className === 'title-toggle__title') {
             const documentId = target.closest('.document-item').dataset.id;
 
             RouterManger.getInstance().changeUrl(`/document/${documentId}`);

@@ -5,11 +5,20 @@
 @import url(/src/Component/Sidebar/Document/Document.css);
 @import url(/src/Component/Sidebar/Document/DocumentForm/DocumentForm.css);
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentList.css);
+
+/* editor */
+@import url(/src/Component/DocumentManager/DocumentManger.css);
+@import url(/src/Component/DocumentManager/DocumentEditor/DocumentEditor.css);
+@import url(/src/Component/DocumentManager/DocumentContentViewer/DocumentContentViewer.css);
+@import url(/src/Component/DocumentManager/ChildDocumentsViewer/ChildDocumentsViewer.css);
+
+/* common */
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItems.css);
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItem/Documentitem.css);
 
 :root {
     --black: black;
+    --white: #ffffff;
 
     --sidebar_bg: #fbfbfa;
     --sidebar_bd: #f5f5f4;
@@ -24,6 +33,20 @@
 #app {
     min-height: 100%;
     display: flex;
+}
+
+.root-wrap {
+    width: 100%;
+
+    font-size: 5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editor-wrap {
+    width: 100%;
 }
 
 html {
