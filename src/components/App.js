@@ -17,7 +17,7 @@ export default function App({ $target, initialState }) {
   const sidebar = new Sidebar({
     $target: $sidebarContainer,
     onDocumentFoldToggle: (nextState) => {
-      this.setState(nextState);
+      this.setState({ ...this.state, documents: nextState });
     },
     onDocumentAdded: async (documentId) => {
       const createdDocument = await request('/documents', {
@@ -41,7 +41,7 @@ export default function App({ $target, initialState }) {
 
       documentEditTimer = setTimeout(async () => {
         const { id, title, content } = editedDocument;
-        documentEditPage.setState({ ...editedDocument, isSaving: true });
+        documentEditPage.setState({ ...editedDocument, isSaving: false });
 
         let documentLocalSaveKey = `temp-document-${id}`;
         setItem(documentLocalSaveKey, editedDocument);
@@ -53,7 +53,7 @@ export default function App({ $target, initialState }) {
         });
 
         this.setState({ ...this.state, editingDocument: editedDocument });
-        documentEditPage.setState({ ...editedDocument, isSaving: false });
+        documentEditPage.setState({ ...editedDocument, isSaving: true });
 
         fetchDocumentList();
 
@@ -70,13 +70,19 @@ export default function App({ $target, initialState }) {
     },
   });
 
-  // 초기 통신을 통해 받아온 Documents 객체에 추가 프로퍼티를 부여
-  this.addIsFolded = (documents) => {
-    return documents.map((document) => ({
-      ...document,
-      isFolded: false,
-      documents: this.addIsFolded(document.documents || []),
-    }));
+  this.mergeDocuments = (oldDocuments, newDocuments) => {
+    return newDocuments.map((newDocument) => {
+      const oldDocument = oldDocuments.find((doc) => doc.id === newDocument.id);
+
+      return {
+        ...newDocument,
+        isFolded: oldDocument ? oldDocument.isFolded : false,
+        documents: this.mergeDocuments(
+          oldDocument ? oldDocument.documents : [],
+          newDocument.documents || [],
+        ),
+      };
+    });
   };
 
   this.setState = (nextState) => {
@@ -86,8 +92,14 @@ export default function App({ $target, initialState }) {
   };
 
   const fetchDocumentList = async () => {
-    const documents = await request('/documents', { method: 'GET' });
-    this.setState({ ...this.state, documents: this.addIsFolded(documents) });
+    const newDocuments = await request('/documents', { method: 'GET' });
+
+    const mergedDocuments = this.mergeDocuments(
+      this.state.documents,
+      newDocuments,
+    );
+
+    this.setState({ ...this.state, documents: mergedDocuments });
   };
 
   const fetchDocument = async (documentId) => {
@@ -117,6 +129,10 @@ export default function App({ $target, initialState }) {
       }
     }
   };
+
+  window.addEventListener('popstate', () => {
+    this.route();
+  });
 
   fetchDocumentList();
   this.route();

@@ -11,15 +11,7 @@ export default function Sidebar({
   const $sidebar = document.createElement('div');
   $target.appendChild($sidebar);
 
-  // DocumentList 컴포넌트로부터 document의 Id를 받아와 isFolded 상태 변경, 최상위 컴포넌트에 전달
-  this.toggleIsFolded = (documents, targetId) => {
-    return documents.map((document) => ({
-      ...document,
-      isFolded:
-        document.id === targetId ? !document.isFolded : document.isFolded,
-      documents: this.toggleIsFolded(document.documents || [], targetId),
-    }));
-  };
+  this.state = initialState;
 
   const sidebarHeader = new SidebarHeader({
     $target: $sidebar,
@@ -33,6 +25,7 @@ export default function Sidebar({
     initialState,
     onDocumentFoldToggle: (documentId) => {
       const nextState = this.toggleIsFolded(this.state, documentId);
+      this.setState(nextState);
       onDocumentFoldToggle(nextState);
     },
     onDocumentAdded: (documentId) => {
@@ -43,10 +36,18 @@ export default function Sidebar({
     },
   });
 
-  this.state = initialState;
-
   this.setState = (nextState) => {
     this.state = nextState;
     documentList.setState(this.state);
+  };
+
+  // DocumentList 컴포넌트로부터 document의 Id를 받아와 isFolded 상태 변경, 최상위 컴포넌트에 전달
+  this.toggleIsFolded = (documents, targetId) => {
+    return documents.map((document) => ({
+      ...document,
+      isFolded:
+        document.id === targetId ? !document.isFolded : document.isFolded,
+      documents: this.toggleIsFolded(document.documents || [], targetId),
+    }));
   };
 }

@@ -31,9 +31,9 @@ export default function EditorHeader({
       const { title, isSaving } = this.state;
       $titleContainer.querySelector('[name=title]').value = title;
 
-      if (isSaving) {
+      if (isSaving === false) {
         $statusContainer.innerHTML = '<i class="fa fa-spinner"></i>';
-      } else if (isSaving === false) {
+      } else if (isSaving) {
         $statusContainer.innerHTML = '<i class="fa fa-check"></i>';
 
         setTimeout(() => {
