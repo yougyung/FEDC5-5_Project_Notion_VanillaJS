@@ -1,5 +1,4 @@
 import PostList from "../PostList.js";
-import { request } from "../api.js";
 
 export default function PostListPage({
   $target,
@@ -37,11 +36,4 @@ export default function PostListPage({
 
   this.render = () => {};
   this.render();
-
-  const getPostList = async () => {
-    const postArr = await request("/documents");
-    this.setState(postArr);
-  };
-
-  getPostList();
 }

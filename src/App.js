@@ -16,11 +16,14 @@ export default function App({ $target }) {
     }
   */
   this.state = {};
-  this.setState = () => {};
+  this.setState = (nextState) => {
+    this.state = nextState;
+    postListPage.setState(this.state.postListPage);
+  };
 
   const postListPage = new PostListPage({
     $target,
-    initialState: [],
+    initialState: this.state.postListPage,
     onPostClick: async (id) => {
       history.pushState(null, null, `/posts/${id}`);
       this.route();
@@ -58,6 +61,7 @@ export default function App({ $target }) {
     },
   });
 
+  let timer = null;
   const postViewPage = new PostViewPage({
     $target,
     initialState: {
@@ -67,14 +71,48 @@ export default function App({ $target }) {
         content: "",
       },
     },
+    onEditing: (post) => {
+      if (timer !== null) clearTimeout(timer);
+
+      timer = setTimeout(async () => {
+        const isNew = this.state.postViewPage.id === "new";
+        if (isNew) {
+          const createdPost = await request(`/documents`, {
+            method: "POST",
+            body: JSON.stringify({
+              title: post.title,
+              parent: null,
+            }),
+          });
+          history.replaceState(null, null, `/posts/${createdPost.id}`);
+          this.setState({
+            id: createdPost.id,
+            post: {
+              title: createdPost.title,
+              content: createdPost.content || "",
+            },
+          });
+        } else {
+          await request(`/documents/${this.state.postViewPage.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              title: post.title,
+              content: post.content,
+            }),
+          });
+
+          const postArr = await request("/documents");
+          this.setState({ ...this.state, postListPage: postArr });
+        }
+      }, 2000);
+    },
   });
 
   this.route = async () => {
     const { pathname } = window.location;
+    const postArr = await request("/documents");
+    this.setState({ ...this.state, postListPage: postArr });
 
-    if (pathname === "/") {
-      return;
-    }
     if (pathname.indexOf("/posts/") === 0) {
       const [, , id] = pathname.split("/");
       if (id === "new") {
@@ -83,6 +121,7 @@ export default function App({ $target }) {
       }
 
       const post = await request(`/documents/${id}`);
+      this.setState({ ...this.state, postViewPage: { id, post } });
       postViewPage.setState({ id, post });
     }
   };

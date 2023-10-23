@@ -16,7 +16,6 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log("sdf");
 
     this.render();
   };
