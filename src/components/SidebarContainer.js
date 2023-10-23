@@ -17,10 +17,13 @@ export default function SidebarContainer({ $target }) {
       documents: [],
     },
     onRemove: async (documentId) => {
-      await fetchDocuments(documentId, {
-        method: "DELETE",
-      });
-      this.render();
+      if (confirm("페이지를 삭제하시겠습니까?")) {
+        await fetchDocuments(documentId, {
+          method: "DELETE",
+        });
+        this.render();
+        // TODO: 로컬스토리지의 opened-item에서 해당 id 삭제해야 함
+      }
     },
   });
 
@@ -49,6 +52,7 @@ export default function SidebarContainer({ $target }) {
       push(`${DOCUMENTS_ROUTE}/${NEW}`);
     },
   });
+
   this.render = async () => {
     const documents = await fetchDocuments(null);
     documentList.setState({ documents });

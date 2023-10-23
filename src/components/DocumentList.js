@@ -4,12 +4,13 @@ import { getItem, setItem } from "../utils/storage.js";
 
 const DOCUMENT_ITEM = "document-item";
 const OPENED_ITEM = "opened-item";
+const BLOCK = "block";
+const NONE = "none";
 
 export default function DocumentList({ $target, initialState, onRemove }) {
-  const $documentlist = document.createElement("div");
-  $documentlist.className = "document-list";
-
-  $target.appendChild($documentlist);
+  const $documentList = document.createElement("div");
+  $documentList.className = "document-list";
+  $target.appendChild($documentList);
 
   this.state = initialState;
 
@@ -18,7 +19,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     this.render();
   };
 
-  const textIndent = (depth) => 12 * depth; // 들여쓰기
+  const generateTextIndent = (depth) => 10 * depth; // 들여쓰기
 
   let isBlock = false;
 
@@ -42,59 +43,59 @@ export default function DocumentList({ $target, initialState, onRemove }) {
   };
 
   const renderDocuments = (nextDocuments, depth) => `
-    ${nextDocuments
-      .map(
-        ({ id, title, documents }) => `
-        <ul>
-          <li
-            data-id= "${id}" 
-            class="${DOCUMENT_ITEM}"
-            style="padding-left: ${textIndent(depth)}px">
-            ${renderButton(id)}
-            ${title.length > 0 ? title : UNTITLED}
-            <span class = "buttons">
-              <button class="${DELETE}" type="button">
-                <i class="fa-regular fa-trash-can ${DELETE}"></i>
-              </button>
-              <button class="${ADD}" type="button">
-                <i class="fa-solid fa-plus ${ADD}"></i>
-              </button>
-            </span>
-          </li>
-          ${
-            isBlock && documents.length
-              ? renderDocuments(documents, depth + 2)
-              : `<li class="no-subpages"
-                      style="padding-left: ${textIndent(depth + 2)}px; 
-                      display: ${isBlock ? "block" : "none"};">
+        ${nextDocuments
+          .map(
+            ({ id, title, documents }) => `
+            <ul>
+              <li 
+                data-id="${id}" 
+                class="${DOCUMENT_ITEM}" 
+                style="padding-left: ${generateTextIndent(depth)}px">
+                ${renderButton(id)}
+                <p class="${DOCUMENT_ITEM}">${title.length > 0 ? title : UNTITLED}</p>
+                <div class="buttons">
+                  <button class="${DELETE}" type="button">
+                    <i class="fa-regular fa-trash-can ${DELETE}"></i>
+                  </button>
+                  <button class="${ADD}" type="button">
+                    <i class="fa-solid fa-plus ${ADD}"></i>
+                  </button>
+                </div>
+              </li>
+              ${
+                isBlock && documents.length
+                  ? renderDocuments(documents, depth + 2)
+                  : `<li 
+                      class="no-subpages" 
+                      style="padding-left: ${generateTextIndent(depth + 2)}px; display: ${isBlock ? BLOCK : NONE};">
                       하위 페이지 없음
-                      </li>`
-          }
-        </ul>`
-      )
-      .join("")}
+                    </li>`
+              }
+              </ul>
+            `
+          )
+          .join("")}
     `;
 
   this.render = () => {
     const { documents } = this.state;
-    $documentlist.innerHTML = `
+
+    $documentList.innerHTML = `
       ${documents.length > 0 ? renderDocuments(documents, 0) : ""}
     `;
   };
 
-  $documentlist.addEventListener("click", (e) => {
+  $documentList.addEventListener("click", (e) => {
     const { target } = e;
     const $li = target.closest("li");
-    console.log($li.children);
     if (!$li) return;
 
     let { id } = $li.dataset;
     id = parseInt(id);
-
     const openedItems = getItem(OPENED_ITEM, []);
-    if (target.className === DOCUMENT_ITEM) {
+    if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${DOCUMENTS_ROUTE}/${id}`);
-    } else if (e.target.classList.contains(ADD)) {
+    } else if (target.classList.contains(ADD)) {
       setItem(NEW_PARENT, id);
       push(`${DOCUMENTS_ROUTE}/${NEW}`);
     } else if (target.classList.contains(DELETE)) {
@@ -102,8 +103,6 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     }
 
     if (!target.classList.contains("toggle")) return;
-
-    console.log(target);
 
     if (target.classList.contains("open")) {
       const index = openedItems.indexOf(id);
@@ -122,15 +121,14 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     if (!$li) return;
 
     for (const node of $li.children) {
-      if (node.classList.contains("buttons")) {
-        node.classList.toggle("block");
-        return;
+      if (node.classList.contains("buttons") || node.classList.contains(DOCUMENT_ITEM)) {
+        node.classList.toggle(BLOCK);
       }
     }
   };
 
-  $documentlist.addEventListener("mouseover", toggleBlock);
-  $documentlist.addEventListener("mouseout", toggleBlock);
+  $documentList.addEventListener("mouseover", toggleBlock);
+  $documentList.addEventListener("mouseout", toggleBlock);
 
   this.render();
 }
