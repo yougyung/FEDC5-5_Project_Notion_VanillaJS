@@ -49,7 +49,6 @@
     display: flex;
     align-items: center;
     flex: 1 1 80%;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -58,7 +57,6 @@
 /* 모든 title  */
 .sidebar > .document > .document-list > .document-items--root .title-toggle__title {
     width: 100%;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -67,12 +65,9 @@
 /* 모든 버튼 태그 */
 .sidebar > .document > .document-list > .document-items--root button {
     background-color: transparent;
-
     border: none;
-
     font-size: 1.1rem;
     color: var(--sidebar_c);
-
     cursor: pointer;
 }
 
@@ -80,13 +75,11 @@
 .document-manager > .document-child-list > .document-items--root .title-button {
     display: flex;
     justify-content: space-between;
-
     padding: 5px 5px 5px 0;
 }
 .document-manager > .document-child-list > .document-items--root .title-button:hover {
     border: 1px solid none;
     border-radius: 3px;
-
     background-color: var(--hover_c);
 }
 
@@ -94,17 +87,14 @@
 .document-manager > .document-child-list > .document-items--root .insert-delete {
     display: flex;
     align-items: center;
-
     display: none;
 }
 
 /* title과 > 버튼  */
 .document-manager > .document-child-list > .document-items--root .title-toggle {
     width: 100%;
-
     display: flex;
     align-items: center;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -113,7 +103,6 @@
 /* 모든 title  */
 .document-manager > .document-child-list > .document-items--root .title-toggle__title {
     width: 100%;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -122,11 +111,8 @@
 /* 모든 버튼 태그 */
 .document-manager > .document-child-list > .document-items--root button {
     background-color: transparent;
-
     border: none;
-
     font-size: 1.1rem;
     color: var(--sidebar_c);
-
     cursor: pointer;
 }

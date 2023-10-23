@@ -18,7 +18,6 @@ export default class DocumentItem {
     render() {
         const { id, title, documents } = this.state;
         const documentId = window.location.pathname.split('/')[2];
-
         const $li = createNewElement('li', [
             {
                 property: 'className',
@@ -26,14 +25,12 @@ export default class DocumentItem {
             },
             { property: 'dataset.id', value: id },
         ]);
-
         const $titleButton = createNewElement('div', [
             {
                 property: 'className',
                 value: `${documentId && Number(documentId) === id ? 'title-button--current' : 'title-button'}`,
             },
         ]);
-
         const $titleToggle = createNewElement('div', [{ property: 'className', value: 'title-toggle' }]);
         const $title = createNewElement('span', [{ property: 'className', value: 'title-toggle__title' }], title);
         const $toggleButton = createNewElement(
@@ -41,10 +38,6 @@ export default class DocumentItem {
             [{ property: 'className', value: 'title-toggle__toggle' }],
             '>'
         );
-
-        $titleToggle.appendChild($title);
-        $titleToggle.appendChild($toggleButton);
-
         const $insertDelete = createNewElement('div', [{ property: 'className', value: 'insert-delete' }]);
         const $insertButton = createNewElement(
             'button',
