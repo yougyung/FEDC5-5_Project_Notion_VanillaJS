@@ -5,6 +5,5 @@ export default function ErrorPage({ $target }) {
     $errorPage.innerHTML = `
     컴포넌트가 존재하지 않습니다!
     `;
-    return $errorPage;
   };
 }

@@ -32,9 +32,10 @@ button{
     background: none;
     border: none;
     cursor: pointer;
+    border-radius: 3px;
 }
-.title{
-    padding:10px 0 0 10px;
+button:hover{
+    background-color:#dddddc;
 }
 .document-item{
     display: flex;
@@ -47,14 +48,11 @@ button{
 .document-item:hover{
     background-color: #ebebea;
 }
+.add-root-doc-btn{
+    width: 100%;
+}
 .display-none{
     display: none;
-}
-.arrow-btn{
-    border-radius: 3px;
-}
-.arrow-btn:hover{
-    background-color:#dddddc;
 }
 .arrow-btn>svg{
         width: 9px;

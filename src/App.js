@@ -21,15 +21,16 @@ export default function App({ $target }) {
     const path = url ?? window.location.pathname;
     const [, pathname, pathData] = path.split("/");
     if (pathname === "") return; //메인이면 그냥 리턴
-    const component =
-      routes.find((route) => route.path === pathname)?.component ||
-      new ErrorPage({ $target: $app });
     //라우팅 되는 자식들은 replaceChildren으로 사용해서 깜빡임 방지..
-    new component({
-      ...documentPageProps,
-      initialState: { id: pathData },
-    });
+    if (pathname === "documents") {
+      const component = routes.find(
+        (route) => route.path === "documents"
+      ).component;
+      new component({
+        ...documentPageProps,
+        initialState: { id: pathData },
+      });
+    } else new ErrorPage({ $target: $app });
   };
-
   initRouter(this.render);
 }

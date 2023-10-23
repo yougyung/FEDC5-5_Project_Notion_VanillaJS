@@ -1,3 +1,4 @@
+import Button from "../common/Button.js";
 import DocumentList from "../component/DocumentList.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/router.js";
@@ -12,25 +13,37 @@ export default function NavPage({ $target }) {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
   };
+  this.createDocument = async (id) => {
+    const body = { title: "제목 없음", parent: id ? id : null };
+    const response = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    this.getDocuments();
+    console.log("문서 생성됨", response);
+  };
+  this.removeDocument = async (id) => {
+    await request(`/documents/${id}`, {
+      method: "DELETE",
+    });
+    this.getDocuments();
+    push("/");
+  };
+  let documentList = null;
   this.getDocuments();
-  const documentList = new DocumentList({
-    $target: $nav,
-    initialState: [{ id: null, title: "", documents: [] }],
-    createDocument: async (id) => {
-      const body = { title: "제목 없음", parent: id ? id : null };
-      const response = await request("/documents", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      this.getDocuments();
-      console.log(response);
-    },
-    deleteDocument: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
-      this.getDocuments();
-      push("/");
-    },
-  });
+  this.render = () => {
+    documentList = new DocumentList({
+      $target: $nav,
+      initialState: [{ id: null, title: "", documents: [] }],
+      createDocument: this.createDocument,
+      removeDocument: this.removeDocument,
+    });
+    new Button({
+      $target: $nav,
+      content: "새 페이지 추가하기",
+      attributes: [{ name: "class", value: "add-root-doc-btn" }],
+      onClick: this.createDocument,
+    });
+  };
+  this.render();
 }

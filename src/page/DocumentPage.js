@@ -16,17 +16,17 @@ export default function DocumentPage({ $target, initialState }) {
     this.state = nextState;
     const { id, title } = this.state;
     this.render();
-    header.setState({ id, title });
+    documentHeader.setState({ href: id, title });
     editor.setState(this.state);
   };
   this.render = () => {
     $target.replaceChildren($documentPage);
   };
-  const header = new Title({
+  const documentHeader = new Title({
     $target: $documentPage,
     initialState: {
+      href: "",
       title: "",
-      id: null,
     },
   });
   let timerOfSetTimeout = null;
