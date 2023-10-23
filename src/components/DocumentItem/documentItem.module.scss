@@ -1,6 +1,7 @@
 .s_documentItem {
   cursor: pointer;
   height: auto;
+  position: relative;
 }
 
 .s_childrenDocumentList {
@@ -9,7 +10,7 @@
 
 .s_document_title {
   display: inline-block;
-  max-width: calc(90% - 2rem);
+  max-width: calc(90% - 3rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
