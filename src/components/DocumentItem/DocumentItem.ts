@@ -1,10 +1,10 @@
+import { createComponent } from "@/core";
+import classNames from "classnames";
 import { Document } from "@/types";
 import styles from "./documentItem.module.scss";
-import { createComponent } from "@/core";
 
-interface DocumentItem {
+interface DocumentItemProps {
   document: Document;
-  parentId: number | null;
 }
 
 interface DocumentItemReturnType {
@@ -14,7 +14,7 @@ interface DocumentItemReturnType {
 
 const { s_documentItem, s_childrenDocumentList, s_document_title } = styles;
 
-function DocumentItem({ document, parentId }: DocumentItem): DocumentItemReturnType {
+function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
   const { id, title, documents } = document;
 
   const childrenDocuments = documents.length
@@ -22,8 +22,7 @@ function DocumentItem({ document, parentId }: DocumentItem): DocumentItemReturnT
     ${documents
       .map((childDocument) => {
         const childDocumentItemComponent = createComponent(DocumentItem, {
-          document: { ...childDocument },
-          parentId: id,
+          document: childDocument,
         });
 
         return childDocumentItemComponent.element;
@@ -35,8 +34,9 @@ function DocumentItem({ document, parentId }: DocumentItem): DocumentItemReturnT
   return {
     element: `
       <li data-id="${id}" class="${s_documentItem}">
-        <span class="${s_document_title}">${title}</span>
-        <button data-parent-id="${parentId}" class="add-document-button" type="button">+</button>
+        <span class="${classNames("documentTitle", s_document_title)}">${title}</span>
+        <button data-parent-id="${id}" class="addDocumentButton" type="button">+</button>
+        <button data-parent-id="${id}" class="deleteDocumentButton" type="button">-</button>
         ${childrenDocuments}
       </li>
     `,
