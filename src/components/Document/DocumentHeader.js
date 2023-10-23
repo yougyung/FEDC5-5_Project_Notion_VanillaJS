@@ -1,6 +1,27 @@
+import { push } from '../../router/router.js'
+
 export default function DocumentHeader({ $target, onClickPageAddButton }) {
   const $documentHeader = document.createElement('div');
   $documentHeader.className = 'document-header';
+
+  const $mainHeader = document.createElement('div');
+  $mainHeader.className = 'main-header';
+
+  const $logo = document.createElement('div');
+  $logo.className = 'logo';
+  $logo.innerHTML = `
+    <img src="/images/notion-logo.svg" alt="Nution" class="logo-img" />
+  `
+  
+  const $logoTitle = document.createElement('div');
+  $logoTitle.className = 'logo-title';  
+  $logoTitle.textContent = `휘식's Nution`
+
+  $mainHeader.appendChild($logo);
+  $mainHeader.appendChild($logoTitle);
+
+  const $subHeader = document.createElement('div');
+  $subHeader.className = 'sub-header';
 
   const $pageName = document.createElement('div');
   $pageName.className = 'page-name';
@@ -19,8 +40,13 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
   $group.appendChild($addButton);
   $group.appendChild($span);
 
-  $documentHeader.appendChild($pageName);
-  $documentHeader.appendChild($group);
+  $subHeader.appendChild($pageName);
+  $subHeader.appendChild($group);
+  // $documentHeader.appendChild($pageName);
+  // $documentHeader.appendChild($group);
+
+  $documentHeader.appendChild($mainHeader);
+  $documentHeader.appendChild($subHeader);
 
   $target.appendChild($documentHeader);
 
@@ -30,6 +56,8 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
       if (onClickPageAddButton) {
         onClickPageAddButton();
       }
+    } else if (target.className === 'logo' || target.className === 'logo-img') {
+      push('/');
     }
   });
 }
