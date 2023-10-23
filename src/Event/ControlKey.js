@@ -1,4 +1,4 @@
-import CreateDOM from "../Components/PageViewer/Editor/CreateEditTextElement.js";
+import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
 import { changeplaceFoucs } from "../Function/ChangeFocus.js";
 
 export function controlKey({ event, target }) {
@@ -8,43 +8,65 @@ export function controlKey({ event, target }) {
   const nextTarget = eTarget.nextSibling;
   const offSetFocus = document.getSelection().focusOffset;
 
-  //  선택한 요소 바로 인접 형제요소로 들어가도록
+  //  Evnet type이 keypress가 아니면 고장 발생
+  // event.type === "keypress"
   if (event.key === "Enter") {
     event.preventDefault();
-    setTimeout(() => {
-      new CreateDOM({
-        target,
-        element: "div",
-        focusTarget: eTarget,
-      });
-    }, 10);
+    target.blur();
+    new CreateEditTextElement({
+      target,
+      focusTarget: eTarget,
+    });
+    return;
   }
-  // 첫 줄 여러줄 존재할때 삭제
+
+  /* 삭제 관련  */
   if (
     event.key === "Backspace" &&
     eTarget.innerText.length === 0 &&
     target.childElementCount > 1
   ) {
     event.preventDefault();
+    /* DivisionLine 삭제 관련 */
+    if (
+      prevTarget.className === "divisionLine" &&
+      confirm("구분선을 삭제하시겠나요? 💣")
+    ) {
+      prevTarget.remove();
+      return;
+    }
+
     if (prevTarget) {
-      prevTarget.focus();
-      changeplaceFoucs(prevTarget, Infinity);
-    } else {
-      nextTarget.focus();
-      changeplaceFoucs(nextTarget, Infinity);
+      setTimeout(() => {
+        prevTarget.focus();
+        changeplaceFoucs(prevTarget, Infinity);
+      }, 0);
+    }
+    if (!prevTarget) {
+      setTimeout(() => {
+        nextTarget.focus();
+        changeplaceFoucs(nextTarget, Infinity);
+      }, 0);
     }
     eTarget.remove();
+    return;
   }
 
   if (event.key === "ArrowUp" && prevTarget) {
     event.preventDefault();
-    prevTarget.focus();
-    changeplaceFoucs(prevTarget, offSetFocus);
+    setTimeout(() => {
+      prevTarget.focus();
+      changeplaceFoucs(prevTarget, offSetFocus);
+    }, 0);
+    return;
   }
 
   if (event.key === "ArrowDown" && nextTarget) {
     event.preventDefault();
-    nextTarget.focus();
-    changeplaceFoucs(nextTarget, offSetFocus);
+    setTimeout(() => {
+      nextTarget.focus();
+      changeplaceFoucs(nextTarget, offSetFocus);
+    }, 0);
+    return;
   }
 }

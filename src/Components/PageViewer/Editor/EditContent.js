@@ -20,12 +20,7 @@ export default function EditContent({ target, state }) {
   this.render = () => {
     editContentElement.replaceChildren();
     if (!this.state || this.state.length === 0) {
-      console.log(this.state);
       new CreateEditTextElement({
-        target: editContentElement,
-      });
-      new CreateEditTextElement({
-        className: "h2",
         target: editContentElement,
       });
       return;
@@ -42,6 +37,13 @@ export default function EditContent({ target, state }) {
   };
 
   /* 특수키 Event */
+  // editContentElement.addEventListener("keypress", (event) => {
+  //   controlKey({
+  //     event,
+  //     target: editContentElement,
+  //   });
+  // });
+
   editContentElement.addEventListener("keydown", (event) => {
     controlKey({
       event,

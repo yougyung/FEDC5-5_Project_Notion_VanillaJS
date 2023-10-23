@@ -114,7 +114,7 @@ export default function App({ target }) {
         // if (pagePropValidation(page)) {
         //   pageViewer.setState(page);
         // }
-      }, 1300);
+      }, 600);
     },
   });
 

@@ -2,10 +2,17 @@ export default function converterToArray(text) {
   const makeArray = text
     .replace(/<\/div>/g, "<pass>")
     .replace(/&nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#035;/g, "#")
+    .replace(/&#039;/g, "'")
     .split("<pass>");
   makeArray.pop();
 
   const result = makeArray.map((item) => {
+    /* 제목 관련 */
     /* h1 */
     if (item.includes(' class="h1"')) {
       const removeClassName = item.replace(/.class="h1"/, "");
@@ -35,6 +42,14 @@ export default function converterToArray(text) {
         /<div contenteditable="true">/,
         "### "
       );
+      return text;
+    }
+
+    /* 구분선 관련 */
+
+    if (item.includes(' class="divisionLine"')) {
+      const text = item.replace(/<div class="divisionLine">/, "<divisionLine>");
+
       return text;
     }
 

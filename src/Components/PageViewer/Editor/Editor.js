@@ -40,20 +40,22 @@ export default function Editor({ target, state, onEditing }) {
   /* Event */
 
   editorElement.addEventListener("keyup", () => {
+    const { id, createdAt, updatedAt, documents } = this.state;
     const titleValue =
       editorElement.querySelector("[data-name=title]").value ?? "";
     const contentValue =
       editorElement.querySelector("[data-name=content]").innerHTML ?? "";
+    console.log(contentValue);
 
     // const focus = document.getSelection().focusOffset;
     const newState = {
-      id: this.state.id,
+      id,
       title: titleValue,
       content: converterToArray(contentValue),
-      createdAt: this.state.createdAt,
-      updatedAt: this.state.updatedAt,
+      createdAt,
+      updatedAt,
+      documents,
     };
-
     onEditing(newState);
   });
 

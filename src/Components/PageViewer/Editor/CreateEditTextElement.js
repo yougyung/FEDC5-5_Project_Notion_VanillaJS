@@ -3,9 +3,12 @@ export default function CreateEditTextElement({
   className,
   text = "",
   focusTarget,
+  noContentEdit,
 }) {
   const createElement = document.createElement("div");
-  createElement.setAttribute("contenteditable", "true");
+  if (!noContentEdit) {
+    createElement.setAttribute("contenteditable", "true");
+  }
   if (className) {
     createElement.setAttribute("class", className);
   }
@@ -16,5 +19,12 @@ export default function CreateEditTextElement({
   } else {
     target.appendChild(createElement);
   }
-  createElement.focus();
+
+  setTimeout(() => {
+    createElement.focus();
+  }, 0);
+
+  this.getElement = () => {
+    return createElement;
+  };
 }

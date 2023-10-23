@@ -1,6 +1,7 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
 
 export default function converterToHtml({ state, target }) {
+  /* 제목 관련 */
   /* h1 요소 생성 */
   if (state.indexOf("# ") === 0) {
     const text = state.replace(/#./, "");
@@ -31,6 +32,16 @@ export default function converterToHtml({ state, target }) {
     });
   }
 
+  if (state.indexOf("<divisionLine>") === 0) {
+    return new CreateEditTextElement({
+      target,
+      className: "divisionLine",
+      noContentEdit: true,
+    });
+  }
+  /* 구분선 관련 */
+
+  /* 일반 Text */
   new CreateEditTextElement({
     target,
     text: state,
