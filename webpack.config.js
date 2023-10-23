@@ -14,6 +14,7 @@ module.exports = (_env, argv) => {
     output: {
       filename: 'index.js',
       path: path.resolve(__dirname, 'build'),
+      publicPath: '/',
       clean: true,
     },
 
