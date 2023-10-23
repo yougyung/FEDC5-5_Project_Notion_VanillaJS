@@ -87,9 +87,13 @@ export default function App({ $target }) {
   };
 
   const onEdit = ({ title, content }) => {
+    console.log(title);
     try {
       const { pathname } = window.location;
       const documentId = pathname.substring(1);
+
+      const selectedDocumentTile = document.querySelector(".list-item.selected .list-item-title");
+      selectedDocumentTile.textContent = title;
 
       if (timer !== null) {
         clearTimeout(timer);
