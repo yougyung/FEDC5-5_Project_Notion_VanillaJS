@@ -120,3 +120,16 @@ ul {
 .editor_title:focus {
   outline: none;
 }
+.editor_content {
+  /* max-width: ; */
+  max-height: 80vh;
+  height: 90vh;
+  border: 1px solid grey;
+}
+.editor_content_block {
+  height: fit-content;
+  min-height: 20px;
+  &:focus {
+    outline: none;
+  }
+}
