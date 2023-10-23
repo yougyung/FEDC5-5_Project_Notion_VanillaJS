@@ -1,10 +1,10 @@
-import DocumentHeader from './DocumentHeader.js';
-import DocumentList from './DocumentList.js';
-import Editor from './Editor.js';
-import SubDocumentFooter from './SubDocumentFooter.js';
-import { request } from './api.js';
-import { initRouter, push } from './router.js';
-import { removeItem, setItem } from './storage.js';
+import DocumentHeader from './components/Document/DocumentHeader.js';
+import DocumentList from './components/Document/DocumentList.js';
+import Editor from './components/Editor/Editor.js';
+import SubDocumentFooter from './components/Document/SubDocumentFooter.js';
+import { request } from './api/api.js';
+import { initRouter, push } from './router/router.js';
+import { removeItem, setItem } from './utils/storage.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -83,8 +83,11 @@ export default function App({ $target }) {
     },
     onClickRemoveButton: async (id) => {
       await fetchRemoveDocument(id);
-      this.render();
-    }
+      this.setState({
+        ...this.state,
+        selectedDocument: null,
+      });
+    },
   });
 
   const editor = new Editor({
