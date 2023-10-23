@@ -1,6 +1,8 @@
 import Button from "../common/Button.js";
 import Title from "../common/Title.js";
 import arrowIconSvg from "../svg/arrowIcon.js";
+import plusIcon from "../svg/plusIcon.js";
+import xIcon from "../svg/xIcon.js";
 import { push } from "../utils/router.js";
 
 export default function DocumentItem({
@@ -48,7 +50,7 @@ export default function DocumentItem({
     new Button({
       $target: $documentItem,
       attributes: [{ name: "data-name", value: "remove-doc" }],
-      content: "-",
+      content: xIcon,
       onClick: (e) => {
         deleteDocument($documentItem.dataset.id);
       },
@@ -56,7 +58,7 @@ export default function DocumentItem({
     new Button({
       $target: $documentItem,
       attributes: [{ name: "data-name", value: "create-doc" }],
-      content: "+",
+      content: plusIcon,
       onClick: (e) => {
         createDocument($documentItem.dataset.id);
       },
