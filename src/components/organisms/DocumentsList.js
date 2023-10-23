@@ -9,7 +9,7 @@
  * */
 import DocumentObject from './DocumentObject.js';
 
-export default function DocumentsList({ $target, initialState }) {
+export default function DocumentsList({ $target, initialState, parentId = null }) {
   const $documentsList = document.createElement('ul');
   $target.appendChild($documentsList);
 
@@ -21,13 +21,13 @@ export default function DocumentsList({ $target, initialState }) {
   };
 
   this.render = () => {
+    $documentsList.innerHTML = '';
     this.state.forEach(state => {
       const $details = document.createElement('details');
-      new DocumentObject({ $target: $details, state });
+      new DocumentObject({ $target: $details, currentDocumentData: { ...state, parentId } });
       $documentsList.appendChild($details);
-
       if (state.documents.length) {
-        new DocumentsList({ $target: $details, initialState: state.documents });
+        new DocumentsList({ $target: $details, initialState: state.documents, parentId: state.id });
       } else {
         const $span = document.createElement('span');
         $span.setAttribute('data-type', 'document');

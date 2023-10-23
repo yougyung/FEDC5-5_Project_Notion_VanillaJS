@@ -39,13 +39,11 @@ export default function HomePage({ $target }) {
   let initRender = false;
   this.setState = nextState => {
     this.state = nextState;
-
     this.route();
   };
 
   this.init = async () => {
     const resqonseData = await request('/documents?delay=5000 ');
-
     this.setState(resqonseData);
     this.route();
   };
@@ -53,14 +51,13 @@ export default function HomePage({ $target }) {
   this.init();
 
   const findDocumentDataById = id => {
-    const documentPath = [];
+    const documentPath = [null];
 
     const findDocument = (documents, id) => {
       for (const document of documents) {
         if (document.id === id) {
           documentPath.push({ title: document.title, id: document.id });
           documentPath.push();
-
           return true;
         }
         if (document.documents.length > 0) {
@@ -80,27 +77,32 @@ export default function HomePage({ $target }) {
     const notionSideBar = new NotionSideBar({ $target: $homePage, initialState: this.state });
     const documentDetail = new DocumentDetail({
       $target: $homePage,
-      documentState: { title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
+      documentState: { id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
     });
-
+    console.log('this.state', this.state);
     const { pathname } = window.location;
 
+    const newDocuments = await request(`/documents`);
     if (pathname === '/') {
       // home 보여주기
-      console.log('home');
+      notionSideBar.setState(newDocuments);
+      documentDetail.setState(null);
     } else if (pathname.indexOf('/documents/') === 0) {
-      // document 보여주기
       const [, , postId] = pathname.split('/');
+      // sidebar 업데이트
+      notionSideBar.setState(newDocuments);
+
+      // document 보여주기
       const documentContent = request(`/documents/${postId}`);
       const documentPathData = findDocumentDataById(Number(postId));
       const { content } = await documentContent;
 
       const nextState = {
-        title: documentPathData.at(-1).title,
+        id: postId,
+        title: documentPathData.at(-1)?.title || '첫 화면',
         content: content || '내용을 채워주세요',
         documentPath: documentPathData,
       };
-      console.log(nextState);
       documentDetail.setState(nextState);
     }
   };

@@ -22,11 +22,13 @@ export default function NotionSideBar({ $target, initialState }) {
   this.state = initialState;
   this.setState = nextState => {
     this.state = nextState;
-    this.render();
+    documentList.setState(this.state);
   };
 
   $notionSideBar.addEventListener('click', e => {
     const { type, id } = e.target.dataset;
+    const $details = e.target.closest('details');
+
     if (type === 'document') {
       e.preventDefault();
       push(`/documents/${id}`);
@@ -35,11 +37,7 @@ export default function NotionSideBar({ $target, initialState }) {
 
   new NotionTitle({ $target: $notionSideBar, title: "Hun's Notion" });
 
-  this.render = () => {
-    if (!Array.isArray(this.state)) return;
-    new DocumentsList({ $target: $notionSideBar, initialState: this.state });
-    new NewDocumentButton({ $target: $notionSideBar, parentId: null, isHidden: false });
-  };
+  const documentList = new DocumentsList({ $target: $notionSideBar, initialState: this.state });
 
-  this.render();
+  new NewDocumentButton({ $target: $notionSideBar, currentId: null, isHidden: false });
 }

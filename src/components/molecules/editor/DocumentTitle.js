@@ -3,7 +3,7 @@
  * - Title : 문서 제목 (Editor)
  */
 
-export default function DocumentTitle({ $target, title, onEditing }) {
+export default function DocumentTitle({ $target, title, onEditTitle }) {
   const $title = document.createElement('input');
   $title.style.width = '60%';
   $title.style.height = '50px';
@@ -19,7 +19,7 @@ export default function DocumentTitle({ $target, title, onEditing }) {
 
   $title.addEventListener('keyup', e => {
     const nextTitle = e.target.value;
-    onEditing(nextTitle);
+    onEditTitle(nextTitle);
   });
 
   this.render = () => {

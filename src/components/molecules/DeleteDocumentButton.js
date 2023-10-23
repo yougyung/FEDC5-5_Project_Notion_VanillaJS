@@ -1,22 +1,24 @@
 /*
- * NewDocumentButton
- * - Button : 새 문서 만들기
+ * DeleteDocumentButton
+ * - Button : 문서 지우기
  * */
 
 import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
 
-export default function NewDocumentButton({ $target, currentId, isHidden }) {
+export default function DeleteDocumentButton({ $target, currentDocumentData, isHidden }) {
   this.$addDocumentButton = document.createElement('button');
   this.$addDocumentButton.style.visibility = `${isHidden ? 'hidden' : 'visible'}`;
-  this.$addDocumentButton.textContent = '+';
+  this.$addDocumentButton.textContent = 'x';
+
+  const { id, parentId } = currentDocumentData;
+
   this.$addDocumentButton.addEventListener('click', async e => {
     e.stopPropagation();
-    const postResponse = await request('/documents', {
-      method: 'POST',
-      body: { title: '제목 없음', parent: currentId },
-    });
-    push(`/documents/${postResponse.id}`);
+
+    const deleteRes = await request(`/documents/${id}`, { method: 'DELETE' });
+
+    parentId ? push(`/documents/${parentId}`) : push('/');
   });
 
   $target.appendChild(this.$addDocumentButton);
