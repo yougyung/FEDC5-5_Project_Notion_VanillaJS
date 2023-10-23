@@ -1,3 +1,5 @@
+import { handleCursor } from './utils/handleCursor.js';
+
 export default function Editor({
   $target,
   initialState,
@@ -83,13 +85,6 @@ export default function Editor({
     this.setState(nextState);
     onEditing(this.state);
 
-    const target = e.target;
-    const range = document.createRange();
-    const sel = window.getSelection();
-    range.selectNodeContents(target);
-    range.collapse(false); // move to the end of the range
-    sel.removeAllRanges();
-    sel.addRange(range);
-    target.focus();
+    handleCursor(e.target);
   });
 }
