@@ -27,13 +27,12 @@ export default function Editor({ $target, initialState, onEdit }) {
     const { target } = event;
     const name = target.getAttribute("name");
 
-    console.dir(target);
-    // if (this.state[name] !== undefined) {
-    //   const nextState = { ...this.state, [name]: target.value };
+    if (this.state[name] !== undefined) {
+      const nextState = { ...this.state, [name]: target.textContent };
 
-    //   this.setState(nextState);
-    //   onEdit(this.state);
-    // }
+      this.setState(nextState);
+      onEdit(this.state);
+    }
   });
 
   this.render();
