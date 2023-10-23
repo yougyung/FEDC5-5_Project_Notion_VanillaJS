@@ -23,16 +23,17 @@ export default function Editor({ $target, initialState, onEdit }) {
     $editor.querySelector("[name=content]").innerHTML = content;
   };
 
-  $editor.addEventListener("keyup", (event) => {
+  $editor.addEventListener("input", (event) => {
     const { target } = event;
     const name = target.getAttribute("name");
 
-    if (this.state[name] !== undefined) {
-      const nextState = { ...this.state, [name]: target.value };
+    console.dir(target);
+    // if (this.state[name] !== undefined) {
+    //   const nextState = { ...this.state, [name]: target.value };
 
-      this.setState(nextState);
-      onEdit(this.state);
-    }
+    //   this.setState(nextState);
+    //   onEdit(this.state);
+    // }
   });
 
   this.render();
