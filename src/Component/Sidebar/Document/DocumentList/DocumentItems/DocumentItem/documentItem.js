@@ -26,29 +26,45 @@ export default class DocumentItem {
             },
             { property: 'dataset.id', value: id },
         ]);
-        const $div = createNewElement('div', [
+
+        const $titleButton = createNewElement('div', [
             {
                 property: 'className',
                 value: `${documentId && Number(documentId) === id ? 'title-button--current' : 'title-button'}`,
             },
         ]);
-        const $title = createNewElement('span', [{ property: 'className', value: 'title-button__title' }], title);
+
+        const $titleToggle = createNewElement('div', [{ property: 'className', value: 'title-toggle' }]);
+        const $title = createNewElement('span', [{ property: 'className', value: 'title-toggle__title' }], title);
+        const $toggleButton = createNewElement(
+            'button',
+            [{ property: 'className', value: 'title-toggle__toggle' }],
+            '>'
+        );
+
+        $titleToggle.appendChild($title);
+        $titleToggle.appendChild($toggleButton);
+
+        const $insertDelete = createNewElement('div', [{ property: 'className', value: 'insert-delete' }]);
         const $insertButton = createNewElement(
             'button',
-            [{ property: 'className', value: 'title-button__insert' }],
+            [{ property: 'className', value: 'insert-delete__insert' }],
             '+'
         );
         const $deleteButton = createNewElement(
             'button',
-            [{ property: 'className', value: 'title-button__delete' }],
-            '-'
+            [{ property: 'className', value: 'insert-delete__delete' }],
+            'x'
         );
 
-        $li.appendChild($div);
-        $div.appendChild($title);
-        $div.appendChild($insertButton);
-        $div.appendChild($deleteButton);
         this.$target.appendChild($li);
+        $li.appendChild($titleButton);
+        $titleButton.appendChild($titleToggle);
+        $titleButton.appendChild($insertDelete);
+        $titleToggle.appendChild($toggleButton);
+        $titleToggle.appendChild($title);
+        $insertDelete.appendChild($insertButton);
+        $insertDelete.appendChild($deleteButton);
 
         // 현재 document에 자식 documets가 존재하면 현재 $li 자식으로 다시 ul 태그를 생성한다.
         if (documents.length > 0) {

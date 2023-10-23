@@ -13,7 +13,7 @@ export default class Header {
         const $userName = createNewElement(
             'h3',
             [{ property: 'className', value: 'header__user-name' }],
-            `${this.userName}님의 Notion`
+            `${this.userName}`
         );
 
         $header.appendChild($userName);

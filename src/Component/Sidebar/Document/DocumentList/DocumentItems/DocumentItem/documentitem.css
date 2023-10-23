@@ -1,15 +1,76 @@
-.document__item {
+/* 현재 선택 된 li 태그 안의 div */
+.sidebar > .document > .document-list > .document-items--root .title-button--current {
+    display: flex;
+    justify-content: space-between;
+
+    background-color: var(--hover_c);
+    color: var(--black);
+    font-weight: bold;
+
+    border: 1px solid none;
+    border-radius: 3px;
+
+    padding: 5px;
 }
 
-.document__item > .title-and-buttons {
+/* li 태그 안의 div */
+.sidebar > .document > .document-list > .document-items--root .title-button {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 5px;
+}
+.sidebar > .document > .document-list > .document-items--root .title-button:hover {
+    border: 1px solid none;
+    border-radius: 3px;
+
+    background-color: var(--hover_c);
+}
+
+/* 모든 +, X 버튼들 */
+.sidebar > .document > .document-list > .document-items--root .insert-delete {
     display: flex;
     align-items: center;
-    padding: 0.8em;
+
+    visibility: hidden;
 }
-.document__item > .title-and-buttons:hover {
-    background-color: var(--gray);
+/* div hover시 +, X 버튼들 */
+.sidebar > .document > .document-list > .document-items--root .title-button:hover .insert-delete {
+    visibility: visible;
+}
+/* 현재 선택 됀 div hover시 +, X 버튼들 */
+.sidebar > .document > .document-list > .document-items--root .title-button--current:hover .insert-delete {
+    visibility: visible;
 }
 
-.document__item > .title-and-buttons > .title-and-buttons__title--current {
-    color: var(--main);
+/* title과 > 버튼  */
+.sidebar > .document > .document-list > .document-items--root .title-toggle {
+    display: flex;
+    align-items: center;
+    flex: 1 1 80%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모든 title  */
+.sidebar > .document > .document-list > .document-items--root .title-toggle__title {
+    width: 100%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모든 버튼 태그 */
+.sidebar > .document > .document-list > .document-items--root button {
+    background-color: transparent;
+
+    border: none;
+
+    font-size: 1.1rem;
+    color: var(--sidebar_c);
+
+    cursor: pointer;
 }

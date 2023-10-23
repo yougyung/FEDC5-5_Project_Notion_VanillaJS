@@ -15,7 +15,14 @@ export default class DocumentForm {
             [{ property: 'className', value: 'title-and-form__title' }],
             'Document'
         );
-        const $button = createNewElement('button', [{ property: 'className', value: 'title-and-form__button' }], '+');
+        const $button = createNewElement(
+            'button',
+            [
+                { property: 'className', value: 'title-and-form__button' },
+                { property: 'title', value: 'document 추가' },
+            ],
+            '+'
+        );
 
         $documentForm.appendChild($title);
         $documentForm.appendChild($button);

@@ -1,7 +1,7 @@
-.document-item {
+.sidebar > .document > .document-list > .document-items--root {
+    padding: 0 0 0 7px;
 }
-.title-button--current {
-    background-color: var(--gray);
-}
-.document-items--root {
+
+.sidebar > .document > .document-list > .document-items--root .document-items {
+    padding: 0 0 0 15px;
 }

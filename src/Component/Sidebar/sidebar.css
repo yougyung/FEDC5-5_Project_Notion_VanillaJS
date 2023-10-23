@@ -1,6 +1,9 @@
 .sidebar {
-    width: 25%;
-    min-height: 100%;
-    padding: 2em;
-    border-right: 2px solid var(--gray);
+    max-width: 480px;
+    min-width: 240px;
+
+    border: 1px solid var(--sidebar_bd);
+
+    color: var(--sidebar_c);
+    background-color: var(--sidebar_bd);
 }

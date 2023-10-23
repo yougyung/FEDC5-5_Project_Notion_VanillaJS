@@ -1,8 +1,29 @@
-.title-and-form {
+.sidebar > .document > .title-and-form {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+
+    margin: 5px 0 0 0;
+    padding: 0 7px 0 7px;
+
+    font-size: 1.1rem;
 }
 
-.title-and-form > .title-and-form__title {
-    color: var(--main);
+.sidebar > .document > .title-and-form > .title-and-form__title {
+}
+
+.sidebar > .document > .title-and-form > .title-and-form__button {
+    font-size: 1.1rem;
+    color: var(--sidebar_c);
+
+    background-color: transparent;
+    border: none;
+
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.sidebar > .document > .title-and-form:hover > .title-and-form__button {
+    opacity: 1;
 }

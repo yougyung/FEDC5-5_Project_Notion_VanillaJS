@@ -34,11 +34,12 @@ export default class DocumentList {
     render() {
         const { documentList } = this.state;
 
+        this.$documentList.replaceChildren();
+
         if (!documentList || documentList.length === 0) {
             return;
         }
 
-        this.$documentList.replaceChildren();
         new DocumentItems({ $target: this.$documentList, initalState: { documentList, isRoot: true } });
     }
 
@@ -49,21 +50,21 @@ export default class DocumentList {
         } = e;
 
         // document 추가 이벤트
-        if (className === 'title-button__insert') {
+        if (className === 'insert-delete__insert') {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.postDocument(documentId);
         }
 
         // document 삭제 이벤트
-        if (className === 'title-button__delete') {
+        if (className === 'insert-delete__delete') {
             const documentId = target.closest('.document-item').dataset.id;
 
             this.deleteDocument(documentId);
         }
 
         // 해당 document 페이지로 이동
-        if (className === 'title-button__title') {
+        if (className === 'title-toggle__title') {
             const documentId = target.closest('.document-item').dataset.id;
 
             RouterManger.getInstance().changeUrl(`/document/${documentId}`);
