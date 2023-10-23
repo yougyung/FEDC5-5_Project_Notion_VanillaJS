@@ -1,14 +1,14 @@
 import { createComponent } from "@/core";
 import { DocumentItem } from "@/components";
 import { navigateTo } from "@/utils";
-import { Document } from "@/types";
+import { DocumentPostRequestDto, DocumentResponseDto } from "@/types";
 import styles from "./sidebar.module.scss";
 
 const { s_sidebar, s_button } = styles;
 
 interface SidebarProps {
-  documents: Document[];
-  createDocument: ({ title, parent }: { title: string; parent: null | number }) => void;
+  documents: DocumentResponseDto[];
+  createDocument: ({ title, parent }: DocumentPostRequestDto) => void;
   removeDocument: (id: number) => void;
 }
 
