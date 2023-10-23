@@ -7,6 +7,7 @@ module.exports = {
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
   },
   mode: "development",
   module: {
@@ -41,6 +42,9 @@ module.exports = {
     static: "./dist",
     port: 8080,
     hot: true,
+    historyApiFallback: {
+      rewrites: [{ from: /./, to: "/index.html" }],
+    },
   },
   resolve: {
     modules: [path.join(__dirname, "src"), "node_modules"],
