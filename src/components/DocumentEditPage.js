@@ -1,19 +1,11 @@
 import { request } from "../utils.js";
-import {
-  Editor,
-  DocumentHeader,
-  SubDocumentList,
-} from "./documentComponents/index.js";
+import { Editor, DocumentHeader, SubDocumentList } from "./documentComponents/index.js";
 
-export default function DocumentEditPage({
-  $target,
-  initialState,
-  onEdit,
-  onDelete,
-}) {
+export default function DocumentEditPage({ $target, initialState, onEdit, onDelete }) {
   const $documentEditPage = document.createElement("section");
-
   $documentEditPage.className = "document-edit-page";
+  const $documentEditPageBody = document.createElement("section");
+  $documentEditPageBody.className = "document-edit-page-body";
 
   this.state = initialState;
 
@@ -53,7 +45,7 @@ export default function DocumentEditPage({
   });
 
   const editor = new Editor({
-    $target: $documentEditPage,
+    $target: $documentEditPageBody,
     initialState: {
       title: "",
       content: "",
@@ -62,7 +54,7 @@ export default function DocumentEditPage({
   });
 
   const subDocumentList = new SubDocumentList({
-    $target: $documentEditPage,
+    $target: $documentEditPageBody,
     initialState: {
       documents: [],
     },
@@ -86,6 +78,7 @@ export default function DocumentEditPage({
   this.render = () => {
     if (!$target.querySelector("#document-edit-page")) {
       $target.appendChild($documentEditPage);
+      $documentEditPage.appendChild($documentEditPageBody);
     }
   };
 }
