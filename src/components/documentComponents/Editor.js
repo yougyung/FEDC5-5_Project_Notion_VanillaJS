@@ -1,8 +1,6 @@
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("form");
   $editor.className = "editor";
-  $editor.style.display = "flex";
-  $editor.style.flexDirection = "column";
 
   $target.appendChild($editor);
 
@@ -14,12 +12,8 @@ export default function Editor({ $target, initialState, onEdit }) {
   };
 
   $editor.innerHTML = `
-  <input name="title" class="title" type="text" placeholder="제목 없음" value="${
-    this.state.title ?? ""
-  }" />
-  <textarea name="content" class="content" placeholder="빈 페이지">${
-    this.state.content ?? ""
-  }</textarea>
+  <input name="title" class="title" type="text" placeholder="제목 없음" value="${this.state.title ?? ""}" />
+  <textarea name="content" class="content" placeholder="빈 페이지">${this.state.content ?? ""}</textarea>
 `;
 
   this.render = () => {
