@@ -1,4 +1,5 @@
 import EditorBody from '../components/Editor/EditorBody.js';
+import EditorFooter from '../components/Editor/EditorFooter.js';
 import EditorHeader from '../components/Editor/EditorHeader.js';
 
 export default function DocumentEditPage({
@@ -30,11 +31,17 @@ export default function DocumentEditPage({
     },
   });
 
+  const editorFooter = new EditorFooter({
+    $target: $documentEditPage,
+    initialState: this.state,
+  });
+
   this.setState = (nextState) => {
     if (nextState) {
       this.state = nextState;
       editorHeader.setState(this.state);
       editorBody.setState(this.state);
+      editorFooter.setState(this.state);
       this.render();
     }
   };

@@ -3,7 +3,7 @@ export default function EditorBody({ $target, initialState, onEditing }) {
 
   $target.appendChild($editorBody);
 
-  $editorBody.innerHTML = `<input type="text" name="content" style="width:500px;height:500px" value="">`;
+  $editorBody.innerHTML = `<input type="text" name="content" style="width:500px;height:400px" value="">`;
 
   this.state = initialState;
 

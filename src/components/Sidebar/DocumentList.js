@@ -32,7 +32,7 @@ export default function DocumentList({
                   ${document.title}
                   <button class="add-button" data-id="${document.id}">+</button>
                   ${
-                    document.documents.length > 0 && !document.isFolded
+                    document.documents && !document.isFolded
                       ? renderDocuments(document.documents)
                       : ''
                   }
