@@ -138,6 +138,13 @@ export default function App({ $target }) {
 
   const fetchSelectedDocument = async (id) => {
     const selectedDocument = await request(`/${id}`);
+
+    if (!selectedDocument) {
+      alert('존재하지 않는 문서입니다.');
+      push('/');
+      return;
+    }
+    
     this.setState({
       ...this.state,
       selectedDocument,
