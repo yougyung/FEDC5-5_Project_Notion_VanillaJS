@@ -31,7 +31,7 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
   $group.className = 'group';
   
   const $addButton = document.createElement('button');
-  $addButton.textContent = '+';
+  $addButton.innerHTML = `<i class="fa-solid fa-plus"></i>`
   $addButton.className = 'page-add-button';
 
   const $span = document.createElement('span');
@@ -52,7 +52,7 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
 
   $documentHeader.addEventListener('click', (e) => {
     const { target } = e;
-    if (target.className === 'page-add-button') {
+    if (target.className === 'page-add-button' || target.className === 'fa-solid fa-plus') {
       if (onClickPageAddButton) {
         onClickPageAddButton();
       }
