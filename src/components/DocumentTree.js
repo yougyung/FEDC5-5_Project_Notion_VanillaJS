@@ -3,7 +3,7 @@ import TreeList from "./TreeList.js";
 export default function DocumentTree({
   $container,
   initialState = [],
-  onCreateDocument,
+  onCreate,
   onClick,
 }) {
   const $tree = document.createElement("div");
@@ -59,7 +59,7 @@ export default function DocumentTree({
       const $span = e.target.closest("span");
       const parent = $span.dataset.id ?? null;
       const title = e.target.value;
-      onCreateDocument({ parent, title });
+      onCreate({ parent, title });
     });
   };
 }

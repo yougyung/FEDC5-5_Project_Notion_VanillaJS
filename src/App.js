@@ -1,5 +1,9 @@
 import api from "./api/api.js";
-import { GET_API_DOCUMENT, POST_API_DOCUMENT } from "./api/url.js";
+import {
+  GET_API_DOCUMENT,
+  GET_API_DOCUMENT_DETAIL,
+  POST_API_DOCUMENT,
+} from "./api/url.js";
 import DocumentTree from "./components/DocumentTree.js";
 import Editor from "./components/Editor.js";
 
@@ -10,12 +14,17 @@ export default function App({ $target }) {
 
   const documentTree = new DocumentTree({
     $container,
-    onCreateDocument: async (body) => {
-      await api.post(POST_API_DOCUMENT, body);
+    onCreate: async (body) => {
+      const { id } = await api.post(POST_API_DOCUMENT, body);
+      const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
+      editor.setState(data);
+      // history.pushState(null, null, `/document/${id}`);
       this.init();
     },
-    onClick: (id) => {
-      history.pushState(null, null, `/document/${id}`);
+    onClick: async (id) => {
+      // history.pushState(null, null, `/document/${id}`);
+      const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
+      editor.setState(data);
     },
   });
 

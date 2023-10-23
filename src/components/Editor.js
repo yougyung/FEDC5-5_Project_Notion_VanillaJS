@@ -1,23 +1,25 @@
-export default function Editor({ $container }) {
+export default function Editor({ $container, initialState = {} }) {
   const $document = document.createElement("div");
   $document.id = "document";
   $container.appendChild($document);
 
-  this.state = {
-    title: "hi",
-    content: "hello",
-  };
+  this.state = initialState;
 
   this.setState = (nextState) => {
+    if (this.state.id !== nextState.id) {
+      this.state = nextState;
+      this.render();
+      return;
+    }
     this.state = nextState;
-    console.log(this.state);
-    // this.render();
   };
 
   this.render = () => {
     $document.innerHTML = `
       <input type="text" name="title" value="${this.state.title}">
-      <textarea name="content">${this.state.content}</textarea>
+      <textarea name="content" placeholder="본문을 입력해주세요">${
+        this.state.content ?? ""
+      }</textarea>
     `;
   };
 
@@ -29,6 +31,4 @@ export default function Editor({ $container }) {
       [name]: e.target.value,
     });
   });
-
-  this.render();
 }
