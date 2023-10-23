@@ -1,6 +1,7 @@
 import { controlKey } from "../../../Event/ControlKey.js";
+import handleTyping from "../../../Event/HandleTyping.js";
 import converterToHtml from "../../../Function/ConverterToHtml.js";
-import CreateEditDOM from "./CreateEditDOM.js";
+import CreateEditTextElement from "./CreateEditTextElement.js";
 
 export default function EditContent({ target, state }) {
   const editContentElement = document.createElement("div");
@@ -20,10 +21,10 @@ export default function EditContent({ target, state }) {
     editContentElement.replaceChildren();
     if (!this.state || this.state.length === 0) {
       console.log(this.state);
-      new CreateEditDOM({
+      new CreateEditTextElement({
         target: editContentElement,
       });
-      new CreateEditDOM({
+      new CreateEditTextElement({
         className: "h2",
         target: editContentElement,
       });
@@ -46,5 +47,9 @@ export default function EditContent({ target, state }) {
       event,
       target: editContentElement,
     });
+  });
+
+  editContentElement.addEventListener("keyup", (event) => {
+    handleTyping({ event });
   });
 }

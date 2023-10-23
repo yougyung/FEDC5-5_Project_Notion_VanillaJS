@@ -12,17 +12,18 @@ export default function PageViewer({ target, state, onEditing }) {
   this.setState = (newState) => {
     this.state = newState;
     const { id } = this.state;
+    const TOGGLE_CLASS_NAME = "view";
 
     if (id === "Index") {
-      indexPage.getElement().classList.add("view");
-      editor.getElement().classList.remove("view");
-      subPage.getElement().classList.remove("view");
+      indexPage.getElement().classList.add(TOGGLE_CLASS_NAME);
+      editor.getElement().classList.remove(TOGGLE_CLASS_NAME);
+      subPage.getElement().classList.remove(TOGGLE_CLASS_NAME);
       return;
     }
 
-    indexPage.getElement().classList.remove("view");
-    editor.getElement().classList.add("view");
-    subPage.getElement().classList.add("view");
+    indexPage.getElement().classList.remove(TOGGLE_CLASS_NAME);
+    editor.getElement().classList.add(TOGGLE_CLASS_NAME);
+    subPage.getElement().classList.add(TOGGLE_CLASS_NAME);
 
     editor.setState(this.state);
     subPage.setState(this.state);

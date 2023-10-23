@@ -1,5 +1,8 @@
 export default function converterToArray(text) {
-  const makeArray = text.replace(/<\/div>/g, "<pass>").split("<pass>");
+  const makeArray = text
+    .replace(/<\/div>/g, "<pass>")
+    .replace(/&nbsp;/g, " ")
+    .split("<pass>");
   makeArray.pop();
 
   const result = makeArray.map((item) => {

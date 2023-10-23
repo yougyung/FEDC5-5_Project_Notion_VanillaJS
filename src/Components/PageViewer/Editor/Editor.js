@@ -45,6 +45,7 @@ export default function Editor({ target, state, onEditing }) {
     const contentValue =
       editorElement.querySelector("[data-name=content]").innerHTML ?? "";
 
+    // const focus = document.getSelection().focusOffset;
     const newState = {
       id: this.state.id,
       title: titleValue,

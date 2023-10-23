@@ -5,6 +5,8 @@
   --color-dark-grey: rgb(202, 202, 200);
 
   --color-font: rgb(115, 115, 111);
+
+  --font-size-normal: 16px;
 }
 * {
   box-sizing: border-box;
