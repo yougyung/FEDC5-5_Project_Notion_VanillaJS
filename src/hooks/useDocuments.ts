@@ -1,5 +1,5 @@
 import { useState, useEffect } from "@/core";
-import { getDocuments, postDocument, updateDocument } from "@/apis";
+import { deleteDocument, getDocuments, postDocument, updateDocument } from "@/apis";
 import { DocumentResponse } from "@/types";
 import { navigateTo } from "@/utils";
 
@@ -39,11 +39,22 @@ const useDocuments = () => {
     }
   };
 
+  const removeDocument = async (id: number) => {
+    try {
+      const deletedDocument = await deleteDocument({ id });
+
+      fetchDocuments();
+      return await deletedDocument;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchDocuments();
   }, []);
 
-  return { documents, createDocument, modifyDocument };
+  return { documents, createDocument, modifyDocument, removeDocument };
 };
 
 export default useDocuments;
