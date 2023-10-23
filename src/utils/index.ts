@@ -1,3 +1,3 @@
 export * from "./localStorage";
-export * from "./router";
+export * from "./navigate";
 export * from "./objectUtils";
