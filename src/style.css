@@ -83,7 +83,6 @@ button {
   padding-right: 0.3rem;
   cursor: pointer;
   color: rgb(55, 53, 47);
-  /* overflow: hidden; */
 }
 
 .list-item:not(.no-subdocuments):hover {
@@ -144,7 +143,6 @@ button {
   height: 100%;
 }
 
-/* document header styles */
 .document-header {
   display: flex;
   align-items: center;
@@ -154,9 +152,7 @@ button {
   color: rgb(55, 53, 47);
 }
 
-/* document body styles */
 .document-edit-page-body {
-  /* min-height: 90%; */
   margin-top: 100px;
   display: flex;
   flex-direction: column;
@@ -167,7 +163,6 @@ button {
 /* editor styles */
 .editor {
   width: 900px;
-  /* height: 90%; */
   display: flex;
   flex-direction: column;
 }
@@ -184,7 +179,7 @@ button {
 }
 
 .content {
-  min-height: 900px;
+  min-height: 600px;
   font-size: 1.5rem;
   padding-top: 5px;
   border: none;
@@ -195,7 +190,6 @@ button {
   width: 900px;
   display: flex;
   flex-direction: row;
-  /* justify-content: flex-start; */
   padding: 20px 0;
 }
 
