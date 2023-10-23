@@ -1,9 +1,8 @@
-import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED } from "../utils/constants.js";
+import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD } from "../utils/constants.js";
 import { push } from "../utils/router.js";
 import { getItem, setItem } from "../utils/storage.js";
 
 const DOCUMENT_ITEM = "document-item";
-const ADD = "add";
 const DELETE = "delete";
 const OPENED_ITEM = "opened-item";
 
@@ -65,7 +64,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
           </li>
           ${
             isBlock && documents.length
-              ? renderDocuments(documents, depth + 1)
+              ? renderDocuments(documents, depth + 2)
               : `<li class="no-subpages"
                       style="padding-left: ${textIndent(depth + 2)}px; 
                       display: ${isBlock ? "block" : "none"};">
@@ -80,7 +79,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
   this.render = () => {
     if (!Array.isArray(this.state)) return;
     $documentlist.innerHTML = `
-      ${this.state.length > 0 ? renderDocuments(this.state, 1) : ""}
+      ${this.state.length > 0 ? renderDocuments(this.state, 0) : ""}
     `;
   };
 

@@ -54,7 +54,7 @@ export default function DocumentEditPage({ $target, initialState }) {
           });
           removeItem(documentLocalSaveKey);
         }
-      }, 2000);
+      }, 500);
     },
   });
 

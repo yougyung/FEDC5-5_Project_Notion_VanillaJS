@@ -27,6 +27,20 @@ main {
   box-shadow: rgb(0 0 0 / 2%) -1px 0px 0px 0px inset;
 }
 
+.sidebar button {
+  color: #a3a29d;
+  padding: 3px;
+  border: transparent;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.sidebar button.add,
+.sidebar button.delete {
+  color: inherit;
+}
+
 .document-list {
   margin: 2px;
 }
