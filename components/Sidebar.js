@@ -1,13 +1,19 @@
 import SidebarItem from "./SidebarItem.js"
-import { requestDocument, HTTPError } from "../apis/documents.js"
-
+import {
+  fetchAllDocuments,
+  createNewDocument,
+  deleteDocumentById,
+  HTTPError
+} from "../apis/documents.js"
+import { observable, observe, directoryState } from "../store/observe.js"
 export default class Sidebar {
   constructor({ $target }) {
     this.$target = $target
-    this.state = []
+    this.state = directoryState
     this.setup()
     this.sidebarItem = new SidebarItem()
-    this.fetchDirectory()
+    observe(this.render.bind(this))
+    this.setState()
   }
 
   setup() {
@@ -22,56 +28,56 @@ export default class Sidebar {
     this.$add = document.getElementById("add")
   }
 
-  renderTreeByDiv() {
-    const template = this.state
+  renderSidebarItem() {
+    return this.state.directory
       .map(item => this.sidebarItem.render(item))
       .join("")
-    return template
-  }
-
-  async createNewDocument(parentId) {
-    const newDocument = {
-      title: "new document",
-      parent: parentId || null
-    }
-    await requestDocument("documents", {
-      method: "POST",
-      body: JSON.stringify(newDocument)
-    })
-    this.fetchDirectory()
-  }
-
-  setState(nextState) {
-    this.state = nextState
-    this.render()
   }
 
   render() {
-    this.$directory.innerHTML = this.renderTreeByDiv()
-    this.setEvent()
+    this.$directory.innerHTML = this.renderSidebarItem()
+    this.mounted()
   }
 
-  async fetchDirectory() {
+  mounted() {
+    this.addEvent(".append", "click", e => {
+      this.handleAppendButton(e)
+    })
+    this.addEvent(".delete", "click", e => {
+      this.handleDeleteButton(e)
+    })
+    this.addEvent(".fold", "click", e => this.toggleSubDocuments(e))
+  }
+
+  async setState() {
     try {
-      const data = await requestDocument("documents")
-      this.setState(data)
+      const documents = await fetchAllDocuments()
+      this.state.directory = documents
     } catch (err) {
       if (err instanceof HTTPError) {
         err.showAlert()
-      } else {
-        console.error(err)
       }
     }
   }
-
-  setEvent() {
-    this.addEvent(".add", "click", e =>
-      this.createNewDocument(Number(e.target.parentNode.dataset.id))
-    )
-    this.addEvent(".fold", "click", e => this.toggleSubDocuments(e))
-    this.addEvent(".popover", "click", e => this.popover(e))
+  async handleAppendButton(e) {
+    try {
+      const newDocument = await createNewDocument(
+        Number(e.target.parentNode.dataset.id)
+      )
+      console.log(newDocument)
+      this.setState()
+    } catch (err) {
+      err.showAlert("생성에 실패했습니다")
+    }
   }
-
+  async handleDeleteButton(e) {
+    try {
+      await deleteDocumentById(Number(e.target.parentNode.dataset.id))
+      this.setState()
+    } catch (err) {
+      err.showAlert("삭제에 실패했습니다")
+    }
+  }
   addEvent(selector, type, callback) {
     const targets = document.querySelectorAll(selector)
     if (!targets) {
@@ -87,23 +93,5 @@ export default class Sidebar {
 
   toggleSubDocuments(e) {
     e.target.parentNode.nextElementSibling.classList.toggle("hidden")
-  }
-
-  popover(e) {
-    const $div = document.createElement("div")
-    $div.id = "popoverContainer"
-    $div.innerHTML = `
-    <div id='popoverContent'>
-      <div>삭제</div>
-      <div>이름바꾸기</div>
-      <div>복제</div>
-    </div>
-    `
-    e.target.parentNode.appendChild($div)
-    window.addEventListener("click", event => {
-      if (event.target !== $div) {
-        $div.style.display = "none"
-      }
-    })
   }
 }

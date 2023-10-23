@@ -1,33 +1,60 @@
 const API_ENDPOINT = `https://kdt-frontend.programmers.co.kr`
 const headers = {
-  'Content-Type': 'application/json',
-  'x-username': 'dlwhd5717',
+  "Content-Type": "application/json",
+  "x-username": "dlwhd5717"
 }
+const DOCUMENTS = "documents"
+export class HTTPError extends Error {
+  constructor(status, message) {
+    super(message)
+    this.name = "HTTPError"
+    this.status = status
+  }
+
+  showAlert(msg) {
+    console.error(this.message)
+    alert(msg)
+  }
+}
+
 export const requestDocument = async (url, option) => {
   const res = await fetch(`${API_ENDPOINT}/${url}`, {
     headers,
-    ...option,
+    ...option
   })
   if (!res.ok) {
     const { status, statusText } = res
     throw new HTTPError(status, statusText)
   }
-  return await res.json()
+  return res.json()
 }
 
-export class HTTPError extends Error {
-  constructor(status, message) {
-    super(message)
-    this.name = 'HTTPError'
-    this.status = status
-    console.log(this.status)
+export const fetchAllDocuments = async () => {
+  const data = await requestDocument(DOCUMENTS)
+  return data
+}
+
+export const createNewDocument = async parentId => {
+  const newDocument = {
+    title: "new document",
+    parent: parentId || null
   }
-  get showAlert() {
-    switch (this.status) {
-      case 404:
-        return alert('잘못된 접근입니다')
-      case 401:
-        return alert('header를 확인해주세요')
-    }
-  }
+  const data = await requestDocument(DOCUMENTS, {
+    method: "POST",
+    body: JSON.stringify(newDocument)
+  })
+  return data
+}
+
+export const findDocumentById = async id => {
+  const data = await requestDocument(`${DOCUMENTS}/${id}`, {
+    method: "GET"
+  })
+  return data
+}
+
+export const deleteDocumentById = async id => {
+  const data = await requestDocument(`${DOCUMENTS}/${id}`, {
+    method: "DELETE"
+  })
 }

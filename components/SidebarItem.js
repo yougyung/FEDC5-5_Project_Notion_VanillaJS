@@ -6,8 +6,8 @@ export default class SidebarItem {
     <div class="title" data-id=${id}>
     <button class='fold'>-</button>
     ${title}
-    <button class='add'>+</button>
-    <button class='popover'>...</button>
+    <button class='append'>+</button>
+    <button class='delete'>X</button>
     </div>
         <div class="sub">${documents
           .map(document => this.render(document))
