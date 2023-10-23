@@ -1,6 +1,16 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({
+  $target,
+  initialState,
+  onEditing,
+  subDocuments,
+}) {
   const $editor = document.createElement('div');
   $editor.className = 'editor';
+  $editor.innerHTML = `
+    <input class='edit-title' type="text" name="title" placeholder='제목을 입력하세요'/>
+    <div class='edit-main' name="content" contentEditable='true' placeholder='내용을 입력하세요.'></div>
+  `;
+
   $target.appendChild($editor);
 
   this.state = initialState;
@@ -42,11 +52,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 
     return richContent;
   };
-
-  $editor.innerHTML = `
-    <input class='edit-title' type="text" name="title" placeholder='제목을 입력하세요'/>
-    <div class='edit-main' name="content" contentEditable='true' placeholder='내용을 입력하세요.'></div>
-  `;
 
   this.render = () => {
     $editor.querySelector('[name=title]').value = this.state.title;
