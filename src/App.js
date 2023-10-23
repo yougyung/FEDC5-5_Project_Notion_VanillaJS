@@ -1,5 +1,6 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
 import { request, initRouter, push } from "./utils.js";
+import { filterTitle } from "./utils/filterTitle.js";
 
 export default function App({ $target }) {
   let timer = null;
@@ -91,8 +92,8 @@ export default function App({ $target }) {
     try {
       const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
       const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
-      selectedDocumentSidebarTitle.textContent = title === null || title === "" ? "제목 없음" : title;
-      selectedDocumentHeaderTitle.textContent = title === null || title === "" ? "제목 없음" : title;
+      selectedDocumentSidebarTitle.textContent = filterTitle(title, 20);
+      selectedDocumentHeaderTitle.textContent = filterTitle(title, 23);
 
       const { pathname } = window.location;
       const documentId = pathname.substring(1);

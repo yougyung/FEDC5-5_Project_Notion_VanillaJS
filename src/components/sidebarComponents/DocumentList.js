@@ -1,4 +1,5 @@
 import { push } from "../../utils.js";
+import { filterTitle } from "../../utils/filterTitle.js";
 import { ToggleButton } from "./ToggleButton.js";
 
 export default function DocumentList({ $target, initialState, onAdd, onDelete }) {
@@ -35,7 +36,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                 <div data-id=${id} class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
-                  ${(title ?? "제목 없음") || (title === "" && "제목 없음")}
+                  ${filterTitle(title, 20)}
                   </span>
                 </div>
                       ${listItemButtons}
