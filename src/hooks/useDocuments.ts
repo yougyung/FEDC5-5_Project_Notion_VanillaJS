@@ -1,5 +1,5 @@
 import { useState, useEffect } from "@/core";
-import { getDocuments, postDocument } from "@/apis";
+import { getDocuments, postDocument, updateDocument } from "@/apis";
 import { DocumentResponse } from "@/types";
 import { navigateTo } from "@/utils";
 
@@ -28,11 +28,22 @@ const useDocuments = () => {
     }
   };
 
+  const modifyDocument = async ({ id, title, content }: { id: number; title: string; content: string }) => {
+    try {
+      const updatedDocument = await updateDocument({ id, title, content });
+
+      fetchDocuments();
+      return await updatedDocument;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchDocuments();
   }, []);
 
-  return { documents, createDocument };
+  return { documents, createDocument, modifyDocument };
 };
 
 export default useDocuments;
