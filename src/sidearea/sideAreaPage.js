@@ -77,7 +77,6 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         // console.log(title);
         // 공란 방어코드 추가해야함
         createdLi.dataset.id = id;
-        console.log("?" + title + "?");
         if (title.length) {
           createdLi.innerText = `> ${title}`;
         } else {
