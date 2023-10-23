@@ -64,28 +64,34 @@ export default function DocumentList({
       const { id } = $li.dataset;
       const { className } = e.target;
 
-      console.log(className)
       if (className === 'add-button' || className === 'fa-solid fa-plus') {
         onClickAddButton(id);
       } else if (className === 'title') {
         onClickDocument(id);
-      } else if (className === 'remove-button' || className === 'fa-solid fa-trash-can') {
+      } else if (
+        className === 'remove-button' ||
+        className === 'fa-solid fa-trash-can'
+      ) {
         onClickRemoveButton(id);
-      } else if (className === 'fold-button' || className === 'fa-solid fa-chevron-right' || className === 'fa-solid fa-chevron-down') {
+      } else if (
+        className === 'fold-button' ||
+        className === 'fa-solid fa-chevron-right' ||
+        className === 'fa-solid fa-chevron-down'
+      ) {
         const $ul = $li.querySelector('ul');
         const $foldButton = $li.querySelector('.fold-button');
-        if ($ul.style.opacity === '0') {
-          $ul.style.height = '100%';
-          $ul.style.opacity = '1';
-          $foldButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
-        } else {
-          $ul.style.height = '0px';
-          $ul.style.opacity = '0';
-          $foldButton.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+        if ($ul) {
+          if ($ul.style.display === 'none') {
+            $ul.style.display = 'block';
+            $foldButton.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+          } else {
+            $ul.style.display = 'none';
+            $foldButton.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+          }
         }
       }
     }
   });
-  
+
   this.render();
 }
