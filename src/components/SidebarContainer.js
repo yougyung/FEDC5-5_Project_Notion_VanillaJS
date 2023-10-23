@@ -13,7 +13,9 @@ export default function SidebarContainer({ $target }) {
 
   const documentList = new DocumentList({
     $target: $sidebar,
-    initialState: [],
+    initialState: {
+      documents: [],
+    },
     onRemove: async (documentId) => {
       await fetchDocuments(documentId, {
         method: "DELETE",
@@ -48,8 +50,8 @@ export default function SidebarContainer({ $target }) {
     },
   });
   this.render = async () => {
-    const document = await fetchDocuments(null);
-    documentList.setState(document);
+    const documents = await fetchDocuments(null);
+    documentList.setState({ documents });
   };
 
   this.render();

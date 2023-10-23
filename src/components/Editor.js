@@ -14,7 +14,7 @@ export default function Editor({ $target, initialState = { title: "", content: "
   this.state = initialState;
 
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = { ...this.state, ...nextState };
     this.render();
   };
 
