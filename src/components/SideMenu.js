@@ -1,6 +1,7 @@
 export default function SideMenu({
   $target,
   initialState,
+  onHeaderClick,
   onSelect,
   onPlusClick,
   onDeleteClick,
@@ -16,9 +17,14 @@ export default function SideMenu({
   };
 
   this.render = () => {
-    $nav.innerHTML = `<h1>Documents</h1>` + buildTree(this.state, 0);
+    $nav.innerHTML =
+      `<h1 class="documentList">Documents</h1>` + buildTree(this.state, 0);
   };
 
+  $nav.addEventListener("click", (e) => {
+    const $h1 = e.target.closest("h1");
+    if ($h1) onHeaderClick();
+  });
   $nav.addEventListener("click", (e) => {
     const $li = e.target.closest("span[data-id]");
     if ($li) {
@@ -51,7 +57,7 @@ const buildTree = (arr, depth) => {
     return `<ul data-depth=${depth}>${arr
       .map(
         ({ id, title, documents }) =>
-          `<li ><span data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
+          `<li><span class="documentTitle" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
           </li>${buildTree(documents, depth + 1)}`
       )
       .join("")}</ul>`;

@@ -9,9 +9,12 @@ export default function Posting({ $target, initialState }) {
     this.render();
   };
   this.render = () => {
-    const { title, content } = this.state;
-    $section.innerHTML = `<input value="${title}"/>
+    if (this.state === null) $section.innerHTML = "HOME";
+    else {
+      const { title, content } = this.state;
+      $section.innerHTML = `<input value="${title}"/>
     <textarea>${content ? content : ""}</textarea>`;
-    document.getElementsByTagName("input")[0].focus();
+      document.getElementsByTagName("input")[0].focus();
+    }
   };
 }

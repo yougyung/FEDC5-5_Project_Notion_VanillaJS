@@ -18,8 +18,16 @@ export default function App({ $target }) {
   const sideMenu = new SideMenu({
     $target: $sideMenuContainer,
     initialState: this.state.documentList,
+    onHeaderClick: async () => {
+      history.replaceState(null, null, "/");
+      this.setState({
+        ...this.state,
+        selectedDocument: null,
+      });
+      await fetchSelectedDocument();
+    },
     onSelect: async (documentId) => {
-      history.replaceState(null, null, `?selectedDocument=${documentId}`);
+      history.replaceState(null, null, `${documentId}`);
       this.setState({
         ...this.state,
         selectedDocument: documentId,
@@ -31,7 +39,7 @@ export default function App({ $target }) {
         method: "POST",
         body: JSON.stringify({ title: "제목없음", parent }),
       });
-      history.pushState(null, null, `?selectedDocument=${res.id}`);
+      history.pushState(null, null, `${res.id}`);
       this.setState({
         ...this.state,
         selectedDocument: res.id,
@@ -68,6 +76,7 @@ export default function App({ $target }) {
 
   const fetchSelectedDocument = async () => {
     const { selectedDocument } = this.state;
+
     if (selectedDocument) {
       this.setState({ ...this.state, isDocumentsLoading: true });
       const currentDocument = await request(selectedDocument);
@@ -77,6 +86,8 @@ export default function App({ $target }) {
         isDocumentsLoading: false,
       });
       posting.setState(currentDocument);
+    } else {
+      posting.setState(null);
     }
   };
 
