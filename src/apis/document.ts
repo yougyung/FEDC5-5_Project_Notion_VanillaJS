@@ -1,4 +1,5 @@
 import api from "./core";
+import { DocumentPostRequestDto, DocumentPutRequestDto } from "@/types";
 
 export const getDocuments = async () => {
   try {
@@ -22,7 +23,7 @@ export const getDocument = async (id: number) => {
   }
 };
 
-export const postDocument = async ({ title, parent }: { title: string; parent: null | number }) => {
+export const postDocument = async ({ title, parent }: DocumentPostRequestDto) => {
   try {
     const postedDocument = await api.post({ url: "/documents", body: { title, parent } });
 
@@ -32,18 +33,17 @@ export const postDocument = async ({ title, parent }: { title: string; parent: n
   }
 };
 
-export const updateDocument = async ({ id, title, content }: { id: number; title: string; content: string }) => {
+export const updateDocument = async ({ id, title, content }: DocumentPutRequestDto) => {
   try {
-    const result = await api.put({ url: `/documents/${id}`, body: { title, content } });
+    const updaatedDocument = await api.put({ url: `/documents/${id}`, body: { title, content } });
 
-    console.log(result);
-    return await result;
+    return await updaatedDocument;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const deleteDocument = async ({ id }: { id: number }) => {
+export const deleteDocument = async (id: number) => {
   try {
     const deletedDocument = await api.delete({ url: `/documents/${id}` });
 
