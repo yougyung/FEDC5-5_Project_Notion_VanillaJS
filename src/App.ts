@@ -6,7 +6,7 @@ import styles from "./app.module.scss";
 const { s_container, s_mainContainer } = styles;
 
 function App() {
-  const { documents, createDocument, modifyDocument } = useDocuments();
+  const { documents, createDocument, modifyDocument, removeDocument } = useDocuments();
 
   const matchRoute = (path: string) => {
     if (path === "/") {
@@ -23,7 +23,7 @@ function App() {
     return createComponent(NotFound);
   };
 
-  const sidebarComponent = createComponent(Sidebar, { documents, createDocument });
+  const sidebarComponent = createComponent(Sidebar, { documents, createDocument, removeDocument });
   const mainComponent = matchRoute(window.location.pathname);
 
   const bindEvents = () => {
