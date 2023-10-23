@@ -1,8 +1,9 @@
-import { useEffect, useState } from "@/core";
-import styles from "./editor.module.scss";
-import { getDocument } from "@/apis";
 import debounce from "lodash.debounce";
+
+import { useEffect, useState } from "@/core";
+import { getDocument } from "@/apis";
 import { DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
+import styles from "./editor.module.scss";
 
 const { s_editorForm, s_editorInput, s_editorContent } = styles;
 
