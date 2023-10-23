@@ -21,6 +21,7 @@ export default function App({ $target }) {
   this.state = {
     documentList: [],
     selectedDocument: null,
+    subDocuments: null,
   };
 
   this.setState = (nextState) => {
@@ -58,7 +59,7 @@ export default function App({ $target }) {
     onClickDocument: async (id) => {
       await fetchSelectedDocument(id);
       push(`/${id}`);
-      subDocumentFooter.setState(this.state.selectedDocument.documents);
+      subDocumentFooter.setState(this.state.subDocuments);
     },
     onClickAddButton: async (id) => {
       const addedDocument = await fetchAddDocument(id, '제목 없음');
@@ -119,7 +120,7 @@ export default function App({ $target }) {
 
   const subDocumentFooter = new SubDocumentFooter({
     $target: $editorContainer,
-    initialState: this.state.selectedDocument ? this.state.selectedDocument.documents : [],
+    initialState: this.state.subDocuments ? this.state.subDocuments : [],
     onClick: async (id) => {
       await fetchSelectedDocument(id);
       push(`/${id}`);
@@ -136,6 +137,7 @@ export default function App({ $target }) {
     this.setState({
       ...this.state,
       selectedDocument,
+      subDocuments: selectedDocument.documents,
     });
     editor.setState(selectedDocument);
   };
