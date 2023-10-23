@@ -31,7 +31,7 @@ export default function Editor({ $target, initialState = { title: "", content: "
     const { target } = e;
     const name = target.getAttribute("name");
 
-    if (this.state[name] != undefined) {
+    if (this.state[name] !== undefined) {
       const nextState = { ...this.state, [name]: target.value };
       this.setState(nextState);
       console.log(nextState);

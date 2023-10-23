@@ -16,9 +16,10 @@ main {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 230px;
   height: 100%;
-  padding: 15px;
   color: rgba(25, 23, 17, 0.6);
   font-weight: 500;
   font-size: 14px;
@@ -26,28 +27,46 @@ main {
   box-shadow: rgb(0 0 0 / 2%) -1px 0px 0px 0px inset;
 }
 
+.document-list {
+  margin: 2px;
+}
+
 .document-list li {
-  display: flex;
-  justify-content: space-between;
+  margin: 2px;
   padding: 5px;
+  border-radius: 3px;
 }
 .document-list li:not(.no-subpages):hover {
   background-color: #ebebea;
   cursor: pointer;
 }
 
+.document-list li:not(.no-subpages):active {
+  background-color: #d7d7d5;
+}
+
+.document-list .no-subpages {
+  font-weight: 400;
+}
+
+.document-list .buttons {
+  display: none;
+}
+
+.document-list .block {
+  display: inline;
+}
+
 .document-list button {
+  color: inherit;
   padding: 3px 5px;
   border: transparent;
   border-radius: 5px;
   background: none;
+  cursor: pointer;
 }
 .document-list button:hover {
   background-color: #dededd;
-}
-
-.document-list button .add-icon {
-  color: #6d6c68;
 }
 
 .document-edit-page {
@@ -74,7 +93,7 @@ main {
 .editor .content {
   width: 100%;
   padding: 10px;
-  color: #37352f;
+  color: inherit;
   font-family: inherit;
   border: none;
   outline: none;
@@ -93,6 +112,7 @@ main {
 .editor .content {
   font-size: 16px;
   height: 400px;
+  resize: none;
 }
 .editor .content::placeholder {
   color: #9c9c98;

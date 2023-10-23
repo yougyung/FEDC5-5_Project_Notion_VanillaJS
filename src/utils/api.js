@@ -2,7 +2,7 @@ export const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, {
+    const res = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -20,4 +20,4 @@ export const request = async (url, options = {}) => {
 };
 
 export const fetchDocuments = async (documentId = "", options) =>
-  request(`${API_END_POINT}/documents${documentId.length ? `/${documentId}` : ""}`, options);
+  request(`${API_END_POINT}/documents${documentId ? `/${documentId}` : ""}`, options);
