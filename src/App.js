@@ -61,16 +61,12 @@ export default function App({ $target }) {
         method: "DELETE",
       });
 
-      documentEditPage.setState({
-        documentId: "new",
-        document: {
-          title: "",
-          content: "",
-        },
-      });
+      const $documentEditPage = document.querySelector(".document-edit-page");
+      if ($documentEditPage) {
+        $documentEditPage.remove();
+      }
 
       history.pushState(null, null, "/");
-
       sidebar.render();
     } catch (error) {
       console.log(error);
