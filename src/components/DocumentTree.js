@@ -4,6 +4,7 @@ export default function DocumentTree({
   $container,
   initialState = [],
   onCreateDocument,
+  onClick,
 }) {
   const $tree = document.createElement("div");
   $tree.id = "document-tree";
@@ -42,11 +43,13 @@ export default function DocumentTree({
       if (!$span) return;
 
       const $selectedInput = $span.firstElementChild;
-      if (e.target.className === "add-button") {
+      const { className } = e.target;
+      if (className === "add-button") {
         $selectedInput.classList.remove("hide");
         e.target.classList.add("hide");
-      } else {
-        // history.pushState(null, null, `/document/${id}`);
+      } else if (className !== "document-title") {
+        const { id } = $span.dataset;
+        onClick(id);
       }
     });
 

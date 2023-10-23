@@ -14,6 +14,9 @@ export default function App({ $target }) {
       await api.post(POST_API_DOCUMENT, body);
       this.init();
     },
+    onClick: (id) => {
+      history.pushState(null, null, `/document/${id}`);
+    },
   });
 
   const editor = new Editor({ $container });
