@@ -1,5 +1,5 @@
 import DocumentList from "./DocumentList.js";
-import { request } from "../utils/api.js";
+import { fetchDocuments, request } from "../utils/api.js";
 import { DOCUMENTS_ROUTE } from "../utils/constants.js";
 
 export default function SidebarContainer({ $target }) {
@@ -14,7 +14,7 @@ export default function SidebarContainer({ $target }) {
   });
 
   this.render = async () => {
-    const document = await request(DOCUMENTS_ROUTE);
+    const document = await fetchDocuments();
     documentList.setState(document);
   };
 

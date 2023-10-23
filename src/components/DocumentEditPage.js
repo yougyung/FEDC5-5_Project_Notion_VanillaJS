@@ -1,4 +1,4 @@
-import { request } from "../utils/api.js";
+import { fetchDocuments, request } from "../utils/api.js";
 import { getItem, removeItem, setItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
 import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
@@ -32,7 +32,7 @@ export default function DocumentEditPage({ $target, initialState }) {
         });
         if (this.state.documentId === NEW) {
           // document 생성
-          const createdDocument = await request(DOCUMENTS_ROUTE, {
+          const createdDocument = await fetchDocuments("", {
             method: "POST",
             body: JSON.stringify({
               title: document.title,
@@ -48,7 +48,7 @@ export default function DocumentEditPage({ $target, initialState }) {
           });
         } else {
           // document 수정
-          await request(`${DOCUMENTS_ROUTE}/${document.id}`, {
+          await fetchDocuments(document.id, {
             method: "PUT",
             body: JSON.stringify(document),
           });
@@ -92,7 +92,7 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   const fetchDocument = async () => {
     const { documentId } = this.state;
-    const document = await request(`${DOCUMENTS_ROUTE}/${documentId}`);
+    const document = await fetchDocuments(documentId);
 
     const tempDocument = getItem(documentLocalSaveKey, {
       title: "",
