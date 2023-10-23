@@ -11,23 +11,27 @@ export default function DocumentEditSection({ $target, initialState }) {
 
   let timer = null;
 
+  const defaultValue = {
+    title: "",
+    content: "",
+  }
+
   const editor = new Editor({
     $target: $div,
     initialState: {
       documentId: 0,
-      document: {
-        title: "",
-        content: "",
-      },
+      document: defaultValue
     },
     onEditing: (document) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
 
-      documentLocalSaveKey = `temp-document-${document.id}`;
-
       timer = setTimeout(async () => {
+        documentLocalSaveKey = `temp-document-${
+          document.id ? document.id : "new"
+        }`;
+
         setItem(documentLocalSaveKey, {
           ...document,
           tempSaveDate: new Date(),
@@ -43,12 +47,28 @@ export default function DocumentEditSection({ $target, initialState }) {
           });
 
           history.replaceState(null, null, `/document/${createDocument.id}`);
+          createDocument.content = getItem(documentLocalSaveKey, "").content;
 
-          removeItem(documentLocalSaveKey);
-          this.setState({
-            ...this.state,
-            document: createDocument,
+          documentLocalSaveKey = `temp-document-${createDocument.id}`;
+
+          await request(`/documents/${createDocument.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              title: createDocument.title,
+              content: createDocument.content,
+            }),
           });
+
+          setItem(documentLocalSaveKey, {
+            ...createDocument,
+            tempSaveDate: new Date(),
+          });
+          removeItem('temp-document-new');
+
+          this.setState({
+            documentId: createDocument.id,
+            document: createDocument
+          })
         } else {
           await request(`/documents/${document.id}`, {
             method: "PUT",
@@ -64,30 +84,34 @@ export default function DocumentEditSection({ $target, initialState }) {
     },
   });
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
+    documentLocalSaveKey = `temp-document-${this.state.documentId || "new"}`;
     if (this.state.documentId !== nextState.documentId) {
       this.state = nextState;
-      if (this.state.documentId === "new") {
-        documentLocalSaveKey = `temp-document-${this.state.document.id}`;
 
-        setItem(documentLocalSaveKey, {
-          ...this.state,
-          tempSaveDate: new Date(),
-        });
-      } else {
-        fetchDocument();
+      if (this.state.documentId === 'new') {
+        const storedDocument = getItem("temp-document-new", '');
+        
+        if (storedDocument !== '') {
+          if (confirm("저장안된 임시 데이터가 존재합니다. 불러올까요?")) {
+            editor.setState(storedDocument);
+          } else {
+            editor.setState(defaultValue);
+          }
+        } else {
+          editor.setState(defaultValue);
+        }
+      }
+      else {
+        if (this.state.documentId !== "new") {
+          await fetchDocument();
+          return;
+        }
       }
     }
 
     this.state = nextState;
     this.render();
-    documentLocalSaveKey = `temp-document-${this.state.document.id}`;
-
-    setItem(documentLocalSaveKey, {
-      ...this.state.document,
-      tempSaveDate: new Date(),
-    });
-
     editor.setState(this.state.document);
   };
 
