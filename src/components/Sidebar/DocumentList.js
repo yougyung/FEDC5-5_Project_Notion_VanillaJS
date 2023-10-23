@@ -26,10 +26,16 @@ export default function DocumentList({
             .map(
               (document) =>
                 `<li data-id="${document.id}">
-                  <button class="toggle-button" data-id="${
-                    document.id
-                  }">▶︎</button>
-                  ${document.title}
+                  <button class="toggle-button" ${
+                    document.documents && document.documents.length === 0
+                      ? 'disabled'
+                      : ''
+                  } data-id="${document.id}">▶︎</button>
+                  <span class="${
+                    window.location.pathname === `/documents/${document.id}`
+                      ? 'selected'
+                      : ''
+                  }">${document.title}</span>
                   <button class="add-button" data-id="${document.id}">+</button>
                   ${
                     document.documents && !document.isFolded

@@ -7,7 +7,10 @@ export default function SidebarHeader({ $target, onDocumentAdded }) {
   this.render = () => {
     $sidebarHeader.innerHTML = `
     <h3>재웅님의 Obsidian</h3>
-    <button class="add-button">새 문서 작성하기</button>`;
+    <button class="add-button">
+      <i class="fa fa-plus" />
+      새 문서 작성하기
+    </button>`;
   };
 
   $sidebarHeader.addEventListener('click', (e) => {
