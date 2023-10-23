@@ -33,6 +33,7 @@ export interface DocumentPostResponseDto {
 }
 
 export interface DocumentPutRequestDto {
+  id: number;
   title: string;
   content: string;
 }
