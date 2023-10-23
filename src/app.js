@@ -19,7 +19,7 @@ export default function App({ $target }) {
     $target: $sideMenuContainer,
     initialState: this.state.documentList,
     onSelect: async (documentId) => {
-      history.pushState(null, null, `?selectedDocument=${documentId}`);
+      history.replaceState(null, null, `?selectedDocument=${documentId}`);
       this.setState({
         ...this.state,
         selectedDocument: documentId,
@@ -37,7 +37,12 @@ export default function App({ $target }) {
         selectedDocument: res.id,
       });
       await fetchSelectedDocument();
+      await fetchDocumentList();
       document.getElementsByTagName("input")[0].select();
+    },
+    onDeleteClick: async (documentId) => {
+      await request(documentId, { method: "DELETE" });
+      await fetchDocumentList();
     },
   });
 

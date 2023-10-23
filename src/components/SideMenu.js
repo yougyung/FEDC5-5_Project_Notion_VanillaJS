@@ -3,6 +3,7 @@ export default function SideMenu({
   initialState,
   onSelect,
   onPlusClick,
+  onDeleteClick,
 }) {
   const $nav = document.createElement("nav");
 
@@ -26,14 +27,21 @@ export default function SideMenu({
     }
   });
 
-  $nav.addEventListener("click", async (e) => {
-    const $button = e.target.closest("button[data-button]");
-    if ($button) {
-      const { button } = $button.dataset;
-      const $ul = $button.parentNode.nextSibling;
-
+  $nav.addEventListener("click", (e) => {
+    const $postAddButton = e.target.closest("button[data-add]");
+    if ($postAddButton) {
+      const { add } = $postAddButton.dataset;
+      const $ul = $postAddButton.parentNode.nextSibling;
       $ul.innerHTML += `<li>제목없음</li>`;
-      onPlusClick(button);
+      onPlusClick(add);
+    }
+  });
+
+  $nav.addEventListener("click", (e) => {
+    const $postRemoveButton = e.target.closest("button[data-remove]");
+    if ($postRemoveButton) {
+      const { remove } = $postRemoveButton.dataset;
+      onDeleteClick(remove);
     }
   });
 }
@@ -43,7 +51,7 @@ const buildTree = (arr, depth) => {
     return `<ul data-depth=${depth}>${arr
       .map(
         ({ id, title, documents }) =>
-          `<li ><span data-id="${id}">${title}</span><button data-button="${id}"> + </button>
+          `<li ><span data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
           </li>${buildTree(documents, depth + 1)}`
       )
       .join("")}</ul>`;
