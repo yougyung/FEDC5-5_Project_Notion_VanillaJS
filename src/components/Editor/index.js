@@ -1,11 +1,19 @@
 import Component from '@/core/Component';
-import { appendNewElementToParent } from '../../utils/dom';
 
 export default class Editor extends Component {
   setup() {
-    this.state = {
-      currentDocument: null,
-    };
+    this.state = null;
+
+    this.$editor = document.createElement('article');
+    this.$target.appendChild(this.$editor);
+
+    this.$title = document.createElement('input');
+    this.$title.classList.add('editor-title');
+
+    this.$content = document.createElement('textarea');
+    this.$content.classList.add('editor-content');
+
+    this.createDom();
   }
 
   setState(nextState) {
@@ -13,30 +21,44 @@ export default class Editor extends Component {
     this.render();
   }
 
-  attachToTarget() {
-    this.$editor = appendNewElementToParent('article', this.$target);
+  createDom() {
+    this.$editor.appendChild(this.$title);
+    this.$editor.appendChild(this.$content);
   }
 
-  addChildElements() {
-    this.$title = appendNewElementToParent('input', this.$editor);
-    this.$content = appendNewElementToParent('textarea', this.$editor);
-  }
-
+  // eslint-disable-next-line max-lines-per-function
   setEvent() {
-    this.$editor.addEventListener('input', (e) => {
-      const { tagName, value } = e.target;
+    this.addEvent('keyup', '.editor-title', (e) => {
+      e.preventDefault();
+      const { value } = e.target;
+      const nextState = { ...this.state, title: value };
 
-      if (tagName === 'INPUT') console.log('title is', value);
-      if (tagName === 'TEXTAREA') console.log('content is', value);
+      this.setState(nextState);
+      this.props.onEdit(this.state);
+    });
+
+    this.addEvent('input', '.editor-content', ({ target }) => {
+      const { value } = target;
+      const nextState = { ...this.state, content: value };
+
+      this.setState(nextState);
+      this.props.onEdit(this.state);
     });
   }
 
   render() {
-    if (!this.state.currentDocument) return;
+    // TODO 스타일 속성을 직접 변경하지 말고 className으로 변경해주기
+    if (!this.state) {
+      this.$editor.style.display = 'none';
+      return;
+    }
 
-    const { title, content } = this.state.currentDocument;
+    this.$editor.style.display = 'block';
 
-    this.$title.value = title;
-    this.$content.value = content;
+    const { title, content } = this.state;
+
+    this.$title.value = title || '';
+    this.$title.placeholder = '제목 없음';
+    this.$content.value = content || '';
   }
 }
