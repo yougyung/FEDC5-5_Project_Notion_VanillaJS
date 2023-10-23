@@ -72,7 +72,7 @@ export default function App({ $target }) {
 
       if (!document) {
         alert("존재하지 않는 페이지이므로 초기 페이지로 이동합니다.");
-        Init();
+        this.route();
         return;
       }
 
