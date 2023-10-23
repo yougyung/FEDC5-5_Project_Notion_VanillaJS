@@ -55,7 +55,11 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         // console.log(title.length);
-        createdLi.innerText = `> ${title}`;
+        if (title.length) {
+          createdLi.innerText = `> ${title}`;
+        } else {
+          createdLi.innerText = `>  `;
+        }
         // console.log(title);
         // console.log(documents);
         createdLi.appendChild(addPageButton);
