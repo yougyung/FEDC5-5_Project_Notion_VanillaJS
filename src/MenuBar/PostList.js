@@ -4,10 +4,22 @@ import Modal from "./Modal.js";
 
 export default function PostList({ $target, initialState, onRenderContents }) {
   const LOCAL_STORAGE_KEY = "PostID-";
+  // 상단 소개 글
   const $introduce = document.createElement("div");
   $introduce.textContent = "📒 최익의 Notion";
   $introduce.style.fontSize = "20px";
   $introduce.style.margin = "20px";
+  // 루트 포스트 추가
+  const $addPost = document.createElement("div");
+  $addPost.setAttribute("class", "addPost");
+  $addPost.textContent = "📂 새 폴더 추가 ➕";
+  $addPost.addEventListener("click", (e) =>
+    modal.setState({
+      id: null,
+      $target: document.querySelector("[name=post]"),
+    })
+  );
+  // 포스트 리스트 엘리먼트
   const $postList = document.createElement("div");
 
   this.state = initialState;
@@ -19,6 +31,7 @@ export default function PostList({ $target, initialState, onRenderContents }) {
   };
 
   $target.appendChild($introduce);
+  $target.appendChild($addPost);
 
   // 모달 생성
   const modal = new Modal({
@@ -74,7 +87,6 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
             onRenderContents(id);
           } else {
-            console.log("취소를 누르면 뜨는 버튼");
             onRenderContents(id);
           }
 
@@ -111,44 +123,93 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     });
   };
 
+  // 자식 포스트 재귀호출 함수
+  const postListRecursion = (depth, data, parentId) => {
+    const $postListDiv = $postList.querySelector("[name=post]");
+
+    // 루트 Post 순회
+    if (depth === 0) {
+      data.forEach((rootItem) => {
+        const { title, id, documents } = rootItem;
+        const $details = document.createElement("details");
+
+        $details.innerHTML = `
+          <summary class="summary">${title}
+            <button data-id="${id}" class="addBtn">➕</button>
+            <button data-id="${id}" class="deleteBtn"> ➖ </button>
+          </summary>
+          <ul name="${id}"></ul>
+        `;
+
+        $postListDiv.appendChild($details);
+        documents.length && postListRecursion(depth + 1, documents, id);
+      });
+    }
+    // 자식 post 순회
+    else {
+      // 부모에 해당하는 ul 참조
+      const $ul = [...$postListDiv.querySelectorAll("ul")].filter(
+        (ul) => ul.getAttribute("name") === String(parentId)
+      );
+
+      data.forEach((childData) => {
+        const { title, id, documents } = childData;
+        const $details = document.createElement("details");
+
+        $details.innerHTML = `
+          <summary class="summary" id="${id}">${title}
+            <button data-id="${id}" class="addBtn">➕</button>
+            <button data-id="${id}" class="deleteBtn"> ➖ </button>
+          </summary>
+          <ul name="${id}"></ul>
+        `;
+
+        $ul[0].appendChild($details);
+        documents.length && postListRecursion(depth + 1, documents, id);
+      });
+    }
+  };
+
   // API Request
   const fetchData = async (url, payload = {}) => {
     return await HTTPRequest(url, payload);
   };
 
   this.render = () => {
+    $postList.innerHTML = `<div class="postlist" name="post"></div>`;
+    postListRecursion(0, this.state);
     // 토글 버튼으로 루트 폴더와 하위 폴더 생성
     // 추후 재귀 함수로 리팩토링 예정
-    $postList.innerHTML = `
-    <div class="postlist" name="editor">
-      ${this.state
-        .map(
-          ({ title, id, documents }) => `
-        <details>
-           <summary class="summary">${title}
-            <button data-id="${id}" class="addBtn"> + </button>
-            <button data-id="${id}" class="deleteBtn"> - </button>
-           </summary>
-           <ul id="${id}">
-            ${documents
-              .map(
-                ({ title, id }) =>
-                  `<li id="${id}" >${title}
-                    <button data-id="${id}"class="addBtn"> + </button>
-                    <button data-id="${id}" class="deleteBtn"> - </button>
-                  </li>`
-              )
-              .join("")} 
-           </ul>
-        </details>`
-          // const $ul = document.querySelector(`#${id}`);
-        )
-        .join("")}
-    </div>`;
+    // $postList.innerHTML = `
+    // <div class="postlist" name="post">
+    //   ${this.state
+    //     .map(
+    //       ({ title, id, documents }) => `
+    //     <details>
+    //        <summary class="summary">${title}
+    //         <button data-id="${id}" class="addBtn"> ➕ </button>
+    //         <button data-id="${id}" class="deleteBtn"> ➖ </button>
+    //        </summary>
+    //        <ul id="${id}">
+    //         ${documents
+    //           .map(
+    //             ({ title, id }) =>
+    //               `<li id="${id}" >${title}
+    //                 <button data-id="${id}"class="addBtn"> ➕ </button>
+    //                 <button data-id="${id}" class="deleteBtn"> ➖ </button>
+    //               </li>`
+    //           )
+    //           .join("")}
+    //        </ul>
+    //     </details>`
+    //       // const $ul = document.querySelector(`#${id}`);
+    //     )
+    //     .join("")}
+    // </div>`;
 
     $target.appendChild($postList);
 
-    const $div = document.querySelector("[name=editor]");
+    const $div = document.querySelector("[name=post]");
     onClickList($div);
     onClickButton($div);
   };

@@ -28,7 +28,7 @@ export default function App({ $target, initialState }) {
 
     if (pathname === "/") {
       const postList = await fetchData("");
-
+      console.log("초기 데이터", postList);
       menuBarApp.setState(postList);
     } else {
       // 해당 id를 가진 문서를 에디터 App의 state에 전송

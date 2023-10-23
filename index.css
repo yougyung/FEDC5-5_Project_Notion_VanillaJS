@@ -5,27 +5,38 @@
 
 /* 메뉴바 */
 .menuBar {
-  width: 20vw;
+  width: 500px;
   height: 100vh;
   background-color: #f6f6f6;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  /* cursor: pointer; */
 }
 
 .postlist {
+  margin-top: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.addPost {
   margin-top: 70px;
   margin-left: 20px;
+  cursor: pointer;
 }
+
 .summary {
   font-size: 18px;
 }
 
 .addBtn {
-  background-color: white;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .deleteBtn {
-  background-color: white;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 /* 에디터 */
