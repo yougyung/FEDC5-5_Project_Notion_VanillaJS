@@ -1,5 +1,6 @@
 export default function Posting({ $target, initialState }) {
   const $section = document.createElement("section");
+  $section.className = "edit";
   $target.appendChild($section);
   this.state = initialState;
 
@@ -9,8 +10,8 @@ export default function Posting({ $target, initialState }) {
   };
   this.render = () => {
     const { title, content } = this.state;
-    $section.innerHTML = `<h2>${title}</h2><textarea>${
-      content ? content : ""
-    }</textarea>`;
+    $section.innerHTML = `<input value="${title}"/>
+    <textarea>${content ? content : ""}</textarea>`;
+    document.getElementsByTagName("input")[0].focus();
   };
 }
