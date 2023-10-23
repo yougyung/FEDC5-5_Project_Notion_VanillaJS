@@ -9,14 +9,18 @@ function App() {
   const { documents, createDocument } = useDocuments();
 
   const matchRoute = (path: string) => {
-    switch (path) {
-      case "/":
-        return createComponent(UserGuide);
-      case /^\/documents\/(?<documentId>\d+)$/.test(path) ? path : null:
-        return createComponent(Editor, { documentId: Number(path.match(/\/documents\/(\d+)/)?.[1]) ?? null });
-      default:
-        return createComponent(NotFound);
+    if (path === "/") {
+      return createComponent(UserGuide);
     }
+
+    const documentMatch = path.match(/^\/documents\/(\d+)$/);
+
+    if (documentMatch) {
+      const documentId = Number(documentMatch[1]);
+      return createComponent(Editor, { documentId });
+    }
+
+    return createComponent(NotFound);
   };
 
   const sidebarComponent = createComponent(Sidebar, { documents, createDocument });
@@ -24,6 +28,7 @@ function App() {
 
   const bindEvents = () => {
     sidebarComponent.bindEvents?.();
+    mainComponent.bindEvents?.();
   };
 
   return {
