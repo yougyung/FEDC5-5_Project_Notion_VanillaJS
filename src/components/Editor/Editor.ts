@@ -1,33 +1,25 @@
-import { useEffect } from "@/core";
+import { useEffect, useState } from "@/core";
 import styles from "./editor.module.scss";
 import { getDocument } from "@/apis";
+import debounce from "lodash.debounce";
+import { DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
 
 const { s_editorForm, s_editorInput, s_editorContent } = styles;
 
 interface EditorProps {
   documentId: number;
+  modifyDocument: ({ id, title, content }: DocumentPutRequestDto) => Promise<DocumentPutResponseDto>;
 }
 
-function Editor({ documentId }: EditorProps) {
-  const updateFormValues = ({ title, content }: { title: string; content: string }) => {
-    const $title = window.document.querySelector("#title") as HTMLInputElement;
-    const $content = window.document.querySelector("#content") as HTMLTextAreaElement;
-
-    if ($title && title) {
-      $title.value = title;
-    }
-
-    if ($content && content) {
-      $content.value = content;
-    }
-  };
+function Editor({ documentId, modifyDocument }: EditorProps) {
+  const [documentForm, setDocumentForm] = useState({ title: "", content: "" });
 
   useEffect(() => {
     const fetchDocument = async (id: number) => {
       try {
         const { title, content } = await getDocument(id);
 
-        updateFormValues({ title, content });
+        setDocumentForm({ title, content });
       } catch (error) {
         console.error(error);
       }
@@ -36,11 +28,18 @@ function Editor({ documentId }: EditorProps) {
     fetchDocument(documentId);
   }, [documentId]);
 
+  const debouncedUpdate = debounce(async (title, content) => {
+    const modifiedDocument = await modifyDocument({ id: documentId, title, content });
+    setDocumentForm({ title: modifiedDocument.title, content: modifiedDocument.content });
+  }, 500);
+
   const handleKeydownForm = (event: Event) => {
     event.preventDefault();
 
     const $title = window.document.querySelector("#title") as HTMLInputElement;
     const $content = window.document.querySelector("#content") as HTMLTextAreaElement;
+
+    debouncedUpdate($title.value, $content.value);
   };
 
   const bindEvents = () => {
@@ -55,9 +54,10 @@ function Editor({ documentId }: EditorProps) {
         <fieldset>
           <legend class="a11yHidden">새 문서 작성</legend>
           <label for="title">제목</label>
-          <input id="title" type="text" class="${s_editorInput}" required/>
+          <input id="title" type="text" class="${s_editorInput}" value=${documentForm.title} required/>
           <label for="content">내용</label>
           <textarea id="content" rows=50 class="${s_editorContent}" >
+            ${documentForm.content}
           </textarea>
         </fieldset>
       </form>
