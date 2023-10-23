@@ -140,6 +140,7 @@ export default function App({ $target }) {
     const { pathname } = window.location;
 
     if (pathname === "/") {
+      Init();
       return;
     }
 
@@ -160,7 +161,7 @@ export default function App({ $target }) {
     }
   };
 
-  // window.addEventListener("popstate", () => this.route());
+  window.addEventListener("popstate", () => this.route());
 
   this.route();
 
