@@ -2,14 +2,14 @@ import styles from "./editor.module.scss";
 
 const { s_editorForm, s_editorInput, s_editorContent } = styles;
 
-const handleKeydownForm = (event: Event) => {
-  event.preventDefault();
-
-  const $title = window.document.querySelector("#title") as HTMLInputElement;
-  const $content = window.document.querySelector("#content") as HTMLTextAreaElement;
-};
-
 function Editor() {
+  const handleKeydownForm = (event: Event) => {
+    event.preventDefault();
+
+    const $title = window.document.querySelector("#title") as HTMLInputElement;
+    const $content = window.document.querySelector("#content") as HTMLTextAreaElement;
+  };
+
   const bindEvents = () => {
     const $form = window.document.querySelector(`.${s_editorForm}`) as HTMLFormElement;
 
