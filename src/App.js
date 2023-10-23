@@ -1,13 +1,16 @@
 import MainPage from '@/pages/MainPage';
-import { addPopstateEvent, addRouteChangeEvent } from './router';
+import { addPopstateEvent, addRouteChangeEvent } from '@/router';
+import Component from '@/core/Component';
 
-export default class App {
-  constructor({ $target }) {
-    this.$mainPage = new MainPage($target);
-
+export default class App extends Component {
+  setup() {
+    this.$mainPage = new MainPage(this.$target);
     this.route();
+  }
+
+  setEvent() {
     addRouteChangeEvent(this.route.bind(this));
-    addPopstateEvent();
+    addPopstateEvent(this.route.bind(this));
   }
 
   getDocumentId() {
