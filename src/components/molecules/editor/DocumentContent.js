@@ -9,41 +9,45 @@ export default function DocumentContent({ $target, content, onEditContent }) {
   this.state = content;
 
   this.setState = nextState => {
-    this.state = nextState;
+    // this.state = nextState;
+    this.state = nextState.startsWith('<div>') ? nextState : `<div>${nextState}</div>`;
+
     this.render();
   };
 
-  // const $content = document.createElement('div');
-  const $content = document.createElement('textarea');
-  // $content.setAttribute('contenteditable', 'true');
+  const $content = document.createElement('div');
+  $content.setAttribute('contenteditable', 'true');
   $content.style.width = '100%';
   $content.style.height = '90vh';
   $target.appendChild($content);
 
-  $content.addEventListener('keyup', e => {
-    this.setState(e.target.value);
+  $content.addEventListener('input', e => {
+    this.setState(e.target.innerHTML);
     onEditContent(this.state);
-    // moveCursorToEnd($content);
+    moveCursorToEnd($content);
   });
 
   this.render = () => {
-    // const richContent = this.state
-    //   .split('\n')
-    //   .map(line => {
-    //     if (line.indexOf('# ') === 0) {
-    //       return `<h1>${line.substring(2)}</h1>`;
-    //     } else if (line.indexOf('## ') === 0) {
-    //       return `<h2>${line.substring(3)}</h2>`;
-    //     } else if (line.indexOf('### ') === 0) {
-    //       return `<h3>${line.substring(3)}</h3>`;
-    //     }
-    //     return line;
-    //   })
-    //   .join('<br/>');
+    const richContent = this.state
+      .split('<div>')
+      .map(line => {
+        if (line.indexOf('# ') === 0) {
+          return `<h1>${line.substring(2)}</h1>`;
+        } else if (line.indexOf('## ') === 0) {
+          return `<h2>${line.substring(3)}</h2>`;
+        } else if (line.indexOf('### ') === 0) {
+          return `<h3>${line.substring(3)}</h3>`;
+        }
+        return line;
+      })
+      .join('<div>');
 
-    // $content.innerHTML = richContent;
-    $content.value = this.state;
+    $content.innerHTML = richContent;
   };
 
   this.render();
 }
+// teset
+// <div>teste</div>
+// <div>tset</div>
+// <div><br></div>
