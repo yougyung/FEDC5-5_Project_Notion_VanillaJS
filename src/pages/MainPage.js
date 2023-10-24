@@ -11,6 +11,7 @@ import {
   updateDocument,
 } from '@/api/document';
 import { API_END_POINT } from '@/constants/api';
+import { debounce } from '../utils/debounce';
 
 export default class MainPage extends Component {
   constructor($target) {
@@ -31,7 +32,7 @@ export default class MainPage extends Component {
       onDelete: this.handleDocumentDelete.bind(this),
     });
     this.$editor = new Editor(this.$section, {
-      onEdit: this.handleEditorEdit.bind(this),
+      onEdit: debounce(this.handleEditorEdit.bind(this), 1000),
     });
 
     this.$target.appendChild(this.$sidebar);
@@ -95,5 +96,6 @@ export default class MainPage extends Component {
     const { id, title, content } = nextState;
 
     await updateDocument(id, { title, content });
+    this.fetchDocumentList(); // TODO 가능하면 낙관적 업데이트 해볼 것
   }
 }

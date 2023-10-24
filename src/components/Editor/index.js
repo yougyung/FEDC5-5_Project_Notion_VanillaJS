@@ -12,7 +12,6 @@ export default class Editor extends Component {
 
     this.$content = document.createElement('textarea');
     this.$content.classList.add('editor-content');
-
     this.createDom();
   }
 
@@ -29,7 +28,6 @@ export default class Editor extends Component {
   // eslint-disable-next-line max-lines-per-function
   setEvent() {
     this.addEvent('keyup', '.editor-title', (e) => {
-      e.preventDefault();
       const { value } = e.target;
       const nextState = { ...this.state, title: value };
 
