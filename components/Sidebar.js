@@ -1,5 +1,5 @@
 import SidebarItem from "./SidebarItem.js"
-import { documentStore } from "../store/store.js"
+import { documentStore } from "../store/documentStore.js"
 export default class Sidebar {
   constructor({ $target, initialState = [] }) {
     this.$target = $target
@@ -17,9 +17,9 @@ export default class Sidebar {
         <div id="directory" role='group'>Loading</div>
         <div role="button" id="add">추가</div>
     `
+    this.$target.appendChild(this.$sidebar)
     this.$directory = document.getElementById("directory")
     this.$add = document.getElementById("add")
-    this.$target.appendChild(this.$sidebar)
   }
 
   renderSidebarItem() {
@@ -77,7 +77,9 @@ export default class Sidebar {
 
   onClick(e) {
     e.preventDefault()
+    const urlchange = new CustomEvent("urlchange")
     history.pushState(null, null, e.target.href)
+    window.dispatchEvent(urlchange)
   }
 
   toggleSubDocuments(e) {

@@ -5,9 +5,11 @@ export default class SidebarItem {
     <div>
     <div class="title" data-id=${id}>
     <button class='fold'>-</button>
-    ${title}
+    <a href=/documents/${id}>${title}</a>
+    <div class='tool hidden'>
     <button class='append'>+</button>
     <button class='delete'>X</button>
+    </div>
     </div>
         <div class="sub">${documents
           .map(document => this.render(document))
