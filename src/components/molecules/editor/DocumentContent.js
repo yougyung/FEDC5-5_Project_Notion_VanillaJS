@@ -4,21 +4,12 @@
  */
 
 import { moveCursorToEnd } from '../../../utils/editerUtils.js';
+import styleInJS from '../../../style/tagStyles.js';
 
 export default function DocumentContent({ $target, content, onEditContent }) {
-  this.state = content;
-
-  this.setState = nextState => {
-    // this.state = nextState;
-    this.state = nextState.startsWith('<div>') ? nextState : `<div>${nextState}</div>`;
-
-    this.render();
-  };
-
   const $content = document.createElement('div');
   $content.setAttribute('contenteditable', 'true');
-  $content.style.width = '100%';
-  $content.style.height = '90vh';
+  styleInJS({ $target: $content, styleTagName: 'DocumentContent' });
   $target.appendChild($content);
 
   $content.addEventListener('input', e => {
@@ -26,6 +17,14 @@ export default function DocumentContent({ $target, content, onEditContent }) {
     onEditContent(this.state);
     moveCursorToEnd($content);
   });
+
+  this.state = content;
+  this.setState = nextState => {
+    // this.state = nextState;
+    this.state = nextState.startsWith('<div>') ? nextState : `<div>${nextState}</div>`;
+
+    this.render();
+  };
 
   this.render = () => {
     const richContent = this.state
@@ -47,7 +46,3 @@ export default function DocumentContent({ $target, content, onEditContent }) {
 
   this.render();
 }
-// teset
-// <div>teste</div>
-// <div>tset</div>
-// <div><br></div>

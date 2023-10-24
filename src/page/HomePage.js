@@ -2,6 +2,7 @@ import DocumentDetail from '../components/template/DocumentDetail.js';
 import NotionSideBar from '../components/template/NotionSideBar.js';
 import { request } from '../services/api.js';
 import { initRouter } from '../utils/router.js';
+import styleInJS from '../style/tagStyles.js';
 
 /*
  * HomePage
@@ -9,34 +10,14 @@ import { initRouter } from '../utils/router.js';
  * - DocumentDetail
  * */
 
-const DUMMY_DATA = [
-  {
-    id: 100997,
-    title: 'A',
-    documents: [
-      {
-        id: 101002,
-        title: 'B',
-        documents: [],
-      },
-    ],
-  },
-  {
-    id: 100998,
-    title: 'C',
-    documents: [],
-  },
-];
-
 export default function HomePage({ $target }) {
   const $homePage = document.createElement('div');
-  $homePage.style.display = 'flex';
-  $homePage.style.flexDirection = 'row';
+  styleInJS({ $target: $homePage, styleTagName: 'HomePage' });
   $target.appendChild($homePage);
 
   this.state = [];
 
-  const notionSideBar = new NotionSideBar({ $target: $homePage, initialState: this.state });
+  const notionSideBar = new NotionSideBar({ $target: $homePage, initialState: [] });
   const documentDetail = new DocumentDetail({
     $target: $homePage,
     documentState: { id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
@@ -104,7 +85,6 @@ export default function HomePage({ $target }) {
         content: content || '내용을 채워주세요',
         documentPath: documentPathData,
       };
-      console.log('nextState', nextState);
 
       documentDetail.setState(nextState);
     }

@@ -9,9 +9,11 @@
  * */
 import DocumentObject from './DocumentObject.js';
 import { getItem } from '../../utils/storage.js';
+import styleInJS from '../../style/tagStyles.js';
 
 export default function DocumentsList({ $target, initialState }) {
   const $documentsList = document.createElement('ul');
+  styleInJS({ $target: $documentsList, styleTagName: 'DocumentsList' });
   $target.appendChild($documentsList);
 
   this.state = initialState;

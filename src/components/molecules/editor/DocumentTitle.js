@@ -3,11 +3,12 @@
  * - Title : 문서 제목 (Editor)
  */
 
+import styleInJS from '../../../style/tagStyles.js';
+
 export default function DocumentTitle({ $target, title, onEditTitle }) {
   const $title = document.createElement('input');
-  $title.style.width = '60%';
-  $title.style.height = '50px';
-  $title.style.fontSize = '30px';
+  styleInJS({ $target: $title, styleTagName: 'DocumentTitle' });
+
   $title.setAttribute('placeholder', title || '제목을 입력하세요.');
   $target.appendChild($title);
 

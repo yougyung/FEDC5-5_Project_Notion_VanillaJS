@@ -4,6 +4,7 @@ import DocumentsList from '../organisms/DocumentsList.js';
 import NewDocumentButton from '../molecules/NewDocumentButton.js';
 import { getItem, setItem } from '../../utils/storage.js';
 import { request } from '../../services/api.js';
+import styleInJS from '../../style/tagStyles.js';
 
 /*
  * NotionSideBar
@@ -13,11 +14,7 @@ import { request } from '../../services/api.js';
 
 export default function NotionSideBar({ $target, initialState }) {
   const $notionSideBar = document.createElement('div');
-  $notionSideBar.style.display = 'flex';
-  $notionSideBar.style.flexDirection = 'column';
-  $notionSideBar.style.width = '300px';
-  $notionSideBar.style.height = '100vh';
-  $notionSideBar.style.backgroundColor = '#e9ecef';
+  styleInJS({ $target: $notionSideBar, styleTagName: 'NotionSideBar' });
 
   $target.appendChild($notionSideBar);
 

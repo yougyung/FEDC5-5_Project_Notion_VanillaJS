@@ -5,10 +5,12 @@
 
 import DocumentLinkButton from '../molecules/DocumentLinkButton.js';
 import { push } from '../../utils/router.js';
+import styleInJS from '../../style/tagStyles.js';
 
 export default function DocumentHeader({ $target, documentPath }) {
   const $documentHeader = document.createElement('div');
-  $documentHeader.style.width = '100%';
+  styleInJS({ $target: $documentHeader, styleTagName: 'DocumentHeader' });
+
   $target.appendChild($documentHeader);
 
   $documentHeader.addEventListener('click', e => {
@@ -33,7 +35,7 @@ export default function DocumentHeader({ $target, documentPath }) {
 
       if (idx !== this.state.length - 1) {
         const split = document.createElement('span');
-        split.textContent = ' > ';
+        split.textContent = ' / ';
         $documentHeader.appendChild(split);
       }
     });

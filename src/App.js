@@ -1,5 +1,5 @@
 import HomePage from './page/HomePage.js';
 
-export default function App({ $target }) {
-  new HomePage({ $target });
-}
+const $target = document.querySelector('#app');
+
+new HomePage({ $target });

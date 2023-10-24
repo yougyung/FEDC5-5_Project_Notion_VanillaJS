@@ -9,14 +9,13 @@ import DeleteDocumentButton from '../molecules/DeleteDocumentButton.js';
 import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
 import { getItem, setItem } from '../../utils/storage.js';
+import styleInJS from '../../style/tagStyles.js';
 
 export default function DocumentObject({ $target, currentDocumentData }) {
   const { title, id } = currentDocumentData;
   const $summary = document.createElement('summary');
-  $summary.style.width = '100%';
-  $summary.style.display = 'inline-flex';
-  $summary.style.justifyContent = 'space-between';
   $summary.textContent = '> ';
+  styleInJS({ $target: $summary, styleTagName: 'DocumentObject' });
   $target.appendChild($summary);
 
   new DocumentLinkButton({ $target: $summary, title, documentId: id });
@@ -36,14 +35,17 @@ export default function DocumentObject({ $target, currentDocumentData }) {
     push(`/documents/${postResponse.id}`);
   };
 
+  const $setting = document.createElement('span');
+  $summary.appendChild($setting);
+
   const deleteDocumentButton = new DeleteDocumentButton({
-    $target: $summary,
+    $target: $setting,
     onDeleteDocument,
     isHidden: true,
   });
 
   const newDocumentButton = new NewDocumentButton({
-    $target: $summary,
+    $target: $setting,
     onCreateDocument,
     isHidden: true,
   });

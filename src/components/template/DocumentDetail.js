@@ -6,20 +6,18 @@
 
 import DocumentHeader from '../organisms/DocumentHeader.js';
 import EditDocument from '../organisms/EditDocument.js';
+import styleInJS from '../../style/tagStyles.js';
 
 export default function DocumentDetail({ $target, documentState }) {
   const $documentDetail = document.createElement('div');
-  $documentDetail.style.width = '100%';
-  $documentDetail.style.display = 'flex';
-  $documentDetail.style.flexDirection = 'column';
+
+  styleInJS({ $target: $documentDetail, styleTagName: 'DocumentDetail' });
   $target.appendChild($documentDetail);
 
   this.setState = nextState => {
     if (nextState === null) {
       return;
     }
-
-    console.log('DocumentDetail', nextState);
     const { id, title, content, documentPath } = nextState;
 
     documentHeader.setState(documentPath);
