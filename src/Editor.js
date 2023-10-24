@@ -1,8 +1,22 @@
 import { newFocus } from "./utils/keyEvent.js";
+import { pushRoute } from "./utils/router.js";
+import { searchTrie } from "./utils/trie.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
+  //링크박스
+  const $linkWrap = document.createElement("div");
+  $linkWrap.style.display = "none";
+  $linkWrap.style.width = "200px";
+  $linkWrap.style.height = "200px";
+  $linkWrap.style.bottom = "0px";
+  $linkWrap.style.background = "beige";
+  $linkWrap.style.position = "fixed";
+  const pageSpan = document.createElement("span");
+
   const $editor = document.createElement("div");
   $target.appendChild($editor);
+
+  $editor.appendChild($linkWrap);
 
   const $editor_title = document.createElement("h1");
   $editor_title.contentEditable = "true";
@@ -31,6 +45,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
   };
 
+  let nowLink = 0;
   const handleChangeContent = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -49,6 +64,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       newBlock.focus();
       e.preventDefault();
     } else if (e.key === "Backspace") {
+      console.log(e.target, e.target.textContent, e.target.childNodes);
       if (e.target.textContent.length === 0) {
         newFocus(e.target.previousSibling);
 
@@ -64,19 +80,112 @@ export default function Editor({ $target, initialState, onEditing }) {
         console.log(nextState);
         await onEditing(nextState, "content");
       }
+      if (e.target.childNodes.length === 1) {
+        // 자식에 <span>이 있으면 NodeList[text,span]인데 사라지면 [text]
+        $linkWrap.style.display = "none";
+        nowLink = 0;
+      }
+      // 함수화필
+      if (nowLink) {
+        pageSpan.addEventListener("keydown", (e) => {
+          console.log(e, "!!!");
+        });
+        // e.currentTarget.childNodes[0]은 text"@" , [1]은 span
+        console.log(
+          e.currentTarget.childNodes[1].innerText.length,
+          e.currentTarget.childNodes[1].innerText.substring(1)
+        );
+        const searchResult = searchTrie.autoComplete(
+          e.currentTarget.childNodes[1].innerText.substring(1)
+        );
+        console.log(searchResult);
+        if (searchResult) {
+          $linkWrap.innerHTML = searchResult
+            .map(
+              (result) =>
+                `<button class="searched_link_page" data-id="${result[0]}">${result[1]}</button>`
+            )
+            .join("");
+        }
+        const searched_link_pages = document.querySelectorAll(
+          ".searched_link_page"
+        );
+        searched_link_pages.forEach((page) => {
+          page.addEventListener("click", (e) => {
+            const { id } = e.target.dataset;
+            console.log(id);
+            pushRoute(`/docs/${id}`);
+            $linkWrap.style.display = "none";
+          });
+        });
+
+        return;
+      }
     } else if (e.key === "ArrowUp") {
       newFocus(e.target.previousSibling);
     } else if (e.key === "ArrowDown") {
       newFocus(e.target.nextSibling);
+    } else if (e.key === "@") {
+      e.stopPropagation();
+      $linkWrap.style.display = "block";
+
+      pageSpan.display = "inline";
+      e.currentTarget.style.display = "inline";
+      pageSpan.style.height = "20px";
+      pageSpan.innerHTML = "&nbsp;";
+      pageSpan.setAttribute("contenteditable", true);
+      console.log(pageSpan);
+      nowLink = 1; //==true
+      console.dir(pageSpan);
+      e.currentTarget.appendChild(pageSpan);
+      newFocus(pageSpan);
     } else {
       // 그외 모든 문자 입력
-      console.log(e.currentTarget.innerText);
+      if (nowLink) {
+        pageSpan.addEventListener("keydown", (e) => {
+          console.log(e, "!!!");
+        });
+        // e.currentTarget.childNodes[0]은 text"@" , [1]은 span
+        console.log(
+          e.currentTarget.childNodes[1].innerText.length,
+          e.currentTarget.childNodes[1].innerText.substring(1)
+        );
+        const searchResult = searchTrie.autoComplete(
+          e.currentTarget.childNodes[1].innerText.substring(1)
+        );
+        console.log(searchResult);
+        if (searchResult) {
+          $linkWrap.innerHTML = searchResult
+            .map(
+              (result) =>
+                `<button class="searched_link_page" data-id="${result[0]}">${result[1]}</button>`
+            )
+            .join("");
+        }
+        const searched_link_pages = document.querySelectorAll(
+          ".searched_link_page"
+        );
+        searched_link_pages.forEach((page) => {
+          page.addEventListener("click", (e) => {
+            const { id } = e.target.dataset;
+            console.log(id);
+            pushRoute(`/docs/${id}`);
+            $linkWrap.style.display = "none";
+          });
+        });
+
+        return;
+      }
+
+      console.log(e.currentTarget.innerText, e.key);
       const { currentTarget } = e;
       console.log({ currentTarget });
       console.log(e.currentTarget);
       console.log(e.currentTarget.parentNode.innerHTML);
       console.log(e.currentTarget.innerHTML.indexOf("#&nbsp;"));
+
       let allHTML = e.currentTarget.parentNode.innerHTML;
+
       if (e.currentTarget.innerHTML.indexOf("#&nbsp;") === 0) {
         console.log(e.currentTarget.innerHTML);
         console.log(typeof e.currentTarget.innerHTML);
@@ -91,7 +200,6 @@ export default function Editor({ $target, initialState, onEditing }) {
         allHTML = e.currentTarget.parentNode.innerHTML;
         e.currentTarget.remove();
       }
-      // const allHTML = e.currentTarget.parentNode.innerHTML;
 
       const nextState = {
         ...this.state,
@@ -146,7 +254,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     );
   });
 
-  // $editor_content_block.addEventListener("keyup", (e) => console.log(e));
   $editor_content_block.addEventListener("keyup", (e) =>
     handleChangeContent(e)
   );
