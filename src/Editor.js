@@ -14,7 +14,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor_content_block.className = "editor_content_block default";
   $editor_content_block.contentEditable = "true";
 
-  $editor_content.appendChild($editor_content_block);
+  // $editor_content.appendChild($editor_content_block);
 
   this.state = initialState;
 
@@ -30,8 +30,8 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   const handleChangeContent = async (e) => {
-    // console.log(e, e.target);
     if (e.key === "Enter") {
+      e.preventDefault();
       const child = e.target.childNodes[1];
       console.log(child ? child : "NOPE");
       if (child) {
@@ -101,13 +101,15 @@ export default function Editor({ $target, initialState, onEditing }) {
       $editor_content_block.innerHTML = "";
       // this.state.content가 비어있을땐 입력한게 없으니 둘다 비움
     }
-    // console.log($editor_content);
     $editor.appendChild($editor_content);
-    const blocks = document.querySelectorAll(".editor_content_block");
+
+    const blocks = $editor_content.getElementsByClassName(
+      "editor_content_block"
+    );
     for (let block of blocks) {
       block.addEventListener("keyup", (e) => handleChangeContent(e));
     }
-    // console.log(blocks);
+    console.log(blocks);
   };
 
   $editor_title.addEventListener("keyup", async (e) => {
@@ -128,7 +130,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     );
   });
 
-  console.log({ $editor_content_block });
   // $editor_content_block.addEventListener("keyup", (e) => console.log(e));
   $editor_content_block.addEventListener("keyup", (e) =>
     handleChangeContent(e)
