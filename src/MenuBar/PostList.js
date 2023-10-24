@@ -4,11 +4,24 @@ import Modal from "./Modal.js";
 
 export default function PostList({ $target, initialState, onRenderContents }) {
   const LOCAL_STORAGE_KEY = "PostID-";
+
+  // Postlist의 이미지와 소개 문장
+  const $imageAndIntroduce = document.createElement("div");
+  $imageAndIntroduce.setAttribute("class", "imageAndIntroduce");
+
+  // 상단 이미지
+  const $image = document.createElement("img");
+  $image.src = "./src/img/notion_image.png";
+
+  $imageAndIntroduce.appendChild($image);
+
   // 상단 소개 글
   const $introduce = document.createElement("div");
-  $introduce.textContent = "📒 최익의 Notion";
-  $introduce.style.fontSize = "20px";
-  $introduce.style.margin = "20px";
+  $introduce.setAttribute("class", "introduce");
+  $introduce.textContent = "최익의 Notion";
+
+  $imageAndIntroduce.appendChild($introduce);
+
   // 루트 포스트 추가
   const $addPost = document.createElement("div");
   $addPost.setAttribute("class", "addPost");
@@ -30,7 +43,7 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     this.render();
   };
 
-  $target.appendChild($introduce);
+  $target.appendChild($imageAndIntroduce);
   $target.appendChild($addPost);
 
   // 모달 생성

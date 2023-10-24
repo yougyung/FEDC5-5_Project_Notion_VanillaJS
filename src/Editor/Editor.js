@@ -23,7 +23,7 @@ export default function Editor({ $target, initialState, EditPost }) {
   };
 
   // 편집기의 텍스트를 수정 시 -> 텍스트 내의 title, content, 해당 포스트의 id 콜백으로 전달
-  const onEditText = () => {
+  const onEditTextKeyUpEvent = () => {
     // 포스트 title 수정 시 서버 저장
     $title.addEventListener("keyup", (e) => {
       const titleText = $title.innerText;
@@ -40,26 +40,26 @@ export default function Editor({ $target, initialState, EditPost }) {
     });
   };
 
-  // Editor가 포커싱되면 마크업된 텍스트 앞에 마크다운 태그 붙힘 -> 이벤트는 한번만 동작
-  const onEditorFocus = () => {
-    $editor.addEventListener(
-      "focusin",
-      (e) => {
-        document.querySelectorAll("h1").forEach((e, i) => {
-          if (i !== 0 && !e.innerText.startsWith("# "))
-            e.innerText = `# ${e.innerText}`;
-        });
-        document.querySelectorAll("h2").forEach((e) => {
-          if (!e.innerText.startsWith("## ")) e.innerText = `## ${e.innerText}`;
-        });
-        document.querySelectorAll("h3").forEach((e) => {
-          if (!e.innerText.startsWith("### "))
-            e.innerText = `### ${e.innerText}`;
-        });
-      },
-      { once: true }
-    );
-  };
+  // // Editor가 포커싱되면 마크업된 텍스트 앞에 마크다운 태그 붙힘 -> 이벤트는 한번만 동작
+  // const onEditorFocus = () => {
+  //   $editor.addEventListener(
+  //     "focusin",
+  //     (e) => {
+  //       document.querySelectorAll("h1").forEach((e, i) => {
+  //         if (i !== 0 && !e.innerText.startsWith("# "))
+  //           e.innerText = `# ${e.innerText}`;
+  //       });
+  //       document.querySelectorAll("h2").forEach((e) => {
+  //         if (!e.innerText.startsWith("## ")) e.innerText = `## ${e.innerText}`;
+  //       });
+  //       document.querySelectorAll("h3").forEach((e) => {
+  //         if (!e.innerText.startsWith("### "))
+  //           e.innerText = `### ${e.innerText}`;
+  //       });
+  //     },
+  //     { once: true }
+  //   );
+  // };
 
   this.render = () => {
     // 편집기 초기 화면
@@ -84,7 +84,16 @@ export default function Editor({ $target, initialState, EditPost }) {
     $target.appendChild($title);
     $target.appendChild($editor);
 
-    onEditText();
+    this.state.documents.forEach((element) => {
+      const $u = document.createElement("u");
+      $u.setAttribute("class", " link");
+      $u.contentEditable = false;
+
+      $u.innerHTML = `📃 ${element.title} <br>`;
+      $editor.appendChild($u);
+    });
+
+    onEditTextKeyUpEvent();
     removeMarkup($editor);
   };
 }

@@ -39,6 +39,25 @@ export default function Modal({ initialState, onSavePost }) {
     }
   };
 
+  // 모달 내부 엘리먼트가 클릭되면 텍스트 초기화 및 글 색상 검정으로 변경
+  const removeText = () => {
+    const titleAndcontent = [
+      $div.querySelector("[name=title]"),
+      $div.querySelector("[name=content]"),
+    ];
+
+    titleAndcontent.forEach((element) => {
+      element.addEventListener(
+        "focusin",
+        (e) => {
+          e.target.innerText = "";
+          e.target.style.color = "black";
+        },
+        { once: true }
+      );
+    });
+  };
+
   this.render = () => {
     $div.setAttribute("class", "modal");
     $div.setAttribute("name", "modal");
@@ -46,13 +65,14 @@ export default function Modal({ initialState, onSavePost }) {
     $div.innerHTML = `
       <div class="background" name="background">
         <div class="modalBox">
-          <h1 name="title" contentEditable="true">제목을 입력해주세요.</h1>
-          <div name="content" contentEditable="true">내용을 입력해주세요.</div>
+          <h1 name="title" style="color:gray;" contentEditable="true">제목을 입력해주세요.</h1>
+          <div name="content" style="color:gray;" contentEditable="true">내용을 입력해주세요.</div>
           <button class="saveBtn">저장</button>
         </div>
       </div>
     `;
 
+    removeText();
     const { id, $target } = this.state;
 
     $target.appendChild($div);
