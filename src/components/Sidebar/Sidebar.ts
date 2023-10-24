@@ -33,11 +33,33 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
     }
   };
 
+  const handleToggleDocuments = (target: HTMLElement) => {
+    const $clickedItem = target.closest(".documentItem") as HTMLElement;
+    const $firstChildList = $clickedItem.querySelector(".childrenDocumentList:first-of-type") as HTMLElement;
+
+    if ($firstChildList) {
+      const isHidden = $firstChildList.style.display === "none" || $firstChildList.style.display === "";
+
+      $firstChildList.style.display = isHidden ? "block" : "none";
+    }
+
+    if (target.classList.contains("rotated")) {
+      target.classList.remove("rotated");
+    } else {
+      target.classList.add("rotated");
+    }
+  };
+
   const handleClickDocumentItem = (event: Event) => {
     const target = event.target as HTMLElement;
 
-    if (target.parentElement && target.parentElement.dataset.id) {
-      const id = target?.parentElement.dataset.id;
+    if (target.classList.contains("documentToggle")) {
+      handleToggleDocuments(target);
+      return;
+    }
+
+    if (target && target.dataset.id) {
+      const id = target.dataset.id;
 
       navigateTo(`/documents/${id}`);
     }
