@@ -209,14 +209,17 @@ button {
 
 /* subdocumentlist style */
 .editor-bottom-nav {
-  width: 900px;
+  width: 708px;
   display: flex;
+  text-wrap: nowrap;
   flex-direction: row;
   padding: 20px 0;
 }
 
 .subdocument-list {
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
 }
 
 .fa-file {
