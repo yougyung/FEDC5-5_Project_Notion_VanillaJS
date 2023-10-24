@@ -1,4 +1,4 @@
-import { push } from "./router.js"
+import { push } from "../utils/router.js"
 
 export default function NotionList({
     $target,
@@ -9,6 +9,7 @@ export default function NotionList({
     $target.appendChild($notionList)
 
     this.state = initialState
+    
     this.setState = nextState => {
         this.state = nextState
         this.render()
@@ -44,6 +45,7 @@ export default function NotionList({
                 push(`/documents/${id}new`)
             }
             else if(name === 'deleteButton'){
+                push(`/`)
                 onDelete(id);
             }    
        }

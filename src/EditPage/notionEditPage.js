@@ -1,13 +1,13 @@
-import LinkButton from './linkButton.js'
+import LinkButton from '../linkButton.js'
 import {
     getItem,
     removeItem,
     setItem
-} from "./storage.js"
-import Editor from "./Editor.js"
+} from "../utils/storage.js"
+import Editor from "./editor.js"
 import {
     request
-} from "./api.js"
+} from "../utils/api.js"
 
 export default function NotionEditPage({
     $target,
@@ -20,12 +20,13 @@ export default function NotionEditPage({
     //storage_key
     let notionLocalSaveKey = `temp-post-${this.state.postId}`
 
-    //storage_get
-    const post = getItem(notionLocalSaveKey, {
+    const defaultState = {
         id: '',
-        title: ' ',
-        content: ''
-    })
+        title: '제목없음',
+        content: '내용을 입력하세요.'
+    }
+    //storage_get
+    const post = getItem(notionLocalSaveKey,defaultState )
 
     let timer = null
 
@@ -42,18 +43,18 @@ export default function NotionEditPage({
                     tempSaveDate: new Date()
                 }) //storage저장
 
-                const isNew =isNaN(this.state.postId) && this.state.postId.includes("new")
-                if(isNew){
-                    post.parent = this.state.postId.replace("new", "");
-                }
-                
+                const isNew = isNaN(this.state.postId) && this.state.postId.includes("new")
+
                 if(isNew) {
+                    post.parent = this.state.postId.replace("new", "");
                     const createdPost = await request('/documents',{
                         method:'POST',
                         body: JSON.stringify(post)
                     }) //서버 저장
+
                     history.replaceState(null,null, `/documents/${createdPost.id}`)
                     removeItem(notionLocalSaveKey)
+                    
                     this.setState({postId: createdPost.id} )
                 } else {
                     await request(`/documents/${post.id}`,{
@@ -79,10 +80,8 @@ export default function NotionEditPage({
             const isNew = isNaN(this.state.postId) && this.state.postId.includes("new")
             
             if(isNew) {
-                const post = getItem(notionLocalSaveKey,{
-                    title: '',
-                    content: ''
-                })
+                const post = getItem(notionLocalSaveKey,defaultState)
+                console.log('뉴',post)
                 this.render()
                 console.log(post)
                 editor.setState(post)

@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    display: flex;
+}
+
+aside {
+    background-color: #333;
+    color: white;
+    width: 200px;
+    height: 100vh;
+    padding: 20px;
+}
+
+
+ul {
+    list-style-type: disc; /* 불릿 스타일 지정 */
+    margin-left: 20px; /* 왼쪽 여백으로 들여쓰기 설정 */
+}
+
+/* 하위 목록 스타일 */
+ul ul {
+    list-style-type: circle; /* 다음 레벨 불릿 스타일 지정 */
+    margin-left: 20px; /* 왼쪽 여백으로 추가 들여쓰기 설정 */
+}
+
+li {
+    margin: 10px 0;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.editor {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+a {
+    color: #0077b5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

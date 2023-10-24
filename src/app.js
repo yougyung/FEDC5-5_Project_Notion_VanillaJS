@@ -1,6 +1,6 @@
-import NotionSidebar from "./notionSidebar.js"
-import NotionEditPage from "./notionEditPage.js"
-import {initRouter} from "./router.js"
+import NotionSidebar from "./Sidebar/notionSidebar.js"
+import NotionEditPage from "./EditPage/notionEditPage.js"
+import {initRouter} from "./utils/router.js"
 
 export default function App({
     $target
@@ -29,7 +29,7 @@ export default function App({
     })
 
     this.route = () => {
-        //$target.innerHTML = '' 
+        $Document.innerHTML = '' 
         const {
             pathname
         } = window.location
@@ -37,6 +37,7 @@ export default function App({
         if (pathname === '/') {
             notionSidebar.setState()
         } else if (pathname.indexOf(`/documents/`) === 0) {
+            //new에디터실행
             const [, , postId] = pathname.split('/')
             notionEditPage.setState({
                 postId

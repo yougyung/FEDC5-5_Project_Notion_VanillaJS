@@ -1,12 +1,12 @@
-import NotionList from './notionList.js'
+import NotionList from './documentList.js'
 import {
     removeItem,
-} from "./storage.js"
+} from "../utils/storage.js"
 
 import {
     request
-} from './api.js'
-import LinkButton from './linkButton.js'
+} from '../utils/api.js'
+import LinkButton from '../linkButton.js'
 export default function NotionSidebar({
     $target,
 }) {
