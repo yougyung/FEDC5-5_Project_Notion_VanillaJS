@@ -16,6 +16,14 @@
   width: 80%;
 }
 
+.document-title-input {
+  display: block;
+}
+
+span {
+  cursor: pointer;
+}
+
 input[name="title"] {
   width: 100%;
 }
