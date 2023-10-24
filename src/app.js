@@ -12,6 +12,11 @@ export default function App({
     $target.appendChild($Sidebar)
     $target.appendChild($Document)
 
+
+
+
+
+
     const notionSidebar = new NotionSidebar({
         $target: $Sidebar,
     })

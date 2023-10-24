@@ -2,36 +2,33 @@ import NotionList from './documentList.js'
 import {
     removeItem,
 } from "../utils/storage.js"
-
+import {
+    push
+} from "../utils/router.js"
 import {
     request
 } from '../utils/api.js'
-import LinkButton from '../linkButton.js'
 export default function NotionSidebar({
     $target,
 }) {
-    
 
     const $page = document.createElement('div')
 
     const notionList = new NotionList({
         $target: $page,
-        initialState: [], 
-        onDelete :async(id) => {
-            await request(`/documents/${id}`,{
+        initialState: [],
+        onAdd: (id) => {
+            push(`/documents/${id}new`)
+        },
+        onDelete: async (id) => {
+            alert('페이지가 삭제되었습니다.')
+            push(`/`)
+            await request(`/documents/${id}`, {
                 method: 'DELETE'
             })
-            history.replaceState(null,null, ``)
+            history.replaceState(null, null, ``)
             removeItem(`temp-post-${this.id}`)
             this.setState()
-        }
-    })
-
-    new LinkButton({
-        $target: $page,
-        initialState: {
-            text: ' + 새페이지',
-            link: '/documents/new'
         }
     })
 

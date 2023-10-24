@@ -33,18 +33,18 @@ export default function NotionEditPage({
     const editor = new Editor({
         $target: $page,
         initialState: post,
-        onEditing: (post) => {
+        onEdit: (post) => {
             if (timer !== null) {
                 clearTimeout(timer)
             }
             timer = setTimeout(async() => {
+                //storage저장
                 setItem(notionLocalSaveKey, {
                     ...post,
                     tempSaveDate: new Date()
-                }) //storage저장
+                })
 
                 const isNew = isNaN(this.state.postId) && this.state.postId.includes("new")
-
                 if(isNew) {
                     post.parent = this.state.postId.replace("new", "");
                     const createdPost = await request('/documents',{
@@ -70,7 +70,7 @@ export default function NotionEditPage({
     })
 
     this.setState = async (nextState) => {
-        console.log("set")
+ 
         console.log(this.state.postId ,nextState.postId)
         if (this.state.postId !== nextState.postId) {
             console.log("1.ne.setState")
@@ -91,8 +91,7 @@ export default function NotionEditPage({
             
             return
         }
-        console.log("엥")
-        console.log("3.render")
+
         this.state = nextState
         this.render()
         editor.setState(this.state.post || {

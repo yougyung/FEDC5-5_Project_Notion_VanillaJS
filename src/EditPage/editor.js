@@ -5,7 +5,7 @@ export default function Editor({
         title: '',
         content: ''
     },
-    onEditing
+    onEdit
 }) {
     this.state = initialState
     const $editor = document.createElement('div')
@@ -45,7 +45,7 @@ export default function Editor({
                 [name]: target.value
             }
             this.setState(nextState)
-            onEditing(this.state)
+            onEdit(this.state)
         }
     })
 }
