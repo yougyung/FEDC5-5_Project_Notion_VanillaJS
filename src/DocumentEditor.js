@@ -91,11 +91,6 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
     }
   });
 
-  //드래그 후 글씨체 스타일 변경 바 나오게 하는 기능(노션처럼)
-  document.addEventListener("mouseup", () => {
-    // console.log(document.getSelection());
-  });
-
   const editorStyle = new EditorStyle({
     $target: document.querySelector(".editorDiv"),
     onStyle: (style) => {
@@ -104,53 +99,3 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
     },
   });
 }
-
-/*
-1234567 에서 345를 드래그하면
-아래처럼 로그 출력
-anchor와 base는 커서의 시작 정보를, 
-extent와 focus는 커서의 끝 정보를 가지고 있다.
-anchorNode: text
-anchorOffset: 2      -> 시작 오프셋
-baseNode: text
-baseOffset: 2      -> 시작 오프셋
-extentNode: text
-extentOffset: 5    -> 끝나는 오프셋
-focusNode: text
-focusOffset: 5     -> 끝나는 오프셋
-isCollapsed: false   ->isCollapsed는 시작 커서와 끝 커서의 위치의 동일 여부를 판단해준다.
-rangeCount: 1
-type: "Range"
-*/
-
-/* 커서를 마지막으로 보내는 로직인데 사용하기에 부적합함, 무조건 커서를 마지막으로 감(수정가능하지만 불필요)
- 
-   const focusTargetDomElement = (target) => {
-    try {
-      target.focus();
-      setEndOfContenteditable(target); // 해당 dom element를 넘겨만 주면된다
-    } catch (e) {
-      console.error(`focusing error: ${e.message}`);
-    }
-  };
-
-  const setEndOfContenteditable = (contentEditableElement) => {
-    var range, selection;
-    if (document.createRange) {
-      //Firefox, Chrome, Opera, Safari, IE 9+
-      range = document.createRange(); //Create a range (a range is a like the selection but invisible)
-      range.selectNodeContents(contentEditableElement); //Select the entire contents of the element with the range
-      range.collapse(false); //collapse the range to the end point. false means collapse to end rather than the start
-      selection = window.getSelection(); //get the selection object (allows you to change selection)
-      selection.removeAllRanges(); //remove any selections already made
-      selection.addRange(range); //make the range you have just created the visible selection
-    } else if (document.selection) {
-      //IE 8 and lower
-      range = document.body.createTextRange(); //Create a range (a range is a like the selection but invisible)
-      range.moveToElementText(contentEditableElement); //Select the entire contents of the element with the range
-      range.collapse(false); //collapse the range to the end point. false means collapse to end rather than the start
-      range.select(); //Select the range (make it the visible selection
-    }
-  };
- 
- */

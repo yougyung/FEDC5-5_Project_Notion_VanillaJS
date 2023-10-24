@@ -115,6 +115,26 @@ button {
 .headerUserName {
   padding: 15px;
 }
+/*에디터 스타일바*/
+.styleDiv {
+  display: none;
+  position: absolute;
+  background-color: antiquewhite;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 0 10px;
+  box-shadow: 5px 5px 5px gray;
+}
+.editor-menu button {
+  font-size: 15px;
+  padding: 5px;
+  padding-right: 7px;
+  border-right: 1px solid gray;
+}
+.editor-menu button:last-child {
+  border-right: 0px;
+  padding: 5px;
+}
 
 .documentCreateButton:hover {
   background-color: rgba(23, 35, 52, 0.757);

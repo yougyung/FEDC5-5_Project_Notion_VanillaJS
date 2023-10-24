@@ -3,6 +3,7 @@
 //https://velog.io/@1g2g/ContentEditable%EC%9D%B4%EB%9E%80
 export default function EditorStyle({ $target, onStyle }) {
   const $div = document.createElement("div");
+  $div.className = "styleDiv";
 
   $target.appendChild($div);
   this.render = () => {
@@ -23,12 +24,7 @@ export default function EditorStyle({ $target, onStyle }) {
                   <button id="btn-ordered-list">
                       OL
                   </button>
-                  <button id="btn-unordered-list">
-                      UL
-                  </button>
-                  <button id="btn-image">
-                      IMG
-                  </button>
+
               </div>
 
         `;
@@ -36,13 +32,48 @@ export default function EditorStyle({ $target, onStyle }) {
 
   this.render();
 
+  const formatBar = document.querySelector(".styleDiv");
+  let isDragging = false;
+  let formatBarVisiable = false;
+  //드래그 후 글씨체 스타일 변경 바 나오게 하는 기능(노션처럼)
+  document.addEventListener("mousedown", (e) => {
+    isDragging = true;
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isDragging) {
+      const selection = window.getSelection();
+
+      if (selection.type === "Range") {
+        // Selection 객체 내에서 선택한 텍스트 범위 중에서 첫번째 인덱스 범위를 가져온다.
+        const range = selection.getRangeAt(0);
+        console.log(range);
+        //위 range 객체에서 선택한 텍스트의 위치와 크기를 화면상의 좌표로 반환한다.
+        //rect 객체는 DOMRect 타입이다.
+        const rect = range.getBoundingClientRect();
+        showFormatBar(rect.left, rect.bottom);
+        formatBarVisiable = true;
+        isDragging = false;
+      }
+    }
+  });
+  document.addEventListener("click", (e) => {
+    const $div = e.target.closest("div");
+    if (formatBarVisiable && isDragging) formatBar.style.display = "none";
+  });
+
+  function showFormatBar(x, y) {
+    formatBar.style.display = "block";
+    formatBar.style.left = x - 70 + "px";
+    formatBar.style.top = y - 60 + "px";
+  }
+
   //스타일 버튼
   const btnBold = document.getElementById("btn-bold");
   const btnItalic = document.getElementById("btn-italic");
   const btnUnderline = document.getElementById("btn-underline");
   const btnStrike = document.getElementById("btn-strike");
   const btnOrderedList = document.getElementById("btn-ordered-list");
-  const btnUnorderedList = document.getElementById("btn-unordered-list");
 
   btnBold.addEventListener("click", function () {
     onStyle("bold");
@@ -63,8 +94,62 @@ export default function EditorStyle({ $target, onStyle }) {
   btnOrderedList.addEventListener("click", function () {
     onStyle("insertOrderedList");
   });
-
-  btnUnorderedList.addEventListener("click", function () {
-    onStyle("insertUnorderedList");
-  });
 }
+/*
+1234567 에서 345를 드래그하면
+아래처럼 로그 출력
+anchor와 base는 커서의 시작 정보를, 
+extent와 focus는 커서의 끝 정보를 가지고 있다.
+anchorNode: text
+anchorOffset: 2      -> 시작 오프셋
+baseNode: text
+baseOffset: 2      -> 시작 오프셋
+extentNode: text
+extentOffset: 5    -> 끝나는 오프셋
+focusNode: text
+focusOffset: 5     -> 끝나는 오프셋
+isCollapsed: false   ->isCollapsed는 시작 커서와 끝 커서의 위치의 동일 여부를 판단해준다.
+rangeCount: 1
+type: "Range"
+*/
+
+/*
+Selection.getRangeAt()메서드는
+ 현재 선택된 범위 중 하나를 나타내는 범위 개체를 반환합니다.
+ 반환 값이 Range 객체다.
+*/
+
+/*
+
+Renge객체
+
+Range.collapsed 
+범위의 시작 지점과 끝 지점이 동일한 위치에 있는지 여부를 나타내는 부울 값을 반환합니다.
+
+Range.commonAncestorContainer
+및 노드 Node를 포함하는 가장 깊은 항목을 반환합니다 .startContainerendContainer
+
+Range.endContainer 
+Node종료 되는 범위 를 반환합니다 Range.
+
+Range.endOffset 
+endContainer끝 의 위치를 ​​나타내는 숫자를 반환합니다 Range.
+
+Range.startContainer 
+Node시작 되는 범위 를 반환합니다 Range.
+
+Range.startOffset 
+startContainer시작 위치를 나타내는 숫자를 반환합니다 Range.
+*/
+
+/*
+Element.getBoundingClientRect() 메서드는 
+엘리먼트의 크기와 뷰포트에 상대적인 위치 정보를 제공하는 DOMRect 객체를 반환합니다.
+*/
+
+/*
+ DOMRect 객체
+  left, top, right, bottom, x, y, width, height 프로퍼티는 
+  전반적인 사각형의 위치와 크기를 픽셀 단위로 나타냅니다. 
+  width와 height가 아닌 다른 프로퍼티는 뷰포트의 top-left에 상대적입니다.
+*/
