@@ -1,11 +1,12 @@
 import { createElementWithClass } from '@util/dom';
 import Document from '@layout/document';
 import SideBar from '@layout/sidebar';
+import { initRoute } from '@util/router';
 import { getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
-import { push } from '@util/router';
 
 const ROOT_DOCUMENT_ID = 103858;
+const NOT_FOUND_DOCUMENT_ID = 103935;
 export default function App({ $target }) {
 	const $layout = createElementWithClass('div', 'layout');
 	$target.appendChild($layout);
@@ -40,6 +41,11 @@ export default function App({ $target }) {
 
 	const fetchDocumentContents = async (focusedDocumentId) => {
 		const response = await getDocument(focusedDocumentId);
+		if (!response) {
+			this.setState({ ...this.state, focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
+			const document400 = await getDocument(this.state.focusedDocumentId);
+			return document400;
+		}
 		return response;
 	};
 
@@ -54,8 +60,13 @@ export default function App({ $target }) {
 
 	this.route = () => {
 		const { pathname } = window.location;
-		if (pathname === '/') {
+		const ALLOWD_PATH = ['/', '/documents', '/documents/'];
+		if (ALLOWD_PATH.includes(pathname)) {
 			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
+			return;
+		}
+		if (!pathname.startsWith('/documents/')) {
+			handleState({ focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
 			return;
 		}
 		const [, , documentId] = pathname.split('/');
@@ -65,10 +76,13 @@ export default function App({ $target }) {
 	const init = async () => {
 		const data = await getAllDocumentList();
 		this.setState({ documentList: data, focusedDocumentId: ROOT_DOCUMENT_ID });
-		this.route();
+
 		const { documentList, focusedDocumentId } = this.state;
 		sidebar.setState(documentList);
 		document.setState(await fetchDocumentContents(focusedDocumentId));
+
+		this.route();
+		initRoute(() => this.route());
 		window.addEventListener('popstate', () => this.route());
 	};
 	init();

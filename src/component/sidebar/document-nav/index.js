@@ -2,6 +2,7 @@ import { createElementWithClass, addEvent } from '@util/dom';
 import { createDocument } from '@api/document';
 import ArrowImg from '@asset/arrow.png';
 import CreateImg from '@asset/create.png';
+import { push } from '@util/router';
 import './style.scss';
 
 export default function DocumentNav({ $target, initialState, handleState }) {
@@ -50,12 +51,14 @@ export default function DocumentNav({ $target, initialState, handleState }) {
 	this.render();
 
 	const handleClickTitle = () => {
-		const { document } = this.state;
-		handleState({ focusedDocumentId: document.id });
+		const { id } = this.state.document;
+		handleState({ focusedDocumentId: id });
+		push(`/documents/${id}`);
 	};
 	const handleClickAddBtn = async () => {
-		const response = await createDocument('제목 없음', this.state.document.id);
-		handleState({ focusedDocumentId: response.id });
+		const { id } = this.state.document;
+		const response = await createDocument('제목 없음', id);
+		handleState({ focusedDoscumentId: response.id });
 	};
 	const handleClickToggle = () => {
 		this.setState({ ...this.state, isToggleOn: !this.state.isToggleOn });
