@@ -1,11 +1,12 @@
 import debounce from "lodash.debounce";
 
-import { useEffect, useState } from "@/core";
+import { createComponent, useEffect, useState } from "@/core";
+import { ChildDocumentLinks } from "@/components";
 import { getDocument } from "@/apis";
 import { DocumentDetailResponseDto, DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
 import styles from "./editor.module.scss";
 
-const { s_editorForm, s_editorInput, s_editorContent } = styles;
+const { s_editorForm, s_editorInput, s_editorContent, s_childDocuments } = styles;
 
 interface EditorProps {
   documentId: number;
@@ -46,14 +47,21 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
 
     const $title = window.document.querySelector("#title") as HTMLInputElement;
     const $content = window.document.querySelector("#content") as HTMLDivElement;
+    const $childDocuments = window.document.querySelector(`.${s_childDocuments}`) as HTMLDivElement;
 
-    debouncedUpdate($title.value, $content.innerText);
+    const childLinks = $childDocuments.innerText;
+    const contentWithoutLinks = $content.innerText.replace(childLinks, "").trim();
+
+    debouncedUpdate($title.value, contentWithoutLinks);
   };
+
+  const childDocumentLinksComponent = createComponent(ChildDocumentLinks, { documents: childDocuments });
 
   const bindEvents = () => {
     const $form = window.document.querySelector(`.${s_editorForm}`) as HTMLFormElement;
 
     $form.addEventListener("keyup", handleKeydownForm);
+    childDocumentLinksComponent.bindEvents?.();
   };
 
   return {
@@ -64,7 +72,12 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
           <label for="title">제목</label>
           <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" required/>
           <label for="content">내용</label>
-          <div id="content" class="${s_editorContent}" contenteditable="true">${documentForm.content}</div>
+          <div id="content" class="${s_editorContent}" contenteditable="true">
+            ${documentForm.content}
+            <div class="${s_childDocuments}">
+              ${childDocumentLinksComponent.element}
+            </div>
+          </div>
         </fieldset>
       </form>
            
