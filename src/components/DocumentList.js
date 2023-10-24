@@ -102,7 +102,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       onDelete(id);
     }
 
-    if (!target.classList.contains("toggle")) {
+    if (target.classList.contains("toggle")) {
       toggleOpen(target, id);
     }
   });

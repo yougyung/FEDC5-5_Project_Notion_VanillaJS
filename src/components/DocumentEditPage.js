@@ -3,6 +3,7 @@ import { getItem, removeItem, setItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
 import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
 import DocumentHeader from "./DocumentHeader.js";
+import DocumentFooter from "./DocumentFooter.js";
 
 export default function DocumentEditPage({ $target, initialState, onDelete, onEdit }) {
   const $page = document.createElement("div");
@@ -30,9 +31,11 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
     onEdit,
   });
 
-  history.replaceState({
+  const documentFooter = new DocumentFooter({
     $target: $page,
-    initialState: "자식 요소 렌더링",
+    initialState: {
+      document: null,
+    },
   });
 
   this.setState = async (nextState) => {
@@ -44,6 +47,9 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
           content: "",
         }
       );
+      documentFooter.setState({
+        document: this.state.document,
+      });
       documentHeader.setState({
         documentId: this.state.documentId,
         title: this.state.document.title || "",
@@ -63,6 +69,9 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
         documentId: this.state.documentId,
         title: "",
       });
+      documentFooter.setState({
+        document: null,
+      });
       this.render();
     } else {
       await loadDocument();
@@ -75,6 +84,9 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
     this.setState({
       ...this.state,
       document,
+    });
+    documentFooter.setState({
+      document: this.state.document,
     });
   };
 
