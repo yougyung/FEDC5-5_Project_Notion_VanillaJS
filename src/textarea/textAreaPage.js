@@ -45,7 +45,7 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
         default:
           break;
       }
-      console.log(this.state);
+      // console.log(this.state);
     }
     //   if (this.state.title !== "DEFAULT") {
     //     if (this.state.title) {
@@ -105,6 +105,9 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
         console.log(e.target.value);
         console.log(this.state);
         onTextEditing(this.state.id, this.state.title, e.target.value);
+        // if (e.key === "Enter") {
+        //   console.log(`엔터`);
+        // }
         // console.log(e.target.value);
         // console.log({ ...this.state });
         // this.setState({ ...this.state, content: e.target.value });
@@ -112,7 +115,7 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
       });
 
       $titleInputArea.addEventListener("keyup", (e) => {
-        onTitleEditing(this.state.id, this.state.content, e.target);
+        onTitleEditing(this.state.id, this.state.content, e.target, e.key);
         // console.log(e.target);
         // this.setState({ ...this.state, title: e.target.value });
         // console.log(this.state);

@@ -88,7 +88,7 @@ export default function App({ $target }) {
       pageType: "INIT", // INIT, ROOT, NOT_ROOT
     },
     onTextEditing: async (id, title, target) => {
-      console.log(target);
+      // console.log(target);
       if (timerForText !== null) {
         clearTimeout(timerForText);
       }
@@ -99,27 +99,38 @@ export default function App({ $target }) {
          * 페이지를 생성하고 즉시 수정하면 이 부분에서 에러가 남
          * 원인은 새로운 페이지의 아이디를 받아오지 못해서
          */
-        const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
+        // const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
+        const modifyTextPageText = await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: title, content: target }),
         });
         console.log(modifyTextPageText);
         $.querySelector(".textArea-content").focus();
-      }, 1000);
+      }, 200);
     },
-    onTitleEditing: async (id, content, target) => {
+    onTitleEditing: async (id, content, target, key) => {
       if (timerForTitle !== null) {
         clearTimeout(timerForTitle);
       }
-      timerForTitle = setTimeout(async () => {
-        const modifyTextPageTitle = await request(`/documents/${location.pathname.split("/")[2]}`, {
+      if (key === "Enter") {
+        const modifyTextPageTitle = await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: target.value, content: content }),
         });
         console.log(modifyTextPageTitle);
         await fetchRootDocs();
-        $.querySelector(".textArea-title").focus();
-      }, 500);
+        $.querySelector(".textArea-content").focus();
+      } else {
+        timerForTitle = setTimeout(async () => {
+          const modifyTextPageTitle = await request(`/documents/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({ title: target.value, content: content }),
+          });
+          console.log(modifyTextPageTitle);
+          await fetchRootDocs();
+          $.querySelector(".textArea-title").focus();
+        }, 200);
+      }
     },
   });
 
@@ -163,8 +174,9 @@ export default function App({ $target }) {
     const nowDocsId = id;
     if (nowDocsId !== 0) {
       const selectedDocs = await request(`/documents/${nowDocsId}`);
-      // console.log(selectedDocs);
+      console.log(selectedDocs);
       textAreaRender.setState({ ...selectedDocs, isLoading: false, pageType: "NOT_ROOT" });
+      console.log(textAreaRender.state);
     } else {
       console.error(`nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`);
     }
