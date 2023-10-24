@@ -11,12 +11,14 @@
 }
 
 .s_button {
-  border: none;
   background-color: transparent;
   margin-bottom: 1rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.1rem;
+  font-size: 0.9rem;
+  color: color.$onBackground2;
 }
 
 .s_button:hover {
-  border: 0.01rem solid;
-  border-radius: 50%;
+  background-color: color.$onBackground1;
 }
