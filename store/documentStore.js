@@ -16,10 +16,12 @@ const reducer = async (state, action) => {
       await createNewDocument(action.payload)
       const updatedDocuments = await fetchAllDocuments()
       return { ...state, documents: updatedDocuments }
+
     case "DELETE":
       await deleteDocumentById(action.payload)
       const deletedDocuments = await fetchAllDocuments()
       return { ...state, documents: deletedDocuments }
+
     default:
       return { ...state }
   }
