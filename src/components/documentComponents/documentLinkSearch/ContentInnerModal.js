@@ -31,6 +31,7 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
     });
   } else if (option === "link") {
     return new DocumentLinkList({
+      $parent: $target,
       $target: $contentInnerModal,
       initialState: {
         documentLinks: [],
