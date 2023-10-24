@@ -30,6 +30,20 @@ const traverse = {
       }
     }
   },
+  deleteDocument(documents, id) {
+    for (let i = 0; i < documents.length; i++) {
+      const document = documents[i];
+      if (document.id === +id) {
+        const children = document.documents.length ? document.documents : [];
+        documents.splice(i, 1);
+        return children;
+      }
+      if (document.documents.length) {
+        const result = this.deleteDocument(document.documents, id);
+        if (result) return result;
+      }
+    }
+  },
 };
 
 export default traverse;

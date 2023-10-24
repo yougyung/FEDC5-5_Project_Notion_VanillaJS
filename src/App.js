@@ -37,7 +37,12 @@ export default function App({ $target }) {
       await api.delete(DELETE_API_DOCUMENT(id));
       history.pushState(null, null, "/");
       editor.init();
-      this.init();
+
+      const documentTreeData = getItem("documentTree", []);
+      const children = traverse.deleteDocument(documentTreeData, id);
+      const newDocumentTree = documentTreeData.concat(children);
+      documentTree.setState(newDocumentTree);
+      setItem("documentTree", newDocumentTree);
     },
   });
 
