@@ -112,6 +112,7 @@
   margin-bottom: 1.5rem;
   padding: 1rem;
   overflow: hidden;
+  overflow-y: scroll;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   background: #f8f9f699;
@@ -127,6 +128,10 @@
     transform: translateX(0px);
     transition: transform 300ms ease-in-out;
   }
+}
+#sidebar::-webkit-scrollbar {
+  opacity: 0;
+  width: 1rem;
 }
 
 #editor-view {
