@@ -1,4 +1,4 @@
-import DocumentItems from './DocumentItems/DocumentItems.js';
+import DocumentItems from '../../../Common/DocumentItems/DocumentItems.js';
 import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';

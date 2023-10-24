@@ -1,6 +1,5 @@
-import { createNewElement } from '../../../../../../Util/Element.js';
 import DocumentItems from '../DocumentItems.js';
-
+import { createNewElement } from '../../../../Util/Element.js';
 // state = { id: "", title = "", documents: [] }
 
 export default class DocumentItem {

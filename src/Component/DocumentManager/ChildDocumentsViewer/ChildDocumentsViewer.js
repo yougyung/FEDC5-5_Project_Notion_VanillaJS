@@ -1,7 +1,6 @@
-import DocumentItems from '../../Sidebar/Document/DocumentList/DocumentItems/DocumentItems.js';
+import DocumentItems from '../../Common/DocumentItems/DocumentItems.js';
 import { createNewElement } from '../../../Util/Element.js';
 import RouterManger from '../../../Util/Router.js';
-import { fetchDeleteDocument, fetchPostDocument } from '../../../Service/PostApi.js';
 import DocumentObserver from '../../../Util/DocumentObserver.js';
 
 // state = { documentList: [] }

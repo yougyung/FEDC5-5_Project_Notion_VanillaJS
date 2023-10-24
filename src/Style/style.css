@@ -5,17 +5,14 @@
 @import url(/src/Component/Sidebar/Document/Document.css);
 @import url(/src/Component/Sidebar/Document/DocumentForm/DocumentForm.css);
 @import url(/src/Component/Sidebar/Document/DocumentList/DocumentList.css);
-
 /* editor */
 @import url(/src/Component/DocumentManager/DocumentManger.css);
 @import url(/src/Component/DocumentManager/DocumentEditor/DocumentEditor.css);
 @import url(/src/Component/DocumentManager/DocumentContentViewer/DocumentContentViewer.css);
 @import url(/src/Component/DocumentManager/ChildDocumentsViewer/ChildDocumentsViewer.css);
-
 /* common */
-@import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItems.css);
-@import url(/src/Component/Sidebar/Document/DocumentList/DocumentItems/DocumentItem/Documentitem.css);
-
+@import url(/src/Component/Common/DocumentItems/DocumentItems.css);
+@import url(/src/Component/Common/DocumentItems/DocumentItem/Documentitem.css);
 :root {
     --black: black;
     --white: #ffffff;

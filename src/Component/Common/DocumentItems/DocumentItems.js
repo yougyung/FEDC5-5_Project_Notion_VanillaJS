@@ -1,6 +1,5 @@
-import { createNewElement } from '../../../../../Util/Element.js';
 import DocumentItem from './DocumentItem/DocumentItem.js';
-
+import { createNewElement } from '../../../Util/Element.js';
 // state = { documuentList: [], isRoot: boolean }
 
 export default class DocumentItems {
