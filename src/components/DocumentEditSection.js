@@ -2,7 +2,11 @@ import Editor from "./Editor.js";
 import { request } from "../utils/api.js";
 import { setItem, removeItem, getItem } from "../utils/storage.js";
 
-export default function DocumentEditSection({ $target, initialState }) {
+export default function DocumentEditSection({
+  $target,
+  initialState,
+  onCreateDocument,
+}) {
   const $div = document.createElement("div");
 
   this.state = initialState;
@@ -60,7 +64,7 @@ export default function DocumentEditSection({ $target, initialState }) {
           });
           removeItem("temp-document-new");
 
-          this.setState({
+          onCreateDocument({
             documentId: createDocument.id,
             document: createDocument,
           });

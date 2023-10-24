@@ -50,6 +50,14 @@ export default function App({ $target, initialState }) {
       documentId: this.state.documentId,
       document: this.state.selectedDocument,
     },
+    onCreateDocument: ({ document, documentId }) => {
+      this.setState({
+        ...this.state,
+        selectedDocument: document,
+        documentId: documentId,
+      });
+      fetchDocments();
+    },
   });
 
   this.route = () => {
