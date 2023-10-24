@@ -4,7 +4,6 @@ export default function Editor({
   $target,
   initialState,
   onEditing,
-  subDocuments,
 }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor';
@@ -40,7 +39,6 @@ export default function Editor({
         if (line === '') return '';
         if (line.indexOf('# ') === 0) {
           line = line.replace(/[\#]{1}(.+)/g, '<div><h1>$1</h1></div>');
-          console.log(line);
         } else if (line.indexOf('## ') === 0) {
           line = line.replace(/[\#]{2}(.+)/g, '<div><h2>$1</h2></div>');
         } else if (line.indexOf('### ') === 0) {
@@ -85,6 +83,6 @@ export default function Editor({
     this.setState(nextState);
     onEditing(this.state);
 
-    handleCursor(e.target);
+    handleCursor(e.target); // 커서 위치 조정
   });
 }

@@ -6,10 +6,10 @@ export default function Splitter({ $target }) {
   $target.appendChild($splitter);
 
   document.addEventListener('DOMContentLoaded', function () {
-    const resizable = function (resizer) {
-      const direction = resizer.getAttribute('data-direction') || 'horizontal';
-      const prevSibling = resizer.previousElementSibling;
-      const nextSibling = resizer.nextElementSibling;
+    const resizable = function (splitter) {
+      const direction = splitter.getAttribute('data-direction') || 'horizontal';
+      const prevSibling = splitter.previousElementSibling;
+      const nextSibling = splitter.nextElementSibling;
 
       // The current position of mouse
       let x = 0;
@@ -18,7 +18,7 @@ export default function Splitter({ $target }) {
       let prevSiblingWidth = 0;
 
       // Handle the mousedown event
-      // that's triggered when user drags the resizer
+      // that's triggered when user drags the splitter
       const mouseDownHandler = function (e) {
         // Get the current mouse position
         x = e.clientX;
@@ -41,20 +41,20 @@ export default function Splitter({ $target }) {
           case 'vertical':
             const h =
               ((prevSiblingHeight + dy) * 100) /
-              resizer.parentNode.getBoundingClientRect().height;
+              splitter.parentNode.getBoundingClientRect().height;
             prevSibling.style.height = `${h}%`;
             break;
           case 'horizontal':
           default:
             const w =
               ((prevSiblingWidth + dx) * 100) /
-              resizer.parentNode.getBoundingClientRect().width;
+              splitter.parentNode.getBoundingClientRect().width;
             prevSibling.style.width = `${w}%`;
             break;
         }
 
         const cursor = direction === 'horizontal' ? 'col-resize' : 'row-resize';
-        resizer.style.cursor = cursor;
+        splitter.style.cursor = cursor;
         document.body.style.cursor = cursor;
 
         prevSibling.style.userSelect = 'none';
@@ -65,7 +65,7 @@ export default function Splitter({ $target }) {
       };
 
       const mouseUpHandler = function () {
-        resizer.style.removeProperty('cursor');
+        splitter.style.removeProperty('cursor');
         document.body.style.removeProperty('cursor');
 
         prevSibling.style.removeProperty('user-select');
@@ -80,10 +80,10 @@ export default function Splitter({ $target }) {
       };
 
       // Attach the handler
-      resizer.addEventListener('mousedown', mouseDownHandler);
+      splitter.addEventListener('mousedown', mouseDownHandler);
     };
 
-    // Query all resizers
+    // Query all splitters
     document.querySelectorAll('.splitter').forEach(function (ele) {
       resizable(ele);
     });

@@ -16,6 +16,7 @@ export default function Modal() {
     <li>페이지 추가로 새로운 문서를 추가할 수 있어요!</li>
     <li>문서 리스트와 에디터 사이에 <strong>스플리터</strong>가 있어요!</li>
     <li>에디터에서 한글은 <strong>자소분리</strong>가 발생해요.😭</li>
+    <li>자소분리는 브라우저 문제에요.</li>
     <li>문서를 접었다 폈다 할 수 있어요!</li>
   </ul>
   `
