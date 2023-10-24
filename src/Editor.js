@@ -1,3 +1,5 @@
+import { newFocus } from "./utils/keyEvent.js";
+
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
   $target.appendChild($editor);
@@ -48,31 +50,24 @@ export default function Editor({ $target, initialState, onEditing }) {
       e.preventDefault();
     } else if (e.key === "Backspace") {
       if (e.target.textContent.length === 0) {
-        e.target.previousSibling.focus();
-        // 맨뒤로 포커스를 해야해!
-        const range = document.createRange();
-        const selection = window.getSelection();
-        const tmp = document.createElement("span");
-        e.target.previousSibling.appendChild(tmp);
+        newFocus(e.target.previousSibling);
 
-        range.selectNode(tmp);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        // range.deleteContents(); // ?
+        const parentTmp = e.currentTarget.parentNode;
+        console.log(parentTmp);
+
+        e.target.remove();
 
         const nextState = {
           ...this.state,
-          content: e.currentTarget.parentNode.innerHTML,
+          content: parentTmp.innerHTML,
         };
         console.log(nextState);
         await onEditing(nextState, "content");
       }
-
-      //
     } else if (e.key === "ArrowUp") {
-      //
+      newFocus(e.target.previousSibling);
     } else if (e.key === "ArrowDown") {
-      //
+      newFocus(e.target.nextSibling);
     } else {
       // 그외 모든 문자 입력
       console.log(e.currentTarget.innerText);
