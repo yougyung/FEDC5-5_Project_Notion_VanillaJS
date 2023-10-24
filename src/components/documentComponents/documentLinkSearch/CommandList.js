@@ -21,6 +21,7 @@ export default function CommandList({ $parent, $target, onClose }) {
 
     if (target.className === "command") {
       const $searchDocumentLink = document.createElement("input");
+      $searchDocumentLink.className = "search-document-link";
       $searchDocumentLink.style.display = "block";
       $searchDocumentLink.placeholder = "문서 제목을 입력하세요.";
       $target.parentNode.appendChild($searchDocumentLink);
