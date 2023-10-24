@@ -42,8 +42,6 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
 
   $subHeader.appendChild($pageName);
   $subHeader.appendChild($group);
-  // $documentHeader.appendChild($pageName);
-  // $documentHeader.appendChild($group);
 
   $documentHeader.appendChild($mainHeader);
   $documentHeader.appendChild($subHeader);
