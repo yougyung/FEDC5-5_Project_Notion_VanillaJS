@@ -8,12 +8,13 @@
  * - NewDocumentButton
  * */
 import DocumentObject from './DocumentObject.js';
+import { getItem } from '../../utils/storage.js';
 
-export default function DocumentsList({ $target, initialState, parentId = null }) {
+export default function DocumentsList({ $target, initialState }) {
   const $documentsList = document.createElement('ul');
   $target.appendChild($documentsList);
 
-  this.state = initialState.data;
+  this.state = initialState;
 
   this.setState = nextState => {
     this.state = nextState;
@@ -24,10 +25,14 @@ export default function DocumentsList({ $target, initialState, parentId = null }
     $documentsList.innerHTML = '';
     this.state.forEach(state => {
       const $details = document.createElement('details');
-      new DocumentObject({ $target: $details, currentDocumentData: { ...state, parentId } });
+
+      const openIds = getItem('openDocumentIds')?.map(Number);
+      openIds?.includes(state.id) && $details.setAttribute('open', 'true');
+
+      new DocumentObject({ $target: $details, currentDocumentData: state });
       $documentsList.appendChild($details);
       if (state.documents.length) {
-        new DocumentsList({ $target: $details, initialState: state.documents, parentId: state.id });
+        new DocumentsList({ $target: $details, initialState: state.documents });
       } else {
         const $span = document.createElement('span');
         $span.setAttribute('data-type', 'document');

@@ -16,10 +16,10 @@ export default function DocumentDetail({ $target, documentState }) {
 
   this.setState = nextState => {
     if (nextState === null) {
-      $documentDetail.innerHTML = "<h1>Hun's Notion에 오신걸 환영합니다.</h1>";
       return;
     }
 
+    console.log('DocumentDetail', nextState);
     const { id, title, content, documentPath } = nextState;
 
     documentHeader.setState(documentPath);

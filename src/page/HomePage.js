@@ -36,17 +36,17 @@ export default function HomePage({ $target }) {
 
   this.state = [];
 
-  let initRender = false;
-  this.setState = nextState => {
-    this.state = nextState;
-    this.route();
-  };
-
   const notionSideBar = new NotionSideBar({ $target: $homePage, initialState: this.state });
   const documentDetail = new DocumentDetail({
     $target: $homePage,
     documentState: { id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
   });
+
+  this.setState = nextState => {
+    this.state = nextState;
+    this.route();
+  };
+
   this.init = async () => {
     const resqonseData = await request('/documents');
     this.setState(resqonseData);
@@ -56,7 +56,7 @@ export default function HomePage({ $target }) {
   this.init();
 
   const findDocumentDataById = id => {
-    const documentPath = [null];
+    const documentPath = [];
 
     const findDocument = (documents, id) => {
       for (const document of documents) {
@@ -93,11 +93,9 @@ export default function HomePage({ $target }) {
       const documentPathData = findDocumentDataById(Number(postId));
 
       // sidebar 업데이트
-      // notionSideBar.setState({ data: newDocuments, openDocuments: documentPathData });
       notionSideBar.setState(newDocuments);
 
       // document 보여주기
-
       const { content } = await documentContent;
 
       const nextState = {
@@ -106,7 +104,8 @@ export default function HomePage({ $target }) {
         content: content || '내용을 채워주세요',
         documentPath: documentPathData,
       };
-      console.log('documentDetail nextState', nextState);
+      console.log('nextState', nextState);
+
       documentDetail.setState(nextState);
     }
   };

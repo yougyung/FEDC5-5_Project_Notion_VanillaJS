@@ -6,19 +6,14 @@
 import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
 
-export default function DeleteDocumentButton({ $target, currentDocumentData, isHidden }) {
+export default function DeleteDocumentButton({ $target, onDeleteDocument, isHidden }) {
   this.$addDocumentButton = document.createElement('button');
   this.$addDocumentButton.style.visibility = `${isHidden ? 'hidden' : 'visible'}`;
   this.$addDocumentButton.textContent = 'x';
 
-  const { id, parentId } = currentDocumentData;
-
   this.$addDocumentButton.addEventListener('click', async e => {
     e.stopPropagation();
-
-    const deleteRes = await request(`/documents/${id}`, { method: 'DELETE' });
-
-    parentId ? push(`/documents/${parentId}`) : push('/');
+    onDeleteDocument();
   });
 
   $target.appendChild(this.$addDocumentButton);
