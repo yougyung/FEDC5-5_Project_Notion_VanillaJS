@@ -43,6 +43,7 @@ export default class DocumentEditor {
     }
 
     setState(nextState) {
+        //console.log(nextState);
         this.state = nextState;
         this.render();
     }
@@ -69,17 +70,14 @@ export default class DocumentEditor {
             const nextState = { ...this.state, [name]: value };
 
             this.setState(nextState);
-            getEndFocus(target);
             this.onEditing(nextState, target);
         }
-        if (name === 'content') {
-            if (isComposing) {
-            }
+        if (name === 'content' && !isComposing) {
             const nextState = { ...this.state, [name]: innerHTML };
 
             this.setState(nextState);
-            getEndFocus(target);
             this.onEditing(nextState, target);
+            getEndFocus(target);
         }
     }
 }

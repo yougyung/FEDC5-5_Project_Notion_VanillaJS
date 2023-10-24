@@ -11,7 +11,7 @@ export default class Header {
     init() {
         const $header = createNewElement('div', [{ property: 'className', value: 'header' }]);
         const $userName = createNewElement(
-            'h3',
+            'h1',
             [{ property: 'className', value: 'header__user-name' }],
             `${this.userName}`
         );

@@ -13,6 +13,7 @@
 /* common */
 @import url(/src/Component/Common/DocumentItems/DocumentItems.css);
 @import url(/src/Component/Common/DocumentItems/DocumentItem/Documentitem.css);
+
 :root {
     --black: black;
     --white: #ffffff;

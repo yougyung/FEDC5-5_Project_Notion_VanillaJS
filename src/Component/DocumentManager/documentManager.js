@@ -24,7 +24,7 @@ export default class DocumentManager {
         this.documentEditor = new DocumentEditor({
             $taregt: this.$documentManager,
             initalState: { ...this.state },
-            onEditing: (nextState, target) => {
+            onEditing: (nextState) => {
                 if (this.timer !== null) {
                     clearTimeout(this.timer);
                 }
