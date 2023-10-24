@@ -1,4 +1,4 @@
-import { textScan } from "../Util/TextScan.js";
+import { applyMarkup, removeMarkup } from "../Util/TextScan.js";
 
 export default function Editor({ $target, initialState, EditPost }) {
   // 편집기 content 엘리먼트
@@ -33,7 +33,7 @@ export default function Editor({ $target, initialState, EditPost }) {
     });
     // 포스트 content 수정 시 서버 저장
     $editor.addEventListener("keyup", (e) => {
-      const editText = textScan($editor.innerText);
+      const editText = applyMarkup($editor.innerText);
       const titleText = $title.innerText;
 
       EditPost(titleText, editText, this.state.id);
@@ -84,6 +84,6 @@ export default function Editor({ $target, initialState, EditPost }) {
     $target.appendChild($editor);
 
     onEditText();
-    onEditorFocus();
+    removeMarkup($editor);
   };
 }

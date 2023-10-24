@@ -1,3 +1,5 @@
+import { getCustomEvent, replaceState } from "./Router.js";
+
 const API_URL = "https://kdt-frontend.programmers.co.kr/documents";
 
 export const HTTPRequest = async (url, payload = {}) => {
@@ -14,8 +16,11 @@ export const HTTPRequest = async (url, payload = {}) => {
       return await res.json();
     }
 
-    throw new Error(`${API_URL}${url} : API 처리 이상`);
+    throw new Error(
+      `${API_URL}${url} \n요청 하신 주소가 존재하지 않습니다. 루트 화면으로 돌아갑니다.`
+    );
   } catch (error) {
     alert(error.message);
+    replaceState("/");
   }
 };

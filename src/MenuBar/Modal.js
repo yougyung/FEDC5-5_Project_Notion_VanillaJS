@@ -1,4 +1,4 @@
-import { textScan } from "../Util/TextScan.js";
+import { applyMarkup } from "../Util/TextScan.js";
 
 export default function Modal({ initialState, onSavePost }) {
   const $div = document.createElement("div");
@@ -15,7 +15,9 @@ export default function Modal({ initialState, onSavePost }) {
     const $modal = document.querySelector(".modal");
 
     const title = $modal.querySelector("[name=title]").innerText;
-    const content = textScan($modal.querySelector("[name=content]").innerText);
+    const content = applyMarkup(
+      $modal.querySelector("[name=content]").innerText
+    );
 
     console.log(content);
 
