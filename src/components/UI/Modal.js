@@ -29,11 +29,13 @@ export default function Modal() {
   $modal.appendChild($closeButton);
   $modal.appendChild($modalTitle);
   $modal.appendChild($modalContent);
+  
   $modalOverlay.appendChild($modal);
   document.body.appendChild($modalOverlay);
 
   $closeButton.addEventListener('click', () => {
     $modalOverlay.style.display = 'none';
+    document.body.removeChild($modalOverlay);
   });
 
   window.addEventListener('click', (e) => {
