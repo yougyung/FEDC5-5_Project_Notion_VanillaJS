@@ -3,6 +3,9 @@ import { pushRoute } from "./utils/router.js";
 import { searchTrie } from "./utils/trie.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
+  const $editor = document.createElement("div");
+  $editor.className = "editor_wrap";
+
   //링크박스
   const $linkWrap = document.createElement("div");
   $linkWrap.style.display = "none";
@@ -13,14 +16,18 @@ export default function Editor({ $target, initialState, onEditing }) {
   $linkWrap.style.position = "fixed";
   const pageSpan = document.createElement("span");
 
-  const $editor = document.createElement("div");
-  $target.appendChild($editor);
-
-  $editor.appendChild($linkWrap);
-
   const $editor_title = document.createElement("h1");
   $editor_title.contentEditable = "true";
   $editor_title.className = "editor_title";
+  $editor.appendChild($editor_title);
+
+  const $editorContentWrap = document.createElement("div"); //
+  $editorContentWrap.className = "editor_content_wrap"; //
+  $editor.appendChild($editorContentWrap); //
+
+  $target.appendChild($editor);
+
+  $editor.appendChild($linkWrap);
 
   const $editor_content = document.createElement("div");
   $editor_content.className = "editor_content";
@@ -214,7 +221,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     // console.log(this.state.content);
     $editor_title.innerHTML = this.state.title;
-    $editor.appendChild($editor_title);
+    // $editor.appendChild($editor_title);
     if (this.state.content !== null) {
       $editor_content.innerHTML =
         this.state.content +
@@ -225,7 +232,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       $editor_content_block.innerHTML = "";
       // this.state.content가 비어있을땐 입력한게 없으니 둘다 비움
     }
-    $editor.appendChild($editor_content);
+    $editorContentWrap.appendChild($editor_content);
 
     const blocks = $editor_content.getElementsByClassName(
       "editor_content_block"

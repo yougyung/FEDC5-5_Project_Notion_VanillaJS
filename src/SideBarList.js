@@ -1,4 +1,4 @@
-import { DeletPageButton, NewPageButton } from "./PageButton.js";
+import { DeletPageButton, pageAddDeleteButton } from "./PageButton.js";
 import { pushRoute } from "./utils/router.js";
 
 export default function SideBarList({
@@ -38,16 +38,16 @@ export default function SideBarList({
       $subLi.dataset.id = doc.id;
       $subLi.innerHTML = `<div class="each"><img class="toggle_button" src="../assets/right.png"></img><div class="list_title_wrap"><div class="list_title">${doc.title}</div></div></div>`;
 
-      new NewPageButton({
+      new pageAddDeleteButton({
         $target: $subLi.firstChild, // 말고 div.list_title 안에 넣어서 div를 relative, 버튼두개를 fixed로 두고 호버할때만 보이게/ 호버했을때는  글자나올 부분 크기를 div길이 -버튼두개길이 로 두고 그거 넘어가면 ... 호버 안했을 땐 div 전체길이
         id: doc.id,
         handleChangeList,
       });
-      new DeletPageButton({
-        $target: $subLi.firstChild,
-        id: doc.id,
-        handleChangeList,
-      });
+      // new DeletPageButton({
+      //   $target: $subLi.firstChild,
+      //   id: doc.id,
+      //   handleChangeList,
+      // });
       $subUl.appendChild($subLi);
       if (doc.documents.length > 0) {
         const newDocuments = doc.documents;

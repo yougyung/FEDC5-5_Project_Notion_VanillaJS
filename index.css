@@ -38,6 +38,13 @@ ul {
   align-items: center;
   gap: 8px;
 }
+.header_profile_name {
+  color: rgb(55, 53, 47);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .header_fadein {
   opacity: 0%; /*안보이게*/
   animation: fadein 0.33s ease-in;
@@ -63,11 +70,27 @@ ul {
 .side_bar_list::-webkit-scrollbar {
   width: 10px;
 }
-
 .side_bar_list::-webkit-scrollbar-thumb {
   background: rgba(55, 53, 47, 0.08);
   /* display: none; Chrome, Safari, Opera */
 }
+.plus_page_button,
+.delete_page_button {
+  padding: 2px 6px;
+  border-radius: 3px;
+  &:hover {
+    background: #e6e4dc;
+  }
+}
+.button_wrap {
+  position: fixed;
+  left: 168px;
+  opacity: 0; /* ******** 0 */
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .side_bar_list button {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -75,9 +98,6 @@ ul {
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-.each:hover {
-  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .edit_page div {
@@ -91,7 +111,44 @@ ul {
   padding-left: inherit;
   right: inherit;
   width: 100%;
+  align-items: center;
+  font-size: 14px;
+  min-height: 27px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  border-radius: 3px;
+  cursor: pointer;
 }
+.each:hover {
+  /* background-color: rgba(0, 0, 0, 0.04); */
+  .list_title {
+    font-weight: 600;
+  }
+  .button_wrap {
+    opacity: 1;
+  }
+}
+/* each 선택되었을때 */
+/*
+display: flex;
+    position: relative;
+    padding-left: inherit;
+    right: inherit;
+    width: inherit;
+    align-items: center;
+    font-size: 14px;
+    min-height: 27px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border-radius: 3px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.04);
+    color: rgb(55, 53, 47);
+  */
 .toggle_button {
   padding: 0px;
   width: 12px;
@@ -114,22 +171,48 @@ ul {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 15px;
 }
 
 /* 에디터 */
+.editor_title {
+  padding-left: calc(96px + env(safe-area-inset-left));
+  margin-top: 100px;
+  font-size: 40px;
+}
 .editor_title:focus {
   outline: none;
 }
+.editor_content_wrap {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-top: 5px;
+}
+
 .editor_content {
-  /* max-width: ; */
-  max-height: 80vh;
-  height: 90vh;
-  border: 1px solid grey;
+  flex-shrink: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+  z-index: 4;
+  padding-bottom: 30vh;
+  padding-left: calc(96px + env(safe-area-inset-left));
+  padding-right: calc(96px + env(safe-area-inset-right));
 }
 .editor_content_block {
-  height: fit-content;
-  min-height: 20px;
+  width: 100%;
+  max-width: 423px;
+  margin-top: 2px;
+  margin-bottom: 1px;
+  /* height: fit-content;
+  min-height: 20px; */
   &:focus {
-    outline: none;
+    outline: 0;
   }
 }

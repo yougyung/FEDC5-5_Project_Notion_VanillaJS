@@ -1,4 +1,4 @@
-import { NewPageButton } from "./PageButton.js";
+import { pageAddDeleteButton } from "./PageButton.js";
 import SearchBox from "./SearchBox.js";
 import SideBarHeader from "./SideBarHeader.js";
 import SideBarList from "./SideBarList.js";
@@ -17,7 +17,7 @@ export default function SideBar({ $target }) {
     handleChangeList: async () => await this.setState(),
   });
 
-  new NewPageButton({
+  new pageAddDeleteButton({
     $target: $sideBar,
     id: null,
     handleChangeList: async () => await this.setState(),
