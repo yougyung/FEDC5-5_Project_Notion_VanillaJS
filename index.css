@@ -9,6 +9,7 @@
   height: 100%;
   background-color: #f6f6f6;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  overflow: hidden;
 }
 
 .postlist {
@@ -42,6 +43,9 @@ img {
 
 .summary {
   font-size: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .addBtn {

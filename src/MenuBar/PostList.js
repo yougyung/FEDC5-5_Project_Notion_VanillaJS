@@ -90,6 +90,7 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     });
   };
 
+  // 로컬 스토리지 데이터와 서버의 데이터를 비교하여 어떤 content를 뿌려줄 것인지 결정할 함수
   const checkLocalAndServerData = async (id) => {
     const data = await fetchData(`/${id}`);
     const localData = getItem(LOCAL_STORAGE_KEY + id, data);

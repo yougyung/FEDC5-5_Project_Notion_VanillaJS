@@ -57,6 +57,7 @@ export default function Editor({ $target, initialState, EditPost }) {
     const { title } = this.state;
 
     $title.textContent = title;
+
     $editor.innerHTML = `
       ${this.state.content}
     `;
