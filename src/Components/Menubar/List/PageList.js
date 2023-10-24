@@ -20,12 +20,14 @@ export default function PageList({ target, state, onEvent }) {
     this.render();
   };
 
+  const depth = 1;
   /* list 렌더링 */
   this.render = () => {
     this.state.forEach((list) => {
       new List({
         target: pageListElement,
         state: list,
+        depth,
       });
     });
   };

@@ -1,10 +1,11 @@
 import { checkToggled } from "../../../LocalStorage/LocalStorage.js";
 
 export default function ListInfo({ target, state }) {
-  const { title, id } = state;
+  const { title, id, depth } = state;
 
   const listInfoElement = document.createElement("div");
   listInfoElement.setAttribute("class", "menubar_pageList_list_info");
+  listInfoElement.style.paddingLeft = `${16 * depth}px`;
   target.appendChild(listInfoElement);
 
   /* checkbox */

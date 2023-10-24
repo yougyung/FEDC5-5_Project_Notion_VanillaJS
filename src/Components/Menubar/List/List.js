@@ -1,7 +1,7 @@
 import ChildrenList from "./ChildrenList.js";
 import ListInfo from "./ListInfo.js";
 
-export default function List({ target, state }) {
+export default function List({ target, state, depth }) {
   this.state = state;
   const { title, id, documents } = state;
 
@@ -10,16 +10,18 @@ export default function List({ target, state }) {
   listElement.setAttribute("data-id", id);
   target.appendChild(listElement);
 
+  this.depth = depth;
   this.render = () => {
     new ListInfo({
       target: listElement,
-      state: { title, id },
+      state: { title, id, depth },
     });
 
     new ChildrenList({
       target: listElement,
       state: documents,
       id,
+      depth,
     });
   };
 

@@ -1,7 +1,7 @@
 import { checkToggled } from "../../../LocalStorage/LocalStorage.js";
 import List from "./List.js";
 
-export default function ChildrenList({ target, state, id }) {
+export default function ChildrenList({ target, state, id, depth }) {
   const childrenListElement = document.createElement("ul");
   childrenListElement.setAttribute(
     "class",
@@ -20,6 +20,7 @@ export default function ChildrenList({ target, state, id }) {
       new List({
         target: childrenListElement,
         state: list,
+        depth: depth + 1,
       });
     });
   };
