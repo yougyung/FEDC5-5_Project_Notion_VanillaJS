@@ -37,8 +37,8 @@ export default function DocumentLinkList({ $target, initialState, onClose }) {
       ${this.state.documentLinks
         .map(
           ({ id, title, documents }) => `
-        <li data-id=${id} id="item" class="link">
-          <span>${title}</span>
+        <li data-id=${id} id="link" class="wrapper">
+          <span class="link-title">${title}</span>
         </li>
       `
         )
