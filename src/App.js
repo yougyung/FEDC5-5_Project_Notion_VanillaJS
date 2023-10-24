@@ -18,11 +18,10 @@ export default function App({ $target }){
 
   const postList = new PostList({
     $target : $postListContainer,
-    onToggle: async (id, path) => {
+    onToggle: async (path) => {
       const allPath = path.split('-');
       // toggle 누른 post
       const nowPost = returnPathList([...allPath], this.state.postList)
-
       // toggle 누른 post의 toggle 값 변경
       nowPost.isToggled = typeof nowPost.isToggled === 'undefined' ? true : !nowPost.isToggled;
 
@@ -39,8 +38,64 @@ export default function App({ $target }){
         postList: nextState
       })
     },
-    onDelete: async(id) => {
+    onDelete: async(id, path, child) => {
+
+      const allPath = path.split('-');
+      let nextState;
+      if(allPath.length === 1){
+        nextState = this.state.postList.filter(post => parseInt(post.id) !== parseInt(id));
+      }else{
+        const parentPost = returnPathList([...allPath].slice(0, -1), this.state.postList);
+        const siblingPost = parentPost.documents.filter(post => parseInt(post.id) !== parseInt(id));
+        parentPost.documents = siblingPost
+  
+        const updateState = returnMap(this.state.postList, [...allPath].slice(0,-1), parentPost);
+        nextState = this.state.postList.map(post => post.id === updateState.id ? updateState : post)
+      }
+
+      this.setState({
+        ...this.state,
+        postList: nextState
+      })
+
+      await Promise.all(child.map(async (id) => {
+        await request(`/documents/${id}`, {
+          method: 'DELETE'
+        });
+      }));
       
+    },
+    onAdd: async(id = null, path) => {
+      const createdPost = await request(`/documents`, {
+        method: 'POST',
+        body: JSON.stringify({
+          'title': '제목 없음',
+          'parent': id
+        })
+      })
+
+      createdPost.documents = [];
+
+      if(id === null){
+        createdPost.isVisible = true
+        this.setState({
+          ...this.state,
+          postList: [...this.state.postList, createdPost]
+        });
+      }else{
+        const allPath = path.split('-');
+        const nowPost = returnPathList([...allPath], this.state.postList);
+        nowPost.isToggled = true;
+        nowPost.documents.push(createdPost);
+        const updateState = returnMap(this.state.postList, [...allPath], nowPost);
+        const nextState = this.state.postList.map(post => post.id === updateState.id ? updateState : post)
+        childToggle(nowPost.documents, nowPost.isToggled);
+        this.setState({
+          ...this.state,
+          postList: nextState
+        })
+        
+      }
     }
   })
 
@@ -86,7 +141,14 @@ export default function App({ $target }){
     this.state = nextState
 
     postList.setState({
-      postList:this.state.postList
+      postList:this.state.postList,
+      selectedPost: {
+        id:'',
+        path:'',
+        top:'0px',
+        left:'0px',
+      },
+      modalState: false
     })
     
     this.render()

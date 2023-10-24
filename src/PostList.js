@@ -1,4 +1,4 @@
-export default function PostList({ $target, onToggle, onDelete }){
+export default function PostList({ $target, onToggle, onDelete, onAdd }){
   const $postList = document.createElement('div');
   $postList.classList.add('post-list');
   $target.appendChild($postList);
@@ -7,6 +7,7 @@ export default function PostList({ $target, onToggle, onDelete }){
     postList: [],
     selectedPost: {
       id:'',
+      path:'',
       top:'0px',
       left:'0px',
     },
@@ -26,7 +27,12 @@ export default function PostList({ $target, onToggle, onDelete }){
       $postList.innerHTML = `
         ${this.state.postList.map(post => renderTree(post, '')).join('')}
         <div class="post-add"> + </div>
-        <div class="modal-content" style="display:${this.state.modalState ? 'block' : 'none'};">
+
+        <div class="modal-content" style="
+          display:${this.state.modalState ? 'block' : 'none'}; 
+          top:${this.state.selectedPost.top};
+          left:${this.state.selectedPost.left}";
+        >
           <div class="post-delete">삭제</div>
         </div>
       `
@@ -67,18 +73,18 @@ export default function PostList({ $target, onToggle, onDelete }){
       const {id, path} = $div.dataset;
 
       if(className === 'post-toggle-button'){
-        // 포스트 토글 클릭 시의 동작
-        onToggle(id, path, findChild(path))
+        // 포스트 토글
+        onToggle(path)
 
       }else if(className === 'post-title'){
-        // 포스트 제목 클릭 시의 동작
+        // 포스트 제목
 
       }else if(className === 'post-load-more-button'){
-        // 포스트 더보기 클릭 시의 동작
+        // 포스트 더보기
         const modalResult = $postList.querySelector(".modal-content").style.display === 'none';
         const selectedPost = modalResult 
-          ? { id, top: e.target.offsetTop + e.target.offsetHeight+'px', left: e.target.offsetLeft+'px'} 
-          : { id: '', top: '0px', left: '0px' };
+          ? { id, path, top: e.target.offsetTop + e.target.offsetHeight+'px', left: e.target.offsetLeft+'px'} 
+          : { id: '', path: '', top: '0px', left: '0px' };
 
         this.setState({
           ...this.state,
@@ -87,10 +93,14 @@ export default function PostList({ $target, onToggle, onDelete }){
         });
 
       }else if(className === 'post-add-child') {
-        // 자식 추가 버튼 클릭 시의 동작
-        
+        // 자식 추가 버튼
+        onAdd(id, path)
       }else if(className === 'post-delete'){
         // 삭제 버튼
+        onDelete(this.state.selectedPost.id, this.state.selectedPost.path, findChild(this.state.selectedPost.path));
+      }else if(className === 'post-add'){
+        // 부모 추가 버튼
+        onAdd()
       }
     }
 
