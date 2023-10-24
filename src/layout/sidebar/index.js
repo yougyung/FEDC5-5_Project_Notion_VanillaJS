@@ -11,6 +11,7 @@ export default function SideBar({ $target, initialState, handleState }) {
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
+		console.log(nextState);
 	};
 
 	const documnentList = () => {
@@ -28,7 +29,8 @@ export default function SideBar({ $target, initialState, handleState }) {
 		</div>
 		<div class="sidebar__documentList"></div>
 		`;
-		documnentList();
+
+		if (this.state && this.state.length > 1) documnentList();
 	};
 	this.render();
 }

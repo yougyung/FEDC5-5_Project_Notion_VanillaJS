@@ -3,7 +3,7 @@ import debounce from '@util/debounce';
 import { createElementWithClass, addEvent } from '../../util/dom';
 import './style.scss';
 
-export default function Document({ $target, initialState }) {
+export default function Document({ $target, initialState, handleOptimisticUITitle }) {
 	const $document = createElementWithClass('div', 'document');
 	$target.appendChild($document);
 
@@ -19,16 +19,27 @@ export default function Document({ $target, initialState }) {
 		<h1 contenteditable="true" class="document__title">${title}</h1>
 		<div contenteditable="true" class="document__content">${content}</div>
 		`;
+		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
+		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
 	};
 	this.render();
 
-	const handleKeyUpContent = (e) => {
-		// content의 저장은 의존성이 전혀존재하지않음
+	this.handleKeyUpTitle = (e) => {
+		const { id, content } = this.state;
+		// optimistic UI
+		handleOptimisticUITitle(id, e.target.innerHTML);
+
+		// handleState();
+		debounce(async () => {
+			const newDocument = { title: e.target.innerHTML, content };
+			await updateDocument(newDocument, id);
+		});
+	};
+	this.handleKeyUpContent = (e) => {
 		debounce(async () => {
 			const { id, title } = this.state;
 			const newDocument = { title, content: e.target.innerHTML };
 			await updateDocument(newDocument, id);
 		});
 	};
-	addEvent($document, 'document__content', 'keyup', handleKeyUpContent);
 }
