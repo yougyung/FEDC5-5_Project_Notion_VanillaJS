@@ -16,7 +16,15 @@
   height: 2rem;
 }
 
-.s_editorForm textarea {
-  display: block;
+.s_editorContent {
   width: 60rem;
+  min-height: 30rem;
+  border: 0.05rem solid;
+  padding: 1rem;
+  position: relative;
+}
+
+.s_childDocuments {
+  position: absolute;
+  bottom: 1rem;
 }
