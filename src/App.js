@@ -21,7 +21,11 @@ export default function App({ $target }) {
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
       history.pushState(null, null, `/document/${id}`);
-      this.init();
+
+      const documentTree = getItem("documentTree", []);
+      createTraverse(documentTree, data, body.parent);
+      documentTree.setState(documentTree);
+      setItem("documentTree", documentTree);
     },
     onClick: async (id) => {
       history.pushState(null, null, `/document/${id}`);
@@ -37,6 +41,24 @@ export default function App({ $target }) {
   });
 
   const editor = new Editor({ $container, getDocumentTree: () => this.init() });
+
+  const createTraverse = (documents, newData, parentId) => {
+    if (!documents.length) return;
+    if (!parentId) {
+      documents.push(newData);
+      return;
+    }
+
+    for (const document of documents) {
+      if (document.id === +parentId) {
+        document.documents.push(newData);
+        return;
+      }
+      if (document.documents.length) {
+        createTraverse(document.documents, newData, parentId);
+      }
+    }
+  };
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT_TREE);
