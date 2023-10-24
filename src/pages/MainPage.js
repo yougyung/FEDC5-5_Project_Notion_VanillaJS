@@ -2,6 +2,7 @@ import { push } from '@/router';
 import Component from '@/core/Component';
 import DocumentList from '@/components/DocumentList';
 import Editor from '@/components/Editor';
+import Navigation from '../components/Navigation';
 
 import {
   getAllDocuments,
@@ -34,6 +35,7 @@ export default class MainPage extends Component {
     this.$editor = new Editor(this.$section, {
       onEdit: debounce(this.handleEditorEdit.bind(this), 1000),
     });
+    this.$navigation = new Navigation(this.$section);
 
     this.$target.appendChild(this.$sidebar);
     this.$target.appendChild(this.$section);
@@ -52,8 +54,7 @@ export default class MainPage extends Component {
       return;
     }
 
-    const currentDocument = this.fetchCurrentDocument(this.state.currentId);
-    this.$editor.setState(currentDocument);
+    this.fetchCurrentDocument(this.state.currentId);
   }
 
   async fetchDocumentList() {
@@ -67,6 +68,7 @@ export default class MainPage extends Component {
       const currentDocument = await getDetailOfDocument(documentId);
 
       this.$editor.setState(currentDocument);
+      this.$navigation.setState(currentDocument.documents);
     } catch (error) {
       // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
       console.error(error.message);
