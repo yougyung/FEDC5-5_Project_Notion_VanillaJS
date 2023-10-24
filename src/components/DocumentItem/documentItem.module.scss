@@ -1,3 +1,5 @@
+@use "@/styles/color";
+
 .s_documentItem {
   cursor: pointer;
   height: auto;
@@ -15,4 +17,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
+}
+
+.s_index {
+  color: color.$onPrimary;
 }
