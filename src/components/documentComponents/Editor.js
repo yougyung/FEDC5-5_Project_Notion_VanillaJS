@@ -44,7 +44,6 @@ export default function Editor({ $target, initialState, onEdit }) {
         if (target.textContent.includes("/")) {
           const newContent = target.textContent.split("/")[1];
 
-          console.log(newContent);
           if (newContent === "페이지링크") {
             const selectionStart = window.getSelection().anchorOffset;
             let $contentInnerModal = $editor.querySelector(".content-inner-modal");
