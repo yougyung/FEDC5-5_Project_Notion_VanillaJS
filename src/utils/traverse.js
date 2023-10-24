@@ -15,8 +15,7 @@ const traverse = {
     }
   },
   createDocument(documents, newData, parentId) {
-    if (!documents.length) return;
-    if (!parentId) {
+    if (!parentId || !documents.length) {
       documents.push(newData);
       return;
     }
