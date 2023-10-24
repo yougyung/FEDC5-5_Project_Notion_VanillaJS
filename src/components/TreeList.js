@@ -16,7 +16,7 @@ export default function TreeList({ $container, child = {} }) {
   const $input = document.createElement("input");
   $input.type = "text";
   $input.placeholder = "문서 제목";
-  $input.classList.add("document-title");
+  $input.classList.add("document-title-input");
   $input.classList.add("hide");
 
   $span.appendChild($input);
