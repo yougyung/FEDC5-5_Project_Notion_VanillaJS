@@ -1,4 +1,6 @@
-export default function DocumentFooter({ $target }) {
+import Modal from '../UI/Modal.js';
+
+export default function DocumentFooter({ $target, onOpen }) {
   const $documentFooter = document.createElement('div');
   $documentFooter.className = 'document-footer';
 
@@ -34,7 +36,7 @@ export default function DocumentFooter({ $target }) {
   $documentFooter.appendChild($socialGroup);
   $target.appendChild($documentFooter);
 
-  this.render = () => {};
-
-  this.render();
+  $helpButton.addEventListener('click', () => {
+    new Modal();
+  });
 }
