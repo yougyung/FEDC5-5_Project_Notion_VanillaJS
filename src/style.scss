@@ -1,0 +1,14 @@
+#app {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: $background-light;
+}
+
+.section {
+  background-color: $background;
+}

@@ -67,11 +67,40 @@ module.exports = (_env, argv) => {
         {
           test: /\.(sa|sc|c)ss$/i,
           exclude: /node_modules/,
+
           use: [
-            isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
+            {
+              loader: 'style-loader',
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                additionalData: '@import "_variable";',
+                sassOptions: {
+                  includePaths: [path.resolve(__dirname, './src/styles')],
+                },
+              },
+            },
           ],
+          include: path.join(__dirname, 'src'),
+
+          // use: [
+          //   isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          //   'css-loader',
+          //   // {
+          //   //   loader: 'sass-loader',
+          //   //   options: {
+          //   //     data: '@import "_variable";',
+          //   //     includePaths: [path.resolve(__dirname, './src/styles')],
+          //   //   },
+          //   // },
+          // ],
         },
       ],
     },
