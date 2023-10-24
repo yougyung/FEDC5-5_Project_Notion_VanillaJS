@@ -20,8 +20,8 @@
 - [ ] 전역store생성 및 구독 시스템
 - [ ] 에디터 부분 css처리
 - [ ] 하위문서 갯수가 넘칠때 예외처리(css포함)
-- [ ] 재사용 가능한 Title 컴포넌트 제작(documentListTitle, documentTitle 분리)
-- [ ] 버튼들 모두 재사용 가능한 Button 컴포넌트로 교체 => 자식 컴포넌트를 렌더링하려면, innerHTML을 사용하면 안된다...
+- [x] 재사용 가능한 Title 컴포넌트 제작(documentListTitle, documentTitle 분리)
+- [x] 버튼들 모두 재사용 가능한 Button 컴포넌트로 교체
 - [ ] 하위문서가 존재하지 않을때 '하위문서 없음' 렌더링(재사용 가능한 Title을 렌더링하면 될것도 같다.)
 - [ ] 시간 남으면 구독 시스템을 flux패턴으로 제작. 안되면 구독자 전체에게 알림
 - [ ] 에디터 contentEditable로 전환(추가 요구사항)

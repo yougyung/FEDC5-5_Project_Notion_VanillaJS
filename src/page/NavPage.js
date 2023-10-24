@@ -1,7 +1,9 @@
 import Button from "../common/Button.js";
 import DocumentList from "../component/DocumentList.js";
+import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/router.js";
+import Storage from "../utils/storage.js";
 
 //initialState = [{id:num, title:string, documents:array }]
 export default function NavPage({ $target }) {
@@ -13,16 +15,18 @@ export default function NavPage({ $target }) {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
   };
-  this.createDocument = async (id) => {
-    const body = { title: "제목 없음", parent: id ? id : null };
+  const createDocument = async (id = null) => {
+    const body = { title: "제목 없음", parent: id };
     const response = await request("/documents", {
       method: "POST",
       body: JSON.stringify(body),
     });
+    console.log(response);
     this.getDocuments();
-    console.log("문서 생성됨", response);
+    push(`/documents/${response.id}`);
+    return response;
   };
-  this.removeDocument = async (id) => {
+  const removeDocument = async (id) => {
     await request(`/documents/${id}`, {
       method: "DELETE",
     });
@@ -35,14 +39,19 @@ export default function NavPage({ $target }) {
     documentList = new DocumentList({
       $target: $nav,
       initialState: [{ id: null, title: "", documents: [] }],
-      createDocument: this.createDocument,
-      removeDocument: this.removeDocument,
+      createDocument,
+      removeDocument,
     });
     new Button({
       $target: $nav,
-      content: "새 페이지 추가하기",
+      content: `${plusIcon} <span>페이지 추가</span>`,
       attributes: [{ name: "class", value: "add-root-doc-btn" }],
-      onClick: this.createDocument,
+      onClick: async () => {
+        const response = await createDocument();
+        console.log(response);
+        const storage = new Storage(window.localStorage);
+        storage.setItem(response.id, { isFolded: true });
+      },
     });
   };
   this.render();

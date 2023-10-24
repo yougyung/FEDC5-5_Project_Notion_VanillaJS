@@ -18,4 +18,11 @@ export default function Storage(storage) {
       console.log(`아이템 넣는 중 오류발생: ${e}`);
     }
   };
+  this.removeItem = (key) => {
+    try {
+      this.storage.removeItem(key);
+    } catch (e) {
+      console.log(`아이템 제거중 오류발생: ${e}`);
+    }
+  };
 }

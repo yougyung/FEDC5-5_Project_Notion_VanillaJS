@@ -21,12 +21,15 @@ nav{
     height: 100vh;
     position: fixed;
     border-right: solid 1px #e1e1e1;
+    color:#6D6C68;
+    font-size: 14px;
+    font-weight: 450;
 }
-a, a:visited, a:link {
+a:visited, a:link {
     text-decoration: none;
     color:#6D6C68;
-    font-weight: 450;
     font-size: 14px;
+    font-weight: 450;
 }
 button{
     background: none;
@@ -59,7 +62,17 @@ button:hover{
         stroke: #6D6C68;
 }
 .add-root-doc-btn{
+    height: 20px;
     width: 100%;
+    padding-left: 18px;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+.add-root-doc-btn>svg{
+    width: 12px;
+    fill:#6D6C68;
+    stroke: #6D6C68;
 }
 .display-none{
     display: none;

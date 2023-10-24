@@ -4,12 +4,13 @@ import arrowIconSvg from "../svg/arrowIcon.js";
 import plusIcon from "../svg/plusIcon.js";
 import xIcon from "../svg/xIcon.js";
 import { push } from "../utils/router.js";
+import Storage from "../utils/storage.js";
 
 export default function DocumentItem({
   $target,
   initialState,
   createDocument,
-  deleteDocument,
+  removeDocument,
   depth,
 }) {
   this.state = initialState;
@@ -17,28 +18,59 @@ export default function DocumentItem({
   $documentItem.dataset.id = this.state.id;
   $documentItem.classList.add("document-item");
   $documentItem.style.paddingLeft = `${depth > 0 ? depth * 20 : 10}px`;
+  if (depth > 0) {
+    $documentItem.classList.add("document-item-children");
+  }
+  const storage = new Storage(window.localStorage);
   $target.appendChild($documentItem);
+  const getChildDocumentEl = () => {
+    const { nextSibling } = $documentItem;
+    if (
+      nextSibling &&
+      nextSibling.classList.contains("document-item-children")
+    ) {
+      return nextSibling;
+    }
+    return undefined;
+  };
+  const rotateSvg = () => {
+    const arrowIcon = $documentItem.querySelector(".arrow-icon");
+    arrowIcon.classList.toggle("rotate-90edge");
+  };
+  const onArrowBtnClick = (e) => {
+    const childDocumentEl = getChildDocumentEl();
+    if (!childDocumentEl) {
+      return;
+    }
+    childDocumentEl.classList.toggle("display-none");
+    rotateSvg();
+    //버튼 하위에 아이콘이 있으니, 버튼부터 탐색
+    const { id } = $documentItem.dataset;
+    //이전의 isFolded값을 가져와서, 반대값으로 바꿔준다
+    const { isFolded: savedIsFolded } = storage.getItem(id, { isFolded: true });
+    console.log(savedIsFolded);
+    storage.setItem(id, { isFolded: !savedIsFolded });
+  };
+  const isFoldedCheck = () => {
+    const childDocumentEl = getChildDocumentEl();
+    console.log(childDocumentEl);
+    if (childDocumentEl) {
+      const { isFolded } = storage.getItem($documentItem.dataset.id, {
+        isFolded: true,
+      });
+      if (!isFolded) {
+        childDocumentEl.classList.remove("display-none");
+        rotateSvg();
+      }
+    }
+  };
   this.render = () => {
     $documentItem.innerHTML = "";
     new Button({
       $target: $documentItem,
-      attributes: [
-        { name: "class", value: "arrow-btn" },
-        { name: "data-name", value: "more" },
-      ],
+      attributes: [{ name: "class", value: "arrow-btn" }],
       content: arrowIconSvg,
-      onClick: (e) => {
-        const { nextSibling } = $documentItem;
-        if (
-          nextSibling &&
-          nextSibling.classList.contains("document-item-children")
-        ) {
-          nextSibling.classList.toggle("display-none");
-          //버튼 하위에 아이콘이 있으니, 버튼부터 탐색
-          const arrowIcon = e.currentTarget.querySelector("svg");
-          arrowIcon.classList.toggle("rotate-90edge");
-        }
-      },
+      onClick: onArrowBtnClick,
     });
     new Title({
       $target: $documentItem,
@@ -49,23 +81,33 @@ export default function DocumentItem({
     });
     new Button({
       $target: $documentItem,
-      attributes: [{ name: "data-name", value: "remove-doc" }],
       content: xIcon,
       onClick: (e) => {
-        deleteDocument($documentItem.dataset.id);
+        removeDocument($documentItem.dataset.id);
+        storage.removeItem($documentItem.dataset.id);
       },
     });
     new Button({
       $target: $documentItem,
-      attributes: [{ name: "data-name", value: "create-doc" }],
       content: plusIcon,
-      onClick: (e) => {
+      onClick: () => {
         createDocument($documentItem.dataset.id);
+        storage.setItem($documentItem.dataset.id, { isFolded: false });
       },
     });
+    this.state.documents.forEach(
+      (document) =>
+        new DocumentItem({
+          $target,
+          initialState: document,
+          createDocument,
+          removeDocument,
+          depth: depth + 1,
+        })
+    );
+    isFoldedCheck();
   };
   $documentItem.addEventListener("click", (e) => {
-    //버튼 누를시 버튼의 부모(li) id의 하위 문서 생성..
     if (e.target.tagName === "A") {
       e.preventDefault();
     }
