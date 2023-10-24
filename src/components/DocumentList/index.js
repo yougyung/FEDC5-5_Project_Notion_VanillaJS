@@ -9,7 +9,7 @@ export default class DocumentList extends Component {
       documentList: [],
     };
 
-    this.$documentList = document.createElement('div');
+    this.$documentList = document.createElement('nav');
     this.$target.appendChild(this.$documentList);
   }
 
