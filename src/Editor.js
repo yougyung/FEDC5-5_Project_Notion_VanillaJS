@@ -9,11 +9,9 @@ export default function Editor({ $target, initialState, onEditing }) {
   //링크박스
   const $linkWrap = document.createElement("div");
   $linkWrap.style.display = "none";
-  $linkWrap.style.width = "200px";
-  $linkWrap.style.height = "200px";
-  $linkWrap.style.bottom = "0px";
-  $linkWrap.style.background = "beige";
-  $linkWrap.style.position = "fixed";
+  $linkWrap.className = "link_wrap";
+  $linkWrap.innerHTML = `<p class="link_wrap_inner_p">페이지 링크</p>`;
+
   const pageSpan = document.createElement("span");
 
   const $editor_title = document.createElement("h1");
@@ -27,7 +25,7 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   $target.appendChild($editor);
 
-  $editor.appendChild($linkWrap);
+  // $editor.appendChild($linkWrap); //전체에 대해서 붙이지 말고 @가 등장했을때로 해보자
 
   const $editor_content = document.createElement("div");
   $editor_content.className = "editor_content";
@@ -65,11 +63,17 @@ export default function Editor({ $target, initialState, onEditing }) {
       const newBlock = document.createElement("div");
       newBlock.className = "editor_content_block";
       newBlock.setAttribute("contenteditable", true);
-      // console.log(newBlock);
       newBlock.addEventListener("keyup", (e) => handleChangeContent(e));
       e.currentTarget.after(newBlock);
       newBlock.focus();
       e.preventDefault();
+
+      if (nowLink) {
+        nowLink = 0;
+        e.target.nextSibling.remove();
+
+        $linkWrap.style.display = "none";
+      }
     } else if (e.key === "Backspace") {
       console.log(e.target, e.target.textContent, e.target.childNodes);
       if (e.target.textContent.length === 0) {
@@ -88,20 +92,17 @@ export default function Editor({ $target, initialState, onEditing }) {
         await onEditing(nextState, "content");
       }
       if (e.target.childNodes.length === 1) {
+        console.log(e.target, e.target.childNodes);
         // 자식에 <span>이 있으면 NodeList[text,span]인데 사라지면 [text]
         $linkWrap.style.display = "none";
+        if (e.target.nextSibling) {
+          e.target.nextSibling.remove();
+        }
         nowLink = 0;
       }
       // 함수화필
       if (nowLink) {
-        pageSpan.addEventListener("keydown", (e) => {
-          console.log(e, "!!!");
-        });
         // e.currentTarget.childNodes[0]은 text"@" , [1]은 span
-        console.log(
-          e.currentTarget.childNodes[1].innerText.length,
-          e.currentTarget.childNodes[1].innerText.substring(1)
-        );
         const searchResult = searchTrie.autoComplete(
           e.currentTarget.childNodes[1].innerText.substring(1)
         );
@@ -133,8 +134,12 @@ export default function Editor({ $target, initialState, onEditing }) {
     } else if (e.key === "ArrowDown") {
       newFocus(e.target.nextSibling);
     } else if (e.key === "@") {
+      console.log(e.target);
+      console.log(e.target.getBoundingClientRect());
       e.stopPropagation();
-      $linkWrap.style.display = "block";
+      e.target.after($linkWrap); //
+
+      $linkWrap.style.display = "flex";
 
       pageSpan.display = "inline";
       e.currentTarget.style.display = "inline";
@@ -149,9 +154,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     } else {
       // 그외 모든 문자 입력
       if (nowLink) {
-        pageSpan.addEventListener("keydown", (e) => {
-          console.log(e, "!!!");
-        });
         // e.currentTarget.childNodes[0]은 text"@" , [1]은 span
         console.log(
           e.currentTarget.childNodes[1].innerText.length,
@@ -161,23 +163,42 @@ export default function Editor({ $target, initialState, onEditing }) {
           e.currentTarget.childNodes[1].innerText.substring(1)
         );
         console.log(searchResult);
-        if (searchResult) {
-          $linkWrap.innerHTML = searchResult
-            .map(
-              (result) =>
-                `<button class="searched_link_page" data-id="${result[0]}">${result[1]}</button>`
-            )
-            .join("");
+        if (searchResult.length > 0) {
+          $linkWrap.innerHTML =
+            `<p class="link_wrap_inner_p">페이지 링크</p>` +
+            searchResult
+              .map(
+                (result) =>
+                  `<button class="searched_link_page" data-id="${result[0]}">➚ ${result[1]}</button>`
+              )
+              .join("");
         }
         const searched_link_pages = document.querySelectorAll(
           ".searched_link_page"
         );
         searched_link_pages.forEach((page) => {
-          page.addEventListener("click", (e) => {
-            const { id } = e.target.dataset;
-            console.log(id);
-            pushRoute(`/docs/${id}`);
+          page.addEventListener("click", async (event) => {
+            const id = event.target.dataset.id;
+            const txt = event.target.innerText;
+            e.target.innerHTML = `<a data-id=${id} style="text-decoration:underline">${txt}</a>`;
+            const newBlock = document.createElement("div");
+            newBlock.className = "editor_content_block";
+            newBlock.setAttribute("contenteditable", true);
+            newBlock.addEventListener("keyup", (e) => handleChangeContent(e));
+            e.target.after(newBlock);
+            newBlock.focus();
+            nowLink = 0;
+            e.target.querySelector("a").addEventListener("click", (each) => {
+              pushRoute(`/docs/${each.target.dataset.id}`);
+            });
             $linkWrap.style.display = "none";
+
+            const parentTmp = e.target.parentNode;
+            const nextState = {
+              ...this.state,
+              content: parentTmp.innerHTML,
+            };
+            await onEditing(nextState, "content");
           });
         });
 
@@ -240,7 +261,11 @@ export default function Editor({ $target, initialState, onEditing }) {
     for (let block of blocks) {
       block.addEventListener("keyup", (e) => handleChangeContent(e));
     }
-    console.log(blocks);
+    if ($editor.querySelector("a")) {
+      $editor.querySelector("a").addEventListener("click", (each) => {
+        pushRoute(`/docs/${each.target.dataset.id}`);
+      });
+    }
   };
 
   $editor_title.addEventListener("keyup", async (e) => {
