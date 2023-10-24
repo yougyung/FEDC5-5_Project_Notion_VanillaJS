@@ -7,7 +7,7 @@ export default function HomeButton({ target }) {
   const imgElement = document.createElement("img");
   imgElement.setAttribute("class", "menubar_homeButton_img");
   imgElement.setAttribute("alt", "HomeButtonImage");
-  imgElement.setAttribute("src", "/src/Img/icons8-home-250.svg");
+  imgElement.setAttribute("src", "/src/Img/Home_Icon.svg");
   homeButtonElement.appendChild(imgElement);
 
   const textElement = document.createElement("p");

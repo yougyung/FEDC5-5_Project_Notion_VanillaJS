@@ -17,6 +17,8 @@ import {
   pagePropValidation,
 } from "./Function/PropValidation.js";
 import { makeRouterEvent, pushRouter } from "./Router/Router.js";
+import HelpButton from "./Components/HelpCard/HelpButton.js";
+import HelpCard from "./Components/HelpCard/HelpCard.js";
 
 export default function App({ target }) {
   /* App 관련 정보 */
@@ -141,6 +143,19 @@ export default function App({ target }) {
       }
     }
   };
+
+  const helpCard = new HelpCard({
+    target: appElement,
+  });
+
+  const helpButton = new HelpButton({
+    target: appElement,
+    onClick: (newState) => {
+      console.log(newState);
+      helpCard.setState(newState);
+      helpButton.setState();
+    },
+  });
 
   pushRouter(() => this.route());
   getPageList("/documents");

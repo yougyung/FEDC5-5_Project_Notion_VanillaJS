@@ -1,0 +1,54 @@
+export default function HelpCard({ target }) {
+  this.state = false;
+
+  this.setState = (newState) => {
+    this.state = newState;
+    this.render();
+  };
+
+  const cardElement = document.createElement("div");
+  cardElement.setAttribute("class", "app_helpCard");
+  cardElement.innerHTML = `
+    <h1 class="app_helpCard_title">⌨️ 단축키 가이드</h1>
+    <h3>✏️ 제목</h3>
+    <p>[ 제목 1 ]</p>
+    <p class="CardText_Tap"># 다음 Space를 입력하면 제목1을 만듭니다.</p>
+    <p>[ 제목 2 ]</p>
+    <p class="CardText_Tap">## 다음 Space를 입력하면 제목2을 만듭니다.</p>
+    <p>[ 제목 3 ]</p>
+    <p class="CardText_Tap">### 다음 Space를 입력하면 제목3을 만듭니다.</p>
+    <p class="empty"> </p>
+    <p>💡 제목 전환이후 일반으로 돌리고싶다면 back space ! </p>
+    <p>💡 제목 전환이후 다른 제목으로 변경을 원한다면 </p>
+    <P class="CardText_Tap">맨 앞에 원하는 마크다운 입력</p>
+    <div> </div>
+    <h3>✏️ 구분선</h3>
+    <P>"- - - "를 입력하면 구분선을 만듭니다 </p>
+    <p class="empty"> </p>
+    <p>지우는 방법</p>
+    <P>⒈해당 구분선 우클릭!</>
+    <p>⒉구분선 바로 밑 줄에서 back space ! 
+    <p class="CardText_Tap">( 해당 줄이 비어있어야합니다) </p>
+    <div> </div>
+    <h3>✏️ 콜 아웃</h3>
+    <p>"/call" 또는 "/Call" 를 작성시 만들어집니다.</p>
+  `;
+
+  target.appendChild(cardElement);
+
+  this.render = () => {
+    if (!this.state) {
+      cardElement.classList.remove("cardToggled");
+      setTimeout(() => {
+        cardElement.classList.remove("cardDisplay");
+      }, 500);
+      return;
+    }
+    cardElement.classList.add("cardDisplay");
+
+    setTimeout(() => {
+      cardElement.classList.add("cardToggled");
+    }, 10);
+    console.log(cardElement.classList);
+  };
+}
