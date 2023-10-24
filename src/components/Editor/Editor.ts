@@ -49,10 +49,9 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     const $content = window.document.querySelector("#content") as HTMLDivElement;
     const $childDocuments = window.document.querySelector(`.${s_childDocuments}`) as HTMLDivElement;
 
-    const childLinks = $childDocuments.innerText;
-    const contentWithoutLinks = $content.innerText.replace(childLinks, "").trim();
+    const contentHtmlWitoutLinks = $content.innerHTML.replace($childDocuments.outerHTML, "");
 
-    debouncedUpdate($title.value, contentWithoutLinks);
+    debouncedUpdate($title.value, contentHtmlWitoutLinks);
   };
 
   const childDocumentLinksComponent = createComponent(ChildDocumentLinks, { documents: childDocuments });
