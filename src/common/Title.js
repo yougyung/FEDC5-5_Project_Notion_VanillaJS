@@ -11,7 +11,6 @@ export default function Title({ $target, initialState, onTitleClick }) {
   };
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     this.render();
   };
   $title.addEventListener("click", (e) => {

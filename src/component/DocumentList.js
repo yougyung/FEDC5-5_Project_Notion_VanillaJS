@@ -1,4 +1,3 @@
-import Storage from "../utils/storage.js";
 import DocumentItem from "./DocumentItem.js";
 
 export default function DocumentList({

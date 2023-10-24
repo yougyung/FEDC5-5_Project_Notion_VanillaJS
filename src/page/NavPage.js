@@ -1,5 +1,6 @@
 import Button from "../common/Button.js";
 import DocumentList from "../component/DocumentList.js";
+import DocumentListHeader from "../component/DocumentListHeader.js";
 import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
 import Observer from "../utils/globalStore/Observer.js";
@@ -39,6 +40,7 @@ export default function NavPage({ $target }) {
   let documentList = null;
   this.getDocuments();
   this.render = () => {
+    new DocumentListHeader({ $target: $nav });
     documentList = new DocumentList({
       $target: $nav,
       initialState: [{ id: null, title: "", documents: [] }],
