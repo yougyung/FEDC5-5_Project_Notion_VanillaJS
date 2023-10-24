@@ -1,13 +1,15 @@
 /* eslint-disable max-lines-per-function */
 import Component from '@/core/Component';
 
+import './DocumentList.scss';
+
 export default class DocumentList extends Component {
   setup() {
     this.state = {
       documentList: [],
     };
 
-    this.$documentList = document.createElement('ul');
+    this.$documentList = document.createElement('div');
     this.$target.appendChild(this.$documentList);
   }
 
@@ -19,7 +21,20 @@ export default class DocumentList extends Component {
   createDom() {
     this.$documentList.replaceChildren();
 
-    this.state.documentList.map((docs) => {
+    this.createList(this.$documentList, this.state.documentList, 0);
+
+    const $addNewPageButton = document.createElement('button');
+    $addNewPageButton.textContent = '페이지 추가';
+    $addNewPageButton.classList.add('add-new-page');
+    this.$documentList.appendChild($addNewPageButton);
+  }
+
+  // TODO 리팩토링이 시급해보임
+  createList(parent, childrens, depth) {
+    const $ul = document.createElement('ul');
+    $ul.classList.add('document-list', `depth-${depth}`);
+
+    childrens.map((docs) => {
       const $li = document.createElement('li');
       $li.classList.add('document-item');
       $li.dataset.id = docs.id;
@@ -39,13 +54,20 @@ export default class DocumentList extends Component {
       $deletePageButton.classList.add('delete-page');
       $li.appendChild($deletePageButton);
 
-      this.$documentList.appendChild($li);
+      $ul.appendChild($li);
+
+      if (docs.documents.length > 0) {
+        this.createList($li, docs.documents, depth + 1);
+      } else {
+        const $ul = document.createElement('ul');
+        const $lastLi = document.createElement('li');
+        $lastLi.textContent = '하위 페이지 없음';
+        $ul.appendChild($lastLi);
+        $li.appendChild($ul);
+      }
     });
 
-    const $addNewPageButton = document.createElement('button');
-    $addNewPageButton.textContent = '페이지 추가';
-    $addNewPageButton.classList.add('add-new-page');
-    this.$documentList.appendChild($addNewPageButton);
+    parent.appendChild($ul);
   }
 
   setEvent() {
