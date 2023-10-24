@@ -19,11 +19,11 @@ export default function App({ $target }) {
       const { id } = await api.post(POST_API_DOCUMENT, body);
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
-      // history.pushState(null, null, `/document/${id}`);
+      history.pushState(null, null, `/document/${id}`);
       this.init();
     },
     onClick: async (id) => {
-      // history.pushState(null, null, `/document/${id}`);
+      history.pushState(null, null, `/document/${id}`);
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
     },
@@ -38,17 +38,18 @@ export default function App({ $target }) {
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT);
     documentTree.setState(data);
-
-    // if (window.location.pathname !== "/") {
-    // console.log(window.location.pathname);
-    // const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
-    // editor.setState(data);
-    // }
   };
 
-  this.render = () => {
+  this.route = async () => {
     this.init();
+
+    const { pathname } = window.location;
+    if (pathname.includes("/document/")) {
+      const [_, id] = pathname.split("/document/");
+      const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
+      editor.setState(data);
+    }
   };
 
-  this.render();
+  this.route();
 }
