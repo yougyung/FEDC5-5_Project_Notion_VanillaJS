@@ -1,13 +1,37 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { DefinePlugin } = require('webpack');
+const webpack = require('webpack');
 const dotenv = require('dotenv');
 const path = require('path');
+const os = require('os');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 dotenv.config();
 
 module.exports = (_env, argv) => {
+  const isDevMode = argv.mode === 'development';
+  const plugins = [
+    new HtmlWebpackPlugin({
+      inject: 'body',
+      template: path.join(__dirname, 'index.html'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
+  ];
+
+  if (!isDevMode) {
+    plugins.push(
+      new MiniCssExtractPlugin({
+        linkType: false,
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].[contenthash].css',
+      }),
+    );
+  }
+
   return {
-    devtool: argv.mode === 'development' && 'eval-cheap-source-map',
+    devtool: isDevMode && 'eval-cheap-source-map',
 
     entry: './src/index.js',
 
@@ -31,6 +55,8 @@ module.exports = (_env, argv) => {
       },
     },
 
+    plugins,
+
     module: {
       rules: [
         {
@@ -39,21 +65,24 @@ module.exports = (_env, argv) => {
           loader: 'babel-loader',
         },
         {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          test: /\.(sa|sc|c)ss$/i,
+          exclude: /node_modules/,
+          use: [
+            isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+            'css-loader',
+            'sass-loader',
+          ],
         },
       ],
     },
 
-    plugins: [
-      new HtmlWebpackPlugin({
-        inject: 'body',
-        template: path.join(__dirname, 'index.html'),
-      }),
-
-      new DefinePlugin({
-        'process.env': JSON.stringify(process.env),
-      }),
-    ],
+    optimization: {
+      minimize: isDevMode ? false : true,
+      minimizer: [
+        new CssMinimizerPlugin({
+          parallel: os.cpus().length - 1,
+        }),
+      ],
+    },
   };
 };
