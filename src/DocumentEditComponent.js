@@ -28,8 +28,7 @@ export default function DocumentEditComponent({
       this.state.document &&
       this.state.documentList
     ) {
-      //이 조건은 현재 뒤로 갔다 왔는데 this.state에는 데이터가 있으니까 바로 렌더링
-      this.render();
+      //이 조건은 현재 뒤로 갔다 왔는데 this.state에는 데이터가 있으니까 바로 하위 컴포넌트 렌더링
       documentEditor.setState({
         id: this.state.document.id || "",
         title: this.state.document.title || "",
@@ -37,10 +36,10 @@ export default function DocumentEditComponent({
         documentList: this.state.documentList,
       });
     } else {
-      //이 조건은 API요청 후에 this.state에 nextState를 넣어줘야하기 때문에 넣어주고 렌더링
+      //이 조건은 API요청 후에 this.state에 nextState를 넣어줘야하기 때문에 넣어주고 하위컴포넌트 렌더링
       this.state = nextState;
+
       editorFooterBar.setState({ document: this.state.document });
-      this.render();
       documentEditor.setState({
         id: this.state.document.id || "",
         title: this.state.document.title || "",
@@ -49,9 +48,6 @@ export default function DocumentEditComponent({
       });
     }
   };
-
-  this.render = () => {};
-  this.render();
 
   let timer = null;
 

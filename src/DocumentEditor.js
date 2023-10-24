@@ -10,7 +10,6 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
   let isinitialized = true;
   let lines = "";
   $editor.innerHTML = `
-  
             <div class="editorDiv" >
               <h1><div contenteditable="true" name="title" placeholder="제목 없음" style="padding: 16px 24px;
         border-radius: 4px;">${this.state.title}</div></h1>
@@ -44,6 +43,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
       this.state.documentList.map((document) => {
         return { id: document.id, title: document.title };
       });
+    //# 를 입력하면 그 글자는 서식이 적용되는 기능
     lines =
       this.state.content == null
         ? ""
@@ -60,6 +60,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
                 const linkIndex = documentList.findIndex(
                   (doc) => doc.title === line
                 );
+                //만약 문서이름으로 된 텍스트가 입력되면 링크로 변하는 기능
                 //contenteditable="false" 속성을 넣어서 링크버튼으로 변하면 버튼안의 텍스트를 편집 못하게 함
                 return `<button contenteditable="false" id=${documentList[linkIndex].id} class="textLink" style="color:blue;cursor:pointer; readonly">@${line}</button>`;
               }
@@ -85,6 +86,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
       onEditing(this.state);
     }
   });
+  //문서이름으로 된 텍스트를 클릭하면 문서이동함
   $editor.addEventListener("click", (e) => {
     if (e.target.className === "textLink") {
       push(`${e.target.id}`);

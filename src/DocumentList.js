@@ -10,6 +10,7 @@ export default function DocumentList({
   $div.style.display = "flex";
   $div.style.flexDirection = "column";
   $div.style.height = "93%";
+
   $target.appendChild($div);
 
   this.state = initialState;
@@ -55,6 +56,7 @@ export default function DocumentList({
   this.render = () => {
     console.log(this.state);
     const { selectedDocument, documentList } = this.state;
+
     $div.innerHTML = `
             <ul class="rootDocument">
                 ${documentList

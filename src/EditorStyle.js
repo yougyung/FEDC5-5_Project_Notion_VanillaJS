@@ -36,10 +36,10 @@ export default function EditorStyle({ $target, onStyle }) {
 
   this.render();
 
+  //드래그 후 글씨체 스타일 변경 바 나오게 하는 기능(노션처럼)
   const formatBar = document.querySelector(".styleDiv");
   let isDragging = false;
 
-  //드래그 후 글씨체 스타일 변경 바 나오게 하는 기능(노션처럼)
   document.addEventListener("mousedown", (e) => {
     isDragging = true;
   });
@@ -47,7 +47,7 @@ export default function EditorStyle({ $target, onStyle }) {
   document.addEventListener("mouseup", () => {
     if (isDragging) {
       const selection = window.getSelection();
-
+      //type이 Range면 현재 텍스트가 드래그 되었다는 것
       if (selection.type === "Range") {
         // Selection 객체 내에서 선택한 텍스트 범위 중에서 첫번째 인덱스 범위를 가져온다.
         const range = selection.getRangeAt(0);
@@ -55,13 +55,19 @@ export default function EditorStyle({ $target, onStyle }) {
         //위 range 객체에서 선택한 텍스트의 위치와 크기를 화면상의 좌표로 반환한다.
         //rect 객체는 DOMRect 타입이다.
         const rect = range.getBoundingClientRect();
+
         showFormatBar(rect.left, rect.bottom);
+        //여기서 isDragging을 false해줘야 드래그는 끝났고, 드래그된 데이터가 선택되었다는 의미
         isDragging = false;
       }
     }
   });
 
   document.addEventListener("click", () => {
+    //서식바가 보여지고있는 상태(즉 드래그된 데이터가 있음을 의미)
+    //그리고 isDragging이 true인 상태(즉 mousedonw으로 true가 됐음을 의미)
+
+    //그러면 서식바를 없애준다.
     if (formatBar.style.display === "block" && isDragging) {
       formatBar.style.display = "none";
     }
