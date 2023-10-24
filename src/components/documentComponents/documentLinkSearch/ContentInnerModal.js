@@ -15,7 +15,11 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
   if (option === "command") {
     return new CommandList({
       $target: $contentInnerModal,
-      onClose: this.close,
+      onClose: () => {
+        console.dir($target.previousSibling);
+
+        // this.close();
+      },
     });
   }
 

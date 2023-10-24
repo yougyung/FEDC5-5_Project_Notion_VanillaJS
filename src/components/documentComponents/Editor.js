@@ -1,6 +1,6 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
 import { filterTitle } from "../../utils/filterTitle.js";
-import ContentInnerModal from "./ContentInnerModal.js";
+import ContentInnerModal from "./documentLinkSearch/ContentInnerModal.js";
 
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
