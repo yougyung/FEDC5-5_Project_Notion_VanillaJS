@@ -1,3 +1,4 @@
+import traverse from "../utils/traverse.js";
 import TreeList from "./TreeList.js";
 
 export default function DocumentTree({
@@ -19,23 +20,9 @@ export default function DocumentTree({
     this.render();
   };
 
-  this.makeDocumentTree = (children, element) => {
-    for (const child of children) {
-      const $li = document.createElement("li");
-      new TreeList({ $container: $li, child });
-
-      if (child.documents.length) {
-        const $ul = document.createElement("ul");
-        this.makeDocumentTree(child.documents, $ul);
-        $li.appendChild($ul);
-      }
-      element.appendChild($li);
-    }
-  };
-
   this.render = () => {
     const $ul = document.createElement("ul");
-    this.makeDocumentTree(this.state, $ul);
+    traverse.makeDocumentTree(this.state, $ul);
     new TreeList({ $container: $ul });
     $tree.appendChild($ul);
 

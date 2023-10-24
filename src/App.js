@@ -8,6 +8,7 @@ import {
 import DocumentTree from "./components/DocumentTree.js";
 import Editor from "./components/Editor.js";
 import { getItem, setItem } from "./utils/storage.js";
+import traverse from "./utils/traverse.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
@@ -22,10 +23,10 @@ export default function App({ $target }) {
       editor.setState(data);
       history.pushState(null, null, `/document/${id}`);
 
-      const documentTree = getItem("documentTree", []);
-      createTraverse(documentTree, data, body.parent);
-      documentTree.setState(documentTree);
-      setItem("documentTree", documentTree);
+      const documentTreeData = getItem("documentTree", []);
+      traverse.createDocument(documentTreeData, data, body.parent);
+      documentTree.setState(documentTreeData);
+      setItem("documentTree", documentTreeData);
     },
     onClick: async (id) => {
       history.pushState(null, null, `/document/${id}`);
@@ -41,24 +42,6 @@ export default function App({ $target }) {
   });
 
   const editor = new Editor({ $container, getDocumentTree: () => this.init() });
-
-  const createTraverse = (documents, newData, parentId) => {
-    if (!documents.length) return;
-    if (!parentId) {
-      documents.push(newData);
-      return;
-    }
-
-    for (const document of documents) {
-      if (document.id === +parentId) {
-        document.documents.push(newData);
-        return;
-      }
-      if (document.documents.length) {
-        createTraverse(document.documents, newData, parentId);
-      }
-    }
-  };
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT_TREE);
