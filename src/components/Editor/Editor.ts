@@ -51,6 +51,9 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
 
     const contentHtmlWitoutLinks = $content.innerHTML.replace($childDocuments.outerHTML || "", "");
 
+    if (!$title.value) {
+      $title.setAttribute("placeholder", "제목을 입력해주세요");
+    }
     debouncedUpdate($title.value, contentHtmlWitoutLinks);
   };
 
@@ -68,9 +71,8 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
       <form class=${s_editorForm}>
         <fieldset>
           <legend class="a11yHidden">새 문서 작성</legend>
-          <label for="title">제목</label>
-          <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" required/>
-          <label for="content">내용</label>
+          <label for="title" class="a11yHidden">제목</label>
+          <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" placeholder="제목을 입력해주세요"/>
           <div id="content" class="${s_editorContent}" contenteditable="true">
             <div>
               ${documentForm.content}
