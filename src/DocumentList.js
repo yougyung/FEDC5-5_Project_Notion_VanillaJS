@@ -7,7 +7,9 @@ export default function DocumentList({
   onToggle,
 }) {
   const $div = document.createElement("div");
-
+  $div.style.display = "flex";
+  $div.style.flexDirection = "column";
+  $div.style.height = "93%";
   $target.appendChild($div);
 
   this.state = initialState;
@@ -86,12 +88,13 @@ export default function DocumentList({
                 `
                   )
                   .join("")}
-                  <li class="rootDocumentCreateDiv">
-                    <p> +  페이지 추가</p>      
-                  </li>
+                  
             </ul>
-            
-        
+            <ul  style="margin-top:auto;">
+              <li class="rootDocumentCreateDiv">
+                <p> +  페이지 추가</p>      
+              </li>
+            </ul>
         `;
   };
   this.render();
@@ -99,27 +102,27 @@ export default function DocumentList({
   //post목록 클릭시 클릭된 데이터의 id를 App.js로 보내줌
   $div.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
-    if ($li) {
-      if ($li.className == "rootDocumentCreateDiv") {
-        fetchPostDocument();
+    if (!$li) return;
+
+    if ($li.className === "rootDocumentCreateDiv") {
+      fetchPostDocument();
+    } else {
+      const { id } = $li;
+      const parent = e.target.closest(".rootDocument_data");
+
+      if (e.target.className === "documentCreateButton") {
+        fetchPostDocument(id);
+      } else if (e.target.className === "documentDeleteButton") {
+        fetchDeleteDocument(id);
+      } else if (e.target.className === "documentToggleButton") {
+        onToggle(parent.id, id);
+        push(`/documents/${id}`);
       } else {
-        const { id } = $li;
-        const parent = e.target.closest(".rootDocument_data");
-
-        if (e.target.className == "documentCreateButton") {
-          fetchPostDocument(id);
-        } else if (e.target.className == "documentDeleteButton") {
-          fetchDeleteDocument(id);
-        } else if (e.target.className == "documentToggleButton") {
-          onToggle(parent.id, id);
-
-          push(`/documents/${id}`);
-        } else {
-          push(`/documents/${id}`);
-        }
+        push(`/documents/${id}`);
       }
     }
   });
+
   const fetchDeleteDocument = async (id) => {
     const DeletedDocument = await request(`/documents/${id}`, {
       method: "DELETE",

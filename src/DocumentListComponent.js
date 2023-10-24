@@ -57,24 +57,15 @@ export default function DocumentListComponent({ $target, initialState }) {
 
   //API요청으로 가져온 documents데이터에 isToggle데이터 추가
   const documentDepth = (list, toggleData) => {
-    for (let i = 0; i < list.length; i++) {
-      const { id, documents } = list[i];
-      //만약 토글한 데이터가 있다면
-      if (toggleData) {
-        let hasToggle = checkToggle(toggleData, id);
-        if (hasToggle) {
-          list[i].isToggle = true;
-        } else {
-          list[i].isToggle = false;
-        }
-      } else {
-        list[i].isToggle = false;
-      }
+    list.forEach((item) => {
+      const { id, documents } = item;
+      const hasToggle = toggleData ? checkToggle(toggleData, id) : false;
+      item.isToggle = hasToggle;
 
       if (documents) {
         documentDepth(documents, toggleData);
       }
-    }
+    });
   };
 
   //현재 toggle된 id가 모여있는 배열에서 체크할 id가 있는지
