@@ -1,4 +1,6 @@
+import HomeButton from "./HomeButton.js";
 import PageList from "./List/PageList.js";
+import NewPageButton from "./NewPageButton.js";
 
 export default function Menubar({ target, state, onEvent }) {
   /* 왼쪽 메뉴 관련 */
@@ -14,18 +16,12 @@ export default function Menubar({ target, state, onEvent }) {
     pageList.setState(this.state);
   };
 
-  /* Root page insert Event */
-  const rootInsertButton = document.createElement("button");
-  rootInsertButton.innerHTML =
-    '<p class="menubar_rootInsertButton_buttonTitle">New Page</p><p class="menubar_rootInsertButton_buttonImoji">+</p>';
-  rootInsertButton.setAttribute("class", "menubar_rootInsertButton");
-  menubarElement.appendChild(rootInsertButton);
+  /* Home button */
 
-  rootInsertButton.addEventListener("click", (e) => {
-    if (e.target.className.includes("menubar_rootInsertButton")) {
-      onEvent({ id: null, insert: true });
-    }
-  });
+  new HomeButton({ target: menubarElement });
+
+  /* Root page insert Event */
+  new NewPageButton({ target: menubarElement, onEvent });
 
   /* 렌더링 */
   const pageList = new PageList({
