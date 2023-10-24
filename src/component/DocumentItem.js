@@ -17,11 +17,11 @@ export default function DocumentItem({
   this.state = initialState;
   const $documentItem = document.createElement("div");
   const $documentItemWrapper = document.createElement("div");
+  $documentItemWrapper.style.paddingLeft = `${depth > 0 ? depth * 10 : 10}px`;
   $target.appendChild($documentItem);
   $documentItem.dataset.id = this.state.id;
   $documentItem.classList.add("document-item");
   $documentItemWrapper.classList.add("document-item-wrapper");
-  $documentItem.style.paddingLeft = `${depth > 0 ? depth * 20 : 10}px`;
   const storage = new Storage(window.localStorage);
 
   const getChildDocuments = () => {
@@ -46,7 +46,6 @@ export default function DocumentItem({
     const { id } = $documentItem.dataset;
     //이전의 isFolded값을 가져와서, 반대값으로 바꿔준다
     const { isFolded: savedIsFolded } = storage.getItem(id, { isFolded: true });
-    console.log(savedIsFolded);
     storage.setItem(id, { isFolded: !savedIsFolded });
   };
   const isFoldedCheck = () => {
@@ -62,6 +61,7 @@ export default function DocumentItem({
   };
   this.render = () => {
     $documentItem.innerHTML = "";
+    //렌더타임에 붙이지 않으면, 사라진다
     $documentItem.appendChild($documentItemWrapper);
     new Button({
       $target: $documentItemWrapper,
@@ -98,12 +98,12 @@ export default function DocumentItem({
         initialState: this.state.documents,
         createDocument,
         removeDocument,
-        depth: depth + 1,
+        depth: depth,
       });
     }
     isFoldedCheck();
   };
-  $documentItem.addEventListener("click", (e) => {
+  $documentItemWrapper.addEventListener("click", (e) => {
     if (e.target.tagName === "A") {
       e.preventDefault();
     }

@@ -41,7 +41,7 @@ export default function DocumentPage({ $target, initialState }) {
         clearTimeout(timerOfSetTimeout);
       }
       timerOfSetTimeout = setTimeout(async () => {
-        const response = await request(`/documents/${documentId}`, {
+        await request(`/documents/${documentId}`, {
           method: "PUT",
           body: JSON.stringify(requestBody),
         });

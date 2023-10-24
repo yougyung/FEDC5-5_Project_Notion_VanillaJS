@@ -45,7 +45,7 @@ export default function DocumentList({
         initialState: document,
         createDocument,
         removeDocument,
-        depth,
+        depth: depth + 1,
       });
     });
   };
