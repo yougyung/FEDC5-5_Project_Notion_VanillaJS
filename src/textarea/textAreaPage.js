@@ -8,7 +8,7 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    this.render(); //너 렌더 금지
   };
 
   this.render = () => {
@@ -71,14 +71,18 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
     $textArea.appendChild($contentTextArea);
 
     if (this.state.pageType === "NOT_ROOT") {
-      $contentTextArea.addEventListener("keyup", (e) => {
-        console.log(e.target.value);
-        console.log(this.state);
-        onTextEditing(this.state.id, this.state.title, e.target.value);
+      $titleInputArea.addEventListener("keyup", (e) => {
+        this.state.title = $titleInputArea.value;
+        this.state.content = $contentTextArea.value;
+        onTitleEditing(this.state.id, this.state.content, e.target, e.key);
       });
 
-      $titleInputArea.addEventListener("keyup", (e) => {
-        onTitleEditing(this.state.id, this.state.content, e.target, e.key);
+      $contentTextArea.addEventListener("keyup", (e) => {
+        this.state.title = $titleInputArea.value;
+        this.state.content = $contentTextArea.value;
+        // console.log(e.target.value);
+        // console.log(this.state);
+        onTextEditing(this.state.id, this.state.title, e.target.value);
       });
     }
 
