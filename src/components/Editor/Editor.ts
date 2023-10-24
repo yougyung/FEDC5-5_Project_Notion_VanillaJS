@@ -49,7 +49,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     const $content = window.document.querySelector("#content") as HTMLDivElement;
     const $childDocuments = window.document.querySelector(`.${s_childDocuments}`) as HTMLDivElement;
 
-    const contentHtmlWitoutLinks = $content.innerHTML.replace($childDocuments.outerHTML, "");
+    const contentHtmlWitoutLinks = $content.innerHTML.replace($childDocuments.outerHTML || "", "");
 
     debouncedUpdate($title.value, contentHtmlWitoutLinks);
   };
@@ -72,8 +72,10 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
           <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" required/>
           <label for="content">내용</label>
           <div id="content" class="${s_editorContent}" contenteditable="true">
-            ${documentForm.content}
-            <div class="${s_childDocuments}">
+            <div>
+              ${documentForm.content}
+            </div>
+            <div class="${s_childDocuments}" contenteditable="false">
               ${childDocumentLinksComponent.element}
             </div>
           </div>
