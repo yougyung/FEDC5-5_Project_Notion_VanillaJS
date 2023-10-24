@@ -211,6 +211,7 @@ button {
   color: rgba(55, 53, 47, 0.65);
 }
 
+/* modal styles */
 .content-inner-modal {
   cursor: default;
   position: absolute;
