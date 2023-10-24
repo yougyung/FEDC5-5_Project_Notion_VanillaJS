@@ -25,6 +25,7 @@ abbr,
 acronym,
 address,
 big,
+button,
 cite,
 code,
 del,
@@ -108,6 +109,9 @@ section {
 }
 body {
   line-height: 1;
+}
+button {
+  background-color: transparent;
 }
 ol,
 ul {
