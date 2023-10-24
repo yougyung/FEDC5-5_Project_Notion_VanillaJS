@@ -54,5 +54,34 @@ export default function NavPage({ $target }) {
       },
     });
   };
+  document.addEventListener("mousedown", (e) => {
+    const startX = e.clientX;
+    const initialWidth = $nav.offsetWidth;
+    if (Math.abs(startX - initialWidth) > 10) return;
+    //마우스 다운시점의 시작 x좌표를 저장해 둠
+    const onMouseMove = (e) => {
+      const newX = e.clientX;
+      const delta = newX - startX;
+      const calculatedWidth = Math.max(250, initialWidth + delta); // 최소 너비를 250px로 설정
+      $nav.style.width = `${calculatedWidth}px`;
+    };
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  });
+  document.addEventListener("mousemove", (e) => {
+    const startX = e.clientX;
+    const initialWidth = $nav.offsetWidth;
+    if (Math.abs(startX - initialWidth) > 10) {
+      e.target.classList.remove("resize-cursor");
+      $nav.classList.remove("thick-border");
+    } else {
+      e.target.classList.add("resize-cursor");
+      $nav.classList.add("thick-border");
+    }
+  });
   this.render();
 }

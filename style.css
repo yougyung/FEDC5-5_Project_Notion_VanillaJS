@@ -24,6 +24,11 @@ nav{
     color:#6D6C68;
     font-size: 14px;
     font-weight: 450;
+    overflow-y: auto;
+}
+.thick-border{
+    border-right: solid 3px #e1e1e1;
+
 }
 a:visited, a:link {
     text-decoration: none;
@@ -45,16 +50,18 @@ button:hover{
 .document-item{
     display: flex;
     flex-direction: column;
+    white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
 }
 .document-item-wrapper{
     margin: 4px;
     display: flex;
     height: 24px;
+    min-width: 242px;
     border-radius: 3px;
     cursor: pointer;
     align-items: center;
 }
-
 .document-item-wrapper:hover{
     background-color: #ebebea;
 }
@@ -62,9 +69,16 @@ button:hover{
     height: 20px;
     width: 21px;
 }
-.document-item-wrapper > button> svg{
-        fill:#6D6C68;
-        stroke: #6D6C68;
+.document-item-wrapper > button > svg{
+    width: 20px;
+    height: 20px;
+    fill:#6D6C68;
+    stroke: #6D6C68;
+}
+.document-item-wrapper > a {
+    white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; 
 }
 .add-root-doc-btn{
     height: 24px;
@@ -102,4 +116,6 @@ button:hover{
     flex-direction: column;
     align-items: center;
 }
-
+.resize-cursor{
+    cursor: col-resize;
+}
