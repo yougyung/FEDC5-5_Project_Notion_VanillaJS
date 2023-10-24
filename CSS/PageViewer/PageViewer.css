@@ -1,5 +1,6 @@
 .pageViewer {
   width: 100%;
+  min-width: 40rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -10,18 +11,21 @@
 .pageViewer_indexPage {
   display: none;
   width: 80%;
+  min-width: 40rem;
   height: 100%;
 
   justify-content: center;
   align-items: center;
-  font-size: 120px;
+  font-size: 12rem;
 
   cursor: default;
 }
 
 .pageViewer_editor {
   display: none;
-  width: 920px;
+  width: 100%;
+  min-width: 40rem;
+  max-width: 92rem;
   height: 85%;
 
   flex-direction: column;
@@ -30,28 +34,14 @@
 .pageViewer_subPage {
   border-top: 2px solid var(--color-dark-grey);
   display: none;
-  width: 920px;
+  width: 100%;
+  min-width: 40rem;
+  max-width: 92rem;
   height: 15%;
-
+  max-height: 18rem;
   flex-direction: column;
 }
 
 .view {
   display: flex;
-}
-
-@media (max-width: 1220px) {
-  .pageViewer_editor {
-    width: 100%;
-  }
-
-  .pageViewer_subPage {
-    width: 100%;
-  }
-}
-
-@media (max-height: 1200px) {
-  .pageViewer_subPage {
-    height: 180px;
-  }
 }

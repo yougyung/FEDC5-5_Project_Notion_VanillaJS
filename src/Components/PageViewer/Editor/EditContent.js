@@ -18,7 +18,6 @@ export default function EditContent({ target, state }) {
   };
 
   this.render = () => {
-    console.log(this.state);
     editContentElement.replaceChildren();
     if (!this.state || this.state.length === 0) {
       new CreateEditTextElement({
@@ -36,14 +35,6 @@ export default function EditContent({ target, state }) {
       });
     });
   };
-
-  /* 특수키 Event */
-  // editContentElement.addEventListener("keypress", (event) => {
-  //   controlKey({
-  //     event,
-  //     target: editContentElement,
-  //   });
-  // });
 
   editContentElement.addEventListener("keydown", (event) => {
     controlKey({

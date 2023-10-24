@@ -5,7 +5,7 @@ export default function ListInfo({ target, state }) {
 
   const listInfoElement = document.createElement("div");
   listInfoElement.setAttribute("class", "menubar_pageList_list_info");
-  listInfoElement.style.paddingLeft = `${16 * depth}px`;
+  listInfoElement.style.paddingLeft = `${1.6 * depth}rem`;
   target.appendChild(listInfoElement);
 
   /* checkbox */

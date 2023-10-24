@@ -15,20 +15,16 @@ export default function converterToArray(text) {
     /* 제목 관련 */
     /* h1 */
     if (item.includes(' class="h1"')) {
-      const removeClassName = item.replace(/.class="h1"/, "");
-
-      const text = removeClassName.replace(
-        /<div contenteditable="true">/,
+      const text = item.replace(
+        /<div contenteditable="true" class="h1">/,
         "# "
       );
       return text;
     }
     /* h2 */
     if (item.includes(' class="h2"')) {
-      const removeClassName = item.replace(/.class="h2"/, "");
-
-      const text = removeClassName.replace(
-        /<div contenteditable="true">/,
+      const text = item.replace(
+        /<div contenteditable="true" class="h2">/,
         "## "
       );
       return text;
@@ -36,10 +32,8 @@ export default function converterToArray(text) {
 
     /* h3 */
     if (item.includes(' class="h3"')) {
-      const removeClassName = item.replace(/.class="h3"/, "");
-
-      const text = removeClassName.replace(
-        /<div contenteditable="true">/,
+      const text = item.replace(
+        /<div contenteditable="true" class="h3">/,
         "### "
       );
       return text;
@@ -49,7 +43,6 @@ export default function converterToArray(text) {
 
     if (item.includes(' class="divisionLine"')) {
       const text = item.replace(/<div class="divisionLine">/, "<divisionLine>");
-
       return text;
     }
 
@@ -60,7 +53,6 @@ export default function converterToArray(text) {
         /<div class="callBox"><span class="callBox_emoji">💡<\/span><span contenteditable="true" class="callBox_textBox">/,
         "<callOut>"
       );
-
       return text.replace(/<\/span>/g, "");
     }
 

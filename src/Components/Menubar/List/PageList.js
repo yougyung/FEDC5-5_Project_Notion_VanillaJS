@@ -61,7 +61,6 @@ export default function PageList({ target, state, onEvent }) {
       if (eventName.includes("menubar_pageList_list_info_checkbox")) {
         const checkBoxElement = targetElement.querySelector("input");
         const display = targetElement.querySelector("ul");
-        console.log(checkBoxElement.className.includes("toggleChecked"));
 
         if (!display.className.includes("toggleChecked")) {
           checkBoxElement.setAttribute("checked", "true");

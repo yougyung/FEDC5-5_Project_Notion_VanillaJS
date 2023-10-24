@@ -1,3 +1,11 @@
+@import url(/CSS/App.css);
+@import url(/CSS/Menubar/List.css);
+@import url(/CSS/Menubar/Menubar.css);
+@import url(/CSS/PageViewer/Editor.css);
+@import url(/CSS/PageViewer/EditorText.css);
+@import url(/CSS/PageViewer/PageViewer.css);
+@import url(/CSS/PageViewer/SubPageList.css);
+
 :root {
   --color-white: rgb(255, 255, 255);
   --color-semi-white: rgb(247, 247, 245);
@@ -8,9 +16,9 @@
 
   --font-size-normal: 16px;
 }
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
 li {
   list-style: none;
@@ -34,6 +42,7 @@ input {
 
 h3,
 h1,
+span,
 p,
 section,
 button,
@@ -44,4 +53,9 @@ body,
 ul {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
 }
