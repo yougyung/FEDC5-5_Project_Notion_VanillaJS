@@ -22,8 +22,8 @@ export default function App({ $target, initialState }) {
     initialState,
   });
 
-  // 라우팅 함수 -> 현재 pathname에 맞는 라우팅
-  const route = async () => {
+  // 최초 실행 및 새로고침 시 동작 -> 현재 pathname에 맞는 라우팅
+  const render = async () => {
     const { pathname } = window.location;
 
     if (pathname === "/") {
@@ -43,6 +43,26 @@ export default function App({ $target, initialState }) {
     }
   };
 
+  // 변경된 pathname을 라우팅 -> 윈도우 이벤트 핸들러에 의해 동작
+  const route = async () => {
+    const { pathname } = window.location;
+
+    if (pathname === "/") {
+      const postList = await fetchData("");
+      console.log("초기 데이터", postList);
+      menuBarApp.setState(postList);
+    } else {
+      // 해당 id를 가진 문서를 에디터 App의 state에 전송
+      const [_, id] = pathname.split("/");
+      const [post, postList] = await Promise.all([
+        fetchData(`/${id}`),
+        fetchData(""),
+      ]);
+
+      editorApp.setState(post);
+    }
+  };
+
   // document 리스트 get 요청
   const fetchData = async (url, payload = {}) => {
     const postList = await HTTPRequest(url, payload);
@@ -50,7 +70,8 @@ export default function App({ $target, initialState }) {
     return postList;
   };
 
-  route();
+  // 새로 고침 & 최초 실행시 라우팅
+  render();
 
   // window의 이벤트 대기
   getCustomEvent(route);
