@@ -44,7 +44,7 @@ export default function DocumentTree({
       if (!$span) return;
 
       const { id } = $span.dataset;
-      const $selectedInput = $span.firstElementChild;
+      const $selectedInput = $span.querySelector("input");
       const { className } = e.target;
       if (className === "add-button") {
         $selectedInput.classList.remove("hide");

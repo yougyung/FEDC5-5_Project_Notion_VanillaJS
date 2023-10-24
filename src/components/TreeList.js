@@ -3,15 +3,16 @@ export default function TreeList({ $container, child = {} }) {
   if (child.id && child.title) {
     $span.textContent = child.title;
     $span.dataset.id = child.id;
+
+    const $deleteButton = document.createElement("button");
+    $deleteButton.textContent = "-";
+    $deleteButton.className = "delete-button";
+    $span.appendChild($deleteButton);
   }
 
   const $addButton = document.createElement("button");
   $addButton.textContent = "+";
   $addButton.className = "add-button";
-
-  const $deleteButton = document.createElement("button");
-  $deleteButton.textContent = "-";
-  $deleteButton.className = "delete-button";
 
   const $input = document.createElement("input");
   $input.type = "text";
@@ -21,7 +22,6 @@ export default function TreeList({ $container, child = {} }) {
 
   $span.appendChild($input);
   $span.appendChild($addButton);
-  $span.appendChild($deleteButton);
 
   $container.appendChild($span);
 }
