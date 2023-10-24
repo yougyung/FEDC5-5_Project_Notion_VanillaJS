@@ -21,6 +21,8 @@ export default function Editor({
     this.state = nextState;
   };
 
+  this.init = () => ($document.innerHTML = "");
+
   this.render = () => {
     $document.innerHTML = `
       <input type="text" name="title" value="${this.state.title}">

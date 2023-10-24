@@ -29,6 +29,8 @@ export default function App({ $target }) {
     },
     onDelete: async (id) => {
       await api.delete(DELETE_API_DOCUMENT(id));
+      history.pushState(null, null, "/");
+      editor.init();
       this.init();
     },
   });
