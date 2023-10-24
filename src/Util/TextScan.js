@@ -16,6 +16,7 @@ export const applyMarkup = (text) => {
     else if (tag.match(STRIKETHROUGH))
       return tag.replace(STRIKETHROUGH, "<s>$1</s>");
     else if (tag.match(UNDERSCORE)) return tag.replace(UNDERSCORE, "<u>$1</u>");
+    else if (tag.startsWith("📃")) return;
     else return `<p>${tag}</p>`;
   });
 

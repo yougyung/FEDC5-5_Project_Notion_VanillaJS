@@ -71,8 +71,12 @@ img {
 }
 
 .link {
-  color: #0a6eff;
+  color: #0000ff;
   cursor: pointer;
+}
+
+.link:hover {
+  background-color: #dcdcdc;
 }
 
 /* 모달 */

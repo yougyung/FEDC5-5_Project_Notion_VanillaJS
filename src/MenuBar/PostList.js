@@ -1,5 +1,5 @@
 import { HTTPRequest } from "../Util/Api.js";
-import { getItem } from "../Util/Storage.js";
+import { getItem, removeItem } from "../Util/Storage.js";
 import Modal from "./Modal.js";
 
 export default function PostList({ $target, initialState, onRenderContents }) {
@@ -39,6 +39,9 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+
+    const [_, id] = window.location.pathname.split("/");
+    checkLocalAndServerData(id);
 
     this.render();
   };
@@ -82,33 +85,36 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
       // 로컬의 최종 업데이트 시간과 서버의 최종 업데이트 시간을 비교하여 사용자의 선택에 의해 로컬 또는 서버의 데이터를 불러옴
       if (id) {
-        const data = await fetchData(`/${id}`);
-        const localData = getItem(LOCAL_STORAGE_KEY + id, data);
-
-        if (localData.RecentlyAt && data.updatedAt < localData.RecentlyAt) {
-          if (
-            confirm("현재 저장되지 않은 데이터가 있습니다. 불러 오시겠습니까?")
-          ) {
-            // 서버 데이터를 로컬 데이터로 수정
-            await fetchData(`/${id}`, {
-              method: "PUT",
-              body: JSON.stringify({
-                title: data.title,
-                content: localData.content,
-              }),
-            });
-
-            onRenderContents(id);
-          } else {
-            onRenderContents(id);
-          }
-
-          return;
-        }
-
-        onRenderContents(id);
+        checkLocalAndServerData(id);
       }
     });
+  };
+
+  const checkLocalAndServerData = async (id) => {
+    const data = await fetchData(`/${id}`);
+    const localData = getItem(LOCAL_STORAGE_KEY + id, data);
+
+    if (localData.RecentlyAt && data.updatedAt < localData.RecentlyAt) {
+      if (confirm("현재 저장되지 않은 데이터가 있습니다. 불러 오시겠습니까?")) {
+        // 서버 데이터를 로컬 데이터로 수정
+        await fetchData(`/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            title: data.title,
+            content: localData.content,
+          }),
+        });
+
+        onRenderContents(id);
+      } else {
+        removeItem(LOCAL_STORAGE_KEY + +id);
+        onRenderContents(id);
+      }
+
+      return;
+    }
+
+    onRenderContents(id);
   };
 
   // +, - 버튼 클릭 이벤트
@@ -191,34 +197,6 @@ export default function PostList({ $target, initialState, onRenderContents }) {
   this.render = () => {
     $postList.innerHTML = `<div class="postlist" name="post"></div>`;
     postListRecursion(0, this.state);
-    // 토글 버튼으로 루트 폴더와 하위 폴더 생성
-    // 추후 재귀 함수로 리팩토링 예정
-    // $postList.innerHTML = `
-    // <div class="postlist" name="post">
-    //   ${this.state
-    //     .map(
-    //       ({ title, id, documents }) => `
-    //     <details>
-    //        <summary class="summary">${title}
-    //         <button data-id="${id}" class="addBtn"> ➕ </button>
-    //         <button data-id="${id}" class="deleteBtn"> ➖ </button>
-    //        </summary>
-    //        <ul id="${id}">
-    //         ${documents
-    //           .map(
-    //             ({ title, id }) =>
-    //               `<li id="${id}" >${title}
-    //                 <button data-id="${id}"class="addBtn"> ➕ </button>
-    //                 <button data-id="${id}" class="deleteBtn"> ➖ </button>
-    //               </li>`
-    //           )
-    //           .join("")}
-    //        </ul>
-    //     </details>`
-    //       // const $ul = document.querySelector(`#${id}`);
-    //     )
-    //     .join("")}
-    // </div>`;
 
     $target.appendChild($postList);
 

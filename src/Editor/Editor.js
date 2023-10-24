@@ -1,4 +1,5 @@
 import { applyMarkup, removeMarkup } from "../Util/TextScan.js";
+import { setCustomEvent } from "../Util/Router.js";
 
 export default function Editor({ $target, initialState, EditPost }) {
   // 편집기 content 엘리먼트
@@ -40,27 +41,6 @@ export default function Editor({ $target, initialState, EditPost }) {
     });
   };
 
-  // // Editor가 포커싱되면 마크업된 텍스트 앞에 마크다운 태그 붙힘 -> 이벤트는 한번만 동작
-  // const onEditorFocus = () => {
-  //   $editor.addEventListener(
-  //     "focusin",
-  //     (e) => {
-  //       document.querySelectorAll("h1").forEach((e, i) => {
-  //         if (i !== 0 && !e.innerText.startsWith("# "))
-  //           e.innerText = `# ${e.innerText}`;
-  //       });
-  //       document.querySelectorAll("h2").forEach((e) => {
-  //         if (!e.innerText.startsWith("## ")) e.innerText = `## ${e.innerText}`;
-  //       });
-  //       document.querySelectorAll("h3").forEach((e) => {
-  //         if (!e.innerText.startsWith("### "))
-  //           e.innerText = `### ${e.innerText}`;
-  //       });
-  //     },
-  //     { once: true }
-  //   );
-  // };
-
   this.render = () => {
     // 편집기 초기 화면
     if (this.state === null) {
@@ -74,7 +54,7 @@ export default function Editor({ $target, initialState, EditPost }) {
       return;
     }
 
-    const { title, id, content } = this.state;
+    const { title } = this.state;
 
     $title.textContent = title;
     $editor.innerHTML = `
@@ -84,13 +64,17 @@ export default function Editor({ $target, initialState, EditPost }) {
     $target.appendChild($title);
     $target.appendChild($editor);
 
+    // 하위 post 링크
     this.state.documents.forEach((element) => {
-      const $u = document.createElement("u");
-      $u.setAttribute("class", " link");
-      $u.contentEditable = false;
+      const $div = document.createElement("div");
+      $div.setAttribute("class", " link");
+      $div.contentEditable = false;
+      $div.style.width = "auto";
 
-      $u.innerHTML = `📃 ${element.title} <br>`;
-      $editor.appendChild($u);
+      $div.innerHTML = `📃 ${element.title} <br>`;
+
+      $div.addEventListener("click", (e) => setCustomEvent(element.id));
+      $editor.appendChild($div);
     });
 
     onEditTextKeyUpEvent();
