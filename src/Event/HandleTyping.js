@@ -1,4 +1,5 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
+import { changePlaceFoucs } from "../Function/ChangeFocus.js";
 
 export default function handleTyping({ event }) {
   if (event.key !== " ") {
@@ -9,34 +10,34 @@ export default function handleTyping({ event }) {
 
   /* 제목 관련 */
 
-  if (text.indexOf("# ") === 0 || text.indexOf("#&nbsp;") === 0) {
+  if (text.indexOf("# ") === 0) {
     hasClass(target);
     target.classList.add("h1");
 
     const replaced = changeWord(text, /#./);
     target.innerText = replaced;
-    changeFocus(target);
+    changePlaceFoucs(target);
   }
-  if (text.indexOf("## ") === 0 || text.indexOf("##") === 0) {
+  if (text.indexOf("## ") === 0) {
     hasClass(target);
     target.classList.add("h2");
 
     const replaced = changeWord(text, /##./);
     target.innerText = replaced;
-    changeFocus(target);
+    changePlaceFoucs(target);
   }
-  if (text.indexOf("### ") === 0 || text.indexOf("### ") === 0) {
+  if (text.indexOf("### ") === 0) {
     hasClass(target);
     target.classList.add("h3");
 
     const replaced = changeWord(text, /###./);
     target.innerText = replaced;
 
-    changeFocus(target);
+    changePlaceFoucs(target);
   }
 
   /* 구분선 */
-  if (text.indexOf("- - -&nbsp;") === 0) {
+  if (text.indexOf("- - - ") === 0) {
     hasClass(target);
     target.innerText = "";
     target.classList.add("divisionLine");
@@ -49,12 +50,7 @@ export default function handleTyping({ event }) {
   }
 
   /* 콜 아웃 */
-  if (
-    text.indexOf("/call&nbsp;") === 0 ||
-    text.indexOf("/Call&nbsp;") === 0 ||
-    text.indexOf("/Call ") === 0 ||
-    text.indexOf("/call ") === 0
-  ) {
+  if (text.indexOf("/Call ") === 0 || text.indexOf("/call ") === 0) {
     hasClass(target);
     target.innerText = "";
     target.classList.add("callBox");
@@ -84,12 +80,6 @@ function hasClass(target) {
   if (target.hasAttribute("class")) {
     target.removeAttribute("class");
   }
-}
-
-function changeFocus(target) {
-  setTimeout(() => {
-    target.focus();
-  }, 0);
 }
 
 function changeWord(text, reg = "") {

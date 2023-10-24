@@ -68,7 +68,7 @@ export default function converterToHtml({ text, target }) {
   }
 
   /* 일반 Text */
-  new CreateEditTextElement({
+  return new CreateEditTextElement({
     target,
     text: text,
   });

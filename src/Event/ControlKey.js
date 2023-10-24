@@ -1,15 +1,12 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
-import { changeplaceFoucs } from "../Function/ChangeFocus.js";
+import { changePlaceFoucs } from "../Function/ChangeFocus.js";
 
 export function controlKey({ event, target }) {
   /* Enter new create Element */
   const eTarget = event.target;
   const prevTarget = eTarget.previousSibling;
   const nextTarget = eTarget.nextSibling;
-  const offSetFocus = document.getSelection().focusOffset;
 
-  //  Evnet type이 keypress가 아니면 고장 발생
-  // event.type === "keypress"
   if (
     event.key === "Enter" &&
     nextTarget &&
@@ -17,7 +14,6 @@ export function controlKey({ event, target }) {
     confirm("구분선 아래에 생성하겠습니까? 📝")
   ) {
     event.preventDefault();
-    target.blur();
     new CreateEditTextElement({
       target,
       focusTarget: nextTarget,
@@ -27,7 +23,6 @@ export function controlKey({ event, target }) {
 
   if (event.key === "Enter" && event.isComposing === false) {
     event.preventDefault();
-    target.blur();
     new CreateEditTextElement({
       target,
       focusTarget: eTarget,
@@ -35,7 +30,8 @@ export function controlKey({ event, target }) {
     return;
   }
 
-  /* 삭제 관련  */
+  /* 삭제 관련 */
+  /* 콜 아웃 삭제 관련  */
   if (
     event.key === "Backspace" &&
     prevTarget &&
@@ -43,13 +39,11 @@ export function controlKey({ event, target }) {
     eTarget.innerText.length === 0 &&
     eTarget.className === "callBox_textBox"
   ) {
+    event.preventDefault();
     const parentElement = eTarget.parentNode;
-    console.log(parentElement);
     parentElement.removeAttribute("class");
     parentElement.setAttribute("contenteditable", "true");
-    setTimeout(() => {
-      parentElement.focus();
-    }, 0);
+    changePlaceFoucs(parentElement);
     prevTarget.remove();
     eTarget.remove();
     return;
@@ -61,8 +55,8 @@ export function controlKey({ event, target }) {
     target.childElementCount > 1
   ) {
     event.preventDefault();
-    /* DivisionLine 삭제 관련 */
 
+    /* DivisionLine 삭제 관련 */
     if (
       prevTarget &&
       prevTarget.className === "divisionLine" &&
@@ -73,13 +67,10 @@ export function controlKey({ event, target }) {
     }
 
     /* 콜 아웃 삭제 관련 */
-
     if (eTarget.className === "callBox_textBox") {
       const focusTarget = eTarget.parentNode.previousSibling;
-      setTimeout(() => {
-        focusTarget.focus();
-        changeplaceFoucs(focusTarget, Infinity);
-      }, 0);
+      changePlaceFoucs(focusTarget, true);
+
       eTarget.parentNode.remove();
       prevTarget.remove();
       eTarget.remove();
@@ -87,106 +78,85 @@ export function controlKey({ event, target }) {
       return;
     }
 
-    if (prevTarget.className === "callBox") {
+    /* 삭제후 이동 대상이 콜박스 일때 */
+    if (prevTarget && prevTarget.className === "callBox") {
       const focusTarget = prevTarget.lastChild;
-      focusTarget.focus();
-      changeplaceFoucs(focusTarget, Infinity);
+      changePlaceFoucs(focusTarget, true);
     }
 
-    if (prevTarget) {
-      setTimeout(() => {
-        prevTarget.focus();
-        changeplaceFoucs(prevTarget, Infinity);
-      }, 0);
-    }
-
+    /* 다음 값이 없으면 이전값으로 */
     if (!prevTarget) {
-      setTimeout(() => {
-        nextTarget.focus();
-        changeplaceFoucs(nextTarget, Infinity);
-      }, 0);
+      changePlaceFoucs(nextTarget, true);
     }
+
+    /* 기본 삭제 */
+    changePlaceFoucs(prevTarget, true);
     eTarget.remove();
     return;
   }
 
   /* ArrowUp 화살표 이동 관련 */
-  if (
-    event.key === "ArrowUp" &&
-    prevTarget &&
-    prevTarget.className === "callBox"
-  ) {
+  if (event.key === "ArrowUp") {
     event.preventDefault();
-    setTimeout(() => {
+
+    /* 콜박스로 이동 */
+    if (prevTarget && prevTarget.className === "callBox") {
       const focusTarget = prevTarget.lastChild;
-      focusTarget.focus();
-      changeplaceFoucs(focusTarget, offSetFocus);
-    }, 0);
-    return;
-  }
+      changePlaceFoucs(focusTarget);
+      return;
+    }
 
-  if (
-    eTarget.parentNode.previousSibling &&
-    event.key === "ArrowUp" &&
-    eTarget.className === "callBox_textBox"
-  ) {
-    event.preventDefault();
-    setTimeout(() => {
+    /* 콜박스 에서 이전 줄로 이동 */
+    if (
+      eTarget.parentNode.previousSibling &&
+      eTarget.className === "callBox_textBox"
+    ) {
       const focusTarget = eTarget.parentNode.previousSibling;
-      focusTarget.focus();
-      changeplaceFoucs(focusTarget, offSetFocus);
-    }, 0);
-    return;
-  }
+      changePlaceFoucs(focusTarget);
+      return;
+    }
 
-  if (event.key === "ArrowUp" && prevTarget) {
-    event.preventDefault();
-    setTimeout(() => {
-      prevTarget.focus();
-      changeplaceFoucs(prevTarget, offSetFocus);
-    }, 0);
+    /* 구분선 이동 */
+    if (prevTarget && prevTarget.className === "divisionLine") {
+      const disionPrevTarget = prevTarget.previousSibling;
+      changePlaceFoucs(disionPrevTarget);
+      return;
+    }
+    /* 기본 위로 이동 */
+    changePlaceFoucs(prevTarget);
     return;
   }
 
   /* ArrowDown 화살표 관련 */
-
-  if (
-    event.key === "ArrowDown" &&
-    nextTarget &&
-    nextTarget.className === "callBox"
-  ) {
+  if (event.key === "ArrowDown") {
     event.preventDefault();
-    setTimeout(() => {
+
+    /* 콜박스로 이동 */
+    if (nextTarget && nextTarget.className === "callBox") {
       const focusTarget = nextTarget.lastChild;
-      focusTarget.focus();
-      changeplaceFoucs(focusTarget, offSetFocus);
-    }, 0);
+      changePlaceFoucs(focusTarget);
+      return;
+    }
 
-    return;
-  }
-
-  if (
-    event.key === "ArrowDown" &&
-    eTarget.className === "callBox_textBox" &&
-    eTarget.parentNode.nextSibling
-  ) {
-    event.preventDefault();
-    setTimeout(() => {
+    /* 콜박스에서 다음줄로 이동 */
+    if (
+      eTarget.className === "callBox_textBox" &&
+      eTarget.parentNode.nextSibling
+    ) {
       const focusTarget = eTarget.parentNode.nextSibling;
-      focusTarget.focus();
-      changeplaceFoucs(focusTarget, offSetFocus);
-    }, 0);
+      changePlaceFoucs(focusTarget);
+      return;
+    }
 
-    return;
-  }
+    /* 구분선 이동 */
+    if (nextTarget && nextTarget.className === "divisionLine") {
+      const divisionNextTarget = nextTarget.nextSibling;
+      changePlaceFoucs(divisionNextTarget);
+      return;
+    }
 
-  if (event.key === "ArrowDown" && nextTarget) {
-    event.preventDefault();
-    setTimeout(() => {
-      nextTarget.focus();
-      changeplaceFoucs(nextTarget, offSetFocus);
-    }, 0);
-
+    /* 기본 이동 */
+    changePlaceFoucs(nextTarget);
     return;
   }
 }

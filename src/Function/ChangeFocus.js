@@ -1,17 +1,24 @@
-export function changeplaceFoucs(element, offSetFocus) {
-  setTimeout(() => {
-    const textNode = element.firstChild;
-    const range = document.createRange();
-    const selection = document.getSelection();
+export function changePlaceFoucs(element, moveEndPoing = false) {
+  if (!element) {
+    return;
+  }
 
-    if (!textNode || textNode.length < offSetFocus) {
-      range.selectNodeContents(element);
-      range.collapse(false);
-    } else {
-      range.setStart(textNode, offSetFocus);
-      range.collapse(true);
+  setTimeout(() => {
+    const selection = document.getSelection();
+    const offset = selection.anchorOffset;
+    element.focus();
+    const nextTextNode = selection.anchorNode;
+
+    if (moveEndPoing) {
+      selection.collapse(nextTextNode, nextTextNode.length);
+      return;
     }
-    selection.removeAllRanges();
-    selection.addRange(range);
+    if (nextTextNode.length >= offset) {
+      selection.collapse(nextTextNode, offset);
+      return;
+    }
+
+    selection.collapse(nextTextNode, nextTextNode.length);
+    return;
   }, 0);
 }
