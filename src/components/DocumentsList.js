@@ -1,6 +1,11 @@
 import { push } from "../utils/router.js";
 
-export default function DocumentsList({ $target, initialState }) {
+export default function DocumentsList({
+  $target,
+  initialState,
+  onAddDocument,
+  onDelete,
+}) {
   const $documentsList = document.createElement("div");
   $target.appendChild($documentsList);
 
@@ -33,13 +38,16 @@ export default function DocumentsList({ $target, initialState }) {
         <img class="toggleButton" src=${
           isToggle ? "../public/toggle_down.svg" : "../public/toggle_right.svg"
         } />
-        <span class='document_content'>${title}</span>
+        <span data-id='${id}' class='document_title'>${title}</span>
         <img class="addButton" src="../public/add_docu.svg" />
+        <img class="deleteButton" src="../public/delete_docu.svg" />
       </div>
 
       ${
         isToggle
-          ? documents.map((document) => DocumentTreeRender(document, tap_nbsp))
+          ? documents
+              .map((document) => DocumentTreeRender(document, tap_nbsp))
+              .join("")
           : ""
       }
       ${
@@ -80,8 +88,14 @@ export default function DocumentsList({ $target, initialState }) {
         this.setState(toggleUpdateState);
       }
       // history API를 사용하여 url에 선택된 Document ID를 적어준다.
-      if (className === "document_content") {
-        push(`/${id}`);
+      if (className === "document_title") {
+        push(`/documents/${id}`);
+      }
+      if (className === "addButton") {
+        onAddDocument(id);
+      }
+      if (className === "deleteButton") {
+        onDelete(id);
       }
     }
   });
