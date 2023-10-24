@@ -5,11 +5,9 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
   $textArea.className = "textArea";
 
   this.state = initialState;
-  // console.log(this.state);
 
   this.setState = (nextState) => {
     this.state = nextState;
-    // console.log(nextState);
     this.render();
   };
 
@@ -19,10 +17,6 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
     $titleInputArea.className = "textArea-title";
     $titleInputArea.type = "text";
     $titleInputArea.name = "title";
-    // console.log(this.state, `in textAreaPage`);
-    // const $tempDiv = $.createElement("div");
-    // $tempDiv.innerText = this.state.isLoading;
-    // $textArea.appendChild($tempDiv);
 
     if (this.state.isLoading) {
       //대전제는 로딩
@@ -45,22 +39,8 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
         default:
           break;
       }
-      // console.log(this.state);
     }
-    //   if (this.state.title !== "DEFAULT") {
-    //     if (this.state.title) {
-    //       $titleInputArea.value = this.state.title;
-    //     } else {
-    //       $titleInputArea.placeholder = "제목 없음";
-    //     }
-    //   } else if (this.state.title === "DEFAULT") {
-    //     console.log(`페이지 시작, title은 기본 안내`);
-    //   } else {
-    //     console.error(`타이틀 없음`);
-    //   }
-    // }
-    // <input type="text" name="title" style="width:600px;" value="${this.state.title}" />
-    // <textarea name="content" style="width:600px;height:400px;"
+
     const $contentTextArea = $.createElement("textarea");
     $contentTextArea.className = "textArea-content";
     $contentTextArea.name = "content";
@@ -86,16 +66,6 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
           break;
       }
     }
-    // // console.log(this.state);
-    // if (this.state.content !== "DEFAULT") {
-    //   if (this.state.content) {
-    //     $contentTextArea.value = this.state.content;
-    //   } else {
-    //     $contentTextArea.placeholder = "빈 페이지입니다. 내용을 입력해주세요.";
-    //   }
-    // } else if (this.state.content === "DEFAULT") {
-    //   console.log(`페이지 시작, content는 기본 안내`);
-    // }
 
     $textArea.appendChild($titleInputArea);
     $textArea.appendChild($contentTextArea);
@@ -105,30 +75,13 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
         console.log(e.target.value);
         console.log(this.state);
         onTextEditing(this.state.id, this.state.title, e.target.value);
-        // if (e.key === "Enter") {
-        //   console.log(`엔터`);
-        // }
-        // console.log(e.target.value);
-        // console.log({ ...this.state });
-        // this.setState({ ...this.state, content: e.target.value });
-        // $.querySelector(".textArea-content").focus();
       });
 
       $titleInputArea.addEventListener("keyup", (e) => {
         onTitleEditing(this.state.id, this.state.content, e.target, e.key);
-        // console.log(e.target);
-        // this.setState({ ...this.state, title: e.target.value });
-        // console.log(this.state);
-        // $.querySelector(".textArea-title").focus();
-        // console.log(this.state);
       });
     }
 
     $target.appendChild($textArea);
   };
-  // 바뀌지 않는 것은 렌더 밖으로
-  // 이벤트 는 밖으로
-  // $textArea.addEventListener("click", (e) => {
-  //   console.log(e.target);
-  // });
 }

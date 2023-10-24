@@ -1,8 +1,6 @@
 import SideAreaPage from "./sideAreaPage.js";
 const $ = document;
 export default function SideAreaRender({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
-  // console.log(initialState);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
