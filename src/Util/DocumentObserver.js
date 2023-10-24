@@ -15,6 +15,10 @@ export default class DocumentObserver {
         this.observers = [];
     }
 
+    printObservers() {
+        console.log(this.observers);
+    }
+
     subscribe(observer) {
         this.observers.push(observer);
     }

@@ -31,7 +31,11 @@ export default class DocumentItem {
             },
         ]);
         const $titleToggle = createNewElement('div', [{ property: 'className', value: 'title-toggle' }]);
-        const $title = createNewElement('span', [{ property: 'className', value: 'title-toggle__title' }], title);
+        const $title = createNewElement(
+            'span',
+            [{ property: 'className', value: 'title-toggle__title' }],
+            title ? title : '제목 없음'
+        );
         const $toggleButton = createNewElement(
             'button',
             [{ property: 'className', value: 'title-toggle__toggle' }],

@@ -5,8 +5,9 @@ import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
 import DocumentObserver from '../../Util/DocumentObserver.js';
+import { getEndFocus } from '../../Util/getEndFoucus.js';
 
-// state = { documentId : "", isView: boolean, title : "", content: "" }
+// state = { documentId : "" }
 
 export default class DocumentManager {
     constructor({ $target, initalState }) {
@@ -23,50 +24,30 @@ export default class DocumentManager {
         this.documentEditor = new DocumentEditor({
             $taregt: this.$documentManager,
             initalState: { ...this.state },
-            onEditing: (nextState) => {
+            onEditing: (nextState, target) => {
                 if (this.timer !== null) {
                     clearTimeout(this.timer);
                 }
                 this.timer = setTimeout(async () => {
                     this.putDocumentContent(nextState);
-                    this.documentEditor.setState(nextState);
                 }, 1000);
             },
         });
-        this.documentContentViewer = new DocumentContentViewr({
-            $target: this.$documentManager,
-            initalState: { ...this.state },
-        });
+        // this.documentContentViewer = new DocumentContentViewr({
+        //     $target: this.$documentManager,
+        //     initalState: { ...this.state },
+        // });
         this.childDocumentsViewer = new ChildDocumentsViewer({
             $target: this.$documentManager,
             initalState: { documentList: [] },
         });
 
         this.$target.appendChild(this.$documentManager);
-        this.$documentManager.addEventListener('click', (e) => this.HandleOnclick(e));
+        //this.$documentManager.addEventListener('click', (e) => this.HandleOnclick(e));
 
-        // document가 수정되면 자식 document도 최신화를 해줘야한다.
-        DocumentObserver.getInstance().subscribe(() => this.getDocumentContent(this.state.documentId));
+        // 사이드바에서 document가 수정되면 자식 document도 최신화를 해줘야한다.
+        DocumentObserver.getInstance().subscribe(this.observerCallback.bind(this));
         this.getDocumentContent(this.state.documentId);
-    }
-
-    setState(nextState) {
-        // if (nextState.isView !== this.state.isView) {
-        //     this.documentEditor.setState(nextState);
-        // }
-        this.state = nextState;
-        this.documentEditor.setState(nextState);
-        this.documentContentViewer.setState(nextState);
-    }
-
-    HandleOnclick(e) {
-        const { className } = e.target;
-        // 미리보기 버튼
-        if (className === 'title-and-button__button') {
-            const { isView } = this.state;
-
-            this.setState({ ...this.state, isView: !isView });
-        }
     }
 
     // 해당 document content 가져오기
@@ -80,18 +61,20 @@ export default class DocumentManager {
 
         if (tempSaveData && tempSaveData > updatedAt) {
             if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
-                this.setState({ ...this.state, title: localTitle, content: localContent });
+                this.childDocumentsViewer.setState({ documentList: documents });
+                this.documentEditor.setState({ title: localTitle, content: localContent });
                 return;
             }
         }
 
         this.childDocumentsViewer.setState({ documentList: documents });
-        this.setState({ ...this.state, title, content });
+        this.documentEditor.setState({ title, content });
     }
 
     // 해당 document content 수정하기
     async putDocumentContent(nextState) {
-        const { documentId, title, content } = nextState;
+        const { documentId } = this.state;
+        const { title, content } = nextState;
 
         setItem(DOCUMENT_CONTENT_SAVE_KEY(documentId), {
             ...nextState,
@@ -101,12 +84,28 @@ export default class DocumentManager {
         const res = await fetchPutDocument(documentId, title, content);
 
         if (res) {
-            this.setState({ ...this.state, title, content });
             removeItem(DOCUMENT_CONTENT_SAVE_KEY(documentId));
-            // 수정 완료 되면 사이드 바 제목도 수정
+            // content와 title이 수정되면 Editor 정보를 다시 불러와서 리렌더링을 할 필요가 없다.
+            // 그래서 불러오는 함수를 옵저버에서 삭제해준다.
+            DocumentObserver.getInstance().unsubscribe(this.observerCallback.bind(this));
             DocumentObserver.getInstance().notifyAll();
+            DocumentObserver.getInstance().subscribe(this.observerCallback.bind(this));
         } else {
             alert('수정 실패!');
         }
     }
+
+    observerCallback() {
+        this.getDocumentContent(this.state.documentId);
+    }
+
+    // HandleOnclick(e) {
+    //     const { className } = e.target;
+    //     // 미리보기 버튼
+    //     if (className === 'title-and-button__button') {
+    //         const { isView } = this.state;
+
+    //         this.setState({ ...this.state, isView: !isView });
+    //     }
+    // }
 }

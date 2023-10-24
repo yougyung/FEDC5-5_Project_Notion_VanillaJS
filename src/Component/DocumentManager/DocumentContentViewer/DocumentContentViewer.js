@@ -25,13 +25,13 @@ export default class DocumentContentViewr {
             { property: 'contentEditable', value: false },
         ]);
 
-        // this.$editor.appendChild(this.$titleAndButton);
-        // this.$editor.appendChild(this.$content);
-        // this.$titleAndButton.appendChild(this.$title);
-        // this.$titleAndButton.appendChild(this.$button);
-        // this.$target.appendChild(this.$editor);
+        this.$editor.appendChild(this.$titleAndButton);
+        this.$editor.appendChild(this.$content);
+        this.$titleAndButton.appendChild(this.$title);
+        this.$titleAndButton.appendChild(this.$button);
+        this.$target.appendChild(this.$editor);
 
-        //this.render();
+        this.render();
     }
 
     setState(nextState) {

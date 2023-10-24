@@ -1,4 +1,5 @@
 import { createNewElement } from '../../../Util/Element.js';
+import { getEndFocus } from '../../../Util/getEndFoucus.js';
 
 // state = { documentId : "", isView: boolean, title : "", content: "" }
 
@@ -57,37 +58,28 @@ export default class DocumentEditor {
     }
 
     // 수정하면 onEditing으로 DB에 수정하고 View 컴포넌트에 전달해준다.
-    async HandleOnKeyup(e) {
+    HandleOnKeyup(e) {
         const {
             target,
+            isComposing,
             target: { value, innerHTML, name },
         } = e;
 
         if (name === 'title') {
             const nextState = { ...this.state, [name]: value };
 
-            this.onEditing(nextState);
+            this.setState(nextState);
+            getEndFocus(target);
+            this.onEditing(nextState, target);
         }
         if (name === 'content') {
-            const nextState = { ...this.state, [name]: `${innerHTML}<span id="cur"></span>` };
-
-            await this.onEditing(nextState);
-
-            target.focus();
-
-            const range = document.createRange();
-            const selection = window.getSelection();
-
-            // Make sure the element exists in the DOM before selecting it
-            const curElement = document.getElementById('cur');
-            if (curElement) {
-                range.selectNode(curElement);
-
-                selection.removeAllRanges();
-                selection.addRange(range);
-
-                range.deleteContents();
+            if (isComposing) {
             }
+            const nextState = { ...this.state, [name]: innerHTML };
+
+            this.setState(nextState);
+            getEndFocus(target);
+            this.onEditing(nextState, target);
         }
     }
 }
