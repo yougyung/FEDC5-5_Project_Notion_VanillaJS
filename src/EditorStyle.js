@@ -4,37 +4,41 @@
 export default function EditorStyle({ $target, onStyle }) {
   const $div = document.createElement("div");
   $div.className = "styleDiv";
-
   $target.appendChild($div);
+
+  //서식 버튼 리팩토링
+  const createButton = (id, text, style) => {
+    const button = document.createElement("button");
+    button.id = id;
+    button.innerHTML = text;
+    button.addEventListener("click", () => onStyle(style));
+    return button;
+  };
+  const $editorMenu = document.createElement("div");
+  $editorMenu.className = "editor-menu";
+
+  const buttons = [
+    { id: "btn-bold", text: "<b>B</b>", style: "bold" },
+    { id: "btn-italic", text: "<i>I</i>", style: "italic" },
+    { id: "btn-underline", text: "<u>U</u>", style: "underline" },
+    { id: "btn-strike", text: "<s>S</s>", style: "strikeThrough" },
+    { id: "btn-ordered-list", text: "OL", style: "insertOrderedList" },
+  ];
+
+  buttons.forEach(({ id, text, style }) => {
+    $editorMenu.appendChild(createButton(id, text, style));
+  });
+
   this.render = () => {
-    $div.innerHTML = `
-            <div class="editor-menu">
-                  <button id="btn-bold">
-                      <b>B</b>
-                  </button>
-                  <button id="btn-italic">
-                      <i>I</i>
-                  </button>
-                  <button id="btn-underline">
-                      <u>U</u>
-                  </button>
-                  <button id="btn-strike">
-                      <s>S</s>
-                  </button>
-                  <button id="btn-ordered-list">
-                      OL
-                  </button>
-
-              </div>
-
-        `;
+    $div.innerHTML = "";
+    $div.appendChild($editorMenu);
   };
 
   this.render();
 
   const formatBar = document.querySelector(".styleDiv");
   let isDragging = false;
-  let formatBarVisiable = false;
+
   //드래그 후 글씨체 스타일 변경 바 나오게 하는 기능(노션처럼)
   document.addEventListener("mousedown", (e) => {
     isDragging = true;
@@ -52,49 +56,24 @@ export default function EditorStyle({ $target, onStyle }) {
         //rect 객체는 DOMRect 타입이다.
         const rect = range.getBoundingClientRect();
         showFormatBar(rect.left, rect.bottom);
-        formatBarVisiable = true;
         isDragging = false;
       }
     }
   });
-  document.addEventListener("click", (e) => {
-    const $div = e.target.closest("div");
-    if (formatBarVisiable && isDragging) formatBar.style.display = "none";
+
+  document.addEventListener("click", () => {
+    if (formatBar.style.display === "block" && isDragging) {
+      formatBar.style.display = "none";
+    }
   });
 
-  function showFormatBar(x, y) {
+  const showFormatBar = (x, y) => {
     formatBar.style.display = "block";
-    formatBar.style.left = x - 70 + "px";
+    formatBar.style.left = x - 50 + "px";
     formatBar.style.top = y - 60 + "px";
-  }
-
-  //스타일 버튼
-  const btnBold = document.getElementById("btn-bold");
-  const btnItalic = document.getElementById("btn-italic");
-  const btnUnderline = document.getElementById("btn-underline");
-  const btnStrike = document.getElementById("btn-strike");
-  const btnOrderedList = document.getElementById("btn-ordered-list");
-
-  btnBold.addEventListener("click", function () {
-    onStyle("bold");
-  });
-
-  btnItalic.addEventListener("click", function () {
-    onStyle("italic");
-  });
-
-  btnUnderline.addEventListener("click", function () {
-    onStyle("underline");
-  });
-
-  btnStrike.addEventListener("click", function () {
-    onStyle("strikeThrough");
-  });
-
-  btnOrderedList.addEventListener("click", function () {
-    onStyle("insertOrderedList");
-  });
+  };
 }
+
 /*
 1234567 에서 345를 드래그하면
 아래처럼 로그 출력
