@@ -28,7 +28,7 @@ export default function DocumentHeader({ $target, documentPath }) {
   this.render = () => {
     $documentHeader.innerHTML = '';
     this.state.forEach((state, idx) => {
-      if (state === null) new DocumentLinkButton({ $target: $documentHeader, title: '첫 화면', documentId: null });
+      if (state === null) new DocumentLinkButton({ $target: $documentHeader, title: 'root', documentId: null });
       else new DocumentLinkButton({ $target: $documentHeader, title: state.title, documentId: state.id });
 
       if (idx !== this.state.length - 1) {

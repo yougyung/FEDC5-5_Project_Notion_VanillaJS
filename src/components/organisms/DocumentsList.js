@@ -13,7 +13,7 @@ export default function DocumentsList({ $target, initialState, parentId = null }
   const $documentsList = document.createElement('ul');
   $target.appendChild($documentsList);
 
-  this.state = initialState;
+  this.state = initialState.data;
 
   this.setState = nextState => {
     this.state = nextState;

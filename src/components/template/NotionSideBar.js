@@ -27,8 +27,6 @@ export default function NotionSideBar({ $target, initialState }) {
 
   $notionSideBar.addEventListener('click', e => {
     const { type, id } = e.target.dataset;
-    const $details = e.target.closest('details');
-
     if (type === 'document') {
       e.preventDefault();
       push(`/documents/${id}`);

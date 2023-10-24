@@ -14,7 +14,7 @@ export default function NewDocumentButton({ $target, currentId, isHidden }) {
     e.stopPropagation();
     const postResponse = await request('/documents', {
       method: 'POST',
-      body: { title: '제목 없음', parent: currentId },
+      body: { title: '첫 화면', parent: currentId },
     });
     push(`/documents/${postResponse.id}`);
   });
