@@ -1,6 +1,7 @@
 .editor-wrap > .document-manager > .document-child-list {
     color: var(--sidebar_c);
-    min-height: 13em;
     padding: 1em 0 1em 0;
     border-top: 1px solid var(--hover_c);
+    height: 20%;
+    overflow: auto;
 }
