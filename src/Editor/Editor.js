@@ -66,7 +66,8 @@ export default function Editor({ $target, initialState, EditPost }) {
     if (this.state === null) {
       $editor.innerHTML = `
         <h1>안녕하세요 🙌🏻</h1>
-        <h3>이 화면은 초기 화면입니다. 나만의 포스트를 작성해 보세요 👨‍💻</h3>`;
+        <h3>이 화면은 초기 화면입니다.</h3>
+        <h3>나만의 포스트를 작성해 보세요. 👨‍💻</h3>`;
 
       $target.appendChild($editor);
 

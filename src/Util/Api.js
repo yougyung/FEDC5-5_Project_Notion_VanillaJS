@@ -1,4 +1,4 @@
-import { getCustomEvent, replaceState } from "./Router.js";
+import { setCustomEvent } from "./Router.js";
 
 const API_URL = "https://kdt-frontend.programmers.co.kr/documents";
 
@@ -21,6 +21,6 @@ export const HTTPRequest = async (url, payload = {}) => {
     );
   } catch (error) {
     alert(error.message);
-    replaceState("/");
+    setCustomEvent("/");
   }
 };
