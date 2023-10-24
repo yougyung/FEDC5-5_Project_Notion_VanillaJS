@@ -3,22 +3,56 @@
 .s_documentItem {
   cursor: pointer;
   height: auto;
-  position: relative;
+  width: 15rem;
+  margin: 0.5rem 0;
+}
+
+.s_contentContainer {
+  display: flex;
+  align-items: center;
+}
+
+.s_hoverContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &:hover .s_buttonContainer {
+    display: block;
+  }
+}
+
+.s_documentItem img {
+  height: 1rem;
 }
 
 .s_childrenDocumentList {
   margin-left: 0.5rem;
+  width: 100%;
+  display: none;
 }
 
 .s_document_title {
   display: inline-block;
-  max-width: calc(90% - 3rem);
+  flex-grow: 1;
+  width: 10rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
 }
 
+.s_buttonContainer {
+  display: none;
+}
+
 .s_index {
   color: color.$onPrimary;
+  margin-right: 0.3rem;
+}
+
+:global(.rotated) {
+  transform: rotate(90deg);
 }
