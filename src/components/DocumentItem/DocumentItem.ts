@@ -2,7 +2,6 @@ import { createComponent } from "@/core";
 import classNames from "classnames";
 import { DocumentResponseDto } from "@/types";
 import styles from "./documentItem.module.scss";
-
 interface DocumentItemProps {
   document: DocumentResponseDto;
   index: string;
@@ -13,13 +12,21 @@ interface DocumentItemReturnType {
   bindEvents?: () => void;
 }
 
-const { s_documentItem, s_childrenDocumentList, s_document_title, s_index } = styles;
+const {
+  s_documentItem,
+  s_childrenDocumentList,
+  s_document_title,
+  s_index,
+  s_buttonContainer,
+  s_titleContainer,
+  s_contentContainer,
+} = styles;
 
 function DocumentItem({ document, index }: DocumentItemProps): DocumentItemReturnType {
   const { id, title, documents } = document;
 
   const childrenDocuments = documents.length
-    ? `<ul class=${s_childrenDocumentList}>
+    ? `<ul class="${classNames("childrenDocumentList", s_childrenDocumentList)}">
     ${documents
       .map((childDocument, childIndex) => {
         const childDocumentItemComponent = createComponent(DocumentItem, {
@@ -35,11 +42,22 @@ function DocumentItem({ document, index }: DocumentItemProps): DocumentItemRetur
 
   return {
     element: `
-      <li data-id="${id}" class="${s_documentItem}">
-        <span class="${s_index}">${index}</span>
-        <span class="${classNames("documentTitle", s_document_title)}">${title}</span>
-        <button data-parent-id="${id}" class="addDocumentButton" type="button">+</button>
-        <button data-parent-id="${id}" class="deleteDocumentButton" type="button">-</button>
+      <li data-id="${id}" class="${classNames("documentItem", s_documentItem)}">
+        <div class="${s_contentContainer}">
+          <img src="/assets/svg/arrow.svg" class="documentToggle"/>
+          <span class="${s_index}">${index}</span>
+          <div class="${s_titleContainer}">
+            <span data-id="${id}" class="${classNames("documentTitle", s_document_title)}">${title}</span>
+            <div class="${s_buttonContainer}">
+              <button data-parent-id="${id}" class="addDocumentButton" type="button">
+                <img src="/assets/svg/plus.svg" />
+              </button>
+              <button data-parent-id="${id}" class="deleteDocumentButton" type="button">
+              <img src="/assets/svg/delete.svg" />
+              </button>
+            </div>
+          </div>
+        </div>
         ${childrenDocuments}
       </li>
     `,
