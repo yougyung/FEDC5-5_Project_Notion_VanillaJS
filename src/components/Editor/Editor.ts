@@ -22,7 +22,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
       try {
         const { title, content, documents } = await getDocument(id);
 
-        setDocumentForm({ title, content });
+        setDocumentForm({ title, content: content ?? "" });
         setChildDocuments(documents);
       } catch (error) {
         console.error(error);
