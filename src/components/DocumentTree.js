@@ -1,4 +1,4 @@
-import traverse from "../utils/traverse.js";
+import recursion from "../utils/recursion.js";
 import TreeList from "./TreeList.js";
 
 export default function DocumentTree({
@@ -22,7 +22,7 @@ export default function DocumentTree({
 
   this.render = () => {
     const $ul = document.createElement("ul");
-    traverse.makeDocumentTree(this.state, $ul);
+    recursion.makeDocumentTree(this.state, $ul);
     new TreeList({ $container: $ul });
     $tree.appendChild($ul);
 

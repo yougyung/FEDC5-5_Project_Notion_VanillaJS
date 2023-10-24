@@ -8,7 +8,7 @@ import {
 import DocumentTree from "./components/DocumentTree.js";
 import Editor from "./components/Editor.js";
 import { getItem, setItem } from "./utils/storage.js";
-import traverse from "./utils/traverse.js";
+import recursion from "./utils/recursion.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
@@ -24,7 +24,7 @@ export default function App({ $target }) {
       history.pushState(null, null, `/document/${id}`);
 
       const documentTreeData = getItem("documentTree", []);
-      traverse.createDocument(documentTreeData, data, body.parent);
+      recursion.createDocument(documentTreeData, data, body.parent);
       documentTree.setState(documentTreeData);
       setItem("documentTree", documentTreeData);
     },
@@ -39,7 +39,7 @@ export default function App({ $target }) {
       editor.init();
 
       const documentTreeData = getItem("documentTree", []);
-      const children = traverse.deleteDocument(documentTreeData, id);
+      const children = recursion.deleteDocument(documentTreeData, id);
       const newDocumentTree = documentTreeData.concat(children);
       documentTree.setState(newDocumentTree);
       setItem("documentTree", newDocumentTree);

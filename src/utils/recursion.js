@@ -1,6 +1,6 @@
 import TreeList from "../components/TreeList.js";
 
-const traverse = {
+const recursion = {
   makeDocumentTree(children, element) {
     for (const child of children) {
       const $li = document.createElement("li");
@@ -46,4 +46,4 @@ const traverse = {
   },
 };
 
-export default traverse;
+export default recursion;
