@@ -89,6 +89,7 @@ export default function HomePage({ $target }) {
       documentDetail.setState(null);
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
+      console.log('postId', postId);
       // sidebar 업데이트
       notionSideBar.setState(newDocuments);
 
@@ -103,6 +104,7 @@ export default function HomePage({ $target }) {
         content: content || '내용을 채워주세요',
         documentPath: documentPathData,
       };
+      console.log('documentDetail nextState', nextState);
       documentDetail.setState(nextState);
     }
   };
