@@ -303,7 +303,6 @@ body {
 }
 
 /* For Modal Component */
-
 .modal-overlay {
   position: absolute;
   top: 50%;
@@ -345,6 +344,13 @@ body {
   cursor: pointer;
 }
 
+.modal-content {
+  text-align: center;
+}
+.modal-content ul {
+  padding: 0;
+}
 .modal-content ul li {
-  margin: 10px 0;
+  margin: 10px 0px;
+  list-style: none;
 }
