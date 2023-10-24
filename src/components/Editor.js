@@ -1,11 +1,7 @@
 import api from "../api/api.js";
 import { PUT_API_DOCUMENT } from "../api/url.js";
 
-export default function Editor({
-  $container,
-  initialState = {},
-  getDocumentTree,
-}) {
+export default function Editor({ $container, initialState = {} }) {
   const $document = document.createElement("div");
   $document.id = "document";
   $container.appendChild($document);
@@ -44,7 +40,6 @@ export default function Editor({
     timer = setTimeout(async () => {
       const { title, content } = this.state;
       await api.put(PUT_API_DOCUMENT(this.state.id), { title, content });
-      getDocumentTree();
     }, 3000);
   });
 }

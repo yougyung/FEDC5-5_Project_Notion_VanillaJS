@@ -46,7 +46,7 @@ export default function App({ $target }) {
     },
   });
 
-  const editor = new Editor({ $container, getDocumentTree: () => this.init() });
+  const editor = new Editor({ $container });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT_TREE);
