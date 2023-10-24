@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
@@ -36,6 +37,14 @@ module.exports = {
         test: /^((?!\.module).)*scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
     ],
   },
   devServer: {
@@ -43,7 +52,10 @@ module.exports = {
     port: 8080,
     hot: true,
     historyApiFallback: {
-      rewrites: [{ from: /./, to: "/index.html" }],
+      rewrites: [
+        { from: /^\/$/, to: "/index.html" },
+        { from: /^\/[a-zA-Z0-9]+$/, to: "/index.html" }, // 예시: /about, /contact 등의 라우트 패턴
+      ],
     },
   },
   resolve: {
@@ -58,5 +70,13 @@ module.exports = {
       template: "./index.html",
     }),
     new Dotenv(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "src/assets/svg",
+          to: "assets/svg",
+        },
+      ],
+    }),
   ],
 };
