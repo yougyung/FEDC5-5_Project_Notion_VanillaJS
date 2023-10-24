@@ -27,7 +27,11 @@ export default function DocumentList({
           <li data-id="${document.id}" class="document-item">
             <div class='main-document-item'>
               <button class='fold-button'>
-                <i class="fa-solid fa-chevron-right"></i> 
+              ${
+                document.documents && document.documents.length > 0 
+                  ? '<i class="fa-solid fa-chevron-down"></i>'
+                  : '<i class="fa-solid fa-chevron-right"></i>'
+              }
               </button>
               <span class="title">${document.title}</span>
               <div class='button-group'>
