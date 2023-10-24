@@ -110,6 +110,12 @@ button {
   bottom: 0;
   right: 0;
 }
+
+/*header*/
+.headerUserName {
+  padding: 15px;
+}
+
 .documentCreateButton:hover {
   background-color: rgba(23, 35, 52, 0.757);
 }

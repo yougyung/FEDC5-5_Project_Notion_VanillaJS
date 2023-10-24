@@ -1,6 +1,7 @@
 import DocumentList from "./DocumentList.js";
+import Header from "./Header.js";
 import { request } from "./api.js";
-
+import { USER_NAME } from "./env/apiIgnore.js";
 /*
   토글된 아이디들을 저장 - 하지만 
   [
@@ -14,6 +15,8 @@ import { request } from "./api.js";
 
 export default function DocumentListComponent({ $target, initialState }) {
   const $page = document.createElement("div");
+  $page.style.height = "100%";
+
   this.state = initialState;
   $target.appendChild($page);
 
@@ -25,11 +28,15 @@ export default function DocumentListComponent({ $target, initialState }) {
     documentDepth(lists, toggleData);
 
     documentList.setState({
-      userName: null,
       selectedDocument: null,
       documentList: lists,
     });
   };
+
+  const header = new Header({
+    $target: $page,
+    initialState: { userName: USER_NAME },
+  });
 
   const documentList = new DocumentList({
     $target: $page,

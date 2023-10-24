@@ -1,4 +1,4 @@
-export const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
+import { API_END_POINT, USER_NAME } from "./env/apiIgnore.js";
 
 export const request = async (url, options = {}) => {
   try {
@@ -6,7 +6,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "user1234",
+        "x-username": USER_NAME,
       },
     });
     if (res.ok) {
