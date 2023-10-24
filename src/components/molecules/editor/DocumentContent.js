@@ -13,16 +13,17 @@ export default function DocumentContent({ $target, content, onEditContent }) {
     this.render();
   };
 
-  const $content = document.createElement('div');
-  $content.setAttribute('contenteditable', 'true');
+  // const $content = document.createElement('div');
+  const $content = document.createElement('textarea');
+  // $content.setAttribute('contenteditable', 'true');
   $content.style.width = '100%';
   $content.style.height = '90vh';
   $target.appendChild($content);
 
-  $content.addEventListener('input', e => {
-    this.setState(e.target.innerHTML);
+  $content.addEventListener('keyup', e => {
+    this.setState(e.target.value);
     onEditContent(this.state);
-    moveCursorToEnd($content);
+    // moveCursorToEnd($content);
   });
 
   this.render = () => {
@@ -41,7 +42,7 @@ export default function DocumentContent({ $target, content, onEditContent }) {
     //   .join('<br/>');
 
     // $content.innerHTML = richContent;
-    $content.innerHTML = this.state;
+    $content.value = this.state;
   };
 
   this.render();
