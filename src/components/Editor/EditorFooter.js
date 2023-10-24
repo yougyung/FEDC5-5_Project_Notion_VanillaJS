@@ -1,4 +1,10 @@
-export default function EditorFooter({ $target, initialState }) {
+import { push } from '../../util/router.js';
+
+export default function EditorFooter({
+  $target,
+  initialState,
+  onDocumentClick,
+}) {
   const $editorFooter = document.createElement('div');
   $target.appendChild($editorFooter);
   $editorFooter.className = 'editor-footer';
@@ -16,7 +22,7 @@ export default function EditorFooter({ $target, initialState }) {
           ${documents
             .map(
               (document) => `
-              <button class="link-button data-id="${document.id}">${
+              <button class="link-button" data-id="${document.id}">${
                 document.title
               }</button>
 
@@ -39,6 +45,14 @@ export default function EditorFooter({ $target, initialState }) {
       }`;
     }
   };
+
+  $editorFooter.addEventListener('click', (e) => {
+    const $linkButton = e.target.closest('.link-button');
+
+    const { id } = $linkButton.dataset;
+    onDocumentClick(id);
+    push(`/documens/${id}`);
+  });
 
   this.render();
 }

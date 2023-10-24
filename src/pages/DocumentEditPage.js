@@ -6,6 +6,7 @@ export default function DocumentEditPage({
   $target,
   initialState = { id: undefined, title: '', content: '' },
   onEditing,
+  onDocumentClick,
   onRemoveDocument,
 }) {
   const $documentEditPage = document.createElement('div');
@@ -35,6 +36,9 @@ export default function DocumentEditPage({
   const editorFooter = new EditorFooter({
     $target: $documentEditPage,
     initialState: this.state,
+    onDocumentClick: (documentId) => {
+      onDocumentClick(documentId);
+    },
   });
 
   this.setState = (nextState) => {

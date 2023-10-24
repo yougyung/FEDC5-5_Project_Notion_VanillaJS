@@ -98,7 +98,7 @@ input[name='title'] {
   background-color: #262626;
   padding: 20px;
 
-  width: 380px;
+  width: 300px;
   height: 100%;
 
   border-right: 1px solid #363636;
@@ -112,6 +112,8 @@ input[name='title'] {
 
 .sidebar {
   height: 100%;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
 }
@@ -137,8 +139,9 @@ input[name='title'] {
 }
 
 .document-list {
-  overflow: scroll;
+  overflow-y: auto;
   height: 80%;
+  width: 100%;
 
   @media (max-width: 786px) {
     height: 100%;
@@ -251,7 +254,7 @@ input[name='title'] {
   height: 20%;
   margin-bottom: 20px;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -264,6 +267,16 @@ input[name='title'] {
 
 .link-button:hover {
   color: #dadada;
+}
+
+.remove-button {
+  color: #a6a6a6;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  color: #dadada;
+  background-color: #363636;
 }
 
 .selected {

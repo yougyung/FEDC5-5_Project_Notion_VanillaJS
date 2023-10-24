@@ -93,6 +93,7 @@ export default function App({ $target, initialState }) {
       fetchDocumentList();
       push('/');
     },
+    onDocumentClick: async (documentId) => fetchDocument(documentId),
   });
 
   this.mergeDocuments = (oldDocuments, newDocuments) => {
