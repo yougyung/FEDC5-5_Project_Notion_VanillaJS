@@ -44,20 +44,25 @@ button:hover{
 }
 .document-item{
     display: flex;
+    flex-direction: column;
+}
+.document-item-wrapper{
+    display: flex;
     margin: 5px;
     height: 25px;
     border-radius: 3px;
     cursor: pointer;
     align-items: center;
 }
-.document-item:hover{
+
+.document-item-wrapper:hover{
     background-color: #ebebea;
 }
-.document-item > button{
+.document-item-wrapper > button{
     height: 20px;
     width: 20px;
 }
-.document-item > button> svg{
+.document-item-wrapper > button> svg{
         fill:#6D6C68;
         stroke: #6D6C68;
 }

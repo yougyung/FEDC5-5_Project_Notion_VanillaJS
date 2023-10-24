@@ -6,11 +6,15 @@ export default function DocumentList({
   initialState,
   createDocument,
   removeDocument,
+  depth = 0,
 }) {
   const $documentList = document.createElement("div");
   this.state = initialState;
   $target.appendChild($documentList);
   $documentList.classList.add("document-list");
+  if (depth > 0) {
+    $documentList.classList.add("document-children", "display-none");
+  }
   /*  const isFoldedCheck = () => {
     const parentDocument = $documentList.previousSibling;
     if (parentDocument && parentDocument.classList.contains("document-item")) {
@@ -29,21 +33,19 @@ export default function DocumentList({
   }; */
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     this.render();
   };
-  let documentItem;
   this.render = () => {
     //상태가 바뀔때, 렌더가 일어난다. 비워두지 않으면 현재 상태+새로운 상태가 되어 노드가 2배 생김
     $documentList.innerHTML = "";
     this.state.forEach((document) => {
       //렌더할때, 로컬스토리지를 보고 display-none클래스를 결정해야함..
-      documentItem = new DocumentItem({
+      new DocumentItem({
         $target: $documentList,
         initialState: document,
         createDocument,
         removeDocument,
-        depth: 0,
+        depth,
       });
     });
   };
