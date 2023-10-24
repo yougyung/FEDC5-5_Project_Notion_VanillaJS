@@ -2,7 +2,7 @@ import debounce from "lodash.debounce";
 
 import { useEffect, useState } from "@/core";
 import { getDocument } from "@/apis";
-import { DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
+import { DocumentDetailResponseDto, DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
 import styles from "./editor.module.scss";
 
 const { s_editorForm, s_editorInput, s_editorContent } = styles;
@@ -13,14 +13,16 @@ interface EditorProps {
 }
 
 function Editor({ documentId, modifyDocument }: EditorProps) {
+  const [childDocuments, setChildDocuments] = useState<DocumentDetailResponseDto[]>([]);
   const [documentForm, setDocumentForm] = useState({ title: "", content: "" });
 
   useEffect(() => {
     const fetchDocument = async (id: number) => {
       try {
-        const { title, content } = await getDocument(id);
+        const { title, content, documents } = await getDocument(id);
 
         setDocumentForm({ title, content });
+        setChildDocuments(documents);
       } catch (error) {
         console.error(error);
       }
