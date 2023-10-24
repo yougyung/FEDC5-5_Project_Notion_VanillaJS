@@ -22,7 +22,10 @@ export default function CommandList({ $target, onClose }) {
       $searchDocumentLink.style.display = "block";
       $searchDocumentLink.placeholder = "문서 제목을 입력하세요.";
       $target.parentNode.appendChild($searchDocumentLink);
+
       onClose();
+
+      $searchDocumentLink.focus();
     }
 
     event.stopPropagation();
