@@ -46,7 +46,7 @@ export default function Editor({ $target, initialState, onEdit }) {
 
           if (newContent === "페이지링크") {
             const selectionStart = window.getSelection().anchorOffset;
-            let $contentInnerModal = $editor.querySelector(".content-inner-modal");
+            const $contentInnerModal = $editor.querySelector(".content-inner-modal");
             if (!$contentInnerModal) {
               new ContentInnerModal({ $target: $editor.querySelector(".content"), selectionStart, option: "command" });
             }
