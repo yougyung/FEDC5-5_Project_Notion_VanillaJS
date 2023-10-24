@@ -1,4 +1,6 @@
+import { request } from "../../../utils.js";
 import CommandList from "./CommandList.js";
+import DocumentLinkList from "./DocumentLinkList.js";
 
 export default function ContentInnerModal({ $target, selectionStart, option }) {
   const $contentInnerModal = document.createElement("div");
@@ -14,6 +16,7 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
 
   if (option === "command") {
     return new CommandList({
+      $parent: $target,
       $target: $contentInnerModal,
       onClose: () => {
         const $textNode = $target.childNodes[0];
@@ -27,6 +30,36 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
         this.close();
       },
     });
+  } else if (option === "link") {
+    const $documentLinkList = new DocumentLinkList({
+      $target: $contentInnerModal,
+      initialState: {
+        documentLinks: [],
+      },
+      onClose: () => {
+        this.close();
+      },
+    });
+
+    if (!$documentLinkList) {
+      return $documentLinkList;
+    } else {
+      const fetchDocumentLinks = async () => {
+        const documents = await request("");
+        const documentLinks = documents.map(({ id, title, documents }) => ({
+          id,
+          title,
+          documents: documents.map(({ id, title, documents }) => ({
+            id,
+            title,
+            documents: documents.map(({ id }) => ({ parentId: id })),
+          })),
+        }));
+        $documentLinkList.setState({ documentLinks });
+      };
+
+      fetchDocumentLinks();
+    }
   }
 
   return $contentInnerModal;
