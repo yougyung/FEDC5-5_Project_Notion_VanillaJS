@@ -1,4 +1,6 @@
-export default function CommandList({ $target, onClose }) {
+import ContentInnerModal from "./ContentInnerModal.js";
+
+export default function CommandList({ $parent, $target, onClose }) {
   const $commandList = document.createElement("div");
   $commandList.className = "command-list";
 
@@ -26,6 +28,9 @@ export default function CommandList({ $target, onClose }) {
       onClose();
 
       $searchDocumentLink.focus();
+
+      const selectionStart = window.getSelection().anchorOffset;
+      new ContentInnerModal({ $target: $parent, selectionStart, option: "link" });
     }
 
     event.stopPropagation();
