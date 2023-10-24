@@ -7,6 +7,7 @@ import {
 } from "./api/url.js";
 import DocumentTree from "./components/DocumentTree.js";
 import Editor from "./components/Editor.js";
+import { getItem, setItem } from "./utils/storage.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
@@ -40,6 +41,7 @@ export default function App({ $target }) {
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT_TREE);
     documentTree.setState(data);
+    setItem("documentTree", data);
   };
 
   this.route = async () => {
