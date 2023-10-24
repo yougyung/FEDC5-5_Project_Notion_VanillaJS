@@ -12,7 +12,10 @@ import {
   removeStorage,
   setStorage,
 } from "./LocalStorage/LocalStorage.js";
-import { listPropValidation, pagePropValidation } from "./PropValidation.js";
+import {
+  listPropValidation,
+  pagePropValidation,
+} from "./Function/PropValidation.js";
 import { makeRouterEvent, pushRouter } from "./Router/Router.js";
 
 export default function App({ target }) {
