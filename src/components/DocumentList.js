@@ -91,10 +91,11 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
     let { id } = $li.dataset;
     id = parseInt(id);
-    const openedItems = getItem(OPENED_ITEM, []);
+
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${DOCUMENTS_ROUTE}/${id}`);
     } else if (target.classList.contains(ADD)) {
+      setItem(NEW_PARENT, id);
       onAdd(id);
       toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
@@ -114,6 +115,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       setItem(OPENED_ITEM, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
       target.classList.toggle("open");
     } else {
+      if (openedItems.indexOf(id) > -1) return; // 동일 id 중복 저장 에러
       setItem(OPENED_ITEM, [...openedItems, id]);
       target.classList.toggle("open");
     }

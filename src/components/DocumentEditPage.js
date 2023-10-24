@@ -49,9 +49,10 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
         title: this.state.document.title || "",
       });
       this.render();
-    } else {
-      this.state = { ...this.state, ...nextState };
+      return;
     }
+
+    this.state = { ...this.state, ...nextState };
 
     if (this.state.documentId === NEW) {
       editor.setState({

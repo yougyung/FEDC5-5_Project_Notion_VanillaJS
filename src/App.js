@@ -8,8 +8,7 @@ import { setItem, getItem } from "./utils/storage.js";
 export default function App({ $target }) {
   let timer = null;
 
-  const onAdd = async (documentId) => {
-    setItem(NEW_PARENT, documentId === NEW ? null : documentId);
+  const onAdd = async () => {
     push(`${DOCUMENTS_ROUTE}/${NEW}`);
 
     const createdDocument = await fetchDocuments("", {
