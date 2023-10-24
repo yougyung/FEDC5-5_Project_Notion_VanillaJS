@@ -21,7 +21,6 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
   };
 
   $target.appendChild($sideBarWrapperDiv);
@@ -151,8 +150,6 @@ export default function App({ $target }) {
       console.error(`nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`);
     }
   };
-
-  this.render = async () => {};
 
   this.route = async () => {
     const { pathname } = location;
