@@ -94,7 +94,7 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
   return {
     element: `
       <div class=${s_sidebar}>
-        <button data-parent-id="null" class="addRootDocumentButton ${s_button}" aria-label="새 문서 추가" type="button">+</button>
+        <button data-parent-id="null" class="addRootDocumentButton ${s_button}" aria-label="새 문서 추가" type="button">+ 페이지 추가</button>
         <ul class="documentList">
           ${documentList}
         </ul>
