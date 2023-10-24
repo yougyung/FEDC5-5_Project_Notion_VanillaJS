@@ -87,7 +87,8 @@ button {
   color: rgb(55, 53, 47);
 }
 
-.list-item:not(.no-subdocuments):hover {
+.list-item:not(.no-subdocuments):hover,
+.command:hover {
   background-color: #f1f1f0;
   border-radius: 0.3rem;
 }
@@ -210,18 +211,48 @@ button {
   color: rgba(55, 53, 47, 0.65);
 }
 
-.document-links {
+.content-inner-modal {
+  cursor: default;
   position: absolute;
-  height: 100%;
-  max-height: 40vh;
   width: 460px;
   min-width: 180px;
   max-width: calc(100vw -24px);
   z-index: 10;
+
+  padding: 3px 5px;
+
   background-color: white;
   outline-color: rgb(55, 53, 47);
   border-radius: 6px;
   box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+}
+
+.modal-title {
+  padding-left: 10px;
+}
+
+.modal-list {
+  min-height: 7vh;
+}
+
+.modal-title,
+.command small {
+  font-size: 12px;
+  color: rgba(55, 53, 47, 0.8);
+}
+
+#item.command {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.command p {
+  margin: 0;
+  font-size: 14px;
+  color: rgb(55, 53, 47);
 }
 
 /* subdocumentlist style */
