@@ -1,6 +1,6 @@
 import { UNTITLED } from "../utils/constants.js";
 
-export default function Editor({ $target, initialState = { title: "", content: "" }, onEditing }) {
+export default function Editor({ $target, initialState = { title: "", content: "" }, onEdit }) {
   const $editor = document.createElement("div");
   $editor.innerHTML = `
     <input type="text" name="title" class="title" placeholder="${UNTITLED}" autofocus/>
@@ -35,7 +35,7 @@ export default function Editor({ $target, initialState = { title: "", content: "
       const nextState = { ...this.state, [name]: target.value };
       this.setState(nextState);
       console.log(nextState);
-      onEditing(this.state);
+      onEdit(this.state);
     }
   });
 }

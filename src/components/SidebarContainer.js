@@ -5,7 +5,7 @@ import DocumentAddButton from "./DocumentAddButton.js";
 import { setItem } from "../utils/storage.js";
 import { push } from "../utils/router.js";
 
-export default function SidebarContainer({ $target }) {
+export default function SidebarContainer({ $target, onAdd, onDelete }) {
   const $sidebar = document.createElement("div");
   $sidebar.className = "sidebar";
 
@@ -16,15 +16,8 @@ export default function SidebarContainer({ $target }) {
     initialState: {
       documents: [],
     },
-    onRemove: async (documentId) => {
-      if (confirm("페이지를 삭제하시겠습니까?")) {
-        await fetchDocuments(documentId, {
-          method: "DELETE",
-        });
-        this.render();
-        // TODO: 로컬스토리지의 opened-item에서 해당 id 삭제해야 함
-      }
-    },
+    onAdd,
+    onDelete,
   });
 
   new DocumentAddButton({
@@ -34,10 +27,7 @@ export default function SidebarContainer({ $target }) {
       position: "document-list-bottom",
       text: "페이지 추가",
     },
-    onClick: () => {
-      setItem(NEW_PARENT, null);
-      push(`${DOCUMENTS_ROUTE}/${NEW}`);
-    },
+    onAdd,
   });
 
   new DocumentAddButton({
@@ -47,10 +37,7 @@ export default function SidebarContainer({ $target }) {
       position: "sidebar-bottom",
       text: "새 페이지",
     },
-    onClick: () => {
-      setItem(NEW_PARENT, null);
-      push(`${DOCUMENTS_ROUTE}/${NEW}`);
-    },
+    onAdd,
   });
 
   this.render = async () => {

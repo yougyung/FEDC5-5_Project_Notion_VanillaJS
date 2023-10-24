@@ -1,13 +1,12 @@
-import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD, DELETE } from "../utils/constants.js";
+import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEM } from "../utils/constants.js";
 import { push } from "../utils/router.js";
 import { getItem, setItem } from "../utils/storage.js";
 
 const DOCUMENT_ITEM = "document-item";
-const OPENED_ITEM = "opened-item";
 const BLOCK = "block";
 const NONE = "none";
 
-export default function DocumentList({ $target, initialState, onRemove }) {
+export default function DocumentList({ $target, initialState, onAdd, onDelete }) {
   const $documentList = document.createElement("div");
   $documentList.className = "document-list";
   $target.appendChild($documentList);
@@ -52,7 +51,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
                 class="${DOCUMENT_ITEM}" 
                 style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
-                <p class="${DOCUMENT_ITEM}">${title.length > 0 ? title : UNTITLED}</p>
+                <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
                 <div class="buttons">
                   <button class="${DELETE}" type="button">
                     <i class="fa-regular fa-trash-can ${DELETE}"></i>
@@ -81,7 +80,7 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     const { documents } = this.state;
 
     $documentList.innerHTML = `
-      ${documents.length > 0 ? renderDocuments(documents, 0) : ""}
+      ${documents.length > 0 ? renderDocuments(documents, 1) : ""}
     `;
   };
 
@@ -96,25 +95,30 @@ export default function DocumentList({ $target, initialState, onRemove }) {
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${DOCUMENTS_ROUTE}/${id}`);
     } else if (target.classList.contains(ADD)) {
-      setItem(NEW_PARENT, id);
-      push(`${DOCUMENTS_ROUTE}/${NEW}`);
+      onAdd(id);
+      toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
-      onRemove(id);
+      onDelete(id);
     }
 
-    if (!target.classList.contains("toggle")) return;
+    if (!target.classList.contains("toggle")) {
+      toggleOpen(target, id);
+    }
+  });
+
+  const toggleOpen = (target, id) => {
+    const openedItems = getItem(OPENED_ITEM, []);
 
     if (target.classList.contains("open")) {
       const index = openedItems.indexOf(id);
       setItem(OPENED_ITEM, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
       target.classList.toggle("open");
-      this.render();
     } else {
       setItem(OPENED_ITEM, [...openedItems, id]);
       target.classList.toggle("open");
-      this.render();
     }
-  });
+    this.render();
+  };
 
   const toggleBlock = (e) => {
     const $li = e.target.closest("li");
