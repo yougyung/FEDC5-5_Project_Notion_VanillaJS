@@ -6,6 +6,7 @@ import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
 import { removeItem, setItem } from './utils/storage.js';
 import Splitter from './components/UI/Splitter.js';
+import DocumentFooter from './components/Document/DocumentFooter.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -89,6 +90,9 @@ export default function App({ $target }) {
     },
   });
 
+  const documentFooter = new DocumentFooter({
+    $target: $documentListContainer,
+  })
   $target.appendChild($documentListContainer);
   
   const splitter = new Splitter({ $target });
