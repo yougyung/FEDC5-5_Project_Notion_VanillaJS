@@ -5,6 +5,7 @@ import styles from "./documentItem.module.scss";
 
 interface DocumentItemProps {
   document: DocumentResponseDto;
+  index: string;
 }
 
 interface DocumentItemReturnType {
@@ -12,17 +13,18 @@ interface DocumentItemReturnType {
   bindEvents?: () => void;
 }
 
-const { s_documentItem, s_childrenDocumentList, s_document_title } = styles;
+const { s_documentItem, s_childrenDocumentList, s_document_title, s_index } = styles;
 
-function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
+function DocumentItem({ document, index }: DocumentItemProps): DocumentItemReturnType {
   const { id, title, documents } = document;
 
   const childrenDocuments = documents.length
     ? `<ul class=${s_childrenDocumentList}>
     ${documents
-      .map((childDocument) => {
+      .map((childDocument, childIndex) => {
         const childDocumentItemComponent = createComponent(DocumentItem, {
           document: childDocument,
+          index: `${index}-${childIndex + 1}`,
         });
 
         return childDocumentItemComponent.element;
@@ -34,6 +36,7 @@ function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
   return {
     element: `
       <li data-id="${id}" class="${s_documentItem}">
+        <span class="${s_index}">${index}</span>
         <span class="${classNames("documentTitle", s_document_title)}">${title}</span>
         <button data-parent-id="${id}" class="addDocumentButton" type="button">+</button>
         <button data-parent-id="${id}" class="deleteDocumentButton" type="button">-</button>

@@ -62,8 +62,8 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
   };
 
   const documentList = documents
-    .map((document) => {
-      const documentItemComponent = createComponent(DocumentItem, { document });
+    .map((document, index) => {
+      const documentItemComponent = createComponent(DocumentItem, { document, index: String(index + 1) });
 
       return documentItemComponent.element;
     })
