@@ -16,9 +16,15 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
     return new CommandList({
       $target: $contentInnerModal,
       onClose: () => {
-        console.dir($target.previousSibling);
+        const $textNode = $target.childNodes[0];
+        if ($textNode && $textNode.nodeType === Node.TEXT_NODE) {
+          const $text = $textNode.nodeValue;
+          const extractedText = $text.slice(-6);
+          const newText = $text.slice(0, -extractedText.length);
+          $textNode.nodeValue = newText;
+        }
 
-        // this.close();
+        this.close();
       },
     });
   }
