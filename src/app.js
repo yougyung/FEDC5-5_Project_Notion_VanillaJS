@@ -4,6 +4,9 @@ import { request } from "./utils/api.js";
 
 const $ = document;
 export default function App({ $target }) {
+  /**
+   * wrapper, state
+   */
   const $sideBarWrapperDiv = $.createElement("div");
   const $textAreaWrapperDiv = $.createElement("div");
   $sideBarWrapperDiv.className = "sideBarWrapper";
@@ -26,6 +29,9 @@ export default function App({ $target }) {
   $target.appendChild($sideBarWrapperDiv);
   $target.appendChild($textAreaWrapperDiv);
 
+  /**
+   * 하위 렌더링 페이지
+   */
   // 사이드 렌더러
   const sideAreaRender = new SideAreaRender({
     $target: $sideBarWrapperDiv,
@@ -38,6 +44,7 @@ export default function App({ $target }) {
       await fetchRootDocs();
       await fetchSelectedDocs(newPageLog.id);
       history.pushState(null, null, `/documents/${newPageLog.id}`);
+      $.querySelector(".textArea-title").focus();
     },
     onClickDeleteButton: async (id) => {
       console.log(id);
@@ -55,9 +62,11 @@ export default function App({ $target }) {
         }
         await fetchSelectedDocs(temp[1]);
         history.pushState(null, null, `/documents/${temp[1]}`);
+        $.querySelector(".textArea-title").focus();
       } else {
         await fetchSelectedDocs(deleteResult.parent.id);
         history.pushState(null, null, `/documents/${deleteResult.parent.id}`);
+        $.querySelector(".textArea-title").focus();
       }
     },
   });
@@ -77,13 +86,18 @@ export default function App({ $target }) {
       if (timerForText !== null) {
         clearTimeout(timerForText);
       }
+      // console.log(title, target);
+      // console.log(textAreaRender.state.title);
+      // console.log(textAreaRender.state.content);
+      // console.log({ ...textAreaRender.state });
       timerForText = setTimeout(async () => {
         // const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
         const modifyTextPageText = await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: title, content: target }),
         });
-        console.log(modifyTextPageText);
+        // console.log(modifyTextPageText);
+        // console.log(textAreaRender.state);
         $.querySelector(".textArea-content").focus();
       }, 200);
     },
@@ -96,7 +110,7 @@ export default function App({ $target }) {
           method: "PUT",
           body: JSON.stringify({ title: target.value, content: content }),
         });
-        console.log(modifyTextPageTitle);
+        // console.log(modifyTextPageTitle);
         await fetchRootDocs();
         $.querySelector(".textArea-content").focus();
       } else {
@@ -105,13 +119,17 @@ export default function App({ $target }) {
             method: "PUT",
             body: JSON.stringify({ title: target.value, content: content }),
           });
-          console.log(modifyTextPageTitle);
+          // console.log(modifyTextPageTitle);
           await fetchRootDocs();
           $.querySelector(".textArea-title").focus();
         }, 200);
       }
     },
   });
+
+  /**
+   * App에서 사용되는 함수 목록
+   */
 
   const deletePage = async (id) => {
     const deleteRequest = await request(`/documents/${id}`, {
@@ -151,6 +169,9 @@ export default function App({ $target }) {
     }
   };
 
+  /**
+   * 라우팅 처리
+   */
   this.route = async () => {
     const { pathname } = location;
     if (pathname === "/") {
@@ -178,5 +199,6 @@ export default function App({ $target }) {
     }
   };
   window.addEventListener("popstate", () => this.route());
+
   this.route();
 }
