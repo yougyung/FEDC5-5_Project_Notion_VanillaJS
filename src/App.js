@@ -29,7 +29,7 @@ export default function App({ $target }) {
   };
 
   this.render = async () => {
-    await fetchRootDocuments();
+    await getRootDocuments();
     const { selectedDocument } = this.state;
     if (selectedDocument) {
       $editorContainer.style.display = 'block';
@@ -38,10 +38,11 @@ export default function App({ $target }) {
     }
   };
 
+  // Document Header Component
   const documentHeader = new DocumentHeader({
     $target: $documentListContainer,
     onClickPageAddButton: async () => {
-      const addedDocument = await fetchAddDocument(null, '제목 없음');
+      const addedDocument = await addDocument(null, '제목 없음');
 
       this.setState({
         ...this.state,
@@ -49,19 +50,21 @@ export default function App({ $target }) {
       });
 
       editor.setState(addedDocument);
+      push(`/${addedDocument.id}`);
     },
   });
 
+  // Document List Component
   const documentList = new DocumentList({
     $target: $documentListContainer,
     initialState: [],
     onClickDocument: async (id) => {
-      await fetchSelectedDocument(id);
+      await getSelectedDocument(id);
       push(`/${id}`);
       subDocumentFooter.setState(this.state.subDocuments);
     },
     onClickAddButton: async (id) => {
-      const addedDocument = await fetchAddDocument(id, '제목 없음');
+      const addedDocument = await addDocument(id, '제목 없음');
 
       this.setState({
         ...this.state,
@@ -72,7 +75,7 @@ export default function App({ $target }) {
       push(`/${addedDocument.id}`);
     },
     onClickInitialAddButton: async () => {
-      const addedDocument = await fetchAddDocument(null, '제목 없음');
+      const addedDocument = await addDocument(null, '제목 없음');
 
       this.setState({
         ...this.state,
@@ -82,7 +85,7 @@ export default function App({ $target }) {
       editor.setState(addedDocument);
     },
     onClickRemoveButton: async (id) => {
-      await fetchRemoveDocument(id);
+      await removeDocument(id);
       this.setState({
         ...this.state,
         selectedDocument: null,
@@ -90,13 +93,16 @@ export default function App({ $target }) {
     },
   });
 
+  // Document Footer Component
   const documentFooter = new DocumentFooter({
     $target: $documentListContainer,
-  })
+  });
   $target.appendChild($documentListContainer);
-  
+
+  // Splitter Component
   const splitter = new Splitter({ $target });
 
+  // Editor Component
   const editor = new Editor({
     $target: $editorContainer,
     initialState: this.state.selectedDocument,
@@ -110,13 +116,7 @@ export default function App({ $target }) {
           tempSavedAt: new Date(),
         });
 
-        await request(`/${document.id}`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            title: document.title,
-            content: document.content,
-          }),
-        });
+        await editDocument(document.id, document.title, document.content);
 
         removeItem('temp-post');
         this.render();
@@ -126,21 +126,24 @@ export default function App({ $target }) {
 
   $target.appendChild($editorContainer);
 
+  // Sub Document Footer Component
   const subDocumentFooter = new SubDocumentFooter({
     $target: $editorContainer,
     initialState: this.state.subDocuments ? this.state.subDocuments : [],
     onClick: async (id) => {
-      await fetchSelectedDocument(id);
+      await getSelectedDocument(id);
       push(`/${id}`);
     },
   });
 
-  const fetchRootDocuments = async () => {
+  // API: Root Documents 가져오기
+  const getRootDocuments = async () => {
     const rootDocuments = await request();
     documentList.setState(rootDocuments);
   };
 
-  const fetchSelectedDocument = async (id) => {
+  // API: 특정 Document의 content 조회하기
+  const getSelectedDocument = async (id) => {
     const selectedDocument = await request(`/${id}`);
 
     if (!selectedDocument) {
@@ -148,17 +151,19 @@ export default function App({ $target }) {
       push('/');
       return;
     }
-    
+
     this.setState({
       ...this.state,
       selectedDocument,
       subDocuments: selectedDocument.documents,
     });
+
     editor.setState(selectedDocument);
     subDocumentFooter.setState(selectedDocument.documents);
   };
 
-  const fetchAddDocument = async (parentId, title) => {
+  // API: Document 추가하기
+  const addDocument = async (parentId, title) => {
     const newDocument = await request('', {
       method: 'POST',
       body: JSON.stringify({
@@ -169,14 +174,26 @@ export default function App({ $target }) {
     return newDocument;
   };
 
-  const fetchRemoveDocument = async (id) => {
+  // API: 특정 Document 수정하기
+  const editDocument = async (id, title, content) => {
+    await request(`/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        title: title,
+        content: content,
+      }),
+    });
+  };
+  // API: 특정 Document 삭제하기
+  const removeDocument = async (id) => {
     await request(`/${id}`, {
       method: 'DELETE',
     });
   };
 
+  // 라우팅
   this.route = async () => {
-    await fetchRootDocuments();
+    await getRootDocuments();
     const { pathname } = window.location;
     if (pathname === '/') {
       this.setState({
@@ -185,10 +202,11 @@ export default function App({ $target }) {
       });
     } else {
       const id = pathname.slice(1);
-      await fetchSelectedDocument(id);
+      await getSelectedDocument(id);
     }
   };
 
+  // 뒤로가기, 앞으로가기 처리
   window.addEventListener('popstate', async () => {
     this.route();
   });
