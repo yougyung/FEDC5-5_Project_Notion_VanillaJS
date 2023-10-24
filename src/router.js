@@ -1,4 +1,4 @@
-const ROUTE_CHANGE_EVENT_NAME = "route-change";
+import { ROUTE_CHANGE_EVENT_NAME } from "./utils/constants.js";
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (event) => {
@@ -13,5 +13,7 @@ export const initRouter = (onRoute) => {
 
 // 커스텀 이벤트 등록 //
 export const push = (nextUrl) => {
-  window.dispatchEvent(new CustomEvent("route-change", { detail: { nextUrl } }));
+  window.dispatchEvent(
+    new CustomEvent(ROUTE_CHANGE_EVENT_NAME, { detail: { nextUrl } })
+  );
 };

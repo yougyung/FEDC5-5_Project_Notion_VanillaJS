@@ -140,8 +140,25 @@
   top: 1rem;
   background-color: #fed31e99;
   backdrop-filter: blur(6px);
-  width: calc(100% - 2rem);
-  height: 80px;
+  width: 100%;
+  width: calc(100% - 4rem);
+  /* height: 80px; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+.editor-button {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0rem 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  &:hover {
+    background-color: #18181820;
+  }
 }
 
 #editor {
@@ -173,19 +190,6 @@
 #editor::-webkit-scrollbar {
   opacity: 0;
   width: 1rem;
-}
-
-#editor-bottom-util {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  width: 30%;
-  height: 60px;
-  background-color: #fed31e99;
-  backdrop-filter: blur(6px);
-  border-radius: 40px;
-  transform: translate(-50%, 100%);
-  padding: 1rem 2rem;
 }
 
 #pre-view {
@@ -225,6 +229,12 @@
 
 #pre-view strong {
   font-weight: 900;
+}
+
+#pre-view a {
+  font-weight: bold;
+  color: blue;
+  cursor: pointer;
 }
 
 #pre-view em {
@@ -306,4 +316,10 @@
   &:hover {
     color: #486a26;
   }
+}
+
+.icon-editor {
+  text-align: center;
+  font-size: 13px;
+  color: #18181880;
 }

@@ -1,5 +1,4 @@
 import Editor from "../components/editor/Editor.js";
-import EditorBottomUtil from "../components/editor/EditorBottomUtil.js";
 import EditorHeader from "../components/editor/EditorHeader.js";
 
 import { _GET, _POST, _PUT } from "../api/api.js";
@@ -44,7 +43,6 @@ export default function EditorView({ $parent, initState }) {
   let isCreate = false;
 
   // COMPONENTS =========================================================== //
-  const editorHeader = new EditorHeader({ $parent: $component });
   const editor = new Editor({
     $parent: $component,
     onEditing: (data) => {
@@ -99,12 +97,14 @@ export default function EditorView({ $parent, initState }) {
       }, 1000);
     },
   });
-  const editorBottom = new EditorBottomUtil({ $parent: $component });
+
+  const editorHeader = new EditorHeader({
+    $parent: $component,
+  });
   // =========================================================== COMPONENTS //
 
   this.state = initState;
   this.setState = async (nextState) => {
-    editorHeader.render();
     // document data 업데이트가 필요한 상황
     if (this.state.documentId !== nextState.documentId) {
       this.state = { ...this.state, ...nextState };
@@ -123,8 +123,6 @@ export default function EditorView({ $parent, initState }) {
           createdAt: "",
           updatedAt: "",
         });
-
-        editorBottom.setState({ childDocuments: [] });
         // this.render();
       } else {
         // 이전에 보던 경로와 다른 경우
@@ -140,6 +138,7 @@ export default function EditorView({ $parent, initState }) {
 
     useDocument.setState(this.state.documentData);
     editor.render();
+    editorHeader.render();
   };
 
   this.render = () => {

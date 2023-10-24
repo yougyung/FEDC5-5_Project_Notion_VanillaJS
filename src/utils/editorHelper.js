@@ -1,11 +1,14 @@
+import { EDITOR_VALUE_CHANGE_EVENT_NAME } from "./constants.js";
+import { useDocument } from "./store.js";
+
 export function parseContent(content) {
   // Regular Expressions
   const h1 = /^#{1}[^#].*$/gm;
   const h2 = /^#{2}[^#].*$/gm;
   const h3 = /^#{3}[^#].*$/gm;
   const bold = /\*\*[^\*\n]+\*\*/gm;
-  // const italics = /[^\*]\*[^\*\n]+\*/gm;
   const italics = /\*([^*]+)\*/gm;
+  const link = /\[[\w|\(|\)|\s|\*|\?|\-|\.|\,]*(\]\(){1}[^\)]*\)/gm;
 
   // # -> Heading 1
   if (h1.test(content)) {
@@ -60,6 +63,21 @@ export function parseContent(content) {
     });
   }
 
+  //[content](URL)
+  if (link.test(content)) {
+    const links = content.match(link);
+
+    links.forEach((element) => {
+      const text = element.match(/^\[.*\]/)[0].slice(1, -1);
+      const url = element.match(/\]\(.*\)/)[0].slice(2, -1);
+
+      content = content.replace(
+        element,
+        '<a href="' + url + '">' + text + "</a>"
+      );
+    });
+  }
+
   return content
     .split("\n")
     .map((line) => {
@@ -69,3 +87,55 @@ export function parseContent(content) {
     })
     .join("");
 }
+
+export const editMarkdown = (
+  textarea,
+  syntax,
+  prefixLen = 0,
+  suffixLen = 0
+) => {
+  const currentSelectionStart = textarea.selectionStart;
+  const currentSelectionEnd = textarea.selectionEnd;
+  const currentText = textarea.value;
+
+  // 선택된 문자열이 없는 경우
+  if (currentSelectionStart === currentSelectionEnd) {
+    textarea.value =
+      currentText.substring(0, currentSelectionStart) +
+      syntax +
+      currentText.substring(currentSelectionEnd);
+  } else {
+    // 선택된 문자열만 잘라낸 것
+    const selectedText = currentText.substring(
+      currentSelectionStart,
+      currentSelectionEnd
+    );
+    // 선택된 문자열을 제외하고 잘라낸 것
+    const withoutSelection =
+      currentText.substring(0, currentSelectionStart) +
+      currentText.substring(currentSelectionEnd);
+    // 제외 문자에 추가할 신택스를 추가
+    const textWithSyntax =
+      withoutSelection.substring(0, currentSelectionStart) +
+      syntax +
+      withoutSelection.substring(currentSelectionStart);
+    // 신택스 이후에 선택된 문자열을 추가
+    textarea.value =
+      textWithSyntax.substring(0, currentSelectionStart + prefixLen) +
+      selectedText +
+      textWithSyntax.substring(currentSelectionStart + prefixLen);
+  }
+  // textarea cursor 위치 보정
+  textarea.focus();
+  textarea.selectionEnd = currentSelectionEnd + prefixLen + suffixLen;
+
+  const nextState = {
+    ...useDocument.state,
+    content: textarea.value,
+  };
+  useDocument.setState(nextState);
+
+  textarea.dispatchEvent(
+    new CustomEvent(EDITOR_VALUE_CHANGE_EVENT_NAME, { detail: nextState })
+  );
+};

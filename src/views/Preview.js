@@ -35,7 +35,7 @@ export default function PreView({ $parent, initState }) {
       </h1>
       <div class="preview-info">
         <p class="preview-date" style="display: inline; padding-right: 2rem">작성 일자</p> 
-        <p class="preview-date" style="display: inline;">${dateTime}</p>
+        <p class="preview-date" style="display: inline;">${dateTime ?? ""}</p>
       </div>
       `;
   };
@@ -45,7 +45,6 @@ export default function PreView({ $parent, initState }) {
   };
 
   const footerRender = (documents) => {
-
     if (documents.length < 1) return "";
 
     return `
