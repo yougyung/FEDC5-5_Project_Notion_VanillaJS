@@ -1,8 +1,8 @@
 import api from "./api/api.js";
 import {
   DELETE_API_DOCUMENT,
-  GET_API_DOCUMENT,
   GET_API_DOCUMENT_DETAIL,
+  GET_API_DOCUMENT_TREE,
   POST_API_DOCUMENT,
 } from "./api/url.js";
 import DocumentTree from "./components/DocumentTree.js";
@@ -36,7 +36,7 @@ export default function App({ $target }) {
   const editor = new Editor({ $container, getDocumentTree: () => this.init() });
 
   this.init = async () => {
-    const data = await api.get(GET_API_DOCUMENT);
+    const data = await api.get(GET_API_DOCUMENT_TREE);
     documentTree.setState(data);
   };
 
