@@ -30,9 +30,11 @@ export default function Sidebar({ $parent, initState }) {
       // update data //
       const fetchData = await fetchDocuments();
       // render child component
+      const { arrayOfData, mapOfData } = flattenDocumentIndex(fetchData);
       useDocsIndex.setState({
         data: fetchData,
-        flattenData: flattenDocumentIndex(fetchData),
+        flattenArrayData: arrayOfData,
+        flattenMapData: mapOfData,
       });
     }
   };

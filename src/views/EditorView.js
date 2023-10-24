@@ -83,9 +83,12 @@ export default function EditorView({ $parent, initState }) {
           );
 
           const docsIndexData = useDocsIndex.state.data;
+          const { arrayOfData, mapOfData } =
+            flattenDocumentIndex(docsIndexData);
           useDocsIndex.setState({
             data: docsIndexData,
-            flattenData: flattenDocumentIndex(docsIndexData),
+            flattenArrayData: arrayOfData,
+            flattenMapData: mapOfData,
           });
         } else {
           await _PUT(`documents/${data.id}`, {

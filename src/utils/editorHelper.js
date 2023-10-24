@@ -1,14 +1,17 @@
 import { EDITOR_VALUE_CHANGE_EVENT_NAME } from "./constants.js";
-import { useDocument } from "./store.js";
+import { useDocsIndex, useDocument } from "./store.js";
 
 export function parseContent(content) {
+  if (!content) return "";
+
   // Regular Expressions
   const h1 = /^#{1}[^#].*$/gm;
   const h2 = /^#{2}[^#].*$/gm;
   const h3 = /^#{3}[^#].*$/gm;
   const bold = /\*\*[^\*\n]+\*\*/gm;
   const italics = /\*([^*]+)\*/gm;
-  const link = /\[[\w|\(|\)|\s|\*|\?|\-|\.|\,]*(\]\(){1}[^\)]*\)/gm;
+  // const link = /\[[\w|\(|\)|\s|\*|\?|\-|\.|\,]*(\]\(){1}[^\)]*\)/gm;
+  const link = /\[[^\]]*\]\([^)]*\)/gm;
 
   // # -> Heading 1
   if (h1.test(content)) {
@@ -77,6 +80,25 @@ export function parseContent(content) {
       );
     });
   }
+
+  const keywords = content.replace(/\n/gm, " ").split(" ");
+  const docsMap = useDocsIndex.state.flattenMapData;
+  
+  keywords.forEach((keyword) => {
+    if (docsMap && docsMap[keyword]) {
+      // 정확한 문자열 매칭을 위한 정규 표현식 패턴 생성
+      const keywordPattern = new RegExp(`(?<!\\S)${keyword}(?!\\S)`, 'g');
+
+      content = content.replace(
+        keywordPattern,
+        '<a href="' +
+          `/documents/${docsMap[keyword].id}` +
+          '">' +
+          keyword +
+          "</a>"
+      );
+    }
+  });
 
   return content
     .split("\n")

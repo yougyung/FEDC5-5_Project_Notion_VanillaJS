@@ -47,12 +47,17 @@ export default function DocsIndexCard({ $parent, initState }) {
       push("/");
 
       // 목차 낙관적 업데이트
-      deleteDocumentTreeFromIndex(useDocsIndex.state.data, parseInt(this.state.id));
+      deleteDocumentTreeFromIndex(
+        useDocsIndex.state.data,
+        parseInt(this.state.id)
+      );
 
       const { data } = useDocsIndex.state;
+      const { arrayOfData, mapOfData } = flattenDocumentIndex(data);
       useDocsIndex.setState({
         data,
-        flattenData: flattenDocumentIndex(data),
+        flattenArrayData: arrayOfData,
+        flattenMapData: mapOfData,
       });
 
       await _DELETE(`documents/${this.state.id}`);

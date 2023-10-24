@@ -157,7 +157,7 @@
   align-items: center;
   border-radius: 5px;
   &:hover {
-    background-color: #18181820;
+    background-color: #486a2630;
   }
 }
 
@@ -231,10 +231,9 @@
   font-weight: 900;
 }
 
-#pre-view a {
-  font-weight: bold;
-  color: blue;
+#pre-view p > a {
   cursor: pointer;
+  text-decoration: underline;
 }
 
 #pre-view em {
@@ -248,8 +247,8 @@
   font-size: small;
 }
 .preview-footer {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   margin-top: 3rem;
 }
 
@@ -321,5 +320,5 @@
 .icon-editor {
   text-align: center;
   font-size: 13px;
-  color: #18181880;
+  color: #486a26;
 }

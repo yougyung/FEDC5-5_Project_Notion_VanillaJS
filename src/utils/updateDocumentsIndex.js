@@ -39,14 +39,23 @@ export const createDocumentTreeFromIndex = (data, id, newData) => {
 export const flattenDocumentIndex = (data) => {
   if (!data) return;
 
-  return data.reduce((acc, item) => {
+  const arrayOfData = data.reduce((acc, item) => {
     if (Array.isArray(item.documents)) {
       const copyItem = { ...item };
       const { documents, ...rest } = copyItem;
       const itemWithOutDocs = rest;
-      return acc.concat(itemWithOutDocs, flattenDocumentIndex(documents));
+      return acc.concat(
+        itemWithOutDocs,
+        flattenDocumentIndex(documents).arrayOfData
+      );
     } else {
       return acc.concat(item);
     }
   }, []);
+
+  // 동일 제목 누락되는 경우가 있음.
+  const mapOfData = {};
+  arrayOfData.forEach((data) => (mapOfData[data.title] = data));
+
+  return { arrayOfData, mapOfData };
 };

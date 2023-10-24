@@ -16,7 +16,7 @@ export default function ({ $parent }) {
 
     if (pathname === "/") {
       $element.innerHTML = "";
-      const leefData = useDocsIndex.state.flattenData;
+      const leefData = useDocsIndex.state.flattenArrayData;
 
       if (leefData && leefData.length > 0) {
         leefData.forEach(
