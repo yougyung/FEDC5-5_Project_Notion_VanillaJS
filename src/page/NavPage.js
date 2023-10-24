@@ -54,16 +54,29 @@ export default function NavPage({ $target }) {
       },
     });
   };
+
+  const maxNavWidth = 500;
+  const minNavWidth = 250;
   document.addEventListener("mousedown", (e) => {
+    //마우스 다운시점의 시작 x좌표와, nav바의 너비를 저장해둠.
     const startX = e.clientX;
     const initialWidth = $nav.offsetWidth;
+    //마우스가 10px전후로 넘어가면 별로다
     if (Math.abs(startX - initialWidth) > 10) return;
-    //마우스 다운시점의 시작 x좌표를 저장해 둠
     const onMouseMove = (e) => {
       const newX = e.clientX;
       const delta = newX - startX;
-      const calculatedWidth = Math.max(250, initialWidth + delta); // 최소 너비를 250px로 설정
-      $nav.style.width = `${calculatedWidth}px`;
+      const calculatedWidth = Math.max(minNavWidth, initialWidth + delta); // 최소 너비를 250px로 설정
+      //최대너비는 500px
+      if (calculatedWidth >= maxNavWidth) {
+        $nav.style.width = `${calculatedWidth}px`;
+        //크기를 더 키우려하면(클릭 시점보다 움직인 좌표가 양수면)
+        if (startX < newX) {
+          onMouseUp();
+        }
+      } else {
+        $nav.style.width = `${calculatedWidth}px`;
+      }
     };
     const onMouseUp = () => {
       document.removeEventListener("mousemove", onMouseMove);
