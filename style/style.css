@@ -1,7 +1,5 @@
 /* 모달 스타일 */
 .modal {
-  display: none;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -10,7 +8,6 @@
 }
 
 .modal-content {
-  display: none;
   position: absolute;
   background-color: #fff;
   padding: 20px;
