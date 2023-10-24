@@ -1,5 +1,6 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
 import { filterTitle } from "../../utils/filterTitle.js";
+import ContentInnerModal from "./ContentInnerModal.js";
 
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
@@ -46,14 +47,10 @@ export default function Editor({ $target, initialState, onEdit }) {
           console.log(newContent);
           if (newContent === "페이지링크") {
             const selectionStart = window.getSelection().anchorOffset;
-            let $documentLinks = $editor.querySelector(".document-links");
-            if (!$documentLinks) {
-              $documentLinks = document.createElement("div");
-              $documentLinks.className = "document-links";
-              $documentLinks.style.left = `${selectionStart - 30}px`;
-              $editor.querySelector(".content").appendChild($documentLinks);
+            let $contentInnerModal = $editor.querySelector(".content-inner-modal");
+            if (!$contentInnerModal) {
+              new ContentInnerModal({ $target: $editor.querySelector(".content"), selectionStart, option: "command" });
             }
-            console.log(selectionStart);
           }
           return;
         }
