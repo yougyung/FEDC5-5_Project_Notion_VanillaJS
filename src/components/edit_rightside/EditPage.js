@@ -1,4 +1,5 @@
 import Editor from "./Editor.js";
+import LinkChildPost from "../link_rightside/LinkChildPost.js";
 
 export default function EditPage({ $target, initialState, onNewTitle }) {
   const $div = document.createElement("div");
@@ -13,6 +14,7 @@ export default function EditPage({ $target, initialState, onNewTitle }) {
       return;
     }
     editor.setState(nextState);
+    linkChildPost.setState(nextState);
   };
 
   const editor = new Editor({
@@ -25,4 +27,6 @@ export default function EditPage({ $target, initialState, onNewTitle }) {
       onNewTitle(id);
     },
   });
+
+  const linkChildPost = new LinkChildPost({ $target, initialState });
 }
