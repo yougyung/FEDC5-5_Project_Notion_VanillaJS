@@ -1,6 +1,6 @@
 import { request } from "../../../utils.js";
 
-export default function DocumentLinkList({ $target, initialState, onClose }) {
+export default function DocumentLinkList({ $parent, $target, initialState, onClose }) {
   const $documentLinkList = document.createElement("ul");
   $documentLinkList.className = "document-link-list";
 
@@ -40,8 +40,8 @@ export default function DocumentLinkList({ $target, initialState, onClose }) {
           ${
             title !== ""
               ? `
-          <li data-id=${id} id="link" class="wrapper">
-          <i class="fa-regular fa-file"></i>
+          <li data-id=${id} data-title="${title}" id="link" class="wrapper">
+            <i class="fa-regular fa-file"></i>
             <span class="link-title">${title}</span>
           </li>
           `
@@ -53,7 +53,25 @@ export default function DocumentLinkList({ $target, initialState, onClose }) {
       </ul>`;
   };
 
-  $documentLinkList.addEventListener("click", (event) => {});
+  $documentLinkList.addEventListener("click", (event) => {
+    const { target } = event;
+    const { id, title } = target.closest(".wrapper").dataset;
+
+    console.log(title, id);
+
+    if (id) {
+      const $documentLink = document.createElement("a");
+      $documentLink.className = "document-link";
+      $documentLink.innerText = title;
+      $documentLink.href = `/${id}`;
+      $parent.appendChild($documentLink);
+
+      const $searchDocumentLink = document.querySelector(".search-document-link");
+      $searchDocumentLink.remove();
+
+      onClose();
+    }
+  });
 
   this.render();
 }
