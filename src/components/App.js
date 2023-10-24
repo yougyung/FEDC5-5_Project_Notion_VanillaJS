@@ -3,10 +3,31 @@ import DocumentEditSection from "./DocumentEditSection.js";
 import { request } from "../utils/api.js";
 import { initRouter, push } from "../utils/route.js";
 
-export default function App({ $target }) {
+export default function App({ $target, initialState }) {
+  this.state = initialState;
+
+  this.setState = async (nextState) => {
+    if (nextState.documentId !== this.state.documentId) {
+      this.state = nextState;
+      const { documentId, selectedDocument } = this.state;
+
+      documentEditSection.setState({
+        documentId,
+        document: selectedDocument,
+      });
+    } else {
+      this.state = nextState;
+      const { documents } = this.state;
+
+      documentList.setState(documents);
+    }
+
+    this.render();
+  };
+
   const documentList = new DocumentList({
     $target,
-    initialState: [],
+    initialState: this.state.documents,
     onDocumentRemove: async (id) => {
       await request(`/documents/${id}`, {
         method: "DELETE",
@@ -17,28 +38,31 @@ export default function App({ $target }) {
   });
 
   const $editorSection = document.createElement("div");
-  $target.appendChild($editorSection);
-  $editorSection.setAttribute("class", "editor-page");
+
+  this.render = () => {
+    $target.appendChild($editorSection);
+    $editorSection.setAttribute("class", "editor-page");
+  };
 
   const documentEditSection = new DocumentEditSection({
     $target: $editorSection,
     initialState: {
-      documentId: 0,
-      document: {
-        title: "",
-        content: "",
-      },
+      documentId: this.state.documentId,
+      document: this.state.selectedDocument,
     },
   });
 
   this.route = () => {
     const { pathname } = window.location;
     $editorSection.innerHTML = "";
+
     if (pathname === "/") {
       $editorSection.innerHTML = "<h1>아직 문서를 선택하지 않았습니다.</h1>";
     } else if (pathname.indexOf("/document/") === 0) {
       const [, , documentId] = pathname.split("/");
-      documentEditSection.setState({
+
+      this.setState({
+        ...this.state,
         documentId,
         document: {
           title: "",
@@ -52,7 +76,11 @@ export default function App({ $target }) {
 
   const fetchDocments = async () => {
     const documents = await request("/documents");
-    documentList.setState(documents);
+
+    this.setState({
+      ...this.state,
+      documents,
+    });
   };
 
   fetchDocments();

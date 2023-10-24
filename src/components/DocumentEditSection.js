@@ -11,16 +11,11 @@ export default function DocumentEditSection({ $target, initialState }) {
 
   let timer = null;
 
-  const defaultValue = {
-    title: "",
-    content: "",
-  }
-
   const editor = new Editor({
     $target: $div,
     initialState: {
-      documentId: 0,
-      document: defaultValue
+      documentId: this.state.documentId,
+      document: this.state.document,
     },
     onEditing: (document) => {
       if (timer !== null) {
@@ -63,12 +58,12 @@ export default function DocumentEditSection({ $target, initialState }) {
             ...createDocument,
             tempSaveDate: new Date(),
           });
-          removeItem('temp-document-new');
+          removeItem("temp-document-new");
 
           this.setState({
             documentId: createDocument.id,
-            document: createDocument
-          })
+            document: createDocument,
+          });
         } else {
           await request(`/documents/${document.id}`, {
             method: "PUT",
@@ -85,24 +80,29 @@ export default function DocumentEditSection({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    documentLocalSaveKey = `temp-document-${this.state.documentId || "new"}`;
     if (this.state.documentId !== nextState.documentId) {
       this.state = nextState;
+      documentLocalSaveKey = `temp-document-${this.state.documentId || "new"}`;
 
-      if (this.state.documentId === 'new') {
-        const storedDocument = getItem("temp-document-new", '');
-        
-        if (storedDocument !== '') {
+      if (this.state.documentId === "new") {
+        const storedDocument = getItem("temp-document-new", "");
+        const defaultValue = {
+          title: "",
+          content: "",
+        };
+
+        if (storedDocument !== "") {
           if (confirm("저장안된 임시 데이터가 존재합니다. 불러올까요?")) {
+            this.render();
             editor.setState(storedDocument);
           } else {
+            this.render();
             editor.setState(defaultValue);
           }
         } else {
           editor.setState(defaultValue);
         }
-      }
-      else {
+      } else {
         if (this.state.documentId !== "new") {
           await fetchDocument();
           return;
@@ -140,6 +140,7 @@ export default function DocumentEditSection({ $target, initialState }) {
           ...this.state,
           document: storedDocument,
         });
+        return;
       }
     }
 
