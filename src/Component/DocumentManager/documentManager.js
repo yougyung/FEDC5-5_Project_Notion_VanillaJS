@@ -5,7 +5,6 @@ import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
 import DocumentObserver from '../../Util/DocumentObserver.js';
-import { getEndFocus } from '../../Util/getEndFoucus.js';
 
 // state = { documentId : "" }
 

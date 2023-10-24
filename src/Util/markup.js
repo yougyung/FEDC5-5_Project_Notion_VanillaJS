@@ -2,45 +2,42 @@ export const convertToMarkup = (text) => {
     if (!text) {
         return;
     }
-    let lines = text.split('\n');
+    return text
+        .split('</div>')
+        .map((line) => {
+            line = line.replace('<div>', '');
 
-    for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
-
-        // Headers
-        if (line.startsWith('# ')) {
-            line = `<h1>${line.slice(2)}</h1>`;
-        } else if (line.startsWith('## ')) {
-            line = `<h2>${line.slice(3)}</h2>`;
-        } else if (line.startsWith('### ')) {
-            line = `<h3>${line.slice(4)}</h3>`;
-        }
-
-        // Unordered list items
-        else if (line.startsWith('* ')) {
-            line = `<li>${line.slice(2)}</li>`;
-            // If the previous or next lines are not list items, add <ul> tags
-            if (i === 0 || !lines[i - 1].startsWith('* ')) {
-                line = '<ul>' + line;
+            // 비어있다면 div를 제거해주고 종료
+            if (line === '') {
+                return '';
             }
-            if (i === lines.length - 1 || !lines[i + 1].startsWith('* ')) {
-                line += '</ul>';
-            }
-        }
 
-        // Bold and italic text
-        let boldPattern = /\*\*(.*?)\*\*/g;
-        let italicPattern = /\*(.*?)\*/g;
+            // // Headers
+            // if (line.startsWith('# ')) {
+            //     line = `<h1>${line.slice(2)}</h1>`;
+            // } else if (line.startsWith('## ')) {
+            //     line = `<h2>${line.slice(3)}</h2>`;
+            // } else if (line.startsWith('### ')) {
+            //     line = `<h3>${line.slice(4)}</h3>`;
+            // } else if (line.startsWith('#### ')) {
+            //     line = `<h4>${line.slice(5)}</h4>`;
+            // } else if (line.startsWith('##### ')) {
+            //     line = `<h5>${line.slice(6)}</h5>`;
+            // } else if (line.startsWith('##### ')) {
+            //     line = `<h6>${line.slice(7)}</h6>`;
+            // } else {
+            //     line = `<div>${line}</div>`;
+            // }
 
-        line = line.replace(boldPattern, '<strong>$1</strong>');
-        line = line.replace(italicPattern, '<em>$1</em>');
+            line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            line = line.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
 
-        // Links
-        let linkPattern = /\[(.*?)\]\((.*?)\)/g;
-        line = line.replace(linkPattern, '<a href="$2">$1</a>');
-
-        lines[i] = line;
-    }
-
-    return lines.join('\n');
+            return line;
+        })
+        .join('');
 };
+
+/* 
+replace(/&nbsp;/g, " ")     .replace(/&lt;/g, "<")     .replace(/&gt;/g, ">")     .replace(/&amp;/g, "&")     .replace(/&quot;/g, '"')     .replace(/&#035;/g, "#")     .replace(/&#039;/g, "'")
+*/
