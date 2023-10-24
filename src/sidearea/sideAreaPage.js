@@ -1,18 +1,13 @@
-import { request } from "../utils/api.js";
-
 const $ = document;
-export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
+export default function SideAreaPage({ $target, initialState, onClickPage, onClickDeleteButton }) {
+  // 한번 더 나눌까 아니면 둘까
+  // 나누자 sideAreaHeader, 여기sideAreaPage, sideAreaFooter
+  // 근데 여기랑 연결하는 게 맞는거야? 아니면 sideAreaRender랑 연결하는 게 맞는거야?
+  // 렌더로 올리자
+
   const $pageList = $.createElement("div");
   $pageList.className = "sideBarPageList";
   $target.appendChild($pageList);
-
-  const $introduce = $.createElement("div");
-  $introduce.innerText = "📱Notion Cloing By KSJ";
-  $introduce.className = "sideBarIntroduce";
-  $introduce.addEventListener("click", () => {
-    console.log(`sideBarIntroduce clicked`);
-  });
-  $target.prepend($introduce);
 
   this.state = initialState;
 
@@ -87,19 +82,10 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
   this.render = () => {
     pageListRenderer($pageList, this.state);
-    const $newAddButton = $.createElement("button");
-    $newAddButton.innerText = "+";
-    $pageList.appendChild($newAddButton);
-    $newAddButton.addEventListener("click", (e) => {
-      const targetTag = e.target;
-      if (targetTag.tagName === "BUTTON") {
-        console.log(targetTag);
-        onClickButton(null);
-      }
-    });
   };
 
   this.render();
+
   const addEventDocs = () => {
     $pageList.querySelectorAll("li").forEach(($li) => {
       $li.addEventListener("click", (e) => {

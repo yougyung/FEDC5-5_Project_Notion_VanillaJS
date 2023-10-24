@@ -5,7 +5,7 @@ import { request } from "./utils/api.js";
 const $ = document;
 export default function App({ $target }) {
   /**
-   * wrapper, state
+   * wrapper, state 선언부
    */
   const $sideBarWrapperDiv = $.createElement("div");
   const $textAreaWrapperDiv = $.createElement("div");
@@ -30,9 +30,9 @@ export default function App({ $target }) {
   $target.appendChild($textAreaWrapperDiv);
 
   /**
-   * 하위 렌더링 페이지
+   * 하위 렌더링 페이지 선언부
    */
-  // 사이드 렌더러
+  // 사이드 바 렌더링
   const sideAreaRender = new SideAreaRender({
     $target: $sideBarWrapperDiv,
     initialState: this.state,
@@ -69,9 +69,22 @@ export default function App({ $target }) {
         $.querySelector(".textArea-title").focus();
       }
     },
+    onReturnMainPage: async () => {
+      // console.log(`??`);
+      // this.route();
+      history.pushState(null, null, "/");
+      textAreaRender.setState({
+        title: "👋안녕하세요!",
+        content:
+          "Notion Cloning by KSJ 페이지에 오신 것을 환영합니다.\n이 페이지는 수정이 불가능해요.\n좌측에서 페이지를 선택해서 편집을 진행해주세요!",
+        isLoading: false,
+        pageType: "ROOT",
+      });
+      console.log(textAreaRender.state);
+    },
   });
 
-  // 텍스트 렌더러
+  // 텍스트 에디터 렌더링
   let timerForText = null;
   let timerForTitle = null;
   const textAreaRender = new TextAreaRender({
@@ -86,20 +99,14 @@ export default function App({ $target }) {
       if (timerForText !== null) {
         clearTimeout(timerForText);
       }
-      // console.log(title, target);
-      // console.log(textAreaRender.state.title);
-      // console.log(textAreaRender.state.content);
-      // console.log({ ...textAreaRender.state });
       timerForText = setTimeout(async () => {
         // const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
         const modifyTextPageText = await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: title, content: target }),
         });
-        // console.log(modifyTextPageText);
-        // console.log(textAreaRender.state);
         $.querySelector(".textArea-content").focus();
-      }, 200);
+      }, 20);
     },
     onTitleEditing: async (id, content, target, key) => {
       if (timerForTitle !== null) {
@@ -128,7 +135,7 @@ export default function App({ $target }) {
   });
 
   /**
-   * App에서 사용되는 함수 목록
+   * App에서 사용되는 함수 목록 선언부
    */
 
   const deletePage = async (id) => {
@@ -170,7 +177,7 @@ export default function App({ $target }) {
   };
 
   /**
-   * 라우팅 처리
+   * 라우팅 처리 선언부
    */
   this.route = async () => {
     const { pathname } = location;

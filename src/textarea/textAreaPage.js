@@ -1,6 +1,7 @@
 // 요기서 나오는 DOCS로 하위 페이지 버튼을 하단에 구현해 줄 수 있다.
 const $ = document;
 export default function TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing }) {
+  // 얘는 좀 나누자...textAreaTitle, 여기textAreaContent로 바꾸고, textAreaFooter
   const $textArea = $.createElement("div");
   $textArea.className = "textArea";
 
