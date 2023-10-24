@@ -5,11 +5,13 @@ export default function Title({ $target, initialState, onTitleClick }) {
   this.state = initialState;
   $target.appendChild($title);
   $title.setAttribute("href", this.state.href);
+  $title.classList.add("title");
   this.render = () => {
     $title.textContent = this.state.title;
   };
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state);
     this.render();
   };
   $title.addEventListener("click", (e) => {

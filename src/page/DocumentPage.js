@@ -2,13 +2,15 @@ import Editor from "../component/Editor.js";
 import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/router.js";
+import Observer from "../utils/globalStore/Observer.js";
 
 // initialState : {doucmentId :null, document:null}
 export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
   this.state = initialState;
-  const fetchDocument = async (documentId) => {
+  const observer = Observer;
+  this.fetchDocument = async (documentId) => {
     const document = await request(`/documents/${documentId}`);
     if (!document) {
       alert("존재하지 않는 문서군요?");
@@ -17,7 +19,7 @@ export default function DocumentPage({ $target, initialState }) {
     }
     this.setState(document);
   };
-  fetchDocument(this.state.id);
+  this.fetchDocument(this.state.id);
   this.setState = async (nextState) => {
     this.state = nextState;
     const { id, title } = this.state;
@@ -47,10 +49,12 @@ export default function DocumentPage({ $target, initialState }) {
         clearTimeout(timerOfSetTimeout);
       }
       timerOfSetTimeout = setTimeout(async () => {
-        await request(`/documents/${documentId}`, {
+        const response = await request(`/documents/${documentId}`, {
           method: "PUT",
           body: JSON.stringify(requestBody),
         });
+        observer.notify();
+        documentHeader.setState({ title: response.title });
       }, 1500);
     },
   });

@@ -6,6 +6,7 @@ import xIcon from "../svg/xIcon.js";
 import { push } from "../utils/router.js";
 import Storage from "../utils/storage.js";
 import DocumentList from "./DocumentList.js";
+import NoSubDocument from "./NoSubDocument.js";
 
 export default function DocumentItem({
   $target,
@@ -23,7 +24,6 @@ export default function DocumentItem({
   $documentItem.classList.add("document-item");
   $documentItemWrapper.classList.add("document-item-wrapper");
   const storage = new Storage(window.localStorage);
-
   const getChildDocuments = () => {
     const childDocuments = $documentItem.querySelector(".document-children");
     if (childDocuments) {
@@ -101,6 +101,11 @@ export default function DocumentItem({
         createDocument,
         removeDocument,
         depth: depth,
+      });
+    } else {
+      new NoSubDocument({
+        $target: $documentItem,
+        depth,
       });
     }
     //dom이 모두 생기고 난 후, 접기 체크

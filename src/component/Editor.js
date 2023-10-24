@@ -1,11 +1,9 @@
 /*
-initialState = {title,content,caret:{title,content}} 
+initialState = {title,content} 
 */
-import Storage from "../utils/storage.js";
 export default function Editor({ $target, initialState, documentAutoSave }) {
   const $editor = document.createElement("section");
   $editor.classList.add("editor");
-  const storage = new Storage(window.localStorage);
   $target.appendChild($editor);
   this.state = initialState;
   this.setState = (nextState) => {

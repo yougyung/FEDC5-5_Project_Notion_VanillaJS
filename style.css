@@ -80,6 +80,10 @@ button:hover{
     overflow: hidden; /* 넘치는 부분 숨김 */
     text-overflow: ellipsis; 
 }
+.no-sub-document{
+    height: 24px;
+    margin:4px;
+}
 .add-root-doc-btn{
     height: 24px;
     width: 100%;
