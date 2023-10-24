@@ -1,3 +1,5 @@
+import { textScan } from "../Util/TextScan.js";
+
 export default function Modal({ initialState, onSavePost }) {
   const $div = document.createElement("div");
 
@@ -8,12 +10,14 @@ export default function Modal({ initialState, onSavePost }) {
     this.render();
   };
 
-  // X 버튼 클릭시 모달 삭제됨과 동시에 콜백으로 title, content, id 전달하여 서버에 저장
+  // 저장 버튼 클릭시 모달 데이터 서버에 저장
   const modalCloseAndOpen = (id) => {
     const $modal = document.querySelector(".modal");
 
     const title = $modal.querySelector("[name=title]").innerText;
-    const content = $modal.querySelector("[name=content]").innerText;
+    const content = textScan($modal.querySelector("[name=content]").innerText);
+
+    console.log(content);
 
     onSavePost(title, content, id);
 
@@ -39,9 +43,9 @@ export default function Modal({ initialState, onSavePost }) {
 
     $div.innerHTML = `
       <div class="background" name="background">
-        <div class="modalBox" contentEditable="true">
-          <h1 name="title">제목을 입력해주세요.</h1>
-          <div name="content">내용을 입력해주세요.</div>
+        <div class="modalBox">
+          <h1 name="title" contentEditable="true">제목을 입력해주세요.</h1>
+          <div name="content" contentEditable="true">내용을 입력해주세요.</div>
           <button class="saveBtn">저장</button>
         </div>
       </div>

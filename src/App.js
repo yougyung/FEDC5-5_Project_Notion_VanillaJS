@@ -57,13 +57,4 @@ export default function App({ $target, initialState }) {
 
   // 뒤로가기 라우팅
   popState(route);
-
-  // 임시로 서버에 데이터 넣기 위한 로직
-  // const dummy = {
-  //   title: "타입스크립트의 변수",
-  //   content: "타입스크립트의 변수는 자바스크립트와 유사합니다.",
-  // };
-  // const data = HTTPRequest("");
-
-  // console.log(data);
 }
