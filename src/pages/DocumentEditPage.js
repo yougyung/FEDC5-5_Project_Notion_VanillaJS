@@ -9,6 +9,7 @@ export default function DocumentEditPage({
   onRemoveDocument,
 }) {
   const $documentEditPage = document.createElement('div');
+  $documentEditPage.className = 'document-edit-page';
 
   this.state = initialState;
 

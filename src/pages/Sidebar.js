@@ -10,6 +10,7 @@ export default function Sidebar({
 }) {
   const $sidebar = document.createElement('div');
   $target.appendChild($sidebar);
+  $sidebar.className = 'sidebar';
 
   this.state = initialState;
 

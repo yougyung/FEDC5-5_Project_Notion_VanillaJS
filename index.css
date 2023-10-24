@@ -1,3 +1,275 @@
+* {
+  font-family: Pretendard, 'Noto Sans KR', sans-serif;
+  font-weight: 100;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+
+body {
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+  color: #dadada;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 786px) {
+    flex-direction: column;
+  }
+}
+
+.logo {
+  width: 25px;
+  height: 25px;
+}
+
+span:hover {
+  font-weight: 400;
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  color: #dadada;
+  font-size: 15px;
+}
+
+li {
+  margin-top: 4px;
+}
+
+li li {
+  list-style-type: none;
+  color: #dadada;
+
+  padding-left: 15px;
+}
+
+button {
+  background: none;
+  border: none;
+  color: #a6a6a6;
+
+  cursor: pointer;
+}
+
+button:hover {
+  color: #dadada;
+}
+
+h3 {
+  cursor: pointer;
+}
+
+b {
+  font-weight: 400;
+}
+
+input,
+textarea {
+  border: none;
+  background: none;
+
+  outline: none;
+  color: #dadada;
+}
+
+textarea {
+  font-size: 18px;
+  resize: none;
+  height: 100%;
+}
+
+input[name='title'] {
+  font-size: 30px;
+}
+
+/* -------------------------------SideBar------------------------------- */
+
+.sidebar-container {
+  background-color: #262626;
+  padding: 20px;
+
+  width: 380px;
+  height: 100%;
+
+  border-right: 1px solid #363636;
+  box-sizing: border-box;
+
+  @media (max-width: 786px) {
+    width: 100%;
+    height: 40%;
+  }
+}
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  @media (max-width: 786px) {
+    align-items: center;
+  }
+}
+
+.sidebar-header-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 6px;
+
+  margin-bottom: 12px;
+}
+
+.document-list {
+  overflow: scroll;
+  height: 80%;
+
+  @media (max-width: 786px) {
+    height: 100%;
+  }
+}
+
+.add-button {
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-button:hover {
+  color: #dadada;
+  background-color: #363636;
+}
+
+.toggle-button {
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.toggle-button:hover {
+  color: #dadada;
+  background-color: #363636;
+}
+
+.sidebar-header-add-button {
+  width: 100%;
+  height: 30px;
+  padding: 10px;
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.sidebar-header-add-button:hover {
+  background-color: #363636;
+  color: #dadada;
+}
+
+/* -------------------------------EditPage------------------------------- */
+
+.document-edit-page {
+  height: 100%;
+}
+
+.editor-container {
+  background-color: #1d1d1d;
+  padding: 20px 40px;
+
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  @media (max-width: 786px) {
+    padding: 20px 30px;
+  }
+}
+
+.title-container {
+  width: 100%;
+}
+
+.function-container {
+  display: flex;
+  gap: 16px;
+
+  @media (max-width: 786px) {
+    gap: 12px;
+  }
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.editor-body {
+  height: 70%;
+  margin-bottom: 20px;
+
+  box-sizing: border-box;
+  @media (max-width: 786px) {
+    margin-bottom: 0px;
+    padding-bottom: 20px;
+  }
+}
+
+.editor-footer {
+  height: 20%;
+  margin-bottom: 20px;
+
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.link-button {
+  padding: 4px 8px;
+  background-color: #363636;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+.link-button:hover {
+  color: #dadada;
+}
+
 .selected {
-  font-weight: 900;
+  font-weight: 400;
+}
+
+.unfolded {
+  transform: rotate(90deg);
 }

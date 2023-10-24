@@ -10,6 +10,7 @@ export default function DocumentList({
 }) {
   const $documentList = document.createElement('div');
   $target.appendChild($documentList);
+  $documentList.className = 'document-list';
 
   this.state = initialState;
 
@@ -26,22 +27,30 @@ export default function DocumentList({
             .map(
               (document) =>
                 `<li data-id="${document.id}">
-                  <button class="toggle-button" ${
-                    document.documents && document.documents.length === 0
-                      ? 'disabled'
-                      : ''
-                  } data-id="${document.id}">▶︎</button>
-                  <span class="${
-                    window.location.pathname === `/documents/${document.id}`
-                      ? 'selected'
-                      : ''
-                  }">${document.title}</span>
-                  <button class="add-button" data-id="${document.id}">+</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;gap:6px">
+                  <div><button class="toggle-button ${
+                    document.isFolded ? 'folded' : 'unfolded'
+                  }" data-id="${
+                    document.id
+                  }"><i class="fa fa-play"></i> </button>
+                <span class="${
+                  window.location.pathname === `/documents/${document.id}`
+                    ? 'selected'
+                    : ''
+                }">${document.title}</span>
+                  </div>
+
+                  <button class="add-button" data-id="${
+                    document.id
+                  }"><i class="fa fa-plus"></i></button>
+                </div>
+                  
                   ${
                     document.documents && !document.isFolded
                       ? renderDocuments(document.documents)
                       : ''
                   }
+                  
                 </li>`,
             )
             .join('')}

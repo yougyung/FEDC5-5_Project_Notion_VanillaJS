@@ -1,9 +1,9 @@
 export default function EditorBody({ $target, initialState, onEditing }) {
   const $editorBody = document.createElement('div');
-
   $target.appendChild($editorBody);
+  $editorBody.className = 'editor-body';
 
-  $editorBody.innerHTML = `<input type="text" name="content" style="width:500px;height:400px" value="">`;
+  $editorBody.innerHTML = `<textarea placeholder="내용을 입력해주세요" type="text" name="content" style="width:100%;height100%" value="">`;
 
   this.state = initialState;
 

@@ -9,8 +9,12 @@ import IndexPage from '../pages/IndexPage.js';
 export default function App({ $target, initialState }) {
   const $sidebarContainer = document.createElement('div');
   const $editorContainer = document.createElement('div');
+
   $target.appendChild($sidebarContainer);
   $target.appendChild($editorContainer);
+
+  $sidebarContainer.className = 'sidebar-container';
+  $editorContainer.className = 'editor-container';
 
   this.state = initialState;
 
@@ -20,11 +24,32 @@ export default function App({ $target, initialState }) {
       this.setState({ ...this.state, documents: nextState });
     },
     onDocumentAdded: async (documentId) => {
+      const updateIsFolded = (documents, targetId) => {
+        return documents.map((document) => {
+          if (document.id === targetId) {
+            return { ...document, isFolded: false };
+          }
+
+          if (document.documents && document.documents.length > 0) {
+            return {
+              ...document,
+              documents: updateIsFolded(document.documents, targetId),
+            };
+          }
+
+          return document;
+        });
+      };
+
+      const updatedDocuments = updateIsFolded(this.state.documents, documentId);
+      this.setState({ ...this.state, documents: updatedDocuments });
+
       const createdDocument = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({ title: '새 문서', parent: documentId }),
       });
       push(`/documents/${createdDocument.id}`);
+
       // 추후 낙관적 업데이트를 적용해봐도 좋을 듯 함
       fetchDocumentList();
     },
@@ -76,7 +101,9 @@ export default function App({ $target, initialState }) {
 
       return {
         ...newDocument,
-        isFolded: oldDocument ? oldDocument.isFolded : false,
+        isFolded: oldDocument
+          ? oldDocument.isFolded
+          : !newDocument.documents || newDocument.documents.length === 0,
         documents: this.mergeDocuments(
           oldDocument ? oldDocument.documents : [],
           newDocument.documents || [],

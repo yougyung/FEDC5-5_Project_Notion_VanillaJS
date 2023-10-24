@@ -1,6 +1,7 @@
 export default function EditorFooter({ $target, initialState }) {
   const $editorFooter = document.createElement('div');
   $target.appendChild($editorFooter);
+  $editorFooter.className = 'editor-footer';
 
   this.state = initialState;
 
@@ -26,12 +27,15 @@ export default function EditorFooter({ $target, initialState }) {
     };
 
     if (this.state.documents) {
-      $editorFooter.innerHTML = `<div>${this.state.title}의 하위 문서</div>
+      $editorFooter.innerHTML = `
+      <div style="font-size:18px; margin-bottom:12px">
+        <b>${this.state.title}</b>의 하위 문서
+      </div>
       
       ${
         this.state.documents.length > 0
           ? renderDocuments(this.state.documents)
-          : '하위 문서가 존재하지 않습니다.'
+          : '<p style="color:#a0a0a0">하위 문서가 존재하지 않습니다.</p>'
       }`;
     }
   };

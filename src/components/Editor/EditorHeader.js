@@ -8,14 +8,19 @@ export default function EditorHeader({
   const $titleContainer = document.createElement('div');
   const $statusContainer = document.createElement('div');
   const $removeContainer = document.createElement('div');
+  const $functionContainer = document.createElement('div');
 
   $target.appendChild($editorHeader);
   $editorHeader.appendChild($titleContainer);
-  $editorHeader.appendChild($statusContainer);
-  $editorHeader.appendChild($removeContainer);
+  $editorHeader.appendChild($functionContainer);
+  $functionContainer.appendChild($statusContainer);
+  $functionContainer.appendChild($removeContainer);
+  $editorHeader.className = 'editor-header';
+  $functionContainer.className = 'function-container';
+  $titleContainer.className = 'title-container';
 
   $titleContainer.innerHTML = `
-  <input type="text" name="title" style="width:500px" value="">`;
+  <input type="text" name="title" style="width:80%" value="">`;
 
   $removeContainer.innerHTML = `<i class="fa fa-trash remove-button"></i>`;
 
