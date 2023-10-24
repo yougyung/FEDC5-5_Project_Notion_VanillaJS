@@ -45,7 +45,6 @@ button:hover{
 .document-item{
     display: flex;
     flex-direction: column;
-
 }
 .document-item-wrapper{
     margin: 4px;
@@ -61,7 +60,7 @@ button:hover{
 }
 .document-item-wrapper > button{
     height: 20px;
-    width: 20px;
+    width: 21px;
 }
 .document-item-wrapper > button> svg{
         fill:#6D6C68;
@@ -77,15 +76,20 @@ button:hover{
 }
 .add-root-doc-btn>svg{
     margin-right: 8px;
-    width: 12px;
+    width: 10px;
     fill:#6D6C68;
     stroke: #6D6C68;
 }
 .display-none{
     display: none;
 }
+.rotate-default{
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
 .rotate-90edge{
     transform: rotate(90deg);
+    transition: transform 0.3s ease;
 }
 .document-page{
     padding-left: 250px;

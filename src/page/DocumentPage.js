@@ -1,6 +1,7 @@
 import Editor from "../component/Editor.js";
 import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
+import { push } from "../utils/router.js";
 
 // initialState : {doucmentId :null, document:null}
 export default function DocumentPage({ $target, initialState }) {
@@ -9,6 +10,11 @@ export default function DocumentPage({ $target, initialState }) {
   this.state = initialState;
   const fetchDocument = async (documentId) => {
     const document = await request(`/documents/${documentId}`);
+    if (!document) {
+      alert("존재하지 않는 문서군요?");
+      push("/");
+      return;
+    }
     this.setState(document);
   };
   fetchDocument(this.state.id);

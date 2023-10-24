@@ -34,6 +34,7 @@ export default function DocumentItem({
   const rotateSvg = () => {
     const arrowIcon = $documentItem.querySelector(".arrow-icon");
     arrowIcon.classList.toggle("rotate-90edge");
+    arrowIcon.classList.toggle("rotate-default");
   };
   const onArrowBtnClick = () => {
     const childDocuments = getChildDocuments();
@@ -59,6 +60,7 @@ export default function DocumentItem({
       rotateSvg();
     }
   };
+  isFoldedCheck();
   this.render = () => {
     $documentItem.innerHTML = "";
     //렌더타임에 붙이지 않으면, 사라진다
@@ -101,6 +103,7 @@ export default function DocumentItem({
         depth: depth,
       });
     }
+    //dom이 모두 생기고 난 후, 접기 체크
     isFoldedCheck();
   };
   $documentItemWrapper.addEventListener("click", (e) => {

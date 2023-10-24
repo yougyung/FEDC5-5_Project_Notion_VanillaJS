@@ -5,29 +5,24 @@ import ErrorPage from "./page/ErrorPage.js";
 
 export default function App({ $target }) {
   const $app = document.getElementById("app");
-  //이친구는 항상 렌더된다.
+  //NavPage는 항상 렌더되야한다
   new NavPage({
     $target,
   });
-  const documentPageProps = {
-    $target: $app,
-    initialState: {
-      documentId: null,
-      document: [],
-    },
-  };
   const routes = [{ path: "documents", component: DocumentPage }];
   this.render = async (url) => {
     const path = url ?? window.location.pathname;
     const [, pathname, pathData] = path.split("/");
-    if (pathname === "") return; //메인이면 그냥 리턴
-    //라우팅 되는 자식들은 replaceChildren으로 사용해서 깜빡임 방지..
-    if (pathname === "documents") {
+    if (pathname === "") {
+      //메인이면 메인 비워주기
+      $app.innerHTML = "";
+    } else if (pathname === "documents") {
+      //라우팅 되는 직계 자식들은 replaceChildren으로 깜빡임 방지..
       const component = routes.find(
         (route) => route.path === "documents"
       ).component;
       new component({
-        ...documentPageProps,
+        $target: $app,
         initialState: { id: pathData },
       });
     } else new ErrorPage({ $target: $app });
