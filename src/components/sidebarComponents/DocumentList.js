@@ -75,6 +75,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       onDelete(id);
     } else if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
       onAdd(id);
+      toggleDocument(id);
     } else if (target.classList.contains("list-item-title") || target.classList.contains("list-item")) {
       push(`${id}`);
     }
