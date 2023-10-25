@@ -6,7 +6,7 @@ export const ToggleButton = () => {
     const index = openIds.indexOf(id);
     if (index === -1) {
       openIds.push(id);
-    } else if (index === 0) {
+    } else if (index > -1) {
       openIds.splice(index, 1);
     }
   };
@@ -18,7 +18,7 @@ export const ToggleButton = () => {
   const toggleButton = (id) => {
     isOpen = openIds.includes(id);
 
-    return `<button class="toggle-button">
+    return `<button data-id="${id}" class="toggle-button">
     <i class="fa-solid fa-angle-${isOpen ? "down" : "right"} toggle-icon"></i>
     </button>`;
   };

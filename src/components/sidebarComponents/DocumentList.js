@@ -34,7 +34,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
         ({ id, title, documents }) => `
             <ul class="document-list">
               <li data-id="${id}" class="list-item ${id === this.state.selectedDocumentId ? "selected" : ""}" style="padding-left: ${depth * 5}px;">
-                <div data-id=${id} class="toggle-and-title">
+                <div class="toggle-and-title">
                 ${toggleButton(id)}
                   <span class="list-item-title">
                   ${filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM)}
@@ -83,10 +83,10 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
   $documentList.addEventListener("click", (event) => {
     const { target } = event;
-    const $li = target.closest(".list-item");
+    const $toggle = target.closest(".toggle-button");
 
-    if (target.classList.contains("toggle-button") || target.classList.contains("toggle-icon")) {
-      const { id } = $li.dataset;
+    if ($toggle) {
+      const { id } = $toggle.dataset;
       toggleDocumentList(parseInt(id));
       this.render();
     }
