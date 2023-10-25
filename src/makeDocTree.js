@@ -18,8 +18,8 @@ export function makeDocTree(root, depth, domTree = []) {
     }px">
         <button data-id="${child.id}" class="nav-toggle-btn toggled">▼</button>
         <div class="nav-document" data-id="${child.id}">${child.title}</div>
-        <button data-id="${child.id}" class="nav-delete-btn">✖</button>
-        <button data-id="${child.id}" class="nav-plus-btn">➕</button>
+        <button data-id="${child.id}" class="nav-delete-btn hidden">✖</button>
+        <button data-id="${child.id}" class="nav-plus-btn hidden">➕</button>
       </div>
       `;
 
