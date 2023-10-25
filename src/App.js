@@ -1,12 +1,14 @@
 import { request } from "./api/api.js";
 import Editor from "./components/Editor/Editor.js";
 import PageList from "./components/PageManager/PageList.js";
+import PageManagerHeader from "./components/PageManager/PageManagerHeader.js";
+import { removeItem, setItem } from "./util/storage.js";
 
 export default function App({ $target }) {
   this.state = {
     pageList: [],
-    targetPage: {},
-    targetPageDocuments: [],
+    targetPage: null,
+    targetPageDocuments: null,
   };
 
   const fetchDocuments = async () => {
@@ -20,8 +22,28 @@ export default function App({ $target }) {
 
   $pageManagerContainer.className = "page_manager_container";
   $editorContainer.className = "editor_container";
+  $editorContainer.style.display = "none";
   $target.appendChild($pageManagerContainer);
   $target.appendChild($editorContainer);
+
+  const $pageManagerHeader = new PageManagerHeader({
+    $target: $pageManagerContainer,
+    onNewPageAdd: async () => {
+      const createdPage = await request(`/documents`, {
+        method: "POST",
+        body: JSON.stringify({
+          title: "제목 없음",
+          parent: null,
+        }),
+      });
+      this.setState({
+        ...this.state,
+        targetPage: createdPage,
+        targetPageDocuments: null,
+      });
+      $editor.setState(createdPage);
+    },
+  });
 
   const $pageList = new PageList({
     $target: $pageManagerContainer,
@@ -35,6 +57,21 @@ export default function App({ $target }) {
       });
       $editor.setState(response);
     },
+    onSubPageAdd: async (pageId) => {
+      const createdPage = await request(`/documents`, {
+        method: "POST",
+        body: JSON.stringify({
+          title: "제목 없음",
+          parent: pageId,
+        }),
+      });
+      this.setState({
+        ...this.state,
+        targetPage: createdPage,
+        targetPageDocuments: createdPage.documents || null,
+      });
+      $editor.setState(createdPage);
+    },
     onPageDelete: async (pageId) => {
       await request(`/documents/${pageId}`, {
         method: "DELETE",
@@ -45,10 +82,33 @@ export default function App({ $target }) {
       });
     },
   });
+
+  let timer = null;
+
   const $editor = new Editor({
     $target: $editorContainer,
     initialState: this.state.targetPage,
-    onEditing: (page) => {},
+    onEditing: (page) => {
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(async () => {
+        setItem("temp-post", {
+          ...page,
+          tempSaveDate: new Date(),
+        });
+
+        await request(`/documents/${page.id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            title: page.title,
+            content: page.content,
+          }),
+        });
+        removeItem("temp-post");
+        this.render();
+      }, 2000);
+    },
   });
 
   this.setState = (nextState) => {
@@ -60,7 +120,9 @@ export default function App({ $target }) {
     await fetchDocuments();
     //$editor.render();
     if (this.state.targetPage) {
+      $editorContainer.style.display = "block";
     } else {
+      $editorContainer.style.display = "none";
     }
   };
 
