@@ -1,54 +1,53 @@
-import { $ } from "./utils/DOM.js";
+import { $ } from "./utils/DOM/selector.js";
 import { initRouter } from "./utils/router.js";
-import {
-  DUMMY_DATA,
-  DUMMY_HEADER_TABS,
-  DUMMY_SINGLE_POST_DATA,
-} from "./mock.js";
+import { DUMMY_SINGLE_DOCUMENT } from "./utils/dummy.js";
 
 import Sidebar from "./components/Sidebar/Sidebar.js";
 import EditorPage from "./components/EditorPage/EditorPage.js";
 import Header from "./components/Header/Header.js";
-import Modal from "./components/CreateModal/Modal.js";
+import Modal from "./components/Modal/Modal.js";
 import OnBoarding from "./components/onBoarding/OnBoarding.js";
 import Footer from "./components/Footer/Footer.js";
 
-import { createPost, getPost, getPostList } from "./utils/api.js";
+import { createPost, getPost, getPostList } from "./utils/service/api.js";
+import { createDocument } from "./utils/DOM/ListControl.js";
 
 export default function App({ $target }) {
-  const $leftContainer = $("#left-container");
-  const $rightContainer = $("#right-container");
+  const $leftContainer = document.createElement("div");
+  $leftContainer.id = "left-container";
+  $target.appendChild($leftContainer);
 
-  /**
-   * App에서 모든 State 관리
-   */
+  const $rightContainer = document.createElement("div");
+  $rightContainer.id = "right-container";
+  $target.appendChild($rightContainer);
 
+  /** App 컴포넌트에서 모든 state를 관리함  */
   this.state = {
-    documents: [],
-    selectedDocument: DUMMY_SINGLE_POST_DATA,
+    documents: [], // sidebar에 사용되는 문서 목록
+    selectedDocument: DUMMY_SINGLE_DOCUMENT, // 에디터에 보여줄 특정 문서
   };
 
   this.setState = nextState => {
     this.state = nextState;
-    reRender();
   };
 
-  // 모달 열기
-  const displayModal = async parentId => {
-    if (parentId === null || parentId !== "close") {
-      const newDocument = await createPost({
-        title: "제목 없음",
-        parent: parentId,
-      });
-      const newDocumentBody = await getPost(newDocument.id);
-      this.setState({ ...this.state, selectedDocument: newDocument });
-    }
-
+  /** 모달 열기 */
+  const displayModal = () => {
     $(".modal").classList.toggle("hidden");
   };
 
-  const onAddSubDocument = async parentId => {
-    await displayModal(parentId);
+  /** 새로운 문서 생성하기 */
+  const onAddNewDocument = async parentId => {
+    const newDocument = await createPost({
+      title: "",
+      parent: parentId,
+    });
+    const newDocumentBody = await getPost(newDocument.id);
+    createDocument(parentId, newDocumentBody.id); // 사이드바 dom에 추가하는거
+
+    this.setState({ ...this.state, selectedDocument: newDocumentBody });
+    modal.setState(this.state.selectedDocument);
+    displayModal();
   };
 
   /** 문서 목록 가져오기 + state 변경 + 사이드바 리렌더링 */
@@ -68,18 +67,17 @@ export default function App({ $target }) {
       ...this.state,
       selectedDocument,
     });
-
-    editorPage.setState(this.state.selectedDocument);
   };
 
   // Sidebar
   const sidebar = new Sidebar({
     $target: $leftContainer,
+    initialState: this.state.documents,
+    onAddNewDocument,
     displayModal,
-    onAddSubDocument,
   });
-  sidebar.setState();
 
+  // OnBoarding
   const onboarding = new OnBoarding({ $target: $rightContainer });
 
   // Header
@@ -88,7 +86,7 @@ export default function App({ $target }) {
   // Editor
   const editorPage = new EditorPage({
     $target: $rightContainer,
-    initialState: DUMMY_SINGLE_POST_DATA,
+    initialState: DUMMY_SINGLE_DOCUMENT,
   });
 
   // Footer
@@ -97,32 +95,35 @@ export default function App({ $target }) {
     initialState: this.state.selectedDocument.documents,
   });
 
-  // New Modal
+  // Modal
   const modal = new Modal({
     $target,
     initialState: this.state.selectedDocument,
     displayModal,
   });
 
-  const reRender = () => {
-    modal.setState(this.state.selectedDocument);
+  /** 현재 url에 맞는 문서를 가져와서 setState함 */
+  const renderDocumentSection = async () => {
+    const { pathname } = window.location;
+    const [, , documentId] = pathname.split("/");
+
+    await fetchDocument(documentId);
+    header.setState(this.state.selectedDocument.id);
+    editorPage.setState(this.state.selectedDocument);
+    footer.setState(this.state.selectedDocument.documents);
   };
 
+  /** 라우팅 */
   this.route = async () => {
-    //$target.innerHTML = ""; // 화면 비우기
     const { pathname } = window.location;
+    onboarding.display();
+    editorPage.display();
 
-    onboarding.render();
-
-    // root 접속 시 - 선택 안된 상황
     if (pathname === "/") {
+      header.setState();
+      footer.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
-      // 루트 ui 삭제 필요
-      const [, , documentId] = pathname.split("/");
-
-      header.setState(documentId);
-      await fetchDocument(documentId);
-      footer.setState(this.state.selectedDocument.documents);
+      renderDocumentSection();
     }
   };
 
