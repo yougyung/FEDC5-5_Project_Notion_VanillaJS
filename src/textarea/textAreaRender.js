@@ -1,4 +1,5 @@
 import TextAreaPage from "./textAreaPage.js";
+import TextAreaFooter from "./textAreaFooter.js";
 const $ = document;
 
 export default function TextAreaRender({ $target, initialState, onTextEditing, onTitleEditing }) {
@@ -10,9 +11,11 @@ export default function TextAreaRender({ $target, initialState, onTextEditing, o
   };
 
   const textAreaPage = new TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing });
+  const textAreaFooter = new TextAreaFooter({ $target, initialState });
 
   this.render = () => {
     textAreaPage.setState(this.state);
+    textAreaFooter.setState(this.state.documents);
   };
   this.render();
 }
