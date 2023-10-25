@@ -11,3 +11,27 @@ export const getEndFocus = (target) => {
     selection.addRange(range); // 방금 생성한 범위를 실제로 보이는 선택 영역으로 설정
     target.focus();
 };
+
+export const saveSelection = () => {
+    if (window.getSelection) {
+        const sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            return sel.getRangeAt(0);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        return document.selection.createRange();
+    }
+    return null;
+};
+
+export const restoreSelection = (range) => {
+    if (range) {
+        if (window.getSelection) {
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (document.selection && range.select) {
+            range.select();
+        }
+    }
+};

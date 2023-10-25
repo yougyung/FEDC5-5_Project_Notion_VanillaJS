@@ -5,3 +5,10 @@
     height: 20%;
     overflow: auto;
 }
+
+.editor-wrap > .document-manager > .document-child-list > .empty {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

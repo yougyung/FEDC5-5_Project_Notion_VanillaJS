@@ -38,7 +38,7 @@ export default class DocumentManager {
 
         this.$target.appendChild(this.$documentManager);
 
-        DocumentObserver.getInstance().subscribe(() => this.observerCallback.bind(this));
+        DocumentObserver.getInstance().subscribe(this.observerCallback.bind(this));
         this.getDocumentContent(this.state.documentId);
     }
 

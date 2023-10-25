@@ -31,9 +31,20 @@ export default class ChildDocumentsViewer {
         const { documentList } = this.state;
 
         this.$documentChildList.replaceChildren();
+
         if (!documentList || documentList.length === 0) {
+            const $empty = createNewElement('div', [{ property: 'className', value: 'empty' }]);
+            const $text = createNewElement(
+                'h3',
+                [{ property: 'className', value: 'empty__text' }],
+                '자식 document가 없습니다'
+            );
+
+            $empty.appendChild($text);
+            this.$documentChildList.appendChild($empty);
             return;
         }
+
         new DocumentItems({ $target: this.$documentChildList, initalState: { documentList, isRoot: true } });
     }
 
