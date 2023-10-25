@@ -18,7 +18,6 @@ export default function App({ $target }) {
   let timer = null;
 
   this.state = {
-    documentList: [],
     selectedDocument: null,
     subDocuments: null,
   };
@@ -74,16 +73,6 @@ export default function App({ $target }) {
       editor.setState(addedDocument);
       push(`/${addedDocument.id}`);
     },
-    onClickInitialAddButton: async () => {
-      const addedDocument = await addDocument(null, '제목 없음');
-
-      this.setState({
-        ...this.state,
-        selectedDocument: addedDocument,
-      });
-
-      editor.setState(addedDocument);
-    },
     onClickRemoveButton: async (id) => {
       await removeDocument(id);
       this.setState({
@@ -119,7 +108,7 @@ export default function App({ $target }) {
         await editDocument(document.id, document.title, document.content);
 
         removeItem('temp-post');
-        this.render();
+        // this.render();
       }, 1000);
     },
   });
