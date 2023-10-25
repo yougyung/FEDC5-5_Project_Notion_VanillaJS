@@ -3,7 +3,7 @@ export default function Editor({ $target, initialState }) {
   $editor.className = "editor";
   $editor.innerHTML = `
     <input class='editor_name' type="text" name="title" placeholder='제목을 입력하세요'/>
-    <div class='editor_content' name="content" contentEditable='true' placeholder='내용을 입력하세요.'></div>
+    <div class='editor_content' name="content" contentEditable='true'></div>
   `;
   this.state = initialState;
   $target.appendChild($editor);
