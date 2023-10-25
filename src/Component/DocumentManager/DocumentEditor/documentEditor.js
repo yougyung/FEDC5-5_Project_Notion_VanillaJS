@@ -1,6 +1,6 @@
 import { createNewElement } from '../../../Util/Element.js';
 import { convertToMarkup } from '../../../Util/Markup.js';
-import { getEndFocus } from '../../../Util/Focus.js';
+import { getFocus } from '../../../Util/Focus.js';
 
 // state = { title : "", content: "" }
 
@@ -57,7 +57,7 @@ export default class DocumentEditor {
             key,
             target: { value, innerHTML, name },
         } = e;
-
+        console.log(target);
         // 방향키 입력 시 종료
         if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
             return;
@@ -74,6 +74,7 @@ export default class DocumentEditor {
         if (name === 'content') {
             clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
             this.inputTimeout = setTimeout(() => {
+                const { anchorNode, anchorOffset } = window.getSelection();
                 let nextState = { ...this.state, [name]: innerHTML };
 
                 if (key === 'Enter') {
@@ -83,7 +84,7 @@ export default class DocumentEditor {
 
                 this.setState(nextState);
                 this.onEditing(nextState);
-                getEndFocus(target);
+                getFocus(target, anchorNode, anchorOffset);
             }, 500); // 500ms 동안 추가 입력이 없으면 입력 완료로 간주
         }
     }

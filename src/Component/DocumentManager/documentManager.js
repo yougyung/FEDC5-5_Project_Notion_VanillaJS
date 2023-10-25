@@ -77,8 +77,8 @@ export default class DocumentManager {
 
         if (res) {
             removeItem(DOCUMENT_CONTENT_SAVE_KEY(documentId));
+
             // content와 title이 수정되면 Editor 정보를 다시 불러와서 리렌더링을 할 필요가 없다.
-            // 그래서 불러오는 함수를 옵저버에서 삭제해준다.
             DocumentObserver.getInstance().unsubscribe(this.observerCallback.bind(this));
             DocumentObserver.getInstance().notifyAll();
             DocumentObserver.getInstance().subscribe(this.observerCallback.bind(this));
@@ -87,6 +87,7 @@ export default class DocumentManager {
         }
     }
 
+    // 옵저버 unsubscribe 삭제를 위해 같은 메모리의 함수를 등록
     observerCallback() {
         this.getDocumentContent(this.state.documentId);
     }

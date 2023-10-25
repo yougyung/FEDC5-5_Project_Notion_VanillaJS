@@ -25,11 +25,3 @@
     content: '내용을 입력해주세요';
     color: var(--sidebar_c);
 }
-
-/* .editor--hidden {
-    display: none;
-}
-
-.editor--visible {
-    display: block;
-} */

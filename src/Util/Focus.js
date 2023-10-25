@@ -1,37 +1,38 @@
-export const getEndFocus = (target) => {
+export function getFocus(target, anchorNode, anchorOffset) {
     if (!target) {
         return;
     }
-    const range = document.createRange();
-    const selection = window.getSelection();
+    const selection = document.getSelection();
 
-    range.selectNodeContents(target); // 범위를 사용해 요소의 전체 내용을 선택
-    range.collapse(false); // 범위를 끝점으로 축소. false는 시작점이 아닌 끝점을 의미
-    selection.removeAllRanges(); // 이미 만들어진 모든 선택 영역 제거
-    selection.addRange(range); // 방금 생성한 범위를 실제로 보이는 선택 영역으로 설정
+    console.log(target, anchorNode, anchorOffset);
+
     target.focus();
-};
 
-export const saveSelection = () => {
-    if (window.getSelection) {
-        const sel = window.getSelection();
-        if (sel.getRangeAt && sel.rangeCount) {
-            return sel.getRangeAt(0);
-        }
-    } else if (document.selection && document.selection.createRange) {
-        return document.selection.createRange();
-    }
-    return null;
-};
+    selection.collapse(nextTextNode, nextTextNode.length);
+}
 
-export const restoreSelection = (range) => {
-    if (range) {
-        if (window.getSelection) {
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        } else if (document.selection && range.select) {
-            range.select();
-        }
+export function changePlaceFoucs({ target, isEndPoint = false, pickOffset = 0 }) {
+    if (!target) {
+        return;
     }
-};
+    setTimeout(() => {
+        const selection = document.getSelection();
+        const offset = selection.anchorOffset;
+        target.focus();
+        const nextTextNode = selection.anchorNode;
+        if (pickOffset) {
+            selection.collapse(nextTextNode, pickOffset);
+            return;
+        }
+        if (isEndPoint) {
+            selection.collapse(nextTextNode, nextTextNode.length);
+            return;
+        }
+        if (nextTextNode.length >= offset) {
+            selection.collapse(nextTextNode, offset);
+            return;
+        }
+        selection.collapse(nextTextNode, nextTextNode.length);
+        return;
+    }, 0);
+}
