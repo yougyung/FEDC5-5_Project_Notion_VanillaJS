@@ -1,4 +1,4 @@
-import { isObject } from "@/utils/objectUtils";
+import { isObject, deepEqual } from "@/utils/objectUtils";
 
 describe("isObject", () => {
   it("should return false for primitive types", () => {
@@ -29,5 +29,44 @@ describe("isObject", () => {
   it("should return true for functions", () => {
     expect(isObject(() => {})).toBe(true);
     expect(isObject(function () {})).toBe(true);
+  });
+});
+
+describe("deepEqual", () => {
+  it("should return true for strictly equal primitives", () => {
+    expect(deepEqual(1, 1)).toBe(true);
+    expect(deepEqual("string", "string")).toBe(true);
+    expect(deepEqual(true, true)).toBe(true);
+    expect(deepEqual(null, null)).toBe(true);
+    expect(deepEqual(undefined, undefined)).toBe(true);
+  });
+
+  it("should return false for different primitives", () => {
+    expect(deepEqual(1, 2)).toBe(false);
+    expect(deepEqual("string1", "string2")).toBe(false);
+    expect(deepEqual(true, false)).toBe(false);
+  });
+
+  it("should return true for deeply equal objects", () => {
+    expect(deepEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } })).toBe(true);
+  });
+
+  it("should return false for objects with different structures", () => {
+    expect(deepEqual({ a: 1 }, { a: 1, b: 2 })).toBe(false);
+    expect(deepEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2, d: 3 } })).toBe(false);
+  });
+
+  it("should return false for objects with same structure but different values", () => {
+    expect(deepEqual({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 3 } })).toBe(false);
+  });
+
+  it("should return true for deeply equal arrays", () => {
+    expect(deepEqual([1, 2, 3], [1, 2, 3])).toBe(true);
+    expect(deepEqual([1, [2, 3]], [1, [2, 3]])).toBe(true);
+  });
+
+  it("should return false for arrays with different values or structures", () => {
+    expect(deepEqual([1, 2], [1, 2, 3])).toBe(false);
+    expect(deepEqual([1, [2, 3]], [1, [2, 4]])).toBe(false);
   });
 });
