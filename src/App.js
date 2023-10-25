@@ -47,7 +47,7 @@ export default function App({ $target }) {
       documentEditPage.setState({ documentId: currentId });
     }
 
-    sidebar.render();
+    sidebarContainer.render();
   };
 
   const onEdit = ({ id, title, content }) => {
@@ -65,12 +65,15 @@ export default function App({ $target }) {
         document: editedDocument,
       });
 
-      sidebar.render();
-    }, 600);
+      sidebarContainer.render();
+    }, 800);
   };
 
   const sidebarContainer = new SidebarContainer({
     $target,
+    initialState: {
+      selectedId: null,
+    },
     onAdd,
     onDelete,
   });
@@ -94,7 +97,13 @@ export default function App({ $target }) {
       setDocumentTitle("Notion");
     } else if (pathname.indexOf(DOCUMENTS_ROUTE) === 0) {
       const [, , documentId] = pathname.split("/");
-      documentEditPage.setState({ documentId });
+      documentEditPage.setState({
+        documentId: isNaN(documentId) ? documentId : parseInt(documentId),
+      });
+      if (isNaN(documentId)) return;
+      sidebarContainer.setState({
+        selectedId: parseInt(documentId),
+      });
     }
   };
 

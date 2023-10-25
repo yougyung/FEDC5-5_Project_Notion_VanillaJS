@@ -3,9 +3,16 @@ import { fetchDocuments } from "../../utils/api.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 import SidebarHeader from "./SidebarHeader.js";
 
-export default function SidebarContainer({ $target, onAdd, onDelete }) {
+export default function SidebarContainer({ $target, initialState, onAdd, onDelete }) {
   const $sidebar = document.createElement("div");
   $sidebar.className = "sidebar";
+
+  this.state = initialState;
+
+  this.setState = (nextState) => {
+    this.state = { ...this.state, ...nextState };
+    this.render();
+  };
 
   $target.appendChild($sidebar);
 
@@ -47,7 +54,10 @@ export default function SidebarContainer({ $target, onAdd, onDelete }) {
 
   this.render = async () => {
     const documents = await fetchDocuments(null);
-    documentList.setState({ documents });
+    documentList.setState({
+      documents,
+      selectedId: this.state.selectedId,
+    });
   };
 
   this.render();

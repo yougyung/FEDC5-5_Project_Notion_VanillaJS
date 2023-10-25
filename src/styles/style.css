@@ -76,6 +76,10 @@ button {
   background-color: #f1f1f0;
 }
 
+.document-list li.selected p {
+  font-weight: 800;
+}
+
 .document-list p.document-item {
   display: block;
   width: 100%;
@@ -123,6 +127,8 @@ button {
 
 .document-add-button.sidebar-bottom {
   display: inline-flex;
+  position: fixed;
+  bottom: 0;
   width: inherit;
   padding: 12px 0;
   border-top: 1.5px solid #ededec;

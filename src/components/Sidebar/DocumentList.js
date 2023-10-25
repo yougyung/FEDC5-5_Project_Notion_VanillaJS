@@ -48,7 +48,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
             <ul>
               <li 
                 data-id="${id}" 
-                class="${DOCUMENT_ITEM}" 
+                class="${DOCUMENT_ITEM} ${id === this.state.selectedId ? "selected" : ""}"  
                 style="padding-left: ${generateTextIndent(depth)}px">
                 ${renderButton(id)}
                 <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
@@ -94,6 +94,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
     if (target.classList.contains(DOCUMENT_ITEM)) {
       push(`${DOCUMENTS_ROUTE}/${id}`);
+      this.render();
     } else if (target.classList.contains(ADD)) {
       setItem(NEW_PARENT, id);
       onAdd(id);
