@@ -17,9 +17,9 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
   const { openIds, toggleButton, toggleDocumentList, openDocumentList } = ToggleButton();
 
-  const listItemButtons = `
+  const listItemButtons = (id) => `
     <div class="list-item-buttons">
-      <button class="delete-button" type="button">
+      <button data-id="${id}" class="delete-button" type="button">
         <i class="fa-regular fa-trash-can delete-icon"></i>
       </button>
       <button class="add-button" type="button">
@@ -40,7 +40,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                   ${filterTitle(title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM)}
                   </span>
                 </div>
-                      ${listItemButtons}
+                      ${listItemButtons(id)}
               </li>
                 ${
                   openIds.includes(id)
@@ -64,6 +64,16 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
         `;
   };
 
+  $documentList.addEventListener("click", (event) => {
+    const { target } = event;
+    const $delete = target.closest(".delete-button");
+
+    if ($delete) {
+      const { id } = $delete.dataset;
+      onDelete(parseInt(id));
+    }
+  });
+
   $documentList.addEventListener("click", async (event) => {
     const { target } = event;
     const $li = target.closest(".list-item");
@@ -71,9 +81,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     let { id } = $li.dataset;
     id = parseInt(id);
 
-    if (target.classList.contains("delete-button") || target.classList.contains("delete-icon")) {
-      onDelete(id);
-    } else if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
+    if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
       onAdd(id);
       openDocumentList(id);
     } else if (target.classList.contains("list-item-title") || target.classList.contains("list-item")) {
