@@ -1,0 +1,44 @@
+body {
+    
+}
+
+/* App */
+#app {
+    display: flex;
+}
+
+/* Editor */
+.editor{
+    width: 100%;
+}
+
+.editor input {
+    width: 100%;
+}
+
+.editor textarea {
+    width: 100%
+}
+
+/* LeftBar */
+.leftBar {
+    width: 240px;
+    height: 100vh;
+    border: 1px solid red;
+}
+
+.leftBar div {
+    /* transition: all 0.2s; */
+}
+
+.leftBar ul li > ul {
+    /* opacity: 0; */
+    /* height: 0; */
+    display: none;
+}
+
+.leftBar ul li.show > ul {
+    /* opacity: 1; */
+    /* height: max-content; */
+    display: block;
+}
