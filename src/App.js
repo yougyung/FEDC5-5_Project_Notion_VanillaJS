@@ -54,11 +54,9 @@ export default function App({ $target }) {
           document: newSubDocument,
         });
 
-        const documents = await request("");
-
         sidebar.setState({
-          ...this.state,
-          documents,
+          ...sidebar.state,
+          selectedDocumentId: parseInt(newSubId),
         });
       }
     } catch (error) {
