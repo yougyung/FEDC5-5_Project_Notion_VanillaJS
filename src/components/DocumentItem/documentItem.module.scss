@@ -57,11 +57,10 @@
   flex-shrink: 0;
 }
 
-.s_index {
-  color: color.$onPrimary;
-  margin-right: 0.3rem;
-}
-
 :global(.rotated) {
   transform: rotate(90deg);
+}
+
+:global(.show) {
+  display: block;
 }
