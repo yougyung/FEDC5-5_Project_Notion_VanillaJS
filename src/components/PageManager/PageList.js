@@ -2,6 +2,7 @@ export default function PageList({
   $target,
   initialState,
   onPageSelect,
+  onSubPageAdd,
   onPageDelete,
 }) {
   const $pageList = document.createElement("div");
@@ -90,19 +91,16 @@ export default function PageList({
   $pageList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
+    console.log(e.target.className);
     if (id === undefined) return;
-    const className = $li.className;
-    console.log(className);
+    const className = e.target.className;
     if (className === "toggle_button") {
-      console.log("toggle");
-    } else if (className === "page_item") {
-      console.log("item title");
+    } else if (className === "item_title") {
       onPageSelect(id);
     } else if (className === "delete_button") {
-      console.log("delete");
       onPageDelete(id);
     } else if (className === "add_button") {
-      console.log("add");
+      onSubPageAdd(id);
     }
     console.log(id);
   });
