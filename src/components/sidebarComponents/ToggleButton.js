@@ -2,7 +2,7 @@ export const ToggleButton = () => {
   let isOpen = false;
   const openIds = [];
 
-  const toggleDocument = (id) => {
+  const toggleDocumentList = (id) => {
     const index = openIds.indexOf(id);
     if (index === -1) {
       openIds.push(id);
@@ -23,5 +23,5 @@ export const ToggleButton = () => {
     </button>`;
   };
 
-  return { openIds, toggleButton, toggleDocument, openDocumentList };
+  return { openIds, toggleButton, toggleDocumentList, openDocumentList };
 };
