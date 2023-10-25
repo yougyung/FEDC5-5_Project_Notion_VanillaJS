@@ -7,7 +7,7 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
   $contentInnerModal.contentEditable = false;
   console.log(selectionStart);
   if (selectionStart < 28) {
-    $contentInnerModal.style.left = `${selectionStart === 1 ? 0 : selectionStart + 60}px`;
+    $contentInnerModal.style.left = `${selectionStart === 1 || 6 ? 0 : selectionStart + 60}px`;
   } else {
     $contentInnerModal.style.right = `${selectionStart + 22}px`;
   }
