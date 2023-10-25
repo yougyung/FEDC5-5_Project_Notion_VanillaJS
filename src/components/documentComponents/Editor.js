@@ -28,7 +28,7 @@ export default function Editor({ $target, initialState, onEdit }) {
     const { title, content } = this.state;
 
     $editor.querySelector(".title").textContent = title;
-    $editor.querySelector(".content").textContent = `${content}`;
+    $editor.querySelector(".content").textContent = content;
   };
 
   $editor.addEventListener("input", (event) => {
