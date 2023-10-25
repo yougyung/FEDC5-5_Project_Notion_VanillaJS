@@ -38,6 +38,12 @@ export default function HelpCard({ target }) {
     <p class="empty"> </p>
     <p>💡 체크박스에서 엔터 입력시 추가 체크박스 생성 가능! </p>
     <div> </div>
+    <h3>✏️ 코드 블록</h3>
+    <p>비어있는 줄에서 \`\`\` 입력후 스페이스바 입력시 </p>
+    <p>코드블록으로 전환됩니다.</p>
+    <p class="empty"> </p>
+    <p>💡 제거는 맨앞에서 back space 입력해주세요! </p>
+    <div> </div>
     <h3>✏️ 굵은 글씨</h3>
     <p>원하는 텍스트 양옆에 *** 작성후 스페이스바 입력시 만들어집니다.</p>
   `;

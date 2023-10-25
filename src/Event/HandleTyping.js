@@ -74,6 +74,7 @@ export default function handleTyping({ event }) {
     });
   }
 
+  /* 체크박스 */
   if (text.indexOf("[]") === 0) {
     hasClass(target);
     target.removeAttribute("contenteditable");
@@ -92,6 +93,29 @@ export default function handleTyping({ event }) {
       target: labelElement.getElement(),
       isEndPoint: true,
     });
+
+    return;
+  }
+
+  /* 코드 블록 */
+  if (text.indexOf("```") === 0) {
+    target.innerHTML = "";
+    const preElement = new CreateEditTextElement({
+      target: target.parentNode,
+      className: "prebox",
+      element: "pre",
+      noContentEdit: true,
+      insertBeforeTarget: target,
+    });
+
+    const codeElement = new CreateEditTextElement({
+      target: preElement.getElement(),
+      className: "codeblock",
+      element: "code",
+    });
+
+    changePlaceFoucs({ target: codeElement.getElement() });
+    return;
   }
 
   /* 굵은 글씨 */

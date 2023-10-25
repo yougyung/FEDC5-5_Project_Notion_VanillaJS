@@ -13,7 +13,7 @@ export function controlKey({ event, target }) {
   if (event.key === "Enter") {
     enterEvent({
       event,
-      EditorElement: target,
+      editorElement: target,
       nextTarget,
       prevTarget,
       eventTarget,
@@ -28,18 +28,17 @@ export function controlKey({ event, target }) {
       prevTarget,
       nextTarget,
       event,
-      EditorElment: target,
+      editorElment: target,
     });
     return;
   }
 
   /* ArrowUp 화살표 이동 관련 */
   if (event.key === "ArrowUp") {
-    event.preventDefault();
-
     arrowUpEvent({
       eventTarget,
       prevTarget,
+      event,
     });
     return;
   }
@@ -47,8 +46,6 @@ export function controlKey({ event, target }) {
   /* ArrowDown 화살표 관련 */
 
   if (event.key === "ArrowDown") {
-    event.preventDefault();
-
     arrowDownEvent({
       event,
       eventTarget,

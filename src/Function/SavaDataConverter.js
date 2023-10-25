@@ -1,6 +1,6 @@
 export default function SavaDataConverter(text) {
   const makeArray = text
-    .replace(/<\/div>/g, "<pass>")
+    .replace(/(<\/div>|<\/pre>)/g, "<pass>")
     .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
@@ -10,7 +10,10 @@ export default function SavaDataConverter(text) {
     .replace(/&#039;/g, "'")
     .split("<pass>");
 
-  makeArray.pop();
+  if (makeArray[makeArray.length - 1] === "") {
+    makeArray.pop();
+  }
+
   const result = makeArray.map((item) => {
     /* 볼드체 */
     if (item.includes("<b>")) {
@@ -72,12 +75,21 @@ export default function SavaDataConverter(text) {
       return text.replace(/<\/label>/, "");
     }
 
+    /* no checked */
     if (item.includes(`class="checkbox_input"`)) {
       const text = item.replace(
         /<div class="checkbox"><input type="checkbox" class="checkbox_input"><label contenteditable="true" class="checkbox_text">/,
         "<[]>"
       );
       return text.replace(/<\/label>/, "");
+    }
+    if (item.includes(`class="codeblock"`)) {
+      const text = item.replace(
+        /<pre class="prebox"><code contenteditable="true" class="codeblock">/,
+        "<isCode>"
+      );
+
+      return text.replace(/<\/code>/, "");
     }
 
     /* 일반 div 페이지 줄 변환 */

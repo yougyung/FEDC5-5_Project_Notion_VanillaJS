@@ -13,7 +13,7 @@ export function changePlaceFoucs({
     target.focus();
     const nextTextNode = selection.anchorNode;
 
-    if (pickOffset) {
+    if (pickOffset && nextTextNode.length >= pickOffset) {
       selection.collapse(nextTextNode, pickOffset);
       return;
     }

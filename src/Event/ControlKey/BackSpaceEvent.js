@@ -1,3 +1,4 @@
+import CreateEditTextElement from "../../Components/PageViewer/Editor/CreateEditTextElement.js";
 import { changePlaceFoucs } from "../../Function/Focus.js";
 
 export default function backspaceEvent({
@@ -5,9 +6,10 @@ export default function backspaceEvent({
   prevTarget,
   nextTarget,
   event,
-  EditorElment,
+  editorElment,
 }) {
   const targetClassName = eventTarget.className;
+  /* 제목 삭제 */
   if (
     targetClassName === "h1" ||
     targetClassName === "h2" ||
@@ -32,18 +34,6 @@ export default function backspaceEvent({
     return;
   }
 
-  /* 삭제후 이동 대상이 콜박스 일때 */
-  if (prevTarget && prevTarget.className === "callBox") {
-    event.preventDefault();
-    const text = eventTarget.innerText;
-    const focusTarget = prevTarget.lastChild;
-    const pickOffset = focusTarget.innerText.length;
-    focusTarget.innerText += text;
-    changePlaceFoucs({ target: focusTarget, pickOffset });
-    eventTarget.remove();
-    return;
-  }
-
   /* 체크박스 */
   if (eventTarget.className === "checkbox_text") {
     event.preventDefault();
@@ -59,13 +49,35 @@ export default function backspaceEvent({
   }
 
   /* 삭제후 이동 대상이 체크박스 */
-  if (prevTarget && prevTarget.className === "checkbox") {
+  /* 삭제후 이동 대상이 콜박스 일때 */
+  /* 삭제후 이동 대상이 코드 블록 일때 */
+  if (
+    prevTarget &&
+    (prevTarget.className === "checkbox" ||
+      prevTarget.className === "prebox" ||
+      prevTarget.className === "callBox")
+  ) {
     event.preventDefault();
     const text = eventTarget.innerText;
     const focusTarget = prevTarget.lastChild;
     const pickOffset = focusTarget.innerText.length;
     focusTarget.innerText += text;
     changePlaceFoucs({ target: focusTarget, pickOffset });
+    eventTarget.remove();
+    return;
+  }
+
+  /* code block 삭제 */
+  if (eventTarget.className === "codeblock") {
+    event.preventDefault();
+    const text = eventTarget.innerText;
+    const parentElement = eventTarget.parentNode;
+    new CreateEditTextElement({
+      target: parentElement.parentNode,
+      text,
+      insertBeforeTarget: parentElement,
+    });
+    parentElement.remove();
     eventTarget.remove();
     return;
   }
@@ -81,21 +93,14 @@ export default function backspaceEvent({
     return;
   }
 
-  /* 체크박스 삭제 관련 */
-
-  if (prevTarget && prevTarget.className === "checkBox") {
-    event.preventDefault();
-    console.log("fsadsa");
-  }
-
   /* 다음 값이 없으면 이전값으로 */
-  if (EditorElment.childElementCount > 1 && !prevTarget) {
+  if (editorElment.childElementCount > 1 && !prevTarget) {
     changePlaceFoucs({ target: nextTarget, isEndPoint: true });
     eventTarget.remove();
     return;
   }
 
-  if (EditorElment.childElementCount > 1) {
+  if (editorElment.childElementCount > 1) {
     event.preventDefault();
     const text = eventTarget.innerText;
     const pickOffset = prevTarget.innerText.length;

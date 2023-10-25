@@ -3,10 +3,11 @@ import CreateEditTextElement from "../../Components/PageViewer/Editor/CreateEdit
 
 export default function enterEvent({
   nextTarget,
-  EditorElement,
+  editorElement,
   event,
   eventTarget,
 }) {
+  const { isComposing } = event;
   const evnetTargetText = eventTarget.innerText;
   /* 추가로직 중 구분선 */
   if (
@@ -19,7 +20,7 @@ export default function enterEvent({
     const text = evnetTargetText.slice(cutLength);
     eventTarget.innerText = evnetTargetText.slice(0, cutLength);
     const newElement = new CreateEditTextElement({
-      target: EditorElement,
+      target: editorElement,
       text,
       insertBeforeTarget: nextTarget,
     });
@@ -30,22 +31,21 @@ export default function enterEvent({
   }
 
   /* 체크박스에서 엔터 */
-  if (
-    eventTarget.className === "checkbox_text" &&
-    event.isComposing === false
-  ) {
+  if (eventTarget.className === "checkbox_text" && isComposing === false) {
     event.preventDefault();
     const cutLength = getOffset();
     const text = evnetTargetText.slice(cutLength);
     eventTarget.innerText = evnetTargetText.slice(0, cutLength);
 
     const checkBoxElement = new CreateEditTextElement({
-      target: EditorElement,
+      target: editorElement,
       noContentEdit: true,
       className: "checkbox",
       insertBeforeTarget: eventTarget.parentNode,
     });
+
     checkBoxElement.getElement().innerHTML = `<input type="checkbox" class="checkbox_input">`;
+
     new CreateEditTextElement({
       target: checkBoxElement.getElement(),
       className: "checkbox_text",
@@ -55,15 +55,48 @@ export default function enterEvent({
     return;
   }
 
-  /* 기본 추가 */
-  if (event.isComposing === false) {
+  /* 콜 아웃 에서 엔터  */
+  if (eventTarget.className === "callBox_textBox" && isComposing === false) {
+    event.preventDefault();
+    const cutLength = getOffset();
+    const text = evnetTargetText.slice(cutLength);
+    eventTarget.innerText = evnetTargetText.slice(0, cutLength);
+    new CreateEditTextElement({
+      target: editorElement,
+      text,
+      insertBeforeTarget: eventTarget.parentNode,
+    });
+
+    return;
+  }
+
+  /* code block */
+  if (
+    event.shiftKey &&
+    eventTarget.className === "codeblock" &&
+    isComposing === false
+  ) {
+    event.preventDefault();
+    new CreateEditTextElement({
+      target: editorElement,
+      insertBeforeTarget: eventTarget.parentNode,
+    });
+    return;
+  }
+
+  if (eventTarget.className === "codeblock") {
+    return;
+  }
+
+  if (isComposing === false) {
+    /* 기본 추가 */
     event.preventDefault();
     const cutLength = getOffset();
     const text = evnetTargetText.slice(cutLength);
     eventTarget.innerText = evnetTargetText.slice(0, cutLength);
 
     new CreateEditTextElement({
-      target: EditorElement,
+      target: editorElement,
       text,
       insertBeforeTarget: eventTarget,
     });

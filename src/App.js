@@ -110,15 +110,6 @@ export default function App({ target }) {
           removeStorage(id);
         }
         await getPageList("/documents");
-
-        /* 백업 */
-        /* 꼭... 새로운 데이터를 불러와야하는가? */
-
-        // const page = await getChechkedPage(id);
-        // /* 유효성 검사 */
-        // if (pagePropValidation(page)) {
-        //   pageViewer.setState(page);
-        // }
       }, 600);
     },
   });

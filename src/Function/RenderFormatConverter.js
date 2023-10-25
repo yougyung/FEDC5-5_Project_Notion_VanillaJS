@@ -1,4 +1,5 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
+import { changePlaceFoucs } from "./Focus.js";
 
 export default function RenderFormatConverter({ text, target }) {
   /* 볼드체 */
@@ -6,7 +7,6 @@ export default function RenderFormatConverter({ text, target }) {
   if (boldReg.test(text)) {
     text = text.replace(/\*\*\*/, "<b>").replace(/\*\*\*/, "</b>");
   }
-  console.log(text);
   /* 제목 관련 */
   /* h1 요소 생성 */
   if (text.indexOf("# ") === 0) {
@@ -76,6 +76,7 @@ export default function RenderFormatConverter({ text, target }) {
   }
 
   /* 체크 박스 관련 */
+  /* isChecked */
   if (text.indexOf("<[x]>") === 0) {
     const replaced = text.replace(/<\[x\]>/, "");
     const checkBoxElement = new CreateEditTextElement({
@@ -93,6 +94,7 @@ export default function RenderFormatConverter({ text, target }) {
     return;
   }
 
+  /* no checked */
   if (text.indexOf("<[]>") === 0) {
     const replaced = text.replace(/<\[\]>/, "");
     const checkBoxElement = new CreateEditTextElement({
@@ -107,6 +109,29 @@ export default function RenderFormatConverter({ text, target }) {
       element: "label",
       text: replaced,
     });
+    return;
+  }
+
+  /* code block */
+  if (text.indexOf("<isCode>") === 0) {
+    const replaced = text.replace(/<isCode>/, "");
+
+    const preElement = new CreateEditTextElement({
+      target: target,
+      className: "prebox",
+      element: "pre",
+      noContentEdit: true,
+      insertBeforeTarget: target,
+    });
+
+    const codeElement = new CreateEditTextElement({
+      target: preElement.getElement(),
+      className: "codeblock",
+      element: "code",
+      text: replaced,
+    });
+
+    changePlaceFoucs({ target: codeElement.getElement() });
     return;
   }
 
