@@ -27,6 +27,10 @@ export default function DocumentPage({ $target, initialState }) {
     editor.setState({
       ...this.state,
     });
+    editor.richEditorState = {
+      ...this.richEditorState,
+      content: this.state.content,
+    };
     editor.renderContent();
   };
   this.render = () => {

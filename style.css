@@ -153,10 +153,18 @@ button:hover{
      font-size: 16px;
 }
 .content{
-    height: 25px;
     word-break: break-all;
     white-space: break-spaces;
     border: 1px solid black;
+}
+.content::before{
+    color:#a4a4a4;
+}
+[contenteditable="true"]:empty::before {
+    content: attr(placeholder);
+ }
+.placeholder-h::before{
+    color:#a4a4a4;
 }
 .resize-cursor{
     cursor: col-resize;

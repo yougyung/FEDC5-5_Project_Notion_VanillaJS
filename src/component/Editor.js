@@ -21,8 +21,9 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     $editor.querySelector("[data-name=title]").value = this.state.title;
   };
   this.renderContent = () => {
-    if (this.state.content && this.state.content.length)
-      $editor.querySelector(".content-wrapper").innerHTML = this.state.content;
+    const { content } = this.richEditorState;
+    if (content && content.length)
+      $editor.querySelector(".content-wrapper").innerHTML = content;
   };
   const makeNewLine = () => {
     const newLine = document.createElement("div");
@@ -31,28 +32,48 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     newLine.setAttribute("placeholder", "내용을 입력하쎄용");
     return newLine;
   };
+  this.richEditorState = { content: null };
   const convertMarkDown = (text) => {
-    const converted = text.split("\n").map((line) => {
-      if (line.indexOf("# ") === 0) {
-        return `<h1>${line.substring(2)}</h1>`;
-      } else if (line.indexOf("## ") === 0) {
-        return `<h2>${line.substring(3)}</h2>`;
-      } else if (line.indexOf("### ") === 0) {
-        return `<h3>${line.substring(4)}</h3>`;
-      } else if (line.indexOf("#### ") === 0) {
-        return `<h4>${line.substring(5)}</h4>`;
-      }
-      return line;
-    });
-    console.log(converted);
-    return converted.join("\n");
+    let isConverted = false;
+    const prevText = text.split("\n").join("\n");
+    const converted = text
+      .split("\n")
+      .map((line) => {
+        if (line.indexOf("# ") === 0) {
+          return `<h1 contenteditable="true" class="placeholder-h" placeholder="제목1">${line.substring(
+            2
+          )}</h1>`;
+        } else if (line.indexOf("## ") === 0) {
+          return `<h2 contenteditable="true" class="placeholder-h">${line.substring(
+            3
+          )}</h2>`;
+        } else if (line.indexOf("### ") === 0) {
+          return `<h3 contenteditable="true" class="placeholder-h">${line.substring(
+            4
+          )}</h3>`;
+        } else if (line.indexOf("#### ") === 0) {
+          return `<h4 contenteditable="true" class="placeholder-h">${line.substring(
+            5
+          )}</h4>`;
+        }
+        return line;
+      })
+      .join("\n");
+    if (prevText !== converted) {
+      isConverted = true;
+    }
+    return [converted, isConverted];
   };
   const keyDownHandler = (e) => {
     //innerHTML수정하면 등록된 핸들러 날아가니까, 이벤트 위임 사용
     const $textBox = $editor.querySelector(".content-wrapper :last-child");
-    if (e.target !== $textBox) return;
+    if (e.target !== $textBox) {
+      return;
+    }
     //엔터 칠때마다 새로운 div 생성
-    if (e.isComposing) return; //isComposing은 합성글자(한글같은 문자)에대해 체크해준다.
+    if (e.isComposing) {
+      return;
+    } //isComposing은 합성글자(한글같은 문자)에대해 체크해준다.
     switch (e.key) {
       case "Enter":
         e.preventDefault();
@@ -62,13 +83,14 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
         nextLine.focus();
         break;
       case "Backspace":
-        const target = e.currentTarget;
-        if (!target.innerHTML) {
+        if (!$textBox.innerHTML) {
           e.preventDefault();
-          const prevLine = target.previousElementSibling;
-          prevLine.focus();
-          getSelection().collapse(prevLine, prevLine.childNodes.length);
-          target.remove();
+          const prevLine = $target.previousElementSibling;
+          if (prevLine) {
+            prevLine.focus();
+            getSelection().collapse(prevLine, prevLine.childNodes.length);
+            $target.remove();
+          }
         }
         break;
       case "ArrowUp":
@@ -88,11 +110,16 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
         title: e.target.value,
       };
     } else if (e.target.className === "content") {
-      const converted = convertMarkDown(e.target.innerHTML);
-      const prevCaret = getSelection().anchorOffset;
-      e.target.innerHTML = converted;
-      e.target.focus();
-      getSelection().collapse(e.target.childNodes[0], prevCaret);
+      const [converted, isConverted] = convertMarkDown(e.target.innerHTML);
+      if (isConverted) {
+        console.log("바뀜");
+        e.target.innerHTML = converted;
+        e.target.focus();
+        getSelection().collapse(e.target.childNodes[0], 0);
+      } else if (!e.target.innerHTML) {
+        e.target.focus();
+        getSelection().collapse(e.target, 0);
+      }
       const content = e.target.parentNode.innerHTML;
       nextState = {
         ...nextState,
