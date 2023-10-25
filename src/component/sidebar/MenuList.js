@@ -19,7 +19,6 @@ export default class MenuList {
     }
 
     render() {
-        console.log("*");
         this.sidebar.innerHTML = `
         <div>
             ${this.arr.map((menuItem) => (menuItem.render())).join('')} 

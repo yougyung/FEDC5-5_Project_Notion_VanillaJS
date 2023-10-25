@@ -1,5 +1,5 @@
-import MenuList from "./component/sidebar/MenuList.js";
+import Sidebar from "./component/sidebar/Sidebar.js";
 
-const $target = document.querySelector('#app');
-const $sidebar = document.querySelector('.sidebar');
-new MenuList($sidebar);
+const rootElement = document.querySelector('#app');
+
+const sidebar = new Sidebar(rootElement);
