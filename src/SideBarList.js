@@ -43,11 +43,6 @@ export default function SideBarList({
         id: doc.id,
         handleChangeList,
       });
-      // new DeletPageButton({
-      //   $target: $subLi.firstChild,
-      //   id: doc.id,
-      //   handleChangeList,
-      // });
       $subUl.appendChild($subLi);
       if (doc.documents.length > 0) {
         const newDocuments = doc.documents;
@@ -68,16 +63,13 @@ export default function SideBarList({
   this.render();
 
   $sideBarList.addEventListener("click", (e) => {
-    const { tagName, className } = e.target;
+    const { tagName, className, classList } = e.target;
     console.log(e.target);
-    if (className === "toggle_button") {
+    if (classList.contains("toggle_button")) {
       // ⩥⊽ 여닫기
       console.log("click toggle_button");
-      e.target.innerHTML =
-        e.target.innerHTML ===
-        `<img src="../assets/down.png" style="width:12px; height:12px"></img>`
-          ? `<img src="../assets/right.png" style="width:12px; height:12px"></img>`
-          : `<img src="../assets/down.png" style="width:12px; height:12px"></img>`;
+      e.target.innerHTML = `<img src="../assets/down.png" style="width:12px; height:12px"></img>`;
+      e.target.classList.toggle("open");
       const li = e.target.closest("li");
       const liChilds = li.lastChild.tagName === "UL" ? li.lastChild : null;
       if (liChilds) {
@@ -85,10 +77,7 @@ export default function SideBarList({
           liChilds.style.display !== "none" ? "none" : "block";
       }
     } else if (className === "new_button") {
-      // ➕ 하위 페이지
-      console.log("click new_button");
       const closestLi = e.target.closest("li");
-      console.log("closestLi", closestLi.dataset.id);
     } else {
       // 그외 div.each영역 -> editPage에 그 페이지 열어줌
       const li = e.target.closest("li");

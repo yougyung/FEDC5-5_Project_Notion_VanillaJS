@@ -10,7 +10,7 @@ export function pageAddDeleteButton({ $target, id = null, handleChangeList }) {
     $newPageButton.innerHTML = "➕";
     $newPageButton.className = "plus_page_button";
   } else {
-    $newPageButton.innerHTML = "새로운 페이지";
+    $newPageButton.innerHTML = "새 페이지";
     $newPageButton.className = "plus_new_page_button";
   }
   $buttonWrap.appendChild($newPageButton);

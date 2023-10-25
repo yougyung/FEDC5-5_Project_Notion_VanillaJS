@@ -10,10 +10,10 @@ export default function EditPage({ $target, initialState }) {
   $editPage.className = "edit_page";
   this.state = initialState;
 
-  const searchBox = new SearchBox({
-    $target: $editPage,
-    initialState,
-  });
+  // const searchBox = new SearchBox({
+  //   $target: $editPage,
+  //   initialState,
+  // });
   // [ ] 타이틀이랑 같은 레벨에 오른쪽에 있도록
 
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
@@ -76,7 +76,7 @@ export default function EditPage({ $target, initialState }) {
 
     editor.setState(res);
     subPages.setState(res.documents);
-    searchBox.setState();
+    // searchBox.setState();
     this.render();
   };
 
