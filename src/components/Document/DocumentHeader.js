@@ -10,7 +10,7 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
   const $logo = document.createElement('div');
   $logo.className = 'logo';
   $logo.innerHTML = `
-    <img src="/images/notion-logo.svg" alt="Nution" class="logo-img" />
+    <img src="./images/notion-logo.svg" alt="Nution" class="logo-img" />
   `
   
   const $logoTitle = document.createElement('div');
