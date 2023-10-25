@@ -10,12 +10,14 @@ import Editor from "./components/Editor.js";
 import { getItem, setItem } from "./utils/storage.js";
 import recursion from "./utils/recursion.js";
 import Modal from "./components/Modal.js";
+import Loading from "./components/Loading.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
   $container.id = "container";
   $target.appendChild($container);
 
+  const loading = new Loading({ $container });
   const modal = new Modal({ $container });
 
   const documentTree = new DocumentTree({
@@ -47,9 +49,11 @@ export default function App({ $target }) {
       });
     },
     onClick: async (id) => {
+      loading.setState({ isLoading: true });
       history.pushState(null, null, `/document/${id}`);
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
+      loading.setState({ isLoading: false });
     },
     onDelete: async (id) => {
       await api.delete(DELETE_API_DOCUMENT(id));
@@ -83,9 +87,11 @@ export default function App({ $target }) {
   });
 
   this.init = async () => {
+    loading.setState({ isLoading: true });
     const data = await api.get(GET_API_DOCUMENT_TREE);
     documentTree.setState(data);
     setItem("documentTree", data);
+    loading.setState({ isLoading: false });
   };
 
   this.route = async () => {
@@ -93,9 +99,11 @@ export default function App({ $target }) {
 
     const { pathname } = window.location;
     if (pathname.includes("/document/")) {
+      loading.setState({ isLoading: true });
       const [_, id] = pathname.split("/document/");
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
+      loading.setState({ isLoading: false });
     }
   };
 
