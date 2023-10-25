@@ -18,9 +18,10 @@ const reducer = async (state, action) => {
       return { ...state, documents: updatedDocuments, newDocument }
 
     case "DELETE":
-      await deleteDocumentById(action.payload)
+      const deletedDocument = await deleteDocumentById(action.payload)
+      console.log(deletedDocument)
       const deletedDocuments = await fetchAllDocuments()
-      return { ...state, documents: deletedDocuments }
+      return { ...state, documents: deletedDocuments, deletedDocument }
 
     default:
       return { ...state }

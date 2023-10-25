@@ -57,6 +57,7 @@ export const deleteDocumentById = async id => {
   const data = await requestDocument(`${DOCUMENTS}/${id}`, {
     method: "DELETE"
   })
+  return data
 }
 
 export const editDocument = async (id, content) => {
