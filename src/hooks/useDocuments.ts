@@ -33,7 +33,7 @@ const useDocuments = () => {
       const updatedDocument = await updateDocument({ id, title, content });
 
       fetchDocuments();
-      return await updatedDocument;
+      return updatedDocument;
     } catch (error) {
       console.error(error);
     }
@@ -44,7 +44,7 @@ const useDocuments = () => {
       const deletedDocument = await deleteDocument(id);
 
       fetchDocuments();
-      return await deletedDocument;
+      return deletedDocument;
     } catch (error) {
       console.error(error);
     }
