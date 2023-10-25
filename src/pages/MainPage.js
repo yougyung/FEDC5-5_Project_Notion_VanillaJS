@@ -26,9 +26,12 @@ export default class MainPage extends Component {
     this.state = { currentId: null };
 
     this.$sidebar = document.createElement('aside');
+    this.$sidebar.classList.add('sidebar');
     this.$section = document.createElement('section');
+    this.$section.classList.add('section');
     this.$documentList = new DocumentList(this.$sidebar, {
       onSelect: this.handleDocumentSelect.bind(this),
+      onToggle: this.handleDocumentToggle.bind(this),
       onCreate: this.handleDocumentCreate.bind(this),
       onDelete: this.handleDocumentDelete.bind(this),
     });
@@ -77,6 +80,10 @@ export default class MainPage extends Component {
 
   handleDocumentSelect(documentId) {
     push(`${API_END_POINT.DOCUMENTS}/${documentId}`);
+  }
+
+  handleDocumentToggle(documentId) {
+    console.log(documentId);
   }
 
   async handleDocumentCreate(documentId = null) {
