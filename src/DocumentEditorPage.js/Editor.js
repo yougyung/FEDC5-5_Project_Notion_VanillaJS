@@ -31,17 +31,22 @@ export default function Editor({
   };
 
   this.render = () => {
-    console.log(this.state.content);
-    // const richContent = this.state.content
-    //   .split("\n")
-    //   .map((line) => {
-    //     return `${line}<br>`;
-    //   })
-    //   .join("");
+    const richContent = this.state.content
+      ? this.state.content
+          .split("\n")
+          .map((line) => {
+            if (line.indexOf("# ") === 0) {
+              return `<h1>${line.substr(2)}</h1>`;
+            } else if (line.indexOf("## ") === 0) {
+              return `<h2>${line.substr(3)}</h2>`;
+            }
+            return `${line}<br>`;
+          })
+          .join("")
+      : this.state.content;
 
     $editor.querySelector("[name=title]").value = this.state.title;
-    // $editor.querySelector("[name=content]").innerHTML = richContent;
-    $editor.querySelector("[name=content]").innerHTML = this.state.content;
+    $editor.querySelector("[name=content]").innerHTML = richContent;
   };
 
   this.render();
