@@ -1,20 +1,16 @@
-import Header from "../Header/Header.js";
-import Editor from "./Editor/Editor.js";
-
-import { DUMMY_SINGLE_POST_DATA } from "../../mock.js";
-import { getPost, createPost, updatePost } from "../../utils/api.js";
-
+import "./document.css";
+import Editor from "../Editor/Editor.js";
+import { updatePost } from "../../utils/service/api.js";
 import { setItem, removeItem, getItem } from "../../utils/storage.js";
 
 export default function EditorPage({ $target, initialState }) {
   this.state = initialState;
 
   const $editorPage = document.createElement("div");
-  $editorPage.className = "editor-container";
+  $editorPage.className = "document-container";
 
   let postLocalSaveKey = `temp-document-${this.state.id}`;
 
-  // 2) Editor
   let timer = null;
 
   const editor = new Editor({
@@ -35,7 +31,7 @@ export default function EditorPage({ $target, initialState }) {
         await updatePost(this.state.id, post);
         removeItem(postLocalSaveKey);
         console.log("자동저장");
-      }, 1000);
+      }, 300);
     },
   });
 
@@ -58,17 +54,24 @@ export default function EditorPage({ $target, initialState }) {
   };
 
   const checkTempLocalDocument = tempPost => {
-    console.log(tempPost, this.state);
     if (tempPost.tempSaveDate && tempPost.tempSaveDate > this.state.updatedAt) {
-      if (confirm("불러올까요?")) {
+      if (confirm("작성하던 포스트가 있습니다. 불러올까요?")) {
         tempFlag = false;
         this.setState(tempPost);
-        return;
       }
     }
   };
 
   this.render = () => {
     $target.appendChild($editorPage);
+  };
+
+  this.display = () => {
+    const { pathname } = window.location;
+    if (pathname === "/") {
+      $editorPage.style.display = "none";
+    } else {
+      $editorPage.style.display = "block";
+    }
   };
 }
