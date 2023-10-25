@@ -71,7 +71,7 @@ export default function DocumentEditComponent({
   });
 
   const editorFooterBar = new EditorFooterBar({
-    $target: document.querySelector("#root"),
+    $target: $target,
     initialState: {
       document: [],
       totalHeigth: 0,

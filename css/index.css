@@ -32,16 +32,15 @@ button {
 .rootDocument {
   padding: 0px;
 }
-.subDocument li div {
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
-}
 .rootDocument_data {
   padding: 5px;
 }
-.rootDocument_dataRoot {
+
+.subDocument_data {
   padding: 5px;
+}
+.subDocument {
+  padding: 0px;
 }
 .documentHeader {
   display: flex;
@@ -53,6 +52,7 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-top: 4px;
 }
 .documentCreateButton {
   display: none;

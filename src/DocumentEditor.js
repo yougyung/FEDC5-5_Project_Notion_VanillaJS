@@ -34,17 +34,26 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
     }
   };
 
+  //모든 문서를 가져오는 함수
+  const depthCheck = (list, arr) => {
+    for (let i = 0; i < list.length; i++) {
+      const { id, title, documents } = list[i];
+      arr.push({ id: id, title: title });
+      if (documents.length > 0) {
+        arr.push(...depthCheck(documents, []));
+      }
+    }
+    return arr;
+  };
+
   // 타이핑할 때마다 setState -> state값을 쿼리로 editable에 넣음
   // 타이핑 -> 2초후 setState -> state값을 쿼리로 editabledp 넣음 -> 2초 후에 커서가 다시 앞으로오겠지?>
-
   this.render = () => {
+    //모든 문서를 가져옴
     const documentList =
-      this.state.documentList &&
-      this.state.documentList.map((document) => {
-        return { id: document.id, title: document.title };
-      });
-    //# 를 입력하면 그 글자는 서식이 적용되는 기능
+      this.state.documentList && depthCheck(this.state.documentList, []);
 
+    //# 를 입력하면 그 글자는 서식이 적용되는 기능
     lines =
       this.state.content == null
         ? ""
@@ -59,7 +68,12 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
               } else if (line.indexOf("### ") === 0) {
                 return `<h3>${line.substring(4)}</h3>`;
               } else if (
-                documentList.find((el) => el.tilte === "" && el.title === line)
+                documentList.find(
+                  (el) =>
+                    el.tilte !== "새 문서" &&
+                    el.tilte !== "" &&
+                    el.title === line
+                )
               ) {
                 const linkIndex = documentList.findIndex(
                   (doc) => doc.title === line
@@ -68,6 +82,7 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
                 //contenteditable="false" 속성을 넣어서 링크버튼으로 변하면 버튼안의 텍스트를 편집 못하게 함
                 return `<button contenteditable="false" id=${documentList[linkIndex].id} class="textLink" style="color:blue;cursor:pointer;">@${line}</button>`;
               }
+
               return line;
             })
             .join("<br>");

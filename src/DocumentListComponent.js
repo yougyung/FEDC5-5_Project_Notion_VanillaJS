@@ -41,8 +41,9 @@ export default function DocumentListComponent({ $target, initialState }) {
   const documentList = new DocumentList({
     $target: $page,
     onToggle: (parentId, id) => {
-      //this.state.tggleData가 중복되는데 변수로 바꿔서하면 오류가 남 -> 해결책 찾기
+      //this.state.toggleData가 중복되는데 변수로 바꿔서하면 오류가 남 -> 해결책 찾기
       let hasToggle = checkToggle(this.state.toggleData, id);
+
       //토글이 되었다면
       if (hasToggle) {
         //해당 되는 부모만 닫아줌으로써 하위 문서들도 안보이게된다 -> 하위 문서들은 isToggle이 true로 존재하게 됨 -> 해결책 찾기
@@ -52,6 +53,7 @@ export default function DocumentListComponent({ $target, initialState }) {
       } else {
         this.state.toggleData = [...this.state.toggleData, { parentId, id }];
       }
+      console.log(this.state.toggleData);
     },
   });
 

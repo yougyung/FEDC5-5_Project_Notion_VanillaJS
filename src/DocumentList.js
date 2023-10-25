@@ -27,14 +27,14 @@ export default function DocumentList({
       const { id, title, documents, isToggle } = list[i];
       arr.push(
         `
-            <ul class="rootDocument">
-              <li class="rootDocument_data" id="${id}" style="padding-left:${depth}px;">
+            <ul class="subDocument">
+              <li class="subDocument_data" id="${id}" style="padding-left:${depth}px;">
                   <div class="documentHover">
                       <div class="documentHeader">
                       <button class="documentToggleButton ${
                         isToggle ? "toggleOn" : ""
                       }" data-istoggle="${isToggle}">></button>
-                        <div style="width:${250 - depth * 2}px">${title}</div>
+                        <div style="width:${250 - depth * 4}px">${title}</div>
                       </div>
                         <div class="buttonGroup">
                           <button class="documentDeleteButton">x</button>
@@ -57,7 +57,6 @@ export default function DocumentList({
   };
 
   this.render = () => {
-    console.log(this.state);
     const { selectedDocument, documentList } = this.state;
 
     $div.innerHTML = `
