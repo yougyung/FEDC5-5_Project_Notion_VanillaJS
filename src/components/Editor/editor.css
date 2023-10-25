@@ -1,0 +1,47 @@
+.editor {
+  margin-top: 45px;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+}
+
+.editor > input {
+  width: 100%;
+
+  border: none;
+  background: none;
+  outline: none;
+
+  color: #37352f;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.editor > input::placeholder {
+  color: #eaeaea;
+}
+
+.editor > div {
+  width: 100%;
+
+  min-height: 300px;
+  margin-top: 20px;
+  padding-left: 5px;
+
+  resize: none;
+
+  background: none;
+
+  color: #37352f;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  overflow: auto;
+}
+.editor > div:focus {
+  outline: none;
+}
