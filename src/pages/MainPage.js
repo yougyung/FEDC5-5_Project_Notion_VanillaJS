@@ -28,6 +28,10 @@ export default class MainPage extends Component {
 
     this.$sidebar = createTemplate('<aside class="sidebar"></aside>');
     this.$mainSection = createTemplate('<section class="mainSection"></section>');
+
+    const $sidebarHeader = createTemplate('<div>adsf</div>');
+    this.$sidebar.appendChild($sidebarHeader);
+
     this.$documentList = new DocumentList(this.$sidebar, {
       onSelect: this.handleDocumentSelect.bind(this),
       onCreate: this.handleDocumentCreate.bind(this),

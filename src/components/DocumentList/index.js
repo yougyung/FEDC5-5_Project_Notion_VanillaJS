@@ -59,7 +59,10 @@ export default class DocumentList extends Component {
       const { onSelect, onCreate, onDelete } = this.props;
 
       if (target.closest('.document-title')) onSelect(documentId);
-      if (target.closest('.add-page')) onCreate(documentId);
+      if (target.closest('.add-page')) {
+        this.handleToggleButton($li, documentId);
+        onCreate(documentId);
+      }
       if (target.closest('.delete-page')) onDelete(documentId);
       if (target.closest('.list-toggle-button')) this.handleToggleButton($li, documentId);
     });
