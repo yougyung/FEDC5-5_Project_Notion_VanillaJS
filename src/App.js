@@ -46,6 +46,7 @@ export default function App({ $target }) {
       const documentTreeData = getItem("documentTree", []);
       const children = recursion.deleteDocument(documentTreeData, id);
       const newDocumentTree = documentTreeData.concat(children);
+      newDocumentTree.sort((a, b) => a.id - b.id);
       documentTree.setState(newDocumentTree);
       setItem("documentTree", newDocumentTree);
 
