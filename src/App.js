@@ -43,7 +43,7 @@ export default function App({ $target }) {
         targetPageDocuments: null,
       });
       $editor.setState(createdPage);
-      push(`/documents/${createdPage.id}`);
+      push(`/${createdPage.id}`);
     },
   });
 
@@ -58,7 +58,7 @@ export default function App({ $target }) {
         targetPageDocuments: response.documents || [],
       });
       $editor.setState(response);
-      push(`/documents/${pageId}`);
+      push(`/${pageId}`);
     },
     onSubPageAdd: async (pageId) => {
       const createdPage = await request(`/documents`, {
@@ -74,7 +74,7 @@ export default function App({ $target }) {
         targetPageDocuments: createdPage.documents || null,
       });
       $editor.setState(createdPage);
-      push(`/documents/${createdPage.id}`);
+      push(`/${createdPage.id}`);
     },
     onPageDelete: async (pageId) => {
       await request(`/documents/${pageId}`, {
