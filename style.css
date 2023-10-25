@@ -1,3 +1,14 @@
+ul {
+  list-style-type: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #000;
+  /* border: none; */
+}
+
 #app {
   width: 1280px;
   margin: 0 auto;

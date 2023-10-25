@@ -7,7 +7,13 @@ const recursion = {
       new TreeList({ $container: $li, child });
 
       if (child.documents.length) {
+        const $button = document.createElement("button");
+        $button.classList.add("toggle-button");
+        $button.textContent = "►";
+        $li.prepend($button);
+
         const $ul = document.createElement("ul");
+        $ul.classList.add("hide");
         this.makeDocumentTree(child.documents, $ul);
         $li.appendChild($ul);
       }

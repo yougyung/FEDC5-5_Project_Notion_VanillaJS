@@ -27,6 +27,14 @@ export default function DocumentTree({
     $tree.appendChild($ul);
 
     $ul.addEventListener("click", (e) => {
+      if (e.target.classList.contains("toggle-button")) {
+        const $ul = e.target.closest("li").querySelector("ul");
+        $ul.classList.toggle("hide");
+        if (e.target.classList.contains("hide")) e.target.textContent = "►";
+        else e.target.textContent = "▼";
+        return;
+      }
+
       const $span = e.target.closest("span");
       if (!$span) return;
 
