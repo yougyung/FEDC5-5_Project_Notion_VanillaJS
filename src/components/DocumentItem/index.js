@@ -31,6 +31,8 @@ export default class DocumentItem extends Component {
       </span>`,
     );
 
+    const $pageClickButtonContainer = createTemplate('<div class="buttonContainer"></div>');
+
     const $addChildPageButton = createTemplate(
       `<button class="add-page">
         <img src="${IMAGE_PATH.PLUS}" alt="add page icon"/>
@@ -45,8 +47,9 @@ export default class DocumentItem extends Component {
 
     $wrapper.appendChild($toggleButton);
     $wrapper.appendChild($documentTitle);
-    $wrapper.appendChild($addChildPageButton);
-    $wrapper.appendChild($deletePageButton);
+    $wrapper.appendChild($pageClickButtonContainer);
+    $pageClickButtonContainer.appendChild($addChildPageButton);
+    $pageClickButtonContainer.appendChild($deletePageButton);
   }
 
   createEmptyDom() {

@@ -53,7 +53,10 @@ export default class DocumentList extends Component {
       if (target.closest('.document-title')) onSelect(documentId);
       if (target.closest('.add-page')) onCreate(documentId);
       if (target.closest('.delete-page')) onDelete(documentId);
-      if (target.closest('.list-toggle-button')) onToggle(documentId);
+      if (target.closest('.list-toggle-button')) {
+        $li.classList.toggle('folded');
+        onToggle(documentId);
+      }
     });
   }
 
