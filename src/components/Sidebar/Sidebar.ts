@@ -64,9 +64,9 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
   };
 
   const bindEvents = () => {
-    const $addRootDocumentButton = document.querySelector(".addRootDocumentButton") as HTMLButtonElement;
-    const $documentList = document.querySelector(".documentList") as HTMLUListElement;
-    const $notionLogo = document.querySelector(".notionLogo") as HTMLAnchorElement;
+    const $addRootDocumentButton = window.document.querySelector(".addRootDocumentButton") as HTMLButtonElement;
+    const $documentList = window.document.querySelector(".documentList") as HTMLUListElement;
+    const $notionLogo = window.document.querySelector(".notionLogo") as HTMLAnchorElement;
 
     $addRootDocumentButton.addEventListener("click", handleClickAddRootDocumentButton);
     $documentList.addEventListener("click", handleClickDocumentItem);
