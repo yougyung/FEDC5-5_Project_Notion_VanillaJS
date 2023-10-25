@@ -1,7 +1,7 @@
 export const customSideBarList = (handleCustomEvent) => {
-  //handleCustomEvent : await sideBar.setState();
+  console.log("customSideBarList 발생", handleCustomEvent);
 
   window.addEventListener("render-SideBarList", async (e) => {
-    await handleCustomEvent(); //
+    await handleCustomEvent();
   });
 };
