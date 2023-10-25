@@ -1,9 +1,10 @@
 import SidebarItem from "./SidebarItem.js"
-import { documentStore } from "../store/documentStore.js"
+import { documentStore } from "../../store/documentStore.js"
 export default class Sidebar {
   constructor({ $target, initialState = [] }) {
     this.$target = $target
     this.state = initialState
+    this.urlchange = new CustomEvent("urlchange")
     this.setup()
     this.sidebarItem = new SidebarItem()
     documentStore.subscribe(() => this.render())
@@ -20,6 +21,7 @@ export default class Sidebar {
     this.$target.appendChild(this.$sidebar)
     this.$directory = document.getElementById("directory")
     this.$add = document.getElementById("add")
+    this.addEvent("#add", "click", e => this.handleAppendButton(e))
   }
 
   renderSidebarItem() {
@@ -28,6 +30,7 @@ export default class Sidebar {
   }
 
   render() {
+    console.log(documentStore.getState().documents)
     this.$directory.innerHTML = this.renderSidebarItem()
     this.mounted()
   }
@@ -36,20 +39,27 @@ export default class Sidebar {
     this.addEvent(".append", "click", e => {
       this.handleAppendButton(e)
     })
-    this.addEvent("#add", "click", e => this.handleAppendButton(e))
+
     this.addEvent(".delete", "click", e => {
       this.handleDeleteButton(e)
     })
+
     this.addEvent(".fold", "click", this.toggleSubDocuments)
-    this.addEvent("a", "click", this.onClick)
+
+    this.addEvent("a", "click", e => this.onClick(e))
   }
 
   async handleAppendButton(e) {
-    const id = e.target.closest("div .title")?.dataset.id || null
+    const parentId = e.target.closest("div .title")?.dataset.id || null
     try {
-      documentStore.dispatch({ type: "ADD", payload: id })
+      await documentStore.dispatch({
+        type: "ADD",
+        payload: parentId
+      })
+      const { id } = documentStore.getState().newDocument
+      this.dispatchUrlEvent(`/documents/${id}`)
     } catch (err) {
-      err.showAlert("생성에 실패했습니다")
+      console.log(err)
     }
   }
 
@@ -77,12 +87,15 @@ export default class Sidebar {
 
   onClick(e) {
     e.preventDefault()
-    const urlchange = new CustomEvent("urlchange")
-    history.pushState(null, null, e.target.href)
-    window.dispatchEvent(urlchange)
+    this.dispatchUrlEvent(e.target.href)
   }
 
   toggleSubDocuments(e) {
     e.target.parentNode.nextElementSibling.classList.toggle("hidden")
+  }
+
+  dispatchUrlEvent(pathname) {
+    history.pushState(null, null, pathname)
+    window.dispatchEvent(this.urlchange)
   }
 }
