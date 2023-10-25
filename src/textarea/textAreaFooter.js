@@ -1,6 +1,6 @@
 const $ = document;
 
-export default function TextAreaFooter({ $target, initialState }) {
+export default function TextAreaFooter({ $target, initialState, onClickChildPage }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -22,14 +22,12 @@ export default function TextAreaFooter({ $target, initialState }) {
     } else if (Array.isArray(this.state)) {
       $childDocumentLink.innerHTML = "";
       this.state.map((children) => {
-        const childNode = $.createElement("a");
-        childNode.setAttribute("href", `/documents/${children.id}`);
+        const childNode = $.createElement("div");
         childNode.style.margin = "10px";
         childNode.innerText = `${children.title}`;
-        // childNode.addEventListener("click", () => {
-        //   history.pushState(null, null, `/documents/${children.id}`);
-        //   // 상태를 바꿔줘야함
-        // });
+        childNode.addEventListener("click", () => {
+          onClickChildPage(children.id);
+        });
         $childDocumentLink.appendChild(childNode);
       });
     }

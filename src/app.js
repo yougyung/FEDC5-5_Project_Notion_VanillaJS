@@ -136,6 +136,11 @@ export default function App({ $target }) {
         }, 200);
       }
     },
+    onClickChildPage: async (id) => {
+      history.pushState(null, null, `/documents/${id}`);
+      await fetchSelectedDocs(id);
+      // console.log(id);
+    },
   });
 
   /**
