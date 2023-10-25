@@ -1,4 +1,4 @@
-import DocumentEditor from './DocumentEditor/DocumentEditor.js';
+import DocumentEditor from './DocumentEditor/documentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
@@ -11,7 +11,6 @@ export default class DocumentManager {
     constructor({ $target, initalState }) {
         this.$target = $target;
         this.state = initalState;
-        this.timer = null;
 
         this.init();
     }
@@ -23,9 +22,7 @@ export default class DocumentManager {
             $taregt: this.$documentManager,
             initalState: { ...this.state },
             onEditing: (nextState) => {
-                if (this.timer !== null) {
-                    clearTimeout(this.timer);
-                }
+                clearTimeout(this.timer);
                 this.timer = setTimeout(async () => {
                     this.putDocumentContent(nextState);
                 }, 1000);

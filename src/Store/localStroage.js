@@ -25,3 +25,5 @@ export const removeItem = (key) => {
 export const DOCUMENT_CONTENT_SAVE_KEY = (documentId) => {
     return `DOCUMENT_CONTENT_SAVE_KEY_${documentId}`;
 };
+
+export const DOCUMENT_TOGGLE_KEY = 'DOCUMENT_TOGGLE_KEY';

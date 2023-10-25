@@ -1,6 +1,6 @@
 import { createNewElement } from '../../../Util/Element.js';
 import { convertToMarkup } from '../../../Util/Markup.js';
-import { getFocus } from '../../../Util/Focus.js';
+import { moveEndFocus } from '../../../Util/Focus.js';
 
 // state = { title : "", content: "" }
 
@@ -47,17 +47,18 @@ export default class DocumentEditor {
         console.log(markupText);
 
         this.$title.value = title;
-        this.$content.innerHTML = markupText ?? '';
+        this.$content.innerHTML = markupText ?? null;
     }
 
-    // 수정하면 onEditing으로 DB에 수정하고 View 컴포넌트에 전달해준다.
+    // 수정하면 onEditing으로 DB에 수정.
     HandleOnKeyup(e) {
         const {
             target,
+            isComposing,
             key,
             target: { value, innerHTML, name },
         } = e;
-        console.log(target);
+
         // 방향키 입력 시 종료
         if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
             return;
@@ -70,22 +71,27 @@ export default class DocumentEditor {
             this.onEditing(nextState, target);
         }
 
-        // 한글 입력시 2번의 이벤트를 받는다. timer로 지연시켜 마지막 완성된 한글을 처리한다.
         if (name === 'content') {
-            clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
-            this.inputTimeout = setTimeout(() => {
-                const { anchorNode, anchorOffset } = window.getSelection();
-                let nextState = { ...this.state, [name]: innerHTML };
-
-                if (key === 'Enter') {
-                    e.preventDefault(); // 기본 동작(새 줄 생성) 방지
-                    nextState = { ...this.state, [name]: this.state[name] + '<div><br></div>' };
-                }
+            if (key === 'Enter' && isComposing) {
+                return;
+            }
+            if (key === 'Enter' && !isComposing) {
+                e.preventDefault(); // 줄 생성
+                const nextState = { ...this.state, [name]: this.state[name] + '<div><br></div>' };
 
                 this.setState(nextState);
                 this.onEditing(nextState);
-                getFocus(target, anchorNode, anchorOffset);
-            }, 500); // 500ms 동안 추가 입력이 없으면 입력 완료로 간주
+                return moveEndFocus(target);
+            }
+
+            clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
+            this.inputTimeout = setTimeout(() => {
+                const nextState = { ...this.state, [name]: innerHTML };
+
+                this.setState(nextState);
+                this.onEditing(nextState);
+                moveEndFocus(target);
+            }, 400); // 500ms 동안 추가 입력이 없으면 입력 완료로 간주
         }
     }
 }

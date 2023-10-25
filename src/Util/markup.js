@@ -8,7 +8,6 @@ export const convertToMarkup = (text) => {
         .map((line) => {
             line = line.replace('<div>', '');
 
-            line = line.replace(/&nbsp;/g, ' '); // h태그들 판별하기 위해 공백 마크업을 " " 로 변경
             line = line.replace(/__((?:\S.*?\S)|\S)__/g, '<strong>$1</strong>'); // __굵게__
             line = line.replace(/\*\*((?:\S.*?\S)|\S)\*\*/g, '<strong>$1</strong>'); // **굵게**
             line = line.replace(/_((?:\S.*?\S)|\S)_/g, '<em>$1</em>'); // _기울게_
@@ -20,7 +19,6 @@ export const convertToMarkup = (text) => {
             line = line.replace(/^#### (.*?)$/, '<h4>$1</h4>');
             line = line.replace(/^##### (.*?)$/, '<h5>$1</h5>');
             line = line.replace(/^###### (.*?)$/, '<h6>$1</h6>'); // h6 까지
-            line = line.replace(' ', '&nbsp;'); // 다시 공백 " "을 마크업으로 변경
 
             // 아무것도 없다면 div를 감싸주지 않고 종료
             if (!line) {

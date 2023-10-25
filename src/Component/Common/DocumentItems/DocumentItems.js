@@ -23,6 +23,7 @@ export default class DocumentItems {
 
         documentList?.forEach((item) => new DocumentItem({ $target: $fragment, initalState: { ...item } }));
 
+        $documentItems.className += ' hidden';
         $documentItems.appendChild($fragment);
         this.$target.appendChild($documentItems);
     }

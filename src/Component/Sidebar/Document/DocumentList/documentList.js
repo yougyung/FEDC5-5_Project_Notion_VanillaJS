@@ -3,6 +3,7 @@ import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';
 import DocumentObserver from '../../../../Util/DocumentObserver.js';
+import { DOCUMENT_TOGGLE_KEY } from '../../../../Store/LocalStroage.js';
 
 // state = { documentList: [] }
 
@@ -49,9 +50,21 @@ export default class DocumentList {
             target: { className },
         } = e;
 
+        if (className === 'title-toggle__toggle--view' || className === 'title-toggle__toggle--hidden') {
+            const $ul = target.closest('.document-item').querySelector('ul');
+
+            target.classList.toggle('title-toggle__toggle--view');
+            target.classList.toggle('title-toggle__toggle--hidden');
+            $ul.classList.toggle('hidden');
+        }
+
         // document 추가 이벤트
         if (className === 'insert-delete__insert') {
-            const documentId = target.closest('.document-item').dataset.id;
+            const $li = target.closest('.document-item');
+            const documentId = $li.dataset.id;
+            const toggleList = localStorage.getItem(DOCUMENT_TOGGLE_KEY, []);
+
+            localStorage.setItem(DOCUMENT_TOGGLE_KEY, documentId);
 
             await this.postDocument(documentId);
             DocumentObserver.getInstance().notifyAll();
@@ -61,6 +74,8 @@ export default class DocumentList {
         if (className === 'insert-delete__delete') {
             const documentId = target.closest('.document-item').dataset.id;
             const path = window.location.pathname.split('/')[2];
+
+            localStorage.removeItem();
 
             await this.deleteDocument(documentId);
 

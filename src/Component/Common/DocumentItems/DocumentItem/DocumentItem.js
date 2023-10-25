@@ -38,7 +38,7 @@ export default class DocumentItem {
         );
         const $toggleButton = createNewElement(
             'button',
-            [{ property: 'className', value: 'title-toggle__toggle' }],
+            [{ property: 'className', value: 'title-toggle__toggle--hidden' }],
             '>'
         );
         const $insertDelete = createNewElement('div', [{ property: 'className', value: 'insert-delete' }]);
