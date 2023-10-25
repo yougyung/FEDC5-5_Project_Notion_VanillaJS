@@ -1,8 +1,9 @@
 import { fetchDocuments } from "../../utils/api.js";
 import Editor from "./Editor.js";
-import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../../utils/constants.js";
+import { NEW, DOCUMENTS_ROUTE, DEFAULT_DOCUMENT_ID } from "../../utils/constants.js";
 import DocumentHeader from "./DocumentHeader.js";
 import DocumentFooter from "./DocumentFooter.js";
+import { setDocumentTitle } from "../../utils/validation.js";
 
 export default function DocumentEditPage({ $target, initialState, onDelete, onEdit }) {
   const $page = document.createElement("div");
@@ -18,8 +19,6 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
     },
     onDelete,
   });
-
-  let timer = null;
 
   const editor = new Editor({
     $target: $page,
@@ -79,6 +78,11 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
 
   const loadDocument = async () => {
     const document = await fetchDocuments(this.state.documentId);
+    if (!document) {
+      alert("존재하지 않는 페이지입니다.");
+      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+      return;
+    }
 
     this.setState({
       ...this.state,
@@ -91,5 +95,6 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
 
   this.render = () => {
     $target.appendChild($page);
+    setDocumentTitle(this.state.document?.title || "");
   };
 }

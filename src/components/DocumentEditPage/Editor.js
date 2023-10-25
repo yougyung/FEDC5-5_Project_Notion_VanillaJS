@@ -1,4 +1,5 @@
 import { UNTITLED } from "../../utils/constants.js";
+import { setDocumentTitle } from "../../utils/validation.js";
 
 export default function Editor({ $target, initialState = { title: "", content: "" }, onEdit }) {
   const $editor = document.createElement("div");
@@ -23,6 +24,8 @@ export default function Editor({ $target, initialState = { title: "", content: "
 
     $editor.querySelector("[name=title]").value = title;
     $editor.querySelector("[name=content]").value = content;
+
+    setDocumentTitle(title);
   };
 
   this.render();
