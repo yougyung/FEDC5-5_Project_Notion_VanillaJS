@@ -1,0 +1,19 @@
+{
+  "name": "fedc5-5_project_notion_vanillajs",
+  "version": "1.0.0",
+  "description": "- 프로젝트 기한\r   - 프로젝트 수행 기간 : 2023년 10월 17일(화) ~ 2023년 10월 26일(목)\r   - 멘티 코드 리뷰 기간 : 2023년 10월 27일(금) ~ 2023년 10월 30일(월)\r   - 멘토 코드 리뷰 기간 : 2023년 10월 27일(금) ~ 2023년 11월 2일(목)\r   - 코드 리뷰 반영 기간 : 2023년 11월 3일(금) ~ 2023년 11월 6일(월)\r - 내용\r   - [Day 21] 노션 클로닝 요구사항을 확인해 주세요.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "prettier": "^3.0.3"
+  }
+}
