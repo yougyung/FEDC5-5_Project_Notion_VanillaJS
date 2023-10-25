@@ -5,7 +5,12 @@ export default function ContentInnerModal({ $target, selectionStart, option }) {
   const $contentInnerModal = document.createElement("div");
   $contentInnerModal.className = "content-inner-modal";
   $contentInnerModal.contentEditable = false;
-  $contentInnerModal.style.left = `${selectionStart === 1 ? 0 : selectionStart - 30}px`;
+  console.log(selectionStart);
+  if (selectionStart < 28) {
+    $contentInnerModal.style.left = `${selectionStart === 1 ? 0 : selectionStart + 60}px`;
+  } else {
+    $contentInnerModal.style.right = `${selectionStart + 22}px`;
+  }
 
   $target.appendChild($contentInnerModal);
 
