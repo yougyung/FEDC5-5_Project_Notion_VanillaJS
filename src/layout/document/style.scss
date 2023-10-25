@@ -1,11 +1,13 @@
 .document {
 	padding: 100px;
+	height: 100%;
 	font-size: x-large;
+	overflow: scroll;
 
-	&__title {
-	}
 	&__content {
 		font-size: smaller;
 		line-height: 30px;
+		width: 100%;
+		height: 500px;
 	}
 }
