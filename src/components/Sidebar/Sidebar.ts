@@ -30,16 +30,10 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
     const $firstChildList = $clickedItem.querySelector(".childrenDocumentList:first-of-type") as HTMLElement;
 
     if ($firstChildList) {
-      const isHidden = $firstChildList.style.display === "none" || $firstChildList.style.display === "";
-
-      $firstChildList.style.display = isHidden ? "block" : "none";
+      $firstChildList.classList.toggle("show");
     }
 
-    if (target.classList.contains("rotated")) {
-      target.classList.remove("rotated");
-    } else {
-      target.classList.add("rotated");
-    }
+    target.classList.toggle("rotated");
   };
 
   const handleClickDocumentItem = (event: Event) => {
