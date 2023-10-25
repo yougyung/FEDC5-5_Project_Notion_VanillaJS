@@ -1,6 +1,6 @@
-export default function PageList({ $target, initialState }) {
+export default function PageList({ $target, initialState, onPageDelete }) {
   const $pageList = document.createElement("div");
-
+  $pageList.className = "page_list";
   $target.appendChild($pageList);
 
   this.state = initialState;
@@ -26,21 +26,21 @@ export default function PageList({ $target, initialState }) {
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
-                      stroke="currentColor"
+                      stroke='white'
                       class="w-6 h-6"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                      />
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        d='M19.5 8.25l-7.5 7.5-7.5-7.5'
+                    />
                     </svg>`
                     : `<svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
-                      stroke="currentColor"
+                      stroke='white'
                       class="w-6 h-6"
                     >
                       <path
@@ -51,7 +51,7 @@ export default function PageList({ $target, initialState }) {
                     </svg>`
                 } 
                   </button>
-                <div>${page.title}</div>
+                <div class='item_title'>${page.title}</div>
                 <div class='button_group'>
                   <button class='delete_button'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -82,5 +82,17 @@ export default function PageList({ $target, initialState }) {
     $pageList.innerHTML = renderPageSubTree(this.state);
   };
 
+  $pageList.addEventListener("click", (e) => {
+    const $li = e.target.closest("li");
+    const { id } = $li.dataset;
+    const className = $li.className;
+    if (className === "toggle_button") {
+    } else if (className === "item_title") {
+    } else if (className === "delete_button") {
+      if (id) onPageDelete(id);
+    } else if (className === "add_button") {
+    }
+    console.log(id);
+  });
   this.render();
 }
