@@ -42,7 +42,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     } catch (error) {
       console.error(error);
     }
-  }, 500);
+  }, 1000);
 
   const handleKeydownForm = (event: Event) => {
     event.preventDefault();
