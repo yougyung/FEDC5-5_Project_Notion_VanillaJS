@@ -10,6 +10,22 @@
   overflow-x: scroll;
 }
 
+.s_sidebar a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 1rem;
+}
+
+.s_sidebar a img {
+  vertical-align: middle;
+}
+
+.s_sidebar a span {
+  vertical-align: middle;
+  font-size: 1.5rem;
+}
+
 .s_button {
   background-color: transparent;
   margin-bottom: 1rem;
