@@ -9,7 +9,9 @@ export default function DocumentsList({
   const $documentsList = document.createElement("div");
   $target.appendChild($documentsList);
 
-  this.state = initialState;
+  this.state = initialState.map((docu) => {
+    return { ...docu, isToggle: false };
+  });
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -33,7 +35,7 @@ export default function DocumentsList({
     tap_nbsp = !tap_nbsp ? `&nbsp;` : `${tap_nbsp}` + `&nbsp;&nbsp;`; // 하위 Document인 경우 들여쓰기 표현을 하기 위해
 
     return `
-      <div data-id='${id}' class="document">
+      <div data-id='${id}' data-title='${title}' class="document">
         ${tap_nbsp}
         <img class="toggleButton" src=${
           isToggle ? "../public/toggle_down.svg" : "../public/toggle_right.svg"
@@ -77,10 +79,11 @@ export default function DocumentsList({
   // 클릭 이벤트
   $documentsList.addEventListener("click", (e) => {
     const $document = e.target.closest(".document");
+    const [, , path_id] = window.location.pathname.split("/");
 
     if ($document) {
       const { className } = e.target;
-      const { id } = $document.dataset;
+      const { id, title } = $document.dataset;
 
       // 토글 기능
       if (className === "toggleButton") {
@@ -90,12 +93,16 @@ export default function DocumentsList({
       // history API를 사용하여 url에 선택된 Document ID를 적어준다.
       if (className === "document_title") {
         push(`/documents/${id}`);
+        // const toggleUpdateState = toggleUpdate(this.state, +id);
+        // this.setState(toggleUpdateState);
       }
       if (className === "addButton") {
         onAddDocument(id);
+        // const toggleUpdateState = toggleUpdate(this.state, +path_id);
+        // this.setState(toggleUpdateState);
       }
       if (className === "deleteButton") {
-        onDelete(id);
+        onDelete(id, title);
       }
     }
   });

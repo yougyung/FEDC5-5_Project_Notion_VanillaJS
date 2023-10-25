@@ -2,7 +2,7 @@ import { request } from "../utils/api.js";
 import { setItem, removeItem, getItem } from "../utils/storage.js";
 import Editor from "./Editor.js";
 
-export default function ContentsPage({ $target, initialState }) {
+export default function ContentsPage({ $target, fetchDocument }) {
   const $page = document.createElement("div");
   $page.classList.add("contents_page");
 
@@ -28,6 +28,8 @@ export default function ContentsPage({ $target, initialState }) {
           body: JSON.stringify(getItem(DOCUMENT_TEMP_SAVE_KEY)),
         });
         removeItem(DOCUMENT_TEMP_SAVE_KEY);
+
+        fetchDocument();
       }, 500);
     },
   });

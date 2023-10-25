@@ -12,6 +12,13 @@ export default function App({ $target }) {
     this.state = nextState;
   };
 
+  // 화살표 함수는 선언 전에 호출하면 참조 에러 뜬다 !!!
+  const fetchDocument = async () => {
+    const documents = await request("/documents");
+    this.setState(documents);
+    documentsPage.setState(this.state);
+  };
+
   const documentsPage = new DocumentsPage({
     $target: $app,
     initialState: this.state,
@@ -40,27 +47,28 @@ export default function App({ $target }) {
       }
       await this.route();
     },
-    onDelete: async (id) => {
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
-      history.replaceState(null, null, "/");
-      await this.route();
+    onDelete: async (id, title) => {
+      if (confirm(`'${title}' 글을 삭제하시겠습니까 ?`)) {
+        await request(`/documents/${id}`, {
+          method: "DELETE",
+        });
+        history.replaceState(null, null, "/");
+        await this.route();
+      }
     },
   });
 
   const contentPage = new ContentsPage({
     $target: $app,
+    fetchDocument,
   });
 
   this.route = async () => {
     const { pathname } = window.location;
 
-    const documents = await request("/documents");
-    documentsPage.setState(documents);
+    fetchDocument();
 
     if (pathname === "/") {
-      // documentsPage.setState(documents);
       contentPage.setState("");
     } else {
       const [, , documentsId] = pathname.split("/");
@@ -69,4 +77,7 @@ export default function App({ $target }) {
   };
   this.route();
   initRouter(() => this.route());
+  window.addEventListener("popstate", () => {
+    this.route();
+  });
 }
