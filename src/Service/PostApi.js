@@ -7,7 +7,7 @@ const headers = {
 };
 
 // document 데이터 추가하기
-export const fetchPostDocument = async (parentId, title = '') => {
+export const fetchPostDocument = async (parentId, title = '제목 없음') => {
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents`, {
             method: 'POST',

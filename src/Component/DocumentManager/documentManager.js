@@ -1,6 +1,5 @@
 import DocumentEditor from './DocumentEditor/DocumentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
-import DocumentContentViewr from './DocumentContentViewer/DocumentContentViewer.js';
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';
 import { DOCUMENT_CONTENT_SAVE_KEY, getItem, setItem, removeItem } from '../../Store/LocalStroage.js';
@@ -32,26 +31,20 @@ export default class DocumentManager {
                 }, 1000);
             },
         });
-        // this.documentContentViewer = new DocumentContentViewr({
-        //     $target: this.$documentManager,
-        //     initalState: { ...this.state },
-        // });
         this.childDocumentsViewer = new ChildDocumentsViewer({
             $target: this.$documentManager,
             initalState: { documentList: [] },
         });
 
         this.$target.appendChild(this.$documentManager);
-        //this.$documentManager.addEventListener('click', (e) => this.HandleOnclick(e));
 
-        // 사이드바에서 document가 수정되면 자식 document도 최신화를 해줘야한다.
-        DocumentObserver.getInstance().subscribe(this.observerCallback.bind(this));
+        DocumentObserver.getInstance().subscribe(() => this.observerCallback.bind(this));
         this.getDocumentContent(this.state.documentId);
     }
 
     // 해당 document content 가져오기
     async getDocumentContent(documentId) {
-        const { id, title, content, updatedAt, documents } = await fetchGetDocumentContent(documentId);
+        const { title, content, updatedAt, documents } = await fetchGetDocumentContent(documentId);
         const {
             title: localTitle,
             content: localContent,
@@ -97,14 +90,4 @@ export default class DocumentManager {
     observerCallback() {
         this.getDocumentContent(this.state.documentId);
     }
-
-    // HandleOnclick(e) {
-    //     const { className } = e.target;
-    //     // 미리보기 버튼
-    //     if (className === 'title-and-button__button') {
-    //         const { isView } = this.state;
-
-    //         this.setState({ ...this.state, isView: !isView });
-    //     }
-    // }
 }

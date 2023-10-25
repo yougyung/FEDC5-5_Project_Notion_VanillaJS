@@ -2,7 +2,7 @@ import { createNewElement } from '../../../Util/Element.js';
 import { convertToMarkup } from '../../../Util/Markup.js';
 import { getEndFocus } from '../../../Util/Focus.js';
 
-// state = { documentId : "", isView: boolean, title : "", content: "" }
+// state = { title : "", content: "" }
 
 export default class DocumentEditor {
     constructor({ $taregt, initalState, onEditing }) {
@@ -15,17 +15,11 @@ export default class DocumentEditor {
 
     init() {
         this.$editor = createNewElement('div', [{ property: 'className', value: 'editor' }]);
-        this.$titleAndButton = createNewElement('div', [{ property: 'className', value: 'title-and-button' }]);
-        // this.$button = createNewElement(
-        //     'button',
-        //     [{ property: 'className', value: 'title-and-button__button' }],
-        //     '미리보기'
-        // );
         this.$title = createNewElement('input', [
             { property: 'type', value: 'text' },
             { property: 'name', value: 'title' },
-            { property: 'className', value: 'title-and-button__title' },
-            { property: 'placeholder', value: '제목을 입력해주세요...' },
+            { property: 'className', value: 'editor__title' },
+            { property: 'placeholder', value: '제목을 입력해주세요' },
         ]);
         this.$content = createNewElement('div', [
             { property: 'name', value: 'content' },
@@ -33,10 +27,8 @@ export default class DocumentEditor {
             { property: 'contentEditable', value: true },
         ]);
 
-        this.$editor.appendChild(this.$titleAndButton);
+        this.$editor.appendChild(this.$title);
         this.$editor.appendChild(this.$content);
-        this.$titleAndButton.appendChild(this.$title);
-        //this.$titleAndButton.appendChild(this.$button);
         this.$taregt.appendChild(this.$editor);
 
         this.$editor.addEventListener('keyup', (e) => this.HandleOnKeyup(e));
@@ -49,22 +41,19 @@ export default class DocumentEditor {
     }
 
     render() {
-        const { isView, title, content } = this.state;
+        const { title, content } = this.state;
         const markupText = convertToMarkup(content);
 
         console.log(markupText);
 
-        this.$editor.classList.toggle('editor--hidden', isView);
-        this.$editor.classList.toggle('editor--visible', !isView);
         this.$title.value = title;
-        this.$content.innerHTML = `\n\n\n안녕하세요          그래요`;
+        this.$content.innerHTML = markupText ?? '';
     }
 
     // 수정하면 onEditing으로 DB에 수정하고 View 컴포넌트에 전달해준다.
     HandleOnKeyup(e) {
         const {
             target,
-            isComposing,
             target: { value, innerHTML, name },
         } = e;
 
@@ -75,13 +64,17 @@ export default class DocumentEditor {
             this.onEditing(nextState, target);
         }
 
-        // isComposing 값으로 한글이 완성되었는지 확인한다. false면 한글입력이 모두 끝난 이벤트다.
-        if (name === 'content' && !isComposing) {
-            const nextState = { ...this.state, [name]: innerHTML };
+        // 한글 입력시 2번의 이벤트를 받는다. timer로 지연시켜 마지막 입력 값을 가져온다.
+        if (name === 'content') {
+            clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
+            this.inputTimeout = setTimeout(() => {
+                // 새로운 setTimeout을 설정
+                const nextState = { ...this.state, [name]: innerHTML };
 
-            this.setState(nextState);
-            this.onEditing(nextState);
-            getEndFocus(target);
+                this.setState(nextState);
+                this.onEditing(nextState);
+                getEndFocus(target);
+            }, 500); // 500ms 동안 추가 입력이 없으면 입력 완료로 간주
         }
     }
 }

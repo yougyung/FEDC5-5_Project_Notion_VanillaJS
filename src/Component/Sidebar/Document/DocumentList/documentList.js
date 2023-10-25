@@ -43,7 +43,7 @@ export default class DocumentList {
         new DocumentItems({ $target: this.$documentList, initalState: { documentList, isRoot: true } });
     }
 
-    handleOnClick(e) {
+    async handleOnClick(e) {
         const {
             target,
             target: { className },
@@ -53,16 +53,22 @@ export default class DocumentList {
         if (className === 'insert-delete__insert') {
             const documentId = target.closest('.document-item').dataset.id;
 
-            this.postDocument(documentId);
+            await this.postDocument(documentId);
             DocumentObserver.getInstance().notifyAll();
         }
 
         // document 삭제 이벤트
         if (className === 'insert-delete__delete') {
             const documentId = target.closest('.document-item').dataset.id;
+            const path = window.location.pathname.split('/')[2];
 
-            this.deleteDocument(documentId);
-            DocumentObserver.getInstance().notifyAll();
+            await this.deleteDocument(documentId);
+
+            if (Number(documentId) === Number(path)) {
+                RouterManger.getInstance().changeUrl(`/`);
+            } else {
+                DocumentObserver.getInstance().notifyAll();
+            }
         }
 
         // 해당 document 페이지로 이동

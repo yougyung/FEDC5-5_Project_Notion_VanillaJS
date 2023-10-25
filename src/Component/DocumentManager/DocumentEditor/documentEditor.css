@@ -5,33 +5,12 @@
     overflow: auto;
 }
 
-/* editor 입력 상단 */
-.editor-wrap > .document-manager > .editor > .title-and-button {
-    height: 10%;
-    display: flex;
-}
-
 /* editor 입력 상단 input */
-.editor-wrap > .document-manager > .editor > .title-and-button > .title-and-button__title {
-    flex: 1;
-    font-size: 3rem;
+.editor-wrap > .document-manager > .editor > .editor__title {
+    width: 100%;
+    font-size: 2rem;
     border: none;
     outline: none;
-}
-
-/* editor 입력 상단 butotn */
-.editor-wrap > .document-manager > .editor > .title-and-button > .title-and-button__button {
-    flex-shrink: 0;
-    background-color: transparent;
-    border: none;
-    font-size: 1rem;
-    color: var(--sidebar_c);
-    cursor: pointer;
-}
-/* editor 입력 상단 butotn hover */
-.editor-wrap > .document-manager > .editor > .title-and-button > .title-and-button__button:hover {
-    transform: scale(1.05); /* 5% 확대 */
-    font-weight: bold;
 }
 
 /* editor 콘텐츠 */
@@ -42,7 +21,7 @@
 }
 /* editor 콘텐츠 비었을때 placeholder */
 .editor-wrap > .document-manager > .editor > .editor__content:empty::before {
-    content: '내용을 입력해주세요...';
+    content: '내용을 입력해주세요';
     color: var(--sidebar_c);
 }
 

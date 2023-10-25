@@ -2,42 +2,34 @@ export const convertToMarkup = (text) => {
     if (!text) {
         return;
     }
-    return text
-        .split('</div>')
+    let lines = text.split('</div>');
+    return lines
         .map((line) => {
             line = line.replace('<div>', '');
-
-            // 비어있다면 div를 제거해주고 종료
-            if (line === '') {
-                return '';
-            }
-
-            // // Headers
-            // if (line.startsWith('# ')) {
-            //     line = `<h1>${line.slice(2)}</h1>`;
-            // } else if (line.startsWith('## ')) {
-            //     line = `<h2>${line.slice(3)}</h2>`;
-            // } else if (line.startsWith('### ')) {
-            //     line = `<h3>${line.slice(4)}</h3>`;
-            // } else if (line.startsWith('#### ')) {
-            //     line = `<h4>${line.slice(5)}</h4>`;
-            // } else if (line.startsWith('##### ')) {
-            //     line = `<h5>${line.slice(6)}</h5>`;
-            // } else if (line.startsWith('##### ')) {
-            //     line = `<h6>${line.slice(7)}</h6>`;
-            // } else {
-            //     line = `<div>${line}</div>`;
-            // }
+            line = line.replace(/&nbsp;/g, ' ');
+            line = line.replace(/&lt;/g, '<');
+            line = line.replace(/&gt;/g, '>');
+            line = line.replace(/&amp;/g, '&');
+            line = line.replace(/&quot;/g, '"');
+            line = line.replace(/&#035;/g, '#');
+            line = line.replace(/&#039;/g, "'");
 
             line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
             line = line.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
+            line = line.replace(/^# (.*?)$/, '<h1>$1</h1>');
+            line = line.replace(/^## (.*?)$/, '<h2>$1</h2>');
+            line = line.replace(/^### (.*?)$/, '<h3>$1</h3>');
+            line = line.replace(/^#### (.*?)$/, '<h4>$1</h4>');
+            line = line.replace(/^##### (.*?)$/, '<h5>$1</h5>');
+            line = line.replace(/^###### (.*?)$/, '<h6>$1</h6>');
 
-            return line;
+            line = line.replace(' ', '&nbsp;');
+
+            if (!line) {
+                return;
+            }
+            return '<div>' + line + '</div>';
         })
         .join('');
 };
-
-/* 
-replace(/&nbsp;/g, " ")     .replace(/&lt;/g, "<")     .replace(/&gt;/g, ">")     .replace(/&amp;/g, "&")     .replace(/&quot;/g, '"')     .replace(/&#035;/g, "#")     .replace(/&#039;/g, "'")
-*/
