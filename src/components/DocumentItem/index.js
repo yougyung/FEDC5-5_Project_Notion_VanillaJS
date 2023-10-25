@@ -1,6 +1,9 @@
 import Component from '@/core/Component';
 import { createTemplate } from '@/utils/dom';
 import { IMAGE_PATH } from '@/constants/image';
+import { FALLBACK } from '@/constants/fallback';
+
+import './DocumentItem.scss';
 
 export default class DocumentItem extends Component {
   setup() {
@@ -29,7 +32,7 @@ export default class DocumentItem extends Component {
 
     const $documentTitle = createTemplate(
       `<span class="document-title ${title ? '' : 'is-empty'}">
-        ${title || '제목 없음'}
+        ${title || FALLBACK.UNTITLED}
       </span>`,
     );
 
