@@ -1,12 +1,20 @@
 import DocumentList from "./DocumentList.js";
-import { fetchDocuments, request } from "../../utils/api.js";
+import { fetchDocuments } from "../../utils/api.js";
 import DocumentAddButton from "./DocumentAddButton.js";
+import SidebarHeader from "./SidebarHeader.js";
 
 export default function SidebarContainer({ $target, onAdd, onDelete }) {
   const $sidebar = document.createElement("div");
   $sidebar.className = "sidebar";
 
   $target.appendChild($sidebar);
+
+  new SidebarHeader({
+    $target: $sidebar,
+    initialState: {
+      workspaceName: "백준원의 Notion",
+    },
+  });
 
   const documentList = new DocumentList({
     $target: $sidebar,

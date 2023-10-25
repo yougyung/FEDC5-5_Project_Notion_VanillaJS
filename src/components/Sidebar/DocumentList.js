@@ -18,7 +18,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     this.render();
   };
 
-  const generateTextIndent = (depth) => 10 * depth; // 들여쓰기
+  const generateTextIndent = (depth) => 12 * depth; // 들여쓰기
 
   let isBlock = false;
 

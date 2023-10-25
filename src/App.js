@@ -4,6 +4,7 @@ import { fetchDocuments } from "./utils/api.js";
 import { DEFAULT_DOCUMENT_ID, DOCUMENTS_ROUTE, NEW, NEW_PARENT, OPENED_ITEM } from "./utils/constants.js";
 import { initRouter, push } from "./utils/router.js";
 import { setItem, getItem } from "./utils/storage.js";
+import { setDocumentTitle } from "./utils/validation.js";
 
 export default function App({ $target }) {
   let timer = null;
