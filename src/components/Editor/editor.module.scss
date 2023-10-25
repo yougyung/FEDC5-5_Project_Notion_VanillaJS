@@ -1,3 +1,5 @@
+@use "@/styles/color";
+
 .s_editorForm {
   display: flex;
   flex-flow: row wrap;
@@ -23,7 +25,6 @@
 .s_editorContent {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 60rem;
   min-height: 30rem;
   margin-top: 1rem;
@@ -36,5 +37,5 @@
 }
 
 .s_childDocuments {
-  margin-top: 1rem;
+  margin-top: auto;
 }
