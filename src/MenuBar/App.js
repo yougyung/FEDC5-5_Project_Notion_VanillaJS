@@ -7,6 +7,9 @@ export default function App({ $target, initialState }) {
   // 문서 리스트 최상위 DOM의 클래스 설정
   $menuBar.setAttribute("class", "menuBar");
 
+  const $resizeMenu = document.createElement("div");
+  $resizeMenu.setAttribute("class", "resizeMenu");
+
   // Document 리스트 컴포넌트
   const postList = new PostList({
     $target: $menuBar,
@@ -26,6 +29,7 @@ export default function App({ $target, initialState }) {
 
   this.render = () => {
     $target.appendChild($menuBar);
+    $target.appendChild($resizeMenu);
   };
 
   this.render();

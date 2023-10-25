@@ -60,6 +60,13 @@ img {
   cursor: pointer;
 }
 
+/* 메뉴바 리사이징 */
+.resizeMenu {
+  cursor: ew-resize;
+  height: 100%;
+  width: 5px;
+}
+
 /* 에디터 */
 .editor {
   width: 100%;

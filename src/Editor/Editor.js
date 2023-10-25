@@ -1,3 +1,4 @@
+import ResizeMenu from "../MenuBar/ResizeMenu.js";
 import { applyMarkup, removeMarkup } from "../Util/TextScan.js";
 import { setCustomEvent } from "../Util/Router.js";
 
@@ -14,6 +15,8 @@ export default function Editor({ $target, initialState, EditPost }) {
   $title.setAttribute("contentEditable", "true");
   $title.setAttribute("name", "title");
   $title.style.outline = 0;
+
+  const resizeMenu = new ResizeMenu();
 
   this.state = initialState;
 
@@ -35,6 +38,7 @@ export default function Editor({ $target, initialState, EditPost }) {
     // 포스트 content 수정 시 서버 저장
     $editor.addEventListener("keyup", (e) => {
       const editText = applyMarkup($editor.innerText);
+      console.log(editText);
       const titleText = $title.innerText;
 
       EditPost(titleText, editText, this.state.id);
@@ -64,6 +68,8 @@ export default function Editor({ $target, initialState, EditPost }) {
 
     $target.appendChild($title);
     $target.appendChild($editor);
+
+    resizeMenu.render();
 
     // 하위 post 링크
     this.state.documents.forEach((element) => {
