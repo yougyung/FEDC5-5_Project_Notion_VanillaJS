@@ -4,7 +4,6 @@ export default function SideAreaHeader({ $target, onReturnMainPage }) {
   $sideBarHeader.innerText = "📱Notion Cloing By KSJ";
   $sideBarHeader.className = "sideBarHeader";
   $sideBarHeader.addEventListener("click", () => {
-    // console.log(`sideBarHeader clicked`);
     const returnToHome = confirm("메인 화면으로 돌아가시겠습니까?");
     if (returnToHome) {
       onReturnMainPage();

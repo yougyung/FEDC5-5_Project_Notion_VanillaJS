@@ -1,7 +1,5 @@
-// 요기서 나오는 DOCS로 하위 페이지 버튼을 하단에 구현해 줄 수 있다.
 const $ = document;
 export default function TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing }) {
-  // 얘는 좀 나누자...textAreaTitle, 여기textAreaContent로 바꾸고, textAreaFooter
   const $textArea = $.createElement("div");
   $textArea.className = "textArea";
 
@@ -27,11 +25,8 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
   $target.appendChild($textArea);
 
   this.render = () => {
-    // $textArea.innerHTML = "";
-
     if (this.state.isLoading) {
       //대전제는 로딩
-      // console.log(this.state);
       $contentTextArea.value = "Content Loading...";
       $titleInputArea.value = "Title Loading...";
     } else {
@@ -76,8 +71,6 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
     if (this.state.pageType === "NOT_ROOT") {
       this.state.title = $titleInputArea.value;
       this.state.content = $contentTextArea.value;
-      // console.log(e.target.value);
-      // console.log(this.state);
       onTextEditing(this.state.id, this.state.title, e.target.value);
     }
   });

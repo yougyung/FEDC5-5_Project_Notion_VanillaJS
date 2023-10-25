@@ -1,10 +1,5 @@
 const $ = document;
 export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
-  // 한번 더 나눌까 아니면 둘까
-  // 나누자 sideAreaHeader, 여기sideAreaPage, sideAreaFooter
-  // 근데 여기랑 연결하는 게 맞는거야? 아니면 sideAreaRender랑 연결하는 게 맞는거야?
-  // 렌더로 올리자
-
   const $pageList = $.createElement("div");
   $pageList.className = "sideBarPageList";
   $target.appendChild($pageList);
@@ -12,7 +7,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
   this.state = initialState;
 
   this.setState = (nextState) => {
-    $pageList.innerHTML = ""; // 이걸 안해주면 중첩해서 쌓임
+    $pageList.innerHTML = "";
     this.state = nextState;
     this.render();
     addEventDocs();
@@ -96,8 +91,6 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         }
 
         if (targetTag.id === "addPageButton") {
-          console.log(targetTag.parentElement.parentElement);
-          console.log(targetTag.parentElement.dataset.id);
           onClickButton(targetTag.parentElement.dataset.id);
         }
 

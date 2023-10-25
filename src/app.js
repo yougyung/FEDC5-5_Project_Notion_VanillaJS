@@ -51,7 +51,6 @@ export default function App({ $target }) {
       $.querySelector(".textArea-title").focus();
     },
     onClickDeleteButton: async (id) => {
-      console.log(id);
       const deleteResult = await deletePage(id);
       await fetchRootDocs();
 
@@ -74,8 +73,6 @@ export default function App({ $target }) {
       }
     },
     onReturnMainPage: async () => {
-      // console.log(`??`);
-      // this.route();
       history.pushState(null, null, "/");
       textAreaRender.setState({
         title: "👋안녕하세요!",
@@ -84,7 +81,6 @@ export default function App({ $target }) {
         isLoading: false,
         pageType: "ROOT",
       });
-      console.log(textAreaRender.state);
     },
   });
 
@@ -121,7 +117,6 @@ export default function App({ $target }) {
           method: "PUT",
           body: JSON.stringify({ title: target.value, content: content }),
         });
-        // console.log(modifyTextPageTitle);
         await fetchRootDocs();
         $.querySelector(".textArea-content").focus();
       } else {
@@ -130,7 +125,6 @@ export default function App({ $target }) {
             method: "PUT",
             body: JSON.stringify({ title: target.value, content: content }),
           });
-          // console.log(modifyTextPageTitle);
           await fetchRootDocs();
           $.querySelector(".textArea-title").focus();
         }, 200);
@@ -139,7 +133,6 @@ export default function App({ $target }) {
     onClickChildPage: async (id) => {
       history.pushState(null, null, `/documents/${id}`);
       await fetchSelectedDocs(id);
-      // console.log(id);
     },
   });
 
@@ -158,7 +151,6 @@ export default function App({ $target }) {
   const createNewPage = async (url, parentTag) => {
     const createdDefaultTitleText = "새 페이지";
     const createdDefaultParent = parentTag ? parentTag : "null";
-    // console.log(createdDefaultParent, createdDefaultTitleText);
     const newPageRes = await request(url, {
       method: "POST",
       body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
@@ -169,7 +161,6 @@ export default function App({ $target }) {
   // x-username에 해당하는 전체 문서 불러오는 API request function
   const fetchRootDocs = async () => {
     const rootDocsRespond = await request(`/documents`);
-    // console.log(rootDocsRespond);
     this.setState(rootDocsRespond);
     sideAreaRender.setState(rootDocsRespond);
   };
