@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+
 body {
-    
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* App */
@@ -7,38 +9,235 @@ body {
     display: flex;
 }
 
-/* Editor */
-.editor{
-    width: 100%;
+/* sideBar */
+.sideBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgb(251, 251, 250);
+    box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset;
+    padding-top: 30px;
 }
 
-.editor input {
-    width: 100%;
+/* sideBar - Header */
+
+.sideBar header {
+    
 }
 
-.editor textarea {
-    width: 100%
+.sideBar header h1{
+    position: relative;
+    margin-bottom: 25px;
+    cursor: pointer;
+    padding: 10px 10px 10px 65px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 40px;
 }
 
-/* LeftBar */
-.leftBar {
-    width: 240px;
+.sideBar header h1::before {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform:translateY(-50%);
+    content: '';
+    background-image: url('../images/header/notion-logo.png');
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
+}
+
+.sideBar header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+    padding: 10px;
+}
+
+.sideBar header > div:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgb(55, 53, 47);
+    font-weight: 600
+}
+
+.sideBar header > div button {
+    position: relative;
+    top: 2px;
+    width: 18px;
+    height:18px;
+    background-image: url('../images/nav/add.png');
+    cursor: pointer;
+    text-indent: -9999px;
+    border: 0;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding: 0;
+}
+
+/* sideBar - Nav */
+
+.sideBar .leftBar {
+    width: 400px;
     height: 100vh;
-    border: 1px solid red;
+    overflow: auto;
+    max-height: 696px;
 }
 
-.leftBar div {
-    /* transition: all 0.2s; */
+.sideBar .leftBar button {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    text-indent: -9999px;
+    border: 0;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding: 0;
 }
 
-.leftBar ul li > ul {
-    /* opacity: 0; */
-    /* height: 0; */
+.sideBar .leftBar li .toggle {
+    margin-left: 10px;
+    background-image: url('../images/nav/toggle.png');
+    background-size: 10px 11px;
+    background-position: center;
+    transition: all 0.2s;
+    transform: rotate(90deg);
+}
+
+.sideBar .leftBar li.hide .toggle {
+    transform: rotate(0);
+}
+
+.sideBar .leftBar .remove {
+    position: relative;
+    top: -2px;
+    background-image: url('../images/nav/trash.png');
+    margin-right: 5px;
+}
+
+.sideBar .leftBar .create {
+    width: 18px;
+    height:21px;
+    background-image: url('../images/nav/add.png');
+    background-position-y: 1px;
+    margin-right: 10px;
+}
+
+.sideBar .leftBar > ul {
+    position: relative;
+}
+
+.sideBar .leftBar ul li {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    line-height: 40px;
+}
+
+.sideBar .leftBar ul li:hover {
+    background-color: #e9e9e9;
+    color: rgb(55, 53, 47);
+    font-weight: 600
+}
+
+.sideBar .leftBar ul li span {
+    width: calc(100% - 88px);
+    text-align: left;
+    cursor: pointer;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sideBar .leftBar ul li > ul {
+    display: block;
+    width: 100%;
+}
+
+.sideBar .leftBar ul li ul {
+    margin-left: 1em;
+}
+
+.sideBar .leftBar ul li.hide > ul {
     display: none;
 }
 
-.leftBar ul li.show > ul {
-    /* opacity: 1; */
-    /* height: max-content; */
+/* sideBar - footer */
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px;
+}
+
+footer a {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    text-indent: -9999px;
+    border: 0;
+    background-size: 32px 32px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 5px;
+}
+
+footer a.github {
+    background-image: url('../images/footer/github-logo.png');
+}
+
+footer a.velog {
+    background-image: url('../images/footer/velog-logo.png');
+    margin-right: 10px;
+}
+
+/* Editor */
+.editor-wrap {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 30px;
+    padding-left: 400px;
+    padding-top : 30px;
+}
+
+.editor-wrap .editor {
+    width: 100%;
+    display: none;
+}
+
+.editor-wrap .editor.show {
     display: block;
+}
+
+.editor-wrap .editor input {
+    width: 100%;
+    height: 60px;
+    font-size: 30px;
+    padding: 0 10px;
+    outline: none;
+    border: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+}
+
+.editor-wrap .editor textarea {
+    width: 100%;
+    height: 750px;
+    padding: 10px;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
