@@ -21,7 +21,8 @@
   min-width: 0;
 
   &:hover .s_buttonContainer {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
   }
 }
 
@@ -48,7 +49,11 @@
 }
 
 .s_buttonContainer {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s,
+    opacity 0.3s linear;
   flex-shrink: 0;
 }
 
