@@ -1,7 +1,7 @@
 import debounce from "lodash.debounce";
 
 import { createComponent, useEffect, useState } from "@/core";
-import { ChildDocumentLinks } from "@/components";
+import { ChildDocumentLinks, NotFound } from "@/components";
 import { getDocument } from "@/apis";
 import { DocumentDetailResponseDto, DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
 import styles from "./editor.module.scss";
@@ -16,6 +16,7 @@ interface EditorProps {
 function Editor({ documentId, modifyDocument }: EditorProps) {
   const [childDocuments, setChildDocuments] = useState<DocumentDetailResponseDto[]>([]);
   const [documentForm, setDocumentForm] = useState({ title: "", content: "" });
+  const [isDocumentNotFound, setIsDocumentNotFound] = useState(false);
 
   useEffect(() => {
     const fetchDocument = async (id: number) => {
@@ -26,6 +27,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
         setChildDocuments(documents);
       } catch (error) {
         console.error(error);
+        setIsDocumentNotFound(true);
       }
     };
 
@@ -54,6 +56,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     if (!$title.value) {
       $title.setAttribute("placeholder", "제목을 입력해주세요");
     }
+
     debouncedUpdate($title.value, contentHtmlWitoutLinks);
   };
 
@@ -65,6 +68,10 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     $form.addEventListener("keyup", handleKeydownForm);
     childDocumentLinksComponent.bindEvents?.();
   };
+
+  if (isDocumentNotFound) {
+    return createComponent(NotFound);
+  }
 
   return {
     element: `
