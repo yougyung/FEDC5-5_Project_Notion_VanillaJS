@@ -37,12 +37,14 @@
 - [ ] 노션처럼 드래그앤 드랍으로 끌어서 위치를 조정하는 기능 -> API 미지원
 - [ ] 이벤트 쓰로틀링
 
-## 폴더 구조(23.10.17 13:10 UPDATE)
+## 폴더 구조(23.10.24 22:10 UPDATE)
 
 ┣ 📂src<br/>
-┃ ┣ 📂sidearea<br/>
-┃ ┃ ┣ 📜sideAreaPage.js<br/>
-┃ ┃ ┗ 📜sideAreaRender.js<br/>
+┃ ┣ 📂sidearea
+┃ ┃ ┣ 📜sideAreaFooter.js
+┃ ┃ ┣ 📜sideAreaHeader.js
+┃ ┃ ┣ 📜sideAreaPage.js
+┃ ┃ ┗ 📜sideAreaRender.js
 ┃ ┣ 📂textarea<br/>
 ┃ ┃ ┣ 📜textAreaPage.js<br/>
 ┃ ┃ ┗ 📜textAreaRender.js<br/>
@@ -51,6 +53,7 @@
 ┃ ┃ ┗ 📜storage.js<br/>
 ┃ ┣ 📜app.js<br/>
 ┃ ┗ 📜main.js<br/>
+┣ 📜.gitignore
 ┣ 📜README.md<br/>
 ┣ 🏞️Notion-logo<br/>
 ┣ 📜index.css<br/>

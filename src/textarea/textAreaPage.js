@@ -21,7 +21,7 @@ export default function TextAreaPage({ $target, initialState, onTextEditing, onT
 
     if (this.state.isLoading) {
       //대전제는 로딩
-      console.log(this.state);
+      // console.log(this.state);
       $titleInputArea.value = "Title Loading...";
     } else {
       switch (this.state.pageType) {

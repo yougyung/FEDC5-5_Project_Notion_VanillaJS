@@ -1,5 +1,5 @@
 const $ = document;
-export default function SideAreaPage({ $target, initialState, onClickPage, onClickDeleteButton }) {
+export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
   // 한번 더 나눌까 아니면 둘까
   // 나누자 sideAreaHeader, 여기sideAreaPage, sideAreaFooter
   // 근데 여기랑 연결하는 게 맞는거야? 아니면 sideAreaRender랑 연결하는 게 맞는거야?

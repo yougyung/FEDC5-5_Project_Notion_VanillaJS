@@ -106,7 +106,7 @@ export default function App({ $target }) {
           body: JSON.stringify({ title: title, content: target }),
         });
         $.querySelector(".textArea-content").focus();
-      }, 20);
+      }, 500);
     },
     onTitleEditing: async (id, content, target, key) => {
       if (timerForTitle !== null) {

@@ -1,8 +1,10 @@
-/* html,
+html,
 body {
-  margin: 0;
-  padding: 0;
-} */
+  /* margin: 0; */
+  /* padding: 0; */
+  width: 100%;
+  height: 100%;
+}
 .app {
   width: 100%;
   height: 100%;
@@ -26,7 +28,7 @@ body {
 }
 
 .sideBarPageList {
-  height: 80vh;
+  height: 85vh;
   overflow-y: auto;
 }
 
@@ -93,6 +95,10 @@ li:hover {
   border-color: gray;
 }
 
+.textArea-title:focus {
+  outline: none;
+}
+
 .textArea-content {
   padding: 5px;
   font-size: 1rem;
@@ -101,6 +107,10 @@ li:hover {
   /* border-color: gray; */
   border: none;
   resize: none;
+}
+
+.textArea-content:focus {
+  outline: none;
 }
 
 button {

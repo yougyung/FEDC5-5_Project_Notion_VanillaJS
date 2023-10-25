@@ -20,7 +20,7 @@ export default function SideAreaRender({
     this.render();
   };
 
-  const sideAreaPage = new SideAreaPage({ $target, initialState, onClickPage, onClickDeleteButton });
+  const sideAreaPage = new SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton });
 
   new SideAreaFooter({ $target, onClickButton });
 
