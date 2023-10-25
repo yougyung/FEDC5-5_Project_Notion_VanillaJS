@@ -55,7 +55,7 @@ export async function getData(id) {
 export async function addNewData(targetParentId) {
   const newData = await request("", {
     method: "POST",
-    body: JSON.stringify({ title: "제목 없음", parent: targetParentId }),
+    body: JSON.stringify({ title: "", parent: targetParentId }),
   });
   return await newData;
 }

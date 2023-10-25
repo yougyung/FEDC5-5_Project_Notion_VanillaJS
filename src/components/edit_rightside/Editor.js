@@ -3,6 +3,7 @@ import { setItem, getItem } from "../../storage/Storage.js";
 export default function Editor({ $target, initialState, onEditing }) {
   const $div = document.createElement("div");
   $target.appendChild($div);
+  $div.className = "editor-div";
 
   this.state = initialState;
 
@@ -18,11 +19,13 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render = () => {
     if (!this.state.isRender) {
-      // << 꺼내어쓰면 왜 안되지..
+      // <<br 꺼내어쓰면 왜 안되지..
       this.state.isRender = true;
       $div.innerHTML = `
-            <input name="title" type="text" value="${this.state.title}"></input>
-            <textarea name="content" style="width: 400px; height: 500px">${
+            <input placeholder="제목 없음" name="title" type="text" class="title-area" value="${
+              this.state.title
+            }"></input><p><p>
+            <textarea placeholder="내용을 입력해주세요." name="content" class="content-area"">${
               this.state.content ?? ""
             }</textarea>
             `;

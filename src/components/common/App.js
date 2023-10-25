@@ -4,8 +4,9 @@ import EditPage from "../edit_rightside/EditPage.js";
 import { request, updateData } from "../../api/Api.js";
 import { getItem } from "../../storage/Storage.js";
 import { initRouter } from "../../router/router.js";
+import LinkChildPost from "../link_rightside/LinkChildPost.js";
 
-const NOTION_NAME = "Minho's Notion";
+const NOTION_NAME = "📚 황 민호의 Notion";
 
 export default function App({ $target }) {
   const getPostListApi = async () => {

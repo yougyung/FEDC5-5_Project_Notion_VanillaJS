@@ -2,8 +2,8 @@ import Editor from "./Editor.js";
 import LinkChildPost from "../link_rightside/LinkChildPost.js";
 
 export default function EditPage({ $target, initialState, onNewTitle }) {
-  const $div = document.createElement("div");
-  $target.appendChild($div);
+  // const $div = document.createElement("div");
+  // $target.appendChild($div);
 
   this.state = initialState;
 

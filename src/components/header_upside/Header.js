@@ -1,10 +1,14 @@
 export default function Header({ $target, title }) {
-  const $h1 = document.createElement("h1");
-  $target.appendChild($h1);
+  const $div = document.createElement("div");
+  $div.id = "header";
+  const $p = document.createElement("p");
+  $p.innerText = title;
+  $div.appendChild($p);
+  $target.appendChild($div);
 
-  this.render = () => {
-    $h1.innerText = `${title}`;
-  };
+  // this.render = () => {
+  //   $h1.innerText = `${title}`;
+  // };
 
-  this.render();
+  // this.render();
 }

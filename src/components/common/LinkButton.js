@@ -5,7 +5,7 @@ export default function LinkButton({
   buttonType,
 }) {
   const $button = document.createElement("button");
-  $button.textContent = buttonName;
+  $button.innerHTML = buttonName;
   $button.className = className;
   $button.type = buttonType;
   $target.appendChild($button);
