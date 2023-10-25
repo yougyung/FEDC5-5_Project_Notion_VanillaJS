@@ -54,8 +54,14 @@ export default class DocumentEditor {
     HandleOnKeyup(e) {
         const {
             target,
+            key,
             target: { value, innerHTML, name },
         } = e;
+
+        // 방향키 입력 시 종료
+        if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
+            return;
+        }
 
         if (name === 'title') {
             const nextState = { ...this.state, [name]: value };
@@ -64,12 +70,16 @@ export default class DocumentEditor {
             this.onEditing(nextState, target);
         }
 
-        // 한글 입력시 2번의 이벤트를 받는다. timer로 지연시켜 마지막 입력 값을 가져온다.
+        // 한글 입력시 2번의 이벤트를 받는다. timer로 지연시켜 마지막 완성된 한글을 처리한다.
         if (name === 'content') {
             clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
             this.inputTimeout = setTimeout(() => {
-                // 새로운 setTimeout을 설정
-                const nextState = { ...this.state, [name]: innerHTML };
+                let nextState = { ...this.state, [name]: innerHTML };
+
+                if (key === 'Enter') {
+                    e.preventDefault(); // 기본 동작(새 줄 생성) 방지
+                    nextState = { ...this.state, [name]: this.state[name] + '<div><br></div>' };
+                }
 
                 this.setState(nextState);
                 this.onEditing(nextState);
