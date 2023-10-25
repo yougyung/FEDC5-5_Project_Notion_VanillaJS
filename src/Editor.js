@@ -140,6 +140,11 @@ export default function Editor({ $target, initialState, onEditing }) {
         showSearchResult({ e, thisState: this.state });
         return;
       }
+      if (target.childNodes[0] && target.childNodes[0].tagName === "A") {
+        for (let childNode of target.childNodes) {
+          childNode.remove();
+        }
+      }
       const nextState = {
         ...this.state,
         content: parentNode.innerHTML,
