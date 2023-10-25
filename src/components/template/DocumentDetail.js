@@ -15,11 +15,7 @@ export default function DocumentDetail({ $target, documentState }) {
   $target.appendChild($documentDetail);
 
   this.setState = nextState => {
-    if (nextState === null) {
-      return;
-    }
     const { id, title, content, documentPath } = nextState;
-
     documentHeader.setState(documentPath);
     editDocument.setState({ id, title, content });
   };

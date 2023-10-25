@@ -6,28 +6,35 @@
 import { moveCursorToEnd } from '../../../utils/editerUtils.js';
 import styleInJS from '../../../style/tagStyles.js';
 
-export default function DocumentContent({ $target, content, onEditContent }) {
+export default function DocumentContent({ $target, content, onEditContent, isDisabled = false }) {
   const $content = document.createElement('div');
   $content.setAttribute('contenteditable', 'true');
   styleInJS({ $target: $content, styleTagName: 'DocumentContent' });
   $target.appendChild($content);
 
   $content.addEventListener('input', e => {
-    this.setState(e.target.innerHTML);
-    onEditContent(this.state);
+    this.setState({ ...this.state, content: e.target.innerHTML });
+    onEditContent(this.state.content);
     moveCursorToEnd($content);
   });
 
-  this.state = content;
+  this.state = { content, isDisabled };
   this.setState = nextState => {
-    // this.state = nextState;
-    this.state = nextState.startsWith('<div>') ? nextState : `<div>${nextState}</div>`;
-
+    console.log('DocumentContent setState', nextState);
+    const content = nextState.content.startsWith('<div>') ? nextState.content : `<div>${nextState.content}</div>`;
+    this.state = { ...nextState, content };
     this.render();
   };
 
   this.render = () => {
-    const richContent = this.state
+    if (this.state.isDisabled) {
+      $content.innerHTML = this.state.content;
+      $content.removeAttribute('contenteditable');
+      return;
+    }
+    $content.setAttribute('contenteditable', 'true');
+
+    const richContent = this.state.content
       .split('<div>')
       .map(line => {
         if (line.indexOf('# ') === 0) {

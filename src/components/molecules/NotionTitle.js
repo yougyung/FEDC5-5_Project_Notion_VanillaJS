@@ -11,6 +11,7 @@ export default function NotionTitle({ $target, title }) {
   styleInJS({ $target: $notionTitle, styleTagName: 'NotionTitle' });
   $notionTitle.addEventListener('click', e => {
     e.preventDefault();
+    e.stopPropagation();
     push('/');
   });
   $target.appendChild($notionTitle);

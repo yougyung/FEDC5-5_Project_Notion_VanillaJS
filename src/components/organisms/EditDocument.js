@@ -17,9 +17,15 @@ export default function EditDocument({ $target, initialState }) {
   this.state = initialState;
 
   this.setState = nextState => {
+    console.log('EditDocument setState', nextState);
     this.state = nextState;
-    documentTitle.setState(this.state.title);
-    documentContent.setState(this.state.content);
+    if (this.state.id === null) {
+      documentTitle.setState({ title: this.state.title, isDisabled: true });
+      documentContent.setState({ content: this.state.content, isDisabled: true });
+      return;
+    }
+    documentTitle.setState({ title: this.state.title, isDisabled: false });
+    documentContent.setState({ content: this.state.content, isDisabled: false });
     debouncePostDocument(this.state, 1000);
   };
 

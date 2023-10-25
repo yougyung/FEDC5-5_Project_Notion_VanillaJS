@@ -43,7 +43,6 @@ export default function HomePage({ $target }) {
       for (const document of documents) {
         if (document.id === id) {
           documentPath.push({ title: document.title, id: document.id });
-          documentPath.push();
           return true;
         }
         if (document.documents.length > 0) {
@@ -67,7 +66,7 @@ export default function HomePage({ $target }) {
     if (pathname === '/') {
       // home 보여주기
       notionSideBar.setState(newDocuments);
-      documentDetail.setState(null);
+      documentDetail.setState({ id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] });
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
       const documentContent = request(`/documents/${postId}`);
