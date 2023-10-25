@@ -40,8 +40,11 @@ export default function PostList({ $target, initialState, onRenderContents }) {
   this.setState = (nextState) => {
     this.state = nextState;
 
-    const [_, id] = window.location.pathname.split("/");
-    checkLocalAndServerData(id);
+    if (window.location.pathname !== "/") {
+      const [_, id] = window.location.pathname.split("/");
+
+      checkLocalAndServerData(id);
+    }
 
     this.render();
   };
