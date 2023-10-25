@@ -3,19 +3,20 @@ import { ADD, NEW } from "../../utils/constants.js";
 export default function DocumentAddButton({ $target, initialState, onAdd }) {
   const $button = document.createElement("button");
 
-  $target.appendChild($button);
-
   this.state = initialState;
 
-  $button.className = `document-add-button ${this.state.position}`;
+  const { position, text } = this.state;
+  $button.className = `document-add-button ${position}`;
 
-  this.render = () => {
-    $button.innerHTML = `
+  $button.innerHTML = `
     <button type="button">
       <i class="fa-solid fa-plus ${ADD}"></i>
     </button>
-    <p>${this.state.text}</p>
-    `;
+    <p>${text}</p>
+  `;
+
+  this.render = () => {
+    $target.appendChild($button);
   };
 
   $button.addEventListener("click", () => {

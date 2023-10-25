@@ -32,10 +32,8 @@ export default function DocumentFooter({ $target, initialState }) {
     const $title = e.target.closest(".title");
     if (!$title) return;
 
-    let { id } = $title.dataset;
-    id = parseInt(id);
-
-    push(`${DOCUMENTS_ROUTE}/${id}`);
+    const { id } = $title.dataset;
+    push(`${DOCUMENTS_ROUTE}/${parseInt(id)}`);
   });
 
   this.render();

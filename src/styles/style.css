@@ -54,6 +54,7 @@ button {
 
 .document-list {
   overflow: auto;
+  height: 87.5%;
 }
 
 .document-list li {

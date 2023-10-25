@@ -8,7 +8,7 @@ export default function Editor({ $target, initialState = { title: "", content: "
     <textarea name="content" class="content" placeholder="내용을 입력하세요."></textarea>
   `;
 
-  //$editor.className = "editor";
+  $editor.className = "editor";
 
   $target.appendChild($editor);
 

@@ -1,6 +1,7 @@
 import { DOCUMENTS_ROUTE, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEMS } from "../../utils/constants.js";
 import { push } from "../../utils/router.js";
 import { getItem, setItem } from "../../utils/storage.js";
+import DocumentAddButton from "./DocumentAddButton.js";
 
 const DOCUMENT_ITEM = "document-item";
 const BLOCK = "block";
@@ -33,39 +34,48 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   };
 
   const renderDocuments = (nextDocuments, depth) => `
-        ${nextDocuments
-          .map(
-            ({ id, title, documents }) => `
-            <ul>
-              <li 
-                data-id="${id}" 
-                class="${DOCUMENT_ITEM} ${id === this.state.selectedId ? "selected" : ""}"  
-                style="padding-left: ${generateTextIndent(depth)}px">
-                ${renderButton(id)}
-                <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
-                <div class="buttons">
-                  <button title="삭제" class="${DELETE}" type="button">
-                    <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
-                  </button>
-                  <button title="하위 페이지 추가" class="${ADD}" type="button">
-                    <i title="하위 페이지 추가" class="fa-solid fa-plus ${ADD}"></i>
-                  </button>
-                </div>
-              </li>
-              ${
-                isBlock && documents.length
-                  ? renderDocuments(documents, depth + 2)
-                  : `<li 
-                      class="no-subpages" 
-                      style="padding-left: ${generateTextIndent(depth + 2)}px; display: ${isBlock ? BLOCK : NONE};">
-                      하위 페이지 없음
-                    </li>`
-              }
-              </ul>
-            `
-          )
-          .join("")}
-    `;
+    ${nextDocuments
+      .map(
+        ({ id, title, documents }) => `
+        <ul>
+          <li 
+            data-id="${id}" 
+            class="${DOCUMENT_ITEM} ${id === this.state.selectedId ? "selected" : ""}"  
+            style="padding-left: ${generateTextIndent(depth)}px">
+            ${renderButton(id)}
+            <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
+            <div class="buttons">
+              <button title="삭제" class="${DELETE}" type="button">
+                <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
+              </button>
+              <button title="하위 페이지 추가" class="${ADD}" type="button">
+                <i title="하위 페이지 추가" class="fa-solid fa-plus ${ADD}"></i>
+              </button>
+            </div>
+          </li>
+          ${
+            isBlock && documents.length
+              ? renderDocuments(documents, depth + 2)
+              : `<li 
+                  class="no-subpages" 
+                  style="padding-left: ${generateTextIndent(depth + 2)}px; display: ${isBlock ? BLOCK : NONE};">
+                  하위 페이지 없음
+                </li>`
+          }
+          </ul>
+        `
+      )
+      .join("")}
+  `;
+
+  const documentAddButton = new DocumentAddButton({
+    $target: $documentList,
+    initialState: {
+      position: "document-list-bottom",
+      text: "페이지 추가",
+    },
+    onAdd,
+  });
 
   this.render = () => {
     const { documents } = this.state;
@@ -73,6 +83,8 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     $documentList.innerHTML = `
       ${documents.length > 0 ? renderDocuments(documents, 1) : ""}
     `;
+
+    documentAddButton.render();
   };
 
   $documentList.addEventListener("click", (e) => {
