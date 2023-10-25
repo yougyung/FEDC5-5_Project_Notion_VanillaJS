@@ -1,4 +1,5 @@
 import { request } from "../../../utils.js";
+import DocumentLink from "./DocumentLink.js";
 
 export default function DocumentLinkList({ $parent, $target, initialState, onClose }) {
   const $documentLinkList = document.createElement("ul");
@@ -30,7 +31,6 @@ export default function DocumentLinkList({ $parent, $target, initialState, onClo
   };
 
   this.render = () => {
-    console.log(this.state);
     $documentLinkList.innerHTML = ` 
     <p class="modal-title">페이지를 선택하세요</p>
       <ul class="modal-list">
@@ -60,11 +60,7 @@ export default function DocumentLinkList({ $parent, $target, initialState, onClo
     console.log(title, id);
 
     if (id) {
-      const $documentLink = document.createElement("a");
-      $documentLink.className = "document-link";
-      $documentLink.innerText = title;
-      $documentLink.href = `/${id}`;
-      $parent.appendChild($documentLink);
+      new DocumentLink({ $target: $parent, id, title });
 
       const $searchDocumentLink = document.querySelector(".search-document-link");
       $searchDocumentLink.remove();
