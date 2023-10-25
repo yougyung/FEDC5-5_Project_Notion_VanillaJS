@@ -1,0 +1,31 @@
+.editor-nav-title {
+  max-width: 700px;
+  width: 100%;
+
+  margin: 0 auto;
+}
+
+.editor-link-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 700px;
+  width: 100%;
+
+  margin: 0 auto;
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, auto));
+
+    width: 100%;
+
+    & li:not(:last-of-type) {
+      padding-right: 10px;
+      margin-right: 10px;
+
+      border-right: 1px solid $background-light-hover;
+    }
+  }
+}

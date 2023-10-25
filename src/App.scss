@@ -1,0 +1,20 @@
+#app {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+
+  height: 100vh;
+}
+
+.sidebar {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+
+  background-color: $background-light;
+
+  border-right: 1px solid $background-light-hover;
+}
+
+.mainSection {
+  overflow: hidden;
+  background-color: $background;
+}

@@ -1,4 +1,5 @@
-* {
+*,
+*::placeholder {
   font-family: 'Pretendard-Regular';
   color: $text-color;
 }
@@ -35,4 +36,12 @@ td {
 ol,
 ul {
   list-style: none;
+}
+
+button {
+  background-color: inherit;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
 }

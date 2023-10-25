@@ -2,6 +2,8 @@ import MainPage from '@/pages/MainPage';
 import { addPopstateEvent, addRouteChangeEvent } from '@/router';
 import Component from '@/core/Component';
 
+import './App.scss';
+
 export default class App extends Component {
   setup() {
     this.$mainPage = new MainPage(this.$target);
