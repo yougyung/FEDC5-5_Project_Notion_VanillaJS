@@ -8,6 +8,7 @@ export default function TextAreaRender({ $target, initialState, onTextEditing, o
     this.state = nextState;
     this.render();
   };
+
   const textAreaPage = new TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing });
 
   this.render = () => {
