@@ -2,8 +2,8 @@ import request from "../../api.js";
 
 export default class Board {
 
-    constructor(rootElement) {
-
+    constructor({ rootElement, onChangeTitle }) {
+        this.onChangeTitle = onChangeTitle.bind(this);
         this.editorElement = document.createElement('div');
         this.editorElement.setAttribute("contenteditable", "true");
         rootElement.appendChild(this.editorElement);
@@ -34,5 +34,9 @@ export default class Board {
                 "content": content
             })
         });
+        if (this.title !== title) {
+            this.title = title;
+            this.onChangeTitle(this.id, title);
+        }
     }
 }

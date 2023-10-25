@@ -17,5 +17,22 @@ export default class MenuList {
             this.arr.push(new MenuItem(menuItem, this.menuListElement, this.onEvent));
         });
     }
+    updateDocumentTitle(id, title) {
+        const findNode = () => {
+            const queue = [...this.arr];
+            while (queue.length) {
+                const nowNode = queue.shift();
+                if (nowNode.item.id === id) {
+                    return nowNode;
+                }
+                nowNode.arr.map((documentItem) => {
+                    queue.unshift(documentItem);
+                });
+            }
+            return null;
+        };
+        const node = findNode();
+        node.documentNameLabelElement.textContent = title;
+    }
 }
 

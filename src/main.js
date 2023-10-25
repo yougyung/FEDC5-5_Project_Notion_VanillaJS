@@ -9,4 +9,9 @@ const sidebar = new Sidebar({
         board.setDocuments(id);
     }
 });
-const board = new Board(rootElement);
+const board = new Board({
+    rootElement,
+    onChangeTitle: (id, title) => {
+        sidebar.menuList.updateDocumentTitle(id, title);
+    }
+});
