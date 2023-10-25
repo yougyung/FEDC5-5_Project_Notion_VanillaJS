@@ -4,6 +4,9 @@ import ContentBlock from '@component/document/content-block';
 import { createElementWithClass, addEvent } from '../../util/dom';
 import './style.scss';
 
+const ARROWUP_CHARACTER = 'ArrowUp';
+const ARROWDOWN_CHARACTER = 'ArrowDown';
+
 export default function Document({ $target, initialState, handleOptimisticUITitle }) {
 	const $document = createElementWithClass('div', 'document');
 	$target.appendChild($document);
@@ -57,8 +60,14 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		});
 	};
 	this.handleKeyUpContent = (e) => {
-		const $contentBox = $document.querySelector('.document__content');
+		if (e.code === ARROWUP_CHARACTER) {
+			return e.target.previousSibling.focus();
+		}
+		if (e.code === ARROWDOWN_CHARACTER) {
+			return e.target.nextSibling.focus();
+		}
 
+		const $contentBox = $document.querySelector('.document__content');
 		debounce(async () => {
 			const { id, title } = this.state;
 			const newDocument = { title, content: $contentBox.innerHTML };
