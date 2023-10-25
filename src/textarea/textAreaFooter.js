@@ -23,7 +23,8 @@ export default function TextAreaFooter({ $target, initialState, onClickChildPage
       $childDocumentLink.innerHTML = "";
       this.state.map((children) => {
         const childNode = $.createElement("div");
-        childNode.style.margin = "10px";
+        childNode.className = "textArea-childDiv";
+        // childNode.style.margin = "10px";
         childNode.innerText = `${children.title}`;
         childNode.addEventListener("click", () => {
           onClickChildPage(children.id);

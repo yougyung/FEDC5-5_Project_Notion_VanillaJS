@@ -143,3 +143,24 @@ button:hover {
 .addNewPageWithoutRoot:hover {
   background-color: #949494;
 }
+
+.textArea-childLink {
+  display: flex;
+  height: 45px;
+  flex-direction: row;
+}
+
+.textArea-childDiv {
+  display: flex;
+  align-items: center;
+  overflow-y: hidden;
+  margin: 5px;
+  padding: 2px;
+  color: black;
+  border: solid 1px #614f4f;
+  border-radius: 3px;
+}
+
+.textArea-childDiv:hover {
+  background-color: #949494;
+}
