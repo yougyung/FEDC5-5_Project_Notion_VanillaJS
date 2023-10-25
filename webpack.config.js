@@ -37,6 +37,7 @@ module.exports = (_env, argv) => {
 
     output: {
       filename: 'index.js',
+      assetModuleFilename: 'images/[name][ext]',
       path: path.resolve(__dirname, 'build'),
       publicPath: '/',
       clean: true,
@@ -69,15 +70,8 @@ module.exports = (_env, argv) => {
           exclude: /node_modules/,
 
           use: [
-            {
-              loader: 'style-loader',
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true,
-              },
-            },
+            isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+            'css-loader',
             {
               loader: 'sass-loader',
               options: {
@@ -89,18 +83,6 @@ module.exports = (_env, argv) => {
             },
           ],
           include: path.join(__dirname, 'src'),
-
-          // use: [
-          //   isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          //   'css-loader',
-          //   // {
-          //   //   loader: 'sass-loader',
-          //   //   options: {
-          //   //     data: '@import "_variable";',
-          //   //     includePaths: [path.resolve(__dirname, './src/styles')],
-          //   //   },
-          //   // },
-          // ],
         },
       ],
     },

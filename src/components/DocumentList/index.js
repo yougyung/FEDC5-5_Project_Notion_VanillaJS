@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import Component from '@/core/Component';
-import Icon from '@/components/Icon';
+import DocumentItem from '@/components/DocumentItem';
+import { createTemplate } from '@/utils/dom';
 
 import './DocumentList.scss';
 
@@ -11,7 +12,11 @@ export default class DocumentList extends Component {
     };
 
     this.$documentList = document.createElement('nav');
+    this.$documentList.classList.add('document-navigator');
     this.$target.appendChild(this.$documentList);
+
+    const $addNewPageButton = createTemplate('<button class="add-new-page">페이지 추가</button>');
+    this.$target.appendChild($addNewPageButton);
   }
 
   setState(nextState) {
@@ -23,101 +28,39 @@ export default class DocumentList extends Component {
     this.$documentList.replaceChildren();
 
     this.createList(this.$documentList, this.state.documentList, 0);
-
-    const $addNewPageButton = document.createElement('button');
-    $addNewPageButton.textContent = '페이지 추가';
-    $addNewPageButton.classList.add('add-new-page');
-    this.$documentList.appendChild($addNewPageButton);
   }
 
-  // TODO 리팩토링이 시급해보임
   createList(parent, childrens, depth) {
-    const { unfoldedList } = this.props;
-    const $ul = document.createElement('ul');
-    $ul.classList.add('document-list', `depth-${depth}`);
+    const $ul = createTemplate(`<ul class="document-list depth-${depth}"></ul>`);
 
-    childrens.map((docs) => {
-      const $li = document.createElement('li');
-      $li.classList.add(
-        'document-item-wrapper',
-        `${unfoldedList.includes(docs.id.toString()) || 'folded'}`,
-      );
-      $li.dataset.id = docs.id;
+    if (childrens.length < 1) new DocumentItem($ul, null);
 
-      const $wrapper = document.createElement('div');
-      $wrapper.classList.add('document-item');
-      $li.appendChild($wrapper);
+    childrens.forEach((docs) => {
+      const { $li } = new DocumentItem($ul, docs || null);
 
-      const $toggleButton = document.createElement('button');
-      new Icon($toggleButton, { icon: 'ARROW' });
-      $toggleButton.classList.add('list-toggle-button');
-      $wrapper.appendChild($toggleButton);
-
-      const $documentTitle = document.createElement('span');
-      $documentTitle.textContent = docs.title || '제목 없음';
-      $documentTitle.classList.add(docs.title ? 'document-title' : 'empty-document-title');
-      $wrapper.appendChild($documentTitle);
-
-      const $addChildPageButton = document.createElement('button');
-      new Icon($addChildPageButton, { icon: 'PLUS' });
-      $addChildPageButton.classList.add('add-page');
-      $wrapper.appendChild($addChildPageButton);
-
-      const $deletePageButton = document.createElement('button');
-      new Icon($deletePageButton, { icon: 'TRASH' });
-      $deletePageButton.classList.add('delete-page');
-      $wrapper.appendChild($deletePageButton);
-
-      $ul.appendChild($li);
-
-      if (docs.documents.length > 0) {
-        this.createList($li, docs.documents, depth + 1);
-      } else {
-        const $ul = document.createElement('ul');
-        $ul.classList.add('document-list', `depth-${depth + 1}`);
-        const $lastLi = document.createElement('li');
-        $lastLi.classList.add('end-of-list');
-        $lastLi.textContent = '하위 페이지 없음';
-        $ul.appendChild($lastLi);
-        $li.appendChild($ul);
-      }
+      if ($li) this.createList($li, docs.documents, depth + 1);
     });
 
     parent.appendChild($ul);
   }
 
   setEvent() {
-    this.addEvent('click', '.document-title', ({ target }) => {
+    this.$documentList.addEventListener('click', ({ target }) => {
       const $li = target.closest('li');
       const documentId = Number($li.dataset.id);
+      const { onSelect, onCreate, onDelete, onToggle } = this.props;
 
-      this.props.onSelect(documentId);
+      if (target.closest('.document-title')) onSelect(documentId);
+      if (target.closest('.add-page')) onCreate(documentId);
+      if (target.closest('.delete-page')) onDelete(documentId);
+      if (target.closest('.list-toggle-button')) onToggle(documentId);
     });
+  }
 
-    this.addEvent('click', '.add-page', ({ target }) => {
-      const $li = target.closest('li');
-      const documentId = Number($li.dataset.id);
+  handleClickEventByDocumentId(target, callback) {
+    const $li = target.closest('li');
+    const documentId = Number($li.dataset.id);
 
-      this.props.onCreate(documentId);
-    });
-
-    this.addEvent('click', '.delete-page', ({ target }) => {
-      const $li = target.closest('li');
-      const documentId = Number($li.dataset.id);
-
-      this.props.onDelete(documentId);
-    });
-
-    this.addEvent('click', '.add-new-page', () => {
-      this.props.onCreate();
-    });
-
-    this.addEvent('click', '.list-toggle-button', ({ target }) => {
-      const $li = target.closest('li');
-      const id = $li.dataset.id;
-
-      $li.classList.toggle('folded');
-      this.props.onToggle(id);
-    });
+    callback(documentId);
   }
 }

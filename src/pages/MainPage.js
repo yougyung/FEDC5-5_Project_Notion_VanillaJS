@@ -2,7 +2,7 @@ import { push } from '@/router';
 import Component from '@/core/Component';
 import DocumentList from '@/components/DocumentList';
 import Editor from '@/components/Editor';
-import Navigation from '../components/Navigation';
+import Navigation from '@/components/Navigation';
 
 import {
   getAllDocuments,
@@ -12,7 +12,8 @@ import {
   updateDocument,
 } from '@/api/document';
 import { API_END_POINT } from '@/constants/api';
-import { debounce } from '../utils/debounce';
+import { debounce } from '@/utils/debounce';
+import { createTemplate } from '@/utils/dom';
 
 export default class MainPage extends Component {
   constructor($target) {
@@ -25,23 +26,21 @@ export default class MainPage extends Component {
   async setup() {
     this.state = { currentId: null };
 
-    this.$sidebar = document.createElement('aside');
-    this.$sidebar.classList.add('sidebar');
-    this.$section = document.createElement('section');
-    this.$section.classList.add('section');
+    this.$sidebar = createTemplate('<aside class="sidebar"></aside>');
+    this.$mainSection = createTemplate('<section class="mainSection"></section>');
     this.$documentList = new DocumentList(this.$sidebar, {
       onSelect: this.handleDocumentSelect.bind(this),
       onToggle: this.handleDocumentToggle.bind(this),
       onCreate: this.handleDocumentCreate.bind(this),
       onDelete: this.handleDocumentDelete.bind(this),
     });
-    this.$editor = new Editor(this.$section, {
+    this.$editor = new Editor(this.$mainSection, {
       onEdit: debounce(this.handleEditorEdit.bind(this), 1000),
     });
-    this.$navigation = new Navigation(this.$section);
+    this.$navigation = new Navigation(this.$mainSection);
 
     this.$target.appendChild(this.$sidebar);
-    this.$target.appendChild(this.$section);
+    this.$target.appendChild(this.$mainSection);
   }
 
   setState(nextState) {
