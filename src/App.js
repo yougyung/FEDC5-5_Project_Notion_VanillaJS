@@ -1,7 +1,7 @@
 import DocumentHeader from './components/Document/DocumentHeader.js';
 import DocumentList from './components/Document/DocumentList.js';
 import Editor from './components/Editor/Editor.js';
-import SubDocumentFooter from './components/Document/SubDocumentFooter.js';
+import SubDocumentEditor from './components/Editor/SubDocumentEditor.js';
 import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
 import { removeItem, setItem } from './utils/storage.js';
@@ -61,7 +61,7 @@ export default function App({ $target }) {
     onClickDocument: async (id) => {
       await getSelectedDocument(id);
       push(`/${id}`);
-      subDocumentFooter.setState(this.state.subDocuments);
+      subDocumentEditor.setState(this.state.subDocuments);
     },
     onClickAddButton: async (id) => {
       const addedDocument = await addDocument(id, '제목 없음');
@@ -127,7 +127,7 @@ export default function App({ $target }) {
   $target.appendChild($editorContainer);
 
   // Sub Document Footer Component
-  const subDocumentFooter = new SubDocumentFooter({
+  const subDocumentEditor = new SubDocumentEditor({
     $target: $editorContainer,
     initialState: this.state.subDocuments ? this.state.subDocuments : [],
     onClick: async (id) => {
@@ -159,7 +159,7 @@ export default function App({ $target }) {
     });
 
     editor.setState(selectedDocument);
-    subDocumentFooter.setState(selectedDocument.documents);
+    subDocumentEditor.setState(selectedDocument.documents);
   };
 
   // API: Document 추가하기
