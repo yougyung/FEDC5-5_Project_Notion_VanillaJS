@@ -20,7 +20,7 @@ function UserGuide() {
           <h2 class="guide-subheader">사이드바 문서 뷰</h2>
           <p class="guide-content">
             작성된 모든 문서는 사이드바에서 간편하게 확인할 수 있습니다. 
-            이를 통해 사용자는 원하는 문서를 쉽게 찾을 수 있습니다.
+            사용자는 사이드바에서 원하는 문서를 쉽게 찾을 수 있습니다.
           </p>
         </article>
 
@@ -33,7 +33,7 @@ function UserGuide() {
         </article>
 
         <p class="${s_guideSummary}">
-          이와 같은 특징들을 통해 노션은 사용자에게 효과적이고 효율적인 문서 관리 경험을 제공합니다.
+          노션의 이와 같은 특징은 사용자에게 효과적이고 효율적인 문서 관리 경험을 제공합니다.
           <p>지금부터 경험해보세요!</p>
         </p>
         
