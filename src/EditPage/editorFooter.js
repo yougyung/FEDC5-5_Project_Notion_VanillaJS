@@ -22,7 +22,7 @@ export default function EditorFooter({
 
     const renderLinkButton = (documents) => {
         return `
-        <div>
+        <div> 
             ${documents.map(list =>     
                 `<button data-id=${list.id} name="childDocumentButton" >${list.title}</button>
                 `).join('')}
@@ -48,6 +48,7 @@ export default function EditorFooter({
         push(`/documents/${id}`)
     });
 
+    
     this.render()
 
 }
