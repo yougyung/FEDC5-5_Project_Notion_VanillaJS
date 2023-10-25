@@ -1,3 +1,4 @@
+import { request } from "../../utils/api.js";
 import { push } from "../../utils/router.js";
 
 export default function SidebarBody({ $target }) {
@@ -5,6 +6,39 @@ export default function SidebarBody({ $target }) {
   const $renderList = document.createElement("div");
   $sidebarBody.className = "sidebar-body";
   $target.appendChild($sidebarBody);
+
+  this.setState = async () => {
+    this.state = await request("/documents", {
+      method: "GET",
+    });
+    $renderList.innerHTML = "";
+    this.render();
+  };
+
+  const refreshDocuments = async () => {
+    $renderList.innerHTML = "";
+    await this.setState();
+  };
+
+  const addDocument = async (dataId) => {
+    const newDocument = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "제목 없음",
+        parent: dataId,
+      }),
+    });
+
+    push(`/documents/${newDocument.id}`);
+  };
+
+  const deleteDocument = async (dataId) => {
+    await request(`/documents/${dataId}`, {
+      method: "DELETE",
+    });
+
+    push("/");
+  };
 
   const renderDocuments = (documents, $renderList) => {
     documents.forEach((e) => {
@@ -60,4 +94,6 @@ export default function SidebarBody({ $target }) {
       push(`/documents/${dataId}`);
     }
   });
+
+  window.addEventListener("postUpdated", refreshDocuments);
 }
