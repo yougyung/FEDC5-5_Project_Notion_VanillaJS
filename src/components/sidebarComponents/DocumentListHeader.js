@@ -1,4 +1,4 @@
-import DocumentAddButton from "./DocumentAddButton.js";
+import RootDocumentAddButton from "./RootDocumentAddButton.js";
 
 export default function DocumentListHeader({ $target, onAdd }) {
   const $documentListHeader = document.createElement("header");
@@ -13,7 +13,7 @@ export default function DocumentListHeader({ $target, onAdd }) {
 
   this.render();
 
-  new DocumentAddButton({
+  new RootDocumentAddButton({
     $target: $documentListHeader,
     initialState: {
       documentId: "new",

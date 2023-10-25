@@ -1,4 +1,4 @@
-export default function DocumentAddButton({ $target, initialState, onAdd }) {
+export default function RootDocumentAddButton({ $target, initialState, onAdd }) {
   const $documentAddButton = document.createElement("button");
   $documentAddButton.className = "add-button";
   $documentAddButton.type = "button";
