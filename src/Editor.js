@@ -35,6 +35,7 @@ export default function Editor({ $target, initialState, onEditing }) {
           const $newLine = document.createElement('div');
           $newLine.setAttribute('contenteditable', 'true');
           $newLine.innerText = text;
+          $newLine.className = 'edit-line';
 
           if (type === 'h1-title') {
             $newLine.className = 'edit-line h1-title';
@@ -42,8 +43,6 @@ export default function Editor({ $target, initialState, onEditing }) {
             $newLine.className = 'edit-line h2-title';
           } else if (type === 'h3-title') {
             $newLine.className = 'edit-line h3-title';
-          } else {
-            $newLine.className = 'edit-line';
           }
 
           $editContainer.appendChild($newLine);
@@ -117,10 +116,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       target.classList.add('h3-title');
     }
 
-    if (text === '@') {
-      console.log('링크?');
-    }
-
     const docsTextList = document.querySelectorAll('.edit-line');
     let docsText = [];
     docsTextList.forEach((node) => {
@@ -183,7 +178,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
 
     const { keyCode } = e;
-    // console.log(keyCode);
     // 엔터키
     if (keyCode === 13) {
       e.preventDefault();
