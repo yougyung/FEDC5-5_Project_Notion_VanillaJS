@@ -148,6 +148,9 @@ button:hover{
     color: inherit;
     border: none;
 }
+.editor>input:focus{
+    outline: none;
+}
 .editor>input::placeholder{
     color:#e1e1e0;
 }

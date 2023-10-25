@@ -115,7 +115,7 @@ export default function DocumentItem({
     if (e.target.tagName === "A") {
       e.preventDefault();
     }
-    if (e.target.tagName !== "BUTTON") {
+    if (!e.target.closest("button")) {
       push(
         `/documents/${$documentItem.dataset.id}`,
         changeBackgroundSelectedDocument
