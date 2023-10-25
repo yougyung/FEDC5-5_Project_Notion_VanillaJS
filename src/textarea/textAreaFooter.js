@@ -14,10 +14,10 @@ export default function TextAreaFooter({ $target, initialState, onClickChildPage
   $target.appendChild($childDocumentLink);
 
   this.render = () => {
+    $childDocumentLink.innerHTML = "";
     if (this.state === undefined) {
       console.log(`하위 페이지 없음`);
     } else if (Array.isArray(this.state)) {
-      $childDocumentLink.innerHTML = "";
       this.state.map((children) => {
         const childNode = $.createElement("div");
         childNode.className = "textArea-childDiv";
