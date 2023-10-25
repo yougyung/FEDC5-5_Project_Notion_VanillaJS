@@ -18,7 +18,7 @@ export default function App({ $target }) {
   this.state = {
     postListPage: [],
     postViewPage: {
-      id: "new",
+      id: "",
       post: {
         title: "",
         content: "",
@@ -36,7 +36,7 @@ export default function App({ $target }) {
     $target,
     initialState: this.state.postListPage,
     onPostClick: async (id) => {
-      if (this.state.postViewPage.id === "new") return;
+      if (id === "undefined") return;
       history.pushState(null, null, `/posts/${id}`);
       this.route();
     },
@@ -52,6 +52,7 @@ export default function App({ $target }) {
       });
     },
     onPostSubClick: async (classType, id) => {
+      if (id === "undefined") return;
       if (classType === "addPost") {
         const createdPost = await request("/documents", {
           method: "POST",
