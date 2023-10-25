@@ -54,5 +54,6 @@ package.json
 package-lock.json
 .prettierrc
 .eslintrc.json
+.gitignore
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode
