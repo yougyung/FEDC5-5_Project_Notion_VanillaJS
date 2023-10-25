@@ -2,6 +2,7 @@ import { createComponent } from "@/core";
 import classNames from "classnames";
 import { DocumentResponseDto } from "@/types";
 import styles from "./documentItem.module.scss";
+
 interface DocumentItemProps {
   document: DocumentResponseDto;
   index: string;
@@ -53,7 +54,7 @@ function DocumentItem({ document, index }: DocumentItemProps): DocumentItemRetur
                 <img src="/assets/svg/plus.svg" />
               </button>
               <button data-parent-id="${id}" class="deleteDocumentButton" type="button">
-              <img src="/assets/svg/delete.svg" />
+                <img src="/assets/svg/delete.svg" />
               </button>
             </div>
           </div>
