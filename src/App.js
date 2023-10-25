@@ -24,7 +24,6 @@ export default function App({ $target }) {
     $wrap.style.display = "flex";
     $wrapEditPage.style.display = "none";
 
-    console.log("route 발생");
     const { pathname } = location;
     if (pathname === "/") {
       sideBar.setState();
@@ -39,12 +38,7 @@ export default function App({ $target }) {
 
   initRouter(() => this.route());
   customSideBarList(async () => {
-    console.log("custom에서 콜백 handle");
     await sideBar.setState();
   });
-
-  // 새로고침시 반영 잠간 스누즈
-  // window.addEventListener("beforeunload", function (event) {
-  //   event.returnValue = "!!";
-  // });
+  window.addEventListener("popstate", () => this.route());
 }
