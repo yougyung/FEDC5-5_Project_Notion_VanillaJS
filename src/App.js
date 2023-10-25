@@ -15,9 +15,21 @@ export default function App({ $target }) {
       }
     }
   */
-  this.state = {};
+  this.state = {
+    postListPage: [],
+    postViewPage: {
+      id: "new",
+      post: {
+        title: "",
+        content: "",
+      },
+    },
+  };
+
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state);
+    postViewPage.setState(this.state.postViewPage);
     postListPage.setState(this.state.postListPage);
   };
 
@@ -30,11 +42,14 @@ export default function App({ $target }) {
     },
     onAddPostClick: () => {
       history.pushState(null, null, "/posts/new");
-      postListPage.setState([
-        ...postListPage.state,
-        { title: "제목 없음", documents: [] },
-      ]);
       this.route();
+      this.setState({
+        ...this.state,
+        postListPage: [
+          ...this.state.postListPage,
+          { title: "제목 없음", documents: [] },
+        ],
+      });
     },
     onPostSubClick: async (classType, id) => {
       if (classType === "addPost") {
@@ -56,7 +71,7 @@ export default function App({ $target }) {
       }
 
       const postArr = await request("/documents");
-      postListPage.setState(postArr);
+      this.setState({ ...this.state, postListPage: postArr });
       this.route();
     },
   });
@@ -64,13 +79,7 @@ export default function App({ $target }) {
   let timer = null;
   const postViewPage = new PostViewPage({
     $target,
-    initialState: {
-      id: "new",
-      post: {
-        title: "",
-        content: "",
-      },
-    },
+    initialState: this.state.postViewPage,
     onEditing: (post) => {
       if (timer !== null) clearTimeout(timer);
 
@@ -85,13 +94,7 @@ export default function App({ $target }) {
             }),
           });
           history.replaceState(null, null, `/posts/${createdPost.id}`);
-          this.setState({
-            id: createdPost.id,
-            post: {
-              title: createdPost.title,
-              content: createdPost.content || "",
-            },
-          });
+          this.route();
         } else {
           await request(`/documents/${this.state.postViewPage.id}`, {
             method: "PUT",
@@ -116,7 +119,10 @@ export default function App({ $target }) {
     if (pathname.indexOf("/posts/") === 0) {
       const [, , id] = pathname.split("/");
       if (id === "new") {
-        postViewPage.setState({ id: "new", post: { title: "", content: "" } });
+        this.setState({
+          ...this.state,
+          postViewPage: { id: "new", post: { title: "", content: "" } },
+        });
         return;
       }
 

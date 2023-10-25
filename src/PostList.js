@@ -12,6 +12,9 @@ export default function PostList({
   $target.appendChild($postList);
   $target.appendChild($addPostWrapper);
 
+  /* 
+    [{ title: string }]
+  */
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;

@@ -1,4 +1,3 @@
-import { request } from "../api.js";
 import Editor from "../Editor.js";
 
 export default function PostViewPage({ $target, initialState, onEditing }) {
@@ -19,17 +18,13 @@ export default function PostViewPage({ $target, initialState, onEditing }) {
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
-
     editor.setState(this.state.post);
     this.render();
   };
 
   const editor = new Editor({
     $target: $page,
-    initialState: {
-      title: "",
-      content: "",
-    },
+    initialState: this.state.post,
     onEditing,
   });
 

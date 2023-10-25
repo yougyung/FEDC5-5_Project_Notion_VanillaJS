@@ -10,7 +10,8 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   /* 
     {
-      post: {}
+      title: string,
+      content: string
     }
   */
   this.state = initialState;

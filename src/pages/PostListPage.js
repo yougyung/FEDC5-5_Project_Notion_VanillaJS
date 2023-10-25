@@ -28,7 +28,7 @@ export default function PostListPage({
 
   const postList = new PostList({
     $target: $page,
-    initialState: [],
+    initialState: this.state,
     onPostClick,
     onAddPostClick,
     onPostSubClick,
