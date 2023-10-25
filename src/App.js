@@ -1,5 +1,5 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
-import { request, initRouter, push } from "./utils.js";
+import { request, initRouter } from "./utils.js";
 
 export default function App({ $target }) {
   let timer = null;
@@ -15,45 +15,40 @@ export default function App({ $target }) {
     sidebar.render();
   };
 
+  const createDocument = async (title, parent) => {
+    try {
+      const { id: newId, ...newDocument } = await request("", {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          parent,
+        }),
+      });
+
+      history.replaceState(null, null, `${newId}`);
+
+      documentEditPage.setState({
+        documentId: newId,
+        document: newDocument,
+      });
+
+      sidebar.setState({
+        ...sidebar.state,
+        selectedDocumentId: parseInt(newId),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onAdd = async (id) => {
     try {
       if (id === "new") {
-        const { id: newRootId } = await request("", {
-          method: "POST",
-          body: JSON.stringify({
-            title: "",
-            parent: null,
-          }),
-        });
-
-        history.replaceState(null, null, `${newRootId}`);
-
-        documentEditPage.setState({ documentId: newRootId });
-
-        sidebar.setState({
-          ...sidebar.state,
-          selectedDocumentId: parseInt(newRootId),
-        });
+        // 새 루트 문서 생성
+        createDocument("", null);
       } else if (typeof id === "number") {
-        const { id: newSubId, ...newSubDocument } = await request("", {
-          method: "POST",
-          body: JSON.stringify({
-            title: "",
-            parent: id,
-          }),
-        });
-
-        history.replaceState(null, null, `${newSubId}`);
-
-        documentEditPage.setState({
-          documentId: newSubId,
-          document: newSubDocument,
-        });
-
-        sidebar.setState({
-          ...sidebar.state,
-          selectedDocumentId: parseInt(newSubId),
-        });
+        // 새 하위 문서 생성
+        createDocument("", id);
       }
     } catch (error) {
       console.log(error);
@@ -132,7 +127,6 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
-
     if (pathname === "/") {
       Init();
       return;
