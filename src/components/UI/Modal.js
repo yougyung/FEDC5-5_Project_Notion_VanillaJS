@@ -1,6 +1,5 @@
 export default function Modal() {
-  const $modalOverlay = document.createElement('div');
-  $modalOverlay.className = 'modal-overlay';
+  const $modalOverlay = document.querySelector('.modal-overlay');
 
   const $modal = document.createElement('div');
   $modal.className = 'modal';
@@ -11,6 +10,7 @@ export default function Modal() {
 
   const $modalContent = document.createElement('div');
   $modalContent.className = 'modal-content';
+
   $modalContent.innerHTML = `
   <ul>
     <li>페이지 추가로 새로운 문서를 추가할 수 있어요!</li>
@@ -32,17 +32,22 @@ export default function Modal() {
   $modal.appendChild($modalContent);
   
   $modalOverlay.appendChild($modal);
-  document.body.appendChild($modalOverlay);
+  
+  this.render = () => {
+    $modalOverlay.style.display = 'block';
+  }
 
   $closeButton.addEventListener('click', () => {
     $modalOverlay.style.display = 'none';
-    document.body.removeChild($modalOverlay);
+    $modalOverlay.removeChild($modal);
   });
 
   window.addEventListener('click', (e) => {
     if(e.target === $modalOverlay){
       $modalOverlay.style.display = 'none';
-      document.body.removeChild($modalOverlay);
+      $modalOverlay.removeChild($modal);
     }
   });
+
+  this.render();
 }
