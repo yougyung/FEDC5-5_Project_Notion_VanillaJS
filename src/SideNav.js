@@ -31,8 +31,6 @@ export default function SideNav({
   };
 
   this.render = () => {
-    // $target.appendChild($sideNav);
-
     $navHeader.innerHTML = `
     <div class="nav-header-title">개인 페이지</div>
     <button data-id="root" class="nav-plus-btn">➕</button>
@@ -45,12 +43,19 @@ export default function SideNav({
     const joinDoc = docList.join('');
 
     $navDocuments.innerHTML = joinDoc;
+
+    const { selectedDoc } = this.state;
+    const $selDoc = document.querySelector(
+      `.nav-document[data-id="${selectedDoc.id}"`
+    );
+
+    if ($selDoc) $selDoc.classList.add('selected');
   };
 
   this.render();
 
   // onClickPlusBtn & onClickDeleteBtn & onClickDoc
-  $sideNav.addEventListener('click', async (e) => {
+  $navDocuments.addEventListener('click', async (e) => {
     const { className, dataset, classList } = e.target;
 
     if (className === 'nav-plus-btn') {
@@ -74,6 +79,54 @@ export default function SideNav({
 
     if (classList.contains('nav-toggle-btn')) {
       onClickToggleBtn(dataset.id);
+    }
+  });
+
+  $navDocuments.addEventListener('mouseover', (e) => {
+    const { classList, dataset } = e.target;
+
+    if (
+      classList.contains('nav-document') ||
+      classList.contains('nav-document-container') ||
+      classList.contains('nav-toggle-btn') ||
+      !classList.contains('nav-delete-btn') ||
+      !classList.contains('nav-plus-btn')
+    ) {
+      const $plusButton = document.querySelector(
+        `.nav-plus-btn[data-id="${dataset.id}"]`
+      );
+      const $deleteButton = document.querySelector(
+        `.nav-delete-btn[data-id="${dataset.id}"]`
+      );
+
+      if ($plusButton && $deleteButton) {
+        $plusButton.classList.remove('hidden');
+        $deleteButton.classList.remove('hidden');
+      }
+    }
+  });
+
+  $sideNav.addEventListener('mouseout', (e) => {
+    const { classList, dataset } = e.target;
+
+    if (
+      classList.contains('nav-document') ||
+      classList.contains('nav-document-container') ||
+      classList.contains('nav-toggle-btn') ||
+      !classList.contains('nav-delete-btn') ||
+      !classList.contains('nav-plus-btn')
+    ) {
+      const $plusButton = document.querySelector(
+        `.nav-plus-btn[data-id="${dataset.id}"]`
+      );
+      const $deleteButton = document.querySelector(
+        `.nav-delete-btn[data-id="${dataset.id}"]`
+      );
+
+      if ($plusButton && $deleteButton) {
+        $plusButton.classList.add('hidden');
+        $deleteButton.classList.add('hidden');
+      }
     }
   });
 }
