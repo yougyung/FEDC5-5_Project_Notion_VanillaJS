@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  /* overflow: hidden; */
 }
 body {
   margin: 0;
@@ -8,7 +7,6 @@ body {
 ul {
   list-style: none;
   margin: 0px;
-  /* padding-left: 0px; */
 }
 
 /* header */
@@ -27,6 +25,7 @@ ul {
   justify-content: space-between;
   cursor: pointer;
   transition: background 20ms ease-in 0s;
+  border-bottom: 1px solid #dddddd;
 }
 
 .header:hover {
@@ -51,10 +50,13 @@ ul {
   width: 24px;
   height: 24px;
   border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .side_bar {
   width: 220px;
-  background-color: rgb(251, 251, 250);
+  background-color: #ebedf4c9;
   height: 100vh;
   overflow: hidden;
   /* ////////// */
@@ -84,7 +86,7 @@ ul {
   padding: 2px 6px;
   border-radius: 3px;
   &:hover {
-    background: #e6e4dc;
+    background: #d9dce2a1;
   }
 }
 .button_wrap {
@@ -112,9 +114,6 @@ ul {
   &:hover {
     font-weight: bold;
   }
-}
-.edit_page {
-  overflow: hidden;
 }
 
 .each {
@@ -149,7 +148,7 @@ ul {
   margin-bottom: 3px;
   cursor: pointer;
   &:hover {
-    background: rgba(55, 53, 47, 0.08);
+    background: #d9dce2a1;
   }
 }
 .open {
@@ -174,9 +173,23 @@ ul {
 }
 
 /* 에디터 */
+.wrap_edit_page {
+  width: calc(100% - 220px);
+  display: block;
+  background: #b0bdd017;
+  padding-left: calc(50px + env(safe-area-inset-left));
+  padding-right: calc(50px + env(safe-area-inset-right));
+  padding-top: 40px;
+}
+.edit_page {
+  overflow: hidden;
+  background-color: #ffffffab;
+  border-radius: 15px;
+  padding: 40px 20px;
+}
+
 .editor_title {
-  padding-left: calc(96px + env(safe-area-inset-left));
-  margin-top: 100px;
+  padding-left: calc(20px + env(safe-area-inset-left));
   font-size: 40px;
 }
 .editor_title:focus {
@@ -201,12 +214,11 @@ ul {
   width: 100%;
   z-index: 4;
   padding-bottom: 15vh;
-  padding-left: calc(96px + env(safe-area-inset-left));
-  padding-right: calc(96px + env(safe-area-inset-right));
+  padding-left: calc(20px + env(safe-area-inset-left));
+  padding-right: calc(20px + env(safe-area-inset-right));
 }
 .editor_content_block {
   width: 100%;
-  max-width: 423px;
   margin-top: 2px;
   margin-bottom: 1px;
   /* height: fit-content;
@@ -281,7 +293,7 @@ a {
 }
 
 .sub_pages {
-  padding-left: 30px;
+  padding-left: 25px;
   display: flex;
   align-items: center;
 }
@@ -290,8 +302,8 @@ a {
   margin-right: 5px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #f7f7f7ab;
+  background-color: #edeff5d9;
   &:hover {
-    background-color: #f4f4f4;
+    background-color: #e5e9f1d9;
   }
 }

@@ -8,7 +8,7 @@ export default function App({ $target }) {
 
   const $wrapSideBar = document.createElement("div");
   const $wrapEditPage = document.createElement("div");
-  $wrapEditPage.style.width = "calc(100% - 220px)";
+  $wrapEditPage.className = "wrap_edit_page";
 
   $wrap.appendChild($wrapSideBar);
   $wrap.appendChild($wrapEditPage);
