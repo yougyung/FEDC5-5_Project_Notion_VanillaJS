@@ -37,9 +37,10 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
   this.state = initialState;
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
 
+    // 루트 포스트에서는 서버와 로컬의 최종 업데이트 시간 비교 X
     if (window.location.pathname !== "/") {
       const [_, id] = window.location.pathname.split("/");
 
@@ -86,9 +87,9 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     $element.addEventListener("click", async (e) => {
       const { id } = e.target;
 
-      // 로컬의 최종 업데이트 시간과 서버의 최종 업데이트 시간을 비교하여 사용자의 선택에 의해 로컬 또는 서버의 데이터를 불러옴
+      // 로컬과 서버의 최종 업데이트 시간을 비교하여 사용자의 선택에 의해 로컬 또는 서버의 데이터를 불러옴
       if (id) {
-        checkLocalAndServerData(id);
+        (await checkLocalAndServerData(id)) && onRenderContents(id);
       }
     });
   };
@@ -111,14 +112,15 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
         onRenderContents(id);
       } else {
+        // 로컬의 데이터가 아닌 서버의 데이터를 렌더링 한다면 해당 Id를 키로 가진 로컬 데이터 삭제 후 해당 id로 라우팅
         removeItem(LOCAL_STORAGE_KEY + +id);
         onRenderContents(id);
       }
 
-      return;
+      return Promise.resolve(false);
     }
 
-    onRenderContents(id);
+    return Promise.resolve(true);
   };
 
   // +, - 버튼 클릭 이벤트
