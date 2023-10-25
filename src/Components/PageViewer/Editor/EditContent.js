@@ -1,5 +1,6 @@
 import { controlKey } from "../../../Event/ControlKey.js";
-import { editorClickEvent } from "../../../Event/EditorClickEvent.js";
+import clickEvent from "../../../Event/ControlKey/ClickEvent.js";
+import contextMenuEvent from "../../../Event/ControlKey/ContextMenuEvent.js";
 import handleTyping from "../../../Event/HandleTyping.js";
 import RenderFormatConverter from "../../../Function/RenderFormatConverter.js";
 import CreateEditTextElement from "./CreateEditTextElement.js";
@@ -49,8 +50,12 @@ export default function EditContent({ target, state }) {
   });
 
   editContentElement.addEventListener("contextmenu", (event) => {
-    editorClickEvent({
+    contextMenuEvent({
       event,
     });
+  });
+
+  editContentElement.addEventListener("click", (event) => {
+    clickEvent({ event });
   });
 }

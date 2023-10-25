@@ -17,10 +17,10 @@ export default function HelpButton({ target, onClick }) {
   helpButtonElement.appendChild(buttonImgElement);
 
   buttonImgElement.addEventListener("mouseover", () => {
-    messageElement.style.opacity = 1;
+    messageElement.style.display = "flex";
   });
   buttonImgElement.addEventListener("mouseout", () => {
-    messageElement.style.opacity = 0;
+    messageElement.style.display = "none";
   });
 
   target.appendChild(helpButtonElement);
@@ -31,7 +31,6 @@ export default function HelpButton({ target, onClick }) {
 
   window.addEventListener("click", (e) => {
     if (e.target !== buttonImgElement && !this.state) {
-      e.preventDefault();
       onClick(this.state);
     }
   });

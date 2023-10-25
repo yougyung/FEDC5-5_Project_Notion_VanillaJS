@@ -1,9 +1,13 @@
 export default function IndexPage({ target }) {
   const indexPageElement = document.createElement("h1");
   indexPageElement.setAttribute("class", "pageViewer_indexPage");
-  indexPageElement.textContent = `
-  IndexPage\n
-  페이지 사용법 추가 예정
+  indexPageElement.innerHTML = `
+<div class="emptyBox"></div>
+<div class="titleBox">
+<h1 class="titleBox_title">Jae0's 짭션 🤔</h1>
+<img src="/src/Img/notion_logo.svg" class="titleBox_img">
+</div>
+<div class="subTitle">사용 설명은 오른쪽 물음표 클릭! ➡️</div>
   `;
 
   target.appendChild(indexPageElement);

@@ -12,8 +12,8 @@ export function changePlaceFoucs({
     const offset = selection.anchorOffset;
     target.focus();
     const nextTextNode = selection.anchorNode;
+
     if (pickOffset) {
-      console.log(nextTextNode);
       selection.collapse(nextTextNode, pickOffset);
       return;
     }
@@ -22,6 +22,7 @@ export function changePlaceFoucs({
       selection.collapse(nextTextNode, nextTextNode.length);
       return;
     }
+
     if (nextTextNode.length >= offset) {
       selection.collapse(nextTextNode, offset);
       return;

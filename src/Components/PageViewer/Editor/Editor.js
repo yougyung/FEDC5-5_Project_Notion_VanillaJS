@@ -38,7 +38,6 @@ export default function Editor({ target, state, onEditing }) {
   });
 
   /* Event */
-
   editorElement.addEventListener("keyup", () => {
     const { id, createdAt, updatedAt, documents } = this.state;
     const titleValue =
@@ -46,7 +45,6 @@ export default function Editor({ target, state, onEditing }) {
     const contentValue =
       editorElement.querySelector("[data-name=content]").innerHTML ?? "";
 
-    // const focus = document.getSelection().focusOffset;
     const newState = {
       id,
       title: titleValue,

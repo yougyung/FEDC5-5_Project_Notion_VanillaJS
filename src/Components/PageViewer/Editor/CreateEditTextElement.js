@@ -7,7 +7,7 @@ export default function CreateEditTextElement({
   element = "div",
 }) {
   const createElement = document.createElement(element);
-  createElement.textContent = text;
+  createElement.innerHTML = text;
   if (!noContentEdit) {
     createElement.setAttribute("contenteditable", "true");
   }

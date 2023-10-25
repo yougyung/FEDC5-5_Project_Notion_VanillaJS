@@ -73,6 +73,32 @@ export default function handleTyping({ event }) {
       element: "span",
     });
   }
+
+  if (text.indexOf("[]") === 0) {
+    hasClass(target);
+    target.removeAttribute("contenteditable");
+    target.setAttribute("class", "checkbox");
+    target.innerHTML = `<input type="checkbox" class="checkbox_input">`;
+    const replaced = changeWord(text, /\[\]/);
+
+    const labelElement = new CreateEditTextElement({
+      target,
+      className: "checkbox_text",
+      element: "label",
+      text: replaced,
+    });
+
+    changePlaceFoucs({
+      target: labelElement.getElement(),
+      isEndPoint: true,
+    });
+  }
+
+  /* 굵은 글씨 */
+  const boldReg = /\*\*\*.+\*\*\*/;
+  if (boldReg.test(text)) {
+    target.innerHTML = text.replace(/\*\*\*/, "<b>").replace(/\*\*\*/, "</b>");
+  }
 }
 
 /*  */

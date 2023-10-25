@@ -1,5 +1,5 @@
 .pageViewer_editor_content > div {
-  border: 1px red solid;
+  /* border: 1px red solid; */
   display: flex;
   align-items: center;
   height: max-content;
@@ -63,4 +63,19 @@
   outline: none;
   font-weight: 500;
   white-space: pre-line;
+}
+
+.checkbox > .checkbox_input {
+  margin: 0;
+  height: 2.4rem;
+  margin: 0 1rem;
+}
+.checkbox > .checkbox_text {
+  width: 100%;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  height: max-content;
+  outline: none;
+  vertical-align: baseline;
 }

@@ -1,6 +1,12 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
 
 export default function RenderFormatConverter({ text, target }) {
+  /* 볼드체 */
+  const boldReg = /\*\*\*.+\*\*\*/;
+  if (boldReg.test(text)) {
+    text = text.replace(/\*\*\*/, "<b>").replace(/\*\*\*/, "</b>");
+  }
+  console.log(text);
   /* 제목 관련 */
   /* h1 요소 생성 */
   if (text.indexOf("# ") === 0) {
@@ -41,6 +47,8 @@ export default function RenderFormatConverter({ text, target }) {
     });
   }
 
+  /* 체크 박스 관련 */
+
   if (text.indexOf("<callOut>") === 0) {
     const replacedText = text.replace(/<callOut>/, "");
     const callBox = new CreateEditTextElement({
@@ -63,6 +71,41 @@ export default function RenderFormatConverter({ text, target }) {
       className: "callBox_textBox",
       appendTarget: emojiBox.getElement(),
       element: "span",
+    });
+    return;
+  }
+
+  /* 체크 박스 관련 */
+  if (text.indexOf("<[x]>") === 0) {
+    const replaced = text.replace(/<\[x\]>/, "");
+    const checkBoxElement = new CreateEditTextElement({
+      target,
+      noContentEdit: true,
+      className: "checkbox",
+    });
+    checkBoxElement.getElement().innerHTML = `<input type="checkbox" class="checkbox_input" checked="">`;
+    new CreateEditTextElement({
+      target: checkBoxElement.getElement(),
+      className: "checkbox_text",
+      element: "label",
+      text: replaced,
+    });
+    return;
+  }
+
+  if (text.indexOf("<[]>") === 0) {
+    const replaced = text.replace(/<\[\]>/, "");
+    const checkBoxElement = new CreateEditTextElement({
+      target,
+      noContentEdit: true,
+      className: "checkbox",
+    });
+    checkBoxElement.getElement().innerHTML = `<input type="checkbox" class="checkbox_input">`;
+    new CreateEditTextElement({
+      target: checkBoxElement.getElement(),
+      className: "checkbox_text",
+      element: "label",
+      text: replaced,
     });
     return;
   }

@@ -5,6 +5,7 @@
 @import url(/CSS/PageViewer/EditorText.css);
 @import url(/CSS/PageViewer/PageViewer.css);
 @import url(/CSS/PageViewer/SubPageList.css);
+@import url(/CSS/IndexPage.css);
 
 :root {
   --color-white: rgb(255, 255, 255);

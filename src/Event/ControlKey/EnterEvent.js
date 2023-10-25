@@ -3,7 +3,6 @@ import CreateEditTextElement from "../../Components/PageViewer/Editor/CreateEdit
 
 export default function enterEvent({
   nextTarget,
-  prevTarget,
   EditorElement,
   event,
   eventTarget,
@@ -26,6 +25,32 @@ export default function enterEvent({
     });
     changePlaceFoucs({
       target: newElement.getElement(),
+    });
+    return;
+  }
+
+  /* 체크박스에서 엔터 */
+  if (
+    eventTarget.className === "checkbox_text" &&
+    event.isComposing === false
+  ) {
+    event.preventDefault();
+    const cutLength = getOffset();
+    const text = evnetTargetText.slice(cutLength);
+    eventTarget.innerText = evnetTargetText.slice(0, cutLength);
+
+    const checkBoxElement = new CreateEditTextElement({
+      target: EditorElement,
+      noContentEdit: true,
+      className: "checkbox",
+      insertBeforeTarget: eventTarget.parentNode,
+    });
+    checkBoxElement.getElement().innerHTML = `<input type="checkbox" class="checkbox_input">`;
+    new CreateEditTextElement({
+      target: checkBoxElement.getElement(),
+      className: "checkbox_text",
+      element: "label",
+      text: text,
     });
     return;
   }

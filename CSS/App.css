@@ -30,8 +30,7 @@
   font-weight: 600;
   color: var(--color-font);
 
-  opacity: 0;
-  transition: all 0.3s;
+  display: none;
 }
 
 .app_helpButton_img {

@@ -1,4 +1,4 @@
-export function editorClickEvent({ event }) {
+export default function contextMenuEvent({ event }) {
   const { target } = event;
 
   /* 우클릭 구분선 삭제 */
