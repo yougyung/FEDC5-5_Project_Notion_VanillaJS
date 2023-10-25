@@ -58,3 +58,10 @@ export const deleteDocumentById = async id => {
     method: "DELETE"
   })
 }
+
+export const editDocument = async (id, content) => {
+  const data = await requestDocument(`${DOCUMENTS}/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(content)
+  })
+}
