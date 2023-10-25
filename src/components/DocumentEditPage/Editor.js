@@ -1,4 +1,4 @@
-import { UNTITLED } from "../utils/constants.js";
+import { UNTITLED } from "../../utils/constants.js";
 
 export default function Editor({ $target, initialState = { title: "", content: "" }, onEdit }) {
   const $editor = document.createElement("div");

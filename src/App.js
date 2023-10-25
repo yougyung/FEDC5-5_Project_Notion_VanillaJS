@@ -1,5 +1,5 @@
-import DocumentEditPage from "./components/DocumentEditPage.js";
-import SidebarContainer from "./components/SidebarContainer.js";
+import DocumentEditPage from "./components/DocumentEditPage/DocumentEditPage.js";
+import SidebarContainer from "./components/Sidebar/SidebarContainer.js";
 import { fetchDocuments } from "./utils/api.js";
 import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, OPENED_ITEM } from "./utils/constants.js";
 import { initRouter, push } from "./utils/router.js";

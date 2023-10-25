@@ -1,7 +1,6 @@
-import { fetchDocuments, request } from "../utils/api.js";
-import { getItem, removeItem, setItem } from "../utils/storage.js";
+import { fetchDocuments } from "../../utils/api.js";
 import Editor from "./Editor.js";
-import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../utils/constants.js";
+import { NEW, NEW_PARENT, DOCUMENTS_ROUTE } from "../../utils/constants.js";
 import DocumentHeader from "./DocumentHeader.js";
 import DocumentFooter from "./DocumentFooter.js";
 

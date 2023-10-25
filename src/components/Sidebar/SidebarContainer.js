@@ -1,9 +1,6 @@
 import DocumentList from "./DocumentList.js";
-import { fetchDocuments, request } from "../utils/api.js";
-import { DOCUMENTS_ROUTE, NEW_PARENT, NEW } from "../utils/constants.js";
+import { fetchDocuments, request } from "../../utils/api.js";
 import DocumentAddButton from "./DocumentAddButton.js";
-import { setItem } from "../utils/storage.js";
-import { push } from "../utils/router.js";
 
 export default function SidebarContainer({ $target, onAdd, onDelete }) {
   const $sidebar = document.createElement("div");

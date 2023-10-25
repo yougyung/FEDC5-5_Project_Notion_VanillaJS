@@ -1,6 +1,6 @@
-import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEM } from "../utils/constants.js";
-import { push } from "../utils/router.js";
-import { getItem, setItem } from "../utils/storage.js";
+import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEM } from "../../utils/constants.js";
+import { push } from "../../utils/router.js";
+import { getItem, setItem } from "../../utils/storage.js";
 
 const DOCUMENT_ITEM = "document-item";
 const BLOCK = "block";

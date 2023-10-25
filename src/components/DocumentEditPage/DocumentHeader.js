@@ -1,4 +1,4 @@
-import { UNTITLED, DELETE } from "../utils/constants.js";
+import { UNTITLED, DELETE } from "../../utils/constants.js";
 
 export default function DocumentHeader({ $target, initialState, onDelete }) {
   const $header = document.createElement("header");
