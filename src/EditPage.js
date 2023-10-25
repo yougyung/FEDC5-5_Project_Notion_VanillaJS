@@ -1,10 +1,15 @@
 import EditHeader from './EditHeader.js';
 import Editor from './Editor.js';
+import EditFooter from './EditFooter.js';
 import { request } from './api.js';
-import { makeDocTree } from './makeDocTree.js';
-import { addStorage } from './storage.js';
+import { getStorage } from './storage.js';
 
-export default function EditPage({ $target, initialState, onEditDoc }) {
+export default function EditPage({
+  $target,
+  initialState,
+  onEditDoc,
+  onClick,
+}) {
   const $editPage = document.createElement('div');
   $editPage.className = 'edit-main';
 
@@ -14,7 +19,10 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
     this.state = nextState;
 
     editHeader.setState(nextState);
+
     editor.setState(nextState);
+
+    editFooter.setState(nextState);
 
     this.render();
   };
@@ -28,12 +36,16 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
     $target: $editPage,
     initialState: this.state,
     onEditing: async (newDoc) => {
-      const editDoc = await request(`/documents/${newDoc.id}`, {
+      await request(`/documents/${newDoc.id}`, {
         method: 'PUT',
         body: JSON.stringify({
           title: newDoc.title,
           content: newDoc.content,
         }),
+      });
+
+      const updatedDoc = await request(`/documents/${newDoc.id}`, {
+        method: 'GET',
       });
 
       const docs = await request('/documents', {
@@ -43,7 +55,7 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
       const nextState = {
         ...this.state,
         docsTree: docs,
-        selectedDoc: editDoc,
+        selectedDoc: updatedDoc,
         currentFocus: {
           id: newDoc.id,
           element: 'title',
@@ -58,12 +70,16 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
     $target: $editPage,
     initialState: this.state,
     onEditing: async (newDoc) => {
-      const editDoc = await request(`/documents/${newDoc.id}`, {
+      await request(`/documents/${newDoc.id}`, {
         method: 'PUT',
         body: JSON.stringify({
           title: newDoc.title,
           content: newDoc.content,
         }),
+      });
+
+      const updatedDoc = await request(`/documents/${newDoc.id}`, {
+        method: 'GET',
       });
 
       const docs = await request('/documents', {
@@ -73,7 +89,7 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
       const nextState = {
         ...this.state,
         docsTree: docs,
-        selectedDoc: editDoc,
+        selectedDoc: updatedDoc,
         currentFocus: {
           id: newDoc.id,
           element: 'content',
@@ -81,6 +97,14 @@ export default function EditPage({ $target, initialState, onEditDoc }) {
       };
 
       onEditDoc(nextState);
+    },
+  });
+
+  const editFooter = new EditFooter({
+    $target: $editPage,
+    initialState: this.state,
+    onClick: (clickedId) => {
+      onClick(clickedId);
     },
   });
 }
