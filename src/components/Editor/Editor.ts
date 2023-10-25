@@ -51,13 +51,17 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     const $content = window.document.querySelector("#content") as HTMLDivElement;
     const $childDocuments = window.document.querySelector(`.${s_childDocuments}`) as HTMLDivElement;
 
-    const contentHtmlWitoutLinks = $content.innerHTML.replace($childDocuments.outerHTML || "", "");
+    const contentHtmlWitoutLinks = $content.innerHTML
+      ? $content.innerHTML.replace($childDocuments?.outerHTML, "" || "").trim()
+      : "";
 
     if (!$title.value) {
       $title.setAttribute("placeholder", "제목을 입력해주세요");
     }
 
-    debouncedUpdate($title.value, contentHtmlWitoutLinks);
+    const title = $title.value || "Untitled";
+
+    debouncedUpdate(title, contentHtmlWitoutLinks);
   };
 
   const childDocumentLinksComponent = createComponent(ChildDocumentLinks, { documents: childDocuments });
@@ -81,9 +85,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
           <label for="title" class="a11yHidden">제목</label>
           <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" placeholder="제목을 입력해주세요"/>
           <div id="content" class="${s_editorContent}" contenteditable="true">
-            <div>
-              ${documentForm.content}
-            </div>
+            ${documentForm.content}
             <div class="${s_childDocuments}" contenteditable="false">
               ${childDocumentLinksComponent.element}
             </div>
