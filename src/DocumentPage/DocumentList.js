@@ -12,15 +12,37 @@ export default function DocumentList({ $target, initialState, onDelete }) {
     this.render();
   };
 
+  this.createMenuTree = (documents) => {
+    return documents
+      .map((doc) => {
+        return `<li data-id=${doc.id} class="document-item">
+          <div class="document-item-container">
+            <div class="item_content">
+              <img class="toggle-btn" src="/src/assets/img/arrow.png"/>${
+                doc.title
+              }
+            </div>
+            <div class="item_buttons">
+              <img class="delete-btn" src="/src/assets/img/delete.png"/>
+            </div>
+          </div>
+          ${
+            doc.documents
+              ? `<ul style="margin-left:10px">${this.createMenuTree(
+                  doc.documents
+                )}</ul>`
+              : ""
+          }
+        </li>`;
+      })
+      .join("");
+  };
+
   this.render = () => {
     $documentList.innerHTML = `
     <ul>
-      <li data-id="new" class="document-item">새로운 문서 추가하기 +</li>
-      ${this.state
-        .map(({ id, title }) => {
-          return `<li data-id=${id} class="document-item">${title}<img class="delete-btn" src="/src/assets/img/delete.png"/></li>`;
-        })
-        .join("")}
+      <li data-id="new" class="document-item-container">새로운 문서 추가하기 +</li>
+      ${this.createMenuTree(this.state)}
       </ul>`;
   };
 
