@@ -2,7 +2,7 @@ export default function CreateEditTextElement({
   target,
   className,
   text = "",
-  focusTarget,
+  insertBeforeTarget,
   noContentEdit,
   element = "div",
 }) {
@@ -15,8 +15,8 @@ export default function CreateEditTextElement({
     createElement.setAttribute("class", className);
   }
 
-  if (focusTarget) {
-    target.insertBefore(createElement, focusTarget.nextSibling);
+  if (insertBeforeTarget) {
+    target.insertBefore(createElement, insertBeforeTarget.nextSibling);
   } else {
     target.appendChild(createElement);
   }

@@ -30,8 +30,8 @@ export default function HelpButton({ target, onClick }) {
   });
 
   window.addEventListener("click", (e) => {
-    console.log(e.target);
     if (e.target !== buttonImgElement && !this.state) {
+      e.preventDefault();
       onClick(this.state);
     }
   });

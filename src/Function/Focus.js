@@ -1,15 +1,24 @@
-export function changePlaceFoucs(element, moveEndPoing = false) {
-  if (!element) {
+export function changePlaceFoucs({
+  target,
+  isEndPoint = false,
+  pickOffset = 0,
+}) {
+  if (!target) {
     return;
   }
 
   setTimeout(() => {
     const selection = document.getSelection();
     const offset = selection.anchorOffset;
-    element.focus();
+    target.focus();
     const nextTextNode = selection.anchorNode;
+    if (pickOffset) {
+      console.log(nextTextNode);
+      selection.collapse(nextTextNode, pickOffset);
+      return;
+    }
 
-    if (moveEndPoing) {
+    if (isEndPoint) {
       selection.collapse(nextTextNode, nextTextNode.length);
       return;
     }
@@ -21,4 +30,10 @@ export function changePlaceFoucs(element, moveEndPoing = false) {
     selection.collapse(nextTextNode, nextTextNode.length);
     return;
   }, 0);
+}
+
+export function getOffset(target) {
+  const selection = document.getSelection();
+  const offset = selection.anchorOffset;
+  return offset;
 }

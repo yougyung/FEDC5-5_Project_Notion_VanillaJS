@@ -1,4 +1,4 @@
-import converterToArray from "../../../Function/ConverterToArray.js";
+import SavaDataConverter from "../../../Function/SavaDataConverter.js";
 import EditContent from "./EditContent.js";
 import EditInfo from "./EditInfo.js";
 import EditTitle from "./EditTitle.js";
@@ -50,7 +50,7 @@ export default function Editor({ target, state, onEditing }) {
     const newState = {
       id,
       title: titleValue,
-      content: converterToArray(contentValue),
+      content: SavaDataConverter(contentValue),
       createdAt,
       updatedAt,
       documents,

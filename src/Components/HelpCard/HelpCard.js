@@ -41,14 +41,12 @@ export default function HelpCard({ target }) {
       cardElement.classList.remove("cardToggled");
       setTimeout(() => {
         cardElement.classList.remove("cardDisplay");
-      }, 500);
+      }, 300);
       return;
     }
     cardElement.classList.add("cardDisplay");
-
     setTimeout(() => {
       cardElement.classList.add("cardToggled");
     }, 10);
-    console.log(cardElement.classList);
   };
 }

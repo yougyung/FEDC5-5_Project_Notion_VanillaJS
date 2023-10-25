@@ -1,5 +1,5 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
-import { changePlaceFoucs } from "../Function/ChangeFocus.js";
+import { changePlaceFoucs } from "../Function/Focus.js";
 
 export default function handleTyping({ event }) {
   if (event.key !== " ") {
@@ -16,7 +16,7 @@ export default function handleTyping({ event }) {
 
     const replaced = changeWord(text, /#./);
     target.innerText = replaced;
-    changePlaceFoucs(target);
+    changePlaceFoucs({ target });
   }
   if (text.indexOf("## ") === 0) {
     hasClass(target);
@@ -24,7 +24,7 @@ export default function handleTyping({ event }) {
 
     const replaced = changeWord(text, /##./);
     target.innerText = replaced;
-    changePlaceFoucs(target);
+    changePlaceFoucs({ target });
   }
   if (text.indexOf("### ") === 0) {
     hasClass(target);
@@ -33,7 +33,7 @@ export default function handleTyping({ event }) {
     const replaced = changeWord(text, /###./);
     target.innerText = replaced;
 
-    changePlaceFoucs(target);
+    changePlaceFoucs({ target });
   }
 
   /* 구분선 */

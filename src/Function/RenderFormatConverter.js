@@ -1,6 +1,6 @@
 import CreateEditTextElement from "../Components/PageViewer/Editor/CreateEditTextElement.js";
 
-export default function converterToHtml({ text, target }) {
+export default function RenderFormatConverter({ text, target }) {
   /* 제목 관련 */
   /* h1 요소 생성 */
   if (text.indexOf("# ") === 0) {
@@ -61,7 +61,7 @@ export default function converterToHtml({ text, target }) {
       target: callBox.getElement(),
       text: replacedText,
       className: "callBox_textBox",
-      focusTarget: emojiBox.getElement(),
+      appendTarget: emojiBox.getElement(),
       element: "span",
     });
     return;

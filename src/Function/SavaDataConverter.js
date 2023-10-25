@@ -1,4 +1,4 @@
-export default function converterToArray(text) {
+export default function SavaDataConverter(text) {
   const makeArray = text
     .replace(/<\/div>/g, "<pass>")
     .replace(/&nbsp;/g, " ")

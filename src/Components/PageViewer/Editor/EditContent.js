@@ -1,6 +1,7 @@
 import { controlKey } from "../../../Event/ControlKey.js";
+import { editorClickEvent } from "../../../Event/EditorClickEvent.js";
 import handleTyping from "../../../Event/HandleTyping.js";
-import converterToHtml from "../../../Function/ConverterToHtml.js";
+import RenderFormatConverter from "../../../Function/RenderFormatConverter.js";
 import CreateEditTextElement from "./CreateEditTextElement.js";
 
 export default function EditContent({ target, state }) {
@@ -29,7 +30,7 @@ export default function EditContent({ target, state }) {
     const splited = this.state.split("<cut>");
 
     splited.forEach((item) => {
-      converterToHtml({
+      RenderFormatConverter({
         text: item,
         target: editContentElement,
       });
@@ -45,5 +46,11 @@ export default function EditContent({ target, state }) {
 
   editContentElement.addEventListener("keyup", (event) => {
     handleTyping({ event });
+  });
+
+  editContentElement.addEventListener("contextmenu", (event) => {
+    editorClickEvent({
+      event,
+    });
   });
 }

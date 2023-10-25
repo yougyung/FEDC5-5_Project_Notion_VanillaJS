@@ -151,7 +151,6 @@ export default function App({ target }) {
   const helpButton = new HelpButton({
     target: appElement,
     onClick: (newState) => {
-      console.log(newState);
       helpCard.setState(newState);
       helpButton.setState();
     },
