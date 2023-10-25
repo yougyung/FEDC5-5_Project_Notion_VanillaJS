@@ -3,6 +3,7 @@ import Editor from './Editor.js';
 import EditFooter from './EditFooter.js';
 import { request } from './api.js';
 import { getStorage } from './storage.js';
+import EditNav from './EditNav.js';
 
 export default function EditPage({
   $target,
@@ -18,6 +19,8 @@ export default function EditPage({
   this.setState = (nextState) => {
     this.state = nextState;
 
+    editNav.setState(nextState);
+
     editHeader.setState(nextState);
 
     editor.setState(nextState);
@@ -30,6 +33,11 @@ export default function EditPage({
   this.render = () => {};
 
   $target.appendChild($editPage);
+  // edit-nav
+  const editNav = new EditNav({
+    $target: $editPage,
+    inititalState: this.state,
+  });
 
   //  edit header
   const editHeader = new EditHeader({
