@@ -30,7 +30,7 @@ export default function EditorPage({ $target, initialState }) {
       timer = setTimeout(async () => {
         await updatePost(this.state.id, post);
         removeItem(postLocalSaveKey);
-        console.log("자동저장");
+        //console.log("자동저장");
       }, 300);
     },
   });

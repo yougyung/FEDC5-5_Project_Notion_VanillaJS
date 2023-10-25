@@ -46,7 +46,7 @@ export default function Modal({ $target, initialState, displayModal }) {
 
       timer = setTimeout(async () => {
         await updatePost(this.state.id, post);
-        console.log("자동 저장 완료");
+        //console.log("자동 저장 완료");
         removeItem(postLocalSaveKey);
         navigate(`/documents/${this.state.id}`);
       }, 300);

@@ -6,7 +6,6 @@ export const getPostList = async () => {
 };
 
 export const getPost = async documentId => {
-  console.log(documentId);
   const res = await apiClient(`/${documentId}`, { method: "GET" });
   return res;
 };
