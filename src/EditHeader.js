@@ -31,15 +31,20 @@ export default function EditHeader({ $target, initialState, onEditing }) {
           : '';
 
       const $editHeaderInput = document.querySelector('input#title');
-      if (currentFocus.element === 'title') $editHeaderInput.focus();
-      $editHeaderInput.value = title;
-    }
 
-    // focus 이벤트
+      if ($editHeaderInput) {
+        if (currentFocus.element === 'title') {
+          $editHeaderInput.focus();
+        }
+
+        $editHeaderInput.value = title;
+      }
+    }
 
     const $editHeaderInput = document.querySelector('input#title');
 
     if (!!$editHeaderInput) {
+      // focus 이벤트
       $editHeaderInput.addEventListener('focus', (e) => {
         const $input = e.target;
         $input.placeholder = '';
@@ -53,28 +58,26 @@ export default function EditHeader({ $target, initialState, onEditing }) {
       let timer = null;
       // 수정 이벤트
       $editHeaderInput.addEventListener('keyup', (e) => {
-        if (timer !== null) clearTimeout(timer);
-
         const newTitle = e.target.value;
+        const { selectedDoc } = this.state;
+        const editDoc = getStorage('selectedDoc', {
+          title: selectedDoc.title,
+          content: selectedDoc.content,
+        });
 
-        timer = setTimeout(() => {
-          const { selectedDoc } = this.state;
-          const editDoc = getStorage('selectedDoc', {
-            title: selectedDoc.title,
-            content: selectedDoc.content,
-          });
+        const newDoc = { ...editDoc, title: newTitle };
+        // 엔터키 이벤트
+        if (e.keyCode === 13) {
+          $editHeader.nextSibling.firstChild.focus();
+        } else {
+          if (timer !== null) clearTimeout(timer);
 
-          const newDoc = { ...editDoc, title: newTitle };
+          timer = setTimeout(() => {
+            addStorage('selectedDoc', newDoc);
 
-          // addStorage('selectedDoc', {
-          //   ...editDoc,
-          //   title: newTitle,
-          // });
-
-          addStorage('selectedDoc', newDoc);
-
-          onEditing(newDoc);
-        }, 2000);
+            onEditing(newDoc);
+          }, 1500);
+        }
       });
     }
   };
