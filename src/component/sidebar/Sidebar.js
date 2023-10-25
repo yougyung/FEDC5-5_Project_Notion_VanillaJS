@@ -1,12 +1,15 @@
-import MenuList from "./MenuList.js";
 import request from "../../api.js";
-import { addDocumentButton } from "./MenuOptions.js"
 
+import MenuList from "./MenuList.js";
+import MenuItem from "./MenuItem.js";
+import { addDocumentButton, serachButton } from "./MenuOptions.js"
 
 export default class Sidebar {
     constructor({ rootElement, onEvent }) {
         const sidebarElement = document.createElement('div');
         this.menuList = new MenuList(sidebarElement, onEvent);
+        onEvent = onEvent.bind(this);
+        const searchButtonElement = serachButton();
         const addDocumentButtonElement = new addDocumentButton({
             onClick: () => {
                 request("/documents", {
@@ -16,10 +19,12 @@ export default class Sidebar {
                         "parent": null
                     })
                 }
-                );
+                ).then(({ id, title }) => {
+                    this.menuList.arr.push(new MenuItem({ id, title, documents: [] }, this.menuList.menuListElement, onEvent));
+                })
             }
         });
-
+        rootElement.appendChild(searchButtonElement);
         rootElement.appendChild(sidebarElement);
         rootElement.appendChild(addDocumentButtonElement);
     }
