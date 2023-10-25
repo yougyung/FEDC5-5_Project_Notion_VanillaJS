@@ -55,10 +55,11 @@ export default function SideNav({
   this.render();
 
   // onClickPlusBtn & onClickDeleteBtn & onClickDoc
-  $navDocuments.addEventListener('click', async (e) => {
+  $sideNav.addEventListener('click', async (e) => {
     const { className, dataset, classList } = e.target;
 
     if (className === 'nav-plus-btn') {
+      console.log(dataset.id);
       onClickPlusBtn(dataset.id);
     }
 
@@ -106,7 +107,7 @@ export default function SideNav({
     }
   });
 
-  $sideNav.addEventListener('mouseout', (e) => {
+  $navDocuments.addEventListener('mouseout', (e) => {
     const { classList, dataset } = e.target;
 
     if (
