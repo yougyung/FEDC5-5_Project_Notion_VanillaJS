@@ -1,3 +1,5 @@
+import { buildTree } from "../utils/tree.js";
+
 export default function SideMenu({
   $target,
   initialState,
@@ -25,6 +27,7 @@ export default function SideMenu({
     const $h1 = e.target.closest("h1");
     if ($h1) onHeaderClick();
   });
+
   $nav.addEventListener("click", (e) => {
     const $li = e.target.closest("span[data-id]");
     if ($li) {
@@ -38,7 +41,7 @@ export default function SideMenu({
     if ($postAddButton) {
       const { add } = $postAddButton.dataset;
       const $ul = $postAddButton.parentNode.nextSibling;
-      $ul.innerHTML += `<li>제목없음</li>`;
+      $ul.innerHTML += `<li>제목없음<button> + </button><button> - </button></li>`; // Optimistic update
       onPlusClick(add);
     }
   });
@@ -47,19 +50,9 @@ export default function SideMenu({
     const $postRemoveButton = e.target.closest("button[data-remove]");
     if ($postRemoveButton) {
       const { remove } = $postRemoveButton.dataset;
+      const $ul = $postRemoveButton.parentNode;
+      $ul.innerHTML = ""; // Optimistic update
       onDeleteClick(remove);
     }
   });
 }
-
-const buildTree = (arr, depth) => {
-  if (arr.length) {
-    return `<ul data-depth=${depth}>${arr
-      .map(
-        ({ id, title, documents }) =>
-          `<li><span class="documentTitle" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
-          </li>${buildTree(documents, depth + 1)}`
-      )
-      .join("")}</ul>`;
-  } else return `<ul data-depth=${depth}></ul>`;
-};
