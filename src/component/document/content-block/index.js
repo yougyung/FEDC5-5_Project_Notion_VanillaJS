@@ -4,6 +4,7 @@ import './style.scss';
 
 const TYPE_CHANGE_CHARACTER = 'Space';
 const PLACEHOLDER_NODE = '<div class="content-block__placeholder">글자를 입력해주세요.</div>';
+const DELETE_CHARACTER = 'Backspace';
 
 export default function ContentBlock({ $target, initialState }) {
 	const $content = createElementWithClass(initialState.tagName ?? 'div', 'content-block');
@@ -30,7 +31,10 @@ export default function ContentBlock({ $target, initialState }) {
 			$content.innerHTML = PLACEHOLDER_NODE;
 			return;
 		}
-
+		if (DELETE_CHARACTER === e.code && $content.innerHTML === PLACEHOLDER_NODE) {
+			$target.removeChild($content);
+			return;
+		}
 		if (TYPE_CHANGE_CHARACTER === e.code) {
 			const tag = $content.innerHTML.split(' ')[0];
 			const isParsedTag = tag in parsedTagType;
