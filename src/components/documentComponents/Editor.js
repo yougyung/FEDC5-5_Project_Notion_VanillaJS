@@ -6,6 +6,7 @@ export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
   $target.appendChild($editor);
   $editor.className = "editor";
+  console.dir($editor);
 
   this.state = initialState;
 
@@ -27,7 +28,7 @@ export default function Editor({ $target, initialState, onEdit }) {
     const { title, content } = this.state;
 
     $editor.querySelector(".title").textContent = title;
-    $editor.querySelector(".content").textContent = content;
+    $editor.querySelector(".content").textContent = `${content}`;
   };
 
   $editor.addEventListener("input", (event) => {
@@ -38,12 +39,13 @@ export default function Editor({ $target, initialState, onEdit }) {
     const value = target.classList.value;
 
     if (this.state[value] !== undefined) {
-      const nextState = { ...this.state, [value]: target.textContent };
+      const nextState = { ...this.state, [value]: value === "title" ? target.textContent : target.innerText };
 
       if (value === "content") {
-        if (target.textContent.includes("/")) {
-          const newContent = target.textContent.split("/")[1];
-
+        if (target.innerText.includes("/")) {
+          const contents = target.innerText.split("/");
+          const newContent = contents[contents.length - 1];
+          console.dir(contents);
           if (newContent === "페이지링크") {
             const selectionStart = window.getSelection().anchorOffset;
             const $contentInnerModal = $editor.querySelector(".content-inner-modal");
@@ -62,6 +64,19 @@ export default function Editor({ $target, initialState, onEdit }) {
         this.setState(nextState);
         onEdit(nextState);
       }
+    }
+  });
+
+  $editor.addEventListener("keydown", (event) => {
+    const { target, key } = event;
+
+    if (key === "Enter" && target.classList.value === "content") {
+      event.preventDefault();
+      const range = window.getSelection().getRangeAt(0);
+      const br = document.createElement("br");
+      range.insertNode(br);
+      range.setStartAfter(br);
+      range.setEndAfter(br);
     }
   });
 
