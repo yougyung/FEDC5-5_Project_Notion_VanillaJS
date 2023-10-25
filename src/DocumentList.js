@@ -10,6 +10,7 @@ export default function DocumentList({
   $div.style.display = "flex";
   $div.style.flexDirection = "column";
   $div.style.height = "93%";
+  $div.style.overflow = "auto";
 
   $target.appendChild($div);
 
@@ -30,7 +31,9 @@ export default function DocumentList({
               <li class="rootDocument_data" id="${id}" style="padding-left:${depth}px;">
                   <div class="documentHover">
                       <div class="documentHeader">
-                      <button class="documentToggleButton" data-istoggle="${isToggle}">></button>
+                      <button class="documentToggleButton ${
+                        isToggle ? "toggleOn" : ""
+                      }" data-istoggle="${isToggle}">></button>
                         <div style="width:${250 - depth * 2}px">${title}</div>
                       </div>
                         <div class="buttonGroup">
@@ -66,9 +69,9 @@ export default function DocumentList({
                         
                         <div class="documentHover">
                             <div class="documentHeader">
-                              <button class="documentToggleButton" data-istoggle="${
-                                doc.isToggle
-                              }">></button>
+                              <button class="documentToggleButton ${
+                                doc.isToggle ? "toggleOn" : ""
+                              }" data-istoggle="${doc.isToggle}">></button>
                               <div>${doc.title}</div>
                             </div>
                           <div class="buttonGroup">
@@ -116,7 +119,7 @@ export default function DocumentList({
         fetchPostDocument(id);
       } else if (e.target.className === "documentDeleteButton") {
         fetchDeleteDocument(id);
-      } else if (e.target.className === "documentToggleButton") {
+      } else if (e.target.classList.contains("documentToggleButton")) {
         onToggle(parent.id, id);
         push(`/documents/${id}`);
       } else {

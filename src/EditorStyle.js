@@ -40,18 +40,19 @@ export default function EditorStyle({ $target, onStyle }) {
   const formatBar = document.querySelector(".styleDiv");
   let isDragging = false;
 
-  document.addEventListener("mousedown", (e) => {
+  $target.addEventListener("mousedown", (e) => {
     isDragging = true;
   });
 
-  document.addEventListener("mouseup", () => {
+  $target.addEventListener("mouseup", () => {
     if (isDragging) {
       const selection = window.getSelection();
       //type이 Range면 현재 텍스트가 드래그 되었다는 것
       if (selection.type === "Range") {
         // Selection 객체 내에서 선택한 텍스트 범위 중에서 첫번째 인덱스 범위를 가져온다.
         const range = selection.getRangeAt(0);
-        console.log(range);
+        $div.classList.remove("disappear");
+        $div.classList.add("appear");
         //위 range 객체에서 선택한 텍스트의 위치와 크기를 화면상의 좌표로 반환한다.
         //rect 객체는 DOMRect 타입이다.
         const rect = range.getBoundingClientRect();
@@ -63,20 +64,23 @@ export default function EditorStyle({ $target, onStyle }) {
     }
   });
 
-  document.addEventListener("click", () => {
+  $target.addEventListener("click", () => {
     //서식바가 보여지고있는 상태(즉 드래그된 데이터가 있음을 의미)
     //그리고 isDragging이 true인 상태(즉 mousedonw으로 true가 됐음을 의미)
 
     //그러면 서식바를 없애준다.
+
     if (formatBar.style.display === "block" && isDragging) {
+      $div.classList.remove("appear");
+      $div.classList.add("disappear");
       formatBar.style.display = "none";
     }
   });
 
   const showFormatBar = (x, y) => {
     formatBar.style.display = "block";
-    formatBar.style.left = x - 50 + "px";
-    formatBar.style.top = y - 60 + "px";
+    formatBar.style.left = x + "px";
+    formatBar.style.top = y + 10 + "px";
   };
 }
 

@@ -74,6 +74,7 @@ export default function DocumentEditComponent({
     $target: document.querySelector("#root"),
     initialState: {
       document: [],
+      totalHeigth: 0,
     },
   });
 

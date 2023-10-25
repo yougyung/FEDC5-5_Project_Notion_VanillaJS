@@ -56,13 +56,15 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
                 return `<h2>${line.substring(3)}</h2>`;
               } else if (line.indexOf("### ") === 0) {
                 return `<h3>${line.substring(4)}</h3>`;
-              } else if (documentList.find((el) => el.title === line)) {
+              } else if (
+                documentList.find((el) => el.tilte === "" && el.title === line)
+              ) {
                 const linkIndex = documentList.findIndex(
                   (doc) => doc.title === line
                 );
                 //만약 문서이름으로 된 텍스트가 입력되면 링크로 변하는 기능
                 //contenteditable="false" 속성을 넣어서 링크버튼으로 변하면 버튼안의 텍스트를 편집 못하게 함
-                return `<button contenteditable="false" id=${documentList[linkIndex].id} class="textLink" style="color:blue;cursor:pointer; readonly">@${line}</button>`;
+                return `<button contenteditable="false" id=${documentList[linkIndex].id} class="textLink" style="color:blue;cursor:pointer;">@${line}</button>`;
               }
               return line;
             })

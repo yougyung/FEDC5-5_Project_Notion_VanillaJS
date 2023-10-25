@@ -49,7 +49,9 @@ export default function App({ $target }) {
       documentEditComponent.setState({ id: documnetId });
     }
   };
+
   this.route();
+
   initRouter(() => this.route());
   window.addEventListener("popstate", () => {
     this.route();
