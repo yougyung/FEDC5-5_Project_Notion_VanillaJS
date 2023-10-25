@@ -6,7 +6,8 @@ import { documentStore } from "../../store/documentStore.js"
 export default class Content {
   constructor({ $target, initialState }) {
     this.$target = $target
-    this.state = initialState //현재 보고 있는 문서의 data
+    this.initialState = initialState
+    this.state = initialState //현재 클릭한 문서의 data
     documentStore.subscribe(() => {
       this.onChangeDocuments(documentStore.getState())
     })
@@ -21,6 +22,7 @@ export default class Content {
       $target: this.$content,
       props: { title: this.state.title, onEditing: this.onEditing.bind(this) }
     })
+
     this.editor = new Editor({
       $target: this.$content,
       props: {
@@ -28,12 +30,20 @@ export default class Content {
         onEditing: this.onEditing.bind(this)
       }
     })
+
     this.$target.appendChild(this.$content)
   }
 
   setState(nextState) {
-    this.state = nextState
-    this.render()
+    const { type, payload } = nextState
+    if (type === "SUCCESS") {
+      this.state = payload
+      this.render()
+    }
+    if (type === "FAIL") {
+      this.state = this.initialState
+      this.onFail()
+    }
   }
 
   async fetchSelectedDocument(pathname) {
@@ -45,17 +55,19 @@ export default class Content {
     }
     try {
       const document = await findDocumentById(pathname) //파싱된 pathname을 통해 해당 문서의 data를 불러온다
-      this.setState(document)
+      this.setState({ type: "SUCCESS", payload: document })
     } catch (err) {
-      console.error("문서 불러오기에 실패하였습니다")
+      //해당 id값을 가진 문서가 존재하지 않을 때 404 error 발생 - 원래 없었거나 or 방금 삭제된 데이터
+      this.setState({ type: "FAIL" })
     }
   }
 
   render() {
     //state값에 따라 Header , Editor 컴포넌트 렌더링
     this.$content.innerHTML = ""
-    this.header.setState(this.state.title)
-    this.editor.setState(this.state.content)
+    const { title, content } = this.state
+    this.header.setState(title)
+    this.editor.setState(content)
   }
 
   onEditing(type, payload) {
@@ -82,7 +94,11 @@ export default class Content {
       return
     }
     if (documents.deletedDocument.id === this.state.id) {
-      this.$content.innerHTML = `<div>삭제된 페이지입니다</div>`
+      this.setState({ type: "FAIL" })
     }
+  }
+
+  onFail() {
+    this.$content.innerHTML = `<div>삭제된 페이지입니다</div>`
   }
 }
