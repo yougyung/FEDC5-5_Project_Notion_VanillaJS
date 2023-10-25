@@ -1,7 +1,6 @@
 export default class Header {
   constructor({ $target, props }) {
     this.$target = $target
-    this.props = props
     this.state = props.title
     this.onEditing = props.onEditing
     this.setup()

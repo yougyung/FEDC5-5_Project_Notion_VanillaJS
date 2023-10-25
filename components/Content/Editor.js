@@ -1,9 +1,10 @@
 export default class Editor {
   constructor({ $target, props }) {
     this.$target = $target
-    this.props = props
     this.state = props.content
+    this.onEditing = props.onEditing
     this.setup()
+    this.setEvent()
   }
 
   setup() {
@@ -21,5 +22,15 @@ export default class Editor {
 
   render() {
     this.$editor.innerText = `${this.state || ""}`
+    this.timer = null
+  }
+  setEvent() {
+    this.$editor.addEventListener("keyup", e => {
+      console.log(e.target.innerText)
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+      this.timer = this.onEditing("CONTENT", e.target.innerText)
+    })
   }
 }
