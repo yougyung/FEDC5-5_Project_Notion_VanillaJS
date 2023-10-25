@@ -1,5 +1,5 @@
 export const isObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === "object" && value !== null;
+  return (typeof value === "object" || typeof value === "function") && value !== null;
 };
 
 export const deepEqual = (first: unknown, second: unknown): boolean => {
