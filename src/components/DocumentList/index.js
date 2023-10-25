@@ -2,6 +2,8 @@
 import Component from '@/core/Component';
 import DocumentItem from '@/components/DocumentItem';
 import { createTemplate } from '@/utils/dom';
+import { initStorage } from '@/utils/storage';
+import { STORAGE_KEY } from '@/constants/storage';
 
 import './DocumentList.scss';
 
@@ -10,6 +12,8 @@ export default class DocumentList extends Component {
     this.state = {
       documentList: [],
     };
+
+    this.unfoldedStorage = initStorage(STORAGE_KEY.UNFOLDED_STORAGE);
 
     this.$documentList = document.createElement('nav');
     this.$documentList.classList.add('document-navigator');
@@ -27,18 +31,21 @@ export default class DocumentList extends Component {
   createDom() {
     this.$documentList.replaceChildren();
 
-    this.createList(this.$documentList, this.state.documentList, 0);
+    const unfoldedList = this.unfoldedStorage.getItem();
+    this.createList(this.$documentList, this.state.documentList, 0, unfoldedList);
   }
 
-  createList(parent, childrens, depth) {
+  createList(parent, childrens, depth, unfoldedList) {
     const $ul = createTemplate(`<ul class="document-list depth-${depth}"></ul>`);
 
     if (childrens.length < 1) new DocumentItem($ul, null);
 
     childrens.forEach((docs) => {
-      const { $li } = new DocumentItem($ul, docs || null);
+      // TODO 차라리 createList를 주입해서 동작하도록 하면 어떨까?
+      // ! 자식 태그에 직접 개입하여 값을 추가하는 것은 위험해보임
+      const { $li } = new DocumentItem($ul, { isUnfolded: unfoldedList.includes(docs.id), docs });
 
-      if ($li) this.createList($li, docs.documents, depth + 1);
+      if ($li) this.createList($li, docs.documents, depth + 1, unfoldedList);
     });
 
     parent.appendChild($ul);
@@ -48,17 +55,19 @@ export default class DocumentList extends Component {
     this.$documentList.addEventListener('click', ({ target }) => {
       const $li = target.closest('li');
       const documentId = Number($li.dataset.id);
-      const { onSelect, onCreate, onDelete, onToggle } = this.props;
+      const { onSelect, onCreate, onDelete } = this.props;
 
       if (target.closest('.document-title')) onSelect(documentId);
       if (target.closest('.add-page')) onCreate(documentId);
       if (target.closest('.delete-page')) onDelete(documentId);
       if (target.closest('.list-toggle-button')) {
         $li.classList.toggle('folded');
-        onToggle(documentId);
+        this.unfoldedStorage.appendItem(documentId);
       }
     });
   }
+
+  handleToggleButton() {}
 
   handleClickEventByDocumentId(target, callback) {
     const $li = target.closest('li');

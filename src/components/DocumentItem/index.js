@@ -9,10 +9,11 @@ export default class DocumentItem extends Component {
 
   // eslint-disable-next-line max-lines-per-function
   createDom() {
-    const { id, title } = this.state;
+    const { isUnfolded, docs } = this.state;
+    const { id, title } = docs;
 
     this.$li = createTemplate(
-      `<li data-id="${id}" class="document-item-wrapper ${'folded'}"></li>`,
+      `<li data-id="${id}" class="document-item-wrapper ${isUnfolded ? '' : 'folded'}"></li>`,
     );
     this.$target.appendChild(this.$li);
 
@@ -53,7 +54,7 @@ export default class DocumentItem extends Component {
   }
 
   createEmptyDom() {
-    const $emptyLi = createTemplate('<li class="end-of-list">하위 페이지 없음</li>');
+    const $emptyLi = createTemplate('<li class="document-item end-of-list">하위 페이지 없음</li>');
     this.$target.appendChild($emptyLi);
   }
 
