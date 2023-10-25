@@ -125,6 +125,7 @@ export default function App({ $target }) {
         selectedDoc: {},
       });
     },
+    // 토글버튼 클릭
     onClickToggleBtn: async (id) => {
       const doc = await request(`/documents/${id}`, {
         method: 'GET',
