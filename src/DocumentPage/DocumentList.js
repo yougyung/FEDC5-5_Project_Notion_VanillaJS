@@ -1,6 +1,6 @@
 import { push } from "../router.js";
 
-export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({ $target, initialState, onDelete }) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
 
@@ -18,7 +18,7 @@ export default function DocumentList({ $target, initialState }) {
       <li data-id="new" class="document-item">새로운 문서 추가하기 +</li>
       ${this.state
         .map(({ id, title }) => {
-          return `<li data-id=${id} class="document-item">${title}</li>`;
+          return `<li data-id=${id} class="document-item">${title}<img class="delete-btn" src="/src/assets/img/delete.png"/></li>`;
         })
         .join("")}
       </ul>`;
@@ -30,6 +30,13 @@ export default function DocumentList({ $target, initialState }) {
 
     if ($li) {
       const { id } = $li.dataset;
+
+      // delete 버튼 클릭 시
+      if (e.target.classList.contains("delete-btn")) {
+        onDelete(id);
+        return;
+      }
+
       push(`/documents/${id}`); // 이벤트 dispatch
     }
   });

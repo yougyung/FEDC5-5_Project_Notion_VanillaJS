@@ -8,7 +8,12 @@ export default function App({ $target }) {
   $target.appendChild($documentContainer);
   $target.appendChild($editContainer);
 
-  const documentPage = new DocumentPage({ $target: $documentContainer });
+  const documentPage = new DocumentPage({
+    $target: $documentContainer,
+    onDocumentDelete: () => {
+      documentEditPage.setState({ postId: 104100 }); // 삭제 후 첫 글로
+    },
+  });
 
   const documentEditPage = new DocumentEditPage({
     $target: $editContainer,
@@ -20,8 +25,8 @@ export default function App({ $target }) {
       },
     },
     onListChange: () => {
+      // 문서 목록 변경 시
       documentPage.setState();
-      console.log("documentList에 반영되었습니다.");
     },
   });
 
@@ -30,7 +35,7 @@ export default function App({ $target }) {
     const { pathname } = window.location;
     if (pathname === "/") {
       documentPage.setState(); // 문서들 GET후 documentList에 그리기
-      documentEditPage.setState({ postId: 104100 }); // 일단 첫 글로.
+      documentEditPage.setState({ postId: 104100 }); // 일단 첫 글로 (임시)
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
       documentPage.setState();
