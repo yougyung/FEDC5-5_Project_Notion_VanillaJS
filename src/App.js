@@ -1,7 +1,7 @@
-import Editor from "./components/Editor.js"
+import NotionEditPage from "./components/NotionEditPage.js"
 import SideBar from "./components/SideBar.js"
 import { request } from "./utils/api.js"
-import { setItem } from "./utils/storage.js"
+import { push, initRouter } from "./utils/router.js"
 
 export default function App({$target}) {
 
@@ -9,26 +9,52 @@ export default function App({$target}) {
 
     this.setState = nextState => {
         this.state = nextState
-        sideBar.setState(nextState)
+        //sideBar.setState(nextState)
+        //notionEditPage.setState(nextState)
     }
 
+    const fetchDocuments = async() => {
+        const documents = await request('/documents')
+        console.log(documents)
+        this.setState(documents)
+        sideBar.setState(documents)
+    }
 
     const addDocument = async (parent=null) => {
-        const result = await request('', {
+        const res = await request('/documents', {
             method: "POST",
             body: JSON.stringify({
                 title : "제목 없음",
                 parent
             })
         })
-        fetchDocuments()
+
+        //이미 editor켜져있는 상태에서 새로운 페이지를 생성하면
+        //주소가 docu/docu/id가됨 그리고
+        //edit에 내용이 그대로 남아있음..
+
+        //만약 루트에서 추가하느 ㄴ경우 다르게해야함
+        //루트에서 추가하는데 editor이 켜져있어서 이미 주소가 document인경우..
+        if(parent==null) {
+            push(`../documents/${res.id}`)
+        }
+        
+        else {
+            push(res.id)
+        }
+        
+        //push()
+
+
+        this.route();
     }
 
     const deleteDocuments = async (id) => {
-        await request(id, {
+        await request(`/documents/${id}`, {
             method: "DELETE"
         })
-        fetchDocuments()
+        history.replaceState(null, null, "/");
+        this.route();
     }
 
     const sideBar = new SideBar({
@@ -36,39 +62,37 @@ export default function App({$target}) {
         initialState: this.state,
         onAdd: addDocument,
         onDelete: deleteDocuments
-        
     })
 
-    //let postLocalSaveKey = `temp-post-${this.state.postId}`
+    
 
-    const PostLocalSaveKey = 'temp-post'
-    let timer = null
+    const notionEditPage = new NotionEditPage({
+        $target, 
+        fetchDocuments
+    })
 
-    const editor = new Editor({
-        $target,
-        initialState: {
-            title: '', 
-            content: ''
-        },
-        onEditing : (post) => { //디바운스!
-            if(timer !== null) { 
-                clearTimeout (timer) 
-            }
-            timer = setTimeout(async() => { //연속으로 타자를 칠 때에는 이벤트 발생을 지연시키다가, 입력을 멈추고(마지막으로 이벤트가 발생하고)
-                setItem(PostLocalSaveKey, {
-                    ...post,
-                    tempSaveDate: new Date()
-                })
-            }, 1000)
+    this.route = () => {
+        //$target.innerHTML = ''
+        const {pathname} = window.location
+
+        fetchDocuments()
+
+        if(pathname === '/') {
+            notionEditPage.setState('')
         }
-
-    })
-
-    const fetchDocuments = async() => {
-        const documents = await request('')
-        console.log(documents)
-        this.setState(documents)
+        else if(pathname.indexOf('/documents/') === 0) {
+            const [, , id] = pathname.split('/')
+            notionEditPage.setState({id})
+        }  
     }
 
-    fetchDocuments();
+    this.route()
+
+    initRouter(() => this.route())
+
+    window.addEventListener("popstate", () => {
+        this.route();
+      });
+
+    //fetchDocuments();
 }
