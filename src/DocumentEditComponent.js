@@ -21,6 +21,7 @@ export default function DocumentEditComponent({
       await fetchDocument();
       return;
     }
+
     //3. API요청에서 setState다시실행
     //4. 현재 nextState에는 API에서 받아온 document가 있음
     if (
@@ -35,6 +36,7 @@ export default function DocumentEditComponent({
         content: this.state.document.content || "",
         documentList: this.state.documentList,
       });
+      editorFooterBar.setState({ document: this.state.document || "" });
     } else {
       //이 조건은 API요청 후에 this.state에 nextState를 넣어줘야하기 때문에 넣어주고 하위컴포넌트 렌더링
       this.state = nextState;
@@ -55,9 +57,8 @@ export default function DocumentEditComponent({
     $target: $page,
     initialState: { id: "", title: "", content: "", documentList: [] },
     onEditing: (document) => {
-      //만약 사용자가 입력을 멈추고 일정시간이 지나면 그때 localStorage에 저장하는 기법
       if (timer !== null) {
-        clearTimeout(timer); // clearTimeout을 해줘야 5초동안 이전 타이핑했을 때의 요청을 지워준다.
+        clearTimeout(timer);
       }
 
       timer = setTimeout(async () => {

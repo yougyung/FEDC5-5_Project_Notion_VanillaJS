@@ -7,6 +7,7 @@ export default function EditorFooterBar({ $target, initialState }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    console.log(this.state);
     this.render();
     const count = depthCheck(this.state.document.documents, 0);
 

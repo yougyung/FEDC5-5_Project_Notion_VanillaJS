@@ -53,7 +53,6 @@ export default function DocumentListComponent({ $target, initialState }) {
       } else {
         this.state.toggleData = [...this.state.toggleData, { parentId, id }];
       }
-      console.log(this.state.toggleData);
     },
   });
 

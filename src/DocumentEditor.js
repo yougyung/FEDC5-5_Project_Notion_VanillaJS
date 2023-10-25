@@ -91,8 +91,6 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
     $editor.querySelector("[name=content]").innerHTML = lines;
   };
 
-  this.render();
-
   $editor.addEventListener("input", (e) => {
     const { target } = e;
     const name = target.getAttribute("name");
