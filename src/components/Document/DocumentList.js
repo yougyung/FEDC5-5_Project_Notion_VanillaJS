@@ -3,7 +3,6 @@ export default function DocumentList({
   initialState,
   onClickDocument,
   onClickAddButton,
-  onClickInitialAddButton,
   onClickRemoveButton,
 }) {
   const $documentList = document.createElement('div');
@@ -28,7 +27,7 @@ export default function DocumentList({
             <div class='main-document-item'>
               <button class='fold-button'>
               ${
-                document.documents && document.documents.length > 0 
+                document.documents && document.documents.length > 0
                   ? '<i class="fa-solid fa-chevron-down"></i>'
                   : '<i class="fa-solid fa-chevron-right"></i>'
               }
