@@ -1,4 +1,9 @@
-export default function PageList({ $target, initialState, onPageDelete }) {
+export default function PageList({
+  $target,
+  initialState,
+  onPageSelect,
+  onPageDelete,
+}) {
   const $pageList = document.createElement("div");
   $pageList.className = "page_list";
   $target.appendChild($pageList);
@@ -85,12 +90,19 @@ export default function PageList({ $target, initialState, onPageDelete }) {
   $pageList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
+    if (id === undefined) return;
     const className = $li.className;
+    console.log(className);
     if (className === "toggle_button") {
-    } else if (className === "item_title") {
+      console.log("toggle");
+    } else if (className === "page_item") {
+      console.log("item title");
+      onPageSelect(id);
     } else if (className === "delete_button") {
-      if (id) onPageDelete(id);
+      console.log("delete");
+      onPageDelete(id);
     } else if (className === "add_button") {
+      console.log("add");
     }
     console.log(id);
   });

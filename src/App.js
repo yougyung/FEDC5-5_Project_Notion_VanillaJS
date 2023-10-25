@@ -26,6 +26,15 @@ export default function App({ $target }) {
   const $pageList = new PageList({
     $target: $pageManagerContainer,
     initialState: this.state.pageList,
+    onPageSelect: async (pageId) => {
+      const response = await request(`/documents/${pageId}`);
+      this.setState({
+        ...this.state,
+        targetPage: response,
+        targetPageDocuments: response.documents || [],
+      });
+      $editor.setState(response);
+    },
     onPageDelete: async (pageId) => {
       await request(`/documents/${pageId}`, {
         method: "DELETE",
@@ -39,6 +48,7 @@ export default function App({ $target }) {
   const $editor = new Editor({
     $target: $editorContainer,
     initialState: this.state.targetPage,
+    onEditing: (page) => {},
   });
 
   this.setState = (nextState) => {
