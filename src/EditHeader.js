@@ -26,14 +26,14 @@ export default function EditHeader({ $target, initialState, onEditing }) {
       $editHeader.innerHTML =
         title !== undefined
           ? `
-      <input type="text" id="title" name="title" placeholder="제목 없음" value=""/>
+      <input type="text" id="title" name="title" placeholder="제목 없음" />
      `
           : '';
 
       const $editHeaderInput = document.querySelector('input#title');
 
       if ($editHeaderInput) {
-        if (currentFocus.element === 'title') {
+        if (currentFocus.element === 'title' || title === '') {
           $editHeaderInput.focus();
         }
 
@@ -66,6 +66,7 @@ export default function EditHeader({ $target, initialState, onEditing }) {
         });
 
         const newDoc = { ...editDoc, title: newTitle };
+
         // 엔터키 이벤트
         if (e.keyCode === 13) {
           $editHeader.nextSibling.firstChild.focus();
