@@ -1,6 +1,5 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
 import { filterTitle } from "../../utils/filterTitle.js";
-import ContentInnerModal from "./documentLinkSearch/ContentInnerModal.js";
 
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
@@ -34,44 +33,13 @@ export default function Editor({ $target, initialState, onEdit }) {
     const value = target.classList.value;
 
     if (this.state[value] !== undefined) {
-      const nextState = { ...this.state, [value]: value === "title" ? target.textContent : target.innerText };
+      const nextState = { ...this.state, [value]: target.textContent };
 
-      if (value === "content") {
-        if (target.innerText.includes("/")) {
-          const contents = target.innerText.split("/");
-          const newContent = contents[contents.length - 1];
+      selectedDocumentSidebarTitle.textContent = filterTitle(this.state.title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM);
+      selectedDocumentHeaderTitle.textContent = filterTitle(this.state.title, MAX_TITLE_LENGTH.DOCUMENT_HEADER);
 
-          if (newContent === "페이지링크") {
-            const selectionStart = window.getSelection().anchorOffset;
-            const $contentInnerModal = $editor.querySelector(".content-inner-modal");
-            if (!$contentInnerModal) {
-              new ContentInnerModal({ $target: $editor.querySelector(".content"), selectionStart, option: "command" });
-            }
-          }
-          return;
-        }
-        this.setState(nextState);
-        onEdit(nextState);
-      } else {
-        selectedDocumentSidebarTitle.textContent = filterTitle(this.state.title, MAX_TITLE_LENGTH.DOCUMENT_LIST_ITEM);
-        selectedDocumentHeaderTitle.textContent = filterTitle(this.state.title, MAX_TITLE_LENGTH.DOCUMENT_HEADER);
-
-        this.setState(nextState);
-        onEdit(nextState);
-      }
-    }
-  });
-
-  $editor.addEventListener("keydown", (event) => {
-    const { target, key } = event;
-
-    if (key === "Enter" && target.classList.value === "content") {
-      event.preventDefault();
-      const range = window.getSelection().getRangeAt(0);
-      const br = document.createElement("br");
-      range.insertNode(br);
-      range.setStartAfter(br);
-      range.setEndAfter(br);
+      this.setState(nextState);
+      onEdit(nextState);
     }
   });
 
