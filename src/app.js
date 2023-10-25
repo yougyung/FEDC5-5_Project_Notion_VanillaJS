@@ -8,7 +8,8 @@ export default function App({ $target }) {
 
   this.state = {
     documentList: [],
-    selectedDocument: null,
+    selectedDocumentId: "new",
+    selectedDocumentContent: { id: "new", title: "", content: "" },
     isDocumentsLoading: false,
   };
 
@@ -22,15 +23,16 @@ export default function App({ $target }) {
       history.replaceState(null, null, "/");
       this.setState({
         ...this.state,
-        selectedDocument: null,
+        selectedDocumentId: "new",
       });
+
       await fetchSelectedDocument();
     },
     onSelect: async (documentId) => {
       history.replaceState(null, null, `${documentId}`);
       this.setState({
         ...this.state,
-        selectedDocument: documentId,
+        selectedDocumentId: documentId,
       });
       await fetchSelectedDocument();
     },
@@ -39,10 +41,10 @@ export default function App({ $target }) {
         method: "POST",
         body: JSON.stringify({ title: "제목없음", parent }),
       });
-      history.pushState(null, null, `${res.id}`);
+      history.replaceState(null, null, `${res.id}`);
       this.setState({
         ...this.state,
-        selectedDocument: res.id,
+        selectedDocumentId: res.id,
       });
       await fetchSelectedDocument();
       await fetchDocumentList();
@@ -54,9 +56,40 @@ export default function App({ $target }) {
     },
   });
 
+  let timer = null;
+
   const posting = new Posting({
     $target: $postsContainer,
-    initialState: this.state.selectedDocument,
+    initialState: this.state.selectedDocumentContent,
+    onEditing: (document) => {
+      if (timer !== null) clearTimeout(timer);
+      timer = setTimeout(async () => {
+        const isNew = this.state.selectedDocumentId === "new";
+        if (isNew) {
+          if (document.title.length === 0) return;
+          const createdPost = await request("", {
+            method: "POST",
+            body: JSON.stringify({
+              title: document.title,
+              parent: null,
+            }),
+          });
+          this.setState({ ...this.state, selectedDocumentId: createdPost.id });
+          await fetchSelectedDocument();
+          await fetchDocumentList();
+          history.replaceState(null, null, `${createdPost.id}`);
+        } else {
+          await request(`${document.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              title: document.title,
+              content: document.content,
+            }),
+          });
+          await fetchDocumentList();
+        }
+      }, 1000);
+    },
   });
 
   this.setState = (nextstate) => {
@@ -70,24 +103,22 @@ export default function App({ $target }) {
       documentList,
     });
     sideMenu.setState(documentList);
-    // console.log(documentList);
-    // console.log(this.state);
   };
 
   const fetchSelectedDocument = async () => {
-    const { selectedDocument } = this.state;
-
-    if (selectedDocument) {
+    const { selectedDocumentId } = this.state;
+    if (selectedDocumentId !== "new") {
       this.setState({ ...this.state, isDocumentsLoading: true });
-      const currentDocument = await request(selectedDocument);
+      const currentDocument = await request(selectedDocumentId);
       this.setState({
         ...this.state,
-        selectedDocument: currentDocument,
+
+        selectedDocumentContent: currentDocument,
         isDocumentsLoading: false,
       });
       posting.setState(currentDocument);
     } else {
-      posting.setState(null);
+      posting.setState({ id: "new", title: "", content: "" });
     }
   };
 
