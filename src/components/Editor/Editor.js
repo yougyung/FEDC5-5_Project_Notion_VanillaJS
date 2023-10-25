@@ -7,37 +7,27 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement("div");
-  $target.appendChild($editor);
   $editor.className = "editor";
-
-  let isinitialize = false;
+  $target.appendChild($editor);
 
   this.state = initialState;
-
-  $target.appendChild($editor);
 
   this.setState = (nextState) => {
     this.state = nextState;
     $editor.querySelector("[name=title]").value = this.state.title;
-    $editor.querySelector("[name=content]").innerHTML = this.state.content;
-    this.render();
+    $editor.querySelector("[name=content]").value = this.state.content;
   };
 
   this.render = () => {
-    if (!isinitialize) {
-      $editor.innerHTML = `<input type="text" name="title" style="width:600px" value="${this.state.title}"/>
-          <textarea name="content" style="width:600px;height:400px;border:1px solid black; padding:8px; ">${this.state.content}</textarea>
-          `;
-      isinitialize = true;
-      console.log("editor initialize");
-    }
+    $editor.innerHTML = `
+          <input class="editor-title" type="text" name="title" value="${this.state.title}" />
+          <textarea class="editor-content" name="content">${this.state.content}</textarea>
+      `;
   };
 
   this.render();
 
-  $editor.addEventListener("keyup", (e) => {
-    const { target } = e;
-
+  $editor.addEventListener("keyup", ({ target }) => {
     const name = target.getAttribute("name");
 
     if (this.state[name] !== undefined) {
