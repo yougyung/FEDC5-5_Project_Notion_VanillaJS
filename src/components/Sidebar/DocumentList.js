@@ -1,4 +1,4 @@
-import { DOCUMENTS_ROUTE, NEW, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEM } from "../../utils/constants.js";
+import { DOCUMENTS_ROUTE, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEMS } from "../../utils/constants.js";
 import { push } from "../../utils/router.js";
 import { getItem, setItem } from "../../utils/storage.js";
 
@@ -23,22 +23,13 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   let isBlock = false;
 
   const renderButton = (id) => {
-    const openedItems = getItem(OPENED_ITEM, []);
-    if (openedItems.includes(id)) {
-      isBlock = true;
-      return `
-        <button class="toggle open" type="button">
-          <i class="toggle open fa-solid fa-angle-down"></i>
-        </button>
-      `;
-    } else {
-      isBlock = false;
-      return `
-        <button class="toggle" type="button">
-          <i class="toggle fa-solid fa-angle-right"></i>
-        </button>
-      `;
-    }
+    const openedItems = getItem(OPENED_ITEMS, []);
+    isBlock = openedItems.includes(id);
+    return `
+      <button class="toggle ${isBlock ? "open" : ""}" type="button">
+        <i class="toggle ${isBlock ? "open" : ""} fa-solid fa-angle-${isBlock ? "down" : "right"}"></i>
+      </button>
+    `;
   };
 
   const renderDocuments = (nextDocuments, depth) => `
@@ -53,11 +44,11 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
                 ${renderButton(id)}
                 <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
                 <div class="buttons">
-                  <button class="${DELETE}" type="button">
-                    <i class="fa-regular fa-trash-can ${DELETE}"></i>
+                  <button title="삭제" class="${DELETE}" type="button">
+                    <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
                   </button>
-                  <button class="${ADD}" type="button">
-                    <i class="fa-solid fa-plus ${ADD}"></i>
+                  <button title="하위 페이지 추가" class="${ADD}" type="button">
+                    <i title="하위 페이지 추가" class="fa-solid fa-plus ${ADD}"></i>
                   </button>
                 </div>
               </li>
@@ -109,15 +100,15 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   });
 
   const toggleOpen = (target, id) => {
-    const openedItems = getItem(OPENED_ITEM, []);
+    const openedItems = getItem(OPENED_ITEMS, []);
 
     if (target.classList.contains("open")) {
       const index = openedItems.indexOf(id);
-      setItem(OPENED_ITEM, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
+      setItem(OPENED_ITEMS, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
       target.classList.toggle("open");
     } else {
       if (openedItems.indexOf(id) > -1) return; // 동일 id 중복 저장 에러
-      setItem(OPENED_ITEM, [...openedItems, id]);
+      setItem(OPENED_ITEMS, [...openedItems, id]);
       target.classList.toggle("open");
     }
     this.render();

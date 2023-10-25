@@ -13,10 +13,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
 
   const documentHeader = new DocumentHeader({
     $target: $page,
-    initialState: {
-      documentId: this.state.documentId,
-      title: this.state.document.title,
-    },
+    initialState: this.state,
     onDelete,
   });
 
@@ -37,7 +34,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
   });
 
   this.setState = async (nextState) => {
-    if (this.state.documentId === nextState.documentId) {
+    if (this.state.documentId === nextState.documentId && nextState.document) {
       this.state = { ...this.state, ...nextState };
       editor.setState(
         this.state.document || {
@@ -48,10 +45,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
       documentFooter.setState({
         document: this.state.document,
       });
-      documentHeader.setState({
-        documentId: this.state.documentId,
-        title: this.state.document.title || "",
-      });
+      documentHeader.setState(this.state);
       this.render();
       return;
     }
@@ -63,10 +57,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
         title: "",
         content: "",
       });
-      documentHeader.setState({
-        documentId: this.state.documentId,
-        title: "",
-      });
+      documentHeader.setState(this.state);
       documentFooter.setState({
         document: null,
       });
@@ -79,7 +70,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
   const loadDocument = async () => {
     const document = await fetchDocuments(this.state.documentId);
     if (!document) {
-      alert("존재하지 않는 페이지입니다.");
+      alert("존재하지 않는 페이지입니다. 첫 페이지로 이동합니다.");
       push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
       return;
     }

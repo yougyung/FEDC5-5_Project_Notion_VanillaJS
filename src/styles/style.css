@@ -77,7 +77,7 @@ button {
 }
 
 .document-list li.selected p {
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .document-list p.document-item {
@@ -159,10 +159,7 @@ button {
   padding: 3px 5px;
   font-size: 14px;
   border-radius: 5px;
-  cursor: pointer;
-}
-.document-header .title:hover {
-  background-color: #efefef;
+  cursor: default;
 }
 
 .document-header .buttons {

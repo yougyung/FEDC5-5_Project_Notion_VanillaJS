@@ -19,7 +19,7 @@ export default function SidebarContainer({ $target, initialState, onAdd, onDelet
   new SidebarHeader({
     $target: $sidebar,
     initialState: {
-      workspaceName: "백준원의 Notion",
+      workspaceName: "📘 백준원의 Notion",
     },
   });
 

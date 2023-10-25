@@ -1,7 +1,7 @@
 import DocumentEditPage from "./components/DocumentEditPage/DocumentEditPage.js";
 import SidebarContainer from "./components/Sidebar/SidebarContainer.js";
 import { fetchDocuments } from "./utils/api.js";
-import { DEFAULT_DOCUMENT_ID, DOCUMENTS_ROUTE, NEW, NEW_PARENT, OPENED_ITEM } from "./utils/constants.js";
+import { DEFAULT_DOCUMENT_ID, DOCUMENTS_ROUTE, NEW, NEW_PARENT, OPENED_ITEMS } from "./utils/constants.js";
 import { initRouter, push } from "./utils/router.js";
 import { setItem, getItem } from "./utils/storage.js";
 import { setDocumentTitle } from "./utils/validation.js";
@@ -23,7 +23,9 @@ export default function App({ $target }) {
     removeItem(NEW_PARENT);
 
     documentEditPage.setState({ documentId: createdDocument.id });
-    sidebarContainer.render();
+    sidebarContainer.setState({
+      selectedId: parseInt(createdDocument.id),
+    });
   };
 
   const onDelete = async (documentId) => {
@@ -33,10 +35,10 @@ export default function App({ $target }) {
       method: "DELETE",
     });
 
-    const openedItems = getItem(OPENED_ITEM, []);
+    const openedItems = getItem(OPENED_ITEMS, []);
     const index = openedItems.indexOf(documentId);
     if (index > -1) {
-      setItem(OPENED_ITEM, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
+      setItem(OPENED_ITEMS, [...openedItems.slice(0, index), ...openedItems.slice(index + 1)]);
     }
 
     const currentId = documentEditPage.state.documentId;
