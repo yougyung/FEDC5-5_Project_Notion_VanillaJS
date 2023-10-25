@@ -18,8 +18,6 @@ export default function App({ $target }) {
   const onAdd = async (id) => {
     try {
       if (id === "new") {
-        push("new");
-
         const { id: newRootId } = await request("", {
           method: "POST",
           body: JSON.stringify({
@@ -37,8 +35,6 @@ export default function App({ $target }) {
           selectedDocumentId: parseInt(newRootId),
         });
       } else if (typeof id === "number") {
-        push(`${id}`);
-
         const { id: newSubId, ...newSubDocument } = await request("", {
           method: "POST",
           body: JSON.stringify({
