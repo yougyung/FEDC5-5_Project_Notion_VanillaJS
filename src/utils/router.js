@@ -14,7 +14,7 @@ export const initRouter = onRoute => {
 /** 함수 이름 바꿔야지,,, */
 export const navigate = nextUrl => {
   window.dispatchEvent(
-    new CustomEvent("route-change", {
+    new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
       detail: {
         nextUrl,
       },
