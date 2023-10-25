@@ -21,13 +21,18 @@ export const ToggleButton = () => {
 
   const toggleDocument = (id) => {
     const index = openIds.indexOf(id);
+    console.log(openIds, index);
     if (index === -1) {
       openIds.push(id);
-    } else {
+    } else if (index === 0) {
       openIds.splice(index, 1);
     }
 
     // renderList(documents, 0);
+  };
+
+  const openDocumentList = (id) => {
+    openIds.push(id);
   };
 
   const toggleButton = (id) => {
@@ -38,5 +43,5 @@ export const ToggleButton = () => {
     </button>`;
   };
 
-  return { openIds, toggleButton, toggleDocument };
+  return { openIds, toggleButton, toggleDocument, openDocumentList };
 };

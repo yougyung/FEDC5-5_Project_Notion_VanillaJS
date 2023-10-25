@@ -15,7 +15,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     this.render();
   };
 
-  const { openIds, toggleButton, toggleDocument } = ToggleButton();
+  const { openIds, toggleButton, toggleDocument, openDocumentList } = ToggleButton();
 
   const listItemButtons = `
     <div class="list-item-buttons">
@@ -75,7 +75,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       onDelete(id);
     } else if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
       onAdd(id);
-      toggleDocument(id);
+      openDocumentList(id);
     } else if (target.classList.contains("list-item-title") || target.classList.contains("list-item")) {
       push(`${id}`);
     }
