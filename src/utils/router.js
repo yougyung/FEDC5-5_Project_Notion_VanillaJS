@@ -2,9 +2,12 @@ const ROUTE_CHANGE_EVENT = "route-change";
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_CHANGE_EVENT, (e) => {
-    const { nextUrl } = e.detail;
+    const { nextUrl, callback } = e.detail;
     if (nextUrl) {
       history.pushState(null, null, nextUrl);
+      if (callback) {
+        callback();
+      }
       onRoute();
     }
   });
@@ -17,12 +20,19 @@ export const initRouter = (onRoute) => {
     onRoute();
   });
 };
-export const push = (nextUrl) => {
+export const push = (nextUrl, callback) => {
   window.dispatchEvent(
     new CustomEvent("route-change", {
       detail: {
         nextUrl,
+        callback,
       },
     })
   );
+};
+
+export const addDependOnPathEvent = (callback) => {
+  window.addEventListener("popstate", () => {
+    callback();
+  });
 };

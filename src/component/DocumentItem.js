@@ -14,15 +14,16 @@ export default function DocumentItem({
   createDocument,
   removeDocument,
   depth,
+  changeBackgroundSelectedDocument,
 }) {
   this.state = initialState;
   const $documentItem = document.createElement("div");
-  const $documentItemWrapper = document.createElement("div");
-  $documentItemWrapper.style.paddingLeft = `${depth > 0 ? depth * 10 : 10}px`;
+  const $documentItemInner = document.createElement("div");
+  $documentItemInner.style.paddingLeft = `${depth > 0 ? depth * 10 : 10}px`;
   $target.appendChild($documentItem);
   $documentItem.dataset.id = this.state.id;
   $documentItem.classList.add("document-item");
-  $documentItemWrapper.classList.add("document-item-wrapper");
+  $documentItemInner.classList.add("document-item-inner");
   const storage = new Storage(window.localStorage);
   const getChildDocuments = () => {
     const childDocuments = $documentItem.querySelector(".document-children");
@@ -60,26 +61,25 @@ export default function DocumentItem({
       rotateSvg();
     }
   };
-  isFoldedCheck();
   this.render = () => {
     $documentItem.innerHTML = "";
     //렌더타임에 붙이지 않으면, 사라진다
-    $documentItem.appendChild($documentItemWrapper);
+    $documentItem.appendChild($documentItemInner);
     new Button({
-      $target: $documentItemWrapper,
+      $target: $documentItemInner,
       attributes: [{ name: "class", value: "arrow-btn" }],
       content: arrowIconSvg,
       onClick: onArrowBtnClick,
     });
     new Title({
-      $target: $documentItemWrapper,
+      $target: $documentItemInner,
       initialState: {
         href: `documents/${this.state.id}`,
         title: this.state.title,
       },
     });
     new Button({
-      $target: $documentItemWrapper,
+      $target: $documentItemInner,
       content: xIcon,
       onClick: (e) => {
         removeDocument($documentItem.dataset.id);
@@ -87,7 +87,7 @@ export default function DocumentItem({
       },
     });
     new Button({
-      $target: $documentItemWrapper,
+      $target: $documentItemInner,
       content: plusIcon,
       onClick: () => {
         createDocument($documentItem.dataset.id);
@@ -111,12 +111,15 @@ export default function DocumentItem({
     //dom이 모두 생기고 난 후, 접기 체크
     isFoldedCheck();
   };
-  $documentItemWrapper.addEventListener("click", (e) => {
+  $documentItemInner.addEventListener("click", (e) => {
     if (e.target.tagName === "A") {
       e.preventDefault();
     }
     if (e.target.tagName !== "BUTTON") {
-      push(`/documents/${$documentItem.dataset.id}`);
+      push(
+        `/documents/${$documentItem.dataset.id}`,
+        changeBackgroundSelectedDocument
+      );
     }
   });
   this.render();

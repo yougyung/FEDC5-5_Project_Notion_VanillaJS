@@ -53,7 +53,6 @@ export default function NavPage({ $target }) {
       attributes: [{ name: "class", value: "add-root-doc-btn" }],
       onClick: async () => {
         const response = await createDocument();
-        console.log(response);
         const storage = new Storage(window.localStorage);
         storage.setItem(response.id, { isFolded: true });
       },

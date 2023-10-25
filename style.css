@@ -1,6 +1,7 @@
 blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul, a {margin:0;padding:0}
 ul {list-style:none}
 button, input, select {margin:0}
+input{padding:0}
 html {box-sizing:border-box}
 *, :after, :before {box-sizing:inherit}
 img, video {height:auto;max-width:100%}
@@ -65,7 +66,7 @@ button:hover{
     white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
     overflow: hidden; /* 넘치는 부분 숨김 */
 }
-.document-item-wrapper{
+.document-item-inner{
     margin: 4px;
     display: flex;
     height: 24px;
@@ -74,20 +75,23 @@ button:hover{
     cursor: pointer;
     align-items: center;
 }
-.document-item-wrapper:hover{
+.document-item-inner:hover{
     background-color: #ebebea;
 }
-.document-item-wrapper > button{
+.selected-document{
+    background-color: #ebebea;
+}
+.document-item-inner > button{
     height: 20px;
     width: 21px;
 }
-.document-item-wrapper > button > svg{
+.document-item-inner > button > svg{
     width: 20px;
     height: 20px;
     fill:#6D6C68;
     stroke: #6D6C68;
 }
-.document-item-wrapper > a {
+.document-item-inner > a {
     white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
     overflow: hidden; /* 넘치는 부분 숨김 */
     text-overflow: ellipsis; 
@@ -134,12 +138,15 @@ button:hover{
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #37352f;
 }
 .editor>input{
-    width:700px; 
+    width:750px; 
     height:100px; 
     font-size:36px; 
-    font-weight:600
+    font-weight:600;
+    color: inherit;
+    border: none;
 }
 .editor>input::placeholder{
     color:#e1e1e0;
@@ -147,24 +154,29 @@ button:hover{
 .content-wrapper{
     display: flex;
     flex-direction: column;
-    border:solid 2px black;
-     width:700px; 
+     width:750px; 
      height:500px;
      font-size: 16px;
+    color:inherit;
+
 }
 .content{
     word-break: break-all;
     white-space: break-spaces;
-    border: 1px solid black;
+    margin: 3px 0 3px 0;
+}
+.content:focus{
+    outline:none;
 }
 .content::before{
-    color:#a4a4a4;
+    color:#d7d7d7;
 }
-[contenteditable="true"]:empty::before {
+.content-editable:empty::before {
     content: attr(placeholder);
+    cursor: text;
  }
 .placeholder-h::before{
-    color:#a4a4a4;
+    color:#e1e1e0;
 }
 .resize-cursor{
     cursor: col-resize;

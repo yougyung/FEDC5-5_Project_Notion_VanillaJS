@@ -14,7 +14,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   $editor.innerHTML = `
   <input class="editor-input" placeholder="제목 없음" data-name="title" />
   <div class="content-wrapper"> 
-    <div class="content" contenteditable="true" placeholder="내용을 입력하쎄용"></div>
+    <div class="content content-editable" contenteditable="true" placeholder="내용을 입력하쎄용"></div>
   </div>
   `;
   this.render = () => {
@@ -27,7 +27,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   };
   const makeNewLine = () => {
     const newLine = document.createElement("div");
-    newLine.setAttribute("class", "content");
+    newLine.classList.add("content", "content-editable");
     newLine.setAttribute("contenteditable", true);
     newLine.setAttribute("placeholder", "내용을 입력하쎄용");
     return newLine;
@@ -40,21 +40,17 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
       .split("\n")
       .map((line) => {
         if (line.indexOf("# ") === 0) {
-          return `<h1 contenteditable="true" class="placeholder-h" placeholder="제목1">${line.substring(
-            2
-          )}</h1>`;
+          return `<h1 class="content-editable placeholder-h" 
+          placeholder="제목1">${line.substring(2)}</h1>`;
         } else if (line.indexOf("## ") === 0) {
-          return `<h2 contenteditable="true" class="placeholder-h">${line.substring(
-            3
-          )}</h2>`;
+          return `<h2 class="content-editable placeholder-h" 
+          placeholder="제목2">${line.substring(3)}</h2>`;
         } else if (line.indexOf("### ") === 0) {
-          return `<h3 contenteditable="true" class="placeholder-h">${line.substring(
-            4
-          )}</h3>`;
+          return `<h3 class="content-editable placeholder-h" 
+          placeholder="제목3">${line.substring(4)}</h3>`;
         } else if (line.indexOf("#### ") === 0) {
-          return `<h4 contenteditable="true" class="placeholder-h">${line.substring(
-            5
-          )}</h4>`;
+          return `<h4 class="content-editable placeholder-h" 
+          placeholder="제목4">${line.substring(5)}</h4>`;
         }
         return line;
       })
@@ -64,40 +60,39 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     }
     return [converted, isConverted];
   };
+
   const keyDownHandler = (e) => {
     //innerHTML수정하면 등록된 핸들러 날아가니까, 이벤트 위임 사용
-    const $textBox = $editor.querySelector(".content-wrapper :last-child");
-    if (e.target !== $textBox) {
+    //isComposing은 합성글자(한글같은 문자)에대해 체크해준다.
+    if (e.isComposing || e.target.tagName === "INPUT") {
       return;
     }
-    //엔터 칠때마다 새로운 div 생성
-    if (e.isComposing) {
+    if (e.target.getAttribute("contenteditable") !== "true") {
       return;
-    } //isComposing은 합성글자(한글같은 문자)에대해 체크해준다.
+    }
     switch (e.key) {
       case "Enter":
         e.preventDefault();
         const nextLine = makeNewLine();
-        nextLine.addEventListener("keydown", keyDownHandler);
-        $textBox.after(nextLine); //다음 형제로 삽입해준다
+        e.target.after(nextLine); //다음 형제로 삽입해준다
         nextLine.focus();
         break;
       case "Backspace":
-        if (!$textBox.innerHTML) {
+        if (!e.target.innerHTML) {
           e.preventDefault();
-          const prevLine = $target.previousElementSibling;
+          const prevLine = e.target.previousElementSibling;
           if (prevLine) {
             prevLine.focus();
             getSelection().collapse(prevLine, prevLine.childNodes.length);
-            $target.remove();
+            e.target.remove();
           }
         }
         break;
       case "ArrowUp":
-        e.currentTarget.previousElementSibling.focus();
+        e.target.previousElementSibling.focus();
         break;
       case "ArrowDown":
-        e.currentTarget.nextElementSibling.focus();
+        e.target.nextElementSibling.focus();
         break;
     }
   };
@@ -109,7 +104,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
         ...nextState,
         title: e.target.value,
       };
-    } else if (e.target.className === "content") {
+    } else if (e.target.classList.contains("content")) {
       const [converted, isConverted] = convertMarkDown(e.target.innerHTML);
       if (isConverted) {
         console.log("바뀜");

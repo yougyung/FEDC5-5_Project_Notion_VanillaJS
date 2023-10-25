@@ -1,3 +1,4 @@
+import { addDependOnPathEvent } from "../utils/router.js";
 import DocumentItem from "./DocumentItem.js";
 
 export default function DocumentList({
@@ -14,6 +15,18 @@ export default function DocumentList({
   if (depth > 0) {
     $documentList.classList.add("document-children", "display-none");
   }
+  const changeBackgroundSelectedDocument = () => {
+    const documentList = document.querySelectorAll(".document-item-inner");
+    const { pathname } = window.location;
+    const [, , pathdata] = pathname.split("/");
+    documentList.forEach((node) => {
+      if (node.parentNode.dataset.id === pathdata) {
+        node.classList.add("selected-document");
+      } else {
+        node.classList.remove("selected-document");
+      }
+    });
+  };
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
@@ -28,9 +41,12 @@ export default function DocumentList({
         createDocument,
         removeDocument,
         depth: depth + 1,
+        changeBackgroundSelectedDocument,
       });
     });
   };
 
   this.render();
+  addDependOnPathEvent(changeBackgroundSelectedDocument);
+  changeBackgroundSelectedDocument();
 }
