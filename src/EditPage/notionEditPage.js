@@ -1,10 +1,11 @@
-import LinkButton from '../linkButton.js'
+
 import {
     getItem,
     removeItem,
     setItem
 } from "../utils/storage.js"
 import Editor from "./editor.js"
+import EditorFooter from "./editorFooter.js"
 import {
     request
 } from "../utils/api.js"
@@ -12,7 +13,7 @@ import {
 export default function NotionEditPage({
     $target,
     initialState,
-    listSetState
+    onEdit
 }) {
     const $page = document.createElement('div')
     this.state = initialState //{Postid: "new"} 
@@ -22,8 +23,8 @@ export default function NotionEditPage({
 
     const defaultState = {
         id: '',
-        title: '제목없음',
-        content: '내용을 입력하세요.'
+        title: '',
+        content: ''
     }
     //storage_get
     const post = getItem(notionLocalSaveKey,defaultState )
@@ -33,47 +34,15 @@ export default function NotionEditPage({
     const editor = new Editor({
         $target: $page,
         initialState: post,
-        onEdit: (post) => {
-            if (timer !== null) {
-                clearTimeout(timer)
-            }
-            timer = setTimeout(async() => {
-                //storage저장
-                setItem(notionLocalSaveKey, {
-                    ...post,
-                    tempSaveDate: new Date()
-                })
-
-                const isNew = isNaN(this.state.postId) && this.state.postId.includes("new")
-                if(isNew) {
-                    post.parent = this.state.postId.replace("new", "");
-                    const createdPost = await request('/documents',{
-                        method:'POST',
-                        body: JSON.stringify(post)
-                    }) //서버 저장
-
-                    history.replaceState(null,null, `/documents/${createdPost.id}`)
-                    removeItem(notionLocalSaveKey)
-                    
-                    this.setState({postId: createdPost.id} )
-                } else {
-                    await request(`/documents/${post.id}`,{
-                        method: 'PUT',
-                        body: JSON.stringify(post)
-                    })
-                    removeItem(notionLocalSaveKey)
-                }
-                listSetState()
-            }, 500)
-           
-        }
+        onEdit
+    })
+    const editorFooter = new EditorFooter({
+        $target: $page,
+        initialState: post,
     })
 
     this.setState = async (nextState) => {
- 
-        console.log(this.state.postId ,nextState.postId)
         if (this.state.postId !== nextState.postId) {
-            console.log("1.ne.setState")
             notionLocalSaveKey = `temp-post-${nextState.postId}`
             this.state = nextState
 
@@ -81,10 +50,9 @@ export default function NotionEditPage({
             
             if(isNew) {
                 const post = getItem(notionLocalSaveKey,defaultState)
-                console.log('뉴',post)
                 this.render()
-                console.log(post)
                 editor.setState(post)
+                editorFooter.setState(post)
             }else {
                 await fetchPost()
             }
@@ -92,12 +60,13 @@ export default function NotionEditPage({
             return
         }
 
-        this.state = nextState
+        if(nextState.post){
+            this.state = nextState
+        }
+        editor.setState(this.state.post || defaultState)
+        editorFooter.setState(this.state.post || defaultState)
         this.render()
-        editor.setState(this.state.post || {
-            title: '',
-            content: ''
-        })
+        
     }
 
     this.render = () => {
@@ -109,7 +78,6 @@ export default function NotionEditPage({
             postId
         } = this.state
         if (postId !== 'new') {
-            console.log("2.fetchPost")
             const post = await request(`/documents/${postId}`) 
 
             this.setState({
@@ -119,15 +87,8 @@ export default function NotionEditPage({
             )
         }
     }
-
-
-    new LinkButton({
-        $target:$page,
-        initialState:{
-            text: '목록으로',
-            link: '/'
-        }
-    })
+    
+    
 
 
 }

@@ -11,7 +11,6 @@ export const request = async (url,options = {})=>{
         })
 
         if(res.ok) {
-            console.log("성공")
             return await res.json()
         }
         throw new Error('API 처리 중 뭔가 이상합니다.')

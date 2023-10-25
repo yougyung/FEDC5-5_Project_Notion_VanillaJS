@@ -10,16 +10,14 @@ import {
 } from '../utils/api.js'
 export default function NotionSidebar({
     $target,
+    onAdd
 }) {
-
-    const $page = document.createElement('div')
-
+    const $sidebar = document.createElement('div')
+    $sidebar.className = 'sidebar'
     const notionList = new NotionList({
-        $target: $page,
+        $target: $sidebar,
         initialState: [],
-        onAdd: (id) => {
-            push(`/documents/${id}new`)
-        },
+        onAdd,
         onDelete: async (id) => {
             alert('페이지가 삭제되었습니다.')
             push(`/`)
@@ -39,6 +37,8 @@ export default function NotionSidebar({
     }
 
     this.render = async () => {
-        $target.appendChild($page)
+        $target.appendChild($sidebar)
     }
+
+    this.setState()
 }
