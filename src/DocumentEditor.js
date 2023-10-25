@@ -44,11 +44,13 @@ export default function DocumentEditor({ $target, initialState, onEditing }) {
         return { id: document.id, title: document.title };
       });
     //# 를 입력하면 그 글자는 서식이 적용되는 기능
+
     lines =
       this.state.content == null
         ? ""
         : this.state.content
             .split(/<div>|<\/div>|<br>/)
+            .filter((el) => el !== "")
             .map((line) => {
               if (line.indexOf("# ") === 0) {
                 return `<h1>${line.substring(2)}</h1>`;

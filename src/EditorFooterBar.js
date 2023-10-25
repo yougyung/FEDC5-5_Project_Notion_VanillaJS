@@ -11,7 +11,6 @@ export default function EditorFooterBar({ $target, initialState }) {
     const count = depthCheck(this.state.document.documents, 0);
 
     this.state.totalHeight = 30 + 25 * count;
-    console.log(count);
     $div.style.height = "30px";
   };
 
