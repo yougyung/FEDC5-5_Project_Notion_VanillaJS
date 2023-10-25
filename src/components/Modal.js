@@ -1,6 +1,6 @@
 export default function Modal({
   $container,
-  initialState = { isShow: false, message: "" },
+  initialState = { isShow: false, message: "", className: "" },
 }) {
   const $modal = document.createElement("div");
   $modal.id = "modal";
@@ -15,9 +15,11 @@ export default function Modal({
 
     if (this.state.isShow) {
       $modal.classList.add("show");
+      $modal.classList.add(this.state.className);
 
       setTimeout(() => {
         $modal.classList.remove("show");
+        $modal.classList.remove(this.state.className);
         this.setState(initialState);
       }, 3000);
     }

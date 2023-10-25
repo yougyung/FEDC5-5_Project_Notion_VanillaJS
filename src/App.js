@@ -21,6 +21,15 @@ export default function App({ $target }) {
   const documentTree = new DocumentTree({
     $container,
     onCreate: async (body) => {
+      if (!body.title) {
+        modal.setState({
+          isShow: true,
+          message: "문서 제목은 한 글자 이상 입력해주세요.",
+          className: "warning",
+        });
+        return;
+      }
+
       const { id } = await api.post(POST_API_DOCUMENT, body);
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
@@ -31,7 +40,11 @@ export default function App({ $target }) {
       documentTree.setState(documentTreeData);
       setItem("documentTree", documentTreeData);
 
-      modal.setState({ isShow: true, message: "저장되었습니다." });
+      modal.setState({
+        isShow: true,
+        message: "저장되었습니다.",
+        className: "success",
+      });
     },
     onClick: async (id) => {
       history.pushState(null, null, `/document/${id}`);
@@ -50,11 +63,24 @@ export default function App({ $target }) {
       documentTree.setState(newDocumentTree);
       setItem("documentTree", newDocumentTree);
 
-      modal.setState({ isShow: true, message: "삭제되었습니다." });
+      modal.setState({
+        isShow: true,
+        message: "삭제되었습니다.",
+        className: "success",
+      });
     },
   });
 
-  const editor = new Editor({ $container });
+  const editor = new Editor({
+    $container,
+    onModal: () => {
+      modal.setState({
+        isShow: true,
+        message: "저장되었습니다.",
+        className: "success",
+      });
+    },
+  });
 
   this.init = async () => {
     const data = await api.get(GET_API_DOCUMENT_TREE);
