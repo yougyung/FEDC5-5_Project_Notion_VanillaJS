@@ -1,0 +1,27 @@
+button {
+    background: none;
+
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+ul {
+    padding-left: 0;
+    margin-left: 0;
+    list-style-type: none;
+}
+
+.sidebar {
+    width: 500px;
+    height: 2000px;
+    background: burlywood;
+}
+
+.textEditor {
+    width: 500px;
+    height: 500px;
+}
+
+.container {
+    display: flex;
+}

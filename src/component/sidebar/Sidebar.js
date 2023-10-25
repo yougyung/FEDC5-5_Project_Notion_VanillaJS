@@ -7,7 +7,7 @@ import { addDocumentButton, serachButton } from "./MenuOptions.js"
 export default class Sidebar {
     constructor({ rootElement, onEvent }) {
         const sidebarElement = document.createElement('div');
-        this.menuList = new MenuList(sidebarElement, onEvent);
+        sidebarElement.className = "sidebar";
         onEvent = onEvent.bind(this);
         const searchButtonElement = serachButton();
         const addDocumentButtonElement = new addDocumentButton({
@@ -24,8 +24,9 @@ export default class Sidebar {
                 })
             }
         });
-        rootElement.appendChild(searchButtonElement);
         rootElement.appendChild(sidebarElement);
-        rootElement.appendChild(addDocumentButtonElement);
+        sidebarElement.appendChild(searchButtonElement);
+        this.menuList = new MenuList(sidebarElement, onEvent);
+        sidebarElement.appendChild(addDocumentButtonElement);
     }
 }

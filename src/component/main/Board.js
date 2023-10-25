@@ -5,6 +5,7 @@ export default class Board {
     constructor({ rootElement, onChangeTitle }) {
         this.onChangeTitle = onChangeTitle.bind(this);
         this.editorElement = document.createElement('div');
+        this.editorElement.className = "textEditor";
         this.editorElement.setAttribute("contenteditable", "true");
         rootElement.appendChild(this.editorElement);
     }
