@@ -19,10 +19,10 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
   const listItemButtons = (id) => `
     <div class="list-item-buttons">
-      <button data-id="${id}" class="delete-button" type="button">
+      <button data-id=${id} class="delete-button" type="button">
         <i class="fa-regular fa-trash-can delete-icon"></i>
       </button>
-      <button class="add-button" type="button">
+      <button data-id=${id} class="add-button" type="button">
         <i class="fa-solid fa-plus add-icon"></i>
       </button>
     </div>
@@ -66,37 +66,30 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
 
   $documentList.addEventListener("click", (event) => {
     const { target } = event;
+
     const $delete = target.closest(".delete-button");
-
-    if ($delete) {
-      const { id } = $delete.dataset;
-      onDelete(parseInt(id));
-    }
-  });
-
-  $documentList.addEventListener("click", async (event) => {
-    const { target } = event;
-    const $li = target.closest(".list-item");
-
-    let { id } = $li.dataset;
-    id = parseInt(id);
-
-    if (target.classList.contains("add-button") || target.classList.contains("add-icon")) {
-      onAdd(id);
-      openDocumentList(id);
-    } else if (target.classList.contains("list-item-title") || target.classList.contains("list-item")) {
-      push(`${id}`);
-    }
-  });
-
-  $documentList.addEventListener("click", (event) => {
-    const { target } = event;
+    const $add = target.closest(".add-button");
     const $toggle = target.closest(".toggle-button");
+    const $li = target.closest(".list-item");
 
     if ($toggle) {
       const { id } = $toggle.dataset;
+
       toggleDocumentList(parseInt(id));
       this.render();
+    } else if ($delete) {
+      const { id } = $delete.dataset;
+
+      onDelete(parseInt(id));
+    } else if ($add) {
+      const { id } = $add.dataset;
+
+      onAdd(parseInt(id));
+      openDocumentList(parseInt(id));
+    } else if ($li) {
+      const { id } = $li.dataset;
+
+      push(`${id}`);
     }
   });
 }
