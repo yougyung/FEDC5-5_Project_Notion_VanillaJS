@@ -11,7 +11,7 @@ body {
 ul,
 ol {
   list-style: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0 0.5rem 1rem;
 }
 .page_manager_container {
   width: 200px;
@@ -20,16 +20,26 @@ ol {
 
   .item_seperator {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
+    border: solid black 1px;
     .toggle_button {
     }
+    .item_title {
+      width: 100%;
+      border: solid 1px black;
+    }
     .button_group {
-      display: none;
+      display: flex;
+      visibility: hidden;
+      align-items: center;
     }
   }
   .item_seperator:hover {
     .button_group {
       display: flex;
+      visibility: visible;
       align-items: center;
     }
   }
