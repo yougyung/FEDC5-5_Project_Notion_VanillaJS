@@ -1,9 +1,14 @@
-import { navigate } from "../../utils/router";
+import { $ } from "../../utils/DOM/selector";
+import { documentListTemplate } from "../../utils/DOM/DocumentTemplate";
 
-export default function PostList({ $target, initialState }) {
-  const $postList = document.createElement("div");
-  $target.appendChild($postList);
-
+export default function DocumentList({
+  $target,
+  initialState,
+  onToggle,
+  onSelect,
+  onAddNewDocument,
+  onRemove,
+}) {
   this.state = initialState;
 
   this.setState = nextState => {
@@ -11,35 +16,46 @@ export default function PostList({ $target, initialState }) {
     this.render();
   };
 
-  this.render = () => {
-    const rootPages = pages =>
-      pages
-        .map(
-          post => `<li>
-      <p class="root-page" data-id="${post.id}">${post.title}<p> ${subPages(
-            post.documents,
-          )}
-      </li>`,
-        )
-        .join("");
+  /** 깊이 우선 탐색으로 트리 구조인 문서 리스트 그리기 */
+  const renderDocumentsList = ($target, currentDoucments, isRoot) => {
+    // root document 그리기
+    $target.insertAdjacentHTML(
+      "beforeend",
+      documentListTemplate(currentDoucments, isRoot),
+    );
 
-    const subPages = documents =>
-      documents
-        .map(sub => `<p class="sub-page" data-id="${sub.id}">${sub.title}</p>`)
-        .join("");
-
-    $postList.innerHTML = `<ul>${rootPages(this.state)}</ul>`;
+    // sub documents 그리기
+    currentDoucments.map(({ id, documents }) => {
+      isRoot = false;
+      if (documents.length === 0) return;
+      let $parent = $(`[data-id='${id}']`);
+      renderDocumentsList($parent, documents, isRoot);
+    });
   };
 
-  this.render();
+  this.render = () => {
+    $target.innerHTML = ``;
+    renderDocumentsList($target, this.state, true);
+  };
 
-  /** ⭐  포스트 선택  */
-  $postList.addEventListener("click", e => {
-    const $li = e.target.closest("p");
+  $target.addEventListener("click", ({ target }) => {
+    const $div = target.closest(".document-title");
 
-    if ($li) {
-      const { id } = $li.dataset;
-      navigate(`/documents/${id}`);
+    if (!$div) return;
+
+    const { id } = $div.dataset;
+    const { className } = target;
+
+    if (className.includes("add-sub-btn")) {
+      onAddNewDocument(id);
+    } else if (className.includes("remove-btn")) {
+      if (confirm("문서를 삭제할까요?")) onRemove($div, id);
+    } else if (className.includes("toggle-btn")) {
+      onToggle(id);
+    } else {
+      onSelect(id);
     }
   });
+
+  this.render();
 }
