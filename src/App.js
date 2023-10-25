@@ -28,7 +28,6 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(this.state);
     postViewPage.setState(this.state.postViewPage);
     postListPage.setState(this.state.postListPage);
   };
@@ -37,12 +36,13 @@ export default function App({ $target }) {
     $target,
     initialState: this.state.postListPage,
     onPostClick: async (id) => {
+      if (this.state.postViewPage.id === "new") return;
       history.pushState(null, null, `/posts/${id}`);
       this.route();
     },
-    onAddPostClick: () => {
+    onAddPostClick: async () => {
       history.pushState(null, null, "/posts/new");
-      this.route();
+      await this.route();
       this.setState({
         ...this.state,
         postListPage: [
@@ -128,7 +128,6 @@ export default function App({ $target }) {
 
       const post = await request(`/documents/${id}`);
       this.setState({ ...this.state, postViewPage: { id, post } });
-      postViewPage.setState({ id, post });
     }
   };
 
