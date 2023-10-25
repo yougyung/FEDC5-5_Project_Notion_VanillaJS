@@ -76,7 +76,10 @@ export default function Editor({ $target, initialState, onEditing }) {
       }
     } else if (e.key === "Backspace") {
       console.log(e.target, e.target.textContent, e.target.childNodes);
-      if (e.target.textContent.length === 0) {
+      if (
+        e.target.textContent.length === 0 &&
+        e.target != e.target.parentNode.firstChild
+      ) {
         newFocus(e.target.previousSibling);
 
         const parentTmp = e.currentTarget.parentNode;
@@ -269,6 +272,10 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   $editor_title.addEventListener("keyup", async (e) => {
+    if (e.key === "Enter") {
+      document.querySelector(".editor_title").childNodes[1].remove();
+      e.target.nextSibling.firstChild.firstChild.focus();
+    }
     const nextState = {
       ...this.state,
       title: e.target.innerHTML,

@@ -20,6 +20,8 @@ export default function SubPages({ $target, initialState }) {
       this.state.forEach((subPage) => {
         new SubPage({ $target: $subPages, initialState: subPage });
       });
+    } else {
+      $subPages.innerHTML = "";
     }
   };
 

@@ -1,4 +1,4 @@
-import { DeletPageButton, pageAddDeleteButton } from "./PageButton.js";
+import { pageAddDeleteButton } from "./PageButton.js";
 import { pushRoute } from "./utils/router.js";
 
 export default function SideBarList({
@@ -13,6 +13,11 @@ export default function SideBarList({
   this.state = initialState;
 
   this.setState = (nextState) => {
+    if (nextState.length === 0) {
+      // GET요청 res가 []인상태. 아직 만든 페이지가 없음
+      $sideBarList.innerHTML =
+        "아래 [새 페이지] 버튼을 눌러 페이지를 만들어보세요";
+    }
     this.state = nextState;
     this.render();
   };
