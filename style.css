@@ -16,6 +16,26 @@
   width: 80%;
 }
 
+#modal {
+  position: fixed;
+  top: 0;
+  right: -310px;
+  width: 300px;
+  height: 50px;
+  background-color: aliceblue;
+  border: 1px solid #000;
+  transition: all 0.5s ease;
+}
+
+.modal {
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
+  transform: translate(-310px, 0px);
+}
+
 .document-title-input {
   display: block;
 }

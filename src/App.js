@@ -9,11 +9,14 @@ import DocumentTree from "./components/DocumentTree.js";
 import Editor from "./components/Editor.js";
 import { getItem, setItem } from "./utils/storage.js";
 import recursion from "./utils/recursion.js";
+import Modal from "./components/Modal.js";
 
 export default function App({ $target }) {
   const $container = document.createElement("div");
   $container.id = "container";
   $target.appendChild($container);
+
+  const modal = new Modal({ $container });
 
   const documentTree = new DocumentTree({
     $container,
@@ -27,6 +30,8 @@ export default function App({ $target }) {
       recursion.createDocument(documentTreeData, data, body.parent);
       documentTree.setState(documentTreeData);
       setItem("documentTree", documentTreeData);
+
+      modal.setState({ isShow: true, message: "저장되었습니다." });
     },
     onClick: async (id) => {
       history.pushState(null, null, `/document/${id}`);
@@ -43,6 +48,8 @@ export default function App({ $target }) {
       const newDocumentTree = documentTreeData.concat(children);
       documentTree.setState(newDocumentTree);
       setItem("documentTree", newDocumentTree);
+
+      modal.setState({ isShow: true, message: "삭제되었습니다." });
     },
   });
 
