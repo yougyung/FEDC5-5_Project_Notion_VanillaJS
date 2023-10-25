@@ -1,111 +1,44 @@
 import { request } from "../utils/api.js"
+import DocumentTree from "./DocumentTree.js"
 
-export default function SideBar({ $target, initialState}) {
+export default function SideBar({ $target, initialState, onAdd, onDelete}) {
     const $sideBar = document.createElement('div')
-    const $addButton = document.createElement('button')
-    $addButton.innerText= '+'
-    //const $deleteButton = document.createElement('button')
-    $target.appendChild($addButton)
+    $sideBar.className = 'sideBar'
+
     $target.appendChild($sideBar)
 
-    const ROOT_DUMMY_DATA = [
-        {
-          "id": 1, // Document id
-          "title": "노션을 만들자", // Document title
-          "documents": [
-            {
-              "id": 2,
-              "title": "블라블라",
-              "documents": [
-                {
-                  "id": 3,
-                  "title": "함냐함냐",
-                  "documents": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "title": "hello!",
-          "documents": []
-        }
-    ]
+    const $addButton = document.createElement('button')
+    $addButton.innerText= '새로운 페이지 생성'
+    $addButton.dataset.name = 'addButton'
+    
+    //$sideBar.appendChild($addButton)
+    
 
-    this.state = ROOT_DUMMY_DATA
+    this.state = initialState
 
     this.setState = nextState => {
         this.state = nextState
-        console.log(this.state)
         this.render()
     }
 
-    const renderDocumentTree = childDocuments => {
-        return `
-            ${childDocuments.map(document => {
-                const {id, title, documents} = document
-                return `
-                    <ul>
-                        <li data-id=${id}> 
-                            ${title}
-                            <button data-id=${id} data-name="addButton">
-                                +
-                            </button>
-                            <button data-id=${id} data-name="deleteButton">
-                                -
-                            </button>
-                        </li>
-                        
-                        ${documents.length === 0 ? '' : 
-                            `${renderDocumentTree(documents)}`
-                        }
- 
-                    </ul>
-                `
-            }).join('')}
-        `
-    }
-
-    
-
     this.render = () => {
-        //console.log(this.state)
-        console.log('side render')
-        
-        
-        $sideBar.innerHTML = `${renderDocumentTree(this.state)}`
-
+        console.log('sidebar render')
+        $sideBar.innerHTML = `<h2>hyunjoo의 Notion</h2>`
+        const documentTree = new DocumentTree({
+            $target: $sideBar, 
+            initialState: this.state
+        });
+        $sideBar.appendChild($addButton)
     }
-
-    const onAdd = async (parent) => {
-        await request('', {
-            method: "POST",
-            body: JSON.stringify({
-                title : "제목 없음 new",
-                parent
-            })
-        })
-    }
-
-    const onDelete = async (id) => {
-        await request(id, {
-            method: "DELETE"
-        })
-    }
-    
-    
-    $addButton.addEventListener('click', e => {
-        onAdd(null)
-    })
 
     $sideBar.addEventListener('click', e => {
-        const $addSubButton = e.target.closest('button')
-        console.log($addSubButton)
+        const $addButton = e.target.closest('button')
+        console.log($addButton)
 
-        if($addSubButton) {
-            const {id, name} = $addSubButton.dataset
+        if($addButton) {
+            const {id, name} = $addButton.dataset
             if(name === 'addButton') {
+                console.log(id, name)
                 onAdd(id)
             }
             else if(name === 'deleteButton'){
@@ -115,16 +48,7 @@ export default function SideBar({ $target, initialState}) {
         
     })
     
+    //this.render()
 
-
-    this.render()
-
-
-    
-    
-    
-
-    //add버튼을 클릭하면
-    //해당 docuemnt의 하위 documents에 추가해주면 됨.
     
 }

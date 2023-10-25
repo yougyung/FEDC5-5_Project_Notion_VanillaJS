@@ -5,31 +5,6 @@ import { setItem } from "./utils/storage.js"
 
 export default function App({$target}) {
 
-    const ROOT_DUMMY_DATA = [
-        {
-          "id": 1, // Document id
-          "title": "노션을 만들자", // Document title
-          "documents": [
-            {
-              "id": 2,
-              "title": "블라블라",
-              "documents": [
-                {
-                  "id": 3,
-                  "title": "함냐함냐",
-                  "documents": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "title": "hello!",
-          "documents": []
-        }
-    ]
-    
     this.state = []
 
     this.setState = nextState => {
@@ -37,54 +12,31 @@ export default function App({$target}) {
         sideBar.setState(nextState)
     }
 
-    let testId = 5;
 
-/*
-    const searchDocumentTree = (targetId, childDocuments) => {
-        childDocuments.map(document => {    
-            const {id, documents} = document
-            if (id === targetId) {
-                //setState로 안되나..
-                const newDocuments = [
-                    ...documents,
-                    {
-                        id: testId++,
-                        title: `test ${testId}`,
-                        documents: []
-                    }
-                ]
-                this.setState({
-                    ...this.state,
-
-                })
-                return
-            }
-            if(documents.length > 0) {
-                searchDocumentTree(targetId, documents)
-            }
-        })
-    }
-*/
-
-    const addDocument = async (title, parent) => {
-        const newDocument = await request('', {
+    const addDocument = async (parent=null) => {
+        const result = await request('', {
             method: "POST",
             body: JSON.stringify({
-                title,
+                title : "제목 없음",
                 parent
             })
         })
-        return newDocument
+        fetchDocuments()
+    }
+
+    const deleteDocuments = async (id) => {
+        await request(id, {
+            method: "DELETE"
+        })
+        fetchDocuments()
     }
 
     const sideBar = new SideBar({
         $target, 
         initialState: this.state,
-        onAdd: async (id=null) => {
-            const newDocument = await addDocument("제목 없음", id)
-            console.log(newDocument)
-            //fetchDocuments()
-        }
+        onAdd: addDocument,
+        onDelete: deleteDocuments
+        
     })
 
     //let postLocalSaveKey = `temp-post-${this.state.postId}`
@@ -116,16 +68,7 @@ export default function App({$target}) {
         const documents = await request('')
         console.log(documents)
         this.setState(documents)
-        sideBar.setState(documents)
     }
 
     fetchDocuments();
-
-    const deleteDocuments = async (id) => {
-        await request(id, {
-            method: "DELETE"
-        })
-    }
-
-    
 }

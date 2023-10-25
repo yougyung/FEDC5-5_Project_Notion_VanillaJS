@@ -1,7 +1,7 @@
-export default function Documents({$target, initialState, onAdd, onDelete}) {
-    const $documents = document.createElement('div')
+export default function DocumentTree({ $target, initialState }) {
+    const $documentTree = document.createElement('div')
 
-    $target.appendChild($documents)
+    $target.appendChild($documentTree)
 
     this.state = initialState
 
@@ -18,8 +18,11 @@ export default function Documents({$target, initialState, onAdd, onDelete}) {
                     <ul>
                         <li data-id=${id}> 
                             ${title}
-                            <button data-id=${id} class="addButton">
+                            <button data-id=${id} data-name="addButton">
                                 +
+                            </button>
+                            <button data-id=${id} data-name="deleteButton">
+                                -
                             </button>
                         </li>
                         
@@ -34,12 +37,8 @@ export default function Documents({$target, initialState, onAdd, onDelete}) {
     }
 
     this.render = () => {
-        $documents.innerHTML = `${renderDocumentTree(this.state)}`
+        $documentTree.innerHTML = `${renderDocumentTree(this.state)}`
     }
 
     this.render()
-
-    $documents.addEventListener('click', e => {
-        console.log(e.target.className)
-    })
 }
