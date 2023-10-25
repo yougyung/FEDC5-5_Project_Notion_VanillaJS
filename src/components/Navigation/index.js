@@ -1,13 +1,19 @@
 import Component from '@/core/Component';
 import { push } from '@/router';
 import { API_END_POINT } from '@/constants/api';
+import { FALLBACK } from '@/constants/fallback';
+import { createTemplate } from '@/utils/dom';
+
+import './Navigation.scss';
 
 export default class Navigation extends Component {
   setup() {
     this.state = [];
 
-    this.$nav = document.createElement('nav');
-    this.$nav.classList.add('editor-link-nav');
+    this.$title = createTemplate('<h3 class="editor-nav-title">이런 게시글은 어때요?</h3>');
+    this.$target.appendChild(this.$title);
+
+    this.$nav = createTemplate('<nav class="editor-link-nav"></nav>');
     this.$target.appendChild(this.$nav);
   }
 
@@ -27,7 +33,7 @@ export default class Navigation extends Component {
       const $li = document.createElement('li');
       $li.dataset.id = docs.id;
       $li.classList.add('nav-item');
-      $li.textContent = docs.title;
+      $li.textContent = docs.title || FALLBACK.UNTITLED;
 
       $ul.appendChild($li);
     });

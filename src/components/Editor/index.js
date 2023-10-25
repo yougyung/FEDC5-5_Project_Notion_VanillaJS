@@ -1,10 +1,14 @@
 import Component from '@/core/Component';
+import { FALLBACK } from '@/constants/fallback';
+
+import './Editor.scss';
 
 export default class Editor extends Component {
   setup() {
     this.state = null;
 
     this.$editor = document.createElement('article');
+    this.$editor.classList.add('editor-container');
     this.$target.appendChild(this.$editor);
 
     this.$title = document.createElement('input');
@@ -44,19 +48,20 @@ export default class Editor extends Component {
     });
   }
 
+  // TODO 스타일 속성을 직접 변경하지 말고 className으로 변경해주기
   render() {
-    // TODO 스타일 속성을 직접 변경하지 말고 className으로 변경해주기
     if (!this.state) {
-      this.$editor.style.display = 'none';
+      this.$editor.classList.remove('visible');
       return;
     }
 
-    this.$editor.style.display = 'block';
+    this.$editor.classList.add('visible');
 
     const { title, content } = this.state;
 
     this.$title.value = title || '';
-    this.$title.placeholder = '제목 없음';
+    this.$title.placeholder = FALLBACK.UNTITLED;
     this.$content.value = content || '';
+    this.$content.placeholder = content || FALLBACK.NONE_OF_CONTENT;
   }
 }

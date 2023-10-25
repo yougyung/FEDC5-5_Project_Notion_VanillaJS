@@ -60,10 +60,13 @@ export default class DocumentList extends Component {
 
       if (target.closest('.document-title')) onSelect(documentId);
       if (target.closest('.add-page')) {
-        this.handleToggleButton($li, documentId);
+        $li.classList.remove('folded');
         onCreate(documentId);
       }
-      if (target.closest('.delete-page')) onDelete(documentId);
+      if (target.closest('.delete-page')) {
+        onDelete(documentId);
+        this.unfoldedStorage.appendItem(documentId);
+      }
       if (target.closest('.list-toggle-button')) this.handleToggleButton($li, documentId);
     });
   }
