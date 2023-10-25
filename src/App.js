@@ -3,6 +3,7 @@ import Editor from "./components/Editor/Editor.js";
 import PageList from "./components/PageManager/PageList.js";
 import PageManagerHeader from "./components/PageManager/PageManagerHeader.js";
 import { removeItem, setItem } from "./util/storage.js";
+import { push, initRouter } from "./router.js";
 
 export default function App({ $target }) {
   this.state = {
@@ -42,6 +43,7 @@ export default function App({ $target }) {
         targetPageDocuments: null,
       });
       $editor.setState(createdPage);
+      push(`/documents/${createdPage.id}`);
     },
   });
 
@@ -56,6 +58,7 @@ export default function App({ $target }) {
         targetPageDocuments: response.documents || [],
       });
       $editor.setState(response);
+      push(`/documents/${pageId}`);
     },
     onSubPageAdd: async (pageId) => {
       const createdPage = await request(`/documents`, {
@@ -71,6 +74,7 @@ export default function App({ $target }) {
         targetPageDocuments: createdPage.documents || null,
       });
       $editor.setState(createdPage);
+      push(`/documents/${createdPage.id}`);
     },
     onPageDelete: async (pageId) => {
       await request(`/documents/${pageId}`, {
@@ -126,6 +130,31 @@ export default function App({ $target }) {
     }
   };
 
-  fetchDocuments();
-  this.render();
+  this.route = async () => {
+    await fetchDocuments();
+    const { pathname } = window.location;
+    if (pathname === "/") {
+      this.setState({
+        ...this.state,
+        targetPage: null,
+        targetPageDocuments: null,
+      });
+    } else {
+      const [, pageId] = pathname.split("/");
+      console.log(pageId);
+      const response = await request(`/documents/${pageId}`);
+      this.setState({
+        ...this.state,
+        targetPage: response,
+        targetPageDocuments: response.documents || [],
+      });
+      $editor.setState(response);
+    }
+  };
+  //fetchDocuments();
+  // window.addEventListener("popstate", async () => {
+  //   this.route();
+  // });
+  this.route();
+  initRouter(() => this.render());
 }
