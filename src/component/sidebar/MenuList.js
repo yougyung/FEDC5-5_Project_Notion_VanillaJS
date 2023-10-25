@@ -5,25 +5,16 @@ export default class MenuList {
 
     arr = [];
 
-    constructor(sidebar) {
-        this.sidebar = sidebar;
+    constructor(sidebarElement) {
+        this.menuListElement = document.createElement('ul');
+        sidebarElement.appendChild(this.menuListElement);
         this.init();
     }
-
     async init() {
         this.menulist = await request("/documents");
         this.menulist.map((menuItem) => {
-            this.arr.push(new MenuItem(menuItem, 0));
+            this.arr.push(new MenuItem(menuItem, this.menuListElement));
         });
-        this.render();
-    }
-
-    render() {
-        this.sidebar.innerHTML = `
-        <div>
-            ${this.arr.map((menuItem) => (menuItem.render())).join('')} 
-        </div>`
-        this.arr[0].onEvent();
     }
 }
 
