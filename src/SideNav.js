@@ -7,6 +7,7 @@ export default function SideNav({
   onClickDeleteBtn,
   onClickDoc,
   onClickMain,
+  onClickToggleBtn,
 }) {
   const $sideNav = document.createElement('nav');
   $sideNav.className = 'nav-container';
@@ -50,7 +51,7 @@ export default function SideNav({
 
   // onClickPlusBtn & onClickDeleteBtn & onClickDoc
   $sideNav.addEventListener('click', async (e) => {
-    const { className, dataset } = e.target;
+    const { className, dataset, classList } = e.target;
 
     if (className === 'nav-plus-btn') {
       onClickPlusBtn(dataset.id);
@@ -69,6 +70,10 @@ export default function SideNav({
 
     if (className === 'nav-header-title') {
       onClickMain();
+    }
+
+    if (classList.contains('nav-toggle-btn')) {
+      onClickToggleBtn(dataset.id);
     }
   });
 }

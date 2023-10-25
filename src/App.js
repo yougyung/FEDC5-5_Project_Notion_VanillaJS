@@ -37,7 +37,7 @@ export default function App({ $target }) {
       const newDoc = await request(`/documents`, {
         method: 'POST',
         body: JSON.stringify({
-          title: `제목 없음`,
+          title: ``,
           // parent가 null이면 루트 Document가 됩니다.
           // 특정 Document에 속하게 하려면 parent에
           // 해당 Document id를 넣으세요.
@@ -68,11 +68,38 @@ export default function App({ $target }) {
 
     // 삭제 버튼
     onClickDeleteBtn: async (id) => {
-      await request(`/documents/${id}`, {
+      const deleteDoc = await request(`/documents/${id}`, {
         method: 'DELETE',
       });
 
+      const toggledList = getStorage('toggled', []);
+      const deleteIdx = toggledList.indexOf(id.toString());
+      toggledList.splice(deleteIdx, 1);
+      addStorage('toggled', toggledList);
+
       fetchDocTree();
+      // 삭제시 부모 문서로 이동 or 홈 화면 이동
+      if (deleteDoc.parent) {
+        const parentDocId = deleteDoc.parent.id;
+
+        const parentDoc = await request(`/documents/${parentDocId}`, {
+          method: 'GET',
+        });
+
+        addStorage('selectedDoc', parentDoc);
+        push(`/documents/${parentDocId}`);
+        this.setState({
+          ...this.state,
+          selectedDoc: parentDoc,
+        });
+      } else {
+        removeStorage('selectedDoc');
+        push('/');
+        this.setState({
+          ...this.state,
+          selectedDoc: {},
+        });
+      }
     },
 
     // 문서 클릭
@@ -97,6 +124,47 @@ export default function App({ $target }) {
         ...this.state,
         selectedDoc: {},
       });
+    },
+    onClickToggleBtn: async (id) => {
+      const doc = await request(`/documents/${id}`, {
+        method: 'GET',
+      });
+      const { documents } = doc;
+
+      const $navButton = document.querySelector(
+        `.nav-toggle-btn[data-id="${id}"]`
+      );
+
+      const toggledList = getStorage('toggled', []);
+
+      if ($navButton.classList.contains('toggled')) {
+        $navButton.classList.remove('toggled');
+        const deleteIdx = toggledList.indexOf(id);
+        toggledList.splice(deleteIdx, 1);
+        $navButton.innerHTML = '▶';
+      } else {
+        $navButton.classList.add('toggled');
+        if (toggledList.indexOf(id) === -1) toggledList.push(id);
+        $navButton.innerHTML = '▼';
+      }
+
+      addStorage('toggled', toggledList);
+
+      if (documents.length !== 0) {
+        documents.forEach((child) => {
+          const $childNav = document.querySelector(
+            `.nav-document-container[data-id="${child.id}"]`
+          );
+
+          if ($childNav) {
+            if ($childNav.classList.contains('hidden')) {
+              $childNav.classList.remove('hidden');
+            } else {
+              $childNav.classList.add('hidden');
+            }
+          }
+        });
+      }
     },
   });
 
