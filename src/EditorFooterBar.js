@@ -10,8 +10,9 @@ export default function EditorFooterBar({ $target, initialState }) {
     this.render();
     const count = depthCheck(this.state.document.documents, 0);
 
-    this.state.totalHeight = 27 + 21 * count;
-    $div.style.height = "21px";
+    this.state.totalHeight = 30 + 25 * count;
+    console.log(count);
+    $div.style.height = "30px";
   };
 
   $target.appendChild($div);
@@ -20,7 +21,7 @@ export default function EditorFooterBar({ $target, initialState }) {
     $div.innerHTML = `
             <div class="treeFooterBarDiv" >
               <div class="treeFooterBarButtonDiv" >
-                <button class="treeFooterBarButton" data-toggle="false">▲</button> <hr />
+                <button class="treeFooterBarButton" data-toggle="false">▲</button>
               </div>
               <div class="treeFooterBarHeader"> <p>현재 문서 : ${
                 this.state.document.title
@@ -94,8 +95,16 @@ export default function EditorFooterBar({ $target, initialState }) {
   $div.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
 
-    if (e.target.className === "treeFooterBarButton") {
-      $div.style.height = this.state.totalHeight + "px";
+    if (e.target.classList.contains("treeFooterBarButton")) {
+      if (e.target.dataset.toggle === "true") {
+        e.target.dataset.toggle = "false";
+        e.target.classList.remove("subDocumentAppear");
+        $div.style.height = "30px";
+      } else {
+        e.target.dataset.toggle = "true";
+        e.target.classList.add("subDocumentAppear");
+        $div.style.height = this.state.totalHeight + "px";
+      }
     } else if ($li) {
       const { id } = $li;
       push(`/documents/${id}`);

@@ -102,11 +102,12 @@ button {
 .treeFooterBar {
   position: fixed;
   bottom: 0;
-  right: 20px;
+  right: 50px;
   transition: all 0.3s linear;
-  background-color: rgba(23, 35, 52, 0.758);
+  background-color: rgba(23, 35, 52, 0.912);
   border-radius: 4px;
   box-shadow: 5px 5px 5px gray;
+  transition: all 0.3s linear;
 }
 .treeFooterBarDiv {
   display: flex;
@@ -115,11 +116,12 @@ button {
   position: relative;
   top: 0;
   left: 5px;
-  width: 20px;
+  width: 30px;
 }
 .treeFooterBarHeader p {
   width: 200px;
-  height: 21px;
+  height: 30px;
+  font-size: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -138,6 +140,16 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.treeFooterBarButton {
+  color: white;
+  font-size: 25px;
+  border-radius: 4px;
+
+  transition: all 0.3s linear;
+}
+.subDocumentAppear {
+  transform: rotate(180deg);
 }
 
 /*header*/
@@ -187,6 +199,13 @@ button {
 .documentDeleteButton:hover {
   background-color: rgba(23, 35, 52, 0.757);
 }
+.treeFooterBar:hover {
+  transform: scale(1.1);
+}
+.treeFooterBarButton:hover {
+  cursor: pointer;
+  background-color: rgba(203, 220, 230, 0.722);
+}
 .rootDocumentCreateDiv:hover {
   cursor: pointer;
   background-color: rgba(203, 220, 230, 0.722);
@@ -205,12 +224,12 @@ button {
 }
 
 .appear {
-  animation: fade-in 1s;
+  animation: fade-in 0.5s;
   animation-fill-mode: forwards;
 }
 
 .disappear {
-  animation: fade-out 1s;
+  animation: fade-out 0.5s;
   animation-fill-mode: forwards;
 }
 

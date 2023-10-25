@@ -45,7 +45,8 @@ export default function EditorStyle({ $target, onStyle }) {
   });
 
   $target.addEventListener("mouseup", () => {
-    if (isDragging) {
+    //formatBar.style.display 값은 none이아닌 빈 값으로 들어간다!!
+    if (formatBar.style.display === "" && isDragging) {
       const selection = window.getSelection();
       //type이 Range면 현재 텍스트가 드래그 되었다는 것
       if (selection.type === "Range") {
@@ -73,7 +74,7 @@ export default function EditorStyle({ $target, onStyle }) {
     if (formatBar.style.display === "block" && isDragging) {
       $div.classList.remove("appear");
       $div.classList.add("disappear");
-      formatBar.style.display = "none";
+      formatBar.style.display = "";
     }
   });
 
