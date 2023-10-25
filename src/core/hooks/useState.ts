@@ -26,10 +26,13 @@ const useState = (() => {
     const setState: SetState<T> = (newValue) => {
       const currentState = componentsState[id][stateIndex] as T;
 
-      componentsState[id][stateIndex] =
+      const updatedState =
         typeof newValue === "function" ? (newValue as (previousValue: T) => T)(currentState) : newValue;
 
-      render();
+      if (currentState !== updatedState) {
+        componentsState[id][stateIndex] = updatedState;
+        render();
+      }
     };
 
     const stateValue = componentsState[id][stateIndex] as T;
