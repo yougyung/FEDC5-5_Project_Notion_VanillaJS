@@ -9,7 +9,6 @@ export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
   this.state = initialState;
-  const observer = Observer;
   this.fetchDocument = async (documentId) => {
     const document = await request(`/documents/${documentId}`);
     if (!document) {
@@ -25,7 +24,10 @@ export default function DocumentPage({ $target, initialState }) {
     const { id, title } = this.state;
     this.render();
     documentHeader.setState({ href: id, title });
-    editor.setState(this.state);
+    editor.setState({
+      ...this.state,
+    });
+    editor.renderContent();
   };
   this.render = () => {
     $target.replaceChildren($documentPage);
@@ -38,11 +40,13 @@ export default function DocumentPage({ $target, initialState }) {
     },
   });
   let timerOfSetTimeout = null;
+  const observer = Observer;
   const editor = new Editor({
     $target: $documentPage,
     initialState: {
       title: "",
       content: "",
+      contentBuffer: "",
     },
     documentAutoSave: (documentId, requestBody) => {
       if (timerOfSetTimeout !== null) {

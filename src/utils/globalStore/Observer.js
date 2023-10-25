@@ -10,8 +10,8 @@ class Observer {
       (subscriber) => subscriber !== observerCallback
     );
   }
-  notify() {
-    this.subscribers.forEach((subscriber) => subscriber());
+  notify(data) {
+    this.subscribers.forEach((subscriber) => subscriber(data));
   }
 }
 export default Object.freeze(new Observer());
