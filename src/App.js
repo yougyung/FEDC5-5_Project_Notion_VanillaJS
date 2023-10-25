@@ -1,7 +1,5 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
-import { MAX_TITLE_LENGTH } from "./constants.js";
 import { request, initRouter, push } from "./utils.js";
-import { filterTitle } from "./utils/filterTitle.js";
 
 export default function App({ $target }) {
   let timer = null;
