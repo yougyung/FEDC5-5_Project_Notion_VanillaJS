@@ -30,6 +30,8 @@ export default function SideNav({
   };
 
   this.render = () => {
+    // $target.appendChild($sideNav);
+
     $navHeader.innerHTML = `
     <div class="nav-header-title">개인 페이지</div>
     <button data-id="root" class="nav-plus-btn">➕</button>
