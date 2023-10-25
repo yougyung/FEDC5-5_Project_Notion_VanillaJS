@@ -4,10 +4,12 @@ export default class MenuItem {
 
     arr = [];
 
-    constructor(item, parentElement) {
+    constructor(item, parentElement, onEvent) {
         this.item = item;
         this.isSlotOpen = false;
-
+        if (onEvent) {
+            onEvent = onEvent.bind(this);
+        }
         this.parentElement = parentElement;
         this.parentListElement = document.createElement('li');
         this.slotButtonElement = document.createElement('button');
@@ -35,9 +37,14 @@ export default class MenuItem {
         addButtonElement.textContent = "+";
 
         item.documents.map((menuItem) => {
-            this.arr.push(new MenuItem(menuItem, this.childListElement));
+            this.arr.push(new MenuItem(menuItem, this.childListElement, onEvent));
         });
 
+        this.documentNameLabelElement.addEventListener('click', (event) => {
+            if (event.target.id === "documentbtn" + this.item.id) {
+                onEvent(this.item.id);
+            }
+        });
         this.slotButtonElement.addEventListener('click', (event) => {
             if (event.target.id === "slotbtn" + this.item.id) {
                 this.isSlotOpen = !this.isSlotOpen;

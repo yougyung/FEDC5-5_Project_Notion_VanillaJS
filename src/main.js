@@ -3,5 +3,10 @@ import Board from "./component/main/board.js";
 
 const rootElement = document.querySelector('#app');
 
-const sidebar = new Sidebar(rootElement);
+const sidebar = new Sidebar({
+    rootElement,
+    onEvent: (id) => {
+        board.setDocuments(id);
+    }
+});
 const board = new Board(rootElement);
