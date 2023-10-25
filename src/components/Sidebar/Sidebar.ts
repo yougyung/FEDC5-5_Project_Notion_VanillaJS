@@ -1,6 +1,6 @@
 import { createComponent } from "@/core";
 import { DocumentItem } from "@/components";
-import { navigateTo } from "@/utils";
+import { handleClickAnchor, navigateTo } from "@/utils";
 import { DocumentPostRequestDto, DocumentResponseDto } from "@/types";
 import styles from "./sidebar.module.scss";
 
@@ -13,24 +13,16 @@ interface SidebarProps {
 }
 
 function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
-  const handleClickAddDocumentButton = (target: HTMLElement) => {
-    const id = Number(target.parentElement?.dataset.id);
-
+  const handleClickAddDocumentButton = (id: number) => {
     createDocument({ title: "Untitled", parent: id });
   };
 
-  const handleClickDeleteButton = (target: HTMLElement) => {
-    const id = Number(target.parentElement?.dataset.id);
-
+  const handleClickDeleteButton = (id: number) => {
     removeDocument(id);
   };
 
-  const handleClickAddRootDocumentButton = (event: MouseEvent) => {
-    const target = event.target as HTMLButtonElement;
-
-    if (target.dataset && target.dataset.parentId === "null") {
-      createDocument({ title: "Untitled", parent: null });
-    }
+  const handleClickAddRootDocumentButton = () => {
+    createDocument({ title: "Untitled", parent: null });
   };
 
   const handleToggleDocuments = (target: HTMLElement) => {
@@ -55,7 +47,6 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
 
     if (target.classList.contains("documentToggle")) {
       handleToggleDocuments(target);
-      return;
     }
 
     if (target && target.dataset.id) {
@@ -64,13 +55,16 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
       navigateTo(`/documents/${id}`);
     }
 
-    if (target.dataset && !isNaN(Number(target.dataset.parentId))) {
-      if (target.classList.contains("addDocumentButton")) {
-        handleClickAddDocumentButton(target);
+    if (target.parentElement && !isNaN(Number(target.parentElement.dataset.parentId))) {
+      const $button = target.parentElement as HTMLButtonElement;
+      const parentId = Number(target.parentElement.dataset.parentId);
+
+      if ($button.classList.contains("addDocumentButton") && parentId) {
+        handleClickAddDocumentButton(parentId);
       }
 
-      if (target.classList.contains("deleteDocumentButton")) {
-        handleClickDeleteButton(target);
+      if ($button.classList.contains("deleteDocumentButton") && parentId) {
+        handleClickDeleteButton(parentId);
       }
     }
   };
@@ -78,9 +72,11 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
   const bindEvents = () => {
     const $addRootDocumentButton = document.querySelector(".addRootDocumentButton") as HTMLButtonElement;
     const $documentList = document.querySelector(".documentList") as HTMLUListElement;
+    const $notionLogo = document.querySelector(".notionLogo") as HTMLAnchorElement;
 
     $addRootDocumentButton.addEventListener("click", handleClickAddRootDocumentButton);
     $documentList.addEventListener("click", handleClickDocumentItem);
+    $notionLogo.addEventListener("click", handleClickAnchor);
   };
 
   const documentList = documents
@@ -94,6 +90,10 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
   return {
     element: `
       <div class=${s_sidebar}>
+        <a href="/" class="notionLogo">
+          <img src="/assets/svg/notion.svg" alt="노션 로고"/>
+          <span>Notion</span>
+        </a>
         <button data-parent-id="null" class="addRootDocumentButton ${s_button}" aria-label="새 문서 추가" type="button">+ 페이지 추가</button>
         <ul class="documentList">
           ${documentList}
