@@ -19,7 +19,6 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    console.log(nextState);
 
     sideNav.setState(nextState);
     editPage.setState(nextState);
@@ -108,6 +107,18 @@ export default function App({ $target }) {
     onEditDoc: (nextState) => {
       this.setState(nextState);
     },
+    onClick: async (clickedId) => {
+      const doc = await request(`/documents/${clickedId}`, {
+        method: 'GET',
+      });
+
+      addStorage('selectedDoc', doc);
+      push(`/documents/${clickedId}`);
+      this.setState({
+        ...this.state,
+        selectedDoc: doc,
+      });
+    },
   });
 
   // 전체 DocTree 가져오기
@@ -152,6 +163,10 @@ export default function App({ $target }) {
         this.setState({
           ...this.state,
           selectedDoc: doc,
+          currentFocus: {
+            id: null,
+            element: null,
+          },
         });
 
         const currentStorage = getStorage('selectedDoc', {});
@@ -168,6 +183,10 @@ export default function App({ $target }) {
           this.setState({
             ...this.state,
             selectedDoc: {},
+            currentFocus: {
+              id: null,
+              element: null,
+            },
           });
         }
       }
