@@ -9,8 +9,9 @@ export default class DocumentItem extends Component {
 
   // eslint-disable-next-line max-lines-per-function
   createDom() {
-    const { isUnfolded, docs } = this.state;
+    const { docs, depth, unfoldedList, createList } = this.state;
     const { id, title } = docs;
+    const isUnfolded = unfoldedList.includes(id);
 
     this.$li = createTemplate(
       `<li data-id="${id}" class="document-item-wrapper ${isUnfolded ? '' : 'folded'}"></li>`,
@@ -51,6 +52,8 @@ export default class DocumentItem extends Component {
     $wrapper.appendChild($pageClickButtonContainer);
     $pageClickButtonContainer.appendChild($addChildPageButton);
     $pageClickButtonContainer.appendChild($deletePageButton);
+
+    createList(this.$li, docs.documents, depth, unfoldedList);
   }
 
   createEmptyDom() {

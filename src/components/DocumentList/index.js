@@ -41,11 +41,12 @@ export default class DocumentList extends Component {
     if (childrens.length < 1) new DocumentItem($ul, null);
 
     childrens.forEach((docs) => {
-      // TODO 차라리 createList를 주입해서 동작하도록 하면 어떨까?
-      // ! 자식 태그에 직접 개입하여 값을 추가하는 것은 위험해보임
-      const { $li } = new DocumentItem($ul, { isUnfolded: unfoldedList.includes(docs.id), docs });
-
-      if ($li) this.createList($li, docs.documents, depth + 1, unfoldedList);
+      new DocumentItem($ul, {
+        docs,
+        depth: depth + 1,
+        unfoldedList,
+        createList: this.createList.bind(this),
+      });
     });
 
     parent.appendChild($ul);
@@ -60,14 +61,14 @@ export default class DocumentList extends Component {
       if (target.closest('.document-title')) onSelect(documentId);
       if (target.closest('.add-page')) onCreate(documentId);
       if (target.closest('.delete-page')) onDelete(documentId);
-      if (target.closest('.list-toggle-button')) {
-        $li.classList.toggle('folded');
-        this.unfoldedStorage.appendItem(documentId);
-      }
+      if (target.closest('.list-toggle-button')) this.handleToggleButton($li, documentId);
     });
   }
 
-  handleToggleButton() {}
+  handleToggleButton($li, documentId) {
+    $li.classList.toggle('folded');
+    this.unfoldedStorage.appendItem(documentId);
+  }
 
   handleClickEventByDocumentId(target, callback) {
     const $li = target.closest('li');
