@@ -42,6 +42,10 @@ export default function App({ $target }) {
     onClickButton: async (id) => {
       const newPageLog = await createNewPage("/documents", id);
       await fetchRootDocs();
+      if (!id) {
+        const scrollMover = $.querySelector(".sideBarPageList");
+        scrollMover.scrollTop = scrollMover.scrollHeight;
+      }
       await fetchSelectedDocs(newPageLog.id);
       history.pushState(null, null, `/documents/${newPageLog.id}`);
       $.querySelector(".textArea-title").focus();
@@ -149,7 +153,7 @@ export default function App({ $target }) {
   const createNewPage = async (url, parentTag) => {
     const createdDefaultTitleText = "새 페이지";
     const createdDefaultParent = parentTag ? parentTag : "null";
-    console.log(createdDefaultParent, createdDefaultTitleText);
+    // console.log(createdDefaultParent, createdDefaultTitleText);
     const newPageRes = await request(url, {
       method: "POST",
       body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
