@@ -6,7 +6,6 @@ export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
   $target.appendChild($editor);
   $editor.className = "editor";
-  console.dir($editor);
 
   this.state = initialState;
 
@@ -21,10 +20,6 @@ export default function Editor({ $target, initialState, onEdit }) {
 `;
 
   this.render = () => {
-    // if (!$target.querySelector(".editor")) {
-    //   $target.appendChild($editor);
-    // }
-
     const { title, content } = this.state;
 
     $editor.querySelector(".title").textContent = title;
