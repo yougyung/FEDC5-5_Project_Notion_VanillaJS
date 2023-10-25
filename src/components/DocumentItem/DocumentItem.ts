@@ -5,7 +5,6 @@ import styles from "./documentItem.module.scss";
 
 interface DocumentItemProps {
   document: DocumentResponseDto;
-  index: string;
 }
 
 interface DocumentItemReturnType {
@@ -17,23 +16,19 @@ const {
   s_documentItem,
   s_childrenDocumentList,
   s_document_title,
-  s_index,
   s_buttonContainer,
   s_titleContainer,
   s_contentContainer,
 } = styles;
 
-function DocumentItem({ document, index }: DocumentItemProps): DocumentItemReturnType {
+function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
   const { id, title, documents } = document;
 
   const childrenDocuments = documents.length
     ? `<ul class="${classNames("childrenDocumentList", s_childrenDocumentList)}">
     ${documents
-      .map((childDocument, childIndex) => {
-        const childDocumentItemComponent = createComponent(DocumentItem, {
-          document: childDocument,
-          index: `${index}-${childIndex + 1}`,
-        });
+      .map((childDocument) => {
+        const childDocumentItemComponent = createComponent(DocumentItem, { document: childDocument });
 
         return childDocumentItemComponent.element;
       })
@@ -45,16 +40,15 @@ function DocumentItem({ document, index }: DocumentItemProps): DocumentItemRetur
     element: `
       <li data-id="${id}" class="${classNames("documentItem", s_documentItem)}">
         <div class="${s_contentContainer}">
-          <img src="/assets/svg/arrow.svg" class="documentToggle"/>
-          <span class="${s_index}">${index}</span>
+          <img src="/assets/svg/arrow.svg" class="documentToggle" alt="문서 토글"/>
           <div class="${s_titleContainer}">
             <span data-id="${id}" class="${classNames("documentTitle", s_document_title)}">${title}</span>
             <div class="${s_buttonContainer}">
               <button data-parent-id="${id}" class="addDocumentButton" type="button">
-                <img src="/assets/svg/plus.svg" />
+                <img src="/assets/svg/plus.svg" alt="하위 문서 추가" />
               </button>
               <button data-parent-id="${id}" class="deleteDocumentButton" type="button">
-                <img src="/assets/svg/delete.svg" />
+                <img src="/assets/svg/delete.svg" alt="문서 삭제" />
               </button>
             </div>
           </div>
