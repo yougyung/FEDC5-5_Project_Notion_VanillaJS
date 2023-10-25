@@ -11,7 +11,7 @@ export default function LinkChildPost({ $target, initialState }) {
   this.setState = (nextState) => {
     this.state = nextState;
     if (this.state.documents.length === 0) {
-      console.log(this.state);
+      //   console.log(this.state);
       $div.innerHTML = `
       <p>
         &nbsp;&nbsp;😧 &nbsp;작성된 하위 Documents 가 없습니다. 추가할까요?</p>

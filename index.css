@@ -27,7 +27,7 @@
 ul {
   font-size: 1px;
   line-height: 0;
-  padding-left: 15px;
+  padding: 0px;
 }
 li {
   color: #7d7c7a;
@@ -35,8 +35,6 @@ li {
   font-weight: 600;
   list-style: none;
   line-height: 0;
-  /* padding-inline-start: ; */
-  padding-left: 0px;
 }
 
 .children-post {
@@ -112,14 +110,14 @@ textarea::placeholder {
   background-color: #fbfbfa;
   border: 1px solid #fbfbfa;
 }
-.insert-button {
-  background-color: #fbfbfa;
+/* .insert-button {
+  background-color: black;
   border: 1px solid #fbfbfa;
 }
 .delete-button {
   background-color: #fbfbfa;
   border: 1px solid #fbfbfa;
-}
+} */
 .fa-angle-right {
   color: #7d7c7a;
 }
@@ -182,6 +180,19 @@ textarea::placeholder {
   background-color: #f5f4f1;
 }
 
-/* .no-child-div {
-  padding-top: 5px;
-} */
+.list:hover {
+  background-color: #eaeaea;
+}
+
+.list:hover > .button-div > .insert-button,
+.list:hover > .button-div > .delete-button,
+.list:hover > .toggle-button {
+  background-color: #eaeaea;
+  border: none;
+}
+
+.list:hover > .button-div {
+  margin-right: 7px;
+  display: inline-block;
+  float: right;
+}
