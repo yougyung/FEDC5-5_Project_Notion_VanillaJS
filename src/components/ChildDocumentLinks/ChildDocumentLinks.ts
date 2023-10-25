@@ -1,5 +1,5 @@
 import { DocumentDetailResponseDto } from "@/types";
-import { navigateTo } from "@/utils";
+import { handleClickAnchor } from "@/utils";
 import styles from "./childDocuments.module.scss";
 
 interface ChildDocumentLinksProps {
@@ -9,30 +9,23 @@ interface ChildDocumentLinksProps {
 const { s_childDocumentsList } = styles;
 
 function ChildDocumentLinks({ documents }: ChildDocumentLinksProps) {
-  const handleClickLink = (event: Event) => {
-    event.preventDefault();
-
-    const target = event.target as HTMLAnchorElement;
-
-    navigateTo(target.href);
-  };
-
   const bindEvents = () => {
     const $childDocuments = window.document.querySelector(`.${s_childDocumentsList}`) as HTMLElement;
 
-    $childDocuments.addEventListener("click", handleClickLink);
+    $childDocuments.addEventListener("click", handleClickAnchor);
   };
+
+  const documentLinks = documents
+    .map(
+      (childDocument) => `
+      <li><a href="/documents/${childDocument.id}">${childDocument.title}</a></li>`,
+    )
+    .join("");
 
   return {
     element: `
     <ul class="${s_childDocumentsList}">
-        ${documents
-          .map(
-            (childDocument) => `
-            <li><a href="/documents/${childDocument.id}">${childDocument.title}</a></li>
-        `,
-          )
-          .join("")}
+        ${documentLinks}
     </ul>
 `,
     bindEvents,
