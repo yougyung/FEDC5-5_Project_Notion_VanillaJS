@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  // list-style: none;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+#app {
+  .sidebar {
+    width: 200px;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(251, 251, 250);
+    gap: 10px;
+    &__header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(55, 53, 47, 0.5);
+      font-weight: 600;
+      &__title {
+        cursor: pointer;
+        font-size: 12px;
+        color: rgba(55, 53, 47, 0.5);
+        font-weight: 600;
+      }
+      &__btn {
+        cursor: pointer;
+        font-size: 12px;
+        color: rgba(55, 53, 47, 0.5);
+        font-weight: 600;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+    }
+
+    &__content {
+      font-size: 12px;
+      color: rgba(55, 53, 47, 0.5);
+      font-weight: 600;
+    }
+  }
+}
