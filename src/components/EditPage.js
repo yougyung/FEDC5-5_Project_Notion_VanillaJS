@@ -1,48 +1,65 @@
 import Editor from './Editor.js'
-import { setItem } from '../utils/storage.js'
-
-
-const EDITOR_DUMMY = {
-  title: '처음 작성하는 제목',
-  content: '처음 작성하는 내용'
-}
+import { request } from '../utils/api.js'
 
 export default function EditPage({ $target, initialState }) {
   const $page = document.createElement('div')
   $page.id = "document-contents"
 
-  // {documentId, document={title, content}}
+  // {id, document: {title, content}, documents: []}
   this.state = initialState
-
-  let localSaveKey = `temp-document-${this.state.documentId}`
 
   let timer = null
 
   // Editor 컴포넌트 생성
-  new Editor({
+  const editor = new Editor({
     $target: $page,
-    initialState: EDITOR_DUMMY,
+    initialState: {
+      id: '',
+      document: {
+        title: '',
+        content: '',
+      }
+    },
     onEditing: (document) => {
-      // document {title, content}
       if (timer !== null) {
         clearTimeout(timer)
       }
-      timer = setTimeout(async() => {
-        setItem(localSaveKey, {
-          ...document,
-          tempSaveDate: new Date()
+      timer = setTimeout(async () => {
+        const editedDocument = await fetchSaveContent()
+        this.setState({
+          documentId: editedDocument.id,
+          document: editedDocument
         })
       }, 1000)
     }
   })
 
-  this.setState = (nextState) => {
-    
+  this.setState = async (nextState) => {
+    if (this.state.id !== nextState.id) {
+      this.state = {...this.state, ...nextState}
+      await fetchGetContent()
+      return
+    }
+    editor.setState(this.state.document)
+    this.render()
   }
 
-  this.render = () => {
+  this.render = async () => {
     $target.appendChild($page)
   }
 
-  this.render()
+  // 불러오기
+  const fetchGetContent = async () => {
+    const document = await request(`/documents/${this.state.id}`)
+    this.setState(document)
+  }
+  // 수정
+  const fetchSaveContent = async () => {
+    const { document } = this.state
+    const { id, title, content } = document
+    return await request(`/documents/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({title, content})
+    })
+  }
 }
