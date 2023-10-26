@@ -40,11 +40,11 @@
 ## 폴더 구조(23.10.25 13:02 UPDATE)
 
 ┣ 📂src<br/>
-┃ ┣ 📂sidearea
-┃ ┃ ┣ 📜sideAreaFooter.js
-┃ ┃ ┣ 📜sideAreaHeader.js
-┃ ┃ ┣ 📜sideAreaPage.js
-┃ ┃ ┗ 📜sideAreaRender.js
+┃ ┣ 📂sidearea<br/>
+┃ ┃ ┣ 📜sideAreaFooter.js<br/>
+┃ ┃ ┣ 📜sideAreaHeader.js<br/>
+┃ ┃ ┣ 📜sideAreaPage.js<br/>
+┃ ┃ ┗ 📜sideAreaRender.js<br/>
 ┃ ┣ 📂textarea<br/>
 ┃ ┃ ┣ 📜textAreaFooter.js<br/>
 ┃ ┃ ┣ 📜textAreaPage.js<br/>
@@ -54,7 +54,7 @@
 ┃ ┃ ┗ 📜storage.js<br/>
 ┃ ┣ 📜app.js<br/>
 ┃ ┗ 📜main.js<br/>
-┣ 📜.gitignore
+┣ 📜.gitignore<br/>
 ┣ 📜README.md<br/>
 ┣ 🏞️Notion-logo<br/>
 ┣ 📜index.css<br/>

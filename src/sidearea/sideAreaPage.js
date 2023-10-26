@@ -35,7 +35,15 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         if (title.length) {
-          createdLi.innerText = `> ${title}`;
+          // console.log(title.length);
+          // console.log(title.split(" ").join(""));
+          if (title.split(" ").join("").length < 15) {
+            createdLi.innerText = `> ${title}`;
+          } else {
+            const reducedTitle = title.slice(0, 13) + "...";
+            // console.log(reducedTitle);
+            createdLi.innerText = `> ${reducedTitle}`;
+          }
         } else {
           createdLi.innerText = `>  `;
         }
@@ -57,7 +65,15 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         if (title.length) {
-          createdLi.innerText = `> ${title}`;
+          // console.log(title.length);
+          // console.log(title.split(" ").join(""));
+          if (title.split(" ").join("").length < 15) {
+            createdLi.innerText = `> ${title}`;
+          } else {
+            const reducedTitle = title.slice(0, 13) + "...";
+            // console.log(reducedTitle);
+            createdLi.innerText = `> ${reducedTitle}`;
+          }
         } else {
           createdLi.innerText = `>  `;
         }
