@@ -1,8 +1,31 @@
 import DocumentEditPage from './components/DocumentEditPage.js';
 import DocumentList from './components/DocumentList.js';
+import Header from './components/Header.js';
+import Breadcrumb from './components/Breadcrumb.js';
+import SubDocumentLinkList from './components/SubDocumentLinkList.js';
+import { request } from './api/request.js';
+import { GET, POST, PUT, DELETE, OWNER, DOCUMENTS } from './constants/index.js';
+import { initRouter, push } from './route/router.js';
+import { getBreadcrumb } from './utils/getBreadCrumb.js';
+import PageGenerator from './components/PageGenerator.js';
 
 export default function App({ $target, initialState }) {
 	this.state = initialState;
+
+	const $header = document.createElement('header');
+	$header.setAttribute('class', 'header');
+
+	const $nav = document.createElement('nav');
+
+	const $divSideBar = document.createElement('div');
+	$target.appendChild($divSideBar);
+	$divSideBar.setAttribute('class', 'header_container');
+	$divSideBar.appendChild($header);
+	$divSideBar.appendChild($nav);
+
+	const $div = document.createElement('div');
+	$div.setAttribute('class', 'editor_layout');
+	$target.appendChild($div);
 	const header = new Header({ $target: $header, initialState: OWNER });
 	const pageGenerator = new PageGenerator({
 		$target: $header,
