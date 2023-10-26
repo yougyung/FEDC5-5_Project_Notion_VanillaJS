@@ -43,7 +43,12 @@ export default function DocumentEditPage({
 	this.render();
 
 	$input.addEventListener('input', (event) => {
+		const { target } = event;
+		const { textContent } = document.querySelector('div[name=content]');
+		const { id } = this.state;
+		onPostChange(id, {
+			title: target.value.toString(),
+			content: textContent.toString(),
+		});
 	});
-
-	$textarea.addEventListener('change', (event) => {});
 }
