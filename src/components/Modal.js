@@ -4,6 +4,7 @@ export default function Modal({
 }) {
   const $modal = document.createElement("div");
   $modal.id = "modal-container";
+  $modal.className = "modal-container";
   $container.appendChild($modal);
 
   this.state = initialState;
@@ -21,6 +22,7 @@ export default function Modal({
     $modal.appendChild($newModal);
 
     if (this.state.isShow) {
+      $modal.classList.add("show");
       setTimeout(() => {
         $newModal.classList.add("show");
         $newModal.classList.add(this.state.className);
@@ -29,6 +31,7 @@ export default function Modal({
       setTimeout(() => {
         $newModal.classList.remove("show");
         setTimeout(() => {
+          $modal.classList.remove("show");
           $modal.removeChild($newModal);
         }, 1000);
       }, 3000);
