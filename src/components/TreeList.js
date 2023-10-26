@@ -12,7 +12,10 @@ export default function TreeList({ $container, child = {} }) {
     $deleteButton.textContent = "🗑";
     $deleteButton.className = "delete-button";
     $span.appendChild($deleteButton);
-  } else $addButton.classList.add("root");
+  } else {
+    $addButton.classList.add("root");
+    $addButton.textContent += " 문서 추가하기";
+  }
 
   const $input = document.createElement("input");
   $input.type = "text";
