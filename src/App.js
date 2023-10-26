@@ -100,6 +100,23 @@ export default function App({ $target, initialState }) {
 			}, 500);
 		},
 	});
+
+	const subDocumentLinkList = new SubDocumentLinkList({
+		$target: $div,
+		initialState: [],
+		onSubDocumentLinkClick: async (id) => {
+			const nextState = await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: GET,
+			});
+			documentEditPage.setState(nextState);
+			subDocumentLinkList.setState(nextState);
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			push(`${DOCUMENTS}/${id}`);
+		},
+	});
+
 	this.setState = (nextState) => {
 		this.state = nextState;
 		documentList.setState(nextState);
