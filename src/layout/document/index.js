@@ -44,7 +44,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		`;
 		test();
 		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
-		addEvent($document, 'document__content', 'click', this.handleClickContent);
+		// addEvent($document, 'document__content', 'click', this.handleClickContent);
 		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
 	};
 	this.render();
@@ -59,6 +59,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			await updateDocument(newDocument, id);
 		});
 	};
+	// eslint-disable-next-line consistent-return
 	this.handleKeyUpContent = (e) => {
 		if (e.code === ARROWUP_CHARACTER) {
 			return e.target.previousSibling.focus();
@@ -74,12 +75,12 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			await updateDocument(newDocument, id);
 		});
 	};
-	this.handleClickContent = () => {
-		const $contentBox = $document.querySelector('.document__content');
-		const init = {
-			tagName: 'div',
-			innerText: '### test입',
-		};
-		// new ContentBlock({ $target: $contentBox, initialState: init });
-	};
+	// this.handleClickContent = () => {
+	// const $contentBox = $document.querySelector('.document__content');
+	// const init = {
+	// 	tagName: 'div',
+	// 	innerText: '### test입',
+	// };
+	// new ContentBlock({ $targets: $contentBox, initialState: init });
+	// };
 }
