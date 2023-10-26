@@ -17,7 +17,6 @@ export default class Page {
         rootElement.appendChild(this.pageElement);
         rootElement.appendChild(this.notDatapageElement);
 
-
         window.addEventListener('popstate', e => {
             const { pathname } = location;
             const path = pathname.replace(window.location.origin, '');

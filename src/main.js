@@ -16,6 +16,7 @@ const sidebar = new Sidebar({
 const page = new Page({
     rootElement,
     onChangeTitle: (id, title) => {
+        page.PageTitle.setTitle(id);
         sidebar.documentList.updateDocumentTitle(id, title);
     }
 });

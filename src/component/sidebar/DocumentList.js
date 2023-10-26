@@ -33,7 +33,9 @@ export default class DocumentList {
             }
             return null;
         };
+
         const node = findNode();
+        node.parentListElement.setAttribute("titlename", title);
         node.documentNameLabelElement.textContent = title;
     }
 }
