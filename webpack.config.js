@@ -66,6 +66,10 @@ module.exports = (_env, argv) => {
           loader: 'babel-loader',
         },
         {
+          test: /\.svg$/,
+          use: [{ loader: 'file-loader', options: { name: '/assets/images/[name].[ext]' } }],
+        },
+        {
           test: /\.(sa|sc|c)ss$/i,
           exclude: /node_modules/,
 
