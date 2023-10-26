@@ -105,8 +105,7 @@ export default function App({ $target }) {
             }),
           });
 
-          const postArr = await request("/documents");
-          this.setState({ ...this.state, postListPage: postArr });
+          this.route();
         }
       }, 1000);
     },
