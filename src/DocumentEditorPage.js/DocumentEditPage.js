@@ -12,9 +12,13 @@ export default function DocumentEditPage({
 
   this.state = initialState;
 
+  // localStorage에 저장할 key
   let postLocalSaveKey = `temp-post-${this.state.postId}`;
 
-  const post = getItem(postLocalSaveKey, { title: "", content: "" });
+  const post = getItem(postLocalSaveKey, {
+    title: "",
+    content: "",
+  });
 
   // 디바운스 사용
   let timer = null;
@@ -24,7 +28,7 @@ export default function DocumentEditPage({
     initialState: post,
     onEditing: (post) => {
       if (timer !== null) {
-        clearTimeout(timer); // clearTimeout을 해줘야 5초동안 이전 타이핑했을 때의 요청을 지워준다.
+        clearTimeout(timer); // 2초
       }
       timer = setTimeout(async () => {
         setItem(postLocalSaveKey, {
@@ -34,27 +38,30 @@ export default function DocumentEditPage({
 
         const isNew = this.state.postId === "new";
         if (isNew) {
-          //post가 생성됨
+          // 새로 생성된 문서라면 -> post 생성
+          const parentId = getItem("parentId", null);
           const createdPost = await request("/documents", {
             method: "POST",
-            body: JSON.stringify(post),
+            // body: JSON.stringify(post),
+            body: JSON.stringify({ ...post, parent: parentId }),
           });
           history.replaceState(null, null, `/documents/${createdPost.id}`);
           removeItem(postLocalSaveKey);
+          setItem("parentId", null);
           this.setState({ postId: createdPost.id });
         } else {
+          // 기존에 있던 문서라면 -> post 수정
           await request(`/documents/${post.id}`, {
             method: "PUT",
             body: JSON.stringify(post),
           });
           removeItem(postLocalSaveKey);
         }
-        onListChange();
+        onListChange(); // 문서 목록에 반영
       }, 2000);
     },
   });
 
-  //
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`;
@@ -68,12 +75,12 @@ export default function DocumentEditPage({
         this.render();
         editor.setState(post);
       } else {
-        console.log("yay");
         await fetchPost();
       }
 
       return;
     }
+
     if (this.state.postId === nextState.postId && this.state.post) {
       this.render();
       editor.setState(this.state.post || { title: "", content: "" });
@@ -91,11 +98,13 @@ export default function DocumentEditPage({
   const fetchPost = async () => {
     const { postId } = this.state;
 
-    //새로운 postId가 아닐 경우는 Post를 불러올 것(API요청을 함)이다.(수정,기존 POST업데이트)
     if (this.state.postId !== "new") {
       const post = await request(`/documents/${postId}`);
 
-      const tempPost = getItem(postLocalSaveKey, { title: "", content: "" });
+      const tempPost = getItem(postLocalSaveKey, {
+        title: "",
+        content: "",
+      });
 
       if (tempPost.tempSaveDate && tempPost.tempSaveDate > post.updated_at) {
         if (confirm("저장되지 않은 데이터가 있습니다. 불러올까요?")) {
@@ -112,6 +121,4 @@ export default function DocumentEditPage({
       });
     }
   };
-
-  // this.render();
 }

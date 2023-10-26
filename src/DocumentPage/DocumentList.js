@@ -1,6 +1,11 @@
 import { push } from "../router.js";
 
-export default function DocumentList({ $target, initialState, onDelete }) {
+export default function DocumentList({
+  $target,
+  initialState,
+  onDelete,
+  onPost,
+}) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
 
@@ -18,17 +23,18 @@ export default function DocumentList({ $target, initialState, onDelete }) {
         return `<li data-id=${doc.id} class="document-item">
           <div class="document-item-container">
             <div class="item_content">
-              <img class="toggle-btn" src="/src/assets/img/arrow.png"/>${
+              <img class="document-icon" src="/src/assets/img/doc.png"/>${
                 doc.title
               }
             </div>
             <div class="item_buttons">
+            <img class="add-btn" src="/src/assets/img/add2.png"/>
               <img class="delete-btn" src="/src/assets/img/delete.png"/>
             </div>
           </div>
           ${
             doc.documents
-              ? `<ul style="margin-left:10px">${this.createMenuTree(
+              ? `<ul style="margin-left:14px">${this.createMenuTree(
                   doc.documents
                 )}</ul>`
               : ""
@@ -59,6 +65,14 @@ export default function DocumentList({ $target, initialState, onDelete }) {
         return;
       }
 
+      // add 버튼 클릭 시
+      if (e.target.classList.contains("add-btn")) {
+        onPost(id);
+        return;
+
+        // 로컬스토리지에 id 저장.
+      }
+      // onClick();
       push(`/documents/${id}`); // 이벤트 dispatch
     }
   });

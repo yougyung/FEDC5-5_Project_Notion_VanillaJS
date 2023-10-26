@@ -1,4 +1,6 @@
 import { request } from "../api.js";
+import { setItem } from "../storage.js";
+import { push } from "../router.js";
 import DocumentUser from "./DocumentUser.js";
 import DocumentList from "./DocumentList.js";
 
@@ -11,12 +13,15 @@ export default function DocumentPage({ $target, onDocumentDelete }) {
     $target: $page,
     initialState: [],
     onDelete: async (postId) => {
-      console.log("delete 요청됨!");
       await request(`/documents/${postId}`, {
         method: "DELETE",
       });
       this.setState();
       onDocumentDelete();
+    },
+    onPost: (postId) => {
+      setItem("parentId", postId);
+      push("/documents/new");
     },
   });
 
