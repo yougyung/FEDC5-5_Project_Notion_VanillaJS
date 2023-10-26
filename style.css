@@ -25,7 +25,6 @@ li:hover {
     min-height: 500px;
 }
 
-
 .parentPageList,
 .childPageList {
     list-style: none;
@@ -33,13 +32,10 @@ li:hover {
     margin: 0;
 }
 
-
-
 li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
 }
 
 .parentPageList li {
@@ -49,7 +45,6 @@ li {
 .childPageList li {
     margin-left: -25px;
 }
-
 
 .sidebar {
     width: 20%;

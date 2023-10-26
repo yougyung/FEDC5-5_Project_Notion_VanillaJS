@@ -16,6 +16,7 @@ export default class DocumentItem {
         this.slotImgElement = document.createElement('img');
         this.documentNameLabelElement = document.createElement('label');
         this.childListElement = document.createElement('ul');
+        
         const addButtonElement = document.createElement('button');
         const deleteButtonElement = document.createElement('button');
 
