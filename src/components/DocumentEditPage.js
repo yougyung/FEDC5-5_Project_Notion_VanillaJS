@@ -16,6 +16,13 @@ export default function DocumentEditPage({
 	const $divContent = document.querySelector(`div[name='content']`);
 
 	this.setState = (nextState) => {
+		if (!nextState) {
+			$input.classList.add('initEditElement');
+			$divContent.classList.add('initEditElement');
+			return;
+		}
+		$input.classList.remove('initEditElement');
+		$divContent.classList.remove('initEditElement');
 		this.state = nextState;
 		this.render();
 	};
