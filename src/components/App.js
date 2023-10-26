@@ -1,4 +1,5 @@
 import SideBar from "../layout/SideBar.js";
+import EditDocument from "../layout/EditDocument.js";
 
 export default function App({ $target }) {
   this.state = {
@@ -13,5 +14,10 @@ export default function App({ $target }) {
   const sidebar = new SideBar({
     $target,
     initialState: this.state.documents,
+  });
+
+  const editDocument = new EditDocument({
+    $target,
+    initialState: this.state,
   });
 }
