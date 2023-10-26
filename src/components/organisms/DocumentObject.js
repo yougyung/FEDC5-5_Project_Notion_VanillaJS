@@ -24,9 +24,6 @@ export default function DocumentObject({ $target, currentDocumentData }) {
     this.render();
   };
 
-  const $setting = document.createElement('span');
-  $summary.appendChild($setting);
-
   const onDeleteDocument = async () => {
     await request(`/documents/${this.state.id}`, { method: 'DELETE' });
     const newOpenIds = getItem('openDocumentIds')?.filter(openId => openId !== String(this.state.id));
@@ -52,6 +49,8 @@ export default function DocumentObject({ $target, currentDocumentData }) {
     });
     const saveTitle = getItem(`SAVE_DOCUMENT_TITLE_KEY-${this.state.id}`);
     saveTitle && documentLinkButton.setState(saveTitle);
+    const $setting = document.createElement('span');
+    $summary.appendChild($setting);
 
     const deleteDocumentButton = new DeleteDocumentButton({
       $target: $setting,
