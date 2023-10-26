@@ -1,10 +1,12 @@
-export const buildTree = (arr, depth) => {
+export const buildTree = (arr, targetId, depth) => {
   if (arr.length) {
     return `<ul data-depth=${depth}>${arr
       .map(
         ({ id, title, documents }) =>
-          `<li><span class="documentTitle" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
-          </li>${buildTree(documents, depth + 1)}`
+          `<li><span class="documentTitle ${
+            Number(targetId) === id ? "selected" : ""
+          }" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
+          </li>${buildTree(documents, targetId, depth + 1)}`
       )
       .join("")}</ul>`;
   } else return `<ul data-depth=${depth}></ul>`;

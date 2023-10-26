@@ -19,8 +19,10 @@ export default function SideMenu({
   };
 
   this.render = () => {
+    const { selectedDocumentId, documentList } = this.state;
     $nav.innerHTML =
-      `<h1 class="documentList">Documents</h1>` + buildTree(this.state, 0);
+      `<h1 class="documentList">Documents</h1>` +
+      buildTree(documentList, selectedDocumentId, 0);
   };
 
   $nav.addEventListener("click", (e) => {

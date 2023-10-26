@@ -3,6 +3,19 @@
   flex-direction: column;
 }
 
+.selected {
+  background-color: rgb(255, 255, 0);
+}
+
+textarea {
+  width: 600px;
+  height: 200px;
+}
+
+button {
+  background: transparent;
+}
+
 button,
 .documentList,
 .documentTitle {

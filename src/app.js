@@ -24,7 +24,10 @@ export default function App({ $target }) {
 
   const sideMenu = new SideMenu({
     $target: $sideMenuContainer,
-    initialState: this.state.documentList,
+    initialState: {
+      selectedDocumentId: this.state.selectedDocumentId,
+      documentList: this.state.documentList,
+    },
     onHeaderClick: async () => {
       history.replaceState(null, null, "/");
       this.setState({
@@ -40,7 +43,12 @@ export default function App({ $target }) {
         ...this.state,
         selectedDocumentId: documentId,
       });
+
       await fetchSelectedDocument();
+      sideMenu.setState({
+        selectedDocumentId: documentId,
+        documentList: this.state.documentList,
+      });
     },
     onPlusClick: async (parent) => {
       const res = await request("", {
@@ -134,7 +142,10 @@ export default function App({ $target }) {
       ...this.state,
       documentList,
     });
-    sideMenu.setState(documentList);
+    sideMenu.setState({
+      selectedDocumentId: this.state.selectedDocumentId,
+      documentList,
+    });
   };
 
   const fetchSelectedDocument = async () => {
