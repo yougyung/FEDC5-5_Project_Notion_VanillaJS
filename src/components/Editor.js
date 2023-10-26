@@ -6,7 +6,7 @@ export default function Editor({ $target, initialState = {
   $editor.className = 'editor-wrap'
 
   let isInitialize = false
-  // {title, content}
+  // {id, title, content}
   this.state = initialState
 
   $target.appendChild($editor)
