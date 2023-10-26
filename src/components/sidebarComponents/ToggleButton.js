@@ -14,7 +14,8 @@ export const ToggleButton = () => {
   };
 
   const openDocumentList = (id) => {
-    setItem("openIds", [...openIds, id]);
+    openIds.push(id);
+    setItem("openIds", openIds);
   };
 
   const toggleButton = (id) => {
