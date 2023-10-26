@@ -5,17 +5,18 @@ export default class DocumentList {
 
     arr = [];
 
-    constructor(sidebarElement, onEvent) {
+    constructor(sidebarElement, onEvent, onDeleteItem) {
         this.documentListElement = document.createElement('ul');
         this.documentListElement.className = "parentPageList";
         sidebarElement.appendChild(this.documentListElement);
         this.onEvent = onEvent;
+        this.onDeleteItem = onDeleteItem;
         this.init();
     }
     async init() {
         this.documentlist = await request("/documents");
         this.documentlist.map((documentitem) => {
-            this.arr.push(new DocumentItem(documentitem, this.documentListElement, this.onEvent));
+            this.arr.push(new DocumentItem(documentitem, this.documentListElement, this.onEvent, this.onDeleteItem));
         });
     }
     updateDocumentTitle(id, title) {

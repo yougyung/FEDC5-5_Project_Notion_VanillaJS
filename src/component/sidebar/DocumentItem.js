@@ -4,12 +4,12 @@ export default class DocumentItem {
 
     arr = [];
 
-    constructor(item, parentElement, onEvent) {
+    constructor(item, parentElement, onEvent, onDeleteItem) {
         this.item = item;
         this.isSlotOpen = false;
-        if (onEvent) {
-            onEvent = onEvent.bind(this);
-        }
+        if (onDeleteItem) onDeleteItem = onDeleteItem.bind(this);
+        if (onEvent) onEvent = onEvent.bind(this);
+
         this.parentElement = parentElement;
         this.parentListElement = document.createElement('li');
         this.slotButtonElement = document.createElement('button');
@@ -71,6 +71,7 @@ export default class DocumentItem {
         });
         deleteButtonElement.addEventListener('click', (event) => {
             if (event.target.id === "deletebtn" + this.item.id) {
+                onDeleteItem();
                 const dfs = (node) => {
                     node.documents.map((documentItem) => {
                         dfs(documentItem);

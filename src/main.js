@@ -8,6 +8,9 @@ const sidebar = new Sidebar({
     rootElement,
     onEvent: (id) => {
         page.setDocument(id);
+    },
+    onDeleteItem: () => {
+        page.showNotDataPage();
     }
 });
 const page = new Page({
