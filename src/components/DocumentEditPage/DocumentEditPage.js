@@ -1,7 +1,7 @@
 import Editor from './Editor.js';
 
  import { request } from '../utils/api.js';
- import { NEW, ROUTE_DOCUMENTS } from '../utils/contants.js';
+ import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
  import { isNew } from '../utils/helper.js';
  import { getItem, removeItem, setItem } from '../utils/storage.js';
 
@@ -37,8 +37,12 @@ import Editor from './Editor.js';
          if (this.state.documentId === NEW) {
            const createdDocument = await request(ROUTE_DOCUMENTS, {
              method: 'POST',
-             body: JSON.stringify(document),
-           });
+             body: JSON.stringify({
+                title: document.title,
+                parent: getItem(NEWPARENT, null),
+              }),
+            });
+            removeItem(NEWPARENT);
            history.replaceState(
              null,
              null,

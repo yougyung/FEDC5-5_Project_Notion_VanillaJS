@@ -1,6 +1,16 @@
 export const ROUTE_DOCUMENTS = '/documents';
 export const NEW = 'new';
 
+export const ID = {
+    DEFAULT_DOCUMENT: 108986,
+    NEW: 'new',
+};
+  
+export const KEY = {
+    OPENED_ITEMS: 'opened-items',
+    NEW_PARENT: 'new-parent',
+};
+
 export const MESSAGE = {
     DO_NOT_DELETE_FIRST_PAGE: '첫 페이지는 지우지 말아주세요',
     DELETE_PAGE: '페이지를 삭제하시겠습니까?',

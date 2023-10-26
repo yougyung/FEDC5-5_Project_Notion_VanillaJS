@@ -1,11 +1,18 @@
 import { push } from '../utils/router.js';
- import { NEW, ROUTE_DOCUMENTS } from '../utils/contants.js';
- import { isNew } from '../utils/helper.js';
+import { NEW, ROUTE_DOCUMENTS, UNTITLED } from '../utils/contants.js';
+import {
+   NEW,
+   NEWPARENT,
+   ROUTE_DOCUMENTS,
+   UNTITLED,
+} from '../utils/contants.js';
+import { isNew } from '../utils/helper.js';
+import { setItem } from '../utils/storage.js';
 
- const DOCUMENT_ITEM = 'document-item';
- const ADD = 'add';
+const DOCUMENT_ITEM = 'document-item';
+const ADD = 'add';
 
- export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({ $target, initialState }) {
    isNew(new.target);
 
    const $documentList = document.createElement('div');
@@ -24,7 +31,7 @@ import { push } from '../utils/router.js';
            .map(
              ({ id, title, documents }) => `
                <li data-id="${id}" class="${DOCUMENT_ITEM}">
-                 ${title}
+                 ${title.length > 0 ? title : UNTITLED}
                  <button class="${ADD}" type="button">+</button>
                </li>
                ${
@@ -52,6 +59,7 @@ import { push } from '../utils/router.js';
      if (e.target.className === DOCUMENT_ITEM) {
        push(`${ROUTE_DOCUMENTS}/${id}`);
      } else if (e.target.className === ADD) {
+        setItem(NEWPARENT, id); 
        push(`${ROUTE_DOCUMENTS}/${NEW}`);
      }
    });
