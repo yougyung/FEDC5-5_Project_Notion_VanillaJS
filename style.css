@@ -93,9 +93,12 @@ ol {
   .editor_title,
   .editor_title:focus {
     width: 100%;
-    padding: 1rem;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
     border: none;
     outline: none;
+    font-size: 1.7rem;
+    font-weight: 800;
     border-bottom: 1px solid black;
   }
 
