@@ -12,7 +12,7 @@ export default function TreeList({ $container, child = {} }) {
     $deleteButton.textContent = "🗑";
     $deleteButton.className = "delete-button";
     $span.appendChild($deleteButton);
-  }
+  } else $addButton.classList.add("root");
 
   const $input = document.createElement("input");
   $input.type = "text";

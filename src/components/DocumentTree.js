@@ -41,11 +41,11 @@ export default function DocumentTree({
       const { id } = $span.dataset;
       const $selectedInput = $span.querySelector("input");
       const { className } = e.target;
-      if (className === "add-button") {
+      if (className.includes("add-button")) {
         $selectedInput.classList.remove("hide");
         e.target.classList.add("hide");
       } else if (className === "delete-button") onDelete(id);
-      else if (className !== "document-title-input") onClick(id);
+      else if (id && className !== "document-title-input") onClick(id);
     });
 
     $ul.addEventListener("keypress", (e) => {
