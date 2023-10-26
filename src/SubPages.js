@@ -15,8 +15,7 @@ export default function SubPages({ $target, initialState }) {
 
   this.render = () => {
     if (this.state.length > 0) {
-      $subPages.innerHTML = "하위 페이지 : ";
-
+      $subPages.innerHTML = "";
       this.state.forEach((subPage) => {
         new SubPage({ $target: $subPages, initialState: subPage });
       });

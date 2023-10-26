@@ -126,7 +126,7 @@ ul {
   position: relative;
   padding-left: inherit;
   right: inherit;
-  width: 100%;
+  min-width: 150px;
   align-items: center;
   font-size: 14px;
   min-height: 27px;
