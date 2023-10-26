@@ -13,7 +13,7 @@ export default class PageTitle {
         this.titleElement.textContent = title.join(" / ");
     }
 
-    findParentTracking(id) {
+    findParentTracking(id) {                                                       
         let node = document.querySelector(`#l${id}`);
         const documentNodeTrackArr = [node.getAttribute("titlename")]
         while (node.parentElement.parentElement.getAttribute("titlename")) {
