@@ -17,7 +17,15 @@ ol {
   min-width: 200px;
   padding: 1rem;
   background-color: #fbfbfa;
-
+  .page_manager_add_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background-color: #d4d4d3;
+  }
   .item_seperator {
     padding: 0;
     display: flex;
@@ -57,30 +65,22 @@ ol {
 }
 
 .add_button {
-  width: 1.5rem;
-  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
   border-radius: 5px;
-  background-color: darkslategray;
-  color: white;
-
-  line-height: 10px;
-  text-align: center;
-  span {
-    display: block;
-  }
+  background-color: #d4d4d3;
 }
 .delete_button {
-  width: 1.5rem;
-  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
   border-radius: 5px;
-  background-color: darkslategray;
-  color: white;
-
-  line-height: 10px;
-  text-align: center;
-  span {
-    display: block;
-  }
+  background-color: #d4d4d3;
 }
 .editor_container {
   width: 100%;
