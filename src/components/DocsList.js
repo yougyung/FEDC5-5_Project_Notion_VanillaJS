@@ -10,13 +10,6 @@ export default function DocsList({
   $list.className = 'documents-list'
   $target.appendChild($list)
 
-  /* [{ "id": 1,
-      "title": "문서제목",
-      "documents": [{...}],
-      "createdAt": Date
-      "updatedAt": Date
-     }]
-  */ 
   if (Array.isArray(initialState) && initialState) {
     this.state = initialState
   }
@@ -79,14 +72,13 @@ export default function DocsList({
     
     // $li 버튼 이벤트
     if ($li) {
-      const { id } = $li
+      const { id } = $li.dataset
       if (className === 'addSubDocButton') {
         onClickAddSub(id)
       } else if (className === 'deleteDocButton') {
         onClickDeleteDoc(id)
       } else if (className === 'listItem') {
-        const id = parseInt($li.dataset.id)
-        onDocumentClick(id)
+        onDocumentClick(parseInt(id))
       }
     }
     // 페이지 추가 버튼
