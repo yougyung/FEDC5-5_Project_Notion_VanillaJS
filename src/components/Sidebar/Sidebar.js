@@ -1,24 +1,60 @@
 import DocumentList from './DocumentList.js';
-import { request } from '../utils/api.js';
-import { ROUTE_DOCUMENTS } from '../utils/contants.js';
-import { isNew } from '../utils/helper.js';
+import DocumentAddButton from './DocumentAddButton.js';
+import SidebarHeader from './SidebarHeader.js';
 
-export default function Sidebar({ $target }) {
-   isNew(new.target);
+import { fetchDocuments } from '../../utils/api.js';
+import { isNew } from '../../utils/helper.js';
+import { CLASS_NAME, TEXT } from '../../utils/constants.js';
 
-   const $sidebar = document.createElement('div');
+export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
+  isNew(new.target);
 
-   $target.appendChild($sidebar);
+  const $sidebar = document.createElement('div');
+  $sidebar.className = CLASS_NAME.SIDEBAR;
 
-   const documentList = new DocumentList({
-     $target: $sidebar,
-     initialState: [],
-   });
+  $target.appendChild($sidebar);
 
-   this.render = async () => {
-     const documents = await request(ROUTE_DOCUMENTS);
-     documentList.setState(documents);
-   };
+  this.state = initialState;
 
-   this.render();
+  this.setState = (nextState) => {
+    this.state = { ...this.state, ...nextState };
+    this.render();
+  };
+
+  new SidebarHeader({
+    $target: $sidebar,
+    initialState: {
+      workspaceName: '🎀 Kitty Notion',
+    },
+  });
+
+  const documentList = new DocumentList({
+    $target: $sidebar,
+    initialState: {
+      documents: [],
+      selectedId: this.state.selectedId,
+    },
+    onAdd,
+    onDelete,
+  });
+
+  const documentAddButton = new DocumentAddButton({
+    $target: $sidebar,
+    initialState: {
+      position: CLASS_NAME.SIDEBAR_BOTTOM,
+      text: TEXT.NEW_PAGE,
+    },
+    onAdd,
+  });
+
+  this.render = async () => {
+    const documents = await fetchDocuments(null);
+    documentList.setState({
+      documents,
+      selectedId: this.state.selectedId,
+    });
+    documentAddButton.render();
+  };
+
+  this.render();
 }
