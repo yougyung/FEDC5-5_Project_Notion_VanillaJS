@@ -39,6 +39,10 @@ export default function PostList({ $target, initialState }) {
 
       $li.className = "list";
       $li.setAttribute("data-id", id);
+      const selectedListId = getItem("selectedListId", "");
+      if (selectedListId && id === selectedListId) {
+        $li.className = "selected-list";
+      }
       LinkButton({
         $target: $li,
         buttonName: "<i class='fa-solid fa-angle-right'></i>",
@@ -80,6 +84,16 @@ export default function PostList({ $target, initialState }) {
         $target: $ul,
       });
       $div.appendChild($ul);
+
+      const $openedCheck = $li.nextSibling;
+      const $toggleButton = $li.querySelector(".toggle-button");
+      if ($openedCheck) {
+        if ($openedCheck.classList.contains("children-post-block")) {
+          $toggleButton.innerHTML = `<i class="fa-solid fa-angle-down"></i>`;
+        } else {
+          $toggleButton.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
+        }
+      }
     });
 
     isRender = true;
@@ -88,11 +102,19 @@ export default function PostList({ $target, initialState }) {
     $target.append($newPageDiv);
 
     if (!newPageButtonRender) {
-      LinkButton({
-        $target: $newPageDiv,
-        buttonName: "+ 새 페이지",
-        className: "newpage-button",
-      });
+      // LinkButton({
+      //   $target: $newPageDiv,
+      //   buttonName: "+ 새 페이지",
+      //   className: "newpage-button",
+      // });
+      const $li = document.createElement("li");
+      $li.className = "newpage-button";
+      $target.appendChild($li);
+
+      const $p = document.createElement("p");
+      $p.className = "newpage-button";
+      $p.innerHTML = `<i class='fa-solid fa-plus'></i>&nbsp;&nbsp;&nbsp;새 페이지 추가  ✏️`;
+      $li.appendChild($p);
       newPageButtonRender = true;
     }
   };
@@ -100,11 +122,14 @@ export default function PostList({ $target, initialState }) {
   const $parentElement = document.querySelector("#side-bar");
 
   $parentElement.addEventListener("click", async (e) => {
+    console.log(e.target);
     const { className } = e.target;
+    console.log(className);
     if (className === "list" || className === "title") {
       const $li = e.target.closest("li");
       const { id } = $li.dataset;
       console.log(id);
+      setItem("selectedListId", parseInt(id));
       push(id);
     } else if (
       // 추가 버튼
@@ -155,7 +180,8 @@ export default function PostList({ $target, initialState }) {
       push(newData.id);
     } else if (
       className === "toggle-button" ||
-      className === "fa-solid fa-angle-right"
+      className === "fa-solid fa-angle-right" ||
+      className === "fa-solid fa-angle-down"
     ) {
       const $li = e.target.closest("li");
       const { id } = $li.dataset;
@@ -176,6 +202,8 @@ export default function PostList({ $target, initialState }) {
 
       //숨겨져 있다면
       console.log($childrenUls);
+      const $toggleButton = $li.querySelector(".toggle-button");
+      console.log($toggleButton);
 
       if (!$childrenUls[0].classList.contains("children-post-block")) {
         const showLists = getItem("showId", []);
@@ -185,6 +213,7 @@ export default function PostList({ $target, initialState }) {
           $childrenUl.classList.remove("children-post");
           $childrenUl.classList.add("children-post-block");
         });
+        $toggleButton.innerHTML = `<i class="fa-solid fa-angle-down"></i>`;
       }
       // $childrenUls.forEach(($childrenUl) => {
       //   if (!$childrenUl.classList.contains("children-post-block")) {
@@ -211,6 +240,7 @@ export default function PostList({ $target, initialState }) {
           $childrenUl.classList.remove("children-post-block");
           $childrenUl.classList.add("children-post");
         });
+        $toggleButton.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
       }
       //보여지고 있다면
       // } else {

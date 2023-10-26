@@ -30,7 +30,7 @@ ul {
   padding: 0px;
 }
 li {
-  color: #7d7c7a;
+  color: #8a8a8a;
   font-size: 14px;
   font-weight: 600;
   list-style: none;
@@ -101,9 +101,9 @@ textarea::placeholder {
 }
 
 #header {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
-  padding-bottom: 2px;
+  padding-bottom: 1px;
   padding-left: 5px;
 }
 .toggle-button {
@@ -119,6 +119,9 @@ textarea::placeholder {
   border: 1px solid #fbfbfa;
 } */
 .fa-angle-right {
+  color: #7d7c7a;
+}
+.fa-angle-down {
   color: #7d7c7a;
 }
 .fa-plus {
@@ -146,7 +149,7 @@ textarea::placeholder {
   color: #959493;
   font-weight: 500;
   border-radius: 5px;
-  border: 1px solid #dadada;
+  border: 1px solid #d5d5d5;
   background-color: #fbfbfa;
 }
 
@@ -182,6 +185,9 @@ textarea::placeholder {
 
 .list:hover {
   background-color: #eaeaea;
+  border-radius: 5px;
+  margin: 3px 4px 3px 4px;
+  cursor: pointer;
 }
 
 .list:hover > .button-div > .insert-button,
@@ -192,7 +198,62 @@ textarea::placeholder {
 }
 
 .list:hover > .button-div {
+  padding-top: 2px;
+  /* margin-top: px; */
   margin-right: 7px;
   display: inline-block;
   float: right;
+}
+
+.list:hover > .button-div > .insert-button:hover,
+.list:hover > .button-div > .delete-button:hover,
+.list:hover > .toggle-button:hover {
+  background-color: #dfdfdf;
+  border-radius: 5px;
+  size: 10%;
+  cursor: pointer;
+}
+.newpage-button {
+  padding-left: 4px;
+}
+.newpage-button:hover {
+  background-color: #eaeaea;
+  line-height: 200%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selected-list {
+  background-color: #eaeaea;
+  border-radius: 5px;
+  margin: 3px 4px 3px 4px;
+  cursor: pointer;
+}
+
+.selected-list > .toggle-button {
+  background-color: #eaeaea;
+  border: 1px solid #eaeaea;
+}
+
+.selected-list:hover > .button-div {
+  padding-top: 2px;
+  /* margin-top: px; */
+  margin-right: 7px;
+  display: inline-block;
+  float: right;
+}
+
+.selected-list:hover > .button-div > .insert-button,
+.selected-list:hover > .button-div > .delete-button,
+.selected-list:hover > .toggle-button {
+  background-color: #eaeaea;
+  border: none;
+}
+.selected-list:hover > .button-div > .insert-button:hover,
+.selected-list:hover > .button-div > .delete-button:hover,
+.selected-list:hover > .toggle-button:hover {
+  background-color: #dfdfdf;
+  border-radius: 5px;
+  size: 10%;
+  cursor: pointer;
 }

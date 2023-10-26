@@ -9,7 +9,7 @@ export default function Post({
   isToggled,
   $target,
 }) {
-  const showLists = getItem("showId", []);
+  // const showLists = getItem("showId", []);
 
   // if (showLists.includes(parseInt(id))) {
   //   $target.className = "children-post-block";
@@ -101,6 +101,10 @@ export default function Post({
 
     $li.className = "list";
     $li.setAttribute("data-id", id);
+    const selectedListId = getItem("selectedListId", "");
+    if (selectedListId && id === selectedListId) {
+      $li.className = "selected-list";
+    }
 
     $li.style.paddingLeft = `${12 * depth}px`;
     LinkButton({
@@ -136,10 +140,16 @@ export default function Post({
 
     const showLists = getItem("showId", []);
 
+    const $toggleButton = $li.querySelector(".toggle-button");
+
     if (showLists.includes(parseInt(id))) {
       $ul.className = "children-post-block";
+      if (childDocuments.length !== 0) {
+        $toggleButton.innerHTML = `<i class="fa-solid fa-angle-down"></i>`;
+      }
     } else {
       $ul.className = "children-post";
+      $toggleButton.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
     }
 
     // $li.addEventListener("mouseenter", () => {
