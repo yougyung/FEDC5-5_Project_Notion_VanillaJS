@@ -124,7 +124,7 @@ export default function App({ $target }) {
     this.render();
   };
   this.render = async () => {
-    console.log(this.state);
+    //console.log(this.state);
     await fetchDocuments();
     //$editor.render();
     if (this.state.targetPage) {
@@ -145,7 +145,7 @@ export default function App({ $target }) {
       });
     } else {
       const [, pageId] = pathname.split("/");
-      console.log(pageId);
+      //console.log(pageId);
       const response = await request(`/documents/${pageId}`);
       this.setState({
         ...this.state,
