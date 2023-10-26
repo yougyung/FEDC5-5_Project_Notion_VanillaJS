@@ -1,6 +1,7 @@
-import { DOCUMENTS_ROUTE, NEW_PARENT, UNTITLED, ADD, DELETE, OPENED_ITEMS } from "../../utils/constants.js";
+import { DOCUMENTS_ROUTE, NEW_PARENT, ADD, DELETE, OPENED_ITEMS } from "../../utils/constants.js";
 import { push } from "../../utils/router.js";
 import { getItem, setItem } from "../../utils/storage.js";
+import { generateTextIndent, generateTitle } from "../../utils/validation.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 
 const DOCUMENT_ITEM = "document-item";
@@ -18,8 +19,6 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
     this.state = { ...this.state, ...nextState };
     this.render();
   };
-
-  const generateTextIndent = (depth) => 12 * depth; // 들여쓰기
 
   let isBlock = false;
 
@@ -43,7 +42,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
             class="${DOCUMENT_ITEM} ${id === this.state.selectedId ? "selected" : ""}"  
             style="padding-left: ${generateTextIndent(depth)}px">
             ${renderButton(id)}
-            <p class="${DOCUMENT_ITEM}"> ${title.length > 0 ? title : UNTITLED} </p>
+            <p class="${DOCUMENT_ITEM}">${generateTitle(title)}</p>
             <div class="buttons">
               <button title="삭제" class="${DELETE}" type="button">
                 <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
@@ -103,7 +102,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
       onAdd(id);
       toggleOpen(target, id);
     } else if (target.classList.contains(DELETE)) {
-      onDelete(id);
+      onDelete(this.state.selectedId, id);
     }
 
     if (target.classList.contains("toggle")) {

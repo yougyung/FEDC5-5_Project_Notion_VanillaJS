@@ -5,4 +5,4 @@ export const NEW_PARENT = "NEW-PARENT";
 export const ADD = "add";
 export const DELETE = "delete";
 export const OPENED_ITEMS = "opened-items";
-export const DEFAULT_DOCUMENT_ID = 50000;
+export const FIRST_DOCUMENT_ID = 102128;

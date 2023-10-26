@@ -1,4 +1,5 @@
-import { UNTITLED, DELETE } from "../../utils/constants.js";
+import { DELETE } from "../../utils/constants.js";
+import { generateTitle } from "../../utils/validation.js";
 
 export default function DocumentHeader({ $target, initialState, onDelete }) {
   const $header = document.createElement("header");
@@ -18,11 +19,11 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
 
     $header.innerHTML = `
       <div>
-        <span class="title">${title?.length > 0 ? title : UNTITLED}</span>
+        <span class="title">${generateTitle(title)}</span>
       </div>
       <div class="buttons">
         <button title="삭제" class="${DELETE}" type="button">
-          <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
+            <i title="삭제" class="fa-regular fa-trash-can ${DELETE}"></i>
         </button>
       </div>
     `;
@@ -32,7 +33,7 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
     const { target } = e;
 
     if (target.classList.contains("delete")) {
-      onDelete(this.state.documentId);
+      onDelete(this.state.documentId, this.state.documentId);
     }
   });
 

@@ -1,9 +1,10 @@
 import { fetchDocuments } from "../../utils/api.js";
 import Editor from "./Editor.js";
-import { NEW, DOCUMENTS_ROUTE, DEFAULT_DOCUMENT_ID } from "../../utils/constants.js";
+import { NEW, DOCUMENTS_ROUTE, FIRST_DOCUMENT_ID } from "../../utils/constants.js";
 import DocumentHeader from "./DocumentHeader.js";
 import DocumentFooter from "./DocumentFooter.js";
 import { setDocumentTitle } from "../../utils/validation.js";
+import { push } from "../../utils/router.js";
 
 export default function DocumentEditPage({ $target, initialState, onDelete, onEdit }) {
   const $page = document.createElement("div");
@@ -42,10 +43,11 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
           content: "",
         }
       );
+
+      documentHeader.setState(this.state);
       documentFooter.setState({
         document: this.state.document,
       });
-      documentHeader.setState(this.state);
       this.render();
       return;
     }
@@ -71,7 +73,7 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
     const document = await fetchDocuments(this.state.documentId);
     if (!document) {
       alert("존재하지 않는 페이지입니다. 첫 페이지로 이동합니다.");
-      push(`${ROUTE_DOCUMENTS}/${DEFAULT_DOCUMENT_ID}`);
+      push(`${DOCUMENTS_ROUTE}/${FIRST_DOCUMENT_ID}`);
       return;
     }
 
@@ -82,10 +84,13 @@ export default function DocumentEditPage({ $target, initialState, onDelete, onEd
     documentFooter.setState({
       document: this.state.document,
     });
+    setDocumentTitle(this.state.document?.title || "");
   };
 
   this.render = () => {
-    $target.appendChild($page);
+    if (!$target.querySelector(".document-edit-page")) {
+      $target.appendChild($page);
+    }
     setDocumentTitle(this.state.document?.title || "");
   };
 }

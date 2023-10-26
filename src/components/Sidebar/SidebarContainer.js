@@ -7,14 +7,14 @@ export default function SidebarContainer({ $target, initialState, onAdd, onDelet
   const $sidebar = document.createElement("div");
   $sidebar.className = "sidebar";
 
-  $target.appendChild($sidebar);
-
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = { ...this.state, ...nextState };
     this.render();
   };
+
+  $target.appendChild($sidebar);
 
   new SidebarHeader({
     $target: $sidebar,
@@ -27,6 +27,7 @@ export default function SidebarContainer({ $target, initialState, onAdd, onDelet
     $target: $sidebar,
     initialState: {
       documents: [],
+      selectedId: this.state.selectedId,
     },
     onAdd,
     onDelete,
