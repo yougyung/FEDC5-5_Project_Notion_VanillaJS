@@ -2,8 +2,8 @@ html,
 body {
   /* margin: 0; */
   /* padding: 0; */
-  width: 100vh;
-  height: 100vh;
+  width: 99%;
+  height: 99vh;
 }
 .app {
   width: 100%;
@@ -79,7 +79,7 @@ li:hover {
   flex-direction: column;
   background: white;
   z-index: 1;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 75px);
   max-height: 100%;
   position: relative;
   width: 100%;
@@ -146,12 +146,15 @@ button:hover {
 
 .textArea-childLink {
   display: flex;
+  overflow-x: scroll;
   height: 45px;
   flex-direction: row;
 }
 
 .textArea-childDiv {
   display: flex;
+  min-width: 50px;
+  max-width: 300px;
   align-items: center;
   overflow-y: hidden;
   margin: 5px;
