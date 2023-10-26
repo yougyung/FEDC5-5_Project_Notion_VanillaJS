@@ -12,23 +12,26 @@ export default function SubPage({ target, state }) {
     this.state = newState;
     const { title, documents } = this.state;
 
+    /* 필요한 데이터 분배 */
     subPageTitle.setState(title);
     subPageList.setState(documents);
   };
 
-  this.getElement = () => {
-    return subPageElement;
-  };
-
   subPageElement.replaceChildren();
 
+  /* Current Page Title */
   const subPageTitle = new SubPageTitle({
     target: subPageElement,
     state: "",
   });
 
+  /* Current Page Child List */
   const subPageList = new SubPageList({
     target: subPageElement,
     state: [],
   });
+
+  this.getElement = () => {
+    return subPageElement;
+  };
 }

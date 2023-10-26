@@ -20,8 +20,10 @@ export default function EditInfo({ target, state }) {
 
   this.render = () => {
     const { createdAt, updatedAt } = this.state;
+    /* data type convert date */
     const createdTime = new Date(createdAt);
     const updatedTime = new Date(updatedAt);
+
     createdAtElement.textContent = `Create - ${createdTime.toLocaleString()}`;
     updatedAtElement.textContent = `Update - ${updatedTime.toLocaleString()}`;
   };

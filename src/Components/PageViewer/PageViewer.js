@@ -2,7 +2,10 @@ import IndexPage from "../../Page/IndexPage.js";
 import Editor from "./Editor/Editor.js";
 import SubPage from "./SubPageList/SubPage.js";
 
+const TOGGLE_CLASS_NAME = "view";
+
 export default function PageViewer({ target, state, onEditing }) {
+  /* PageViewer */
   const pageViewerElement = document.createElement("article");
   pageViewerElement.setAttribute("class", "pageViewer");
   target.appendChild(pageViewerElement);
@@ -12,8 +15,8 @@ export default function PageViewer({ target, state, onEditing }) {
   this.setState = (newState) => {
     this.state = newState;
     const { id } = this.state;
-    const TOGGLE_CLASS_NAME = "view";
 
+    /* URL 이 Index Page */
     if (id === "Index") {
       indexPage.getElement().classList.add(TOGGLE_CLASS_NAME);
       editor.getElement().classList.remove(TOGGLE_CLASS_NAME);
@@ -21,6 +24,7 @@ export default function PageViewer({ target, state, onEditing }) {
       return;
     }
 
+    /* URL 이 ID */
     indexPage.getElement().classList.remove(TOGGLE_CLASS_NAME);
     editor.getElement().classList.add(TOGGLE_CLASS_NAME);
     subPage.getElement().classList.add(TOGGLE_CLASS_NAME);
@@ -33,12 +37,14 @@ export default function PageViewer({ target, state, onEditing }) {
     target: pageViewerElement,
   });
 
+  /* Editor */
   const editor = new Editor({
     target: pageViewerElement,
     state: this.state,
     onEditing,
   });
 
+  /* Current Page Child List */
   const subPage = new SubPage({
     target: pageViewerElement,
     state: this.state,

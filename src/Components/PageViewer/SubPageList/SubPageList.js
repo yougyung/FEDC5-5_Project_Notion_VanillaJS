@@ -17,11 +17,13 @@ export default function SubPageList({ target, state }) {
   this.render = () => {
     subPageListElement.replaceChildren();
 
+    /* Children이 없다면 */
     if (this.state.length === 0) {
       new SubEmptyList({ target: subPageListElement });
       return;
     }
 
+    /* 있다면 */
     this.state.forEach((list) => {
       new SubList({
         target: subPageListElement,
@@ -30,6 +32,7 @@ export default function SubPageList({ target, state }) {
     });
   };
 
+  /* Children Click Event - move Children Page */
   subPageListElement.addEventListener("click", (e) => {
     const liTargetElement = e.target.closest(
       ".pageViewer_subPage_subPageList_subList"

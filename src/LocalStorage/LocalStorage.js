@@ -2,17 +2,29 @@ const STORAGE_NAME = "SAVE_DATA_";
 const TOGGLE_LIST_NAME = "TOGGLED_ITEM";
 
 export function setStorage(pageData) {
-  const updatedAt = new Date();
-  const newData = JSON.stringify({ ...pageData, updatedAt });
-  localStorage.setItem(`${STORAGE_NAME}${pageData.id}`, newData);
+  try {
+    const updatedAt = new Date();
+    const newData = JSON.stringify({ ...pageData, updatedAt });
+    localStorage.setItem(`${STORAGE_NAME}${pageData.id}`, newData);
+  } catch (e) {
+    console.error("Local data save 실패");
+  }
 }
 
 export function removeStorage(id) {
-  localStorage.removeItem(`${STORAGE_NAME}${id}`);
+  try {
+    localStorage.removeItem(`${STORAGE_NAME}${id}`);
+  } catch (e) {
+    console.error("Local data save 실패");
+  }
 }
 
 export function getStorage(id) {
-  return JSON.parse(localStorage.getItem(`${STORAGE_NAME}${id}`));
+  try {
+    return JSON.parse(localStorage.getItem(`${STORAGE_NAME}${id}`));
+  } catch (e) {
+    console.error("Local data load 실패");
+  }
 }
 
 /* toggle 가져오기 */
@@ -20,7 +32,7 @@ export function getToggleList() {
   try {
     return JSON.parse(localStorage.getItem(TOGGLE_LIST_NAME)) ?? [];
   } catch (e) {
-    console.error(new Error("Toggled Local List 로딩 실패"));
+    console.error("Toggled Local List 로딩 실패");
   }
 }
 
@@ -31,7 +43,7 @@ export function setToggleList(id) {
     const newData = JSON.stringify([...getData, id]);
     localStorage.setItem(TOGGLE_LIST_NAME, newData);
   } catch (e) {
-    console.error(new Error("Toggled Local set 실패"));
+    console.error("Toggled Local set 실패");
   }
 }
 
@@ -42,7 +54,7 @@ export function removeToggleList(id) {
     const newData = JSON.stringify(getData.filter((item) => item !== id));
     localStorage.setItem(TOGGLE_LIST_NAME, newData);
   } catch (e) {
-    console.error(new Error("Toggled Local remove 실패"));
+    console.error("Toggled Local remove 실패");
   }
 }
 

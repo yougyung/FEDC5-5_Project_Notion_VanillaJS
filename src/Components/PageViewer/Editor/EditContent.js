@@ -21,7 +21,9 @@ export default function EditContent({ target, state }) {
 
   this.render = () => {
     editContentElement.replaceChildren();
+    /* 만약 new Page , Page Text 0 ?  */
     if (!this.state || this.state.length === 0) {
+      /* create new Line */
       new CreateEditTextElement({
         target: editContentElement,
       });
@@ -29,8 +31,9 @@ export default function EditContent({ target, state }) {
     }
 
     const splited = this.state.split("<cut>");
-
+    /* 배열 index 1개가 1줄 */
     splited.forEach((item) => {
+      /* Element로 만들어 순서대로 Append */
       RenderFormatConverter({
         text: item,
         target: editContentElement,
@@ -38,6 +41,7 @@ export default function EditContent({ target, state }) {
     });
   };
 
+  /* Control key 에 대한 Event */
   editContentElement.addEventListener("keydown", (event) => {
     controlKey({
       event,
@@ -45,16 +49,19 @@ export default function EditContent({ target, state }) {
     });
   });
 
+  /* User의 타이핑에 맞춰 변환해주는 Event */
   editContentElement.addEventListener("keyup", (event) => {
     handleTyping({ event });
   });
 
+  /* 우클릭 이벤트 */
   editContentElement.addEventListener("contextmenu", (event) => {
     contextMenuEvent({
       event,
     });
   });
 
+  /* 클릭 이벤트 */
   editContentElement.addEventListener("click", (event) => {
     clickEvent({ event });
   });

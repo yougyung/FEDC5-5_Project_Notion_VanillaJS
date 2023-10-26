@@ -14,16 +14,19 @@ export default function Editor({ target, state, onEditing }) {
     this.state = newState;
     const { title, createdAt, updatedAt, content } = this.state;
 
+    /* 각각 필요한 데이터 분배 */
     editTitlte.setState(title);
     editInfo.setState({ createdAt, updatedAt });
     editContent.setState(content);
   };
 
+  /* Current Page Title Edit */
   const editTitlte = new EditTitle({
     target: editorElement,
     state: "",
   });
 
+  /* Current Page created,updated date Info */
   const editInfo = new EditInfo({
     target: editorElement,
     state: {
@@ -32,6 +35,7 @@ export default function Editor({ target, state, onEditing }) {
     },
   });
 
+  /* Current Page Content Edit */
   const editContent = new EditContent({
     target: editorElement,
     state: "",
@@ -40,14 +44,17 @@ export default function Editor({ target, state, onEditing }) {
   /* Event */
   editorElement.addEventListener("keyup", () => {
     const { id, createdAt, updatedAt, documents } = this.state;
+
     const titleValue =
       editorElement.querySelector("[data-name=title]").value ?? "";
+
     const contentValue =
       editorElement.querySelector("[data-name=content]").innerHTML ?? "";
 
     const newState = {
       id,
       title: titleValue,
+      /* 저장 형식에 맞게 변환 */
       content: SavaDataConverter(contentValue),
       createdAt,
       updatedAt,
