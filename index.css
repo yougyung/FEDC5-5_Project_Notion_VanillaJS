@@ -8,3 +8,8 @@ button,
 .documentTitle {
   cursor: pointer;
 }
+
+.existTitle {
+  cursor: pointer;
+  color: blue;
+}
