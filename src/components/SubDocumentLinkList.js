@@ -38,5 +38,12 @@ export default function SubDocumentLinkList({
 		}
 	};
 
+	$ul.addEventListener('click', (event) => {
+		const { target } = event;
+		if (target.tagName !== 'SPAN') return;
+		const { id } = target.closest('li').dataset;
+		onSubDocumentLinkClick(id);
+	});
+
 	this.render();
 }
