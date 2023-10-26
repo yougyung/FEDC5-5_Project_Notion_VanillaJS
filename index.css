@@ -178,10 +178,16 @@ li[data-isfolded="true"] {
   width: 20px;
   height: 20px;
   justify-content: center;
+  transition: all ease 0.5s;
   /* transform: rotate(90deg); */
 }
 #toggleFoldButton:hover {
-  background-color: #949494;
+  background-color: none;
+  transform: rotate(90deg);
+}
+
+#toggleFoldButton[data-isClicked="true"] {
+  transform: rotate(90deg);
 }
 
 .textArea-childLink {

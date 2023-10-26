@@ -75,6 +75,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         const toggleFoldButton = $.createElement("button");
         toggleFoldButton.innerText = ">";
         toggleFoldButton.id = "toggleFoldButton";
+        toggleFoldButton.setAttribute("data-isClicked", "false");
 
         createdLi.prepend(toggleFoldButton);
         createdLi.appendChild(addPageButton);
@@ -124,6 +125,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         const toggleFoldButton = $.createElement("button");
         toggleFoldButton.innerText = ">";
         toggleFoldButton.id = "toggleFoldButton";
+        toggleFoldButton.setAttribute("data-isClicked", "false");
 
         createdLi.prepend(toggleFoldButton);
         createdLi.appendChild(addPageButton);
@@ -158,6 +160,11 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         }
 
         if (targetTag.id === "toggleFoldButton") {
+          if (targetTag.dataset.isclicked === "false") {
+            targetTag.dataset.isclicked = "true";
+          } else {
+            targetTag.dataset.isclicked = "false";
+          }
           let newTarget = targetTag.parentElement.nextSibling;
           if (newTarget) {
             while (1) {
