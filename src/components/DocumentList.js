@@ -9,7 +9,6 @@ export default function DocumentList({
 	onDeletePage,
 }) {
 	const $div = document.createElement('div');
-	const $divCreateNewDocument = document.createElement('div');
 	const $divListContainer = document.createElement('div');
 
 	$div.setAttribute('class', 'list_container');
