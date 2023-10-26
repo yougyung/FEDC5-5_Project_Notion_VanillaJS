@@ -1,6 +1,6 @@
 import SideMenuListHeader from './SideMenuListHeader.js';
 
-export default function SideHeader({ $target, text, onNavCreate }) {
+export default function SideHeader({ $target, text, onNavCreate, onMainMove }) {
     const $header = document.createElement('header');
     $target.appendChild($header);
 
@@ -11,6 +11,10 @@ export default function SideHeader({ $target, text, onNavCreate }) {
     }
 
     this.render();
+
+    $header.querySelector('h1').addEventListener('click', () => {
+        onMainMove();
+    })
 
     new SideMenuListHeader({
         $target: $header, 

@@ -6,7 +6,7 @@ export default function SideMenuListHeader({$target, onNavCreate}) {
     this.render = () => {
         $sideMenuListHeader.innerHTML = `
             <strong>개인 페이지</strong>
-            <button>+</button>
+            <button><span>+</span></button>
         `
     }
 

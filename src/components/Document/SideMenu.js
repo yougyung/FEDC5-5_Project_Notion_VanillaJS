@@ -1,11 +1,8 @@
-import SideHeader from './SideHeader.js';
-import SideMenuList from './SideMenuList.js';
-import { request } from '../../../api/api.js';
-import { deepCopy } from '../../../utils/deepCopy.js';
+import { SideHeader, SideMenuList, SideFooter } from './index.js';
 
-export default function SideMenu({ $target, initialState, onNavRemove, onNavCreate }) {
+export default function SideMenu({ $target, initialState, onNavRemove, onNavCreate, onMainMove }) {
     const $sideMenu = document.createElement('div');
-    $sideMenu.classList.add('sideBar')
+    $sideMenu.classList.add('side-bar')
     $target.appendChild($sideMenu);
 
     this.state = initialState;
@@ -14,18 +11,21 @@ export default function SideMenu({ $target, initialState, onNavRemove, onNavCrea
         sideMenuList.setState(this.state);
     }
 
-    console.log(initialState);
-
     new SideHeader({
         $target: $sideMenu,
         text: '조승현',
-        onNavCreate
+        onNavCreate,
+        onMainMove
     })
     
     const sideMenuList = new SideMenuList({
         $target: $sideMenu,
         initialState: this.state,
         onNavRemove,
-        onNavCreate
+        onNavCreate,
+    })
+
+    new SideFooter({
+        $target: $sideMenu
     })
 }
