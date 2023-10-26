@@ -6,6 +6,7 @@
   <small>(자세한 커밋 이모지의 의미는 링크를 참고해주세요.)</small>
 
 ## 프로젝트 미리보기
+![노션 클로닝 v1 미리보기](https://github.com/prgrms-fe-devcourse/FEDC5-5_Project_Notion_VanillaJS/assets/114740795/aff3b551-7b55-4edf-b758-bdb39dd5923d)
 
 ### 기본 요구사항
 
