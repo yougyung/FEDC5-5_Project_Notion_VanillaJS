@@ -54,7 +54,7 @@ module.exports = {
     historyApiFallback: {
       rewrites: [
         { from: /^\/$/, to: "/index.html" },
-        { from: /^\/[a-zA-Z0-9]+$/, to: "/index.html" }, // 예시: /about, /contact 등의 라우트 패턴
+        { from: /^\/[a-zA-Z0-9]+$/, to: "/index.html" },
       ],
     },
   },
