@@ -30,11 +30,13 @@ export default function PostList({ $target }) {
 
     this.state.forEach(({ id, title, documents }) => {
       const $ul = document.createElement("ul");
+      // 루트 post는 따로 먼저 li를 만들어준다.
       const $li = CreateListInPost({ depth: 0, id, title });
 
       $ul.appendChild($li);
       $div.appendChild($ul);
 
+      // 루트 post의 하위 documents를 탐색하며 dom에 추가하는 재귀함수
       Post({
         depth: 1,
         id,
@@ -86,20 +88,22 @@ export default function PostList({ $target }) {
     // post 선택 시 이벤트 처리
     if (className === "list" || className === "title") {
       SelectPostEvent(id);
-      // 추가 버튼 누를 시 이벤트 처리
+      // 추가 버튼 클릭 시 이벤트 처리
     } else if (
       className === "insert-button" ||
       className === "fa-solid fa-plus"
     ) {
       InsertButtonEvent(id);
-      // 삭제 버튼 누를 시 이벤트 처리
+      // 삭제 버튼 클릭 시 이벤트 처리
     } else if (
       className === "delete-button" ||
       className === "fa-regular fa-trash-can"
     ) {
       DeleteButtonEvent(id);
+      // 새 페이지 버튼 클릭 시 이벤트 처리
     } else if (className === "newpage-button") {
-      NewpageButtonEvent(id);
+      NewpageButtonEvent();
+      // 토글 버튼 클릭 시 이벤트 처리
     } else if (
       className === "toggle-button" ||
       className === "fa-solid fa-angle-right" ||

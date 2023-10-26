@@ -8,10 +8,13 @@ import { initRouter } from "../../router/router.js";
 const NOTION_NAME = "📚 황 민호의 Notion";
 
 export default function App({ $target }) {
+  // 왼쪽 화면(postList)과 연결
   const getPostListApi = async () => {
     const rootData = await request("");
     postList.setState(rootData);
   };
+
+  // 오른쪽 화면(editpage)과 연결
   const getPostApi = async (id) => {
     const selectedData = await request(`/${id}`);
     const data = { ...selectedData, isRender: false };
@@ -29,10 +32,11 @@ export default function App({ $target }) {
       const newTitle = getItem("savepoint", "");
       const { title, content } = newTitle;
 
+      // post를 수정하기 위한 api 통신
       await updateData({ documentId: id, title, content });
-      //await 안붙이면 한박자 늦게 업로드
 
       const nextState = await request("");
+      // postlist도 리렌더 ( 편집기에서 수정한 제목이 side-bar에도 즉각적으로 반영 )
       postList.setState(nextState);
     },
   });
@@ -42,8 +46,10 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
     getPostListApi();
+    // 초기 화면 렌더링
     if (pathname === "/") {
       editpage.setState({ id: "index" });
+      //특정 id를 가진 post 렌더링
     } else if (pathname !== "/" && pathname.indexOf("/") === 0) {
       const id = pathname.split("/")[1];
       getPostApi(id);

@@ -1,6 +1,8 @@
 import { addNewData } from "../../api/Api.js";
 import { push } from "../../router/router.js";
 import { getItem, setItem } from "../../storage/Storage.js";
+import CreateChildPostButtonEvent from "../event/CreateChildPostButtonEvent.js";
+import LinkChildPostButtonEvent from "../event/LinkChildPostButtonEvent.js";
 import {
   SELECTED_POST_KEY,
   OPENED_POST_KEY,
@@ -14,6 +16,7 @@ export default function LinkChildPost({ $target, initialState }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    // 하위 post가 없다면 표시할 화면
     if (this.state.documents.length === 0) {
       $div.innerHTML = `
       <p>
@@ -26,6 +29,7 @@ export default function LinkChildPost({ $target, initialState }) {
   };
 
   this.render = () => {
+    // 하위 post의 title을 뽑아서 해당 title를 버튼의 text로 갖는 버튼을 생성한다.
     $div.innerHTML = `
         <p class = "child-link-title">&nbsp;&nbsp;🔗 &nbsp;하위 Documents 바로가기</p>
         ${this.state.documents
@@ -43,21 +47,15 @@ export default function LinkChildPost({ $target, initialState }) {
 
     if (!$button) return;
 
+    // 해당 버튼의 post로 이동
     if ($button.hasAttribute("data-id")) {
       const { id } = $button.dataset;
-      push(id);
+      LinkChildPostButtonEvent(id);
     }
-    if ($button.className === "immediately-child-post") {
-      const { id } = this.state;
-      const newData = await addNewData(id);
-      const showLists = getItem("showId", []);
-      const newIdLists = [...showLists, newData.id];
-      setItem(OPENED_POST_KEY, newIdLists);
 
-      showLists.push(newData.id);
-      setItem(SELECTED_POST_KEY, newData.id);
-      setItem(OPENED_POST_KEY, showLists);
-      push(newData.id);
+    // 하위 post가 없다면 즉시 post를 생성할수 있도록 한다.
+    if ($button.className === "immediately-child-post") {
+      CreateChildPostButtonEvent(this.state.id);
     }
   });
 }

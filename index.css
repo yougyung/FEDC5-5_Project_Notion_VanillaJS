@@ -239,3 +239,15 @@ textarea::placeholder {
   size: 10%;
   cursor: pointer;
 }
+
+.immediately-child-post:hover {
+  cursor: pointer;
+}
+
+.child-link-button:hover {
+  cursor: pointer;
+}
+
+.header-title:hover {
+  cursor: pointer;
+}

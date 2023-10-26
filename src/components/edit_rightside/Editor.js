@@ -1,4 +1,4 @@
-import { setItem, getItem } from "../../storage/Storage.js";
+import { setItem } from "../../storage/Storage.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $div = document.createElement("div");
@@ -8,18 +8,20 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
+    // index를 전달받았다면, 빈 화면
     if (nextState.id === "index") {
       $div.innerHTML = "";
       return;
     }
     this.state = nextState;
+    // 로컬에 현재 상태 저장
     setItem("savepoint", this.state);
     this.render();
   };
 
   this.render = () => {
     if (!this.state.isRender) {
-      // <<br 꺼내어쓰면 왜 안되지..
+      // 리렌더되면서 편집기 선택이 풀리는 것을 방지함
       this.state.isRender = true;
       $div.innerHTML = `
             <input placeholder="제목 없음" name="title" type="text" class="title-area" value="${
@@ -32,13 +34,14 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
   };
 
+  // keyup 이벤트 핸들러
   $div.addEventListener("keyup", (e) => {
     const name = e.target.getAttribute("name");
     const nextState = {
       ...this.state,
       [name]: e.target.value,
     };
-    this.setState(nextState);
+    this.setState(nextState); // 계속해서 로컬에 저장됨
     onEditing(nextState.id);
   });
 }
