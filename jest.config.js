@@ -3,7 +3,7 @@ const { compilerOptions } = require("./tsconfig.json");
 
 module.exports = {
   preset: "ts-jest",
-  testEnvironment: "node",
+  testEnvironment: "jest-environment-jsdom",
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 };
