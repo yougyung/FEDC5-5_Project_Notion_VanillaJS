@@ -17,6 +17,8 @@ export default function EditNav({ $target, inititalState }) {
       `.nav-document-container[data-id="${this.state.selectedDoc.id}"]`
     );
 
+    $editNav.innerHTML = '';
+
     if (selectionNav) {
       const docsGraph = [selectionNav.children[1].innerText];
       let currentNav = selectionNav;
@@ -34,23 +36,21 @@ export default function EditNav({ $target, inititalState }) {
 
       docsGraph.reverse();
       // 경로 구하기
-      $editNav.innerHTML = '';
+      if (docsGraph.length !== 0) {
+        docsGraph.forEach((docsName, idx) => {
+          const $docsName = document.createElement('div');
+          $docsName.className = 'edit-nav-item';
+          $docsName.innerText = docsName;
 
-      docsGraph.forEach((docsName, idx) => {
-        const $docsName = document.createElement('div');
-        $docsName.className = 'edit-nav-item';
-        $docsName.innerText = docsName;
+          const $slash = document.createElement('span');
+          $slash.className = 'slash';
+          $slash.innerText = '/';
 
-        const $slash = document.createElement('span');
-        $slash.className = 'slash';
-        $slash.innerText = '/';
+          $editNav.appendChild($docsName);
 
-        $editNav.appendChild($docsName);
-
-        if (idx !== docsGraph.length - 1) $editNav.appendChild($slash);
-      });
+          if (idx !== docsGraph.length - 1) $editNav.appendChild($slash);
+        });
+      }
     }
   };
-
-  this.render();
 }
