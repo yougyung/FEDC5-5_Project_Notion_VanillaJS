@@ -1,4 +1,9 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({
+  $target,
+  initialState,
+  onEditing,
+  validateLink,
+}) {
   const $editor = document.createElement("div");
   $editor.className = "editor";
   $editor.innerHTML = `
@@ -18,10 +23,26 @@ export default function Editor({ $target, initialState, onEditing }) {
     const richContent = content
       .split("<div>")
       .map((line) => {
-        //console.log(line);
         line = line.replace("</div>", "");
         console.log(line);
+        const docLinkRegExp = /http:\/\/localhost:3000\/(\d+.*)/g;
+        const match = docLinkRegExp.exec(line);
+        if (match) {
+          validateLink(+match[1]);
+          if (validateLink(+match[1])) {
+            return `<div>${line}</div>`;
+          }
+        }
+        const boldRegExp = /[*]{2}(.*)[*]{2}/g;
+        // const italicRegExp = /[*]{1}(.*)[*]{1}/g;
+        if (boldRegExp.test(line))
+          line = line.replace(boldRegExp, "<strong>$1</strong> ");
+        // line = line.replace(italicRegExp, "<em>$1</em>");
+        console.log(line);
+
         if (line === "") return "";
+        if (line === "---") line = "<hr>";
+
         if (line.indexOf("# ") === 0) {
           console.log("1");
           line = line.replace(/[\#]{1}(.+)/g, "<div><h1>$1</h1></div>");
