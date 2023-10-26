@@ -29,7 +29,7 @@ export default function ChildPageContainer({
     //console.log(e.target.closest("li").dataset.id);
     const { id } = e.target.closest("li").dataset;
     this.state.forEach((page) => {
-      if (+page.id === +id) onSubPageClick(page);
+      if (+page.id === +id) onSubPageClick(id);
     });
   });
 }
