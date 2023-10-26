@@ -94,4 +94,34 @@ export default function DocumentList({
 		const $button = target.closest('button');
 		if ($button === null) return;
 		if ($button.tagName !== 'BUTTON') return;
+
+		if ($button.name === 'arrow') {
+			const $li = $button.closest('li');
+			const $ul = $li.querySelector('ul');
+			const { id } = $li.dataset;
+
+			const $svg = $li.querySelector('[name=toggle]');
+
+			$ul.classList.toggle('hidden');
+			if ($ul.classList.contains('hidden')) {
+				$svg.classList.remove('rotate');
+			} else {
+				$svg.classList.add('rotate');
+			}
+
+			const toggled = getItem('KNotionProject', []);
+
+			if ($ul.classList.contains('hidden')) {
+				const newToggled = [...toggled, id];
+				setItem('KNotionProject', JSON.stringify(newToggled));
+				const $svg = $li.querySelector('[name=toggle]');
+				$svg.classList.add('rotate');
+			} else {
+				const newToggled = toggled.filter((item) => item !== id);
+				setItem('KNotionProject', JSON.stringify(newToggled));
+				const $svg = $li.querySelector('[name=toggle]');
+				$svg.classList.remove('rotate');
+			}
+			return;
+		}
 }
