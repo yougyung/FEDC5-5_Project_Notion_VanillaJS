@@ -25,13 +25,18 @@ export default function DocumentsList({ $target, initialState }) {
 
   this.render = () => {
     $documentsList.innerHTML = '';
+
     this.state.forEach(state => {
       const $details = document.createElement('details');
 
       const openIds = getItem('openDocumentIds')?.map(Number);
       openIds?.includes(state.id) && $details.setAttribute('open', 'true');
 
-      new DocumentObject({ $target: $details, currentDocumentData: state });
+      new DocumentObject({
+        $target: $details,
+        currentDocumentData: { title: state.title, id: state.id },
+      });
+
       $documentsList.appendChild($details);
       if (state.documents.length) {
         new DocumentsList({ $target: $details, initialState: state.documents });

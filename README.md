@@ -145,4 +145,4 @@ documentId에 해당하는 Document를 삭제합니다.
 만약 하위 documents가 있는 document를 삭제한 경우, 하위 documents 등은 상위 document가 없어지므로 root document로 인식됩니다.
 
 ### 디자인
-![아토믹 디자인 패턴-1.jpg](..%2F..%2F..%2F..%2F..%2FDownloads%2F%EC%95%84%ED%86%A0%EB%AF%B9%20%EB%94%94%EC%9E%90%EC%9D%B8%20%ED%8C%A8%ED%84%B4-1.jpg)
+![아토믹 디자인 패턴-1 2.jpg](..%2F..%2F..%2F..%2F..%2FDownloads%2F%EC%95%84%ED%86%A0%EB%AF%B9%20%EB%94%94%EC%9E%90%EC%9D%B8%20%ED%8C%A8%ED%84%B4-1%202.jpg)

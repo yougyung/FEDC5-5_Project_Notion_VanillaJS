@@ -3,6 +3,7 @@ import NotionSideBar from '../components/template/NotionSideBar.js';
 import { request } from '../services/api.js';
 import { initRouter } from '../utils/router.js';
 import styleInJS from '../style/tagStyles.js';
+import { optimisticUpdate } from '../utils/saveDocumentTitle.js';
 
 /*
  * HomePage
@@ -44,6 +45,8 @@ export default function HomePage({ $target }) {
     return documentPath;
   };
 
+  let tempDocumentData;
+
   this.route = async () => {
     const { pathname } = window.location;
 
@@ -52,7 +55,7 @@ export default function HomePage({ $target }) {
 
     if (pathname === '/') {
       // home 보여주기
-      notionSideBar.setState(newDocuments);
+      notionSideBar.setState(this.state);
       documentDetail.setState({ id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] });
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
@@ -60,7 +63,7 @@ export default function HomePage({ $target }) {
       const documentPathData = findDocumentDataById(Number(postId));
 
       // sidebar 업데이트
-      notionSideBar.setState(newDocuments);
+      notionSideBar.setState(this.state);
 
       // document 보여주기
       const { content } = await documentContent;
@@ -71,12 +74,18 @@ export default function HomePage({ $target }) {
         content: content || '내용을 채워주세요',
         documentPath: documentPathData,
       };
-
+      tempDocumentData = nextState;
       documentDetail.setState(nextState);
     }
   };
 
   this.route();
+
+  this.optimisticTitle = () => {
+    notionSideBar.setState(this.state);
+    documentDetail.setState(tempDocumentData);
+  };
+  optimisticUpdate(this.optimisticTitle);
 
   initRouter(this.route);
 

@@ -8,6 +8,7 @@ import DocumentTitle from '../molecules/editor/DocumentTitle.js';
 import DocumentContent from '../molecules/editor/DocumentContent.js';
 import { request } from '../../services/api.js';
 import styleInJS from '../../style/tagStyles.js';
+import { removeItem } from '../../utils/storage.js';
 
 export default function EditDocument({ $target, initialState }) {
   const $editDocument = document.createElement('div');
@@ -19,11 +20,11 @@ export default function EditDocument({ $target, initialState }) {
   this.setState = nextState => {
     this.state = nextState;
     if (this.state.id === null) {
-      documentTitle.setState({ title: this.state.title, isDisabled: true });
+      documentTitle.setState({ ...this.state, title: this.state.title, isDisabled: true });
       documentContent.setState({ content: this.state.content, isDisabled: true });
       return;
     }
-    documentTitle.setState({ title: this.state.title, isDisabled: false });
+    documentTitle.setState({ ...this.state, title: this.state.title, isDisabled: false });
     documentContent.setState({ content: this.state.content, isDisabled: false });
     debouncePostDocument(this.state, 1000);
   };
@@ -40,12 +41,13 @@ export default function EditDocument({ $target, initialState }) {
           content,
         },
       });
+      removeItem(`SAVE_DOCUMENT_TITLE_KEY-${id}`);
     }, delayTime);
   };
 
   const documentTitle = new DocumentTitle({
     $target: $editDocument,
-    title: this.state.title,
+    initialState: { ...this.state, isDisabled: false },
     onEditTitle: title => {
       const nextState = { ...this.state, title };
       this.setState(nextState);
