@@ -116,6 +116,15 @@ li {
     height: 500px;
 }
 
+.textEditor p,
+h1,
+h2,
+h3,
+h4,
+span {
+    margin: 0;
+}
+
 .sidebarheader {
     display: flex;
     text-align: center;
