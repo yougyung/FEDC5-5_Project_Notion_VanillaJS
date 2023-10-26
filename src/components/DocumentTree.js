@@ -30,7 +30,7 @@ export default function DocumentTree({
       if (e.target.classList.contains("toggle-button")) {
         const $ul = e.target.closest("li").querySelector("ul");
         $ul.classList.toggle("hide");
-        if ($ul.classList.contains("hide")) e.target.textContent = "►";
+        if ($ul.classList.contains("hide")) e.target.textContent = "▶";
         else e.target.textContent = "▼";
         return;
       }
