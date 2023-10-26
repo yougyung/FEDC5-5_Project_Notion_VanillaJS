@@ -18,6 +18,16 @@ export default function Breadcrumb({
 	};
 
 	this.render = () => {
+		$p.innerHTML = this.state.length
+			? `${this.state
+					.map(({ id, title }) => {
+						return title
+							? `<span data-id="${id}" class="breadcrumb_text">${title}</span>`
+							: `<span data-id="${id}" class="breadcrumb_text">${EMPTY_TITLE}</span>`;
+					})
+					.join('<span class="breadcrumb_text_separator">/</span>')}`
+			: '';
+	};
 	this.render();
 
 }
