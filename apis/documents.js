@@ -12,7 +12,7 @@ export class HTTPError extends Error {
   }
 
   showAlert(msg) {
-    console.error(this.message)
+    console.error(this.status, this.message)
     alert(msg)
   }
 }

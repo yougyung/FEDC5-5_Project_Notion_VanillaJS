@@ -40,6 +40,7 @@ export default class Content {
         documents: documentStore.getState().documents || []
       }
     })
+
     this.$target.appendChild(this.$content)
   }
 
@@ -74,6 +75,7 @@ export default class Content {
         throw new Error(err)
       }
     }
+    ;``
   }
 
   render() {
@@ -120,6 +122,7 @@ export default class Content {
   findRelatedDocuments() {
     this.findChildDocuments(documentStore.getState().documents, this.state.id)
   }
+
   findChildDocuments(data, currentId) {
     for (const document of data) {
       if (document.id === currentId) {

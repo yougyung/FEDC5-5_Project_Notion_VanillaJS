@@ -25,8 +25,10 @@ export default class Sidebar {
   }
 
   renderSidebarItem() {
-    this.state = documentStore.getState().documents
-    return this.state.map(item => this.sidebarItem.render(item)).join("")
+    return documentStore
+      .getState()
+      .documents.map(item => this.sidebarItem.render(item))
+      .join("")
   }
 
   render() {
@@ -56,9 +58,9 @@ export default class Sidebar {
         payload: parentId
       })
       const { id } = documentStore.getState().newDocument
-      this.dispatchUrlEvent(`/documents/${id}`)
+      urlchangeHandler(`/documents/${id}`)
     } catch (err) {
-      console.log(err)
+      err.showAlert("문서 생성에 실패했습니다")
     }
   }
 
@@ -99,9 +101,4 @@ export default class Sidebar {
 
     e.target.parentNode.nextElementSibling.classList.toggle("hidden")
   }
-
-  // dispatchUrlEvent(pathname) {
-  //   history.pushState(null, null, pathname)
-  //   window.dispatchEvent(this.urlchange)
-  // }
 }

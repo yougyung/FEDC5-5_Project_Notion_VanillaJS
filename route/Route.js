@@ -1,7 +1,6 @@
 export default class Route {
-  regex = /^\/documents\/\d+$/
-  constructor({ changeContent }) {
-    this.changeContent = changeContent
+  constructor({ render }) {
+    this.render = render
     window.addEventListener("urlchange", () => this.route())
     window.addEventListener("popstate", () => this.route())
     this.route()
@@ -9,7 +8,7 @@ export default class Route {
 
   route() {
     const documentId = this.parsePathname()
-    this.changeContent(documentId) //pathname에 따라 Content 컴포넌트를 렌더링함
+    this.render(documentId) //pathname에 따라 Content 컴포넌트를 렌더링함
   }
 
   parsePathname() {
