@@ -121,4 +121,13 @@ export default function App({ $target, initialState }) {
 		this.state = nextState;
 		documentList.setState(nextState);
 	};
+
+	this.fetch = async ({ url, method, body = {}, callback }) => {
+		const options = body.length ? { url, method, body } : { url, method };
+		const response = await request(url, {
+			...options,
+		});
+		if (callback) callback(response);
+		return response;
+	};
 }
