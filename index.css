@@ -9,7 +9,7 @@
 body {
   height: 100vh;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 470px;
   width: 100vw;
   color: #dadada;
 }
@@ -95,6 +95,71 @@ input[name='title'] {
   font-size: 30px;
 }
 
+.index-page {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  @media (max-width: 786px) {
+    justify-content: start;
+    align-items: center;
+    padding-top: 20px;
+  }
+}
+
+.index-add-button {
+  width: 100px;
+  padding: 3px 0px;
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #a6a6a6;
+
+  border-radius: 4px;
+  background-color: #262626;
+  cursor: pointer;
+}
+
+.index-add-button:hover {
+  background-color: #363636;
+  color: #dadada;
+}
+
+.index-button-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 12px;
+
+  @media (max-width: 786px) {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.index-link-button {
+  background-color: #262626;
+  color: #dadada;
+  text-decoration: none;
+
+  padding: 10px 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+
+  border-radius: 6px;
+  transition: all 0.5s;
+}
+
+.index-link-button:hover {
+  background-color: #555;
+}
 /* -------------------------------SideBar------------------------------- */
 
 .sidebar-container {
