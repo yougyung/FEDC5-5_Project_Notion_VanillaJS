@@ -1,3 +1,5 @@
+import request from "../../api.js";
+
 import Editor from "./Editor.js";
 import PageTitle from "./PageTitle.js";
 
@@ -18,10 +20,14 @@ export default class Page {
         });
     }
 
-    setDocument(id) {
+    async setDocument(id) {
         this.id = id;
-        this.editor.changeDocument(id);
+        this.editor.id = id;
         this.PageTitle.setTitle(id);
+
+        const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
+        this.editor.titleEditorElement.textContent = title;
+        this.editor.editorElement.innerHTML = content;
 
         const path = `/documents/${this.id}`;
         history.pushState(null, null, path);

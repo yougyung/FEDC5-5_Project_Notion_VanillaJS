@@ -58,17 +58,7 @@ export default class Editor {
             }
         });
     }
-    changeDocument(id) {
-        this.id = id;
-        this.loadDocument();
-    }
-
-    async loadDocument() {
-        const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
-        this.titleEditorElement.textContent = title;
-        this.editorElement.innerHTML = content;
-    }
-
+ 
     async updateDocument(title, content) {
         await request(`/documents/${this.id}`, {
             method: `PUT`,
