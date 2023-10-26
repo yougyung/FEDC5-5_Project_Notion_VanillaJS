@@ -22,11 +22,25 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
+    console.log(this.state);
+    if (this.state.id === "root") {
+      $editor.querySelector("[name=title]").value = "문서를 선택해주세요~";
+      $editor.querySelector("[name=content]").value = "";
+
+      $editor.querySelector("[name=title]").setAttribute("readOnly", "");
+      $editor.querySelector("[name=content]").setAttribute("readOnly", "");
+      return;
+    }
+
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=content]").value = this.state.content;
+
+    $editor.querySelector("[name=title]").removeAttribute("readOnly");
+    $editor.querySelector("[name=content]").removeAttribute("readOnly");
   };
 
   $editor.addEventListener("keyup", (e) => {
+    if (this.state.id === "root") return;
     const { target } = e;
     const name = target.getAttribute("name");
     const nextState = { ...this.state, [name]: e.target.value };

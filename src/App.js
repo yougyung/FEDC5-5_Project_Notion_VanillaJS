@@ -108,7 +108,7 @@ export default function App({ $target }) {
           const postArr = await request("/documents");
           this.setState({ ...this.state, postListPage: postArr });
         }
-      }, 2000);
+      }, 1000);
     },
   });
 
@@ -116,6 +116,17 @@ export default function App({ $target }) {
     const { pathname } = window.location;
     const postArr = await request("/documents");
     this.setState({ ...this.state, postListPage: postArr });
+
+    if (pathname === "/") {
+      this.setState({
+        ...this.state,
+        postViewPage: {
+          id: "root",
+          post: { id: "root", title: "", content: "" },
+        },
+      });
+      return;
+    }
 
     if (pathname.indexOf("/posts/") === 0) {
       const [, , id] = pathname.split("/");
