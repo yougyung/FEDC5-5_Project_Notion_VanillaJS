@@ -79,7 +79,7 @@ export default class Editor {
         });
         if (this.title !== title) {
             this.title = title;
-            onChangeTitle(this.id, title);
+            this.onChangeTitle(this.id, title);
         }
     }
 }
