@@ -4,7 +4,10 @@ import EditPage from './components/EditPage.js'
 export default function App({ $target }) {
   // 문서페이지
   new DocsPage({
-    $target
+    $target,
+    onDocumentClick: (id) => {
+      console.log(id)
+    }
   })
   // 편집페이지
   new EditPage({

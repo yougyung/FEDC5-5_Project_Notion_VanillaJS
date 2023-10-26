@@ -1,32 +1,10 @@
 import DocsList from './DocsList.js'
 import { request } from '../utils/api.js'
 
-const DUMMY_LIST = [
-  {
-    "id": 1, // Document id
-    "title": "노션을 만들자", // Document title
-    "documents": [
-      {
-        "id": 2,
-        "title": "1 하위페이지",
-        "documents": [
-          {
-            "id": 3,
-            "title": "1-2 하위페이지",
-            "documents": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "title": "hello!",
-    "documents": []
-  }
-]
-
-export default function DocsPage({ $target }) {
+export default function DocsPage({ 
+  $target,
+  onDocumentClick
+ }) {
   const $page = document.createElement('div')
   $page.id = 'sidebar'
   
@@ -59,4 +37,9 @@ export default function DocsPage({ $target }) {
     $target.appendChild($page)
   }
   this.render()
+
+  $page.addEventListener('click', (e) => {
+    const id = e.target.dataset.id
+    onDocumentClick(id)
+  })
 }
