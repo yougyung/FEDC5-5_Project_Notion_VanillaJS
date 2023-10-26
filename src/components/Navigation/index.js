@@ -13,7 +13,7 @@ export default class Navigation extends Component {
     this.$editorNavigation = createTemplate('<div class="editor-nav"></div>');
     this.$target.appendChild(this.$editorNavigation);
 
-    this.$title = createTemplate('<h3 class="editor-nav-title">이런 게시글은 어때요?</h3>');
+    this.$title = createTemplate('<h3 class="editor-nav-title"></h3>');
     this.$nav = createTemplate('<nav class="editor-nav-list"></nav>');
 
     this.$editorNavigation.appendChild(this.$title);
@@ -28,6 +28,13 @@ export default class Navigation extends Component {
   // eslint-disable-next-line max-lines-per-function
   createDom() {
     this.$nav.replaceChildren();
+
+    if (!this.state) {
+      this.$title.innerText = '';
+      return;
+    }
+
+    this.$title.innerText = '이런 게시글은 어때요?';
 
     const $ul = document.createElement('ul');
     this.$nav.appendChild($ul);

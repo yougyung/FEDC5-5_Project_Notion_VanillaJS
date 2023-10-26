@@ -26,7 +26,6 @@ export default class MainPage extends Component {
     this.fetchDocumentList();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   async setup() {
     this.state = { currentId: null };
 
@@ -41,7 +40,6 @@ export default class MainPage extends Component {
 
   createInstance() {
     this.$sidebarHeader = new DocumentHeader(this.$sidebar);
-
     this.$documentList = new DocumentList(this.$sidebar, {
       onSelect: this.handleDocumentSelect.bind(this),
       onCreate: this.handleDocumentCreate.bind(this),
@@ -58,6 +56,7 @@ export default class MainPage extends Component {
   setState(nextState) {
     if (this.state.currentId === nextState.currentId) return;
 
+    this.$fallback.setState({ isError: false, code: null });
     this.state = nextState;
     this.render();
   }
@@ -65,9 +64,11 @@ export default class MainPage extends Component {
   render() {
     if (!this.state.currentId) {
       this.$editor.setState(null);
+      this.$navigation.setState(null);
       return;
     }
 
+    this.$fallback.setState({ isError: false, message: null });
     this.fetchCurrentDocument(this.state.currentId);
   }
 
