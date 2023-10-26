@@ -2,7 +2,12 @@
 export const initStorage = (key, defaultValue = [], storage = window.localStorage) => {
   const getItem = () => JSON.parse(storage.getItem(key)) || defaultValue;
   const setItem = (value) => storage.setItem(key, JSON.stringify(value));
-  const appendUniqueItem = (value) => {
+  const appendItem = (value) => {
+    const storedValue = getItem();
+
+    storage.setItem(key, JSON.stringify(...new Set([...storedValue, value])));
+  };
+  const toggleItem = (value) => {
     const storedValue = getItem();
 
     if (storedValue.length < 1)
@@ -17,5 +22,11 @@ export const initStorage = (key, defaultValue = [], storage = window.localStorag
     }
   };
 
-  return { getItem, setItem, appendUniqueItem };
+  const deleteUniqueItem = (value) => {
+    const storedValue = getItem();
+
+    storage.setItem(key, JSON.stringify([...storedValue.filter((id) => id !== value)]));
+  };
+
+  return { getItem, setItem, appendItem, toggleItem, deleteUniqueItem };
 };

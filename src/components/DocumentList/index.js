@@ -38,7 +38,7 @@ export default class DocumentList extends Component {
   createList(parent, childrens, depth, unfoldedList) {
     const $ul = createTemplate(`<ul class="document-list depth-${depth}"></ul>`);
 
-    if (childrens.length < 1) new DocumentItem($ul, null);
+    if (childrens.length === 0) return;
 
     childrens.forEach((docs) => {
       new DocumentItem($ul, {
@@ -63,27 +63,24 @@ export default class DocumentList extends Component {
       }
 
       if (target.closest('.add-page')) {
-        this.unfoldedStorage.appendUniqueItem(documentId);
+        this.unfoldedStorage.appendItem(documentId);
         $li.classList.remove('folded');
         onCreate(documentId);
       }
 
       if (target.closest('.delete-page')) {
-        this.unfoldedStorage.appendUniqueItem(documentId);
+        this.unfoldedStorage.deleteUniqueItem(documentId);
         onDelete(documentId);
       }
 
       if (target.closest('.list-toggle-button')) {
         $li.classList.toggle('folded');
-        this.unfoldedStorage.appendUniqueItem(documentId);
+        this.unfoldedStorage.toggleItem(documentId);
       }
     });
-  }
 
-  handleClickEventByDocumentId(target, callback) {
-    const $li = target.closest('li');
-    const documentId = Number($li.dataset.id);
-
-    callback(documentId);
+    this.addEvent('click', '.add-new-page', () => {
+      this.props.onCreate();
+    });
   }
 }

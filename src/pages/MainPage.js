@@ -1,6 +1,5 @@
 import { push, replace } from '@/router';
 import Component from '@/core/Component';
-import CustomError from '@/error/Error';
 import DocumentList from '@/components/DocumentList';
 import Editor from '@/components/Editor';
 import Navigation from '@/components/Navigation';
@@ -68,7 +67,6 @@ export default class MainPage extends Component {
       return;
     }
 
-    this.$fallback.setState({ isError: false, message: null });
     this.fetchCurrentDocument(this.state.currentId);
   }
 
@@ -86,8 +84,6 @@ export default class MainPage extends Component {
   async fetchCurrentDocument(documentId) {
     try {
       const currentDocument = await getDetailOfDocument(documentId);
-
-      if (!currentDocument) throw new CustomError('404');
 
       this.$editor.setState(currentDocument);
       this.$navigation.setState(currentDocument.documents);
@@ -108,7 +104,6 @@ export default class MainPage extends Component {
       this.fetchDocumentList();
       push(`${API_END_POINT.DOCUMENTS}/${newDocument.id}`);
     } catch (error) {
-      // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
       this.$mainSection.replaceChildren();
       this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
     }

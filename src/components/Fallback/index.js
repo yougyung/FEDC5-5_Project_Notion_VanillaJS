@@ -9,8 +9,6 @@ import './Fallback.scss';
 export default class Fallback extends Component {
   setup() {
     this.state = { isError: false, code: null };
-
-    if (!this.state.isError) return;
   }
 
   setState(nextState) {
@@ -18,9 +16,12 @@ export default class Fallback extends Component {
     this.render();
   }
 
+  // eslint-disable-next-line max-lines-per-function
   createDom() {
-    this.$errorIcon = createTemplate(`<img src="${IMAGE_PATH.ERROR}" alt="error-icon" />`);
+    if (!this.state.isError) return;
+
     this.$fallback = createTemplate('<div class="error"></div>');
+    this.$errorIcon = createTemplate(`<img src="${IMAGE_PATH.ERROR}" alt="error-icon" />`);
     this.$button = createTemplate('<button class="reset-button">홈으로 돌아가기</button>');
 
     const { code } = this.state;
