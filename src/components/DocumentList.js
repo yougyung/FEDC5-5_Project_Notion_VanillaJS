@@ -90,11 +90,8 @@ export default function DocumentList({
 			onTitleClick(id.toString());
 			return;
 		}
-	});
 
-	$divCreateNewDocument.addEventListener('click', (event) => {
-		const { target } = event;
-		if (target.tagName !== 'SPAN') return;
-		onCreatePage();
-	});
+		const $button = target.closest('button');
+		if ($button === null) return;
+		if ($button.tagName !== 'BUTTON') return;
 }
