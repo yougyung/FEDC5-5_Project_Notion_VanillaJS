@@ -14,6 +14,7 @@ export default class EditPage {
     init() {
         const $page = createNewElement('div', [{ property: 'className', value: 'editor-wrap' }]);
 
+        // DocumentManager는 editor, childList를 관리하는 부모 컴포넌트
         this.documentManager = new DocumentManager({
             $target: $page,
             initalState: { ...this.state, isView: true, title: '', content: '' },

@@ -37,6 +37,7 @@ export default class DocumentForm {
         const res = await fetchPostDocument(null);
 
         if (res) {
+            // 데이터를 추가 하면 documentList의 데이터를 다시 불러오는 callback 함수
             this.onSubmitCallback();
         }
     }

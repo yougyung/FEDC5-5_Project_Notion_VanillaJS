@@ -25,6 +25,7 @@ export default class DocumentItems {
 
         documentList?.forEach((item) => new DocumentItem({ $target: $fragment, initalState: { ...item } }));
 
+        // documentId가 열람된 toggleList에 포함되어있다면 클래스를 변경하여 보여준다.
         if (documentId && toggleList.includes(String(documentId))) {
             $documentItems.classList.toggle('view');
         }

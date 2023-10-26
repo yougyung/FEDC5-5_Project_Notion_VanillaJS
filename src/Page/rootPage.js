@@ -8,6 +8,7 @@ export default class RootPage {
     }
 
     init() {
+        // Root 페이지는 sidebar 제외하고는 빈 Notion 페이지
         const $page = createNewElement('div', [{ property: 'className', value: 'root-wrap' }], 'Notion');
 
         this.$target.appendChild($page);

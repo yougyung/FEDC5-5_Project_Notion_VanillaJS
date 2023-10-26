@@ -12,10 +12,12 @@ export default class Document {
     init() {
         const $document = createNewElement('setcion', [{ property: 'className', value: 'document' }]);
 
+        // 루트 Document 추가하는 DocumentForm 컴포넌트 생성
         new DocumentForm({
             $target: $document,
             onSubmitCallback: () => this.documentList.getDocumentList(),
         });
+        // DocumentList를 추가, 삭제, 토글 버튼이 있는 DocumentList 컴포넌트 생성
         this.documentList = new DocumentList({
             $target: $document,
             initalState: { documentList: [] },

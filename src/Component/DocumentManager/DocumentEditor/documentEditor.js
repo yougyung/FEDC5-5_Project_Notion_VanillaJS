@@ -42,15 +42,14 @@ export default class DocumentEditor {
 
     render() {
         const { title, content } = this.state;
+        // 현재 content 상태를 마크업으로 변경한다.
         const markupText = convertToMarkup(content);
-
-        console.log(markupText);
 
         this.$title.value = title;
         this.$content.innerHTML = markupText ?? null;
     }
 
-    // 수정하면 onEditing으로 DB에 수정.
+    // content 수정 이벤트 핸들러
     HandleOnKeyup(e) {
         const {
             target,
@@ -58,8 +57,8 @@ export default class DocumentEditor {
             key,
             target: { value, innerHTML, name },
         } = e;
-
-        // 방향키 입력 시 종료
+        console.log(target);
+        // 방향키 입력 시 focus 이동 후 종료
         if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
             return;
         }
@@ -72,26 +71,31 @@ export default class DocumentEditor {
         }
 
         if (name === 'content') {
+            // 입력된 키가 엔터이고 2번 입력 방지
             if (key === 'Enter' && isComposing) {
                 return;
             }
+            // 엔터를 입력하면 이전 태그를 그대로 복사하는 문제 발생
             if (key === 'Enter' && !isComposing) {
                 e.preventDefault(); // 줄 생성
                 const nextState = { ...this.state, [name]: this.state[name] + '<div><br></div>' };
 
                 this.setState(nextState);
+                // DB에 수정된 데이터를 저장 후 sidebar의 제목도 리렌더링
                 this.onEditing(nextState);
                 return moveEndFocus(target);
             }
 
+            // 한글을 입력하면 자모음 조합으로 2번 호출되어 딜레이를 준다.
             clearTimeout(this.inputTimeout); // 이전 setTimeout을 취소
             this.inputTimeout = setTimeout(() => {
                 const nextState = { ...this.state, [name]: innerHTML };
 
                 this.setState(nextState);
+                // DB에 수정된 데이터를 저장 후 sidebar의 제목도 리렌더링
                 this.onEditing(nextState);
                 moveEndFocus(target);
-            }, 400); // 500ms 동안 추가 입력이 없으면 입력 완료로 간주
+            }, 400);
         }
     }
 }

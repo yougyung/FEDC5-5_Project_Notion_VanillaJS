@@ -6,6 +6,7 @@ export default class App {
     }
 
     init() {
+        // RouterManger에서 모든 url을 관리한다.
         RouterManger.getInstance({}).route();
     }
 }

@@ -13,10 +13,12 @@ export default class Sidebar {
     init() {
         const $sidebar = createNewElement('aside', [{ property: 'className', value: 'sidebar' }]);
 
+        // user정보를 가지는 Header 컴포넌트 생성
         this.user = new Header({
             $target: $sidebar,
             userName: getUserName(),
         });
+        // Document 정보를 가진 Document 컴포넌트 생성
         this.document = new Document({
             $target: $sidebar,
         });

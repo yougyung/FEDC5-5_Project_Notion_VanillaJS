@@ -55,6 +55,7 @@ export default class DocumentItem {
             'x'
         );
 
+        // documentId가 열람된 상태의 list에 포함되어 있다면 버튼 클래스를 토글하여 ui를 변경한다
         if (id && toggleList.includes(String(id))) {
             $toggleButton.classList.toggle('title-toggle__toggle--view');
             $toggleButton.classList.toggle('title-toggle__toggle--hidden');
@@ -69,7 +70,7 @@ export default class DocumentItem {
         $insertDelete.appendChild($insertButton);
         $insertDelete.appendChild($deleteButton);
 
-        // 현재 document에 자식 documets가 존재하면 현재 $li 자식으로 다시 ul 태그를 생성한다.
+        // 현재 document에 자식 documets가 존재하면 현재 $li를 부모로 하여 하위에 다시 ul 태그를 생성한다.
         if (documents.length > 0) {
             new DocumentItems({
                 $target: $li,

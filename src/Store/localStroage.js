@@ -23,6 +23,7 @@ export const removeItem = (key) => {
     localStorage.removeItem(key);
 };
 
+// document content 저장 키 동적 생성
 export const DOCUMENT_CONTENT_SAVE_KEY = (documentId) => {
     return `DOCUMENT_CONTENT_SAVE_KEY_${documentId}`;
 };

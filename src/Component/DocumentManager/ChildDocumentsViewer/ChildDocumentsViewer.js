@@ -43,8 +43,7 @@ export default class ChildDocumentsViewer {
             );
 
             $empty.appendChild($text);
-            this.$documentChildList.appendChild($empty);
-            return;
+            return this.$documentChildList.appendChild($empty);
         }
 
         new DocumentItems({ $target: this.$documentChildList, initalState: { documentList, isRoot: true } });
@@ -56,11 +55,12 @@ export default class ChildDocumentsViewer {
             target: { className },
         } = e;
 
-        // 해당 document 페이지로 이동
         if (className === 'title-toggle__title') {
             const documentId = target.closest('.document-item').dataset.id;
 
+            // documentChild 클릭시 해당 document로 이동
             RouterManger.getInstance().changeUrl(`/document/${documentId}`);
+            // 이동되면 sidebar에서도 현재 document 표시를 위해 알림을 준다.
             DocumentObserver.getInstance().notifyAll();
         }
     }
