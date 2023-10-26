@@ -3,6 +3,7 @@ export default function DocsList({
   initialState,
   onClickAddRoot,
   onClickAddSub,
+  onClickDeleteDoc
 }) {
   const $list = document.createElement('div')
   $list.className = 'documents-list'
@@ -32,8 +33,11 @@ export default function DocsList({
       <ul>
         <li data-id="${id}" class="listItem">
           <label for="check"></label>
-          <input type="checkbox" name="hide" id="hideCheck" />${title}
-          <button class="addSubDocButton">+</button>
+          <input type="checkbox" name="hideToggle" id="hideCheck" />${title}
+          <span class="button-group">
+            <button class="deleteDocButton">x</button>
+            <button class="addSubDocButton">+</button>
+          </span>
         </li>
           ${(documents && documents.length > 0)
           ? documents.map((document) => renderList(document)).join('') 
@@ -43,7 +47,7 @@ export default function DocsList({
   }
   const renderButton = () => {
     return `
-    <div role="button" class="addDocButton">
+    <div role="button" class="addRootDocButton">
       + 페이지 추가
     </div>
     `
@@ -62,19 +66,27 @@ export default function DocsList({
   this.render()
 
   $list.addEventListener('click', e => {
-    const { id, name, className } = e.target
+    const { name, className } = e.target
+    const $liParent = e.target.closest("li")
+    // 버튼 이벤트
+    if ($liParent) {
+      const { id } = $liParent
+      if (className === 'addSubDocButton') {
+        onClickAddSub(id)
+      } else if (className === 'deleteDocButton') {
+        onClickDeleteDoc(id)
+      }
+    }
+    if (className === 'addRootDocButton') {
+      onClickAddRoot()
+    }
     
-    if (name === 'hide') {
+    // 하위 목록 숨기기
+    if (name === 'hideToggle') {
       e.target.checked
       ? e.target.parentNode.nextElementSibling.style.display = 'none'
       : e.target.parentNode.nextElementSibling.style.display = 'block'
       //style.display = 'none'
-    }
-    if (className === 'addDocButton') {
-      onClickAddRoot()
-    }
-    if(className === 'addSubDocButton') {
-      onClickAddSub()
     }
   })
 }

@@ -33,11 +33,17 @@ export default function DocsPage({ $target }) {
     $target: $page,
     initialState: DUMMY_LIST,
     onClickAddRoot: () => {
-      console.log('페이지추가 눌림')
+      // fetch 추가
+      console.log('루트페이지 추가 눌림')
     },
-    onClickAddSub: () => {
-      console.log('하위페이지추가 눌림')
+    onClickAddSub: (id) => {
+      // fetch 하위 추가
+      console.log('하위페이지 추가 눌림')
     },
+    onClickDeleteDoc: (id) => {
+      // fetch 하위 삭제
+      console.log('하위페이지 삭제 눌림')
+    }
   })
 
   this.render = () => {
