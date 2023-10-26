@@ -124,4 +124,10 @@ export default function DocumentList({
 			}
 			return;
 		}
+
+		if ($button.name === 'add') {
+			const { id } = target.closest('li').dataset;
+			onCreatePage(JSON.parse(id));
+			return;
+		}
 }
