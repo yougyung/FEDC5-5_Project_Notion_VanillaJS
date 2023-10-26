@@ -21,9 +21,8 @@ export default function App({ $target, initialState }) {
 
       documentList.setState({
         documentId,
-        documents
-      },);
-
+        documents,
+      });
     }
 
     this.render();
@@ -33,7 +32,7 @@ export default function App({ $target, initialState }) {
     $target,
     initialState: {
       selectedId: 0,
-      documents: this.state.documents
+      documents: this.state.documents,
     },
     onDocumentRemove: async (id) => {
       await request(`/documents/${id}`, {
@@ -101,4 +100,6 @@ export default function App({ $target, initialState }) {
   fetchDocments();
 
   initRouter(() => this.route());
+
+  window.addEventListener("popstate", () => this.route());
 }
