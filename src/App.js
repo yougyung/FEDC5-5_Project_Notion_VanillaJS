@@ -5,20 +5,23 @@ export default function App({ $target, initialState }) {
 	this.state = initialState;
 
 	const documentList = new DocumentList({
-		$target,
+		$target: $nav,
 		initialState,
-		onTitleClick: (id) => {
+		onTitleClick: async (id) => {
+			const nextState = await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: GET,
+			});
+			documentEditPage.setState(nextState);
+			push(`${DOCUMENTS}/${id}`);
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			subDocumentLinkList.setState(nextState);
 		},
-		onCreatePage: () => {
-			const date = new Date();
-			const newState = {
-				id: date.getTime().toString(),
-				title: '',
-				documents: [],
-				createdAt: date.toJSON(),
-				updatedAt: date.toJSON(),
-			};
-
+			const nextState = await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: GET,
+			});
 			documentEditPage.setState(nextState);
 		},
 	});
