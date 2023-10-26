@@ -4,7 +4,7 @@ import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
 import { titleMatched } from "./utils/match.js";
 import { initRouter } from "./utils/router.js";
-import { findTitleInTree } from "./utils/tree.js";
+import { findIdInTree, findTitleInTree } from "./utils/tree.js";
 
 export default function App({ $target }) {
   const $sideMenuContainer = document.createElement("div");
@@ -36,6 +36,7 @@ export default function App({ $target }) {
     },
     onSelect: async (documentId) => {
       history.replaceState(null, null, `${documentId}`);
+
       this.setState({
         ...this.state,
         selectedDocumentId: documentId,
@@ -71,16 +72,23 @@ export default function App({ $target }) {
       if (timer !== null) clearTimeout(timer);
       timer = setTimeout(async () => {
         const { id, title, content } = currentDocument;
-        const sameTittleDocument = findTitleInTree(
+        const isNew = this.state.selectedDocumentId === "new";
+        const sameTitleDocument = findTitleInTree(
           this.state.documentList,
           title
         );
-        if (sameTittleDocument && id !== sameTittleDocument.id) {
-          titleMatched(sameTittleDocument.id, sameTittleDocument.title);
+
+        if (sameTitleDocument && id !== sameTitleDocument.id) {
+          titleMatched(sameTitleDocument.id, sameTitleDocument.title);
+          matchedDocument.setState({
+            matched: true,
+            linkText: sameTitleDocument.title,
+          });
           return;
         }
+
         if (title.length === 0) return; // title can't be empty string
-        const isNew = this.state.selectedDocumentId === "new";
+
         if (isNew) {
           const createdPost = await request("", {
             method: "POST",
@@ -103,6 +111,11 @@ export default function App({ $target }) {
           });
           await fetchDocumentList();
         }
+
+        matchedDocument.setState({
+          ...this.state,
+          matched: false,
+        });
       }, 800);
     },
   });
