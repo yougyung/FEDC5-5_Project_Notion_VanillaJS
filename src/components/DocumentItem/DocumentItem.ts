@@ -39,12 +39,12 @@ function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
   return {
     element: `
       <li data-id="${id}" class="${classNames("documentItem", s_documentItem)}">
-        <div class="${s_contentContainer}">
-          <img src="/assets/svg/arrow.svg" class="documentToggle" alt="문서 토글"/>
+        <div class="${s_contentContainer}" >
+          <img src="/assets/svg/arrow.svg" class="documentToggle" alt="문서 토글" tabindex="0"/>
           <div class="${s_titleContainer}">
-            <span data-id="${id}" class="${classNames("documentTitle", s_document_title)}">${title}</span>
+            <span data-id="${id}" tabindex="0" class="${classNames("documentTitle", s_document_title)}">${title}</span>
             <div class="${s_buttonContainer}">
-              <button data-parent-id="${id}" class="addDocumentButton" type="button">
+              <button data-parent-id="${id}" class="addDocumentButton" tabindex="0" type="button">
                 <img src="/assets/svg/plus.svg" alt="하위 문서 추가" />
               </button>
               <button data-parent-id="${id}" class="deleteDocumentButton" type="button">
