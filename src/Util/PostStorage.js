@@ -14,7 +14,7 @@ export const linkText = (text) => {
 
     text = text.replace(
       regex,
-      `<div class="linktext" id="${postStorage[key]}" >${key}</div>`
+      `<div class="linktext" id="${postStorage[key]}">📃 ${key}</div>`
     );
   }
   // 일단 title과 같은 content들에 div 입히는건 완료

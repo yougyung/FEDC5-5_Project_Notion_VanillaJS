@@ -14,7 +14,7 @@
 
 .postlist {
   margin-top: 20px;
-  margin-left: 20px;
+  padding-left: 20px;
   cursor: pointer;
 }
 
@@ -37,15 +37,42 @@ img {
 
 .addPost {
   margin-top: 70px;
-  margin-left: 20px;
+  padding-left: 20px;
   cursor: pointer;
 }
 
+.addPost:hover {
+  background-color: #dcdcdc;
+}
+
 .summary {
+  display: flex;
   font-size: 18px;
+  /* position: relative; */
+}
+
+.summary:hover .buttonGroup {
+  display: flex;
+}
+
+.markerBtn {
+  border: 0;
+  background-color: transparent;
+}
+.titleSpan {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+.buttonGroup {
+  /* display: none; */
+  /* justify-content: flex-end; */
+  /* position: absolute; */
+  /* display: flex; */
+  display: none;
+  /* flex-direction: row; */
 }
 
 .addBtn {
@@ -84,6 +111,7 @@ img {
 .link {
   color: #0000ff;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .link:hover {
@@ -93,6 +121,10 @@ img {
 .linktext {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.linktext:hover {
+  background-color: #dcdcdc;
 }
 
 /* 모달 */
