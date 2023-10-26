@@ -17,12 +17,7 @@ export default class Page {
         rootElement.appendChild(this.pageElement);
         rootElement.appendChild(this.notDatapageElement);
 
-        window.addEventListener('popstate', e => {
-            const { pathname } = location;
-            const path = pathname.replace(window.location.origin, '');
-            const id = path.replace('/documents/', "");
-            this.setDocuments(id);
-        });
+        this.setEvent();
     }
 
     async setDocument(id) {
@@ -46,5 +41,14 @@ export default class Page {
     showNotDataPage() {
         this.pageElement.style.display = "none";
         this.notDatapageElement.style.display = "block";
+    }
+
+    setEvent() {
+        window.addEventListener('popstate', e => {
+            const { pathname } = location;
+            const path = pathname.replace(window.location.origin, '');
+            const id = path.replace('/documents/', "");
+            this.setDocuments(id);
+        });
     }
 }

@@ -8,8 +8,8 @@ export default class DocumentItem {
         this.item = item;
         this.isSlotOpen = false;
 
-        if (onDeleteItem) onDeleteItem = onDeleteItem.bind(this);
-        if (onSetPage) onSetPage = onSetPage.bind(this);
+        if (onDeleteItem) this.onDeleteItem = onDeleteItem.bind(this);
+        if (onSetPage) this.onSetPage = onSetPage.bind(this);
 
         this.parentElement = parentElement;
         this.parentListElement = document.createElement('li');
@@ -43,18 +43,27 @@ export default class DocumentItem {
         deleteButtonElement.textContent = "x";
 
         item.documents.map((documentItem) => {
-            this.documentItemList.push(new DocumentItem(documentItem, this.childListElement, onSetPage, onDeleteItem));
+            this.documentItemList.push(new DocumentItem(documentItem, this.childListElement, this.onSetPage, this.onDeleteItem));
         });
+        this.setEvent(addButtonElement, deleteButtonElement, parentElement);
+        this.render();
+    }
 
+    render() {
+        this.slotImgElement.src = this.isSlotOpen ? "../../../public/slotopen.png" : "../../../public/slotclose.png";
+        this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
+    };
+
+
+    setEvent(addButtonElement, deleteButtonElement, parentElement) {
         this.documentNameLabelElement.addEventListener('click', (event) => {
             if (event.target.id === "documentbtn" + this.item.id) {
-                onSetPage(this.item.id);
+                this.onSetPage(this.item.id);
             }
         });
         this.slotButtonElement.addEventListener('click', (event) => {
             if (event.target.id === "slotbtn" + this.item.id) {
                 this.isSlotOpen = !this.isSlotOpen;
-                console.log("*");
                 this.render();
             }
         });
@@ -67,13 +76,13 @@ export default class DocumentItem {
                         "parent": this.item.id
                     })
                 }).then(({ id, title }) => {
-                    this.documentItemList.push(new DocumentItem({ id, title, documents: [] }, this.childListElement, onSetPage, onDeleteItem));
+                    this.documentItemList.push(new DocumentItem({ id, title, documents: [] }, this.childListElement, this.onSetPage, this.onDeleteItem));
                 })
             }
         });
         deleteButtonElement.addEventListener('click', (event) => {
             if (event.target.id === "deletebtn" + this.item.id) {
-                onDeleteItem();
+                this.onDeleteItem();
                 const dfs = (node) => {
                     node.documents.map((documentItem) => {
                         dfs(documentItem);
@@ -86,12 +95,5 @@ export default class DocumentItem {
             }
             parentElement.removeChild(this.parentListElement);
         });
-        this.render();
     }
-
-
-    render() {
-        this.slotImgElement.src = this.isSlotOpen ? "../../../public/slotopen.png" : "../../../public/slotclose.png";
-        this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
-    };
 }

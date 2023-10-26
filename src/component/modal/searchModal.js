@@ -27,6 +27,29 @@ export default class SearchModal {
         searchModalElement.appendChild(hr);
         searchModalElement.appendChild(this.searchResultElement);
 
+        this.setEvent(searchBgElement, searchInput, searchModalElement);
+    }
+
+    async getSearchResult(findText) {
+        const result = await request("/documents", {
+            method: `GET`,
+        });
+        const searchResult = [];
+        const queue = [...result];
+
+        while (queue.length) {
+            const nowNode = queue.shift();
+            if (nowNode.title && nowNode.title.includes(findText)) {
+                searchResult.push({ title: nowNode.title, id: nowNode.id });
+            }
+            nowNode.documents.map((documentItem) => {
+                queue.unshift(documentItem);
+            });
+        }
+        return searchResult;
+    }
+
+    setEvent(searchBgElement, searchInput, searchModalElement) {
         searchBgElement.addEventListener("click", (event) => {
             if (event.target.className === "searchModalBackground") {
                 searchBgElement.style.display = "none";
@@ -52,24 +75,5 @@ export default class SearchModal {
             })
 
         });
-    }
-
-    async getSearchResult(findText) {
-        const result = await request("/documents", {
-            method: `GET`,
-        });
-        const searchResult = [];
-        const queue = [...result];
-
-        while (queue.length) {
-            const nowNode = queue.shift();
-            if (nowNode.title && nowNode.title.includes(findText)) {
-                searchResult.push({ title: nowNode.title, id: nowNode.id });
-            }
-            nowNode.documents.map((documentItem) => {
-                queue.unshift(documentItem);
-            });
-        }
-        return searchResult;
     }
 }

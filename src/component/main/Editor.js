@@ -18,24 +18,7 @@ export default class Editor {
         boardElement.appendChild(this.titleEditorElement);
         boardElement.appendChild(this.editorElement);
 
-        this.titleEditorElement.addEventListener("keyup", (e) => {
-            const titleTextContent = e.target.textContent.length > 0 ? e.target.textContent : "제목 없음";
-            this.updateDocument(titleTextContent, this.editorElement.textHTML);
-        });
-
-        this.editorElement.addEventListener("keyup", (e) => {
-            const textHTML = e.target.innerHTML;
-            const findDiv = this.editorElement.querySelector('div');
-
-            if (findDiv) {
-                e.preventDefault();
-                const newLine = document.createElement('br');
-                this.editorElement.removeChild(findDiv);
-                this.editorElement.appendChild(newLine);
-            }
-            this.convertHeadingTag(textHTML, e);
-            this.updateDocument(this.titleEditorElement.textContent, textHTML);
-        });
+        this.setEvent();
     }
 
     convertHeadingTag(textHTML, e) {
@@ -58,7 +41,7 @@ export default class Editor {
             }
         });
     }
- 
+
     async updateDocument(title, content) {
         await request(`/documents/${this.id}`, {
             method: `PUT`,
@@ -71,5 +54,26 @@ export default class Editor {
             this.title = title;
             this.onChangeTitle(this.id, title);
         }
+    }
+
+    setEvent() {
+        this.titleEditorElement.addEventListener("keyup", (e) => {
+            const titleTextContent = e.target.textContent.length > 0 ? e.target.textContent : "제목 없음";
+            this.updateDocument(titleTextContent, this.editorElement.textHTML);
+        });
+
+        this.editorElement.addEventListener("keyup", (e) => {
+            const textHTML = e.target.innerHTML;
+            const findDiv = this.editorElement.querySelector('div');
+
+            if (findDiv) {
+                e.preventDefault();
+                const newLine = document.createElement('br');
+                this.editorElement.removeChild(findDiv);
+                this.editorElement.appendChild(newLine);
+            }
+            this.convertHeadingTag(textHTML, e);
+            this.updateDocument(this.titleEditorElement.textContent, textHTML);
+        });
     }
 }
