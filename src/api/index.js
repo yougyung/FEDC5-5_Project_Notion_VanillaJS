@@ -1,3 +1,5 @@
+import CustomError from '@/error/Error';
+
 const { BASE_URL, USER_NAME } = process.env;
 
 const buildHeaders = (customHeaders = {}) => {
@@ -10,22 +12,18 @@ const buildHeaders = (customHeaders = {}) => {
 
 const handleResponse = async (res) => {
   if (!res.ok) {
-    throw new Error('데이터가 도망쳤어요!');
+    throw new CustomError(String(res.status));
   }
 
   return res.json();
 };
 
 export const request = async (pathname, options = {}, payload = null) => {
-  try {
-    const headers = buildHeaders(options.headers);
-    const url = `${BASE_URL}${pathname}`;
-    const body = payload ? JSON.stringify(payload) : null;
+  const headers = buildHeaders(options.headers);
+  const url = `${BASE_URL}${pathname}`;
+  const body = payload ? JSON.stringify(payload) : null;
 
-    const res = await fetch(url, { ...options, headers, body });
+  const res = await fetch(url, { ...options, headers, body });
 
-    return await handleResponse(res);
-  } catch (error) {
-    console.error(error);
-  }
+  return await handleResponse(res);
 };
