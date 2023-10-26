@@ -31,7 +31,7 @@ export default function NotionSidebar({
         }
     })
 
-    
+
 
     this.setState = async () => {
         const lists = await request('/documents')

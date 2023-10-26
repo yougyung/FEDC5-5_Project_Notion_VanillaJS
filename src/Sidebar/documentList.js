@@ -1,7 +1,6 @@
 import {
     push
 } from "../utils/router.js"
-import LinkButton from '../linkButton.js'
 
 export default function NotionList({
     $target,
@@ -10,7 +9,7 @@ export default function NotionList({
     onDelete
 }) {
     const $notionList = document.createElement('div')
-    $notionList.className ='sidebar_list'
+    $notionList.className = 'sidebar_list'
     $target.appendChild($notionList)
 
     this.state = initialState
@@ -38,7 +37,7 @@ export default function NotionList({
 
     this.render = () => {
         $notionList.innerHTML = renderList(this.state);
-        console.log('link',this.state)
+        console.log('link', this.state)
         $notionList.appendChild($rootCreateButton)
     }
 

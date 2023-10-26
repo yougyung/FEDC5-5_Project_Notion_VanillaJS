@@ -1,4 +1,3 @@
-
 import { 
     getItem,
     removeItem,
@@ -16,9 +15,8 @@ export default function NotionEditPage({
     onEdit
 }) {
     const $page = document.createElement('div')
-    this.state = initialState //{Postid: "new"} 
+    this.state = initialState 
     $page.className = "documentPage"
-    //storage_key
     let notionLocalSaveKey = `temp-post-${this.state.postId}`
 
     const defaultState = {
@@ -26,7 +24,7 @@ export default function NotionEditPage({
         title: '',
         content: ''
     }
-    //storage_get
+
     const post = getItem(notionLocalSaveKey,defaultState )
 
     let timer = null
@@ -88,7 +86,4 @@ export default function NotionEditPage({
         }
     }
     
-    
-
-
 }

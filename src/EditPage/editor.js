@@ -1,4 +1,3 @@
-//편집화면 렌더링
 export default function Editor({
     $target,
     initialState = {
@@ -9,7 +8,7 @@ export default function Editor({
 }) {
     this.state = initialState
     const $editor = document.createElement('div')
-    $editor.className ='documentPage_editor'
+    $editor.className = 'documentPage_editor'
     $target.appendChild($editor)
 
     let isinitialize = true
@@ -18,19 +17,9 @@ export default function Editor({
         this.state = nextState
         $editor.querySelector('[name=title]').value = this.state.title
         $editor.querySelector('[name=content]').value = this.state.content
-        
+
         this.render()
     }
-
-    // const renderLinkButton = (documents) => {
-    //     return `
-    //         <div>
-    //             ${documents.map(list =>     
-    //                 `<button data-id=${list.id} name="childDocumentButton" >${list.title}</button>
-    //                 `).join('')}
-    //         </div>
-    //     `
-    // };
 
     this.render = () => {
         if (isinitialize) {
@@ -38,24 +27,17 @@ export default function Editor({
             <input type = "text" class="title" name = "title" style = "width: 600px;"  placeholder="제목 없음" autofocus value = "${this.state.title}"/>
             <textarea name = "content" class="content" style = "width: 600px; height: 400px"placeholder="내용을 입력하세요.">${this.state.content}</textarea>
         `
-        isinitialize = false
+            isinitialize = false
         }
 
-        
-        // // documents가 존재하고 길이가 1 이상인 경우에만 버튼 렌더링
-        // if (this.state.documents && this.state.documents.length > 0) {
-        //     $editor.innerHTML += renderLinkButton(this.state.documents);
-        // } else {
-        //     // documents가 없거나 길이가 0이면 버튼을 숨깁니다.
-        //     $editor.innerHTML = $editor.innerHTML.replace(renderLinkButton(this.state.documents), '');
-        // }
-        
     }
     this.render()
 
 
     $editor.addEventListener('keyup', e => {
-        const {target} = e
+        const {
+            target
+        } = e
         const name = target.getAttribute('name')
         if (this.state[name] !== undefined) {
             const nextState = {
