@@ -1,21 +1,21 @@
 import request from "../../api.js";
-import MenuItem from "./MenuItem.js";
+import DocumentItem from "./DocumentItem.js";
 
-export default class MenuList {
+export default class DocumentList {
 
     arr = [];
 
     constructor(sidebarElement, onEvent) {
-        this.menuListElement = document.createElement('ul');
-        this.menuListElement.className = "parentPageList";
-        sidebarElement.appendChild(this.menuListElement);
+        this.documentListElement = document.createElement('ul');
+        this.documentListElement.className = "parentPageList";
+        sidebarElement.appendChild(this.documentListElement);
         this.onEvent = onEvent;
         this.init();
     }
     async init() {
-        this.menulist = await request("/documents");
-        this.menulist.map((menuItem) => {
-            this.arr.push(new MenuItem(menuItem, this.menuListElement, this.onEvent));
+        this.documentlist = await request("/documents");
+        this.documentlist.map((documentitem) => {
+            this.arr.push(new DocumentItem(documentitem, this.documentListElement, this.onEvent));
         });
     }
     updateDocumentTitle(id, title) {

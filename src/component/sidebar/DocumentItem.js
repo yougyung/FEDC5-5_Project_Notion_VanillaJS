@@ -1,6 +1,6 @@
 import request from "../../api.js";
 
-export default class MenuItem {
+export default class DocumentItem {
 
     arr = [];
 
@@ -40,8 +40,8 @@ export default class MenuItem {
         addButtonElement.textContent = "+";
         deleteButtonElement.textContent = "x";
 
-        item.documents.map((menuItem) => {
-            this.arr.push(new MenuItem(menuItem, this.childListElement, onEvent));
+        item.documents.map((documentItem) => {
+            this.arr.push(new DocumentItem(documentItem, this.childListElement, onEvent));
         });
 
         this.documentNameLabelElement.addEventListener('click', (event) => {
@@ -65,7 +65,7 @@ export default class MenuItem {
                         "parent": this.item.id
                     })
                 }).then(({ id, title }) => {
-                    this.arr.push(new MenuItem({ id, title, documents: [] }, this.childListElement));
+                    this.arr.push(new DocumentItem({ id, title, documents: [] }, this.childListElement));
                 })
             }
         });

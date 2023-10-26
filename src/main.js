@@ -13,7 +13,7 @@ const sidebar = new Sidebar({
 const page = new Page({
     rootElement,
     onChangeTitle: (id, title) => {
-        sidebar.menuList.updateDocumentTitle(id, title);
+        sidebar.documentList.updateDocumentTitle(id, title);
     }
 });
 

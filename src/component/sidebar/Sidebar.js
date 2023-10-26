@@ -1,8 +1,8 @@
 import request from "../../api.js";
 
-import MenuList from "./MenuList.js";
-import MenuItem from "./MenuItem.js";
-import { addDocumentButton, serachButton, sidebarHeader } from "./MenuOptions.js"
+import DocumentList from "./DocumentList.js";
+import DocumentItem from "./DocumentItem.js";
+import { addDocumentButton, serachButton, sidebarHeader } from "./DocumentOptions.js"
 
 export default class Sidebar {
     constructor({ rootElement, onEvent }) {
@@ -21,7 +21,7 @@ export default class Sidebar {
                     })
                 }
                 ).then(({ id, title }) => {
-                    this.menuList.arr.push(new MenuItem({ id, title, documents: [] }, this.menuList.menuListElement, onEvent));
+                    this.documentList.arr.push(new DocumentItem({ id, title, documents: [] }, this.documentList.documentListElement, onEvent));
                 })
             }
         });
@@ -29,7 +29,7 @@ export default class Sidebar {
         rootElement.appendChild(sidebarElement);
         sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
-        this.menuList = new MenuList(sidebarElement, onEvent);
+        this.documentList = new DocumentList(sidebarElement, onEvent);
         sidebarElement.appendChild(addDocumentButtonElement);
     }
 }
