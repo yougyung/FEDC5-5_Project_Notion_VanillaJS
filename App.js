@@ -1,6 +1,7 @@
 import Sidebar from "./components/Sidebar/Sidebar.js"
 import Content from "./components/Content/Content.js"
 import Route from "./route/route.js"
+import { checkUserColorMode } from "./utils/checkUserColorMode.js"
 export default class App {
   sidebar_initialState = []
   content_initialState = {
@@ -12,6 +13,7 @@ export default class App {
     updatedAt: null
   }
   constructor({ $target }) {
+    this.init()
     this.$target = $target
     this.sidebar = new Sidebar({
       $target,
@@ -22,10 +24,15 @@ export default class App {
       initialState: this.content_initialState
     })
     this.route = new Route({
-      changeContent: this.changeContentDisplay.bind(this)
+      render: this.changeContentDisplay.bind(this)
     })
   }
+
   changeContentDisplay(id) {
     this.content.fetchSelectedDocument(id)
+  }
+
+  init() {
+    document.body.classList.add(checkUserColorMode())
   }
 }
