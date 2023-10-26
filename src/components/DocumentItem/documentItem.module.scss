@@ -49,16 +49,9 @@
 }
 
 .s_buttonContainer {
-  visibility: hidden;
   opacity: 0;
-  transition:
-    visibility 0s,
-    opacity 0.3s linear;
+  transition: opacity 0.3s linear;
   flex-shrink: 0;
-}
-
-:global(.rotated) {
-  transform: rotate(90deg);
 }
 
 :global(.show) {
