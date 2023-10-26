@@ -72,6 +72,7 @@ export default function DocumentList({
 	};
 
 	this.render = () => {
+		$divListContainer.innerHTML = '';
 		const $fragment = document.createDocumentFragment();
 
 		this.stateRecursion(this.state, $fragment, 0);
