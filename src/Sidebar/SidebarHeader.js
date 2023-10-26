@@ -1,6 +1,6 @@
 export default function SidebarHeader({
     $target,
-    initialState
+    initialState = ''
 }) {
     const $sidebarHeader = document.createElement('div')
     $sidebarHeader.className = 'sidebar_header'

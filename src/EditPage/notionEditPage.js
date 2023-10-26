@@ -8,6 +8,7 @@ import EditPageFooter from "./EditPageFooter.js"
 import {
     request
 } from "../utils/api.js"
+import EditPageHeader from "./EditPageHeader.js"
 
 export default function NotionEditPage({
     $target,
@@ -29,6 +30,11 @@ export default function NotionEditPage({
     const post = getItem(notionLocalSaveKey,defaultState )
 
     let timer = null
+
+    const editPageHeader = new EditPageHeader({
+        $target: $page,
+        initialState: post
+    })
 
     const editor = new Editor({
         $target: $page,
@@ -52,6 +58,7 @@ export default function NotionEditPage({
                 this.render()
                 editor.setState(post)
                 editPageFooter.setState(post)
+                editPageHeader.setState(post)
             }else {
                 await fetchPost()
             }
@@ -64,6 +71,7 @@ export default function NotionEditPage({
         }
         editor.setState(this.state.post || defaultState)
         editPageFooter.setState(this.state.post || defaultState)
+        editPageHeader.setState(this.state.post || defaultState)
         this.render()
         
     }
