@@ -10,7 +10,7 @@ interface ApiRequest<T> {
 
 const api = async (endPoint: string, options: RequestInit = {}) => {
   const headers = {
-    "x-username": "jaemin",
+    "x-username": "soInseong_jaemin",
     "Content-Type": "application/json",
   };
 
