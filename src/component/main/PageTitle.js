@@ -7,17 +7,19 @@ export default class PageTitle {
         this.setTitle();
     }
 
-    setTitle() {
-        this.titleElement.textContent = "dkdkdk";
+    setTitle(id) {
+        if (!id) return;
+        const title = this.findParentTracking(id);
+        this.titleElement.textContent = title.join(" / ");
     }
 
-    // findParentTracking() {
-
-    //     const documentNodeTrackArr = [this.parentListElement.id]
-    //     while (node.parentElement.parentElement.id) {
-    //         node = node.parentElement.parentElement
-    //         documentNodeTrackArr.push(node.id);
-    //     }
-    //     console.log(documentNodeTrackArr);
-    // }
+    findParentTracking(id) {
+        let node = document.querySelector(`#l${id}`);
+        const documentNodeTrackArr = [node.getAttribute("titlename")]
+        while (node.parentElement.parentElement.getAttribute("titlename")) {
+            node = node.parentElement.parentElement;
+            documentNodeTrackArr.push(node.getAttribute("titlename"));
+        }
+        return documentNodeTrackArr;
+    }
 }

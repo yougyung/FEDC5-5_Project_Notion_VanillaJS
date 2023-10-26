@@ -27,7 +27,8 @@ export default class MenuItem {
         this.parentListElement.appendChild(this.childListElement);
         this.slotButtonElement.appendChild(this.slotImgElement);
 
-        this.parentListElement.id = this.item.id;
+        this.parentListElement.setAttribute("titlename", this.item.title);
+        this.parentListElement.id = "l" + this.item.id;
         this.documentNameLabelElement.textContent = this.item.title;
         this.parentListElement.className = "childPageList";
         this.documentNameLabelElement.id = `documentbtn${item.id}`;
