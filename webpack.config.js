@@ -37,9 +37,8 @@ module.exports = (_env, argv) => {
 
     output: {
       filename: 'index.js',
-      assetModuleFilename: 'images/[name][ext]',
       path: path.resolve(__dirname, 'build'),
-      publicPath: '/',
+      assetModuleFilename: 'public/[name][ext]',
       clean: true,
     },
 
@@ -61,13 +60,13 @@ module.exports = (_env, argv) => {
     module: {
       rules: [
         {
+          test: /\.svg$/i,
+          type: 'asset/resource',
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
-        },
-        {
-          test: /\.svg$/,
-          use: [{ loader: 'file-loader', options: { name: '/assets/images/[name].[ext]' } }],
         },
         {
           test: /\.(sa|sc|c)ss$/i,

@@ -2,7 +2,7 @@ import Component from '@/core/Component';
 import { createTemplate } from '@/utils/dom';
 import { push } from '@/router';
 import { ERROR_MESSAGE } from '@/constants/error';
-import { IMAGE_PATH } from '@/constants/image';
+import ErrorIconSrc from '/public/error.svg';
 
 import './Fallback.scss';
 
@@ -21,7 +21,7 @@ export default class Fallback extends Component {
     if (!this.state.isError) return;
 
     this.$fallback = createTemplate('<div class="error"></div>');
-    this.$errorIcon = createTemplate(`<img src="${IMAGE_PATH.ERROR}" alt="error-icon" />`);
+    this.$errorIcon = createTemplate(`<img src="${ErrorIconSrc}" alt="error-icon" />`);
     this.$button = createTemplate('<button class="reset-button">홈으로 돌아가기</button>');
 
     const { code } = this.state;

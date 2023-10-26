@@ -1,7 +1,9 @@
 import Component from '@/core/Component';
 import { createTemplate } from '@/utils/dom';
-import { IMAGE_PATH } from '@/constants/image';
 import { FALLBACK } from '@/constants/fallback';
+import PlusIconSrc from '/public/plus.svg';
+import ArrowIconSrc from '/public/arrow.svg';
+import TrashCanIconSrc from '/public/trash-can.svg';
 
 import './DocumentItem.scss';
 
@@ -26,7 +28,7 @@ export default class DocumentItem extends Component {
 
     const $toggleButton = createTemplate(
       `<button class="list-toggle-button">
-        <img src="${IMAGE_PATH.ARROW}" alt="toggle list icon"/>
+        <img src="${ArrowIconSrc}" alt="toggle list icon"/>
       </button>`,
     );
 
@@ -40,13 +42,13 @@ export default class DocumentItem extends Component {
 
     const $addChildPageButton = createTemplate(
       `<button class="add-page">
-        <img src="${IMAGE_PATH.PLUS}" alt="add page icon"/>
+        <img src="${PlusIconSrc}" alt="add page icon"/>
       </button>`,
     );
 
     const $deletePageButton = createTemplate(
       `<button class="delete-page">
-        <img src="${IMAGE_PATH.TRASH}" alt="delete page icon"/>
+        <img src="${TrashCanIconSrc}" alt="delete page icon"/>
       </button>`,
     );
 
