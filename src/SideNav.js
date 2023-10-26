@@ -1,4 +1,5 @@
 import { makeDocTree } from './makeDocTree.js';
+import { getStorage } from './storage.js';
 
 export default function SideNav({
   $target,
@@ -11,6 +12,12 @@ export default function SideNav({
 }) {
   const $sideNav = document.createElement('nav');
   $sideNav.className = 'nav-container';
+
+  const $navUserName = document.createElement('div');
+  $navUserName.className = 'nav-username';
+  $navUserName.innerText = '조익준의 Notion';
+
+  $sideNav.appendChild($navUserName);
 
   const $navHeader = document.createElement('div');
   $navHeader.className = 'nav-header';
@@ -38,7 +45,10 @@ export default function SideNav({
 
     let docList = [];
 
-    makeDocTree(this.state.docsTree, 1, docList);
+    const closeList = getStorage('close', []);
+    const hideList = getStorage('hide', []);
+
+    makeDocTree(this.state.docsTree, 1, docList, closeList, hideList);
 
     const joinDoc = docList.join('');
 
@@ -49,13 +59,21 @@ export default function SideNav({
       `.nav-document[data-id="${selectedDoc.id}"`
     );
 
-    if ($selDoc) $selDoc.classList.add('selected');
+    const $selDocToggleBtn = document.querySelector(
+      `.nav-toggle-btn[data-id="${selectedDoc.id}"`
+    );
+
+    if ($selDoc) {
+      $selDoc.classList.add('selected');
+      $selDocToggleBtn.classList.add('selected');
+    }
   };
 
   this.render();
 
   // onClickPlusBtn & onClickDeleteBtn & onClickDoc
   $sideNav.addEventListener('click', async (e) => {
+    e.stopPropagation();
     const { className, dataset, classList } = e.target;
 
     if (className === 'nav-plus-btn') {
@@ -74,12 +92,12 @@ export default function SideNav({
       onClickDoc(dataset.id);
     }
 
-    if (className === 'nav-header-title') {
-      onClickMain();
-    }
-
     if (classList.contains('nav-toggle-btn')) {
       onClickToggleBtn(dataset.id);
+    }
+
+    if (classList.contains('nav-username')) {
+      onClickMain();
     }
   });
 

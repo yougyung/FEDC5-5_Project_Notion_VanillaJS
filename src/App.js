@@ -72,11 +72,6 @@ export default function App({ $target }) {
         method: 'DELETE',
       });
 
-      const toggledList = getStorage('toggled', []);
-      const deleteIdx = toggledList.indexOf(id.toString());
-      toggledList.splice(deleteIdx, 1);
-      addStorage('toggled', toggledList);
-
       fetchDocTree();
       // 삭제시 부모 문서로 이동 or 홈 화면 이동
       if (deleteDoc.parent) {
@@ -136,36 +131,50 @@ export default function App({ $target }) {
         `.nav-toggle-btn[data-id="${id}"]`
       );
 
-      const toggledList = getStorage('toggled', []);
+      const closeList = getStorage('close', []);
+      const hideList = getStorage('hide', []);
 
       if ($navButton.classList.contains('toggled')) {
         $navButton.classList.remove('toggled');
-        const deleteIdx = toggledList.indexOf(id);
-        toggledList.splice(deleteIdx, 1);
+        closeList.push(id);
+        addStorage('close', closeList);
+
         $navButton.innerHTML = '▶';
       } else {
         $navButton.classList.add('toggled');
-        if (toggledList.indexOf(id) === -1) toggledList.push(id);
         $navButton.innerHTML = '▼';
+        const removeId = closeList.indexOf(id);
+        closeList.splice(removeId, 1);
+        addStorage('close', closeList);
       }
 
-      addStorage('toggled', toggledList);
+      const findChild = (parentNode) => {
+        console.log(parentNode);
+        if (parentNode.length !== 0) {
+          parentNode.forEach((child) => {
+            const $childNav = document.querySelector(
+              `.nav-document-container[data-id="${child.id}"]`
+            );
 
-      if (documents.length !== 0) {
-        documents.forEach((child) => {
-          const $childNav = document.querySelector(
-            `.nav-document-container[data-id="${child.id}"]`
-          );
-
-          if ($childNav) {
-            if ($childNav.classList.contains('hidden')) {
-              $childNav.classList.remove('hidden');
-            } else {
-              $childNav.classList.add('hidden');
+            if ($childNav) {
+              if ($childNav.classList.contains('hidden')) {
+                $childNav.classList.remove('hidden');
+                const hideId = hideList.indexOf(id);
+                hideList.splice(hideId, 1);
+                addStorage('hide', hideList);
+              } else {
+                $childNav.classList.add('hidden');
+                hideList.push(child.id.toString());
+                addStorage('hide', hideList);
+              }
             }
-          }
-        });
-      }
+
+            findChild(child.documents);
+          });
+        }
+      };
+
+      findChild(documents);
     },
   });
 
