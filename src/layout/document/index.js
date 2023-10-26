@@ -1,6 +1,8 @@
 import { updateDocument } from '@api/document';
 import debounce from '@util/debounce';
 import ContentBlock from '@component/document/content-block';
+import editContentBlock from '@util/parse';
+import { parsedEditType } from '@util/editType';
 import { createElementWithClass, addEvent } from '../../util/dom';
 import './style.scss';
 
@@ -43,11 +45,15 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		<div class="document__content"></div>
 		`;
 		test();
+		addEvent($document, 'document__content', 'mouseup', this.selectContent);
 		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
 		// addEvent($document, 'document__content', 'click', this.handleClickContent);
 		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
 	};
 	this.render();
+	this.selectContent = (e) => {
+		editContentBlock(e.target, parsedEditType.bold);
+	};
 
 	this.handleKeyUpTitle = (e) => {
 		const { id, content } = this.state;
