@@ -1,4 +1,5 @@
 import SidebarList from './SidebarList.js'
+import SidebarHeader from './SidebarHeader.js'
 import {
     removeItem,
 } from "../utils/storage.js"
@@ -14,6 +15,13 @@ export default function NotionSidebar({
 }) {
     const $sidebar = document.createElement('div')
     $sidebar.className = 'sidebar'
+    
+    new SidebarHeader({
+        $target:$sidebar,
+        initialState: {
+            name : '📚안현진의 노션'
+        } 
+    })
 
     const sidebarList = new SidebarList({
         $target: $sidebar,

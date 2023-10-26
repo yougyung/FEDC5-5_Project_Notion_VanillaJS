@@ -25,16 +25,51 @@ main {
 
 /*sidebar*/
 
-.sidebar_list {
+.sidebar {
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #252525;
-    color: #a3a29d;
+    border-left: #0077b5;
     width: 230px;
     height: 100%;
-    font-weight: 500;
 }
 
+.sidebar_list {
+    margin-left: 10px;
+    flex: 1;
+}
+
+.sidebar_list button {
+    color: #a3a29d;
+    padding: 1px 3px;
+}
+
+.sidebar_header{
+    color: #a3a29d;
+    display: inline-flex;
+    position: sticky;
+    top: 0;
+    width: inherit;
+    padding: 12px 0;
+    border-bottom: 1.5px solid #3D3D3D;
+    background-color: inherit;
+}
+.sidebar_footer p,
+.sidebar_header p {
+    margin-left: 10px;
+} 
+.sidebar_footer {
+    color: #a3a29d;
+    display: inline-flex;
+    position: sticky;
+    bottom: 0;
+    width: inherit;
+    padding: 12px 0;
+    border-top: 1.5px solid #3D3D3D;
+    background-color: inherit;
+    cursor: pointer;
+}
 
 
 ul {
@@ -66,22 +101,7 @@ button:hover {
     background-color: #555;
 }
 
-.sidebar_list button {
-    color: #a3a29d;
-    padding: 1px 3px;
-}
 
-.sidebar_footer {
-    color: #a3a29d;
-    display: inline-flex;
-    position: fixed;
-    bottom: 0;
-    width: inherit;
-    padding: 12px 0;
-    border-top: 1.5px solid #3D3D3D;
-    background-color: inherit;
-    cursor: pointer;
-}
 
 /*document*/
 .editPage {

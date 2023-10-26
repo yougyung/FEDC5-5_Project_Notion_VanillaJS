@@ -37,7 +37,7 @@ export default function SidebarList({
 
     this.render = () => {
         $sidebarList.innerHTML = renderList(this.state);
-        $sidebarList.appendChild($rootCreateButton)
+        $target.appendChild($rootCreateButton)
     }
 
     this.render()
