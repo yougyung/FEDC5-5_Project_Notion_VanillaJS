@@ -1,3 +1,6 @@
+import { push } from "../../router.js";
+import ChildPageContainer from "./ChildPageContainer.js";
+
 export default function Editor({
   $target,
   initialState,
@@ -10,11 +13,21 @@ export default function Editor({
     <input class='editor_title' type="text" name="title" placeholder='제목을 입력하세요'/>
     <div class='editor_content' name="content" contentEditable='true'></div>
   `;
-  this.state = initialState;
+  const $childPageContainer = new ChildPageContainer({
+    $target: $editor,
+    initialState: (this.state && this.state.documents) || [],
+    onSubPageClick: (page) => {
+      this.setState(page);
+      push(`/${page.id}`);
+    },
+  });
+
   $target.appendChild($editor);
 
+  this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
+    $childPageContainer.setState((this.state && this.state.documents) || []);
     this.render();
   };
   this.parseContent = (content) => {
@@ -24,7 +37,7 @@ export default function Editor({
       .split("<div>")
       .map((line) => {
         line = line.replace("</div>", "");
-        console.log(line);
+        //console.log(line);
         const docLinkRegExp = /http:\/\/localhost:3000\/(\d+.*)/g;
         const match = docLinkRegExp.exec(line);
         if (match) {
@@ -38,13 +51,12 @@ export default function Editor({
         if (boldRegExp.test(line))
           line = line.replace(boldRegExp, "<strong>$1</strong> ");
         // line = line.replace(italicRegExp, "<em>$1</em>");
-        console.log(line);
+        //console.log(line);
 
         if (line === "") return "";
         if (line === "---") line = "<hr>";
 
         if (line.indexOf("# ") === 0) {
-          console.log("1");
           line = line.replace(/[\#]{1}(.+)/g, "<div><h1>$1</h1></div>");
         } else if (line.indexOf("## ") === 0) {
           line = line.replace(/[\#]{2}(.+)/g, "<div><h2>$1</h2></div>");
@@ -62,7 +74,7 @@ export default function Editor({
     return richContent;
   };
   this.render = () => {
-    console.log(this.state);
+    //console.log(this.state);
     $editor.querySelector("[name=title]").value = this.state.title;
 
     const $content = $editor.querySelector("[name=content]");
