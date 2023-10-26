@@ -8,7 +8,7 @@ interface CurrentComponent {
   stateIndex: number;
 }
 
-const hasSigleRoot = (componentElements: string) => {
+export const hasSingleRoot = (componentElements: string) => {
   const $container = document.createElement("div");
   $container.innerHTML = componentElements.trim();
 
@@ -28,7 +28,7 @@ function createComponent<T>(component: (props?: T) => ComponentInstance, props?:
 
   const componentInstance = component(props);
 
-  if (!hasSigleRoot(componentInstance.element)) {
+  if (!hasSingleRoot(componentInstance.element)) {
     throw new Error(`컴포넌트가 하나의 상위 요소로 감싸져 있지 않습니다!`);
   }
 
