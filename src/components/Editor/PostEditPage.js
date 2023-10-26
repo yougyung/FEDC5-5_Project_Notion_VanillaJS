@@ -54,8 +54,6 @@ export default function PostEditPage({$target, initialState, onMenuCorrection}) 
     });
 
     this.setState = async (newState) => {
-        console.log(this.state, newState) // 렌더링 두번..??
-
         if(this.state.id !== newState.id) {
             this.state = newState;
             postLocalSaveKey = `post-temp-${this.state.id}`;
