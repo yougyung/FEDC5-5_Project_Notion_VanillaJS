@@ -10,7 +10,7 @@ export default function App({ $target }) {
   const $sideMenuContainer = document.createElement("div");
   const $postsContainer = document.createElement("div");
   const $linkContainer = document.createElement("div");
-
+  $sideMenuContainer.className = "sideMenu";
   $target.appendChild($sideMenuContainer);
   $target.appendChild($postsContainer);
   $target.appendChild($linkContainer);
