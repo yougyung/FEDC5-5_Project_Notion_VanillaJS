@@ -14,6 +14,7 @@ import styleInJS from '../../style/tagStyles.js';
 
 export default function NotionSideBar({ $target, initialState }) {
   const $notionSideBar = document.createElement('div');
+  $notionSideBar.setAttribute('data-notionSideBar', 'notionSideBar');
   styleInJS({ $target: $notionSideBar, styleTagName: 'NotionSideBar' });
 
   $target.appendChild($notionSideBar);
@@ -25,6 +26,9 @@ export default function NotionSideBar({ $target, initialState }) {
   };
 
   $notionSideBar.addEventListener('click', e => {
+    const $sidebar = e.target.closest('div[data-username]');
+    if (!$sidebar) return;
+
     const { type, id } = e.target.dataset;
     if (type === 'document') {
       e.preventDefault();
