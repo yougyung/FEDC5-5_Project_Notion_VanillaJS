@@ -1,4 +1,9 @@
 export default function EditHeader({ $target, initialState }) {
+  /**
+   * initialState => isLoading
+   * isLoading
+   */
+
   const $header = document.createElement("div");
   $header.classList = "editor-header";
   $target.appendChild($header);
