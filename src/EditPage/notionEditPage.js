@@ -16,7 +16,8 @@ export default function NotionEditPage({
 }) {
     const $page = document.createElement('div')
     this.state = initialState 
-    $page.className = "documentPage"
+    $page.className = "editPage"
+
     let notionLocalSaveKey = `temp-post-${this.state.postId}`
 
     const defaultState = {

@@ -8,7 +8,7 @@ export default function Editor({
 }) {
     this.state = initialState
     const $editor = document.createElement('div')
-    $editor.className = 'documentPage_editor'
+    $editor.className = 'editPage_editor'
     $target.appendChild($editor)
 
     let isinitialize = true

@@ -9,7 +9,7 @@ export default function EditPageFooter({
     },
 }) {
     const $footer = document.createElement('footer');
-    $footer.className = 'documentPage_footer';
+    $footer.className = 'editPage_footer';
     $target.appendChild($footer);
 
     this.state = initialState;
@@ -35,6 +35,7 @@ export default function EditPageFooter({
         if (this.state.documents && this.state.documents.length > 0) {
             $footer.innerHTML = renderLinkButton(this.state.documents);
         } else {
+            $footer.innerHTML = ''
             return
         }
     }
