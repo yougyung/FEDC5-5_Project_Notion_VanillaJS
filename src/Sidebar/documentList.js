@@ -10,7 +10,7 @@ export default function NotionList({
     onDelete
 }) {
     const $notionList = document.createElement('div')
-    $notionList.className ='sidebar'
+    $notionList.className ='sidebar_list'
     $target.appendChild($notionList)
 
     this.state = initialState
@@ -34,12 +34,7 @@ export default function NotionList({
 
     const $rootCreateButton = document.createElement('div')
     $rootCreateButton.className = 'new_document_button sidebar-bottom'
-    $rootCreateButton.innerHTML = `
-    <button type="button">
-      <i class="fa-solid fa-plus"></i>
-    </button>
-    <p>+새페이지</p>
-  `
+    $rootCreateButton.innerHTML = `<p>+새페이지</p>`
 
     this.render = () => {
         $notionList.innerHTML = renderList(this.state);

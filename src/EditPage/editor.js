@@ -1,5 +1,4 @@
 //편집화면 렌더링
-import LinkButton from '../linkButton.js' 
 export default function Editor({
     $target,
     initialState = {
@@ -10,6 +9,7 @@ export default function Editor({
 }) {
     this.state = initialState
     const $editor = document.createElement('div')
+    $editor.className ='documentPage_editor'
     $target.appendChild($editor)
 
     let isinitialize = true
@@ -35,8 +35,8 @@ export default function Editor({
     this.render = () => {
         if (isinitialize) {
             $editor.innerHTML = `
-            <input type = "text" name = "title" style = "width: 600px;"  placeholder="제목 없음" autofocus value = "${this.state.title}"/>
-            <textarea name = "content" style = "width: 600px; height: 400px"placeholder="내용을 입력하세요.">${this.state.content}</textarea>
+            <input type = "text" class="title" name = "title" style = "width: 600px;"  placeholder="제목 없음" autofocus value = "${this.state.title}"/>
+            <textarea name = "content" class="content" style = "width: 600px; height: 400px"placeholder="내용을 입력하세요.">${this.state.content}</textarea>
         `
         isinitialize = false
         }

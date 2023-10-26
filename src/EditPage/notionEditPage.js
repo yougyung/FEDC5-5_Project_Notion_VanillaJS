@@ -17,7 +17,7 @@ export default function NotionEditPage({
 }) {
     const $page = document.createElement('div')
     this.state = initialState //{Postid: "new"} 
-
+    $page.className = "documentPage"
     //storage_key
     let notionLocalSaveKey = `temp-post-${this.state.postId}`
 

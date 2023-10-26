@@ -3,48 +3,49 @@ body {
     height: 100vh;
     overflow: hidden;
     font-family: Arial, sans-serif;
+    background-color: #191919;
+    color: #fff;
 }
 
 main {
     display: flex;
     width: 100vw;
     height: 100%;
-    color: #37352f;
+    background-color: #1e1e1e;
+    color: #fff;
     line-height: 1.5;
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
-      'Segoe UI Symbol';
-  }
+        Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
+        'Segoe UI Symbol';
+}
 
 #app {
     display: flex;
 }
 
-.sidebar{
+/*sidebar*/
+
+.sidebar_list {
     display: flex;
     flex-direction: column;
-    background-color: #333;
-    color: white;
+    background-color: #252525;
+    color: #a3a29d;
     width: 230px;
     height: 100%;
     font-weight: 500;
-    
 }
+
 
 
 ul {
     list-style-type: disc;
-    /* 불릿 스타일 지정 */
     margin-left: 20px;
-    /* 왼쪽 여백으로 들여쓰기 설정 */
 }
 
-/* 하위 목록 스타일 */
+
 ul ul {
     list-style-type: circle;
-    /* 다음 레벨 불릿 스타일 지정 */
     margin-left: 20px;
-    /* 왼쪽 여백으로 추가 들여쓰기 설정 */
 }
 
 li {
@@ -65,37 +66,85 @@ button:hover {
     background-color: #555;
 }
 
-.sidebar button {
+.sidebar_list button {
     color: #a3a29d;
     padding: 1px 3px;
 }
 
-.new_document_button.sidebar-bottom{
+.new_document_button.sidebar-bottom {
     color: #a3a29d;
     display: inline-flex;
     position: fixed;
     bottom: 0;
-    width: inherit;;
+    width: inherit;
     padding: 12px 0;
-    border-top: 1.5px solid #ededec;
+    border-top: 1.5px solid #3D3D3D;
     background-color: inherit;
     cursor: pointer;
 }
 
-.editor {
-    flex: 1;
+/*document*/
+.documentPage {
+    width: calc(100vw - 230px);
+    display: flex;
     padding: 20px;
-    background-color: white;
+    flex-direction: column;
+    overflow: hidden;
+    
+}
+.documentPage_editor {
+    display: flex;
+    flex-direction: column;
+    /* background: rgb(166, 181, 81); */
+    padding: 10px;
 }
 
-input[type="text"],
-textarea {
+.title,
+.content {
     width: 100%;
-    margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    color: #D4D4D4;
+    background-color: inherit;
+    font-family: inherit;
+    border: none;
+    outline: none;
 }
+
+.title {
+    font-size: 40px;
+    font-weight: 700;
+    overflow: hidden;
+    resize: none;
+}
+
+.content {
+    height: 85%;
+    font-size: 16px;
+    resize: none;
+    line-height: 1.8rem;
+}
+
+.documentPage_footer {
+    display: inline-flex;
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    padding: 12px;
+}
+
+.documentPage_footer button {
+    background-color: #464646;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.documentPage_footer button:hover {
+    background-color: #555;
+}
+
 
 a {
     color: #0077b5;

@@ -9,7 +9,7 @@ export default function EditorFooter({
     },
 }) {
     const $footer = document.createElement('footer');
-    $footer.className = 'editorFooter';
+    $footer.className = 'documentPage_footer';
     $target.appendChild($footer);
 
     this.state = initialState;

@@ -14,6 +14,7 @@ export default function NotionSidebar({
 }) {
     const $sidebar = document.createElement('div')
     $sidebar.className = 'sidebar'
+
     const notionList = new NotionList({
         $target: $sidebar,
         initialState: [],
@@ -29,6 +30,8 @@ export default function NotionSidebar({
             this.setState()
         }
     })
+
+    
 
     this.setState = async () => {
         const lists = await request('/documents')
