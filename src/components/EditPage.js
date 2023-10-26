@@ -14,7 +14,6 @@ export default function EditPage({ $target, initialState }) {
   const editor = new Editor({
     $target: $page,
     initialState: {
-      id: '',
       document: {
         title: '',
         content: '',
@@ -25,11 +24,11 @@ export default function EditPage({ $target, initialState }) {
         clearTimeout(timer)
       }
       timer = setTimeout(async () => {
-        const editedDocument = await fetchSaveContent()
         this.setState({
-          documentId: editedDocument.id,
-          document: editedDocument
+          ...this.state,
+          document
         })
+        await fetchSaveContent()
       }, 1000)
     }
   })
@@ -40,7 +39,13 @@ export default function EditPage({ $target, initialState }) {
       await fetchGetContent()
       return
     }
-    editor.setState(this.state.document)
+    this.state = nextState
+
+    editor.setState(this.state.document || {
+      title: '',
+      content: ''
+    })
+    
     this.render()
   }
 
@@ -55,11 +60,10 @@ export default function EditPage({ $target, initialState }) {
   }
   // 수정
   const fetchSaveContent = async () => {
-    const { document } = this.state
-    const { id, title, content } = document
-    return await request(`/documents/${id}`, {
+    const { id, document } = this.state
+    await request(`/documents/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({title, content})
+      body: JSON.stringify(document)
     })
   }
 }
