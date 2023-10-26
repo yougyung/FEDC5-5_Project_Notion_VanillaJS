@@ -4,14 +4,15 @@ import { PUT_API_DOCUMENT } from "../api/url.js";
 export default function Editor({
   $container,
   initialState = {},
-  onSuccessModal,
-  onAlertModal,
+  onSuccess,
+  onAlert,
 }) {
   const $document = document.createElement("div");
   $document.id = "document";
   $container.appendChild($document);
 
   this.state = initialState;
+  let prevTitle;
 
   this.setState = (nextState) => {
     if (this.state.id !== nextState.id) {
@@ -19,6 +20,7 @@ export default function Editor({
       this.render();
       return;
     }
+    prevTitle = this.state.title;
     this.state = nextState;
   };
 
@@ -45,11 +47,11 @@ export default function Editor({
     timer = setTimeout(async () => {
       const { title, content } = this.state;
       if (!title) {
-        onAlertModal();
+        onAlert();
         return;
       }
       await api.put(PUT_API_DOCUMENT(this.state.id), { title, content });
-      onSuccessModal();
+      onSuccess(this.state.id, title, prevTitle);
     }, 3000);
   });
 }

@@ -77,14 +77,21 @@ export default function App({ $target }) {
 
   const editor = new Editor({
     $container,
-    onSuccessModal: () => {
+    onSuccess: (id, title, prevTitle) => {
+      if (title !== prevTitle) {
+        const documentTreeData = getItem("documentTree", []);
+        recursion.editDocument(documentTreeData, id, title);
+        documentTree.setState(documentTreeData);
+        setItem("documentTree", documentTreeData);
+      }
+
       modal.setState({
         isShow: true,
         message: "저장되었습니다.",
         className: "success",
       });
     },
-    onAlertModal: () => {
+    onAlert: () => {
       modal.setState({
         isShow: true,
         message: "문서 제목이 비었습니다.",

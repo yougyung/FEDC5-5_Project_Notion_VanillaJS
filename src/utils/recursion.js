@@ -50,6 +50,17 @@ const recursion = {
       }
     }
   },
+  editDocument(documents, id, title) {
+    for (const document of documents) {
+      if (document.id === +id) {
+        document.title = title;
+        return;
+      }
+      if (document.documents.length) {
+        this.deleteDocument(document.documents, id);
+      }
+    }
+  },
 };
 
 export default recursion;
