@@ -25,9 +25,12 @@ export default function ChildPageContainer({
   this.render();
   $childPageContainer.addEventListener("click", (e) => {
     //console.log(e.target.closest("li").dataset.id);
-    const { id } = e.target.closest("li").dataset;
-    this.state.forEach((page) => {
-      if (+page.id === +id) onSubPageClick(id);
-    });
+    const $closestLi = e.target.closest("li");
+    if ($closestLi && $closestLi.dataset) {
+      const { id } = $closestLi.dataset;
+      this.state.forEach((page) => {
+        if (+page.id === +id) onSubPageClick(id);
+      });
+    }
   });
 }
