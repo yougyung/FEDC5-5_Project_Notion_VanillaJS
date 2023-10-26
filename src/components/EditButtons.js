@@ -4,9 +4,15 @@ export default function EditButtons({ $target, initialState, onClick }) {
   $target.appendChild($div);
 
   $div.innerHTML = `
-    <button class="bold-button">bold</bold>
-    <button class="italic-button">italic</bold>
-    <button class="strike-button">strike</bold>
+    <button class="bold-button">
+        <i class="fas fa-bold"></i>
+    </bold>
+    <button class="italic-button">
+        <i class="fas fa-italic"></i>
+    </bold>
+    <button class="strike-button">
+        <i class="fas fa-strikethrough"></i>
+    </bold>
   `;
 
   this.state = initialState;
@@ -19,7 +25,7 @@ export default function EditButtons({ $target, initialState, onClick }) {
   this.render = () => {};
 
   $div.addEventListener("click", (e) => {
-    const { className } = e.target;
+    const { className } = e.target.closest('button');
     const selection = window.getSelection();
     let nextContent;
     if (className === "bold-button") {

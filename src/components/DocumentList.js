@@ -20,13 +20,23 @@ export default function DocumentList({
   const documentPrint = (documents) => {
     let htmlString = "";
     documents.forEach((document) => {
+
       htmlString += `
         <div class="documents-item">
-            <div class="document-item-title-wrap" data-id="${document.id}">
-                <button class="toggle">></button>
-                <span>${document.title}</span>
-                <button class="add-document">➕</button>
-                <button class="remove-document">❌</button>
+            <div class="document-item-title-wrap ${document.id === parseInt(this.state.documentId) ? 'selected-document' : ''}" data-id="${document.id}">
+                <button class="toggle">
+                  <i class="fas fa-chevron-right" style="color: #797979;"></i>
+                </button>
+                <span class="document-item-title">${document.title}</span>
+                <div class="action-buttons">
+                  <button class="remove-document">
+                    <i class="fas fa-trash-alt" style="color: #797979;"></i>
+                  </button>
+                  <button class="add-document">
+                    <i class="fas fa-plus" style="color: #797979;"></i>
+                  </button>
+                </div>
+                
             </div>
             <div class="documents-item fold">
                 ${
@@ -44,16 +54,20 @@ export default function DocumentList({
 
   this.render = () => {
     $document.innerHTML = `
-        <button class="add-document">➕</button>
-        <div class="document-items"></div>
+      <div class="add-document-wrap">
+        <button class="add-document">
+          <i class="fas fa-plus-circle" style="color: #797979;"></i>
+        </button>
+        새 페이지
+      </div>
+      <div class="document-items"></div>
     `;
 
     if (this.state.length === 0) {
       return;
     }
-
     $document.querySelector(".document-items").innerHTML = `
-        ${documentPrint(this.state)}
+        ${documentPrint(this.state.documents)}
     `;
   };
 
@@ -62,19 +76,35 @@ export default function DocumentList({
   $document.addEventListener("click", (e) => {
     const $documentItem = e.target.closest(".document-item-title-wrap");
     const id = $documentItem ? $documentItem.dataset.id : null;
+    const $button = e.target.closest("button");
 
-    if (e.target.className === "add-document") {
-      let state = { parentId: id };
-      push("/document/new", state);
-    } else if (e.target.className === "toggle") {
-      const $hideItem = $documentItem.closest(".documents-item").children[1];
-      if ($hideItem) {
-        $hideItem.classList.toggle("fold");
-        $hideItem.classList.toggle("show");
+    if(e.target.className === 'add-document-wrap') {
+      push("/document/new");
+      return;
+    }
+
+    if ($button) {
+      const { className } = $button;
+      if (className === "add-document") {
+        let state = { parentId: id };
+        push("/document/new", state);
+      } else if (className === "toggle") {
+        const $hideItem = $documentItem.closest(".documents-item").children[1];
+        if ($hideItem) {
+          $hideItem.classList.toggle("fold");
+          $hideItem.classList.toggle("show");
+        }
+      } else if (className === "remove-document") {
+        onDocumentRemove(id);
       }
-    } else if (e.target.className === "remove-document") {
-      onDocumentRemove(id);
     } else if ($documentItem) {
+      const $title = $documentItem.querySelector('.document-item-title');
+      if($title) {
+        this.setState({
+          ...this.state,
+          documentId: id
+        })
+      }
       push(`/document/${id}`);
     }
   });

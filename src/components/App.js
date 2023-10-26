@@ -17,9 +17,13 @@ export default function App({ $target, initialState }) {
       });
     } else {
       this.state = nextState;
-      const { documents } = this.state;
+      const { documentId, documents } = this.state;
 
-      documentList.setState(documents);
+      documentList.setState({
+        documentId,
+        documents
+      },);
+
     }
 
     this.render();
@@ -27,7 +31,10 @@ export default function App({ $target, initialState }) {
 
   const documentList = new DocumentList({
     $target,
-    initialState: this.state.documents,
+    initialState: {
+      selectedId: 0,
+      documents: this.state.documents
+    },
     onDocumentRemove: async (id) => {
       await request(`/documents/${id}`, {
         method: "DELETE",
