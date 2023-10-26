@@ -77,11 +77,18 @@ export default function App({ $target }) {
 
   const editor = new Editor({
     $container,
-    onModal: () => {
+    onSuccessModal: () => {
       modal.setState({
         isShow: true,
         message: "저장되었습니다.",
         className: "success",
+      });
+    },
+    onAlertModal: () => {
+      modal.setState({
+        isShow: true,
+        message: "문서 제목이 비었습니다.",
+        className: "warning",
       });
     },
   });
