@@ -1,19 +1,20 @@
 import request from "../../api.js";
 
-export default class Board {
+export default class Editor {
 
-    constructor({ rootElement, onChangeTitle }) {
+    constructor({ pageElement, onChangeTitle }) {
         this.onChangeTitle = onChangeTitle.bind(this);
-        this.boardElement = document.createElement('div');
+        const boardElement = document.createElement('div');
         this.titleEditorElement = document.createElement('h1');
         this.titleEditorElement.placeholder = "제목 없음";
         this.editorElement = document.createElement('form');
         this.editorElement.className = "textEditor";
         this.titleEditorElement.setAttribute("contenteditable", "true");
         this.editorElement.setAttribute("contenteditable", "true");
-        rootElement.appendChild(this.boardElement);
-        this.boardElement.appendChild(this.titleEditorElement);
-        this.boardElement.appendChild(this.editorElement);
+
+        pageElement.appendChild(boardElement);
+        boardElement.appendChild(this.titleEditorElement);
+        boardElement.appendChild(this.editorElement);
 
         this.titleEditorElement.addEventListener("keyup", (e) => {
             const titleTextContent = e.target.textContent.length > 0 ? e.target.textContent : "제목 없음";
@@ -30,19 +31,9 @@ export default class Board {
                 this.editorElement.removeChild(findDiv);
                 this.editorElement.appendChild(newLine);
             }
-            this.convertHeadingTag(textHTML, e);
-            this.updateDocument(this.titleEditorElement.textContent, textHTML);
+            convertHeadingTag(textHTML, e);
+            updateDocument(this.titleEditorElement.textContent, textHTML);
         });
-    }
-    setDocuments(id) {
-        this.id = id;
-        this.loadDocument();
-    }
-
-    async loadDocument() {
-        const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
-        this.titleEditorElement.textContent = title;
-        this.editorElement.innerHTML = content;
     }
 
     convertHeadingTag(textHTML, e) {
@@ -65,6 +56,17 @@ export default class Board {
             }
         });
     }
+    setDocuments(id) {
+        this.id = id;
+        this.loadDocument();
+    }
+
+    async loadDocument() {
+        const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
+        this.titleEditorElement.textContent = title;
+        this.editorElement.innerHTML = content;
+    }
+
     async updateDocument(title, content) {
         await request(`/documents/${this.id}`, {
             method: `PUT`,
@@ -75,7 +77,7 @@ export default class Board {
         });
         if (this.title !== title) {
             this.title = title;
-            this.onChangeTitle(this.id, title);
+            onChangeTitle(this.id, title);
         }
     }
 }
