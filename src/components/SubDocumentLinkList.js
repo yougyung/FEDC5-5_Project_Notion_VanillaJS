@@ -19,8 +19,24 @@ export default function SubDocumentLinkList({
 	$ul.setAttribute('class', 'sub_document_ul');
 
 	this.render = () => {
+		const { documents } = this.state;
+		if (documents) {
+			try {
+				$ul.innerHTML = documents
+					.map(
+						({ title, id }) =>
+							`<li class='sub_document_link_container' data-id=${id}>${SVG_DOCUMENT}<span class="text">${
+								title ? title : EMPTY_TITLE
+							}<span></li>`,
+					)
+					.join('');
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			$ul.innerHTML = '';
+		}
 	};
-
 
 	this.render();
 }
