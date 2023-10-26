@@ -1,12 +1,6 @@
-.editor-nav-title {
-  max-width: 700px;
-  width: 100%;
-
-  margin: 0 auto;
-}
-
-.editor-link-nav {
+.editor-nav {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -14,18 +8,32 @@
   width: 100%;
 
   margin: 0 auto;
+}
 
-  ul {
+.editor-nav-title {
+  max-width: 700px;
+  width: 100%;
+
+  margin: 10px auto;
+}
+
+.editor-nav-list {
+  width: 100%;
+
+  & ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, auto));
+    grid-template-columns: repeat(5, minmax(80px, 5fr));
+    gap: 10px;
 
-    width: 100%;
+    & .editor-nav-item {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
 
-    & li:not(:last-of-type) {
-      padding-right: 10px;
-      margin-right: 10px;
+      &.empty-item {
+        width: 700px;
 
-      border-right: 1px solid $background-light-hover;
+        text-align: left;
+      }
     }
   }
 }

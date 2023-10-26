@@ -58,22 +58,26 @@ export default class DocumentList extends Component {
       const documentId = Number($li.dataset.id);
       const { onSelect, onCreate, onDelete } = this.props;
 
-      if (target.closest('.document-title')) onSelect(documentId);
+      if (target.closest('.document-title')) {
+        onSelect(documentId);
+      }
+
       if (target.closest('.add-page')) {
+        this.unfoldedStorage.appendUniqueItem(documentId);
         $li.classList.remove('folded');
         onCreate(documentId);
       }
-      if (target.closest('.delete-page')) {
-        onDelete(documentId);
-        this.unfoldedStorage.appendItem(documentId);
-      }
-      if (target.closest('.list-toggle-button')) this.handleToggleButton($li, documentId);
-    });
-  }
 
-  handleToggleButton($li, documentId) {
-    $li.classList.toggle('folded');
-    this.unfoldedStorage.appendItem(documentId);
+      if (target.closest('.delete-page')) {
+        this.unfoldedStorage.appendUniqueItem(documentId);
+        onDelete(documentId);
+      }
+
+      if (target.closest('.list-toggle-button')) {
+        $li.classList.toggle('folded');
+        this.unfoldedStorage.appendUniqueItem(documentId);
+      }
+    });
   }
 
   handleClickEventByDocumentId(target, callback) {

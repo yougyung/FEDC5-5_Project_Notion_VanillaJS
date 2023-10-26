@@ -62,6 +62,6 @@ export default class Editor extends Component {
     this.$title.value = title || '';
     this.$title.placeholder = FALLBACK.UNTITLED;
     this.$content.value = content || '';
-    this.$content.placeholder = content || FALLBACK.NONE_OF_CONTENT;
+    this.$content.placeholder = FALLBACK.NONE_OF_CONTENT;
   }
 }

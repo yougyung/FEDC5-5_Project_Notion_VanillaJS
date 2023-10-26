@@ -2,7 +2,7 @@
 export const initStorage = (key, defaultValue = [], storage = window.localStorage) => {
   const getItem = () => JSON.parse(storage.getItem(key)) || defaultValue;
   const setItem = (value) => storage.setItem(key, JSON.stringify(value));
-  const appendItem = (value) => {
+  const appendUniqueItem = (value) => {
     const storedValue = getItem();
 
     if (storedValue.length < 1)
@@ -17,5 +17,5 @@ export const initStorage = (key, defaultValue = [], storage = window.localStorag
     }
   };
 
-  return { getItem, setItem, appendItem };
+  return { getItem, setItem, appendUniqueItem };
 };
