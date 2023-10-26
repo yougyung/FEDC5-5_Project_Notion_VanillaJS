@@ -6,15 +6,13 @@ button {
 }
 
 ul {
-    padding-left: 0;
-    margin-left: 0;
     list-style-type: none;
 }
 
 .sidebar {
-    width: 500px;
+    width: 600px;
     height: 2000px;
-    background: burlywood;
+    background-color: rgb(252, 251, 250);
 }
 
 .textEditor {

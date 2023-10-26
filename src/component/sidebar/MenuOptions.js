@@ -1,5 +1,22 @@
 import request from "../../api.js";
 
+export function sidebarHeader() {
+    const headerElement = document.createElement('div');
+    headerElement.className = "sidebarheader";
+    const imgElement = document.createElement('img');
+    imgElement.src = "../../../public/jlogo.png";
+    console.log(imgElement);
+
+    headerElement.appendChild(imgElement);
+
+    const textElement = document.createElement('span');
+    textElement.textContent = "JuJangGwon의 노션";
+    headerElement.appendChild(textElement);
+
+    return headerElement;
+}
+
+
 export function addDocumentButton({ onClick }) {
     const addDocumentButtonElement = document.createElement('button');
     addDocumentButtonElement.textContent = "+ 페이지 추가";

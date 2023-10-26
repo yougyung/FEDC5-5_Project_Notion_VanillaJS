@@ -2,7 +2,7 @@ import request from "../../api.js";
 
 import MenuList from "./MenuList.js";
 import MenuItem from "./MenuItem.js";
-import { addDocumentButton, serachButton } from "./MenuOptions.js"
+import { addDocumentButton, serachButton, sidebarHeader } from "./MenuOptions.js"
 
 export default class Sidebar {
     constructor({ rootElement, onEvent }) {
@@ -10,7 +10,8 @@ export default class Sidebar {
         sidebarElement.className = "sidebar";
         onEvent = onEvent.bind(this);
         const searchButtonElement = serachButton();
-        const addDocumentButtonElement = new addDocumentButton({
+        const headerElement = sidebarHeader();
+        const addDocumentButtonElement = addDocumentButton({
             onClick: () => {
                 request("/documents", {
                     method: `POST`,
@@ -25,6 +26,7 @@ export default class Sidebar {
             }
         });
         rootElement.appendChild(sidebarElement);
+        sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
         this.menuList = new MenuList(sidebarElement, onEvent);
         sidebarElement.appendChild(addDocumentButtonElement);
