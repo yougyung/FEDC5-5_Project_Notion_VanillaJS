@@ -3,24 +3,34 @@ export default function Modal({
   initialState = { isShow: false, message: "", className: "" },
 }) {
   const $modal = document.createElement("div");
-  $modal.id = "modal";
-  $modal.className = "modal";
+  $modal.id = "modal-container";
   $container.appendChild($modal);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
-    $modal.textContent = this.state.message;
+    this.render();
+  };
+
+  this.render = () => {
+    const $newModal = document.createElement("div");
+    $newModal.id = "modal";
+    $newModal.className = "modal";
+    $newModal.textContent = this.state.message;
+    $modal.appendChild($newModal);
 
     if (this.state.isShow) {
-      $modal.classList.add("show");
-      $modal.classList.add(this.state.className);
+      setTimeout(() => {
+        $newModal.classList.add("show");
+        $newModal.classList.add(this.state.className);
+      }, 100);
 
       setTimeout(() => {
-        $modal.classList.remove("show");
-        $modal.classList.remove(this.state.className);
-        this.setState(initialState);
+        $newModal.classList.remove("show");
+        setTimeout(() => {
+          $modal.removeChild($newModal);
+        }, 1000);
       }, 3000);
     }
   };
