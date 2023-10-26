@@ -50,16 +50,28 @@ export default function App({ $target, initialState }) {
       });
       push(`/documents/${createdDocument.id}`);
 
-      // 추후 낙관적 업데이트를 적용해봐도 좋을 듯 함
-      fetchDocumentList();
+      if (documentId) {
+        const selectedDocument = await fetchDocument(documentId, true);
+        setItem(`temp-document-${documentId}`, selectedDocument);
+      }
+
+      await fetchDocumentList();
     },
-    onDocumentClick: async (documentId) => fetchDocument(documentId),
+    onDocumentClick: async (documentId) => {
+      if (documentId) {
+        const selectedDocument = await fetchDocument(documentId, true);
+        setItem(`temp-document-${documentId}`, selectedDocument);
+      }
+
+      await fetchDocument(documentId);
+    },
   });
 
   let documentEditTimer = null;
   const documentEditPage = new DocumentEditPage({
     $target: $editorContainer,
     onEditing: (editedDocument) => {
+      console.log(editedDocument);
       if (documentEditTimer !== null) {
         clearTimeout(documentEditTimer);
       }
@@ -80,7 +92,7 @@ export default function App({ $target, initialState }) {
         this.setState({ ...this.state, editingDocument: editedDocument });
         documentEditPage.setState({ ...editedDocument, isSaving: true });
 
-        fetchDocumentList();
+        await fetchDocumentList();
 
         console.log('저장완료');
       }, 2000);
@@ -90,10 +102,12 @@ export default function App({ $target, initialState }) {
         method: 'DELETE',
       });
 
-      fetchDocumentList();
+      await fetchDocumentList();
       push('/');
     },
-    onDocumentClick: async (documentId) => fetchDocument(documentId),
+    onDocumentClick: async (documentId) => {
+      await fetchDocument(documentId);
+    },
   });
 
   this.mergeDocuments = (oldDocuments, newDocuments) => {
@@ -130,10 +144,13 @@ export default function App({ $target, initialState }) {
     this.setState({ ...this.state, documents: mergedDocuments });
   };
 
-  const fetchDocument = async (documentId) => {
+  const fetchDocument = async (documentId, isParent = false) => {
     const selectedDocument = await request(`/documents/${documentId}`, {
       method: 'GET',
     });
+    if (isParent) {
+      return selectedDocument;
+    }
     this.setState({ ...this.state, editingDocument: selectedDocument });
   };
 

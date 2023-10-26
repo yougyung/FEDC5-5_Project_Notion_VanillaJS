@@ -51,7 +51,7 @@ export default function EditorFooter({
 
     const { id } = $linkButton.dataset;
     onDocumentClick(id);
-    push(`/documens/${id}`);
+    push(`/documents/${id}`);
   });
 
   this.render();
