@@ -1,5 +1,7 @@
+import { push } from "../utils/router.js";
+
 export default function MatchedDocument({ $target, initialState }) {
-  const $link = document.createElement("a");
+  const $link = document.createElement("section");
   $target.appendChild($link);
   this.state = initialState;
   this.setState = (nextState) => {
@@ -7,7 +9,10 @@ export default function MatchedDocument({ $target, initialState }) {
   };
   window.addEventListener("input-change", (e) => {
     const { id, title } = e.detail;
-    $link.innerHTML = title;
-    $link.href = `/${id}`;
+    $link.innerHTML = `<span class="existTitle">${title}</span> 제목이 존재합니다.`;
+    $link.addEventListener("click", (e) => {
+      push(id);
+      $link.innerHTML = "";
+    });
   });
 }

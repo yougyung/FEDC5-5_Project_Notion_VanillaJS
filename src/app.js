@@ -1,10 +1,19 @@
+import MatchedDocument from "./components/MatchedDocument.js";
 import Posting from "./components/Posting.js";
 import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
+import { titleMatched } from "./utils/match.js";
+import { initRouter } from "./utils/router.js";
+import { findTitleInTree } from "./utils/tree.js";
 
 export default function App({ $target }) {
   const $sideMenuContainer = document.createElement("div");
   const $postsContainer = document.createElement("div");
+  const $linkContainer = document.createElement("div");
+
+  $target.appendChild($sideMenuContainer);
+  $target.appendChild($postsContainer);
+  $target.appendChild($linkContainer);
 
   this.state = {
     documentList: [],
@@ -12,9 +21,6 @@ export default function App({ $target }) {
     selectedDocumentContent: { id: "new", title: "", content: "" },
     isDocumentsLoading: false,
   };
-
-  $target.appendChild($sideMenuContainer);
-  $target.appendChild($postsContainer);
 
   const sideMenu = new SideMenu({
     $target: $sideMenuContainer,
@@ -61,16 +67,25 @@ export default function App({ $target }) {
   const posting = new Posting({
     $target: $postsContainer,
     initialState: this.state.selectedDocumentContent,
-    onEditing: (document) => {
+    onEditing: (currentDocument) => {
       if (timer !== null) clearTimeout(timer);
       timer = setTimeout(async () => {
+        const { id, title, content } = currentDocument;
+        const sameTittleDocument = findTitleInTree(
+          this.state.documentList,
+          title
+        );
+        if (sameTittleDocument && id !== sameTittleDocument.id) {
+          titleMatched(sameTittleDocument.id, sameTittleDocument.title);
+          return;
+        }
+        if (title.length === 0) return; // title can't be empty string
         const isNew = this.state.selectedDocumentId === "new";
         if (isNew) {
-          if (document.title.length === 0) return;
           const createdPost = await request("", {
             method: "POST",
             body: JSON.stringify({
-              title: document.title,
+              title,
               parent: null,
             }),
           });
@@ -79,17 +94,22 @@ export default function App({ $target }) {
           await fetchDocumentList();
           history.replaceState(null, null, `${createdPost.id}`);
         } else {
-          await request(`${document.id}`, {
+          await request(`${id}`, {
             method: "PUT",
             body: JSON.stringify({
-              title: document.title,
-              content: document.content,
+              title,
+              content,
             }),
           });
           await fetchDocumentList();
         }
-      }, 1000);
+      }, 800);
     },
+  });
+
+  const matchedDocument = new MatchedDocument({
+    $target: $linkContainer,
+    initialState: { matched: false, linkText: "" },
   });
 
   this.setState = (nextstate) => {
@@ -112,7 +132,6 @@ export default function App({ $target }) {
       const currentDocument = await request(selectedDocumentId);
       this.setState({
         ...this.state,
-
         selectedDocumentContent: currentDocument,
         isDocumentsLoading: false,
       });
@@ -122,6 +141,19 @@ export default function App({ $target }) {
     }
   };
 
-  fetchDocumentList();
-  fetchSelectedDocument();
+  this.route = () => {
+    const { pathname } = window.location;
+    if (pathname.length > 1) {
+      this.setState({
+        ...this.state,
+        selectedDocumentId: pathname.slice(1),
+      });
+    }
+    fetchDocumentList();
+    fetchSelectedDocument();
+  };
+
+  this.route();
+
+  initRouter(this.route);
 }
