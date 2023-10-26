@@ -1,5 +1,3 @@
-import { push } from "../../router.js";
-
 export default function ChildPageContainer({
   $target,
   initialState,
