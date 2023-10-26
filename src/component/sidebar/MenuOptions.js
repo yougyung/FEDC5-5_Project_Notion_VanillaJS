@@ -36,7 +36,15 @@ export function addDocumentButton({ onClick }) {
 export function serachButton(text) {
     text = "없음";
     const findDocumentButtonElement = document.createElement('button');
-    findDocumentButtonElement.textContent = "검색";
+    const imgElement = document.createElement('img');
+    const textElement = document.createElement('span');
+
+    imgElement.src = "../../../public/searchicon.png";
+    textElement.textContent = "검색";
+    findDocumentButtonElement.className = "addDocumentButton";
+
+    findDocumentButtonElement.appendChild(imgElement);
+    findDocumentButtonElement.appendChild(textElement);
 
     findDocumentButtonElement.addEventListener('click', async () => {
         const result = await request("/documents", {
