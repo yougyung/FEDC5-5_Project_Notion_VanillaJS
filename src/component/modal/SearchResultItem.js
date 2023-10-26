@@ -1,4 +1,4 @@
-export default function SearchResultItem(title, id, setPage) {
+export default function SearchResultItem(searchBgElement, title, id, setPage) {
     const SearchResultItemElement = document.createElement('div');
     const titleElement = document.createElement('p');
     titleElement.textContent = title;
@@ -8,6 +8,7 @@ export default function SearchResultItem(title, id, setPage) {
 
     SearchResultItemElement.addEventListener('click', () => {
         setPage(id);
+        searchBgElement.style.display = "none";
     });
 
     return SearchResultItemElement;

@@ -39,6 +39,7 @@ export function serachButton(text) {
     const imgElement = document.createElement('img');
     const textElement = document.createElement('span');
 
+
     imgElement.src = "../../../public/searchicon.png";
     textElement.textContent = "검색";
     findDocumentButtonElement.className = "addDocumentButton";
@@ -46,8 +47,12 @@ export function serachButton(text) {
     findDocumentButtonElement.appendChild(imgElement);
     findDocumentButtonElement.appendChild(textElement);
 
-    findDocumentButtonElement.addEventListener('click', async () => {
-    
+
+    findDocumentButtonElement.addEventListener('click', () => {
+        const modalElement = document.querySelector('.searchModalBackground');
+
+        console.log(modalElement);
+        modalElement.style.display = "block"    ;
     });
     return findDocumentButtonElement;
 }

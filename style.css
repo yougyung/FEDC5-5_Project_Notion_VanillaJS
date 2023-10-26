@@ -37,7 +37,7 @@ li {
 
 .sidebar {
     width: 20%;
-    height: 2000px;
+    min-height: 80%;
     background-color: rgb(252, 251, 250);
 }
 
@@ -55,10 +55,39 @@ li {
     width: 100%;
 }
 
+.searchModalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+
+    display: none;
+}
+
 .searchModal {
-    width: 600px;
-    height: 600px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    width: 500px;
+    min-height: 600px;
+    max-height: 600px;
+    overflow-y: scroll;
     background-color: white;
+}
+
+.searchHeader {
+    margin-top: 8px;
+    display: flex;
+}
+
+.searchHeader input {
+    width: 100%;
+    border: none;
 }
 
 .addDocumentButton img {
@@ -101,5 +130,7 @@ li {
 }
 
 .container {
+    z-index: 0;
+    position: relative;
     display: flex;
 }
