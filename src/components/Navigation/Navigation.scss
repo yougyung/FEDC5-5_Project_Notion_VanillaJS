@@ -22,7 +22,7 @@
 
   & ul {
     display: grid;
-    grid-template-columns: repeat(5, minmax(80px, 5fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 10px;
 
     & .editor-nav-item {
@@ -30,7 +30,7 @@
       text-overflow: ellipsis;
 
       &.empty-item {
-        width: 700px;
+        width: 100%;
 
         text-align: left;
       }
