@@ -1,6 +1,6 @@
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
-export const request = async (url, options = {}) => {
+export const request = async (url = "", options = {}) => {
   try {
     const response = await fetch(`${API_END_POINT}/documents/${url}`, {
       ...options,
@@ -11,7 +11,7 @@ export const request = async (url, options = {}) => {
     });
 
     if (response.ok) {
-      return await response.json();
+      return response.json();
     }
 
     throw new Error("Error while api request!");

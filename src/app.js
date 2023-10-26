@@ -4,7 +4,7 @@ import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
 import { titleMatched } from "./utils/match.js";
 import { initRouter } from "./utils/router.js";
-import { findIdInTree, findTitleInTree } from "./utils/tree.js";
+import { findTitleInTree } from "./utils/tree.js";
 
 export default function App({ $target }) {
   const $sideMenuContainer = document.createElement("div");
@@ -36,7 +36,6 @@ export default function App({ $target }) {
     },
     onSelect: async (documentId) => {
       history.replaceState(null, null, `${documentId}`);
-
       this.setState({
         ...this.state,
         selectedDocumentId: documentId,
