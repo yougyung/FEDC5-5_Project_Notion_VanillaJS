@@ -46,15 +46,15 @@ export default class Content {
     }
   }
 
-  async fetchSelectedDocument(pathname) {
+  async fetchSelectedDocument(documentId) {
     //Route에서 실행되는 함수
-    if (pathname === "/") {
+    if (documentId === "/") {
       //메인 페이지로 접속 시 Main 컴포넌트 렌더링
       this.main.render()
       return
     }
     try {
-      const document = await findDocumentById(pathname) //파싱된 pathname을 통해 해당 문서의 data를 불러온다
+      const document = await findDocumentById(documentId) //documentId를 통해 해당 문서의 data를 불러온다
       this.setState({ type: "SUCCESS", payload: document })
     } catch (err) {
       //해당 id값을 가진 문서가 존재하지 않을 때 404 error 발생 - 원래 없었거나 or 방금 삭제된 데이터
