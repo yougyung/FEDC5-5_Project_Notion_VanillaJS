@@ -71,7 +71,7 @@ button:hover {
     padding: 1px 3px;
 }
 
-.new_document_button.sidebar-bottom {
+.sidebar_footer {
     color: #a3a29d;
     display: inline-flex;
     position: fixed;

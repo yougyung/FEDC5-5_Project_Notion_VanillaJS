@@ -32,12 +32,11 @@ export default function SidebarList({
 
 
     const $rootCreateButton = document.createElement('div')
-    $rootCreateButton.className = 'new_document_button sidebar-bottom'
+    $rootCreateButton.className = 'sidebar_footer'
     $rootCreateButton.innerHTML = `<p>+새페이지</p>`
 
     this.render = () => {
         $sidebarList.innerHTML = renderList(this.state);
-        console.log('link', this.state)
         $sidebarList.appendChild($rootCreateButton)
     }
 
