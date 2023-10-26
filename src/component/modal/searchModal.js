@@ -18,7 +18,6 @@ export default class SearchModal {
         headerElement.className = "searchHeader";
         searchInput.placeholder = "단어를 입력하고 엔터키를 눌러주세요.";
 
-
         rootElement.appendChild(searchBgElement);
         searchBgElement.appendChild(searchModalElement);
         searchModalElement.appendChild(headerElement);
@@ -27,7 +26,7 @@ export default class SearchModal {
         searchModalElement.appendChild(hr);
         searchModalElement.appendChild(this.searchResultElement);
 
-        this.setEvent(searchBgElement, searchInput, searchModalElement);
+        this.setEvent(searchBgElement, searchInput, searchModalElement, setPage);
     }
 
     async getSearchResult(findText) {
@@ -49,23 +48,22 @@ export default class SearchModal {
         return searchResult;
     }
 
-    setEvent(searchBgElement, searchInput, searchModalElement) {
+    setEvent(searchBgElement, searchInput, searchModalElement, setPage) {
         searchBgElement.addEventListener("click", (event) => {
             if (event.target.className === "searchModalBackground") {
                 searchBgElement.style.display = "none";
             }
         })
 
-        searchInput.addEventListener("keyup", async (event) => {
+        searchInput.addEventListener("keydown", async (event) => {
             if (event.keyCode !== 13)
                 return;
 
-            if (this.searchResultElement) {                                         // 기존의 searchResultElement 삭제후 다시 재생성 
+            if (this.searchResultElement) {
                 this.searchResultElement.remove();
                 this.searchResultElement = document.createElement("div");
                 searchModalElement.appendChild(this.searchResultElement);
             }
-
             const findText = event.target.value;
             const searchResult = await this.getSearchResult(findText);
 
@@ -73,7 +71,6 @@ export default class SearchModal {
                 const resultItem = SearchResultItem(searchBgElement, title, id, setPage);
                 this.searchResultElement.appendChild(resultItem);
             })
-
         });
     }
 }

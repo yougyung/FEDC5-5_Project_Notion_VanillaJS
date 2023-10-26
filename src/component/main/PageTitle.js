@@ -9,11 +9,16 @@ export default class PageTitle {
 
     setTitle(id) {
         if (!id) return;
-        const title = this.findParentTracking(id);
+        const titleList = this.findParentTracking(id);
+        titleList.map((titleName) => {
+            const newItem = document.createElement('p');
+            newItem.textContent = titleName;
+        });
+        this.titleElement.textContent
         this.titleElement.textContent = title.join(" / ");
     }
 
-    findParentTracking(id) {                                                       
+    findParentTracking(id) {
         let node = document.querySelector(`#l${id}`);
         const documentNodeTrackArr = [node.getAttribute("titlename")]
         while (node.parentElement.parentElement.getAttribute("titlename")) {
