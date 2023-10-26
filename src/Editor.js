@@ -7,17 +7,17 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.className = "editor_wrap";
   $target.appendChild($editor);
 
-  const $editor_title = document.createElement("h1");
-  $editor_title.contentEditable = "true";
-  $editor_title.className = "editor_title";
-  $editor.appendChild($editor_title);
+  const $editorTitle = document.createElement("h1");
+  $editorTitle.contentEditable = "true";
+  $editorTitle.className = "editor_title";
+  $editor.appendChild($editorTitle);
 
   const $editorContentWrap = document.createElement("div");
   $editorContentWrap.className = "editor_content_wrap";
   $editor.appendChild($editorContentWrap);
 
-  const $editor_content = document.createElement("div");
-  $editor_content.className = "editor_content";
+  const $editorContent = document.createElement("div");
+  $editorContent.className = "editor_content";
 
   //링크박스
   const $linkWrap = document.createElement("div");
@@ -38,7 +38,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   function showSearchResult({ e, thisState }) {
-    const searchString = e.currentTarget.childNodes[1].innerText.substring(1);
+    const searchString = e.currentTarget.childNodes[1].innerText.substring(1); //NodeList[text,span]
     if (!searchString) return;
     const searchResult = searchTrie.autoComplete(searchString);
     if (searchResult.length > 0) {
@@ -130,7 +130,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       }
       //@ pageSpan에서 입력하다가 전부지웠으면 span제거
       if (target.childNodes.length === 1) {
-        // 자식에 <span>이 있으면 NodeList[text,span]인데 사라지면 [text]
         $linkWrap.style.display = "none";
         if (target.nextSibling) {
           target.nextSibling.remove();
@@ -138,7 +137,6 @@ export default function Editor({ $target, initialState, onEditing }) {
       }
       // 이미 linkWrap이 열려있는 경우
       if ($linkWrap.style.display !== "none") {
-        // e.currentTarget.childNodes[0]은 text"@" , [1]은 span
         showSearchResult({ e, thisState: this.state });
         return;
       }
@@ -163,8 +161,8 @@ export default function Editor({ $target, initialState, onEditing }) {
       e.target.after($linkWrap);
       $linkWrap.style.display = "flex";
 
-      $pageSpan.display = "inline";
       e.currentTarget.style.display = "inline";
+      $pageSpan.display = "inline";
       $pageSpan.style.height = "20px";
       $pageSpan.innerHTML = "&nbsp;";
       $pageSpan.setAttribute("contenteditable", true);
@@ -193,18 +191,18 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    $editor_title.innerHTML = this.state.title;
+    $editorTitle.innerHTML = this.state.title;
     if (this.state.content !== null) {
-      $editor_content.innerHTML =
+      $editorContent.innerHTML =
         this.state.content +
         `<div class="editor_content_block d" contenteditable="true"></div>`;
     } else {
       //처음 페이지 만든 경우 this.state.content === null
-      $editor_content.innerHTML = `<div class="editor_content_block d" contenteditable="true"></div>`;
+      $editorContent.innerHTML = `<div class="editor_content_block d" contenteditable="true"></div>`;
     }
-    $editorContentWrap.appendChild($editor_content);
+    $editorContentWrap.appendChild($editorContent);
 
-    const blocks = $editor_content.getElementsByClassName(
+    const blocks = $editorContent.getElementsByClassName(
       "editor_content_block"
     );
     for (let block of blocks) {
@@ -217,7 +215,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
   };
 
-  $editor_title.addEventListener("keyup", async (e) => {
+  $editorTitle.addEventListener("keyup", async (e) => {
     if (
       e.key === "Enter" &&
       document.querySelector(".editor_title").childNodes[1]

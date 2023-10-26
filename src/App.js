@@ -15,11 +15,13 @@ export default function App({ $target }) {
   $target.appendChild($wrap);
 
   const sideBar = new SideBar({ $target: $wrapSideBar });
+
   //prettier-ignore
   const editPage = new EditPage({ 
     $target: $wrapEditPage ,
     initialState : { docId: "new", doc: { title: "", content: "", } }}
   );
+
   this.route = () => {
     $wrap.style.display = "flex";
     $wrapEditPage.style.display = "none";

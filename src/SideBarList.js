@@ -62,7 +62,7 @@ export default function SideBarList({
       }
 
       new pageAddDeleteButton({
-        $target: $subLi.firstChild, // 말고 div.list_title 안에 넣어서 div를 relative, 버튼두개를 fixed로 두고 호버할때만 보이게/ 호버했을때는  글자나올 부분 크기를 div길이 -버튼두개길이 로 두고 그거 넘어가면 ... 호버 안했을 땐 div 전체길이
+        $target: $subLi.firstChild,
         id: doc.id,
         handleChangeList,
         handleToggle: () => {
@@ -103,7 +103,6 @@ export default function SideBarList({
     const { className, classList } = e.target;
 
     if (classList.contains("toggle_button")) {
-      // ⩥⊽ 여닫기
       const li = e.target.closest("li");
       const liDataId = li.dataset.id;
       const localData = localStorageGetItem(`doc_tmp_${liDataId}`, {
@@ -132,10 +131,7 @@ export default function SideBarList({
           liChilds.style.display = "block";
         }
       }
-    } else if (className === "new_button") {
-      const closestLi = e.target.closest("li");
     } else {
-      // 그외 div.each영역 -> editPage에 그 페이지 열어줌
       const li = e.target.closest("li");
       if (li) {
         pushRoute(`/docs/${li.dataset.id}`);

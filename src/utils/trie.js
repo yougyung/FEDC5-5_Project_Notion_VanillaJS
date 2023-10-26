@@ -1,7 +1,7 @@
 class Node {
   constructor(value = "") {
     this.value = value;
-    this.end = false; // 마지막 리프 노드인지 여부
+    this.end = false;
     this.children = new Map();
     this.idx = null;
   }

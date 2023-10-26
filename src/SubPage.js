@@ -1,6 +1,6 @@
 import { pushRoute } from "./utils/router.js";
 
-export default function SubPage({ $target, initialState, handleClickSubPage }) {
+export default function SubPage({ $target, initialState }) {
   const $subPage = document.createElement("div");
   $subPage.classList.add("sub_page");
   $target.appendChild($subPage);

@@ -1,5 +1,4 @@
 import Editor from "./Editor.js";
-import SearchBox from "./SearchBox.js";
 import SubPages from "./SubPages.js";
 import { request } from "./utils/api.js";
 import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
@@ -8,13 +7,8 @@ export default function EditPage({ $target, initialState }) {
   // $wrapEditPage , 초기디폴트는 {docId: "new",  doc: {  title: "",  content: "",}, }
   const $editPage = document.createElement("div");
   $editPage.className = "edit_page";
-  this.state = initialState;
 
-  // const searchBox = new SearchBox({
-  //   $target: $editPage,
-  //   initialState,
-  // });
-  // [ ] 타이틀이랑 같은 레벨에 오른쪽에 있도록
+  this.state = initialState;
 
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
   let timer = null;
@@ -36,7 +30,6 @@ export default function EditPage({ $target, initialState }) {
           open: isOpen,
         });
       });
-
       if (type === "title") {
         //<< 제목의 경우 즉시 실행함수로 PUT
         const res = await request(`/documents/${nextState.id}`, {
@@ -73,11 +66,9 @@ export default function EditPage({ $target, initialState }) {
     DOC_TMP_KEY = `doc_tmp_${docId}`;
 
     const res = await request(`/documents/${docId}`);
-    // searchBox.setState(res);
 
     editor.setState(res);
     subPages.setState(res.documents);
-    // searchBox.setState();
     this.render();
   };
 
