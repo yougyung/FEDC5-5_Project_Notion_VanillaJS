@@ -2,7 +2,6 @@ export let pageAll = [];
 
 let isInit = true;
 export const initPageAll = (initialState) => {
-  console.log(initialState);
   pageAll = [];
   let pageStack = [];
   for (let state of initialState) {
@@ -15,7 +14,6 @@ export const initPageAll = (initialState) => {
       pageStack.push(sub);
     }
   }
-  console.log(pageAll);
   isInit = false;
   // 맨~~처음에 init하고 이후에 추가되거나 삭제되면 pushPageAll, popPageAll 을 사용해서 부하 줄여보려고
 };

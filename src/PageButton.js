@@ -33,7 +33,6 @@ export function pageAddDeleteButton({
     if (id) {
       handleToggle();
     }
-    console.log(res);
     // res는 {id: 101069, title: '새로넣어보야옹22', createdAt: '2023-10-17T08:25:19.785Z', updatedAt: '2023-10-17T08:25:19.791Z'}
     let DOC_TMP_KEY = `doc_tmp_${res.id}`;
     localStorageSetItem(DOC_TMP_KEY, { open: false });

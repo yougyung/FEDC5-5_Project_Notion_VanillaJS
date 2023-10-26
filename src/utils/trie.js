@@ -40,9 +40,9 @@ export default class Trie {
     if (!title) {
       return [];
     }
-    let currentNode = this.root.children.get(" ");
+    let currentNode = searchTrie.root.children.get(" ");
     let madeword = [];
-    currentNode = this.exists(title);
+    currentNode = searchTrie.exists(title);
     if (currentNode) {
       madeword.push(title);
     } else {
@@ -61,6 +61,11 @@ export default class Trie {
       }
     }
     return result;
+  }
+
+  init() {
+    let currentNode = this.root.children.get(" ");
+    searchTrie.root.children.get(" ").children = new Map();
   }
 }
 

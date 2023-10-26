@@ -11,7 +11,7 @@ export const request = async (url, options = {}) => {
       if (window.confirm("존재하지 않는 페이지 입니다", url)) {
         history.replaceState(null, null, "/");
       }
-      // throw new Error("API 처리 중 오류");
+      throw new Error("API 처리 중 오류");
     }
   } catch (e) {
     console.log(e);

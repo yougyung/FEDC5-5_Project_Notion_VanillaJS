@@ -218,7 +218,10 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   $editor_title.addEventListener("keyup", async (e) => {
-    if (e.key === "Enter") {
+    if (
+      e.key === "Enter" &&
+      document.querySelector(".editor_title").childNodes[1]
+    ) {
       document.querySelector(".editor_title").childNodes[1].remove(); //엔터로 생성된 다음줄제거
       e.target.nextSibling.firstChild.firstChild.focus();
     }
@@ -228,6 +231,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     };
     this.setState(nextState);
     await onEditing(nextState, "title");
+    searchTrie.init();
 
     window.dispatchEvent(new CustomEvent("render-SideBarList"));
   });

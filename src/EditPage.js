@@ -73,7 +73,6 @@ export default function EditPage({ $target, initialState }) {
     DOC_TMP_KEY = `doc_tmp_${docId}`;
 
     const res = await request(`/documents/${docId}`);
-    console.log(res);
     // searchBox.setState(res);
 
     editor.setState(res);
