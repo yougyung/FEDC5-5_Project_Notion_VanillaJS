@@ -14,7 +14,7 @@ ol {
   padding: 0.5rem 0 0.5rem 1rem;
 }
 .page_manager_container {
-  width: 200px;
+  min-width: 200px;
   padding: 1rem;
   background-color: #fbfbfa;
 
@@ -44,7 +44,34 @@ ol {
     }
   }
 }
+.add_button {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: darkslategray;
+  color: white;
+  padding: 4px;
 
+  line-height: 10px;
+  text-align: center;
+  span {
+    display: block;
+  }
+}
+.delete_button {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: darkslategray;
+  color: white;
+  padding: 4px;
+
+  line-height: 10px;
+  text-align: center;
+  span {
+    display: block;
+  }
+}
 .editor_container {
   width: 100%;
   height: 100%;
@@ -58,82 +85,10 @@ ol {
     padding: 1rem;
   }
   .editor_content {
+    display: inline-block;
     width: 100%;
     height: 400px;
     padding: 1rem;
     border: solid black 1px;
   }
-}
-
-.PageItem {
-  display: flex;
-  flex-direction: column;
-  font-size: 1rem;
-  /* .addButton {
-    display: hidden;
-    width: 15px;
-    height: 15px;
-  } */
-  .unToggled {
-    display: none;
-  }
-  .subList {
-    display: flex;
-    flex-direction: row;
-  }
-  .innerContainer {
-    display: flex;
-    align-items: center;
-    .addButton {
-      display: none;
-    }
-  }
-}
-
-.innerContainer {
-  border-radius: 5px;
-}
-.innerContainer:hover {
-  position: relative;
-  background-color: lightgray;
-  .addButton {
-    position: absolute;
-    right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15px;
-    height: 15px;
-    background-color: lightslategray;
-    border-radius: 3px;
-  }
-  .delButton {
-    position: absolute;
-    right: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15px;
-    height: 15px;
-    background-color: lightslategray;
-    border-radius: 3px;
-  }
-}
-.toggleButton {
-  transition: all 0.5s;
-}
-
-.sideBar {
-  width: 200px;
-  height: 100%;
-  padding: 0 5px;
-  background-color: #fbfbfa;
-}
-
-.editPage {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
 }
