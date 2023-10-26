@@ -17,6 +17,15 @@ export default function ListPage({ $target, initialState }) {
     initialState: this.state.isLoading,
   });
 
+  $target.appendChild($newDocButton);
+  $target.appendChild($docList);
+
+  //초기값은 어차피 중요하지 않았음 렌더링할때 화면 비어있고 Initialize로 그림그리기때문에
+  const listItem = new ListItem({
+    $target: $docList,
+    initialState: this.state.documentsTree,
+  });
+
   this.setState = (nextState) => {
     //nextState = documentsTree, isLoading
     this.state = nextState;
