@@ -1,20 +1,21 @@
 import { EMPTY_TITLE } from '../constants/messages.js';
-
+import { getItem, setItem } from '../storage.js';
+import { SVG_ARROW_DOWN, SVG_PLUS, SVG_DELETE } from '../constants/index.js';
 export default function DocumentList({
 	$target,
 	initialState,
 	onTitleClick,
 	onCreatePage,
+	onDeletePage,
 }) {
-	const $nav = document.createElement('nav');
+	const $div = document.createElement('div');
 	const $divCreateNewDocument = document.createElement('div');
 	const $divListContainer = document.createElement('div');
 
-	$divCreateNewDocument.innerHTML = `<span>새 페이지</span>`;
-
-	$nav.appendChild($divCreateNewDocument);
-	$nav.appendChild($divListContainer);
-	$target.appendChild($nav);
+	$div.setAttribute('class', 'list_container');
+	$divListContainer.setAttribute('class', 'li_container');
+	$div.appendChild($divListContainer);
+	$target.appendChild($div);
 
 	this.state = initialState;
 
