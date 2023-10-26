@@ -1,48 +1,51 @@
-import { isNew } from '../utils/helper.js';
-import { UNTITLED } from '../utils/contants.js';
+import { isNew, setDocumentTitle } from '../../utils/helper.js';
+import { MESSAGE, TEXT } from '../../utils/constants.js';
 
- export default function Editor({
-   $target,
-   initialState = { title: '', content: '' },
-   onEditing,
- }) {
-   isNew(new.target);
+export default function Editor({
+  $target,
+  initialState = { title: '', content: '' },
+  onEdit,
+}) {
+  isNew(new.target);
 
-   const $editor = document.createElement('div');
+  const $editor = document.createElement('div');
+  $editor.className = 'editor';
 
-   $editor.innerHTML = `
-   <input type="text" name="title" style="width: 600px;" placeholder="${UNTITLED}"/>
-       <textarea name="content" style="width: 600px; height: 400px;" placeholder="Type '/' for commands"</textarea>
-   `;
+  $editor.innerHTML = `
+      <input type="text" name="title" class="title" placeholder="${TEXT.UNTITLED}" autofocus/>
+      <textarea name="content" class="content" placeholder="${MESSAGE.WRITE_CONTENT}"></textarea>
+  `;
 
-   $target.appendChild($editor);
+  $target.appendChild($editor);
 
-   this.state = initialState;
+  this.state = initialState;
 
-   this.setState = (nextState) => {
-     this.state = nextState;
-     this.render();
-   };
+  this.setState = (nextState) => {
+    this.state = { ...this.state, ...nextState };
+    this.render();
+  };
 
-   this.render = () => {
-     const { title, content } = this.state;
+  this.render = () => {
+    const { title, content } = this.state;
 
-     $editor.querySelector('[name=title]').value = title;
-     $editor.querySelector('[name=content]').value = content;
-   };
+    $editor.querySelector('[name=title]').value = title;
+    $editor.querySelector('[name=content]').value = content;
 
-   this.render();
+    setDocumentTitle(title);
+  };
 
-   $editor.addEventListener('keyup', (e) => {
-     const { target } = e;
+  this.render();
 
-     const name = target.getAttribute('name');
+  $editor.addEventListener('keyup', (e) => {
+    const { target } = e;
 
-     if (this.state[name] !== undefined) {
-       const nextState = { ...this.state, [name]: target.value };
+    const name = target.getAttribute('name');
 
-       this.setState(nextState);
-       onEditing(this.state);
-     }
-   });
- }
+    if (this.state[name] !== undefined) {
+      const nextState = { ...this.state, [name]: target.value };
+
+      this.setState(nextState);
+      onEdit(this.state);
+    }
+  });
+}
