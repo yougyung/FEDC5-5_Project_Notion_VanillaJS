@@ -3,7 +3,8 @@ export default function DocsList({
   initialState,
   onClickAddRoot,
   onClickAddSub,
-  onClickDeleteDoc
+  onClickDeleteDoc,
+  onDocumentClick
 }) {
   const $list = document.createElement('div')
   $list.className = 'documents-list'
@@ -71,31 +72,34 @@ export default function DocsList({
     
     $target.appendChild($list)
   }
-// 리스트 초기 렌더
-  this.render()
 
   $list.addEventListener('click', e => {
-    const { name, className } = e.target
+    const { className } = e.target
     const $li = e.target.closest("li")
     
-    // 버튼 이벤트
+    // $li 버튼 이벤트
     if ($li) {
       const { id } = $li
       if (className === 'addSubDocButton') {
         onClickAddSub(id)
       } else if (className === 'deleteDocButton') {
         onClickDeleteDoc(id)
+      } else if (className === 'listItem') {
+        const id = parseInt($li.dataset.id)
+        onDocumentClick(id)
       }
     }
+    // 페이지 추가 버튼
     if (className === 'addRootDocButton') {
       onClickAddRoot()
     }
-    
-    // 하위 목록 숨기기
-    if (name === 'hideToggle') {
-      e.target.checked
-      ? e.target.parentNode.nextElementSibling.style.display = 'none'
-      : e.target.parentNode.nextElementSibling.style.display = 'block'
+    if (e.target.name) {
+      // 하위 목록 숨기기
+      if (e.target.name === 'hideToggle') {
+        e.target.checked
+        ? e.target.parentNode.nextElementSibling.style.display = 'none'
+        : e.target.parentNode.nextElementSibling.style.display = 'block'
+      }
     }
   })
 }

@@ -23,7 +23,8 @@ export default function DocsPage({
     onClickDeleteDoc: (id) => {
       // fetch 하위 삭제
       console.log('하위페이지 삭제 눌림')
-    }
+    },
+    onDocumentClick
   })
 
   const fetchDocuments = async () => {
@@ -38,10 +39,10 @@ export default function DocsPage({
   }
   this.render()
 
-  $page.addEventListener('click', (e) => {
-    if (e.target.className === 'listItem') {
-      const id = e.target.dataset.id
-      onDocumentClick(id)
-    }
-  })
+  // $page.addEventListener('click', (e) => {
+  //   if (e.target.className === 'listItem') {
+  //     const id = parseInt(e.target.dataset.id)
+  //     onDocumentClick(id)
+  //   }
+  // })
 }
