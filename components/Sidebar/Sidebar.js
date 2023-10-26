@@ -1,10 +1,10 @@
 import SidebarItem from "./SidebarItem.js"
 import { documentStore } from "../../store/documentStore.js"
+import { urlchangeHandler } from "../../utils/urlChange.js"
 export default class Sidebar {
   constructor({ $target, initialState = [] }) {
     this.$target = $target
     this.state = initialState
-    this.urlchange = new CustomEvent("urlchange")
     this.setup()
     this.sidebarItem = new SidebarItem()
     documentStore.subscribe(() => this.render())
@@ -86,7 +86,7 @@ export default class Sidebar {
 
   onClick(e) {
     e.preventDefault()
-    this.dispatchUrlEvent(e.target.href)
+    urlchangeHandler(e.target.href)
   }
 
   toggleSubDocuments(e) {
@@ -100,8 +100,8 @@ export default class Sidebar {
     e.target.parentNode.nextElementSibling.classList.toggle("hidden")
   }
 
-  dispatchUrlEvent(pathname) {
-    history.pushState(null, null, pathname)
-    window.dispatchEvent(this.urlchange)
-  }
+  // dispatchUrlEvent(pathname) {
+  //   history.pushState(null, null, pathname)
+  //   window.dispatchEvent(this.urlchange)
+  // }
 }
