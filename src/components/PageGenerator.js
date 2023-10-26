@@ -11,4 +11,10 @@ export default function PageGenerator({ $target, initialState, onCreatePage }) {
 	this.setState = (nextState) => {
 		this.state = nextState;
 	};
+
+	$div.addEventListener('click', (event) => {
+		const { target } = event;
+		if (target.tagName !== 'SPAN') return;
+		onCreatePage();
+	});
 }
