@@ -52,21 +52,20 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 
 	this.render();
 
-	const handleClickTitle = () => {
+	this.handleClickTitle = () => {
 		const { id } = this.state.document;
 		handleState({ focusedDocumentId: id });
 		push(`/documents/${id}`);
 	};
-	const handleClickAddBtn = async () => {
+	this.handleClickAddBtn = async () => {
 		const { id } = this.state.document;
 		const response = await createDocument('제목 없음', id);
 		handleState({ focusedDoscumentId: response.id });
 	};
-	const handleClickToggle = () => {
+	this.handleClickToggle = () => {
 		this.setState({ ...this.state, isToggleOn: !this.state.isToggleOn });
 	};
-
-	addEvent($documentNav, 'document-nav__item-info__toggle', 'click', handleClickToggle);
-	addEvent($documentNav, 'document-nav__item-info__title', 'click', handleClickTitle);
-	addEvent($documentNav, 'document-nav__item-createBtn', 'click', handleClickAddBtn);
+	addEvent($documentNav, 'document-nav__item-info__toggle', 'click', this.handleClickToggle);
+	addEvent($documentNav, 'document-nav__item-info__title', 'click', this.handleClickTitle);
+	addEvent($documentNav, 'document-nav__item-createBtn', 'click', this.handleClickAddBtn);
 }
