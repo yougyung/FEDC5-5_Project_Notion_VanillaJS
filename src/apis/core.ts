@@ -1,3 +1,5 @@
+import { HTTP_METHODS } from "@/constants";
+
 const BASE_URL = process.env.BASE_URL;
 
 interface ApiRequest<T> {
@@ -12,30 +14,37 @@ const api = async (endPoint: string, options: RequestInit = {}) => {
     "Content-Type": "application/json",
   };
 
-  try {
-    const response = await fetch(endPoint, {
-      headers,
-      ...options,
-    });
+  const response = await fetch(endPoint, {
+    headers,
+    ...options,
+  });
 
-    if (!response.ok) {
-      throw new Error("Network error");
-    }
-
-    const data = await response.json();
-
-    return await data;
-  } catch (error) {
-    console.error(error);
+  if (!response.ok) {
+    throw new Error("Network error");
   }
+
+  const data = await response.json();
+
+  return await data;
 };
 
+const createApiMethod =
+  (method: string) =>
+  <T, R>({ url, body, options }: ApiRequest<T>): Promise<R> => {
+    const config: RequestInit = {
+      ...options,
+      method,
+    };
+
+    if (body) {
+      config.body = JSON.stringify(body);
+    }
+    return api(`${BASE_URL}${url}`, config);
+  };
+
 export default {
-  get: <T = unknown>({ url, options }: ApiRequest<T>) => api(`${BASE_URL}${url}`, { ...options, method: "GET" }),
-  post: <T>({ url, body, options }: ApiRequest<T>) =>
-    api(`${BASE_URL}${url}`, { ...options, method: "POST", body: JSON.stringify(body) }),
-  put: <T>({ url, body, options }: ApiRequest<T>) =>
-    api(`${BASE_URL}${url}`, { ...options, method: "PUT", body: JSON.stringify(body) }),
-  delete: <T>({ url, body, options }: ApiRequest<T>) =>
-    api(`${BASE_URL}${url}`, { ...options, method: "DELETE", body: JSON.stringify(body) }),
+  get: createApiMethod(HTTP_METHODS.GET),
+  post: createApiMethod(HTTP_METHODS.POST),
+  put: createApiMethod(HTTP_METHODS.PUT),
+  delete: createApiMethod(HTTP_METHODS.DELETE),
 };
