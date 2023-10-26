@@ -15,8 +15,8 @@ export default class Sidebar {
     this.$sidebar = document.createElement("div")
     this.$sidebar.setAttribute("id", "sidebar")
     this.$sidebar.innerHTML = `
-        <div id="directory" role='group'>Loading</div>
-        <div role="button" id="add">추가</div>
+        <div id="directory" role='group'></div>
+        <div role="button" id="add">Add New Document</div>
     `
     this.$target.appendChild(this.$sidebar)
     this.$directory = document.getElementById("directory")
@@ -30,7 +30,6 @@ export default class Sidebar {
   }
 
   render() {
-    console.log(documentStore.getState().documents)
     this.$directory.innerHTML = this.renderSidebarItem()
     this.mounted()
   }
@@ -44,7 +43,7 @@ export default class Sidebar {
       this.handleDeleteButton(e)
     })
 
-    this.addEvent(".fold", "click", this.toggleSubDocuments)
+    this.addEvent(".flip", "click", this.toggleSubDocuments)
 
     this.addEvent("a", "click", e => this.onClick(e))
   }
@@ -91,6 +90,13 @@ export default class Sidebar {
   }
 
   toggleSubDocuments(e) {
+    const { classList } = e.target
+    if (classList.contains("unfold")) {
+      classList.replace("unfold", "fold")
+    } else {
+      classList.replace("fold", "unfold")
+    }
+
     e.target.parentNode.nextElementSibling.classList.toggle("hidden")
   }
 
