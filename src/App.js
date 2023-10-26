@@ -51,13 +51,23 @@ export default function App({ $target, initialState }) {
 			push(`/`);
 		},
 	});
+
+	const breadcrumb = new Breadcrumb({
+		$target: $div,
+		initialState: [],
+		onBreadcrumbItemClick: async (id) => {
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
 				method: GET,
 			});
 			documentEditPage.setState(nextState);
+			push(`${DOCUMENTS}/${id}`);
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			subDocumentLinkList.setState(nextState);
 		},
 	});
+
 	let timer = null;
 	const documentEditPage = new DocumentEditPage({
 		$target: $div,
@@ -89,7 +99,6 @@ export default function App({ $target, initialState }) {
 				documentEditPage.setState(nextState);
 			}, 500);
 		},
-		onContentChange: () => {},
 	});
 	this.setState = (nextState) => {
 		this.state = nextState;
