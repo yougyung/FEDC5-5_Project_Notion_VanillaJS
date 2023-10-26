@@ -1,4 +1,5 @@
 import Editor from "./Editor.js";
+import Footer from "./Footer.js";
 import { request } from "../api.js";
 import { getItem, removeItem, setItem } from "../storage.js";
 
@@ -62,6 +63,11 @@ export default function DocumentEditPage({
     },
   });
 
+  const footer = new Footer({
+    $target: $page,
+    initialState: this.state.postId,
+  });
+
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
       postLocalSaveKey = `temp-post-${nextState.postId}`;
@@ -74,10 +80,10 @@ export default function DocumentEditPage({
         });
         this.render();
         editor.setState(post);
+        footer.setState(post);
       } else {
         await fetchPost();
       }
-
       return;
     }
 
@@ -86,6 +92,7 @@ export default function DocumentEditPage({
       editor.setState(this.state.post || { title: "", content: "" });
     } else {
       this.state = nextState;
+      footer.setState(this.state);
       this.render();
       editor.setState(this.state.post || { title: "", content: "" });
     }
