@@ -12,6 +12,16 @@ export default function ListPage({ $target, initialState }) {
   $newDocButton.classList = "new-folder";
   $newDocButton.textContent = "새로운 폴더 생성";
 
+  const listHeader = new ListHeader({
+    $target,
+    initialState: this.state.isLoading,
+  });
+
+  this.setState = (nextState) => {
+    //nextState = documentsTree, isLoading
+    this.state = nextState;
+    listHeader.setState(this.state.isLoading);
+    this.render();
   this.render = () => {
     $docList.innerHTML = ``;
   };
