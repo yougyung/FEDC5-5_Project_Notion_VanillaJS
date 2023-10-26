@@ -14,8 +14,17 @@ ul {
     background-color: rgb(252, 251, 250);
 }
 
+.addDocumentButton {
+    display: flex;
+}
+
+.addDocumentButton img {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
 .slotbtn {
-    border: none;
     width: 15px;
     height: 15px;
 

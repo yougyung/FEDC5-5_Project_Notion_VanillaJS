@@ -5,8 +5,6 @@ export function sidebarHeader() {
     headerElement.className = "sidebarheader";
     const imgElement = document.createElement('img');
     imgElement.src = "../../../public/jlogo.png";
-    console.log(imgElement);
-
     headerElement.appendChild(imgElement);
 
     const textElement = document.createElement('span');
@@ -19,12 +17,22 @@ export function sidebarHeader() {
 
 export function addDocumentButton({ onClick }) {
     const addDocumentButtonElement = document.createElement('button');
-    addDocumentButtonElement.textContent = "+ 페이지 추가";
+    const imgElement = document.createElement('img');
+    const textElement = document.createElement('span');
+
+    imgElement.src = "../../../public/plusicon.png";
+    textElement.textContent = "페이지 추가";
+    addDocumentButtonElement.className = "addDocumentButton"
+
+    addDocumentButtonElement.appendChild(imgElement);
+    addDocumentButtonElement.appendChild(textElement);
+
     addDocumentButtonElement.addEventListener('click', () => {
         onClick();
     });
     return addDocumentButtonElement;
 }
+
 export function serachButton(text) {
     text = "없음";
     const findDocumentButtonElement = document.createElement('button');
