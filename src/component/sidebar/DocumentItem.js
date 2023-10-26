@@ -7,7 +7,10 @@ export default class DocumentItem {
     constructor(item, parentElement, onEvent, onDeleteItem) {
         this.item = item;
         this.isSlotOpen = false;
-        if (onDeleteItem) onDeleteItem = onDeleteItem.bind(this);
+
+        if (onDeleteItem) {
+            onDeleteItem = onDeleteItem.bind(this);
+        }
         if (onEvent) onEvent = onEvent.bind(this);
 
         this.parentElement = parentElement;
@@ -16,7 +19,7 @@ export default class DocumentItem {
         this.slotImgElement = document.createElement('img');
         this.documentNameLabelElement = document.createElement('label');
         this.childListElement = document.createElement('ul');
-        
+
         const addButtonElement = document.createElement('button');
         const deleteButtonElement = document.createElement('button');
 
@@ -42,7 +45,7 @@ export default class DocumentItem {
         deleteButtonElement.textContent = "x";
 
         item.documents.map((documentItem) => {
-            this.arr.push(new DocumentItem(documentItem, this.childListElement, onEvent));
+            this.arr.push(new DocumentItem(documentItem, this.childListElement, onEvent, onDeleteItem));
         });
 
         this.documentNameLabelElement.addEventListener('click', (event) => {
@@ -66,7 +69,7 @@ export default class DocumentItem {
                         "parent": this.item.id
                     })
                 }).then(({ id, title }) => {
-                    this.arr.push(new DocumentItem({ id, title, documents: [] }, this.childListElement));
+                    this.arr.push(new DocumentItem({ id, title, documents: [] }, this.childListElement, onEvent, onDeleteItem));
                 })
             }
         });
