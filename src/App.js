@@ -18,6 +18,26 @@ export default function App({ $target, initialState }) {
 			breadcrumb.setState(breadcrumbPath);
 			subDocumentLinkList.setState(nextState);
 		},
+		onCreatePage: async (...rest) => {
+			const [parentId] = rest;
+			const document = { title: '', parent: parentId ? parentId : null };
+			const nextState = await this.fetch({
+				url: DOCUMENTS,
+				method: POST,
+				body: JSON.stringify({ ...document }),
+			});
+			const { id } = nextState;
+			await this.fetch({
+				url: DOCUMENTS,
+				method: GET,
+				callback: this.setState,
+			});
+			documentEditPage.setState({ ...nextState, documents: [] });
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			subDocumentLinkList.setState(nextState);
+			push(`${DOCUMENTS}/${id}`);
+		},
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
 				method: GET,
