@@ -4,6 +4,7 @@ import DocumentItem from '@/components/DocumentItem';
 import { createTemplate } from '@/utils/dom';
 import { initStorage } from '@/utils/storage';
 import { STORAGE_KEY } from '@/constants/storage';
+import { IMAGE_PATH } from '@/constants/image';
 
 import './DocumentList.scss';
 
@@ -19,7 +20,9 @@ export default class DocumentList extends Component {
     this.$documentList.classList.add('document-navigator');
     this.$target.appendChild(this.$documentList);
 
-    const $addNewPageButton = createTemplate('<button class="add-new-page">페이지 추가</button>');
+    const $addNewPageButton = createTemplate(
+      `<button class="add-new-page"><img src="${IMAGE_PATH.PLUS}" alt="add new page"/>페이지 추가</button>`,
+    );
     this.$target.appendChild($addNewPageButton);
   }
 

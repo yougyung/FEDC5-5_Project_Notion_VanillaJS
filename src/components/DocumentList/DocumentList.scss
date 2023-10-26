@@ -37,3 +37,24 @@
     }
   }
 }
+
+.add-new-page {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+
+  padding: 10px 5px;
+  margin: 2px 5px;
+
+  border-radius: 4px;
+
+  font-size: 16px;
+  text-align: center;
+
+  cursor: pointer;
+  transition: background-color 0.05s ease-in-out;
+
+  &:hover {
+    background-color: $background-light-hover;
+  }
+}
