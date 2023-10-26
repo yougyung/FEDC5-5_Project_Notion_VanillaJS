@@ -8,9 +8,10 @@ export default class DocumentList {
     constructor(sidebarElement, onSetPage, onDeleteItem) {
         this.documentListElement = document.createElement('ul');
         this.documentListElement.className = "parentPageList";
-        sidebarElement.appendChild(this.documentListElement);
         this.onSetPage = onSetPage;
         this.onDeleteItem = onDeleteItem;
+
+        sidebarElement.appendChild(this.documentListElement);
         this.init();
     }
     async init() {

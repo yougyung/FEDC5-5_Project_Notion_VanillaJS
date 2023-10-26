@@ -2,13 +2,14 @@ import request from "../../api.js";
 
 export function sidebarHeader() {
     const headerElement = document.createElement('div');
-    headerElement.className = "sidebarheader";
-    const imgElement = document.createElement('img');
-    imgElement.src = "../../../public/jlogo.png";
-    headerElement.appendChild(imgElement);
-
     const textElement = document.createElement('span');
+    const imgElement = document.createElement('img');
+
+    headerElement.className = "sidebarheader";
     textElement.textContent = "JuJangGwon의 노션";
+    imgElement.src = "../../../public/jlogo.png";
+
+    headerElement.appendChild(imgElement);
     headerElement.appendChild(textElement);
 
     return headerElement;
@@ -52,7 +53,7 @@ export function serachButton(text) {
         const modalElement = document.querySelector('.searchModalBackground');
 
         console.log(modalElement);
-        modalElement.style.display = "block"    ;
+        modalElement.style.display = "block";
     });
     return findDocumentButtonElement;
 }
