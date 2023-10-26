@@ -3,6 +3,29 @@ import DocumentList from './components/DocumentList.js';
 
 export default function App({ $target, initialState }) {
 	this.state = initialState;
+	const pageGenerator = new PageGenerator({
+		$target: $header,
+		onCreatePage: async (...rest) => {
+			const [parentId] = rest;
+			const document = { title: '', parent: parentId ? parentId : null };
+			const nextState = await this.fetch({
+				url: DOCUMENTS,
+				method: POST,
+				body: JSON.stringify({ ...document }),
+			});
+			const { id } = nextState;
+			await this.fetch({
+				url: DOCUMENTS,
+				method: GET,
+				callback: this.setState,
+			});
+			documentEditPage.setState({ ...nextState, documents: [] });
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			subDocumentLinkList.setState(nextState);
+			push(`${DOCUMENTS}/${id}`);
+		},
+	});
 
 	const documentList = new DocumentList({
 		$target: $nav,
@@ -121,6 +144,7 @@ export default function App({ $target, initialState }) {
 		this.state = nextState;
 		documentList.setState(nextState);
 	};
+
 
 	this.fetch = async ({ url, method, body = {}, callback }) => {
 		const options = body.length ? { url, method, body } : { url, method };
