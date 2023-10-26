@@ -1,11 +1,39 @@
-html {
-  position: relative;
-  font-size: 14px;
+:root {
+  --default-font-size: 14px;
+  --small-font-size: 12px;
+  --default-font-color: rgb(55, 53, 47);
+  --bold-font-color: #37352f;
+  --default-hover-bg-color: #f1f1f0;
+  --default-hover-border-radius: 0.3rem;
+  --default-font-weight: 500;
+  --bold-font-weight: 600;
 }
 
+html {
+  position: relative;
+  font-size: var(--default-font-size);
+}
+
+/* reset default styles */
 body {
   margin: 0;
   padding: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  padding-inline: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 #app {
@@ -23,8 +51,8 @@ body {
 }
 
 .sidebar-header {
-  color: rgb(55, 53, 47);
-  font-weight: 500;
+  color: var(--default-font-color);
+  font-weight: var(--default-font-weight);
   padding: 0.8rem;
 }
 
@@ -38,7 +66,7 @@ body {
 }
 
 .header.add-button {
-  font-size: 12px;
+  font-size: var(--small-font-size);
   padding: 1px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
@@ -49,27 +77,12 @@ body {
 }
 
 .header-subtitle {
-  font-size: 12px;
+  font-size: var(--small-font-size);
   font-weight: 600;
   color: rgba(55, 53, 47, 0.5);
 }
 
 /* documentlist styles */
-ul {
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  list-style: none;
-}
-
-button {
-  padding-inline: 0;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
 
 .document-list-container {
   padding: 0 4px;
@@ -84,23 +97,23 @@ button {
   padding: 0.3rem 0;
   padding-right: 0.3rem;
   cursor: pointer;
-  color: rgb(55, 53, 47);
+  color: var(--default-font-color);
 }
 
 .list-item:not(.no-subdocuments):hover,
 .command:hover {
-  background-color: #f1f1f0;
-  border-radius: 0.3rem;
+  background-color: var(--default-hover-bg-color);
+  border-radius: var(--default-hover-border-radius);
 }
 
 .list-item.selected {
-  background-color: #f1f1f0;
-  border-radius: 0.3rem;
+  background-color: var(--default-hover-bg-color);
+  border-radius: var(--default-hover-border-radius);
 }
 
 .list-item.selected span {
-  color: #37352f;
-  font-weight: 500;
+  color: var(--bold-font-color);
+  font-weight: var(--default-font-weight);
 }
 
 .toggle-icon {
@@ -111,7 +124,7 @@ button {
 .list-item-title,
 .no-subdocuments {
   color: rgba(115, 114, 110, 0.8);
-  font-weight: 500;
+  font-weight: var(--default-font-weight);
 }
 
 .list-item:hover .list-item-buttons {
@@ -136,7 +149,7 @@ button {
 .add-button:hover,
 .delete-button:hover {
   background-color: #e3e2e2;
-  border-radius: 0.3rem;
+  border-radius: var(--default-hover-border-radius);
 }
 
 .document-edit-page {
@@ -152,7 +165,7 @@ button {
   justify-content: space-between;
   padding: 1rem 1.5rem;
   cursor: pointer;
-  color: rgb(55, 53, 47);
+  color: var(--default-font-color);
 }
 
 .document-edit-page-body {
@@ -200,7 +213,7 @@ button {
   font-size: 16px;
   padding-top: 5px;
   border: none;
-  caret-color: rgb(55, 53, 47);
+  caret-color: var(--default-font-color);
 }
 
 .content:focus {
@@ -223,7 +236,7 @@ button {
   padding: 3px 5px;
 
   background-color: white;
-  outline-color: rgb(55, 53, 47);
+  outline-color: var(--default-font-color);
   border-radius: 6px;
   box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
 }
@@ -238,7 +251,7 @@ button {
 
 .modal-title,
 .command small {
-  font-size: 12px;
+  font-size: var(--small-font-size);
   color: rgba(55, 53, 47, 0.8);
 }
 
@@ -252,8 +265,8 @@ button {
 
 .command p {
   margin: 0;
-  font-size: 14px;
-  color: rgb(55, 53, 47);
+  font-size: var(--default-font-size);
+  color: var(--default-font-color);
 }
 
 #link.wrapper {
@@ -264,8 +277,8 @@ button {
 }
 
 #link.wrapper:hover {
-  background-color: #f1f1f0;
-  border-radius: 0.3rem;
+  background-color: var(--default-hover-bg-color);
+  border-radius: var(--default-hover-border-radius);
 }
 
 #link i {
@@ -273,8 +286,8 @@ button {
 }
 
 .link-title {
-  font-size: 14px;
-  color: #37352f;
+  font-size: var(--default-font-size);
+  color: var(--bold-font-color);
 }
 
 .document-link {
@@ -312,8 +325,8 @@ button {
 
 .subdocument-link-title,
 .document-link {
-  font-weight: 500;
-  color: #37352f;
+  font-weight: var(--default-font-weight);
+  color: var(--bold-font-color);
   text-decoration: underline;
   text-decoration-color: rgba(55, 53, 47, 0.16);
   text-decoration-thickness: 0.8px;
