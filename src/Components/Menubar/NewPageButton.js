@@ -15,6 +15,7 @@ export default function NewPageButton({ target, onEvent }) {
   textElement.textContent = "New Page";
   rootInsertButton.appendChild(textElement);
 
+  /* Insert 이벤트 */
   rootInsertButton.addEventListener("click", () => {
     onEvent({ id: null, insert: true });
   });

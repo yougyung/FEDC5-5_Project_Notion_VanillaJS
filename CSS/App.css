@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: flex-end;
 
-  background-color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0);
 }
 .app_helpButton_message {
   padding: 0.6rem 0.8rem;
@@ -25,12 +25,15 @@
   border-radius: 1rem;
   background-color: var(--color-semi-white);
   box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.75);
-
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-font);
+  position: relative;
+  bottom: -6rem;
+  right: 10rem;
 
-  display: none;
+  display: flex;
+  transition: all 0.3s;
 }
 
 .app_helpButton_img {
@@ -43,33 +46,35 @@
 
 .app_helpCard {
   position: fixed;
-  bottom: 9rem;
-  right: 2rem;
+  bottom: 24rem;
+  right: -60rem;
 
   width: 40rem;
   height: 60rem;
   padding: 1.2rem;
+  transform: rotate(90deg);
   background-color: var(--color-semi-white);
 
   border-radius: 1rem;
   box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.75);
 
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
   font-size: 1.6rem;
   color: var(--color-font);
   overflow-y: scroll;
-
-  transition: all 300ms ease-in-out;
   opacity: 0;
+  transition: all 500ms ease-in-out;
+  user-select: none;
 }
-.cardDisplay {
-  display: flex;
-}
+
 .cardToggled {
   opacity: 1;
+  bottom: 9rem;
+  right: 2rem;
+  transform: rotate(0deg);
 }
 
 .app_helpCard_title {

@@ -1,8 +1,9 @@
-import { checkToggled } from "../../../LocalStorage/LocalStorage.js";
+import { isCheckedToggled } from "../../../LocalStorage/LocalStorage.js";
 
 export default function ListInfo({ target, state }) {
   const { title, id, depth } = state;
 
+  /* List Body */
   const listInfoElement = document.createElement("div");
   listInfoElement.setAttribute("class", "menubar_pageList_list_info");
   listInfoElement.style.paddingLeft = `${1.6 * depth}rem`;
@@ -14,10 +15,10 @@ export default function ListInfo({ target, state }) {
   checkboxElement.setAttribute("class", "menubar_pageList_list_info_checkbox");
   checkboxElement.setAttribute("id", `checkBox_${id}`);
   listInfoElement.appendChild(checkboxElement);
-  if (checkToggled(id)) {
+  if (isCheckedToggled(id)) {
     checkboxElement.setAttribute("checked", "true");
   }
-
+  /* label for CSS */
   const labelElement = document.createElement("label");
   labelElement.setAttribute("class", "menubar_pageList_list_info_label");
   labelElement.setAttribute("for", `checkBox_${id}`);

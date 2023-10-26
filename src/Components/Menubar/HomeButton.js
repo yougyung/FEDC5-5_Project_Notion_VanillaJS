@@ -15,6 +15,7 @@ export default function HomeButton({ target }) {
   textElement.textContent = "홈 이동 ";
   homeButtonElement.appendChild(textElement);
 
+  /* Index Page 이동 */
   homeButtonElement.addEventListener("click", () => {
     makeRouterEvent({ url: "/", event: "push" });
   });

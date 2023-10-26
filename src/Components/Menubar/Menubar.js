@@ -11,6 +11,7 @@ export default function Menubar({ target, state, onEvent }) {
   /* 기본 초기값 */
   this.state = state;
 
+  /* 상태 변경과 리스트에 전달  */
   this.setState = (newState) => {
     this.state = newState;
     pageList.setState(this.state);

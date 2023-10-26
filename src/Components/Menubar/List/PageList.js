@@ -16,11 +16,14 @@ export default function PageList({ target, state, onEvent }) {
 
   this.setState = (newState) => {
     this.state = newState;
+    /* list 기존 자식 element 삭제 */
     pageListElement.replaceChildren();
     this.render();
   };
 
+  /* 자식 깊이 */
   const depth = 1;
+
   /* list 렌더링 */
   this.render = () => {
     this.state.forEach((list) => {
@@ -40,8 +43,7 @@ export default function PageList({ target, state, onEvent }) {
       const { id } = targetElement.dataset;
       const eventName = e.target.className;
 
-      /* Link */
-
+      /* Click List */
       if (eventName === "menubar_pageList_list_info_title") {
         e.preventDefault();
         makeRouterEvent({ url: `/documents/${id}`, event: "push" });

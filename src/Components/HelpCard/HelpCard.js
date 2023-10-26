@@ -53,12 +53,8 @@ export default function HelpCard({ target }) {
   this.render = () => {
     if (!this.state) {
       cardElement.classList.remove("cardToggled");
-      setTimeout(() => {
-        cardElement.classList.remove("cardDisplay");
-      }, 300);
       return;
     }
-    cardElement.classList.add("cardDisplay");
     setTimeout(() => {
       cardElement.classList.add("cardToggled");
     }, 10);

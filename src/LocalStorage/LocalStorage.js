@@ -15,24 +15,39 @@ export function getStorage(id) {
   return JSON.parse(localStorage.getItem(`${STORAGE_NAME}${id}`));
 }
 
+/* toggle 가져오기 */
 export function getToggleList() {
-  return JSON.parse(localStorage.getItem(TOGGLE_LIST_NAME)) ?? [];
+  try {
+    return JSON.parse(localStorage.getItem(TOGGLE_LIST_NAME)) ?? [];
+  } catch (e) {
+    console.error(new Error("Toggled Local List 로딩 실패"));
+  }
 }
 
+/* toggle 추가 */
 export function setToggleList(id) {
-  const getData = getToggleList();
-  const newData = JSON.stringify([...getData, id]);
-  localStorage.setItem(TOGGLE_LIST_NAME, newData);
+  try {
+    const getData = getToggleList();
+    const newData = JSON.stringify([...getData, id]);
+    localStorage.setItem(TOGGLE_LIST_NAME, newData);
+  } catch (e) {
+    console.error(new Error("Toggled Local set 실패"));
+  }
 }
 
+/* toggle 삭제 */
 export function removeToggleList(id) {
-  const getData = getToggleList();
-  const newData = JSON.stringify(getData.filter((item) => item !== id));
-  localStorage.setItem(TOGGLE_LIST_NAME, newData);
+  try {
+    const getData = getToggleList();
+    const newData = JSON.stringify(getData.filter((item) => item !== id));
+    localStorage.setItem(TOGGLE_LIST_NAME, newData);
+  } catch (e) {
+    console.error(new Error("Toggled Local remove 실패"));
+  }
 }
 
-export function checkToggled(id) {
+/* is toggle? */
+export function isCheckedToggled(id) {
   const toggledList = getToggleList();
-
   return toggledList.includes(id.toString());
 }

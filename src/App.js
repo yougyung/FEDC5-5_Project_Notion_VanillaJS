@@ -9,8 +9,10 @@ import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
 import {
   getStorage,
+  isCheckedToggled,
   removeStorage,
   setStorage,
+  setToggleList,
 } from "./LocalStorage/LocalStorage.js";
 import {
   listPropValidation,
@@ -21,7 +23,7 @@ import HelpButton from "./Components/HelpCard/HelpButton.js";
 import HelpCard from "./Components/HelpCard/HelpCard.js";
 
 export default function App({ target }) {
-  /* App 관련 정보 */
+  /* App 생성 정보 */
   const appElement = document.createElement("section");
   target.appendChild(appElement);
   appElement.setAttribute("class", "app");
@@ -31,16 +33,18 @@ export default function App({ target }) {
     const lists = await request(url);
     /* 유효성 검사 */
     if (listPropValidation(lists)) {
+      /* 리스트 상태 변경 */
       menubar.setState(lists);
     }
   };
 
-  /* Page 호출후 local과 검사 */
-  // 이후 검사 항목을 담은 .js 파일에 옮겨담을 예정
+  /* Page 호출후 local과 비교 검사 */
   const getChechkedPage = async (id) => {
+    /* 호출 */
     const apiPage = await getPage(id);
     const localPage = getStorage(id);
 
+    /* 로컬 vs API 비교 */
     if (
       localPage &&
       localPage.updatedAt > apiPage.updatedAt &&
@@ -48,7 +52,6 @@ export default function App({ target }) {
     ) {
       return localPage;
     }
-
     return apiPage;
   };
 
@@ -61,14 +64,19 @@ export default function App({ target }) {
 
       /* delete */
       if (params.delete) {
+        /* 삭제후 리스트 상태변경 */
         await deletePage(id);
         getPageList("/documents");
 
+        /* is Toggle ? => remove localToggle data */
+        if (isCheckedToggled(id)) {
+          removeStorage(id);
+        }
         /* 현재 보고 있는 페이지에 대한 삭제 처리 */
         const { pathname } = window.location;
-        const checkId = pathname.split("/")[2];
+        const idInPath = pathname.split("/")[2];
 
-        if (checkId && checkId === id) {
+        if (idInPath && idInPath === id) {
           makeRouterEvent({ url: "/", event: "push" });
         }
       }
@@ -79,9 +87,14 @@ export default function App({ target }) {
           title: "제목 없음",
           parent: id,
         });
-        // 새로운 Page 추가시 List update
+
+        if (!isCheckedToggled(id)) {
+          setToggleList(id);
+        }
+        /* 리스트 상태 업데이트 */
         await getPageList("/documents");
-        // 만들어진 Page로 route 이동
+
+        /* new Page Route 이동 */
         makeRouterEvent({ url: `/documents/${newPage.id}`, event: "push" });
       }
     },
@@ -98,8 +111,10 @@ export default function App({ target }) {
 
     onEditing: (params) => {
       const { id } = params;
-
+      /* local 저장 */
       setStorage(params);
+
+      /* 디바운스 */
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -117,6 +132,7 @@ export default function App({ target }) {
   this.route = async () => {
     const { pathname } = window.location;
 
+    /* IndexPage */
     if (pathname === "/") {
       pageViewer.setState({ id: "Index" });
     }
@@ -135,10 +151,12 @@ export default function App({ target }) {
     }
   };
 
+  /* 사용 가이드 */
   const helpCard = new HelpCard({
     target: appElement,
   });
 
+  /* 가이드 토글 버튼 */
   const helpButton = new HelpButton({
     target: appElement,
     onClick: (newState) => {
