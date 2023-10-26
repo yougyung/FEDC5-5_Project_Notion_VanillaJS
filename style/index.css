@@ -9,8 +9,8 @@ body {
     display: flex;
 }
 
-/* sideBar */
-.sideBar {
+/* side-bar */
+.side-bar {
     position: fixed;
     top: 0;
     left: 0;
@@ -20,13 +20,13 @@ body {
     padding-top: 30px;
 }
 
-/* sideBar - Header */
+/* side-bar - Header */
 
-.sideBar header {
+.side-bar header {
     
 }
 
-.sideBar header h1{
+.side-bar header h1{
     position: relative;
     margin-bottom: 25px;
     cursor: pointer;
@@ -36,7 +36,7 @@ body {
     line-height: 40px;
 }
 
-.sideBar header h1::before {
+.side-bar header h1::before {
     position: absolute;
     left: 5px;
     top: 50%;
@@ -48,22 +48,22 @@ body {
     height: 50px;
 }
 
-.sideBar header > div {
+.side-bar header > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
     transition: all 0.2s;
-    padding: 10px;
+    padding: 20px 10px;
+    background: rgb(127 127 127 / 10%);
 }
 
-.sideBar header > div:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    color: rgb(55, 53, 47);
-    font-weight: 600
+.side-bar header > div strong {
+    font-size: 20px;
+    font-weight: bold
 }
 
-.sideBar header > div button {
+.side-bar header > div button {
     position: relative;
     top: 2px;
     width: 18px;
@@ -76,18 +76,19 @@ body {
     background-repeat: no-repeat;
     background-color: transparent;
     padding: 0;
+    z-index: 1;
 }
 
-/* sideBar - Nav */
+/* side-bar - Nav */
 
-.sideBar .leftBar {
+.side-bar .left-bar {
     width: 400px;
     height: 100vh;
     overflow: auto;
-    max-height: 696px;
+    max-height: 646px;
 }
 
-.sideBar .leftBar button {
+.side-bar .left-bar button {
     width: 18px;
     height: 18px;
     cursor: pointer;
@@ -99,7 +100,7 @@ body {
     padding: 0;
 }
 
-.sideBar .leftBar li .toggle {
+.side-bar .left-bar li .toggle {
     margin-left: 10px;
     background-image: url('../images/nav/toggle.png');
     background-size: 10px 11px;
@@ -108,18 +109,18 @@ body {
     transform: rotate(90deg);
 }
 
-.sideBar .leftBar li.hide .toggle {
+.side-bar .left-bar li.hide .toggle {
     transform: rotate(0);
 }
 
-.sideBar .leftBar .remove {
+.side-bar .left-bar .remove {
     position: relative;
     top: -2px;
     background-image: url('../images/nav/trash.png');
     margin-right: 5px;
 }
 
-.sideBar .leftBar .create {
+.side-bar .left-bar .create {
     width: 18px;
     height:21px;
     background-image: url('../images/nav/add.png');
@@ -127,11 +128,11 @@ body {
     margin-right: 10px;
 }
 
-.sideBar .leftBar > ul {
+.side-bar .left-bar > ul {
     position: relative;
 }
 
-.sideBar .leftBar ul li {
+.side-bar .left-bar ul li {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -139,13 +140,7 @@ body {
     line-height: 40px;
 }
 
-.sideBar .leftBar ul li:hover {
-    background-color: #e9e9e9;
-    color: rgb(55, 53, 47);
-    font-weight: 600
-}
-
-.sideBar .leftBar ul li span {
+.side-bar .left-bar ul li span {
     width: calc(100% - 88px);
     text-align: left;
     cursor: pointer;
@@ -156,20 +151,29 @@ body {
     overflow: hidden;
 }
 
-.sideBar .leftBar ul li > ul {
+.side-bar .left-bar ul li:hover {
+    background-color: #e9e9e9;
+    color: rgb(55, 53, 47);
+}
+
+.side-bar .left-bar ul li:hover span {
+    font-weight: 600;
+}
+
+.side-bar .left-bar ul li > ul {
     display: block;
     width: 100%;
 }
 
-.sideBar .leftBar ul li ul {
+.side-bar .left-bar ul li ul {
     margin-left: 1em;
 }
 
-.sideBar .leftBar ul li.hide > ul {
+.side-bar .left-bar ul li.hide > ul {
     display: none;
 }
 
-/* sideBar - footer */
+/* side-bar - footer */
 footer {
     position: absolute;
     right: 0;
@@ -203,20 +207,20 @@ footer a.velog {
 
 /* Editor */
 .editor-wrap {
+    display: none;
     width: 100%;
     max-width: 1800px;
     margin: 0 30px;
     padding-left: 400px;
-    padding-top : 30px;
+    padding-top : 40px;
+}
+
+.editor-wrap.show {
+    display: block;
 }
 
 .editor-wrap .editor {
     width: 100%;
-    display: none;
-}
-
-.editor-wrap .editor.show {
-    display: block;
 }
 
 .editor-wrap .editor input {
@@ -241,3 +245,69 @@ footer a.velog {
     font-size: 16px;
     font-family: 'Noto Sans KR', sans-serif;
 }
+
+.editor-footer {
+    display: none;
+}
+
+.editor-footer.show {
+    display: block;
+}
+
+.editor-footer ul {
+    border-top: 2px solid #737373;
+    margin-bottom: 20px;
+}
+
+.editor-footer ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    line-height:40px;
+    border-bottom: 1px solid #ccc;
+    transition: background 0.2s;
+    padding: 5px 10px;
+}
+
+.editor-footer ul li:hover{
+    background: #fbfbfa;
+}
+
+.editor-footer ul li:hover strong {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.editor-footer ul li strong {
+    display: inline-block;
+    width: calc(100% - 104px);
+    font-size: 18px;
+    margin: 10px 0;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.editor-footer ul li span {
+    display: inline-block;
+    width: 84px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* contenteditable */
+.content {
+    width: 100%;
+    height: 750px;
+    /* border:1px solid red; */
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+[contenteditable="true"]:empty:before {
+    content: attr(placeholder);
+ }
