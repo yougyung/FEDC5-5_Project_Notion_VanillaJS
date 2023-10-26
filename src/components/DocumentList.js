@@ -130,4 +130,12 @@ export default function DocumentList({
 			onCreatePage(JSON.parse(id));
 			return;
 		}
+
+		if ($button.name === 'delete') {
+			const $li = $button.closest('li');
+			const { id } = $li.dataset;
+			onDeletePage(JSON.parse(id), $li);
+			return;
+		}
+	});
 }
