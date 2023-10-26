@@ -38,6 +38,19 @@ export default function App({ $target, initialState }) {
 			subDocumentLinkList.setState(nextState);
 			push(`${DOCUMENTS}/${id}`);
 		},
+		onDeletePage: async (id, target) => {
+			await this.fetch({ url: `${DOCUMENTS}/${id}`, method: DELETE });
+
+			await this.fetch({
+				url: DOCUMENTS,
+				method: GET,
+				callback: this.setState,
+			});
+			breadcrumb.setState([]);
+			subDocumentLinkList.setState([]);
+			push(`/`);
+		},
+	});
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
 				method: GET,
