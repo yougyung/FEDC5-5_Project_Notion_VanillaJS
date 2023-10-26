@@ -4,21 +4,22 @@ export default class Board {
 
     constructor({ rootElement, onChangeTitle }) {
         this.onChangeTitle = onChangeTitle.bind(this);
+        this.boardElement = document.createElement('div');
+        this.titleEditorElement = document.createElement('h1');
+        this.titleEditorElement.placeholder = "제목 없음";
         this.editorElement = document.createElement('form');
         this.editorElement.className = "textEditor";
+        this.titleEditorElement.setAttribute("contenteditable", "true");
         this.editorElement.setAttribute("contenteditable", "true");
-        rootElement.appendChild(this.editorElement);
-    }
-    setDocuments(id) {
-        this.id = id;
-        this.loadDocument();
-    }
+        rootElement.appendChild(this.boardElement);
+        this.boardElement.appendChild(this.titleEditorElement);
+        this.boardElement.appendChild(this.editorElement);
 
-    async loadDocument() {
-        const req = await request(`/documents/${this.id}`, { method: `GET` });
-        this.title = req.title;
-        this.content = req.content;
-        this.editorElement.innerHTML = this.content;
+        this.titleEditorElement.addEventListener("keyup", (e) => {
+            const titleTextContent = e.target.textContent.length > 0 ? e.target.textContent : "제목 없음";
+            this.updateDocument(titleTextContent, this.editorElement.textHTML);
+        });
+
         this.editorElement.addEventListener("keyup", (e) => {
             const textHTML = e.target.innerHTML;
             const findDiv = this.editorElement.querySelector('div');
@@ -30,8 +31,18 @@ export default class Board {
                 this.editorElement.appendChild(newLine);
             }
             this.convertHeadingTag(textHTML, e);
-            this.updateDocument('제목 없음', textHTML);
+            this.updateDocument(this.titleEditorElement.textContent, textHTML);
         });
+    }
+    setDocuments(id) {
+        this.id = id;
+        this.loadDocument();
+    }
+
+    async loadDocument() {
+        const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
+        this.titleEditorElement.textContent = title;
+        this.editorElement.innerHTML = content;
     }
 
     convertHeadingTag(textHTML, e) {
