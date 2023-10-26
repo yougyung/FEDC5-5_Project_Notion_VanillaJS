@@ -6,7 +6,7 @@ const rootElement = document.querySelector('#app');
 
 const sidebar = new Sidebar({
     rootElement,
-    onEvent: (id) => {
+    onSetPage: (id) => {
         page.setDocument(id);
     },
     onDeleteItem: () => {

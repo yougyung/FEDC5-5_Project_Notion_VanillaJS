@@ -5,7 +5,7 @@ import DocumentItem from "./DocumentItem.js";
 import { addDocumentButton, serachButton, sidebarHeader } from "./DocumentOptions.js"
 
 export default class Sidebar {
-    constructor({ rootElement, onEvent, onDeleteItem }) {
+    constructor({ rootElement, onSetPage, onDeleteItem }) {
         const sidebarElement = document.createElement('div');
         sidebarElement.className = "sidebar";
         const searchButtonElement = serachButton();
@@ -20,7 +20,7 @@ export default class Sidebar {
                     })
                 }
                 ).then(({ id, title }) => {
-                    this.documentList.arr.push(new DocumentItem({ id, title, documents: [] }, this.documentList.documentListElement, onEvent, onDeleteItem));
+                    this.documentList.documentItemList.push(new DocumentItem({ id, title, documents: [] }, this.documentList.documentListElement, onSetPage, onDeleteItem));
                 })
             }
         });
@@ -28,7 +28,7 @@ export default class Sidebar {
         rootElement.appendChild(sidebarElement);
         sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
-        this.documentList = new DocumentList(sidebarElement, onEvent, onDeleteItem);
+        this.documentList = new DocumentList(sidebarElement, onSetPage, onDeleteItem);
         sidebarElement.appendChild(addDocumentButtonElement);
     }
 }

@@ -3,31 +3,31 @@ import DocumentItem from "./DocumentItem.js";
 
 export default class DocumentList {
 
-    arr = [];
+    documentItemList = [];
 
-    constructor(sidebarElement, onEvent, onDeleteItem) {
+    constructor(sidebarElement, onSetPage, onDeleteItem) {
         this.documentListElement = document.createElement('ul');
         this.documentListElement.className = "parentPageList";
         sidebarElement.appendChild(this.documentListElement);
-        this.onEvent = onEvent;
+        this.onSetPage = onSetPage;
         this.onDeleteItem = onDeleteItem;
         this.init();
     }
     async init() {
         this.documentlist = await request("/documents");
         this.documentlist.map((documentitem) => {
-            this.arr.push(new DocumentItem(documentitem, this.documentListElement, this.onEvent, this.onDeleteItem));
+            this.documentItemList.push(new DocumentItem(documentitem, this.documentListElement, this.onSetPage, this.onDeleteItem));
         });
     }
     updateDocumentTitle(id, title) {
         const findNode = () => {
-            const queue = [...this.arr];
+            const queue = [...this.documentItemList];
             while (queue.length) {
                 const nowNode = queue.shift();
                 if (nowNode.item.id === id) {
                     return nowNode;
                 }
-                nowNode.arr.map((documentItem) => {
+                nowNode.documentItemList.map((documentItem) => {
                     queue.unshift(documentItem);
                 });
             }

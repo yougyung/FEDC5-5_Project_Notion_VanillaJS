@@ -2,16 +2,14 @@ import request from "../../api.js";
 
 export default class DocumentItem {
 
-    arr = [];
+    documentItemList = [];
 
-    constructor(item, parentElement, onEvent, onDeleteItem) {
+    constructor(item, parentElement, onSetPage, onDeleteItem) {
         this.item = item;
         this.isSlotOpen = false;
 
-        if (onDeleteItem) {
-            onDeleteItem = onDeleteItem.bind(this);
-        }
-        if (onEvent) onEvent = onEvent.bind(this);
+        if (onDeleteItem) onDeleteItem = onDeleteItem.bind(this);
+        if (onSetPage) onSetPage = onSetPage.bind(this);
 
         this.parentElement = parentElement;
         this.parentListElement = document.createElement('li');
@@ -45,12 +43,12 @@ export default class DocumentItem {
         deleteButtonElement.textContent = "x";
 
         item.documents.map((documentItem) => {
-            this.arr.push(new DocumentItem(documentItem, this.childListElement, onEvent, onDeleteItem));
+            this.documentItemList.push(new DocumentItem(documentItem, this.childListElement, onSetPage, onDeleteItem));
         });
 
         this.documentNameLabelElement.addEventListener('click', (event) => {
             if (event.target.id === "documentbtn" + this.item.id) {
-                onEvent(this.item.id);
+                onSetPage(this.item.id);
             }
         });
         this.slotButtonElement.addEventListener('click', (event) => {
@@ -69,7 +67,7 @@ export default class DocumentItem {
                         "parent": this.item.id
                     })
                 }).then(({ id, title }) => {
-                    this.arr.push(new DocumentItem({ id, title, documents: [] }, this.childListElement, onEvent, onDeleteItem));
+                    this.documentItemList.push(new DocumentItem({ id, title, documents: [] }, this.childListElement, onSetPage, onDeleteItem));
                 })
             }
         });
@@ -90,7 +88,8 @@ export default class DocumentItem {
         });
         this.render();
     }
-    
+
+
     render() {
         this.slotImgElement.src = this.isSlotOpen ? "../../../public/slotopen.png" : "../../../public/slotclose.png";
         this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
