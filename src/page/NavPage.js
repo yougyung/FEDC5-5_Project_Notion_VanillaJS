@@ -94,6 +94,7 @@ export default function NavPage({ $target }) {
     const initialWidth = $nav.offsetWidth;
     if (Math.abs(startX - initialWidth) > 10) {
       e.target.classList.remove("resize-cursor");
+      $nav.classList.remove("resize-cursor");
       $nav.classList.remove("thick-border");
     } else {
       e.target.classList.add("resize-cursor");
