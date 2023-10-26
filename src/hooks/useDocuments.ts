@@ -22,9 +22,9 @@ const useDocuments = () => {
 
       navigateTo(`/documents/${postedDocument.id}`);
 
-      fetchDocuments();
+      await fetchDocuments();
     } catch (error) {
-      console.error(error);
+      throw new Error("Failed to create document");
     }
   };
 
@@ -32,10 +32,10 @@ const useDocuments = () => {
     try {
       const updatedDocument = await updateDocument({ id, title, content });
 
-      fetchDocuments();
+      await fetchDocuments();
       return updatedDocument;
     } catch (error) {
-      console.error(error);
+      throw new Error("Failed to update document");
     }
   };
 
@@ -43,10 +43,10 @@ const useDocuments = () => {
     try {
       const deletedDocument = await deleteDocument(id);
 
-      fetchDocuments();
+      await fetchDocuments();
       return deletedDocument;
     } catch (error) {
-      console.error(error);
+      throw new Error("Failed to delete document");
     }
   };
 
