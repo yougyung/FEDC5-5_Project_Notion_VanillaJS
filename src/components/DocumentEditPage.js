@@ -51,4 +51,45 @@ export default function DocumentEditPage({
 			content: textContent.toString(),
 		});
 	});
+
+	$divContent.addEventListener('input', (event) => {
+		const { target } = event;
+		const { value } = document.querySelector('input[name=title]');
+		const { id } = this.state;
+
+		const parser = new DOMParser();
+		const htmlContent = target.innerHTML;
+		const $contenteditableBody = parser.parseFromString(
+			htmlContent,
+			'text/html',
+		);
+
+		const $div = document.createElement('div');
+		if (!$contenteditableBody.body.firstChild.tagName)
+			$div.appendChild($contenteditableBody.body.firstChild);
+		const contents = [$div, ...$contenteditableBody.body.children];
+		const nextContent = contents.map((element) => {
+			if (element.innerHTML.indexOf('# ') === 0) {
+				const tag = 'H1';
+				const content = element.innerHTML.substr(2);
+				return { tag, content };
+			} else if (element.innerHTML.indexOf('## ') === 0) {
+				const tag = 'H2';
+				const content = element.innerHTML.substr(3);
+				return { tag, content };
+			} else if (element.innerHTML.indexOf('### ') === 0) {
+				const tag = 'H3';
+				const content = element.innerHTML.substr(3);
+				return { tag, content };
+			} else {
+				const tag = element.tagName;
+				const content = element.innerHTML;
+				return { tag, content };
+			}
+		});
+		onPostChange(id, {
+			title: value.toString(),
+			content: JSON.stringify(nextContent),
+		});
+	});
 }
