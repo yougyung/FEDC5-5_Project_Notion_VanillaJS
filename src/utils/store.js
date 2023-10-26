@@ -35,3 +35,10 @@ export const useDocsIndex = new useStatePublisher({
   flattenMapData: null,
   subscribers: [],
 });
+
+export const useToolbar = new useStatePublisher({
+  visible: false,
+  offsetX: 0,
+  offsetY: 0,
+  subscribers: [],
+});

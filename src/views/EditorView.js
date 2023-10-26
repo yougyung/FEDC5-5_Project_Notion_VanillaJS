@@ -3,11 +3,12 @@ import EditorHeader from "../components/editor/EditorHeader.js";
 
 import { _GET, _POST, _PUT } from "../api/api.js";
 import { NEW_DOCUMENT_INIT_ID } from "../utils/constants.js";
-import { useDocsIndex, useDocument } from "../utils/store.js";
+import { useDocsIndex, useDocument, useToolbar } from "../utils/store.js";
 import {
   createDocumentTreeFromIndex,
   flattenDocumentIndex,
 } from "../utils/updateDocumentsIndex.js";
+import EditorToolbar from "../components/editor/EditorToobar.js";
 
 const DocumentProps = {
   id: "string",
@@ -101,9 +102,7 @@ export default function EditorView({ $parent, initState }) {
     },
   });
 
-  const editorHeader = new EditorHeader({
-    $parent: $component,
-  });
+  const editorToolbar = new EditorToolbar({ $parent: $component });
   // =========================================================== COMPONENTS //
 
   this.state = initState;
@@ -141,7 +140,6 @@ export default function EditorView({ $parent, initState }) {
 
     useDocument.setState(this.state.documentData);
     editor.render();
-    editorHeader.render();
   };
 
   this.render = () => {
@@ -168,4 +166,9 @@ export default function EditorView({ $parent, initState }) {
     }
   };
   // =========================================================== API CALL //
+
+  // subscribers //
+  useToolbar.setState({
+    subscribers: [editorToolbar],
+  });
 }

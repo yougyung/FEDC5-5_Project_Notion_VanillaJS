@@ -4,7 +4,7 @@ import {
   EDITOR_VALUE_CHANGE_EVENT_NAME,
   NEW_DOCUMENT_INIT_ID,
 } from "../../utils/constants.js";
-import { useDocument } from "../../utils/store.js";
+import { useDocument, useToolbar } from "../../utils/store.js";
 
 /**
  * @description 편집기 뷰의 편집 컴포넌트
@@ -59,5 +59,37 @@ export default function Editor({ $parent, onEditing }) {
   });
   $textarea?.addEventListener(EDITOR_VALUE_CHANGE_EVENT_NAME, () => {
     onEditing(useDocument.state);
+  });
+
+  let position = { x: 0, y: 0 };
+  $textarea.addEventListener("mousedown", (event) => {
+    const { pageX, pageY } = event;
+    position.x = pageX;
+    position.y = pageY;
+  });
+
+  $textarea.addEventListener("mouseup", (event) => {
+    event.preventDefault();
+    const { selectionStart, selectionEnd } = $textarea;
+
+    console.log(selectionStart, selectionEnd);
+    console.log(position, event.offsetX, event.offsetY);
+
+    if (selectionStart === selectionEnd) {
+      position.x = 0;
+      position.y = 0;
+
+      useToolbar.setState({
+        visible: false,
+      });
+
+      return;
+    }
+
+    useToolbar.setState({
+      visible: true,
+      offsetX: position.x - 60,
+      offsetY: position.y - 100,
+    });
   });
 }
