@@ -5,7 +5,7 @@ export const initStorage = (key, defaultValue = [], storage = window.localStorag
   const appendItem = (value) => {
     const storedValue = getItem();
 
-    storage.setItem(key, JSON.stringify(...new Set([...storedValue, value])));
+    storage.setItem(key, JSON.stringify([...new Set([...storedValue, value])]));
   };
   const toggleItem = (value) => {
     const storedValue = getItem();
