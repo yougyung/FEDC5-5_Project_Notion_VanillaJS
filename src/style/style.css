@@ -199,7 +199,6 @@ button:hover {
     position: fixed;
     bottom: 0;
     width: inherit;
-    padding: 12px;
 }
 
 .editPage_footer button {
@@ -209,6 +208,7 @@ button:hover {
     font-size: 14px;
     padding: 5px 10px;
     cursor: pointer;
+    margin: 22px;
 }
 
 .editPage_footer button:hover {

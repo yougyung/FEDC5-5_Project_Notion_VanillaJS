@@ -24,7 +24,7 @@ export default function Editor({
     this.render = () => {
         if (isinitialize) {
             $editor.innerHTML = `
-            <input type = "text" class="title" name = "title" style = "width: 600px;"  autofocus = true;placeholder="제목 없음" value = "${this.state.title}"/>
+            <input type = "text" class="title" name = "title" style = "width: 600px;" placeholder="제목 없음" value = "${this.state.title}"/>
             <textarea name = "content" class="content" style = "width: 600px; height: 400px"placeholder="내용을 입력하세요.">${this.state.content}</textarea>
         `
             isinitialize = false
