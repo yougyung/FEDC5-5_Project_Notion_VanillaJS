@@ -90,6 +90,11 @@ img {
   background-color: #dcdcdc;
 }
 
+.linktext {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* 모달 */
 .modal {
   position: fixed;

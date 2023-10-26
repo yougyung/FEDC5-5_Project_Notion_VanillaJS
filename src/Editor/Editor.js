@@ -1,4 +1,5 @@
 import ResizeMenu from "../MenuBar/ResizeMenu.js";
+import { linkText } from "../Util/postStorage.js";
 import { applyMarkup, removeMarkup } from "../Util/TextScan.js";
 import { setCustomEvent } from "../Util/Router.js";
 
@@ -37,11 +38,17 @@ export default function Editor({ $target, initialState, EditPost }) {
     });
     // 포스트 content 수정 시 서버 저장
     $editor.addEventListener("keyup", (e) => {
-      const editText = applyMarkup($editor.innerText);
-      console.log(editText);
+      const linkData = linkText($editor.innerText);
+      const editText = applyMarkup(linkData);
       const titleText = $title.innerText;
 
       EditPost(titleText, editText, this.state.id);
+    });
+  };
+
+  const onClickTextRoute = () => {
+    [...$editor.querySelectorAll(".linktext")].forEach((item) => {
+      item.addEventListener("click", (e) => setCustomEvent(item.id));
     });
   };
 
@@ -76,9 +83,9 @@ export default function Editor({ $target, initialState, EditPost }) {
       const $div = document.createElement("div");
       $div.setAttribute("class", " link");
       $div.contentEditable = false;
-      $div.style.width = "auto";
+      $div.style.paddingTop = "5px";
 
-      $div.innerHTML = `📃 ${element.title} <br>`;
+      $div.innerHTML = `📃 ${element.title}<br>`;
 
       $div.addEventListener("click", (e) => setCustomEvent(element.id));
       $editor.appendChild($div);
@@ -86,5 +93,6 @@ export default function Editor({ $target, initialState, EditPost }) {
 
     onEditTextKeyUpEvent();
     removeMarkup($editor);
+    onClickTextRoute();
   };
 }

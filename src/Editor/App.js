@@ -37,7 +37,7 @@ export default function App({ $target, initialState }) {
       if (timerId !== null) clearTimeout(timerId);
 
       timerId = setTimeout(async () => {
-        const data = await fetchData(id, {
+        await fetchData(id, {
           method: "PUT",
           body: JSON.stringify({
             title,

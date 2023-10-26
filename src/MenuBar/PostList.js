@@ -1,5 +1,6 @@
 import { HTTPRequest } from "../Util/Api.js";
 import { getItem, removeItem } from "../Util/Storage.js";
+import { pushPostStorage } from "../Util/postStorage.js";
 import Modal from "./Modal.js";
 
 export default function PostList({ $target, initialState, onRenderContents }) {
@@ -99,21 +100,24 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     const data = await fetchData(`/${id}`);
     const localData = getItem(LOCAL_STORAGE_KEY + id, data);
 
+    // 로컬 데이터가 존재한다면, 로컬데이터를 가져오든 서버 데이터를 가져오든 가져온 뒤에는 로컬 데이터 제거
     if (localData.RecentlyAt && data.updatedAt < localData.RecentlyAt) {
+      // 로컬 스토리지 데이터를 가져오는 경우
       if (confirm("현재 저장되지 않은 데이터가 있습니다. 불러 오시겠습니까?")) {
-        // 서버 데이터를 로컬 데이터로 수정
+        // 로컬 데이터를 서버에 저장
         await fetchData(`/${id}`, {
           method: "PUT",
           body: JSON.stringify({
-            title: data.title,
+            title: localData.title,
             content: localData.content,
           }),
         });
 
+        removeItem(LOCAL_STORAGE_KEY + id);
         onRenderContents(id);
       } else {
-        // 로컬의 데이터가 아닌 서버의 데이터를 렌더링 한다면 해당 Id를 키로 가진 로컬 데이터 삭제 후 해당 id로 라우팅
-        removeItem(LOCAL_STORAGE_KEY + +id);
+        // 서버의 데이터를 가져올 경우
+        removeItem(LOCAL_STORAGE_KEY + id);
         onRenderContents(id);
       }
 
@@ -156,6 +160,8 @@ export default function PostList({ $target, initialState, onRenderContents }) {
     if (depth === 0) {
       data.forEach((rootItem) => {
         const { title, id, documents } = rootItem;
+        // API 데이터 저장
+        pushPostStorage(rootItem);
         const $details = document.createElement("details");
 
         $details.innerHTML = `
@@ -179,6 +185,8 @@ export default function PostList({ $target, initialState, onRenderContents }) {
 
       data.forEach((childData) => {
         const { title, id, documents } = childData;
+        // API 데이터 저장
+        pushPostStorage(childData);
         const $details = document.createElement("details");
 
         $details.innerHTML = `
