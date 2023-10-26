@@ -148,4 +148,24 @@ export default function App({ $target, initialState }) {
 
 	initRouter(() => this.route());
 
+	window.addEventListener('popstate', async (event) => {
+		const { pathname } = document.location;
+
+		if (pathname === '/') {
+			breadcrumb.setState([]);
+			documentEditPage.setState();
+			subDocumentLinkList.setState([]);
+		} else if (pathname.split('/').length === 3) {
+			const [, , id] = pathname.split('/');
+			const nextState = await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: GET,
+			});
+			documentEditPage.setState(nextState);
+			const breadcrumbPath = getBreadcrumb(this.state, id);
+			breadcrumb.setState(breadcrumbPath);
+			subDocumentLinkList.setState(nextState);
+		}
+	});
+
 }
