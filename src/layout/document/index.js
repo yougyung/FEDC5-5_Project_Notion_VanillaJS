@@ -39,7 +39,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	this.render = () => {
 		const { title } = this.state;
 		$document.innerHTML = `
-		<h1 contenteditable="true" class="document__title">${title}</h1>
+		<h1 contenteditable="true" class="document__title" style="margin-top:0px;">${title}</h1>
 		<div class="document__content"></div>
 		`;
 		test();
