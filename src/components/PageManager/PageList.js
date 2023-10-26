@@ -15,9 +15,9 @@ export default function PageList({
     this.state = nextState;
     this.render();
   };
-  const renderPageSubTree = (pageTree) => {
+  const renderPageSubTree = (pageTree, isRoot = false) => {
     return `
-      <ul>
+      <ul style='${isRoot ? "display:block" : "display:none"}'>
         ${pageTree
           .map(
             (page) =>
@@ -85,7 +85,7 @@ export default function PageList({
 
   this.render = () => {
     console.log(this.state);
-    $pageList.innerHTML = renderPageSubTree(this.state);
+    $pageList.innerHTML = renderPageSubTree(this.state, true);
   };
 
   $pageList.addEventListener("click", (e) => {
@@ -95,6 +95,14 @@ export default function PageList({
     if (id === undefined) return;
     const className = e.target.className;
     if (className === "toggle_button") {
+      const $ul = $li.querySelector("ul");
+      if ($ul) {
+        if ($ul && $ul.style.display === "none") {
+          $ul.style.display = "block";
+        } else {
+          $ul.style.display = "none";
+        }
+      }
     } else if (className === "item_title") {
       onPageSelect(id);
     } else if (className === "delete_button") {
