@@ -32,6 +32,10 @@ body {
   overflow-y: auto;
 }
 
+.sideBarPageList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
 .sideBarHeader {
   display: block;
   flex-shrink: 0;
@@ -55,13 +59,25 @@ ul {
 
 li {
   margin: 1px;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   list-style-type: none;
 }
 
 li:hover {
   background-color: rgb(229, 229, 229);
+}
+
+ul[data-isfolded="false"],
+li[data-isfolded="false"] {
+  display: block;
+  /* color: red; */
+}
+
+ul[data-isfolded="true"],
+li[data-isfolded="true"] {
+  display: none;
+  /* color: black; */
 }
 
 .textAreaWrapper {
@@ -114,14 +130,26 @@ li:hover {
   outline: none;
 }
 
-button {
+.textArea-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+#addPageButton {
   /* 상우하좌 */
   margin: 0px, 1px, 0px, 1px;
   border-radius: 2px;
   border: none;
 }
 
-button:hover {
+#addDeletePageButton {
+  /* 상우하좌 */
+  margin: 0px, 1px, 0px, 1px;
+  border-radius: 2px;
+  border: none;
+}
+
+#addPageButton:hover,
+#addDeletePageButton:hover {
   border-radius: 5px;
   background-color: #949494;
 }
@@ -144,11 +172,27 @@ button:hover {
   background-color: #949494;
 }
 
+#toggleFoldButton {
+  border: 0;
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  /* transform: rotate(90deg); */
+}
+#toggleFoldButton:hover {
+  background-color: #949494;
+}
+
 .textArea-childLink {
   display: flex;
   overflow-x: scroll;
   height: 45px;
   flex-direction: row;
+}
+
+.textArea-childLink::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 .textArea-childDiv {
