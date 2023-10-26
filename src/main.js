@@ -6,7 +6,7 @@ const rootElement = document.querySelector('#app');
 const sidebar = new Sidebar({
     rootElement,
     onEvent: (id) => {
-        page.editor.setDocuments(id);
+        page.setDocuments(id);
     }
 });
 const page = new Page({

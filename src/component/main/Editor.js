@@ -58,7 +58,7 @@ export default class Editor {
             }
         });
     }
-    setDocuments(id) {
+    changeDocument(id) {
         this.id = id;
         this.loadDocument();
     }

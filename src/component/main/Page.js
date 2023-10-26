@@ -8,7 +8,12 @@ export default class Page {
         pageElement.className = "page";
         this.PageTitle = new PageTitle(pageElement);
         this.editor = new Editor({ pageElement, onChangeTitle });
-
         rootElement.appendChild(pageElement);
+    }
+
+    setDocument(id) {
+        this.id = id;
+        this.editor.changeDocument(id);
+        this.PageTitle.setTitle(id);
     }
 }
