@@ -130,4 +130,22 @@ export default function App({ $target, initialState }) {
 		if (callback) callback(response);
 		return response;
 	};
+
+	this.route = async () => {
+		const { pathname } = window.location;
+		if (pathname === '/') {
+			documentEditPage.setState();
+		} else if (pathname.indexOf(`${DOCUMENTS}/`) === 0) {
+			const [, , id] = pathname.split('/');
+			const nextState = await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: GET,
+			});
+			documentEditPage.setState(nextState);
+		}
+	};
+	this.route();
+
+	initRouter(() => this.route());
+
 }
