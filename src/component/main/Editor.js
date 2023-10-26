@@ -33,8 +33,8 @@ export default class Editor {
                 this.editorElement.removeChild(findDiv);
                 this.editorElement.appendChild(newLine);
             }
-            convertHeadingTag(textHTML, e);
-            updateDocument(this.titleEditorElement.textContent, textHTML);
+            this.convertHeadingTag(textHTML, e);
+            this.updateDocument(this.titleEditorElement.textContent, textHTML);
         });
     }
 

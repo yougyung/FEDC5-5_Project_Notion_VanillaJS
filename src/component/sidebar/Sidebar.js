@@ -25,6 +25,7 @@ export default class Sidebar {
                 })
             }
         });
+
         rootElement.appendChild(sidebarElement);
         sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
