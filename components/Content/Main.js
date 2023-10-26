@@ -25,7 +25,7 @@ export default class Main {
          <div id='main'>
          Main페이지입니다
       <div>왼쪽의 문서를 클릭해보세요</div> 
-      <button id='search'>검색</button>
+      <button id='search'>다크모드 적용하기</button>
                </div>`
   }
 }
