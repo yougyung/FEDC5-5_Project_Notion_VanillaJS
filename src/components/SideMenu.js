@@ -52,8 +52,8 @@ export default function SideMenu({
     const $postRemoveButton = e.target.closest("button[data-remove]");
     if ($postRemoveButton) {
       const { remove } = $postRemoveButton.dataset;
-      const $ul = $postRemoveButton.parentNode;
-      $ul.innerHTML = ""; // Optimistic update
+      const $li = $postRemoveButton.parentNode;
+      $li.innerHTML = ""; // Optimistic update
       onDeleteClick(remove);
     }
   });
