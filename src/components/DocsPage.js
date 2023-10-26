@@ -1,4 +1,5 @@
 import DocsList from './DocsList.js'
+import { request } from '../utils/api.js'
 
 const DUMMY_LIST = [
   {
@@ -29,11 +30,12 @@ export default function DocsPage({ $target }) {
   const $page = document.createElement('div')
   $page.id = 'sidebar'
   
-  new DocsList({
+  // DocsList 컴포넌트 생성
+  const docsList =  new DocsList({
     $target: $page,
-    initialState: DUMMY_LIST,
+    initialState: [],
     onClickAddRoot: () => {
-      // fetch 추가
+      // fetch 루트 추가
       console.log('루트페이지 추가 눌림')
     },
     onClickAddSub: (id) => {
@@ -46,8 +48,14 @@ export default function DocsPage({ $target }) {
     }
   })
 
+  const fetchDocuments = async () => {
+    const documents = await request(`/documents`)
+
+    docsList.setState(documents)
+  }
+
   this.render = () => {
-    console.log($page)
+    fetchDocuments()
     $target.appendChild($page)
   }
   this.render()

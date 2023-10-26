@@ -9,7 +9,13 @@ export default function DocsList({
   $list.className = 'documents-list'
   $target.appendChild($list)
 
-  // state 변수
+  /* [{ "id": 1,
+      "title": "문서제목",
+      "documents": [{...}],
+      "createdAt": Date
+      "updatedAt": Date
+     }]
+  */ 
   if (Array.isArray(initialState) && initialState) {
     this.state = initialState
   }
@@ -33,7 +39,7 @@ export default function DocsList({
       <ul>
         <li data-id="${id}" class="listItem">
           <label for="check"></label>
-          <input type="checkbox" name="hideToggle" id="hideCheck" />${title}
+          <input type="checkbox" name="hideToggle" id="hideCheck" />${!title ? '제목 없음' : title}
           <span class="button-group">
             <button class="deleteDocButton">x</button>
             <button class="addSubDocButton">+</button>
@@ -54,15 +60,18 @@ export default function DocsList({
   }
 
   this.render = () => {
-    $list.innerHTML = `
+    $list.innerHTML = (this.state.length === 0) 
+    ? renderButton()
+    : `
       <div role="listTree">
         ${this.state.map(document => renderList(document)).join('')
         + renderButton()}
       <div>
-    `
+      `
+    
     $target.appendChild($list)
   }
-  // 리스트 초기 렌더
+// 리스트 초기 렌더
   this.render()
 
   $list.addEventListener('click', e => {
@@ -86,7 +95,6 @@ export default function DocsList({
       e.target.checked
       ? e.target.parentNode.nextElementSibling.style.display = 'none'
       : e.target.parentNode.nextElementSibling.style.display = 'block'
-      //style.display = 'none'
     }
   })
 }
