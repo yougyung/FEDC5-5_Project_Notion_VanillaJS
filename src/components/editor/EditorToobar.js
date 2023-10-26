@@ -88,17 +88,22 @@ export default function EditorToolbar({ $parent }) {
     $component.style.display = "flex";
 
     // 자식컴포넌트가 부모컴포넌트를 넘어서는지를 알기 위한 변수
-    const toolbarOffsetRange = $component.offsetLeft + $component.offsetWidth;
+    const { offsetLeft, offsetWidth } = $component;
+    const toolbarOffsetRange = offsetLeft + offsetWidth;
     const parrentOffsetWidth = $parent.offsetWidth;
 
-    // console.log($component.offsetLeft, $component.offsetWidth);
-    // console.log(toolbarOffsetRange, parrentOffsetWidth);
+    console.log("offsetLeft, width", offsetLeft, offsetWidth);
+    console.log(
+      "toolbar offsetRight, parrentWidth",
+      toolbarOffsetRange,
+      parrentOffsetWidth
+    );
 
     // 자식 컴포넌트의 offsetLeft 으로부터의 길이가 부모 컴포넌트의 길이를 넘긴 경우
     // offsetLeft 지점이 끝지점이 됨.
     $component.style.left =
       toolbarOffsetRange > parrentOffsetWidth
-        ? `${offsetX - $component.offsetWidth}px`
+        ? `${offsetX - offsetWidth}px`
         : `${offsetX}px`;
     $component.style.top = `${offsetY}px`;
 

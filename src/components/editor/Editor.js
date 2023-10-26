@@ -72,8 +72,8 @@ export default function Editor({ $parent, onEditing }) {
     event.preventDefault();
     const { selectionStart, selectionEnd } = $textarea;
 
-    console.log(selectionStart, selectionEnd);
-    console.log(position, event.offsetX, event.offsetY);
+    // console.log(selectionStart, selectionEnd);
+    // console.log(position, event.offsetX, event.offsetY);
 
     if (selectionStart === selectionEnd) {
       position.x = 0;
