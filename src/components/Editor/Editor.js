@@ -1,3 +1,4 @@
+import { request } from "../../api/api.js";
 import { push } from "../../router.js";
 import ChildPageContainer from "./ChildPageContainer.js";
 
@@ -16,9 +17,10 @@ export default function Editor({
   const $childPageContainer = new ChildPageContainer({
     $target: $editor,
     initialState: (this.state && this.state.documents) || [],
-    onSubPageClick: (page) => {
-      this.setState(page);
-      push(`/${page.id}`);
+    onSubPageClick: async (id) => {
+      const pageInfo = await request(`/documents/${id}`);
+      this.setState(pageInfo);
+      push(`/${pageInfo.id}`);
     },
   });
 
