@@ -14,6 +14,7 @@ const styleObj = {
 
   NotionTitle: {
     textAlign: 'center',
+    cursor: 'pointer',
   },
 
   DocumentsList: { paddingLeft: '10px', width: 'calc(100%-10px)' },
@@ -21,13 +22,21 @@ const styleObj = {
   DocumentObject: {
     display: 'inline-flex',
     width: '100%',
+    cursor: 'pointer',
   },
 
   DocumentLinkButton: {
     flex: 1,
     margin: '0 10px',
+    cursor: 'pointer',
   },
 
+  DeleteDocumentButton: {
+    cursor: 'pointer',
+  },
+  NewDocumentButton: {
+    cursor: 'pointer',
+  },
   DocumentDetail: {
     width: '100%',
     display: 'flex',
@@ -50,11 +59,15 @@ const styleObj = {
     height: '50px',
     fontSize: '30px',
     paddingLeft: '10px',
+    marginBottom: '10px',
+    border: '0px solid black',
+    cursor: 'pointer',
   },
 
   DocumentContent: {
-    width: '100%',
+    width: '90%',
     height: '90vh',
+    cursor: 'pointer',
   },
 };
 

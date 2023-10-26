@@ -20,7 +20,6 @@ export default function DocumentContent({ $target, content, onEditContent, isDis
 
   this.state = { content, isDisabled };
   this.setState = nextState => {
-    console.log('DocumentContent setState', nextState);
     const content = nextState.content.startsWith('<div>') ? nextState.content : `<div>${nextState.content}</div>`;
     this.state = { ...nextState, content };
     this.render();

@@ -23,19 +23,6 @@ export default function HomePage({ $target }) {
     documentState: { id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] },
   });
 
-  this.setState = nextState => {
-    this.state = nextState;
-    this.route();
-  };
-
-  this.init = async () => {
-    const resqonseData = await request('/documents');
-    this.setState(resqonseData);
-    this.route();
-  };
-
-  this.init();
-
   const findDocumentDataById = id => {
     const documentPath = [];
 
@@ -58,11 +45,11 @@ export default function HomePage({ $target }) {
   };
 
   this.route = async () => {
-    // $homePage.innerHTML = '';
-
     const { pathname } = window.location;
 
     const newDocuments = await request(`/documents`);
+    this.state = newDocuments;
+
     if (pathname === '/') {
       // home 보여주기
       notionSideBar.setState(newDocuments);
@@ -88,6 +75,8 @@ export default function HomePage({ $target }) {
       documentDetail.setState(nextState);
     }
   };
+
+  this.route();
 
   initRouter(this.route);
 

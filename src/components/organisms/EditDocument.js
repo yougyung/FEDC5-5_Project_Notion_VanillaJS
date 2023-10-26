@@ -17,7 +17,6 @@ export default function EditDocument({ $target, initialState }) {
   this.state = initialState;
 
   this.setState = nextState => {
-    console.log('EditDocument setState', nextState);
     this.state = nextState;
     if (this.state.id === null) {
       documentTitle.setState({ title: this.state.title, isDisabled: true });
