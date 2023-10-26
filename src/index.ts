@@ -17,4 +17,8 @@ export function render() {
   componentInstance.bindEvents?.();
 }
 
+window.addEventListener("popstate", () => {
+  render();
+});
+
 render();
