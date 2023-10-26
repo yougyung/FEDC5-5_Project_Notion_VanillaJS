@@ -8,6 +8,10 @@ export default function ListPage({ $target, initialState }) {
   $docList.classList = "sidebar-list";
   this.state = initialState;
   let isInitialize = true;
+  const $newDocButton = document.createElement("div");
+  $newDocButton.classList = "new-folder";
+  $newDocButton.textContent = "새로운 폴더 생성";
+
   this.render = () => {
     $docList.innerHTML = ``;
   };
@@ -25,3 +29,12 @@ export default function ListPage({ $target, initialState }) {
   };
 
   init();
+  $newDocButton.addEventListener("click", async () => {
+    const req = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({ parent: null, title: "새로 생성된 파일" }),
+    });
+    await this.fetchDocumentsList();
+    push(`/documents/${req.id}`);
+  });
+
