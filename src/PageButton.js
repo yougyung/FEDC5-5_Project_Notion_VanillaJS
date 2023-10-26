@@ -1,7 +1,13 @@
 import { request } from "./utils/api.js";
 import { pushRoute, replaceRoute } from "./utils/router.js";
+import { localStorageSetItem } from "./utils/storage.js";
 
-export function pageAddDeleteButton({ $target, id = null, handleChangeList }) {
+export function pageAddDeleteButton({
+  $target,
+  id = null,
+  handleChangeList,
+  handleToggle,
+}) {
   const $buttonWrap = document.createElement("div");
 
   const $newPageButton = document.createElement("button");
@@ -24,8 +30,13 @@ export function pageAddDeleteButton({ $target, id = null, handleChangeList }) {
       }),
     });
     handleChangeList();
+    if (id) {
+      handleToggle();
+    }
     console.log(res);
     // res는 {id: 101069, title: '새로넣어보야옹22', createdAt: '2023-10-17T08:25:19.785Z', updatedAt: '2023-10-17T08:25:19.791Z'}
+    let DOC_TMP_KEY = `doc_tmp_${res.id}`;
+    localStorageSetItem(DOC_TMP_KEY, { open: false });
     pushRoute(`/docs/${res.id}`);
   });
 

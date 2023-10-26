@@ -21,6 +21,7 @@ export default function SideBar({ $target }) {
     $target: $sideBar,
     id: null,
     handleChangeList: async () => await this.setState(),
+    handleToggle: () => {},
   });
 
   // const searchBox = new SearchBox({ $target: "" }); //선언으로만 필요해서 $target주지 않음

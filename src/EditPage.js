@@ -2,7 +2,7 @@ import Editor from "./Editor.js";
 import SearchBox from "./SearchBox.js";
 import SubPages from "./SubPages.js";
 import { request } from "./utils/api.js";
-import { localStorageSetItem } from "./utils/storage.js";
+import { localStorageGetItem, localStorageSetItem } from "./utils/storage.js";
 
 export default function EditPage({ $target, initialState }) {
   // $wrapEditPage , 초기디폴트는 {docId: "new",  doc: {  title: "",  content: "",}, }
@@ -24,17 +24,19 @@ export default function EditPage({ $target, initialState }) {
     $target: $editPage,
     initialState: { title: "", content: "" },
     onEditing: async (nextState, type = "") => {
-      console.log("On eedinting 실행");
       // 디바운스
       clearTimeout(timer);
       clearTimeout(timerPost);
 
       timer = setTimeout(async () => {
+        const isOpen = localStorageGetItem(DOC_TMP_KEY).open;
         localStorageSetItem(DOC_TMP_KEY, {
           ...nextState,
           updatedAt: new Date(),
+          open: isOpen,
         });
-      }, 1000);
+      });
+
       if (type === "title") {
         //<< 제목의 경우 즉시 실행함수로 PUT
         const res = await request(`/documents/${nextState.id}`, {
