@@ -51,9 +51,10 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
     const $content = window.document.querySelector("#content") as HTMLDivElement;
     const $childDocuments = window.document.querySelector(`.${s_childDocuments}`) as HTMLDivElement;
 
-    const contentHtmlWitoutLinks = $content.innerHTML
-      ? $content.innerHTML.replace($childDocuments?.outerHTML, "" || "").trim()
-      : "";
+    const contentHtmlWithoutLinks =
+      $content.innerHTML && $childDocuments
+        ? $content.innerHTML.replace($childDocuments.outerHTML, "")
+        : $content.innerHTML || "";
 
     if (!$title.value) {
       $title.setAttribute("placeholder", "제목을 입력해주세요");
@@ -61,7 +62,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
 
     const title = $title.value || "Untitled";
 
-    debouncedUpdate(title, contentHtmlWitoutLinks);
+    debouncedUpdate(title, contentHtmlWithoutLinks);
   };
 
   const childDocumentLinksComponent = createComponent(ChildDocumentLinks, { documents: childDocuments });
@@ -86,9 +87,9 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
           <input id="title" type="text" class="${s_editorInput}" value="${documentForm.title}" placeholder="제목을 입력해주세요"/>
           <div id="content" class="${s_editorContent}" contenteditable="true">
             ${documentForm.content}
-            <div class="${s_childDocuments}" contenteditable="false">
-              ${childDocumentLinksComponent.element}
-            </div>
+          </div>
+          <div class="${s_childDocuments}" contenteditable="false">
+            ${childDocumentLinksComponent.element}
           </div>
         </fieldset>
       </form>
