@@ -52,6 +52,7 @@ li:hover {
 }
 
 .toggle-btn {
+  min-width: 13px;
   margin-right: 5px;
   transition: transform 0.2s;
   padding: 5px;
