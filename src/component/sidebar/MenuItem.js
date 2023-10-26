@@ -29,6 +29,7 @@ export default class MenuItem {
 
         this.parentListElement.id = this.item.id;
         this.documentNameLabelElement.textContent = this.item.title;
+        this.parentListElement.className = "childPageList";
         this.documentNameLabelElement.id = `documentbtn${item.id}`;
         this.slotImgElement.className = `slotbtn`;
         this.slotImgElement.id = `slotbtn${item.id}`;
@@ -36,6 +37,7 @@ export default class MenuItem {
         this.childListElement.style.display = "none";
         addButtonElement.id = `addbtn${item.id}`
         addButtonElement.textContent = "+";
+        deleteButtonElement.textContent = "x";
 
         item.documents.map((menuItem) => {
             this.arr.push(new MenuItem(menuItem, this.childListElement, onEvent));

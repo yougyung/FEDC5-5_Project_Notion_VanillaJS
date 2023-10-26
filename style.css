@@ -4,19 +4,51 @@ button {
     cursor: pointer;
 }
 
-ul {
-    list-style-type: none;
+button:hover {
+    background: rgb(235, 235, 235);
 }
 
+li:hover {
+    background: rgb(235, 235, 235);
+}
+
+.parentPageList,
+.childPageList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.parentPageList li {
+    margin-left: 0px;
+}
+
+.childPageList li {
+    margin-left: -25px;
+}
+
+
 .sidebar {
-    width: 600px;
+    width: 300px;
     height: 2000px;
     background-color: rgb(252, 251, 250);
 }
 
 .addDocumentButton {
     display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
 }
+
 
 .addDocumentButton img {
     width: 16px;
@@ -24,20 +56,10 @@ ul {
     margin-right: 10px;
 }
 
-.addDocumentButton {
-    display: flex;
-}
-
-.addDocumentButton img {
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
-}
 
 .slotbtn {
     width: 15px;
     height: 15px;
-
 }
 
 .textEditor {
@@ -55,6 +77,7 @@ ul {
     height: 20px;
     margin-left: 5px;
     margin-right: 3px;
+    margin-bottom: 15px;
 }
 
 .container {

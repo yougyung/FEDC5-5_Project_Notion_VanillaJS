@@ -7,6 +7,7 @@ export default class MenuList {
 
     constructor(sidebarElement, onEvent) {
         this.menuListElement = document.createElement('ul');
+        this.menuListElement.className = "parentPageList";
         sidebarElement.appendChild(this.menuListElement);
         this.onEvent = onEvent;
         this.init();
