@@ -11,6 +11,7 @@ const useDocuments = () => {
       const fetchedDocuments = await getDocuments();
 
       setDocuments(fetchedDocuments);
+      return fetchedDocuments;
     } catch (error) {
       console.error(error);
     }
@@ -23,6 +24,7 @@ const useDocuments = () => {
       navigateTo(`/documents/${postedDocument.id}`);
 
       await fetchDocuments();
+      return postedDocument;
     } catch (error) {
       throw new Error("Failed to create document");
     }
