@@ -84,10 +84,12 @@ export default function DocumentList({
 	$divListContainer.addEventListener('click', (event) => {
 		const { target } = event;
 
-		if (target.tagName !== 'SPAN') return;
-
-		const { id } = target.closest('li').dataset;
-		onTitleClick(id);
+		if (target.tagName === 'SPAN') {
+			const { id } = target.closest('li').dataset;
+			if (id === undefined) return;
+			onTitleClick(id.toString());
+			return;
+		}
 	});
 
 	$divCreateNewDocument.addEventListener('click', (event) => {
