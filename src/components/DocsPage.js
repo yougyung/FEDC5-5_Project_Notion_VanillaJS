@@ -39,7 +39,9 @@ export default function DocsPage({
   this.render()
 
   $page.addEventListener('click', (e) => {
-    const id = e.target.dataset.id
-    onDocumentClick(id)
+    if (e.target.className === 'listItem') {
+      const id = e.target.dataset.id
+      onDocumentClick(id)
+    }
   })
 }
