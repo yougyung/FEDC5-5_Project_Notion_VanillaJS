@@ -24,6 +24,14 @@ export default function App({ $target, initialState }) {
   const editor = new Editor({
     $target: $editor,
     initialState,
+    titlePost: async (title, id) => {
+      await fetchData(id, {
+        method: "PUT",
+        body: JSON.stringify({
+          title,
+        }),
+      });
+    },
     EditPost: async (title, content, id) => {
       // 제목, 내용, id, 현재 시간 로컬에 저장
       setItem(LOCAL_STORAGE_KEY + id, {

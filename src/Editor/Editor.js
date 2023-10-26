@@ -3,7 +3,7 @@ import { linkText } from "../Util/postStorage.js";
 import { applyMarkup, removeMarkup } from "../Util/TextScan.js";
 import { setCustomEvent } from "../Util/Router.js";
 
-export default function Editor({ $target, initialState, EditPost }) {
+export default function Editor({ $target, initialState, titlePost, EditPost }) {
   // 편집기 content 엘리먼트
   const $editor = document.createElement("div");
   $editor.setAttribute("class", "editDiv");
@@ -32,15 +32,14 @@ export default function Editor({ $target, initialState, EditPost }) {
     // 포스트 title 수정 시 서버 저장
     $title.addEventListener("keyup", (e) => {
       const titleText = $title.innerText;
-      const content = $editor.innerText;
 
-      EditPost(titleText, content, this.state.id);
+      titlePost(titleText, this.state.id);
     });
     // 포스트 content 수정 시 서버 저장
     $editor.addEventListener("keyup", (e) => {
+      const titleText = $title.innerText;
       const linkData = linkText($editor.innerText);
       const editText = applyMarkup(linkData);
-      const titleText = $title.innerText;
 
       EditPost(titleText, editText, this.state.id);
     });
