@@ -18,6 +18,7 @@ export default function App({$target}) {
         console.log(documents)
         this.setState(documents)
         sideBar.setState(documents)
+        //notionEditPage.setState(documents)
     }
 
     const addDocument = async (parent=null) => {
@@ -29,22 +30,7 @@ export default function App({$target}) {
             })
         })
 
-        //이미 editor켜져있는 상태에서 새로운 페이지를 생성하면
-        //주소가 docu/docu/id가됨 그리고
-        //edit에 내용이 그대로 남아있음..
-
-        //만약 루트에서 추가하느 ㄴ경우 다르게해야함
-        //루트에서 추가하는데 editor이 켜져있어서 이미 주소가 document인경우..
-        if(parent==null) {
-            push(`../documents/${res.id}`)
-        }
-        
-        else {
-            push(res.id)
-        }
-        
-        //push()
-
+        push(`../documents/${res.id}`)
 
         this.route();
     }

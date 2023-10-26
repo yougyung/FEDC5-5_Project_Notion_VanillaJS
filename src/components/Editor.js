@@ -16,6 +16,7 @@ export default function Editor({ $target, initialState = {
 
     this.setState = nextState => {
         this.state = nextState
+        console.log(this.state)
         this.render()
     }
 /*
@@ -57,10 +58,12 @@ export default function Editor({ $target, initialState = {
 
 
     this.render = () => {
+        console.log(this.state.content)
         const richContent = this.state.content == null ? '' : this.state.content
-            .split('\n')
+            .split('<div>')
             .map(line => {
-                console.log(line)
+                line = line.replace('</div>','')
+                if(line === '') return ''
                 if(line.indexOf('# ') === 0) {
                     return `<h1>${line.substring(2)}</h1>`
                 }
@@ -73,8 +76,8 @@ export default function Editor({ $target, initialState = {
                 else if(line.indexOf('#### ') === 0) {
                     return `<h4>${line.substring(5)}</h4>`
                 }
-                return line
-            }).join('<br>')
+                return `<div>${line}</div>`
+            }).join('')
 
         $editor.querySelector('[name=title]').value = this.state.title
         $editor.querySelector('[name=content]').innerHTML = richContent//this.renderRichContent(this.state.content) || ''
@@ -92,10 +95,21 @@ export default function Editor({ $target, initialState = {
         onEditing(this.state)
     })
 
+    //한글 입력시 맨 앞줄에서 제자리를 멤도는 케이스 방지
+    let isComposition = false;
+
+    $editor.querySelector('[name=content]').addEventListener('compositionstart', () => {
+        isComposition = true;
+    });
+
+    $editor.querySelector('[name=content]').addEventListener('compositionend', () => {
+        isComposition = false;
+    });
+
     $editor.querySelector('[name=content]').addEventListener('input', e=> {
-        if(e.isComposing) {
-            return
-        }
+        if (isComposition) {
+            return;
+          }
         
         const nextState = {
             ...this.state,
@@ -108,23 +122,22 @@ export default function Editor({ $target, initialState = {
         handleCursor(e.target);
     })
 
-
     const handleCursor = (element) => {
-
+        console.log(element)
+        /*
         if(element.innerText.length === 0) {
             element.focus()
             return
         }
+        */
         const range = document.createRange();
         const selection = window.getSelection();
-        
+        console.log(range, selection)
+        //getSelection().collapse(element.childNodes[0], 0)
         range.selectNodeContents(element)
         range.collapse(false); // move to the end of the range
 
         selection?.removeAllRanges();
         selection?.addRange(range);
-        //range.deleteContents()
-        
     }
-    
 }

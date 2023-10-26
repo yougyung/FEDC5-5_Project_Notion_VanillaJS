@@ -20,7 +20,7 @@ export default function NotionEditPage({$target, fetchDocuments}) {
             this.render();
           } else {
             //이거 왜 오류나지?
-            console.log($target.childNodes.length >= 2)
+            console.log($target.childNodes)
             if($target.childNodes.length >= 2) {
                 $target.removeChild($page);
             }

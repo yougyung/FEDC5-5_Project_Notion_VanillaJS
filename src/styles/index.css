@@ -16,6 +16,30 @@ html, body {
     border-right : 1px solid lightgrey
 }
 
+.document-header {
+    display: flex;
+    padding: 30px;
+    text-align: center;
+
+}
+
+.document-header :hover {
+    background-color: rgb(226, 221, 214);
+    cursor: pointer;
+}
+
+.document-header > h3 {
+    padding-left: 10px;
+}
+
+.notion-icon {
+    width:50px; 
+    height:50px;
+    position: relative;
+    top : 5px;
+}
+
+
 .notion-edit-page {
     width: 600px;
 }
@@ -100,15 +124,7 @@ html, body {
     text-align: center;
 }
 
-.document-header {
-    display: flex;
-    padding: 30px;
-}
 
-.document-header :hover {
-    background-color: rgb(226, 221, 214);
-    cursor: pointer;
-}
 
 .button-group {
     display: flex;

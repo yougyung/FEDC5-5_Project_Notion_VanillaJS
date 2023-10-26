@@ -9,11 +9,11 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
     $target.appendChild($sideBar)
 
     const $header = document.createElement('span')
-    $header.innerHTML= `<span><img src="../../images/notion.png" width=50px hight=50px /><h2>hyunjoo의 Notion</h2></span>`
+    $header.innerHTML= `<img class="notion-icon" src="../../images/notion.png" /><h3>hyunjoo의 Notion</h3>`
     $header.className = 'document-header'
 
-    const $addButton = document.createElement('button')
-    $addButton.innerText= '새로운 페이지 생성'
+    const $addButton = document.createElement('span')
+    $addButton.innerHTML= '<button>새로운 페이지 생성</button>'
     $addButton.className='new-page-add-button'
     $addButton.dataset.name = 'addButton'
 
