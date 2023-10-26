@@ -57,7 +57,7 @@ export default class DocumentEditor {
             key,
             target: { value, innerHTML, name },
         } = e;
-        console.log(target);
+
         // 방향키 입력 시 focus 이동 후 종료
         if (key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight') {
             return;
