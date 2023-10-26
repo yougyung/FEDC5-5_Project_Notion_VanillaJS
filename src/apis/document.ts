@@ -1,54 +1,46 @@
 import api from "./core";
-import { DocumentPostRequestDto, DocumentPutRequestDto } from "@/types";
+import {
+  DocumentDeleteResponseDto,
+  DocumentDetailResponseDto,
+  DocumentPostRequestDto,
+  DocumentPostResponseDto,
+  DocumentPutRequestDto,
+  DocumentPutResponseDto,
+  DocumentResponseDto,
+} from "@/types";
 
 export const getDocuments = async () => {
-  try {
-    const documents = await api.get({ url: "/documents" });
+  const documents = await api.get<{ url: string }, DocumentResponseDto[]>({ url: "/documents" });
 
-    return await documents;
-  } catch (error) {
-    console.error(error);
-  }
+  return documents;
 };
 
 export const getDocument = async (id: number) => {
-  try {
-    const document = await api.get({ url: `/documents/${id}` });
+  const document = await api.get<{ url: string }, DocumentDetailResponseDto>({ url: `/documents/${id}` });
 
-    return await document;
-  } catch (error) {
-    console.error(error);
-
-    throw new Error(`error : ${error}`);
-  }
+  return document;
 };
 
 export const postDocument = async ({ title, parent }: DocumentPostRequestDto) => {
-  try {
-    const postedDocument = await api.post({ url: "/documents", body: { title, parent } });
+  const postedDocument = await api.post<{ title: string; parent: null | number }, DocumentPostResponseDto>({
+    url: "/documents",
+    body: { title, parent },
+  });
 
-    return await postedDocument;
-  } catch (error) {
-    console.error(error);
-  }
+  return postedDocument;
 };
 
 export const updateDocument = async ({ id, title, content }: DocumentPutRequestDto) => {
-  try {
-    const updaatedDocument = await api.put({ url: `/documents/${id}`, body: { title, content } });
+  const updatedDocument = await api.put<{ title: string; content: string }, DocumentPutResponseDto>({
+    url: `/documents/${id}`,
+    body: { title, content },
+  });
 
-    return await updaatedDocument;
-  } catch (error) {
-    console.error(error);
-  }
+  return updatedDocument;
 };
 
 export const deleteDocument = async (id: number) => {
-  try {
-    const deletedDocument = await api.delete({ url: `/documents/${id}` });
+  const deletedDocument = await api.delete<{ url: string }, DocumentDeleteResponseDto>({ url: `/documents/${id}` });
 
-    return await deletedDocument;
-  } catch (error) {
-    console.error(error);
-  }
+  return deletedDocument;
 };
