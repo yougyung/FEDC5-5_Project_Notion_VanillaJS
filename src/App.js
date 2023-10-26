@@ -3,6 +3,7 @@ import DocumentList from './components/DocumentList.js';
 
 export default function App({ $target, initialState }) {
 	this.state = initialState;
+	const header = new Header({ $target: $header, initialState: OWNER });
 	const pageGenerator = new PageGenerator({
 		$target: $header,
 		onCreatePage: async (...rest) => {
