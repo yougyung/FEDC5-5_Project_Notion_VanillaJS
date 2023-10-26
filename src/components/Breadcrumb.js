@@ -30,4 +30,11 @@ export default function Breadcrumb({
 	};
 	this.render();
 
+	$p.addEventListener('click', (event) => {
+		const { target } = event;
+		if (target.tagName !== 'SPAN') return;
+		const { id } = target.dataset;
+		if (!id) return;
+		onBreadcrumbItemClick(id);
+	});
 }
