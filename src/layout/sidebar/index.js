@@ -14,7 +14,6 @@ export default function SideBar({ $target, initialState, handleState }) {
 	const documnentList = () => {
 		const $documentList = $sidebar.querySelector('.sidebar__documentList');
 		const { documentList, focusedDocumentId } = this.state;
-		console.log(documentList);
 		return documentList.map(
 			(document) =>
 				new DocumentNav({ $target: $documentList, initialState: document, handleState, focusedDocumentId })

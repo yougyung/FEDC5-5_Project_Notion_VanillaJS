@@ -3,13 +3,14 @@ import { parsedTagType } from '@util/tag';
 import './style.scss';
 
 const TYPE_CHANGE_CHARACTER = 'Space';
-const PLACEHOLDER_NODE = '<div class="content-block__placeholder">글자를 입력해주세요.</div>';
+const PLACEHOLDER_NODE = '글자를 입력해주세요.';
 const DELETE_CHARACTER = 'Backspace';
 const ENTER_CHARACTER = 'Enter';
 
 export default function ContentBlock({ $target, initialState }) {
 	const $content = createElementWithClass(initialState.tagName ?? 'div', 'content-block');
 	$content.setAttribute('contenteditable', true);
+	$content.setAttribute('placeholder', PLACEHOLDER_NODE);
 	$target.appendChild($content);
 	this.getElement = () => $content;
 
@@ -28,22 +29,11 @@ export default function ContentBlock({ $target, initialState }) {
 	};
 
 	this.handleKeyUpContentBlock = (e) => {
-		if (DELETE_CHARACTER === e.code && $content.innerHTML.length === 0) {
-			$content.innerHTML = PLACEHOLDER_NODE;
-			return;
-		}
-		if ($content.innerHTML === '') {
-			$content.innerHTML = PLACEHOLDER_NODE;
-			return;
-		}
 		if (DELETE_CHARACTER === e.code && $content.innerHTML === PLACEHOLDER_NODE) {
 			$target.removeChild($content);
 			return;
 		}
-		if ($content.innerHTML === PLACEHOLDER_NODE) {
-			console.log(e);
-			return;
-		}
+
 		if (ENTER_CHARACTER === e.code) {
 			const text = e.target.innerHTML;
 			const [previousText, nextText] = text.split('<div>');
