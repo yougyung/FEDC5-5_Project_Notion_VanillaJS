@@ -1,5 +1,5 @@
 import { createElementWithClass } from '@util/dom';
-import { parsedTagType } from '@util/editType';
+import { parsedTagType } from '@util/tag';
 import './style.scss';
 
 const TYPE_CHANGE_CHARACTER = 'Space';
@@ -29,8 +29,8 @@ export default function ContentBlock({ $target, initialState }) {
 	};
 
 	this.handleKeyUpContentBlock = (e) => {
-		if (DELETE_CHARACTER === e.code) {
-			// $target.removeChild($content);
+		if (DELETE_CHARACTER === e.code && $content.innerHTML === PLACEHOLDER_NODE) {
+			$target.removeChild($content);
 			return;
 		}
 
