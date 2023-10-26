@@ -1,10 +1,11 @@
-import { push } from '@/router';
+import { push, replace } from '@/router';
 import Component from '@/core/Component';
 import CustomError from '@/error/Error';
 import DocumentList from '@/components/DocumentList';
 import Editor from '@/components/Editor';
 import Navigation from '@/components/Navigation';
 import Fallback from '@/components/Fallback';
+import DocumentHeader from '@/components/DocumentHeader';
 
 import {
   getAllDocuments,
@@ -17,7 +18,6 @@ import { API_END_POINT } from '@/constants/api';
 import { debounce } from '@/utils/debounce';
 import { createTemplate } from '@/utils/dom';
 import { ERROR_MESSAGE } from '@/constants/error';
-import DocumentHeader from '../components/DocumentHeader';
 
 export default class MainPage extends Component {
   constructor($target) {
@@ -104,8 +104,6 @@ export default class MainPage extends Component {
     try {
       const newDocument = await createDocument(documentId);
 
-      // const nextState = [...this.$documentList.documentList, newDocument];
-      // this.$documentList.setState(nextState);
       this.fetchDocumentList();
       push(`${API_END_POINT.DOCUMENTS}/${newDocument.id}`);
     } catch (error) {
@@ -120,7 +118,7 @@ export default class MainPage extends Component {
       await deleteDocument(documentId);
 
       // TODO push가 아니라, replace로 수정해야 함!
-      if (this.state.currentId === documentId) push('/');
+      if (this.state.currentId === documentId) replace('/');
       this.fetchDocumentList();
     } catch (error) {
       // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
