@@ -4,35 +4,41 @@ body {
 }
 ul {
   margin: 0px;
-  padding: 0px 8px;
+  padding-left: 8px;
   list-style: none;
 }
 button {
   border: none;
-}
-.addDocButton:hover, button:hover {
-  border: none;
-  background-color: rgb(208, 208, 208);
 }
 #app {
   display: flex;
   justify-content: flex-start;
   height: 100%;
 }
+/* 사이드바 */
 #sidebar {
   flex: none;
-  width: 250px;
+  width: 240px;
   background-color: #fbfaf6;
 }
 #sidebar div {
-  padding: 0px 8px;
+  padding-top: 2px;
 }
-#sidebar .documents-list li {
-  padding-top: 5px;
+#sidebar li, .addRootDocButton {
+  padding: 2px 8px;
 }
 #sidebar .endList {
   color: rgb(170, 170, 170)
 }
+/*hover*/
+#sidebar .listitem:hover, .addRootDocButton:hover {
+  background-color: rgb(230, 230, 230);
+}
+.addDocButton:hover, button:hover {
+  border: none;
+  background-color: rgb(200, 200, 200);
+}
+/* 편집기 */
 #document-contents {
   flex: 1;
   /* background-color: #fff8b8; */
