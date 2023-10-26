@@ -1,129 +1,107 @@
 import Editor from './Editor.js';
+import DocumentHeader from './DocumentHeader.js';
+import DocumentFooter from './DocumentFooter.js';
 
- import { request } from '../utils/api.js';
- import { NEW, NEW_PARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
- import { isNew } from '../utils/helper.js';
- import { getItem, removeItem, setItem } from '../utils/storage.js';
+import { fetchDocuments } from '../../utils/api.js';
+import { CLASS_NAME, ID, MESSAGE } from '../../utils/constants.js';
+import {
+  generateRouteDocuments,
+  isNew,
+  setDocumentTitle,
+} from '../../utils/helper.js';
+import { push } from '../../utils/router.js';
 
- export default function DocumentEditPage({ $target, initialState }) {
-   isNew(new.target);
+export default function DocumentEditPage({
+  $target,
+  initialState,
+  onDelete,
+  onEdit,
+}) {
+  isNew(new.target);
 
-   const $page = document.createElement('div');
+  const $page = document.createElement('div');
+  $page.className = CLASS_NAME.DOCUMENT_EDIT_PAGE;
 
-   this.state = initialState;
+  this.state = initialState;
 
-   let documentLocalSaveKey = `temp-document-${this.state.documentId}`;
+  const documentHeader = new DocumentHeader({
+    $target: $page,
+    initialState: this.state,
+    onDelete,
+  });
 
-   const savedDocument = getItem(documentLocalSaveKey, {
-     title: '',
-     content: '',
-   });
+  const editor = new Editor({
+    $target: $page,
+    initialState: {
+      title: '',
+      content: '',
+    },
+    onEdit,
+  });
 
-   let timer = null;
+  const documentFooter = new DocumentFooter({
+    $target: $page,
+    initialState: {
+      document: null,
+    },
+  });
 
-   const editor = new Editor({
-     $target: $page,
-     initialState: savedDocument,
-     onEditing: (document) => {
-       if (timer !== null) {
-         clearTimeout(timer);
-       }
-       timer = setTimeout(async () => {
-         setItem(documentLocalSaveKey, {
-           ...document,
-           tempSaveDate: new Date(),
-         });
+  this.setState = async (nextState) => {
+    if (this.state.documentId === nextState.documentId && nextState.document) {
+      this.state = { ...this.state, ...nextState };
+      editor.setState(
+        this.state.document || {
+          title: '',
+          content: '',
+        }
+      );
+      documentHeader.setState(this.state);
+      documentFooter.setState({
+        document: this.state.document,
+      });
+      this.render();
+      return;
+    }
 
-         if (this.state.documentId === NEW) {
-           const createdDocument = await request(ROUTE_DOCUMENTS, {
-             method: 'POST',
-             body: JSON.stringify({
-                title: document.title,
-                parent: getItem(NEW_PARENT, null),
-              }),
-            });
-            removeItem(NEW_PARENT);
-           history.replaceState(
-             null,
-             null,
-             `${ROUTE_DOCUMENTS}/${createdDocument.id}`
-           );
-           removeItem(documentLocalSaveKey);
+    this.state = { ...this.state, ...nextState };
 
-           this.setState({
-             documentId: createdDocument.id,
-           });
-         } else {
-           await request(`${ROUTE_DOCUMENTS}/${document.id}`, {
-             method: 'PUT',
-             body: JSON.stringify(document),
-           });
-           removeItem(documentLocalSaveKey);
-         }
-       }, 2000);
-     },
-   });
+    if (this.state.documentId === ID.NEW) {
+      editor.setState({
+        title: '',
+        content: '',
+      });
+      documentHeader.setState(this.state);
+      documentFooter.setState({
+        document: null,
+      });
+      this.render();
+    } else {
+      await loadDocument();
+    }
+  };
 
-   this.setState = async (nextState) => {
-     if (
-       this.state.documentId === nextState.documentId &&
-       !this.state.document
-     ) {
-       this.state = nextState;
-       editor.setState(
-         this.state.document || {
-           title: '',
-           content: '',
-         }
-       );
-       this.render();
-       return;
-     }
+  const loadDocument = async () => {
+    const document = await fetchDocuments(this.state.documentId);
+    if (!document) {
+      alert(MESSAGE.REDIRECT);
+      push(generateRouteDocuments(ID.DEFAULT_DOCUMENT));
+      return;
+    }
+    
+    this.setState({
+      ...this.state,
+      document,
+    });
+    documentFooter.setState({
+      document: this.state.document,
+    });
+    setDocumentTitle(this.state.document?.title || '');
+  };
 
-     documentLocalSaveKey = `temp-document-${nextState.documentId}`;
-     this.state = nextState;
-
-     if (this.state.documentId === NEW) {
-       const document = getItem(documentLocalSaveKey, {
-         title: '',
-         content: '',
-       });
-       editor.setState(document);
-       this.render();
-     } else {
-       await fetchDocument();
-     }
-   };
-
-   this.render = () => {
-     $target.appendChild($page);
-   };
-
-   const fetchDocument = async () => {
-     const { documentId } = this.state;
-     const document = await request(`${ROUTE_DOCUMENTS}/${documentId}`);
-
-     const tempDocument = getItem(documentLocalSaveKey, {
-       title: '',
-       content: '',
-     });
-
-     if (
-       tempDocument.tempSaveDate &&
-       tempDocument.tempSaveDate > document.updatedAt
-     ) {
-       if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
-         this.setState({
-           ...this.state,
-           document: tempDocument,
-         });
-         return;
-       }
-     }
-
-     this.setState({
-       ...this.state,
-       document,
-     });
-   };
- }
+  this.render = () => {
+    if (!$target.querySelector(`.${CLASS_NAME.DOCUMENT_EDIT_PAGE}`)) {
+      $target.appendChild($page);
+    }
+    setDocumentTitle(this.state.document?.title || '');
+  };
+}
