@@ -1,6 +1,6 @@
 export default function EditButtons({ $target, initialState, onClick }) {
   const $div = document.createElement("div");
-  $div.setAttribute("class", "edit-button-wrap");
+  $div.setAttribute("class", "hide edit-button-wrap");
   $target.appendChild($div);
 
   $div.innerHTML = `

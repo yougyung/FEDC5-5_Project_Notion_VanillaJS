@@ -48,7 +48,8 @@ export default function Editor({ $target, initialState, onEditing }) {
           return `<h3>${line.substr(4)}</h3>`;
         } else if (line.indexOf("#### ") === 0) {
           return `<h4>${line.substr(5)}</h4>`;
-        } else if (line.indexOf("**") !== -1) {
+        }
+        if (line.indexOf("**") !== -1) {
           const startIndex = line.indexOf("**");
           const endIndex = line.lastIndexOf("**");
           if (endIndex > 0) {
@@ -59,7 +60,8 @@ export default function Editor({ $target, initialState, onEditing }) {
           } else {
             return line;
           }
-        } else if (line.indexOf("_") !== -1) {
+        }
+        if (line.indexOf("_") !== -1) {
           const startIndex = line.indexOf("_");
           const endIndex = line.lastIndexOf("_");
           if (endIndex > 0) {
@@ -70,7 +72,8 @@ export default function Editor({ $target, initialState, onEditing }) {
           } else {
             return line;
           }
-        } else if (line.indexOf("~~") !== -1) {
+        }
+        if (line.indexOf("~~") !== -1) {
           const startIndex = line.indexOf("~~");
           const endIndex = line.lastIndexOf("~~");
           if (endIndex > 0) {
@@ -175,4 +178,22 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
     return range;
   };
+
+  document.addEventListener("selectionchange", () => {
+    const $editBox = $editor.querySelector(".edit-button-wrap");
+
+    if (!document.getSelection().isCollapsed) {
+      const { parentElement } = document.getSelection().focusNode;
+      const rect = parentElement.getBoundingClientRect();
+
+      const x = rect.left - 370;
+      const y = rect.top - 90;
+
+      $editBox.style.top = `${y}px`;
+      $editBox.style.left = `${x}px`;
+      $editBox.classList.remove("hide");
+    } else {
+      $editBox.classList.add("hide");
+    }
+  });
 }
