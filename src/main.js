@@ -17,4 +17,8 @@ const page = new Page({
     }
 });
 
-const searchModal = new SearchModal(rootElement);
+const searchModal = new SearchModal({
+    rootElement, setPage: (id) => {
+        page.setDocument(id);
+    }
+});

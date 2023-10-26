@@ -3,7 +3,7 @@ import SearchResultItem from "./searchResultItem.js";
 
 export default class SearchModal {
 
-    constructor(rootElement) {
+    constructor({ rootElement, setPage }) {
         const searchModalElement = document.createElement("div");
         const headerElement = document.createElement("div");
         const searchIcon = document.createElement("img");
@@ -36,7 +36,8 @@ export default class SearchModal {
             });
             const findText = event.target.value;
             const searchResult = [];
-            const bfs = () => {
+
+            const searchingText = (() => {
                 const queue = [...result];
                 while (queue.length) {
                     const nowNode = queue.shift();
@@ -47,10 +48,10 @@ export default class SearchModal {
                         queue.unshift(documentItem);
                     });
                 }
-            };
-            bfs();
+            })();
+
             searchResult.map(({ title, id }) => {
-                const resultItem = SearchResultItem(title, id);
+                const resultItem = SearchResultItem(title, id, setPage);
                 this.searchResultElement.appendChild(resultItem);
             })
 
