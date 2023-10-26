@@ -1,12 +1,12 @@
 import { instance } from "./api.js";
 
 /**
- * Root Documents 가져오기
+ * Root Documents 가져오기 (전체 Document의 구조를 트리 형태로 가져오기)
  * @async
- * @function getRootDocuments
+ * @function getAllDocumentLists
  * @returns {Promise} - GET /documents
  */
-const getRootDocuments = async () => {
+const getAllDocumentLists = async () => {
   return await instance("/documents");
 };
 
@@ -64,7 +64,7 @@ const deleteDocument = async (documentId) => {
 };
 
 export {
-  getRootDocuments,
+  getAllDocumentLists,
   getDocumentContent,
   createDocument,
   updateDocument,
