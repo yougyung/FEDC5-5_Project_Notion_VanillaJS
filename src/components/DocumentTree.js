@@ -1,6 +1,7 @@
 export default function DocumentTree({ $target, initialState }) {
     const $documentTree = document.createElement('div')
     $documentTree.className = 'documentTree'
+
     $target.appendChild($documentTree)
 
     this.state = initialState
@@ -18,21 +19,15 @@ export default function DocumentTree({ $target, initialState }) {
                 return `
                         <li data-id=${id} class="document-item" >
                             <div class="document-item-div"> 
-                                <button class="arrow-button" data-id=${id} data-name="arrowButton">
+                                <div class="arrow-button" data-id=${id} data-name="arrowButton">
                                     ${documents!=null && documents.length>0 
-                                        ? '<button class="arrow-down"> > </button>'
-                                        : '<button class="arrow-right"> ∨ </button>'
+                                        ? '<input type="button" class="arrow-down">'
+                                        : '<input type="button" class="arrow-right">'
                                     }
-                                </button>
-                                <span class="document-title">${title}</span>
-                                <div class="button-group">
-                                    <button class="add-button" data-id=${id} data-name="addButton">
-                                        +
-                                    </button>
-                                    <button class="delete-button" data-id=${id} data-name="deleteButton">
-                                        -
-                                    </button>
                                 </div>
+                                <span class="document-title">${title !== '' ? title : '제목 없음'}</span>
+                                <input type="button" class="add-button" data-id=${id} data-name="addButton">
+                                <input type="button" class="delete-button" data-id=${id} data-name="deleteButton">
                             </div>
                             ${documents!=null && documents.length > 0 
                             ? renderDocumentTree(documents)

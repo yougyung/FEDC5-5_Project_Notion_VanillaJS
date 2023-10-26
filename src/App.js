@@ -4,34 +4,27 @@ import { request } from "./utils/api.js"
 import { push, initRouter } from "./utils/router.js"
 
 export default function App({$target}) {
-
     this.state = []
 
     this.setState = nextState => {
         this.state = nextState
-        //sideBar.setState(nextState)
-        //notionEditPage.setState(nextState)
     }
 
     const fetchDocuments = async() => {
         const documents = await request('/documents')
-        console.log(documents)
         this.setState(documents)
         sideBar.setState(documents)
-        //notionEditPage.setState(documents)
     }
-
+    
     const addDocument = async (parent=null) => {
         const res = await request('/documents', {
             method: "POST",
             body: JSON.stringify({
-                title : "제목 없음",
+                title : '',
                 parent
             })
         })
-
         push(`../documents/${res.id}`)
-
         this.route();
     }
 
@@ -50,15 +43,12 @@ export default function App({$target}) {
         onDelete: deleteDocuments
     })
 
-    
-
     const notionEditPage = new NotionEditPage({
         $target, 
         fetchDocuments
     })
 
     this.route = () => {
-        //$target.innerHTML = ''
         const {pathname} = window.location
 
         fetchDocuments()
@@ -79,6 +69,4 @@ export default function App({$target}) {
     window.addEventListener("popstate", () => {
         this.route();
       });
-
-    //fetchDocuments();
 }

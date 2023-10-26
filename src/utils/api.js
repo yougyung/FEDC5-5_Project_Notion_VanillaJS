@@ -2,7 +2,6 @@ const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 const X_USERNAME = 'kimhyunjoo'
 export const request = async (url='', options={}) => {
   try {
-    console.log('api 호출 시도')
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {

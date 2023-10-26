@@ -1,5 +1,4 @@
 import DocumentTree from "./DocumentTree.js"
-import { request } from "../utils/api.js"
 import { push } from "../utils/router.js"
 
 export default function SideBar({ $target, initialState, onAdd, onDelete}) {
@@ -13,8 +12,8 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
     $header.className = 'document-header'
 
     const $addButton = document.createElement('span')
-    $addButton.innerHTML= '<button>새로운 페이지 생성</button>'
-    $addButton.className='new-page-add-button'
+    $addButton.innerHTML= '<input type="button" data-name="addButton" class="new-page-add-button" value="새로운 페이지 생성">'
+    $addButton.className='new-page-add-span'
     $addButton.dataset.name = 'addButton'
 
     this.state = initialState
@@ -25,24 +24,24 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
     }
 
     this.render = () => {
-        console.log('sidebar render')
         $sideBar.innerHTML = ''
         $sideBar.appendChild($header)
-        //$sideBar.innerHTML = `<h2>hyunjoo의 Notion</h2>`
-        const documentTree = new DocumentTree({
+
+        new DocumentTree({
             $target: $sideBar, 
             initialState: this.state
         });
-        $sideBar.appendChild($addButton)
-    }
 
-    
+        $sideBar.appendChild($addButton)
+    }  
 
     $sideBar.addEventListener('click', e => {
-        const $button = e.target.closest('button')
+        const $button = e.target.closest('input[type=button]')
         const $header = e.target.closest('.document-header')
         const $li = e.target.closest('li')
-        
+
+        const $arrowButton = e.target.closest('.arrow-button')
+        console.log($arrowButton)
 
         if($button) {
             const {id, name} = $button.dataset
@@ -60,13 +59,7 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
 
         else if($li) {
             const {id} = $li.dataset
-            console.log(`클릭된 제목의 id : ${id}`)
             push(`/documents/${id}`)
-        }
-        
+        }       
     })
-    
-    //this.render()
-
-    
 }

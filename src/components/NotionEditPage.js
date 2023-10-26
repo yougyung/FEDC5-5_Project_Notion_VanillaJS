@@ -9,23 +9,17 @@ export default function NotionEditPage({$target, fetchDocuments}) {
     this.state = {}
 
     this.setState = async nextState => {
-        console.log(nextState)
         const { id } = nextState
         
         if (id) {
             const document = await request(`/documents/${id}`);
             this.state = document;
-            console.log(document)
             editor.setState(this.state);
             this.render();
-          } else {
-            //이거 왜 오류나지?
-            console.log($target.childNodes)
-            if($target.childNodes.length >= 2) {
-                $target.removeChild($page);
-            }
-            
-          }
+        } 
+        else if($target.childNodes.length >= 2) {
+            $target.removeChild($page);
+        }
     }
 
     this.render = () => {
@@ -40,12 +34,15 @@ export default function NotionEditPage({$target, fetchDocuments}) {
 
     const editor = new Editor({
         $target : $page,
-        initialState: {},
-        onEditing : (document) => { //디바운스!
+        initialState: {
+            title: '',
+            content: ''
+        },
+        onEditing : (document) => { //디바운스
             if(timer !== null) { 
                 clearTimeout (timer) 
             }
-            timer = setTimeout(async() => { //연속으로 타자를 칠 때에는 이벤트 발생을 지연시키다가, 입력을 멈추고(마지막으로 이벤트가 발생하고)
+            timer = setTimeout(async() => { //연속으로 타자를 칠 때에는 이벤트 발생을 지연
                 setItem(DOCUMENT_LOCAL_SAVE_KEY, {
                     ...document,
                     updatedAt: new Date()
@@ -58,10 +55,7 @@ export default function NotionEditPage({$target, fetchDocuments}) {
                   removeItem(DOCUMENT_LOCAL_SAVE_KEY);
           
                   fetchDocuments();
-
             }, 1000)
         }
-
     })
-
 }
