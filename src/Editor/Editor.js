@@ -88,7 +88,6 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
       const $div = document.createElement("div");
       $div.setAttribute("class", " link");
       $div.contentEditable = false;
-      $div.style.display = "inline";
 
       $div.innerHTML = `📃 ${element.title}<br>`;
 

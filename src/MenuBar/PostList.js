@@ -87,7 +87,7 @@ export default function PostList({ $target, initialState, onRenderContents }) {
   const onClickList = ($element) => {
     $element.addEventListener("click", async (e) => {
       const { id } = e.target;
-      console.log(e.target);
+
       // 로컬과 서버의 최종 업데이트 시간을 비교하여 사용자의 선택에 의해 로컬 또는 서버의 데이터를 불러옴
       if (id) {
         (await checkLocalAndServerData(id)) && onRenderContents(id);
