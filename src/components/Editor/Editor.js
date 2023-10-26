@@ -34,9 +34,11 @@ export default function Editor({ $target, initialState, onEditing }) {
 
     $content.innerHTML = content;
 
+    /** render 하자마자 textarea의 높이를 자동 조정  */
     setTimeout(() => changeTextAreaHeight(), 0);
   };
 
+  /** textarea의 높이를 자동 조정 */
   const changeTextAreaHeight = () => {
     const $title = $editor.querySelector("[name=title]");
     const DEFAULT_HEIGHT = 30;
@@ -53,7 +55,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     };
     this.setState(nextState);
 
-    // sidebar title 실시간 업데이트
+    // sidebar title DOM 실시간 업데이트
     editDocumentTitle(this.state.id, newTitle);
 
     // 업데이트
@@ -90,6 +92,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
   });
 
+  /** textarea에 입력 시 높이를 자동 조정 */
   const $textarea = $("#textarea", $editor);
   $textarea.oninput = event => {
     changeTextAreaHeight();

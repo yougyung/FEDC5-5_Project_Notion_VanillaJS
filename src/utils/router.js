@@ -11,7 +11,7 @@ export const initRouter = onRoute => {
   });
 };
 
-/** 함수 이름 바꿔야지,,, */
+/** url path를 변경하는 함수 */
 export const navigate = nextUrl => {
   window.dispatchEvent(
     new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {

@@ -26,7 +26,7 @@ export default function Header({ $target, initialState }) {
     this.render();
   };
 
-  /** 상위 document의 title과 id를 찾는 함수 */
+  /** 상위 document의 title과 id를 찾는 함수 (DOM 검색) */
   const findParent = (headerTitleArray, $now) => {
     const nowTitle = $(".document", $now).textContent;
     headerTitleArray.push({ id: this.state, title: nowTitle });
@@ -65,6 +65,7 @@ export default function Header({ $target, initialState }) {
     $(".header-title-container").innerHTML = headerElements;
   };
 
+  /** 링크 이벤트 */
   $header.addEventListener("click", ({ target }) => {
     const $p = target.closest(".header-p");
 

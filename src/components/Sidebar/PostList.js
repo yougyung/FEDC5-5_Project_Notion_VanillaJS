@@ -38,6 +38,7 @@ export default function DocumentList({
     renderDocumentsList($target, this.state, true);
   };
 
+  /** 이벤트 위임 */
   $target.addEventListener("click", ({ target }) => {
     const $div = target.closest(".document-title");
 

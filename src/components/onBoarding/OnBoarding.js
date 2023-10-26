@@ -11,6 +11,7 @@ export default function OnBoarding({ $target }) {
 <p>Feel free to create documents! 📖</p>
 `;
 
+  /** onBoarding의 display 속성 변경 */
   this.display = () => {
     const { pathname } = window.location;
     if (pathname === "/") {

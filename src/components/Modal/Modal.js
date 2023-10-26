@@ -40,6 +40,7 @@ export default function Modal({ $target, initialState, displayModal }) {
         tempSaveDate: new Date(),
       });
 
+      // 이벤트 디바운싱
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -66,6 +67,7 @@ export default function Modal({ $target, initialState, displayModal }) {
 
   this.render();
 
+  /** 모달 닫기 */
   $modal.addEventListener("click", e => {
     const { className } = e.target;
 

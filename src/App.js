@@ -31,7 +31,7 @@ export default function App({ $target }) {
     this.state = nextState;
   };
 
-  /** 모달 열기 */
+  /** 모달 열기 함수 */
   const displayModal = () => {
     $(".modal").classList.toggle("hidden");
   };
@@ -43,11 +43,11 @@ export default function App({ $target }) {
       parent: parentId,
     });
     const newDocumentBody = await getPost(newDocument.id);
-    createDocument(parentId, newDocumentBody.id); // 사이드바 dom에 추가하는거
+    createDocument(parentId, newDocumentBody.id); // 사이드바 dom에 즉시 추가
 
     this.setState({ ...this.state, selectedDocument: newDocumentBody });
-    modal.setState(this.state.selectedDocument);
-    displayModal();
+    modal.setState(this.state.selectedDocument); // 모달에 state 전달
+    displayModal(); // 모달 보여주기
   };
 
   /** 문서 목록 가져오기 + state 변경 + 사이드바 리렌더링 */
@@ -83,7 +83,7 @@ export default function App({ $target }) {
   // Header
   const header = new Header({ $target: $rightContainer, initialState: [] });
 
-  // Editor
+  // EditorPage
   const editorPage = new EditorPage({
     $target: $rightContainer,
     initialState: DUMMY_SINGLE_DOCUMENT,
@@ -102,12 +102,12 @@ export default function App({ $target }) {
     displayModal,
   });
 
-  /** 현재 url에 맞는 문서를 가져와서 setState함 */
+  /** 현재 url에 맞는 문서를 가져와서 필요한 component들을 상태변경함 */
   const renderDocumentSection = async () => {
     const { pathname } = window.location;
     const [, , documentId] = pathname.split("/");
 
-    await fetchDocument(documentId);
+    await fetchDocument(documentId); // 선택된 문서 get api 호출
     header.setState(this.state.selectedDocument.id);
     editorPage.setState(this.state.selectedDocument);
     footer.setState(this.state.selectedDocument.documents);
@@ -120,6 +120,7 @@ export default function App({ $target }) {
     editorPage.display();
 
     if (pathname === "/") {
+      // 선택된 문서가 없으므로 초기화
       header.setState();
       footer.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
@@ -127,6 +128,7 @@ export default function App({ $target }) {
     }
   };
 
+  /** 첫 접속 시 : 문서 목록 불러오기, 라우팅하기  */
   const init = async () => {
     await fetchDocuments();
     this.route();

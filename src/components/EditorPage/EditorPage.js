@@ -24,6 +24,7 @@ export default function EditorPage({ $target, initialState }) {
         tempSaveDate: new Date(),
       });
 
+      // 이벤트 디바운싱
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -47,6 +48,7 @@ export default function EditorPage({ $target, initialState }) {
       content: "",
     });
 
+    //  alert가 무한으로 뜨는 것을 방지하기 위한 flag
     if (tempFlag) checkTempLocalDocument(tempPost);
 
     editor.setState(this.state);
@@ -66,6 +68,7 @@ export default function EditorPage({ $target, initialState }) {
     $target.appendChild($editorPage);
   };
 
+  /** EditorPage의 display 상태 변경 */
   this.display = () => {
     const { pathname } = window.location;
     if (pathname === "/") {

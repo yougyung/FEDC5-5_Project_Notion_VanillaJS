@@ -32,7 +32,7 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
     initialState: this.state,
     onToggle: id => {
       const $toggled = $(`[data-id='${id}']`);
-      $toggled.className.includes("toggled") ? toggleOff(id) : toggleOn(id);
+      $toggled.className.includes("toggled") ? toggleOff(id) : toggleOn(id); // 토글 열고닫기
     },
     onSelect: id => {
       navigate(`/documents/${id}`);
@@ -41,7 +41,7 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
     onRemove: async ($deleteTarget, id) => {
       try {
         await deletePost(id);
-        deleteDocument($deleteTarget, id); // dom 삭제
+        deleteDocument($deleteTarget, id); // 사이드바 문서 dom 즉시 삭제
         navigate("/");
       } catch (err) {
         alert("삭제 실패");
@@ -57,7 +57,7 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
   $sidebar.addEventListener("click", e => {
     const { className } = e.target;
     if (className.includes("add-root-btn")) {
-      onAddNewDocument(null);
+      onAddNewDocument(null); // 새로운 root 문서 생성
     }
   });
 }

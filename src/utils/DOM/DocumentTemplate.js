@@ -1,5 +1,6 @@
 import toggleImg from "../../img/toggle.png";
 
+/** 사이드바의 문서 템플릿을 생성하는 함수 */
 export const documentListTemplate = (documents, isRoot = false) => {
   return `
             ${documents
@@ -25,6 +26,7 @@ export const documentListTemplate = (documents, isRoot = false) => {
             `;
 };
 
+/** 사이드바에 새롭게 생성된 단일 문서 템플릿을 만드는 함수 */
 export const documentTemplate = (id, display, style) => {
   const $template = document.createElement("ul");
   $template.className = "document-title";

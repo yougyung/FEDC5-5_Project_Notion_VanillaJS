@@ -1,5 +1,6 @@
 import { $ } from "./selector";
 
+/** 사이드바 문서 토글 닫기 */
 export const toggleOff = id => {
   const $parent = $(`[data-id='${id}']`);
 
@@ -18,6 +19,7 @@ export const toggleOff = id => {
   }
 };
 
+/** 사이드바 문서 토글 열기 */
 export const toggleOn = id => {
   const $parent = $(`[data-id='${id}']`);
 
