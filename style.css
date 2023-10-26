@@ -13,7 +13,7 @@ li:hover {
 }
 
 .notfoundpage {
-    width: 1500px;
+    width: 1200px;
     height: 1500px;
 }
 
@@ -46,7 +46,7 @@ li {
 }
 
 .sidebar {
-    width: 20%;
+    min-width: 20%;
     min-height: 80%;
     background-color: rgb(252, 251, 250);
 }
