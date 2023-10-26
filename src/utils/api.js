@@ -19,3 +19,9 @@ export const request = async (url, options = {}) => {
     console.error(e);
   }
 };
+
+export const fetchDocuments = async (documentId, options) =>
+  request(
+    `${API_END_POINT}/documents${documentId ? `/${documentId}` : ''}`,
+    options
+  );

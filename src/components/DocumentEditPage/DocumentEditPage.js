@@ -1,7 +1,7 @@
 import Editor from './Editor.js';
 
  import { request } from '../utils/api.js';
- import { NEW, NEWPARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
+ import { NEW, NEW_PARENT, ROUTE_DOCUMENTS } from '../utils/contants.js';
  import { isNew } from '../utils/helper.js';
  import { getItem, removeItem, setItem } from '../utils/storage.js';
 
@@ -39,10 +39,10 @@ import Editor from './Editor.js';
              method: 'POST',
              body: JSON.stringify({
                 title: document.title,
-                parent: getItem(NEWPARENT, null),
+                parent: getItem(NEW_PARENT, null),
               }),
             });
-            removeItem(NEWPARENT);
+            removeItem(NEW_PARENT);
            history.replaceState(
              null,
              null,
