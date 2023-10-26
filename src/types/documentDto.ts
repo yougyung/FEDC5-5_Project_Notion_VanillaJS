@@ -13,7 +13,7 @@ export interface DocumentDetailResponseDto {
   updatedAt: string;
 }
 
-interface DocumentMetaDto {
+export interface DocumentMetaDto {
   id: number;
   title: string;
   createdAt: string;
@@ -43,6 +43,16 @@ export interface DocumentPutResponseDto {
   title: string;
   content: string;
   parent: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  username: string;
+}
+
+export interface DocumentDeleteResponseDto {
+  id: number;
+  title: string;
+  content: string;
+  parent: DocumentDeleteResponseDto;
   createdAt: Date;
   updatedAt: Date;
   username: string;
