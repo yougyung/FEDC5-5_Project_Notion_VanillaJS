@@ -3,7 +3,7 @@ import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';
 import DocumentObserver from '../../../../Util/DocumentObserver.js';
-import { DOCUMENT_TOGGLE_KEY } from '../../../../Store/LocalStroage.js';
+import { DOCUMENT_TOGGLE_KEY, setItem, getItem } from '../../../../Store/LocalStroage.js';
 
 // state = { documentList: [] }
 
@@ -41,7 +41,10 @@ export default class DocumentList {
             return;
         }
 
-        new DocumentItems({ $target: this.$documentList, initalState: { documentList, isRoot: true } });
+        new DocumentItems({
+            $target: this.$documentList,
+            initalState: { documentList, isRoot: true, documentId: null },
+        });
     }
 
     async handleOnClick(e) {
@@ -50,21 +53,30 @@ export default class DocumentList {
             target: { className },
         } = e;
 
+        // 하위 자식 보기 toggle 버튼
         if (className === 'title-toggle__toggle--view' || className === 'title-toggle__toggle--hidden') {
             const $ul = target.closest('.document-item').querySelector('ul');
+            const documentId = target.closest('.document-item').dataset.id;
+            const toggleList = getItem(DOCUMENT_TOGGLE_KEY, []);
 
             target.classList.toggle('title-toggle__toggle--view');
             target.classList.toggle('title-toggle__toggle--hidden');
-            $ul.classList.toggle('hidden');
+            $ul.classList.toggle('view');
+
+            if ($ul && target.className === 'title-toggle__toggle--view' && !toggleList.includes(documentId)) {
+                setItem(DOCUMENT_TOGGLE_KEY, [...toggleList, documentId]);
+            } else if ($ul && target.className === 'title-toggle__toggle--hidden' && toggleList.includes(documentId)) {
+                setItem(
+                    DOCUMENT_TOGGLE_KEY,
+                    toggleList.filter((id) => String(id) !== documentId)
+                );
+            }
         }
 
         // document 추가 이벤트
         if (className === 'insert-delete__insert') {
             const $li = target.closest('.document-item');
             const documentId = $li.dataset.id;
-            const toggleList = localStorage.getItem(DOCUMENT_TOGGLE_KEY, []);
-
-            localStorage.setItem(DOCUMENT_TOGGLE_KEY, documentId);
 
             await this.postDocument(documentId);
             DocumentObserver.getInstance().notifyAll();
@@ -74,8 +86,6 @@ export default class DocumentList {
         if (className === 'insert-delete__delete') {
             const documentId = target.closest('.document-item').dataset.id;
             const path = window.location.pathname.split('/')[2];
-
-            localStorage.removeItem();
 
             await this.deleteDocument(documentId);
 
@@ -110,8 +120,12 @@ export default class DocumentList {
             return;
         }
         const res = await fetchPostDocument(documentId);
+        const toggleList = getItem(DOCUMENT_TOGGLE_KEY, []);
 
         if (res) {
+            if (!toggleList.includes(documentId)) {
+                setItem(DOCUMENT_TOGGLE_KEY, [...toggleList, documentId]);
+            }
             this.getDocumentList();
         }
     }
@@ -122,8 +136,13 @@ export default class DocumentList {
             return;
         }
         const res = await fetchDeleteDocument(documentId);
+        const toggleList = getItem(DOCUMENT_TOGGLE_KEY, []);
 
         if (res) {
+            setItem(
+                DOCUMENT_TOGGLE_KEY,
+                toggleList.filter((id) => String(id) !== documentId)
+            );
             this.getDocumentList();
         }
     }

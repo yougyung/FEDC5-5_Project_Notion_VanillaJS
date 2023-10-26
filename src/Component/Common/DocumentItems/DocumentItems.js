@@ -1,6 +1,8 @@
 import DocumentItem from './DocumentItem/DocumentItem.js';
 import { createNewElement } from '../../../Util/Element.js';
-// state = { documuentList: [], isRoot: boolean }
+import { DOCUMENT_TOGGLE_KEY, getItem } from '../../../Store/LocalStroage.js';
+
+// state = { documuentList: [], isRoot: boolean, documentId: null || number }
 
 export default class DocumentItems {
     constructor({ $target, initalState }) {
@@ -15,15 +17,18 @@ export default class DocumentItems {
     }
 
     render() {
-        const { documentList, isRoot } = this.state;
-
+        const { documentList, isRoot, documentId } = this.state;
+        const toggleList = getItem(DOCUMENT_TOGGLE_KEY, []);
         const className = isRoot ? 'document-items--root' : 'document-items';
         const $documentItems = createNewElement('ul', [{ property: 'className', value: `${className}` }]);
         const $fragment = document.createDocumentFragment();
 
         documentList?.forEach((item) => new DocumentItem({ $target: $fragment, initalState: { ...item } }));
 
-        $documentItems.className += ' hidden';
+        if (documentId && toggleList.includes(String(documentId))) {
+            $documentItems.classList.toggle('view');
+        }
+
         $documentItems.appendChild($fragment);
         this.$target.appendChild($documentItems);
     }

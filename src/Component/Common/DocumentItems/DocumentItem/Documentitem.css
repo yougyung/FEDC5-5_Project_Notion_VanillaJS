@@ -11,8 +11,11 @@
     padding: 5px 5px 5px 0;
 }
 
-.sidebar > .document > .document-list > .document-items--root .hidden {
+.sidebar > .document > .document-list > .document-items--root .document-items {
     display: none;
+}
+.sidebar > .document > .document-list > .document-items--root .view {
+    display: block;
 }
 
 /* li 태그 안의 div */

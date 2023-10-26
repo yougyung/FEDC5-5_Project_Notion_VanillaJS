@@ -1,5 +1,6 @@
 import DocumentItems from '../DocumentItems.js';
 import { createNewElement } from '../../../../Util/Element.js';
+import { DOCUMENT_TOGGLE_KEY, getItem } from '../../../../Store/LocalStroage.js';
 // state = { id: "", title = "", documents: [] }
 
 export default class DocumentItem {
@@ -16,6 +17,7 @@ export default class DocumentItem {
 
     render() {
         const { id, title, documents } = this.state;
+        const toggleList = getItem(DOCUMENT_TOGGLE_KEY, []);
         const documentId = window.location.pathname.split('/')[2];
         const $li = createNewElement('li', [
             {
@@ -53,6 +55,11 @@ export default class DocumentItem {
             'x'
         );
 
+        if (id && toggleList.includes(String(id))) {
+            $toggleButton.classList.toggle('title-toggle__toggle--view');
+            $toggleButton.classList.toggle('title-toggle__toggle--hidden');
+        }
+
         this.$target.appendChild($li);
         $li.appendChild($titleButton);
         $titleButton.appendChild($titleToggle);
@@ -66,7 +73,7 @@ export default class DocumentItem {
         if (documents.length > 0) {
             new DocumentItems({
                 $target: $li,
-                initalState: { documentList: documents, isRoot: false },
+                initalState: { documentList: documents, isRoot: false, documentId: id },
             });
         }
     }

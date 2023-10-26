@@ -14,6 +14,7 @@ export const getItem = (key, defaultValue = []) => {
 
         return item ? JSON.parse(item) : defaultValue;
     } catch (error) {
+        localStorage.setItem(key, JSON.stringify(defaultValue));
         return defaultValue;
     }
 };

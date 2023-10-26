@@ -8,7 +8,6 @@
 /* editor */
 @import url(/src/Component/DocumentManager/DocumentManger.css);
 @import url(/src/Component/DocumentManager/DocumentEditor/DocumentEditor.css);
-@import url(/src/Component/DocumentManager/DocumentContentViewer/DocumentContentViewer.css);
 @import url(/src/Component/DocumentManager/ChildDocumentsViewer/ChildDocumentsViewer.css);
 /* common */
 @import url(/src/Component/Common/DocumentItems/DocumentItems.css);
