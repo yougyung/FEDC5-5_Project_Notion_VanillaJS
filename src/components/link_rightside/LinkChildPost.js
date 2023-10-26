@@ -1,6 +1,10 @@
 import { addNewData } from "../../api/Api.js";
 import { push } from "../../router/router.js";
 import { getItem, setItem } from "../../storage/Storage.js";
+import {
+  SELECTED_POST_KEY,
+  OPENED_POST_KEY,
+} from "../post_leftside/PostList.js";
 
 export default function LinkChildPost({ $target, initialState }) {
   const $div = document.createElement("div");
@@ -11,7 +15,6 @@ export default function LinkChildPost({ $target, initialState }) {
   this.setState = (nextState) => {
     this.state = nextState;
     if (this.state.documents.length === 0) {
-      //   console.log(this.state);
       $div.innerHTML = `
       <p>
         &nbsp;&nbsp;😧 &nbsp;작성된 하위 Documents 가 없습니다. 추가할까요?</p>
@@ -49,10 +52,11 @@ export default function LinkChildPost({ $target, initialState }) {
       const newData = await addNewData(id);
       const showLists = getItem("showId", []);
       const newIdLists = [...showLists, newData.id];
-      setItem("showId", newIdLists);
+      setItem(OPENED_POST_KEY, newIdLists);
 
       showLists.push(newData.id);
-      setItem("showId", showLists);
+      setItem(SELECTED_POST_KEY, newData.id);
+      setItem(OPENED_POST_KEY, showLists);
       push(newData.id);
     }
   });
