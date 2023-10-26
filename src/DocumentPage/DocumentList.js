@@ -8,6 +8,7 @@ export default function DocumentList({
 }) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
+  const mainDocumentId = 105841;
 
   this.state = initialState;
 
@@ -17,6 +18,7 @@ export default function DocumentList({
     this.render();
   };
 
+  // 하위 문서를 트리 형태로 만들어주는 템플릿 생성
   this.createMenuTree = (documents) => {
     return documents
       .map((doc) => {
@@ -28,8 +30,10 @@ export default function DocumentList({
               }
             </div>
             <div class="item_buttons">
-            <img class="add-btn" src="/src/assets/img/add2.png"/>
-              <img class="delete-btn" src="/src/assets/img/delete.png"/>
+              <img class="add-btn" src="/src/assets/img/add.png"/>
+              <img class="delete-btn ${
+                doc.id === mainDocumentId ? "blocked" : "" // 메인 문서(첫 문서)는 삭제 불가능하도록
+              }" src="/src/assets/img/delete.png"/>
             </div>
           </div>
           ${
@@ -52,27 +56,27 @@ export default function DocumentList({
       </ul>`;
   };
 
-  // 문서 리스트 클릭 시 /documents/${id}로 url 바꿈
+  // 문서 목록 클릭 시 /documents/${id}로 url 변경
   $documentList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
 
     if ($li) {
       const { id } = $li.dataset;
 
-      // delete 버튼 클릭 시
+      // delete 버튼 클릭 시 onDelete(id) 호출
       if (e.target.classList.contains("delete-btn")) {
         onDelete(id);
         return;
       }
 
-      // add 버튼 클릭 시
+      // add 버튼 클릭 시 onPost(id) 호출
       if (e.target.classList.contains("add-btn")) {
         onPost(id);
         return;
-
-        // 로컬스토리지에 id 저장.
       }
-      // onClick();
+
+      console.log("클릭...");
+      // /documents/${id}로 url 바꿈
       push(`/documents/${id}`); // 이벤트 dispatch
     }
   });
