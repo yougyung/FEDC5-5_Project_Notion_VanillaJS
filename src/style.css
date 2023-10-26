@@ -1,0 +1,24 @@
+.root-document {
+}
+
+.document-node {
+    list-style: none;
+}
+
+.add-button {
+    &::after {
+        display: inline-block;
+        content: "\2795";
+        font-size: 10pt;
+    }
+}
+
+.delete-button {
+    display: inline-block;
+
+    &::after {
+        display: inline-block;
+        content: "\274C";
+        font-size: 10pt;
+    }
+}
