@@ -1,6 +1,7 @@
+import { getItem, setItem } from "../../utils.js";
+
 export const ToggleButton = () => {
-  let isOpen = false;
-  const openIds = [];
+  const openIds = getItem("openIds", []);
 
   const toggleDocumentList = (id) => {
     const index = openIds.indexOf(id);
@@ -9,14 +10,15 @@ export const ToggleButton = () => {
     } else if (index > -1) {
       openIds.splice(index, 1);
     }
+    setItem("openIds", openIds);
   };
 
   const openDocumentList = (id) => {
-    openIds.push(id);
+    setItem("openIds", [...openIds, id]);
   };
 
   const toggleButton = (id) => {
-    isOpen = openIds.includes(id);
+    let isOpen = openIds.includes(id);
 
     return `<button data-id="${id}" class="toggle-button">
     <i class="fa-solid fa-angle-${isOpen ? "down" : "right"} toggle-icon"></i>
