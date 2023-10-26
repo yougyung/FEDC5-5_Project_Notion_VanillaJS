@@ -57,15 +57,10 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         if (title.length) {
-          // console.log(title.length);
-          // console.log(title.split(" ").join(""));
-          // console.log(getStringLength(title));
           if (getStringLength(title) < 25) {
             createdLi.innerText = `${title}`;
           } else {
-            // console.log(inheritedParentStyle);
             const reducedTitle = title.slice(0, 13 - (inheritedParentStyle / 3) * 2) + "...";
-            // console.log(reducedTitle);
             createdLi.innerText = `${reducedTitle}`;
           }
         } else {
@@ -107,15 +102,10 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
 
         createdLi.dataset.id = id;
         if (title.length) {
-          // console.log(title.length);
-          // console.log(title.split(" ").join(""));
-          // console.log(getStringLength(title));
           if (getStringLength(title) < 25) {
             createdLi.innerText = `${title}`;
           } else {
-            // console.log(inheritedParentStyle);
             const reducedTitle = title.slice(0, 13 - (inheritedParentStyle / 3) * 2) + "...";
-            // console.log(reducedTitle);
             createdLi.innerText = `${reducedTitle}`;
           }
         } else {
@@ -172,9 +162,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
                 break;
               } else {
                 const checker = newTarget.dataset.isfolded;
-                // newTarget.dataset.isfolded = newTarget.dataset.isfolded ? false : true;
                 checker === "true" ? (newTarget.dataset.isfolded = false) : (newTarget.dataset.isfolded = true);
-                // newTarget.dataset.isfolded = false;
                 newTarget = newTarget.nextSibling;
               }
             }
