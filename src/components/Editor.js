@@ -1,12 +1,9 @@
-export default function Editor({ $target, initialState = {
-  title: '',
-  content: ''
-}, onEditing }) {
+export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div')
   $editor.className = 'editor-wrap'
 
   let isInitialize = false
-  // {id, title, content}
+  // {id, document{title, content}}
   this.state = initialState
 
   $target.appendChild($editor)
