@@ -3,22 +3,37 @@ import EditPage from './components/EditPage.js'
 
 export default function App({ $target }) {
   // 문서페이지
-  new DocsPage({
+  const docsPage = new DocsPage({
     $target,
     onDocumentClick: (id) => {
-      console.log(id)
+      history.pushState(null, null, `/documents/${id}`)
+      this.route()
     }
   })
   // 편집페이지
-  new EditPage({
+  const editPage = new EditPage({
     $target,
     initialState: {
-      documentId: 1,
+      id: null,
       document: {
         title: '',
-        content: ''
+        content: '',
       }
     }
   })
+
+  this.route = () => {
+    const { pathname } = window.location
+
+    if (pathname === '/') {
+      docsPage.render()
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const [, , id] = pathname.split('/')
+      editPage.setState({
+        id: parseInt(id)
+      })
+    }
+  }
   
+  this.route()
 }
