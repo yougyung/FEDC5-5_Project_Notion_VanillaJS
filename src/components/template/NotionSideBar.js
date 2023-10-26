@@ -26,7 +26,7 @@ export default function NotionSideBar({ $target, initialState }) {
   };
 
   $notionSideBar.addEventListener('click', e => {
-    const $sidebar = e.target.closest('div[data-username]');
+    const $sidebar = e.target.closest('div[data-notionSideBar]');
     if (!$sidebar) return;
 
     const { type, id } = e.target.dataset;

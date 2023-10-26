@@ -1,12 +1,12 @@
 /*
  * DocumentsList
- * - DocumentPath + SettingButton
+ * - DocumentLinkButton / DocumentLinkButton / DocumentLinkButton ...
  * */
 
-import DocumentLinkButton from '../molecules/DocumentLinkButton.js';
-import { push } from '../../utils/router.js';
-import styleInJS from '../../style/tagStyles.js';
-import { getItem } from '../../utils/storage.js';
+import DocumentLinkButton from '../DocumentLinkButton.js';
+import { push } from '../../../utils/router.js';
+import styleInJS from '../../../style/tagStyles.js';
+import { getItem } from '../../../utils/storage.js';
 
 export default function DocumentHeader({ $target, documentPath }) {
   const $documentHeader = document.createElement('div');
