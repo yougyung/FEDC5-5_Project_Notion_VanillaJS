@@ -24,6 +24,7 @@ export default function Footer({ $target, initialState }) {
     $div.innerHTML = "";
     if (this.state.post) {
       const { documents } = this.state.post;
+      // 하위 문서가 있다면 하위 문서 제목이 보이는 button 생성함.
       $div.innerHTML = documents ? this.footerTemplate(documents) : "";
     }
   };
@@ -36,6 +37,7 @@ export default function Footer({ $target, initialState }) {
     if ($button) {
       const { id } = $button.dataset;
 
+      // 버튼 클릭 시 /documents/${id}로 url 변경
       push(`/documents/${id}`);
     }
   });

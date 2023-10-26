@@ -27,6 +27,7 @@ export default function DocumentEditPage({
   const editor = new Editor({
     $target: $page,
     initialState: post,
+    // 편집기 편집 시
     onEditing: (post) => {
       if (timer !== null) {
         clearTimeout(timer); // 2초
@@ -38,12 +39,14 @@ export default function DocumentEditPage({
         });
 
         const isNew = this.state.postId === "new";
+
+        // 새로 생성된 문서라면 -> post 생성
         if (isNew) {
-          // 새로 생성된 문서라면 -> post 생성
+          // localStorage에서 부모 문서의 id를 가져옴. 없으면 null
           const parentId = getItem("parentId", null);
+          // 부모 문서의 하위에 문서 생성. 부모 문서가 없다면 루트에 문서 생성
           const createdPost = await request("/documents", {
             method: "POST",
-            // body: JSON.stringify(post),
             body: JSON.stringify({ ...post, parent: parentId }),
           });
           history.replaceState(null, null, `/documents/${createdPost.id}`);
@@ -58,7 +61,7 @@ export default function DocumentEditPage({
           });
           removeItem(postLocalSaveKey);
         }
-        onListChange(); // 문서 목록에 반영
+        onListChange(); // 문서 목록을 다시 렌더링 (수정된 문서 제목이 문서 목록에 반영되도록)
       }, 2000);
     },
   });
