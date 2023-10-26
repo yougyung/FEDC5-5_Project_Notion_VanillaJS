@@ -5,8 +5,9 @@
   overflow: auto;
 }
 
-.editor > input {
+.editor > textarea {
   width: 100%;
+  box-sizing: border-box;
 
   border: none;
   background: none;
@@ -17,9 +18,10 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  resize: none;
 }
 
-.editor > input::placeholder {
+.editor > textarea::placeholder {
   color: #eaeaea;
 }
 
@@ -27,7 +29,6 @@
   width: 100%;
 
   min-height: 300px;
-  margin-top: 20px;
   padding-left: 5px;
 
   resize: none;

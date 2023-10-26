@@ -8,18 +8,11 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.className = "editor";
 
   $editor.innerHTML = `
-     <input type="text" name="title" placeholder="제목 없음" />
+     <textarea id="textarea" type="text" name="title" placeholder="제목 없음" ></textarea>
       <div contentEditable="true"  class="content-area"  name="content" ></div>
       `;
 
   $target.appendChild($editor);
-
-  $("div[contentEditable]", $editor).addEventListener("keydown", e => {
-    if (e.keyCode === 13) {
-      document.execCommand("defaultParagraphSeparator", false, "p");
-      return false;
-    }
-  });
 
   this.setState = nextState => {
     this.state = nextState;
@@ -29,16 +22,26 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     const { title, content } = this.state;
 
-    $editor.querySelector("[name=title]").value = title;
+    const $title = $editor.querySelector("[name=title]");
+    $title.value = title;
+
+    const $content = $editor.querySelector("[name=content]");
 
     if (!content) {
-      $editor.querySelector("[name=content]").innerHTML = "";
+      $content.innerHTML = "";
       return;
     }
 
-    const richContent = content.split("\n").join("<br>");
+    $content.innerHTML = content;
 
-    $editor.querySelector("[name=content]").innerHTML = richContent;
+    setTimeout(() => changeTextAreaHeight(), 0);
+  };
+
+  const changeTextAreaHeight = () => {
+    const $title = $editor.querySelector("[name=title]");
+    const DEFAULT_HEIGHT = 30;
+    $title.style.height = 0;
+    $title.style.height = DEFAULT_HEIGHT + $title.scrollHeight + "px";
   };
 
   $editor.querySelector("[name=title]").addEventListener("keyup", e => {
@@ -79,4 +82,16 @@ export default function Editor({ $target, initialState, onEditing }) {
     const updateBody = { title, content };
     onEditing(updateBody);
   });
+
+  $("div[contentEditable]", $editor).addEventListener("keydown", e => {
+    if (e.keyCode === 13) {
+      document.execCommand("defaultParagraphSeparator", false, "");
+      return false;
+    }
+  });
+
+  const $textarea = $("#textarea", $editor);
+  $textarea.oninput = event => {
+    changeTextAreaHeight();
+  };
 }
