@@ -1,9 +1,8 @@
-const storage = window.localStorage;
+const storage = window.sessionStorage;
 
 export const setItem = (key, value) => {
   try {
     storage.setItem(key, JSON.stringify(value));
-    console.log("로컬 스토리지에 들어간 값:", value);
   } catch (error) {
     console.log(error.message);
   }
