@@ -1,4 +1,4 @@
-import { push } from '../../util/router.js';
+import { push } from '../../utils/router.js';
 
 // GET 요청을 통해 Document List를 호출, 사이드바에 렌더링
 export default function DocumentList({

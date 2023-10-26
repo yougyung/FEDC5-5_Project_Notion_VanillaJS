@@ -1,4 +1,4 @@
-import { push } from '../../util/router.js';
+import { push } from '../../utils/router.js';
 
 export default function SidebarHeader({ $target, onDocumentAdded }) {
   const $sidebarHeader = document.createElement('div');
