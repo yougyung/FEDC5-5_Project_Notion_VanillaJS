@@ -72,10 +72,12 @@ export default function App({ $target, initialState }) {
 
       setItem(`temp-document-${id}`, editedDocument);
 
-      modifyDocument({ documentId: id, title, content });
+      await modifyDocument({ documentId: id, title, content });
 
       this.setState({ ...this.state, editingDocument: editedDocument });
       documentEditPage.setState({ ...editedDocument, isSaving: true });
+
+      console.log(editedDocument);
 
       await this.updateDocumentList();
     }, 2000),
