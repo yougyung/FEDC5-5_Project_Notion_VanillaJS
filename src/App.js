@@ -16,7 +16,7 @@ export default function App({ $target }) {
 	};
 	const sidebar = new SideBar({
 		$target: $layout,
-		initialState: [],
+		initialState: this.state,
 		handleState,
 	});
 
@@ -27,7 +27,7 @@ export default function App({ $target }) {
 			const foundDocument = [...item.documents, item].find((document) => document.id === documentId);
 			if (foundDocument) {
 				foundDocument.title = inputText;
-				sidebar.setState(this.state.documentList);
+				sidebar.setState(this.state);
 				break;
 			}
 		}
@@ -53,8 +53,8 @@ export default function App({ $target }) {
 	this.setState = async (nextState) => {
 		this.state = nextState;
 
-		const { documentList, focusedDocumentId } = this.state;
-		sidebar.setState(documentList);
+		const { focusedDocumentId } = this.state;
+		sidebar.setState(this.state);
 		document.setState(await fetchDocumentContents(focusedDocumentId));
 	};
 
@@ -76,9 +76,8 @@ export default function App({ $target }) {
 	const init = async () => {
 		const data = await getAllDocumentList();
 		this.setState({ documentList: data, focusedDocumentId: ROOT_DOCUMENT_ID });
-
-		const { documentList, focusedDocumentId } = this.state;
-		sidebar.setState(documentList);
+		const { focusedDocumentId } = this.state;
+		sidebar.setState(this.state);
 		document.setState(await fetchDocumentContents(focusedDocumentId));
 
 		this.route();

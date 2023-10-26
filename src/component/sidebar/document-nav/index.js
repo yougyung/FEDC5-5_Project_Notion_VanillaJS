@@ -5,10 +5,9 @@ import CreateImg from '@asset/create.png';
 import { push } from '@util/router';
 import './style.scss';
 
-export default function DocumentNav({ $target, initialState, handleState }) {
+export default function DocumentNav({ $target, initialState, handleState, focusedDocumentId }) {
 	const $documentNav = createElementWithClass('div', 'document-nav');
 	$target.appendChild($documentNav);
-
 	this.state = {
 		document: initialState,
 		isToggleOn: false,
@@ -31,16 +30,19 @@ export default function DocumentNav({ $target, initialState, handleState }) {
 
 	this.render = () => {
 		const { document } = this.state;
+		const isActive = document.id === Number(focusedDocumentId);
 		$documentNav.innerHTML = `
-		<div class="document-nav__item">
+		<div class="document-nav__item" role="tab" aria-selected=${isActive} style="${
+			isActive && 'color:#37352f; background:rgba(0,0,0,0.04)'
+		}">
 			<div class="document-nav__item-info">
 				<div class="document-nav__item-info__toggle">
-					<img src=${ArrowImg} alt="toggleImg" class="document-nav__item-toggle-img" />
+					<img src=${ArrowImg} alt="toggleBtnImg" class="document-nav__item-toggle-img" />
 				</div>
 				<div class="document-nav__item-info__title">${document.title}</div>
 			</div>
 			<div class="document-nav__item-createBtn">
-				<img src=${CreateImg} alt="toggleImg" class="document-nav__item-createBtn-img icon"  />
+				<img src=${CreateImg} alt="toggleBtnImg" class="document-nav__item-createBtn-img icon"  />
 			</div>
 		</div>
 		<div class="document-nav__children"></div>
