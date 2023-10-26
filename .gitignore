@@ -1,0 +1,8 @@
+# Node 패키지 제외
+node_modules
+package*.json
+
+# ESLint, Prettier 제외
+.eslintrc.cjs
+.prettierrc.cjs
+.vscode

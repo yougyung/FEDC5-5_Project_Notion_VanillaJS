@@ -1,0 +1,52 @@
+
+/* 사이드바 */
+.sidebar {
+    grid-area: sidebar;
+
+    padding: 4px 14px;
+
+    display: flex;
+    flex-direction: column;
+
+    /* notion CSS */
+    color: rgba(25, 23, 17, 0.6);
+    background-color: rgb(251, 251, 250);
+    box-shadow: rgba(0, 0, 0, 0.024) -1px 0px 0px 0px inset; /* border 역할 */
+}
+
+.sidebar--header--username {
+    /* notion CSS */
+    color: rgb(55, 53, 47);
+    
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.sidebar--header--email {
+    /* notion CSS */
+    color: rgba(55, 53, 47, 0.65);
+    
+    font-family: "Segoe UI", sans-serif;
+    font-size: 11px;
+    line-height: 12px;
+    font-weight: 400;
+}
+
+.document_list_item {
+    padding-left: 12px;
+}
+
+.document_list_item__title:hover {
+    background-color: rgba(55, 53, 47, 0.08);
+    transition: background 20ms ease-in 0s;
+}
+
+.document_list_item__title {
+    /* Notion CSS */
+    font-size: 14px;
+    user-select: none;
+    cursor: pointer;
+    color: rgba(25, 23, 17, 0.6);
+}
