@@ -1,8 +1,10 @@
 import Header from "./Header.js"
 import Editor from "./Editor.js"
 import Main from "./Main.js"
+import Footer from "./Footer.js"
 import { findDocumentById, editDocument } from "../../apis/documents.js"
 import { documentStore } from "../../store/documentStore.js"
+import { HTTPError } from "../../apis/documents.js"
 export default class Content {
   constructor({ $target, initialState }) {
     this.$target = $target
@@ -18,6 +20,7 @@ export default class Content {
     this.$content = document.createElement("div")
     this.$content.setAttribute("id", "content")
     this.main = new Main({ $target: this.$content })
+
     this.header = new Header({
       $target: this.$content,
       props: { title: this.state.title, onEditing: this.onEditing.bind(this) }
@@ -31,6 +34,12 @@ export default class Content {
       }
     })
 
+    this.footer = new Footer({
+      $target: this.$content,
+      props: {
+        documents: documentStore.getState().documents || []
+      }
+    })
     this.$target.appendChild(this.$content)
   }
 
@@ -42,6 +51,7 @@ export default class Content {
     }
     if (type === "FAIL") {
       this.state = this.initialState
+      console.log(this.state)
       this.onFail()
     }
   }
@@ -58,7 +68,11 @@ export default class Content {
       this.setState({ type: "SUCCESS", payload: document })
     } catch (err) {
       //해당 id값을 가진 문서가 존재하지 않을 때 404 error 발생 - 원래 없었거나 or 방금 삭제된 데이터
-      this.setState({ type: "FAIL" })
+      if (err instanceof HTTPError) {
+        this.setState({ type: "FAIL" })
+      } else {
+        throw new Error(err)
+      }
     }
   }
 
@@ -68,6 +82,7 @@ export default class Content {
     const { title, content } = this.state
     this.header.setState(title)
     this.editor.setState(content)
+    this.findRelatedDocuments()
   }
 
   onEditing(type, payload) {
@@ -101,4 +116,21 @@ export default class Content {
   onFail() {
     this.$content.innerHTML = `<div>삭제된 페이지입니다</div>`
   }
+
+  findRelatedDocuments() {
+    this.findChildDocuments(documentStore.getState().documents, this.state.id)
+  }
+  findChildDocuments(data, currentId) {
+    for (const document of data) {
+      if (document.id === currentId) {
+        this.footer.setState(document.documents)
+        return
+      }
+      if (document.documents.length) {
+        this.findChildDocuments(document.documents, currentId)
+      }
+    }
+  }
 }
+
+//ID값에 따라서 documents 자료에서 id값을 찾음 - 여기에 들어있는 것들이
