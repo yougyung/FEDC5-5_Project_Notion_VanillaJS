@@ -48,7 +48,7 @@ export default function DocumentTree({
       else if (className !== "document-title-input") onClick(id);
     });
 
-    $ul.addEventListener("keydown", (e) => {
+    $ul.addEventListener("keypress", (e) => {
       if (e.key !== "Enter") return;
 
       const $span = e.target.closest("span");
