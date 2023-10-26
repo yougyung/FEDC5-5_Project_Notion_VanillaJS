@@ -77,7 +77,7 @@ export default class MainPage extends Component {
       this.$documentList.setState({ ...this.$documentList.state, documentList });
     } catch (error) {
       this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
+      this.$fallback.setState({ isError: true, code: error.code });
     }
   }
 
@@ -90,9 +90,8 @@ export default class MainPage extends Component {
       this.$editor.setState(currentDocument);
       this.$navigation.setState(currentDocument.documents);
     } catch (error) {
-      // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
       this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
+      this.$fallback.setState({ isError: true, code: error.code });
     }
   }
 
