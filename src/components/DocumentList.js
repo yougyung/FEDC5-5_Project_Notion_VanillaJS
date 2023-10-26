@@ -33,9 +33,7 @@ export default function DocumentList({
 			const $li = document.createElement('li');
 
 			$li.setAttribute('data-id', id);
-			$li.innerHTML = `<div class='tab_container'><button name='arrow'>${
-				SVG_ARROW_DOWN
-			}</button>
+			$li.innerHTML = `<div class='tab_container'><button name='arrow'>${SVG_ARROW_DOWN}</button>
 				<span class='text title_text'>${
 					title ? title : EMPTY_TITLE
 				}</span><button name='delete' class='hover_button'>${SVG_DELETE}</button><button name='add' class='hover_button'>${SVG_PLUS}</button></div>

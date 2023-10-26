@@ -26,6 +26,7 @@ export default function App({ $target, initialState }) {
 	const $div = document.createElement('div');
 	$div.setAttribute('class', 'editor_layout');
 	$target.appendChild($div);
+
 	const header = new Header({ $target: $header, initialState: OWNER });
 	const pageGenerator = new PageGenerator({
 		$target: $header,
@@ -38,6 +39,7 @@ export default function App({ $target, initialState }) {
 				body: JSON.stringify({ ...document }),
 			});
 			const { id } = nextState;
+
 			await this.fetch({
 				url: DOCUMENTS,
 				method: GET,
@@ -74,6 +76,7 @@ export default function App({ $target, initialState }) {
 				body: JSON.stringify({ ...document }),
 			});
 			const { id } = nextState;
+
 			await this.fetch({
 				url: DOCUMENTS,
 				method: GET,
@@ -131,6 +134,7 @@ export default function App({ $target, initialState }) {
 					method: PUT,
 					body: JSON.stringify({ ...modifiedPost }),
 				});
+
 				await this.fetch({
 					url: DOCUMENTS,
 					method: GET,
@@ -168,7 +172,6 @@ export default function App({ $target, initialState }) {
 		this.state = nextState;
 		documentList.setState(nextState);
 	};
-
 
 	this.fetch = async ({ url, method, body = {}, callback }) => {
 		const options = body.length ? { url, method, body } : { url, method };
@@ -210,10 +213,11 @@ export default function App({ $target, initialState }) {
 				method: GET,
 			});
 			documentEditPage.setState(nextState);
+
 			const breadcrumbPath = getBreadcrumb(this.state, id);
+
 			breadcrumb.setState(breadcrumbPath);
 			subDocumentLinkList.setState(nextState);
 		}
 	});
-
 }

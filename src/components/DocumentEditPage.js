@@ -1,4 +1,5 @@
 import { EMPTY_TITLE } from '../constants/messages.js';
+
 export default function DocumentEditPage({
 	$target,
 	initialState,
@@ -12,6 +13,7 @@ export default function DocumentEditPage({
 	this.state = initialState;
 
 	$div.innerHTML = `<input name='title'  style="margin-left: 84px" placeholder='${EMPTY_TITLE}'></input><div name="content" contentEditable="true" style="width:600px;height:400px; margin-left: 84px; border= 1px solid black; padding:8px; outline:none;"></div>`;
+
 	const $input = document.querySelector(`input[name='title']`);
 	const $divContent = document.querySelector(`div[name='content']`);
 
@@ -26,9 +28,6 @@ export default function DocumentEditPage({
 		this.state = nextState;
 		this.render();
 	};
-
-	const $input = document.querySelector(`input[name='title']`);
-	const $textarea = document.querySelector(`textarea[name='content']`);
 
 	this.render = () => {
 		const { id, title, content, documents, createdAt, updatedAt } =
@@ -46,6 +45,7 @@ export default function DocumentEditPage({
 		const { target } = event;
 		const { textContent } = document.querySelector('div[name=content]');
 		const { id } = this.state;
+
 		onPostChange(id, {
 			title: target.value.toString(),
 			content: textContent.toString(),
@@ -65,9 +65,12 @@ export default function DocumentEditPage({
 		);
 
 		const $div = document.createElement('div');
+
 		if (!$contenteditableBody.body.firstChild.tagName)
 			$div.appendChild($contenteditableBody.body.firstChild);
+
 		const contents = [$div, ...$contenteditableBody.body.children];
+
 		const nextContent = contents.map((element) => {
 			if (element.innerHTML.indexOf('# ') === 0) {
 				const tag = 'H1';
