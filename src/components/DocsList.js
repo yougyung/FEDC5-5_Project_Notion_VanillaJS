@@ -76,10 +76,11 @@ export default function DocsList({
 
   $list.addEventListener('click', e => {
     const { name, className } = e.target
-    const $liParent = e.target.closest("li")
+    const $li = e.target.closest("li")
+    
     // 버튼 이벤트
-    if ($liParent) {
-      const { id } = $liParent
+    if ($li) {
+      const { id } = $li
       if (className === 'addSubDocButton') {
         onClickAddSub(id)
       } else if (className === 'deleteDocButton') {
