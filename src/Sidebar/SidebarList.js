@@ -2,15 +2,15 @@ import {
     push
 } from "../utils/router.js"
 
-export default function NotionList({
+export default function SidebarList({
     $target,
     initialState,
     onAdd,
     onDelete
 }) {
-    const $notionList = document.createElement('div')
-    $notionList.className = 'sidebar_list'
-    $target.appendChild($notionList)
+    const $sidebarList = document.createElement('div')
+    $sidebarList.className = 'sidebar_list'
+    $target.appendChild($sidebarList)
 
     this.state = initialState
 
@@ -36,9 +36,9 @@ export default function NotionList({
     $rootCreateButton.innerHTML = `<p>+새페이지</p>`
 
     this.render = () => {
-        $notionList.innerHTML = renderList(this.state);
+        $sidebarList.innerHTML = renderList(this.state);
         console.log('link', this.state)
-        $notionList.appendChild($rootCreateButton)
+        $sidebarList.appendChild($rootCreateButton)
     }
 
     this.render()
@@ -48,7 +48,7 @@ export default function NotionList({
     });
 
 
-    $notionList.addEventListener('click', (e) => {
+    $sidebarList.addEventListener('click', (e) => {
 
         const $li = e.target.closest('li')
         const $button = e.target.closest('button')

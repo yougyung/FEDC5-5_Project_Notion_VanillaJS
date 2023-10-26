@@ -3,8 +3,8 @@ import {
     removeItem,
     setItem
 } from "../utils/storage.js"
-import Editor from "./editor.js"
-import EditorFooter from "./editorFooter.js"
+import Editor from "./Editor.js"
+import EditPageFooter from "./EditPageFooter.js"
 import {
     request
 } from "../utils/api.js"
@@ -34,7 +34,7 @@ export default function NotionEditPage({
         initialState: post,
         onEdit
     })
-    const editorFooter = new EditorFooter({
+    const editPageFooter = new EditPageFooter({
         $target: $page,
         initialState: post,
     })
@@ -50,7 +50,7 @@ export default function NotionEditPage({
                 const post = getItem(notionLocalSaveKey,defaultState)
                 this.render()
                 editor.setState(post)
-                editorFooter.setState(post)
+                editPageFooter.setState(post)
             }else {
                 await fetchPost()
             }
@@ -62,7 +62,7 @@ export default function NotionEditPage({
             this.state = nextState
         }
         editor.setState(this.state.post || defaultState)
-        editorFooter.setState(this.state.post || defaultState)
+        editPageFooter.setState(this.state.post || defaultState)
         this.render()
         
     }

@@ -1,5 +1,5 @@
-import NotionSidebar from "./Sidebar/notionSidebar.js"
-import NotionEditPage from "./EditPage/notionEditPage.js"
+import NotionSidebar from "./sidebar/NotionSidebar.js"
+import NotionEditPage from "./editPage/NotionEditPage.js"
 import {
     initRouter,
     push

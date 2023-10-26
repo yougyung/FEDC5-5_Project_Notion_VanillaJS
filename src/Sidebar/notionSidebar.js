@@ -1,4 +1,4 @@
-import NotionList from './documentList.js'
+import SidebarList from './SidebarList.js'
 import {
     removeItem,
 } from "../utils/storage.js"
@@ -15,7 +15,7 @@ export default function NotionSidebar({
     const $sidebar = document.createElement('div')
     $sidebar.className = 'sidebar'
 
-    const notionList = new NotionList({
+    const sidebarList = new SidebarList({
         $target: $sidebar,
         initialState: [],
         onAdd,
@@ -35,7 +35,7 @@ export default function NotionSidebar({
 
     this.setState = async () => {
         const lists = await request('/documents')
-        notionList.setState(lists)
+        sidebarList.setState(lists)
         this.render()
     }
 
