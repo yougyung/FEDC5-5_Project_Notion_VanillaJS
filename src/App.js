@@ -14,6 +14,7 @@ export default function App({ $target }) {
 
   const fetchDocuments = async () => {
     const documents = await request("/documents");
+    this.state = { ...this.state, pageList: documents };
     $pageList.setState(documents);
     //this.setState({ ...this.state, pageList: documents });
     //$pageList.setState(documents);
@@ -111,7 +112,10 @@ export default function App({ $target }) {
         });
         removeItem("temp-post");
         this.render();
-      }, 2000);
+      }, 1000);
+    },
+    validateLink: (linkId) => {
+      return this.state.pageList.some((page) => page.id === linkId);
     },
   });
 
