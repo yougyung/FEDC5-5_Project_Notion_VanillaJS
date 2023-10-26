@@ -17,6 +17,7 @@ import { API_END_POINT } from '@/constants/api';
 import { debounce } from '@/utils/debounce';
 import { createTemplate } from '@/utils/dom';
 import { ERROR_MESSAGE } from '@/constants/error';
+import DocumentHeader from '../components/DocumentHeader';
 
 export default class MainPage extends Component {
   constructor($target) {
@@ -31,9 +32,7 @@ export default class MainPage extends Component {
 
     this.$sidebar = createTemplate('<aside class="sidebar"></aside>');
     this.$mainSection = createTemplate('<section class="mainSection"></section>');
-    this.$sidebarHeader = createTemplate('<div>adsf</div>');
 
-    this.$sidebar.appendChild(this.$sidebarHeader);
     this.$target.appendChild(this.$sidebar);
     this.$target.appendChild(this.$mainSection);
 
@@ -41,6 +40,8 @@ export default class MainPage extends Component {
   }
 
   createInstance() {
+    this.$sidebarHeader = new DocumentHeader(this.$sidebar);
+
     this.$documentList = new DocumentList(this.$sidebar, {
       onSelect: this.handleDocumentSelect.bind(this),
       onCreate: this.handleDocumentCreate.bind(this),
