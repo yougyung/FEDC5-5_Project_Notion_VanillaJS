@@ -12,12 +12,28 @@ li:hover {
     background: rgb(235, 235, 235);
 }
 
+
+.notfoundpage {
+    width: 1500px;
+    height: 1500px;
+}
+
+.notfoundcontent {
+    margin: auto;
+    margin-top: auto;
+    width: 500px;
+    min-height: 500px;
+}
+
+
 .parentPageList,
 .childPageList {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
+
 
 li {
     white-space: nowrap;
