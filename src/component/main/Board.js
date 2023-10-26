@@ -22,7 +22,6 @@ export default class Board {
         this.editorElement.addEventListener("keyup", (e) => {
             const textHTML = e.target.innerHTML;
             const findDiv = this.editorElement.querySelector('div');
-            const findH3 = textHTML.split("###&nbsp;");
 
             if (findDiv) {
                 e.preventDefault();
@@ -30,19 +29,29 @@ export default class Board {
                 this.editorElement.removeChild(findDiv);
                 this.editorElement.appendChild(newLine);
             }
-            if (findH3.length > 1) {
-                e.preventDefault();
-                e.target.innerHTML = findH3[0] + `<h3 id="cur">&nbsp;</h3>`;
+            this.convertHeadingTag(textHTML, e);
+            this.updateDocument('제목 없음', textHTML);
+        });
+    }
+
+    convertHeadingTag(textHTML, e) {
+        const findH1 = textHTML.split("#&nbsp;");
+        const findH2 = textHTML.split("##&nbsp;");
+        const findH3 = textHTML.split("###&nbsp;");
+        const findH4 = textHTML.split("####&nbsp;");
+        const findHeadingTagArr = [findH1, findH2, findH3, findH4];
+
+        findHeadingTagArr.map((item, index) => {
+            if (item.length > 1) {
+                e.target.innerHTML = item[0] + `<h${index + 1} id="cur">&nbsp;</h${index + 1}>`;
                 const selection = window.getSelection();
                 const range = document.createRange();
-                const h3Node = document.getElementById('cur');
-                range.selectNode(h3Node);
-                h3Node.id = "";
+                const HeadingTag = document.getElementById('cur');
+                range.selectNode(HeadingTag);
+                HeadingTag.id = "";
                 selection.removeAllRanges();
                 selection.addRange(range);
             }
-            console.log(e.target.innerHTML);
-            this.updateDocument('제목 없음', textHTML);
         });
     }
     async updateDocument(title, content) {
