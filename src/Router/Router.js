@@ -10,6 +10,7 @@ export const pushRouter = (onRoute) => {
     }
   });
 
+  /* 뒤로가기 앞으로가기 미허용 */
   window.addEventListener(`${ROUTE_CHANGE_EVENT_NAME}replace`, (e) => {
     const { url } = e.detail;
 
@@ -34,6 +35,7 @@ export const makeRouterEvent = (params) => {
   }
 };
 
+/* browser 뒤로가기 앞으로가기 */
 window.onpopstate = () => {
   const { pathname } = window.location;
   makeRouterEvent({ url: pathname, event: "replace" });

@@ -7,7 +7,6 @@ export default function enterEvent({
   event,
   eventTarget,
 }) {
-  const { isComposing } = event;
   const evnetTargetText = eventTarget.innerText;
   /* 추가로직 중 구분선 */
   if (
@@ -31,7 +30,7 @@ export default function enterEvent({
   }
 
   /* 체크박스에서 엔터 */
-  if (eventTarget.className === "checkbox_text" && isComposing === false) {
+  if (eventTarget.className === "checkbox_text") {
     event.preventDefault();
     const cutLength = getOffset();
     const text = evnetTargetText.slice(cutLength);
@@ -56,7 +55,7 @@ export default function enterEvent({
   }
 
   /* 콜 아웃 에서 엔터  */
-  if (eventTarget.className === "callBox_textBox" && isComposing === false) {
+  if (eventTarget.className === "callBox_textBox") {
     event.preventDefault();
     const cutLength = getOffset();
     const text = evnetTargetText.slice(cutLength);
@@ -71,11 +70,7 @@ export default function enterEvent({
   }
 
   /* code block */
-  if (
-    event.shiftKey &&
-    eventTarget.className === "codeblock" &&
-    isComposing === false
-  ) {
+  if (event.shiftKey && eventTarget.className === "codeblock") {
     event.preventDefault();
     new CreateEditTextElement({
       target: editorElement,
@@ -88,18 +83,16 @@ export default function enterEvent({
     return;
   }
 
-  if (isComposing === false) {
-    /* 기본 추가 */
-    event.preventDefault();
-    const cutLength = getOffset();
-    const text = evnetTargetText.slice(cutLength);
-    eventTarget.innerText = evnetTargetText.slice(0, cutLength);
+  /* 기본 추가 */
+  event.preventDefault();
+  const cutLength = getOffset();
+  const text = evnetTargetText.slice(cutLength);
+  eventTarget.innerText = evnetTargetText.slice(0, cutLength);
 
-    new CreateEditTextElement({
-      target: editorElement,
-      text,
-      insertBeforeTarget: eventTarget,
-    });
-    return;
-  }
+  new CreateEditTextElement({
+    target: editorElement,
+    text,
+    insertBeforeTarget: eventTarget,
+  });
+  return;
 }

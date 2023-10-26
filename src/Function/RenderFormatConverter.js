@@ -51,6 +51,7 @@ export default function RenderFormatConverter({ text, target }) {
 
   if (text.indexOf("<callOut>") === 0) {
     const replacedText = text.replace(/<callOut>/, "");
+    /* 큰 CallBox 속 Emoji와 Text 박스가 존재함 */
     const callBox = new CreateEditTextElement({
       target,
       className: "callBox",

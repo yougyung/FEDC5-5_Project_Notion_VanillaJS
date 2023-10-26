@@ -5,11 +5,13 @@ export default function handleTyping({ event }) {
   if (event.key !== " ") {
     return;
   }
+  /* 자동으로 변환된 태그들을 원하는 값으로 변경시켜줌 */
   const text = changeWord(event.target.innerHTML);
   const target = event.target;
 
   /* 제목 관련 */
 
+  /* 제목 1 */
   if (text.indexOf("# ") === 0) {
     hasClass(target);
     target.classList.add("h1");
@@ -18,6 +20,8 @@ export default function handleTyping({ event }) {
     target.innerText = replaced;
     changePlaceFoucs({ target });
   }
+
+  /* 제목 2 */
   if (text.indexOf("## ") === 0) {
     hasClass(target);
     target.classList.add("h2");
@@ -26,6 +30,8 @@ export default function handleTyping({ event }) {
     target.innerText = replaced;
     changePlaceFoucs({ target });
   }
+
+  /* 제목 3 */
   if (text.indexOf("### ") === 0) {
     hasClass(target);
     target.classList.add("h3");
@@ -93,7 +99,6 @@ export default function handleTyping({ event }) {
       target: labelElement.getElement(),
       isEndPoint: true,
     });
-
     return;
   }
 
@@ -125,7 +130,7 @@ export default function handleTyping({ event }) {
   }
 }
 
-/*  */
+/* class 가 존재하면 지워버림 */
 function hasClass(target) {
   if (target.hasAttribute("class")) {
     target.removeAttribute("class");

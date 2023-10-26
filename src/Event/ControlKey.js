@@ -6,11 +6,13 @@ import enterEvent from "./ControlKey/EnterEvent.js";
 
 export function controlKey({ event, target }) {
   /* Enter new create Element */
-  const eventTarget = event.target;
+  const { isComposing, eventTarget } = event;
+
   const prevTarget = eventTarget.previousSibling;
   const nextTarget = eventTarget.nextSibling;
 
-  if (event.key === "Enter") {
+  /* Enter */
+  if (event.key === "Enter" && !isComposing) {
     enterEvent({
       event,
       editorElement: target,
@@ -20,7 +22,7 @@ export function controlKey({ event, target }) {
     });
   }
 
-  /* 삭제 관련 */
+  /* 삭제 관련 Back Space */
 
   if (getOffset() === 0 && event.key === "Backspace") {
     backspaceEvent({

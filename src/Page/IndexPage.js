@@ -1,4 +1,5 @@
 export default function IndexPage({ target }) {
+  /* 짭! 션! */
   const indexPageElement = document.createElement("h1");
   indexPageElement.setAttribute("class", "pageViewer_indexPage");
   indexPageElement.innerHTML = `
