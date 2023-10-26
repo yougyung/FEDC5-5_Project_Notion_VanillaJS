@@ -24,7 +24,7 @@ export default function DocumentList({
 		this.render();
 	};
 
-	this.stateRecursion = (documentsArray, $parentElement) => {
+	this.stateRecursion = (documentsArray, $parentElement, index) => {
 		const $ul = document.createElement('ul');
 		documentsArray.sort((a, b) => {
 			a.createdAt - b.createdAt;
@@ -34,11 +34,19 @@ export default function DocumentList({
 			const $li = document.createElement('li');
 
 			$li.setAttribute('data-id', id);
-			$li.innerHTML = `
-				<span>${title ? title : EMPTY_TITLE}<span><button>+</button>
+			$li.innerHTML = `<div class='tab_container'><button name='arrow'>${
+				SVG_ARROW_DOWN
+			}</button>
+				<span class='text title_text'>${
+					title ? title : EMPTY_TITLE
+				}</span><button name='delete' class='hover_button'>${SVG_DELETE}</button><button name='add' class='hover_button'>${SVG_PLUS}</button></div>
 			`;
 
-			if (documents.length) this.stateRecursion(documents, $li);
+			if (documents.length) {
+				this.stateRecursion(documents, $li, index + 1);
+			} else {
+				$li.innerHTML += `<ul><li><span class="text not_exist">하위 페이지 없음</span></li></ul>`;
+			}
 			$ul.appendChild($li);
 		});
 		$parentElement.appendChild($ul);
@@ -47,7 +55,7 @@ export default function DocumentList({
 	this.render = () => {
 		const $fragment = document.createDocumentFragment();
 
-		this.stateRecursion(this.state, $fragment);
+		this.stateRecursion(this.state, $fragment, 0);
 		$divListContainer.appendChild($fragment);
 	};
 	this.render();
