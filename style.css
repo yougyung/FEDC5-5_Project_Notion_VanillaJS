@@ -1,7 +1,6 @@
 button {
     background: none;
-
-    border: 1px solid black;
+    border: none;
     cursor: pointer;
 }
 
@@ -13,6 +12,13 @@ ul {
     width: 600px;
     height: 2000px;
     background-color: rgb(252, 251, 250);
+}
+
+.slotbtn {
+    border: none;
+    width: 15px;
+    height: 15px;
+
 }
 
 .textEditor {

@@ -13,11 +13,11 @@ export default class MenuItem {
         this.parentElement = parentElement;
         this.parentListElement = document.createElement('li');
         this.slotButtonElement = document.createElement('button');
+        this.slotImgElement = document.createElement('img');
         this.documentNameLabelElement = document.createElement('label');
         this.childListElement = document.createElement('ul');
         const addButtonElement = document.createElement('button');
         const deleteButtonElement = document.createElement('button');
-
 
         parentElement.appendChild(this.parentListElement);
         this.parentListElement.appendChild(this.slotButtonElement);
@@ -25,13 +25,14 @@ export default class MenuItem {
         this.parentListElement.appendChild(addButtonElement);
         this.parentListElement.appendChild(deleteButtonElement);
         this.parentListElement.appendChild(this.childListElement);
+        this.slotButtonElement.appendChild(this.slotImgElement);
 
         this.parentListElement.id = this.item.id;
         this.documentNameLabelElement.textContent = this.item.title;
         this.documentNameLabelElement.id = `documentbtn${item.id}`;
-        this.slotButtonElement.id = `slotbtn${item.id}`;
+        this.slotImgElement.className = `slotbtn`;
+        this.slotImgElement.id = `slotbtn${item.id}`;
         deleteButtonElement.id = `deletebtn${item.id}`;
-        this.slotButtonElement.textContent = this.isSlotOpen ? "^" : ">";
         this.childListElement.style.display = "none";
         addButtonElement.id = `addbtn${item.id}`
         addButtonElement.textContent = "+";
@@ -48,6 +49,7 @@ export default class MenuItem {
         this.slotButtonElement.addEventListener('click', (event) => {
             if (event.target.id === "slotbtn" + this.item.id) {
                 this.isSlotOpen = !this.isSlotOpen;
+                console.log("*");
                 this.render();
             }
         });
@@ -78,11 +80,11 @@ export default class MenuItem {
             }
             parentElement.removeChild(this.parentListElement);
         });
+        this.render();
     }
 
     render() {
-        const slotOpenBtn = this.isSlotOpen ? "^" : ">";
-        this.slotButtonElement.textContent = slotOpenBtn;
+        this.slotImgElement.src = this.isSlotOpen ? "../../../public/slotopen.png" : "../../../public/slotclose.png";
         this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
     };
 }
