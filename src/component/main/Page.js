@@ -26,4 +26,8 @@ export default class Page {
         const path = `/documents/${this.id}`;
         history.pushState(null, null, path);
     }
+
+    showNotDataPage() {
+
+    }
 }
