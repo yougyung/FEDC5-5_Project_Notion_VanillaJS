@@ -7,7 +7,8 @@ export default function PostList({
 }) {
   const $postList = document.createElement("ul");
   const $addPostWrapper = document.createElement("div");
-  $addPostWrapper.innerHTML = `<button>문서생성!</button`;
+  $addPostWrapper.className = "addPostWrapper";
+  $addPostWrapper.innerHTML = `<button>문서생성</button`;
   $postList.className = "list-depth-1";
   $target.appendChild($postList);
   $target.appendChild($addPostWrapper);
@@ -31,7 +32,7 @@ export default function PostList({
         $li.style.paddingLeft = "15px";
 
         $li.innerHTML = `
-          <button>
+          <button class="arrow-down">
             <img src=/img/icon-down-arrow.png width="10px">
           </button>
           📄${postArray[i].title || "제목 없음"}

@@ -14,7 +14,7 @@ export default function PostListPage({
   $page.appendChild($header);
   $target.appendChild($page);
 
-  $header.innerText = "🔥 Sangmin의 NO션";
+  $header.innerText = "🔥 Sangmin의 노션";
 
   /* 
     [{ title: string }]

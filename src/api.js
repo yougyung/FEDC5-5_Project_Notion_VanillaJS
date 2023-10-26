@@ -6,7 +6,7 @@ export const request = async (url, options = {}) => {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        "x-username": "test",
+        "x-username": "sangmin",
       },
     });
 

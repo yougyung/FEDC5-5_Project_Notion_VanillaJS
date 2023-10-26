@@ -22,9 +22,8 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    console.log(this.state);
     if (this.state.id === "root") {
-      $editor.querySelector("[name=title]").value = "문서를 선택해주세요~";
+      $editor.querySelector("[name=title]").value = "안녕하세요👋";
       $editor.querySelector("[name=content]").value = "";
 
       $editor.querySelector("[name=title]").setAttribute("readOnly", "");
