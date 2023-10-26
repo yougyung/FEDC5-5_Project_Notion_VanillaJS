@@ -1,5 +1,6 @@
 import Sidebar from "./component/sidebar/Sidebar.js";
 import Page from "./component/main/Page.js";
+import SearchModal from "./component/modal/searchModal.js";
 
 const rootElement = document.querySelector('#app');
 
@@ -15,3 +16,5 @@ const page = new Page({
         sidebar.menuList.updateDocumentTitle(id, title);
     }
 });
+
+const searchModal = new SearchModal(rootElement);

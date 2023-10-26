@@ -55,6 +55,11 @@ li {
     width: 100%;
 }
 
+.searchModal {
+    width: 600px;
+    height: 600px;
+    background-color: white;
+}
 
 .addDocumentButton img {
     width: 16px;
