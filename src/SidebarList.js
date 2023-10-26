@@ -5,20 +5,19 @@ export default function SidebarList({ $target, initialState }) {
 
   $target.appendChild($sidebartitle);
 
-  this.render = (documents, $container) => {
+  this.render = (documents, $container, currentDepth = 0) => {
     documents.forEach((doc) => {
-      const documentDiv = document.createElement('li');
-      documentDiv.className = 'document-item';
-      documentDiv.innerText = doc.title;
-
+      const $documentDiv = document.createElement('li');
+      $documentDiv.className = `document__item depth${currentDepth}`;
+      const $deleteBtn = document.createElement('button');
+      $deleteBtn.className = 'deleteBtn';
+      $deleteBtn.textContent = '삭제';
+      $documentDiv.appendChild($deleteBtn);
+      $documentDiv.innerText = doc.title;
+      $container.appendChild($documentDiv);
       if (doc.documents && doc.documents.length > 0) {
-        const $subDocumentContainer = document.createElement('ul');
-        $subDocumentContainer.className = 'sub-document-list';
-        this.render(doc.documents, $subDocumentContainer);
-        documentDiv.appendChild($subDocumentContainer);
+        this.render(doc.documents, $container, currentDepth + 1);
       }
-
-      $container.appendChild(documentDiv);
     });
   };
 
@@ -29,5 +28,5 @@ export default function SidebarList({ $target, initialState }) {
     this.render(this.state, $sidebartitle);
   };
 
-  this.render(this.state, $sidebartitle);
+  this.render(this.state, $sidebartitle, 0);
 }
