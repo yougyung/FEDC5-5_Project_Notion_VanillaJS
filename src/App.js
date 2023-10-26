@@ -24,12 +24,33 @@ export default function App({ $target, initialState }) {
 	});
 	let timer = null;
 	const documentEditPage = new DocumentEditPage({
-		$target,
+		$target: $div,
 		initialState,
-		onTitleChange: (title) => {
+		onPostChange: (id, post) => {
 			if (timer !== null) clearTimeout(timer);
-			timer = setTimeout(() => {
-				const data = { ...title, updatedAt: new Date().toJSON() };
+			timer = setTimeout(async () => {
+				const modifiedPost = {
+					...post,
+					updatedAt: new Date().toJSON(),
+				};
+				await this.fetch({
+					url: `${DOCUMENTS}/${id}`,
+					method: PUT,
+					body: JSON.stringify({ ...modifiedPost }),
+				});
+				await this.fetch({
+					url: DOCUMENTS,
+					method: GET,
+					callback: this.setState,
+				});
+				const breadcrumbPath = getBreadcrumb(this.state, id);
+				breadcrumb.setState(breadcrumbPath);
+
+				const nextState = await this.fetch({
+					url: `${DOCUMENTS}/${id}`,
+					method: GET,
+				});
+				documentEditPage.setState(nextState);
 			}, 500);
 		},
 		onContentChange: () => {},
