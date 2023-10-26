@@ -50,6 +50,8 @@ export default function Editor({ $target, initialState, onEditing }) {
               `<button class="searched_link_page" data-id="${result[0]}">➚ ${result[1]}</button>`
           )
           .join("");
+    } else {
+      $linkWrap.innerHTML = `<p class="link_wrap_inner_p">페이지 링크</p>`;
     }
     const searched_link_pages = document.querySelectorAll(
       ".searched_link_page"

@@ -22,22 +22,19 @@ export default function SideBar({ $target }) {
     id: null,
     handleChangeList: async () => await this.setState(),
     handleToggle: () => {},
-  });
-
-  // const searchBox = new SearchBox({ $target: "" }); //선언으로만 필요해서 $target주지 않음
+  }); //새페이지 버튼
 
   let isInit = true;
   this.setState = async () => {
     const res = await request("/documents");
     sideBarList.setState(res);
-    if (isInit) {
-      initPageAll(res);
-      for (let page of pageAll) {
-        const [id, title] = page;
-        searchTrie.insert(id, title);
-      }
-      console.log("TRIRI", searchTrie);
+    // if (isInit) {
+    initPageAll(res);
+    for (let page of pageAll) {
+      const [id, title] = page;
+      searchTrie.insert(id, title);
     }
+    // }
     isInit = false;
 
     // searchBox.setState(res);  //

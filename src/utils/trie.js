@@ -25,7 +25,7 @@ export default class Trie {
   }
 
   exists(title) {
-    let currentNode = this.root;
+    let currentNode = this.root.children.get(" ");
     for (const t of title) {
       if (!currentNode.children.has(t)) {
         return false;
@@ -39,16 +39,14 @@ export default class Trie {
     title = title.replace(" ", "");
     if (!title) {
       return [];
-      // return "검색어를 입력하세요";
     }
-    let currentNode = this.root;
+    let currentNode = this.root.children.get(" ");
     let madeword = [];
     currentNode = this.exists(title);
     if (currentNode) {
       madeword.push(title);
     } else {
       return [];
-      // return `입력한 문자열: ${title} || 자동완성 가능한 단어 없음`;
     }
 
     let result = [];
@@ -67,5 +65,3 @@ export default class Trie {
 }
 
 export const searchTrie = new Trie();
-
-// trie.insert("programmers");
