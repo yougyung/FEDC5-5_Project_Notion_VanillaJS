@@ -3,7 +3,11 @@ export const buildTree = (arr, targetId, depth) => {
     return `<ul data-depth=${depth}>${arr
       .map(
         ({ id, title, documents }) =>
-          `<li><span class="documentTitle ${
+          `<li>${
+            documents.length
+              ? `<label><ion-icon name="chevron-down-outline" class="arrow"/></label>`
+              : "- "
+          }<span class="documentTitle ${
             Number(targetId) === id ? "selected" : ""
           }" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
           </li>${buildTree(documents, targetId, depth + 1)}`

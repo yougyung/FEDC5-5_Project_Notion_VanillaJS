@@ -43,7 +43,7 @@ export default function SideMenu({
     if ($postAddButton) {
       const { add } = $postAddButton.dataset;
       const $ul = $postAddButton.parentNode.nextSibling;
-      $ul.innerHTML += `<li>제목없음<button> + </button><button> - </button></li>`; // Optimistic update
+      $ul.innerHTML += `<li>- 제목없음<button> + </button><button> - </button></li>`; // Optimistic update
       onPlusClick(add);
     }
   });
@@ -55,6 +55,20 @@ export default function SideMenu({
       const $li = $postRemoveButton.parentNode;
       $li.innerHTML = ""; // Optimistic update
       onDeleteClick(remove);
+    }
+  });
+
+  $nav.addEventListener("click", (e) => {
+    const $toggle = e.target.closest("label");
+    if ($toggle) {
+      const subCategory = $toggle.parentNode.nextElementSibling;
+      if (subCategory.hasAttribute("hidden")) {
+        subCategory.removeAttribute("hidden");
+        $toggle.className = "";
+      } else {
+        subCategory.setAttribute("hidden", true);
+        $toggle.className = "rotate";
+      }
     }
   });
 }

@@ -7,6 +7,9 @@
   background-color: rgb(255, 255, 0);
 }
 
+input {
+  width: 600px;
+}
 textarea {
   width: 600px;
   height: 200px;
@@ -17,6 +20,7 @@ button {
 }
 
 button,
+label,
 .documentList,
 .documentTitle {
   cursor: pointer;
@@ -25,4 +29,12 @@ button,
 .existTitle {
   cursor: pointer;
   color: blue;
+}
+
+.rotate > .arrow {
+  transform: rotate(-90deg);
+}
+
+ul {
+  list-style-type: none;
 }
