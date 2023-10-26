@@ -6,16 +6,15 @@ export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("div");
   $sidebar.className = "sidebar";
 
-  const sidebarHeader = new SidebarHeader({
+  new SidebarHeader({
     $target: $sidebar,
-    setState: this.setState,
   });
 
   const sidebarBody = new SidebarBody({
     $target: $sidebar,
   });
 
-  const sidebarFooter = new SidebarFooter({
+  new SidebarFooter({
     $target: $sidebar,
     setState: this.setState,
   });
