@@ -41,6 +41,12 @@ li {
     background-color: rgb(252, 251, 250);
 }
 
+.pageTitle {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 8px;
+}
+
 .addDocumentButton {
     display: flex;
     margin-top: 10px;
