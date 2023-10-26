@@ -11,7 +11,7 @@ export default class Sidebar {
     }
 
     init() {
-        const $sidebar = createNewElement('div', [{ property: 'className', value: 'sidebar' }]);
+        const $sidebar = createNewElement('aside', [{ property: 'className', value: 'sidebar' }]);
 
         this.user = new Header({
             $target: $sidebar,

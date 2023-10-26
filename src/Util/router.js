@@ -1,7 +1,6 @@
 import RootPage from '../Page/RootPage.js';
 import EditPage from '../Page/EditPage.js';
 import Sidebar from '../Component/Sidebar/Sidebar.js';
-import { createNewElement } from './Element.js';
 
 export default class RouterManger {
     static instance = null;

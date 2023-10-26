@@ -10,7 +10,7 @@ export default class Document {
     }
 
     init() {
-        const $document = createNewElement('div', [{ property: 'className', value: 'document' }]);
+        const $document = createNewElement('setcion', [{ property: 'className', value: 'document' }]);
 
         new DocumentForm({
             $target: $document,

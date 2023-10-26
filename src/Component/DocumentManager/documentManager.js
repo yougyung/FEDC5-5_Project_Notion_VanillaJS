@@ -1,4 +1,4 @@
-import DocumentEditor from './DocumentEditor/documentEditor.js';
+import DocumentEditor from './DocumentEditor/DocumentEditor.js';
 import ChildDocumentsViewer from './ChildDocumentsViewer/ChildDocumentsViewer.js';
 import { createNewElement } from '../../Util/Element.js';
 import { fetchGetDocumentContent, fetchPutDocument } from '../../Service/PostApi.js';

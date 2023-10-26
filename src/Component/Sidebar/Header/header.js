@@ -9,7 +9,7 @@ export default class Header {
     }
 
     init() {
-        const $header = createNewElement('div', [{ property: 'className', value: 'header' }]);
+        const $header = createNewElement('section', [{ property: 'className', value: 'header' }]);
         const $userName = createNewElement(
             'h1',
             [{ property: 'className', value: 'header__user-name' }],

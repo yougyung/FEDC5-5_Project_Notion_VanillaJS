@@ -14,7 +14,9 @@ export default class ChildDocumentsViewer {
     }
 
     init() {
-        this.$documentChildList = createNewElement('div', [{ property: 'className', value: 'document-child-list' }]);
+        this.$documentChildList = createNewElement('section', [
+            { property: 'className', value: 'document-child-list' },
+        ]);
 
         this.$target.appendChild(this.$documentChildList);
         this.$documentChildList.addEventListener('click', (e) => this.handleOnClick(e));

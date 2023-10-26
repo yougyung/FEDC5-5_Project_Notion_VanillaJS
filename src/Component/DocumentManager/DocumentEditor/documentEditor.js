@@ -14,7 +14,7 @@ export default class DocumentEditor {
     }
 
     init() {
-        this.$editor = createNewElement('div', [{ property: 'className', value: 'editor' }]);
+        this.$editor = createNewElement('section', [{ property: 'className', value: 'editor' }]);
         this.$title = createNewElement('input', [
             { property: 'type', value: 'text' },
             { property: 'name', value: 'title' },
