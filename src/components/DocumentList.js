@@ -52,11 +52,31 @@ export default function DocumentList({
 		$parentElement.appendChild($ul);
 	};
 
+	this.toggleHidden = () => {
+		const keys = getItem('KNotionProject', []);
+
+		keys.forEach((key) => {
+			const $li = document.querySelector(`[data-id='${key}']`);
+			if (!$li) {
+				const filteredKeys = keys.filter(
+					(keyElement) => key !== keyElement,
+				);
+				setItem('KNotionProject', JSON.stringify(filteredKeys));
+				return;
+			}
+			const $ul = $li.querySelector('ul');
+			$ul.classList.add('hidden');
+			const $svg = $li.querySelector('[name=toggle]');
+			$svg.classList.add('rotate');
+		});
+	};
+
 	this.render = () => {
 		const $fragment = document.createDocumentFragment();
 
 		this.stateRecursion(this.state, $fragment, 0);
 		$divListContainer.appendChild($fragment);
+		this.toggleHidden();
 	};
 	this.render();
 
