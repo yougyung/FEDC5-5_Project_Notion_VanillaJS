@@ -60,6 +60,9 @@ export function removeToggleList(id) {
 
 /* is toggle? */
 export function isCheckedToggled(id) {
+  if (typeof id === "number") {
+    id = id.toString();
+  }
   const toggledList = getToggleList();
-  return toggledList.includes(id.toString());
+  return toggledList.includes(id);
 }

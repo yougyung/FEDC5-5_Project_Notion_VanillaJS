@@ -6,8 +6,8 @@ import enterEvent from "./ControlKey/EnterEvent.js";
 
 export function controlKey({ event, target }) {
   /* Enter new create Element */
-  const { isComposing, eventTarget } = event;
-
+  const { isComposing } = event;
+  const eventTarget = event.target;
   const prevTarget = eventTarget.previousSibling;
   const nextTarget = eventTarget.nextSibling;
 
