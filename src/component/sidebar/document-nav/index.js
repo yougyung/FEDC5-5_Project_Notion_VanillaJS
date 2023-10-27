@@ -24,7 +24,10 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 			if (documents.length === 0) {
 				$children.innerHTML = `<span class="document-nav__children-announce">하위 페이지 없음</span>`;
 			}
-			documents.map((document) => new DocumentNav({ $target: $children, initialState: document }));
+			documents.map(
+				(document) =>
+					new DocumentNav({ $target: $children, initialState: document, handleState, focusedDocumentId })
+			);
 		}
 	};
 
@@ -65,6 +68,7 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 	this.handleClickToggle = () => {
 		this.setState({ ...this.state, isToggleOn: !this.state.isToggleOn });
 	};
+
 	addEvent($documentNav, 'document-nav__item-info__toggle', 'click', this.handleClickToggle);
 	addEvent($documentNav, 'document-nav__item-info__title', 'click', this.handleClickTitle);
 	addEvent($documentNav, 'document-nav__item-createBtn', 'click', this.handleClickAddBtn);

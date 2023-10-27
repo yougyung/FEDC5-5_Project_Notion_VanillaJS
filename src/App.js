@@ -6,7 +6,7 @@ import { getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
 
 const ROOT_DOCUMENT_ID = 103858;
-const NOT_FOUND_DOCUMENT_ID = 103935;
+const NOT_FOUND_DOCUMENT_ID = 103629;
 export default function App({ $target }) {
 	const $layout = createElementWithClass('div', 'layout');
 	$target.appendChild($layout);
@@ -19,6 +19,18 @@ export default function App({ $target }) {
 		initialState: this.state,
 		handleState,
 	});
+	const deleteDocument = (array, id) => {
+		for (let i = 0; i < array.length; i += 1) {
+			const item = array[i];
+			if (item.id === id) {
+				array.splice(i, 1);
+				break;
+			}
+			if (item.documents && item.documents.length > 0) {
+				deleteDocument(item.documents, id);
+			}
+		}
+	};
 
 	const handleOptimisticUITitle = async (documentId, inputText) => {
 		const { documentList } = this.state;
@@ -34,7 +46,7 @@ export default function App({ $target }) {
 			}
 		} else {
 			push('/');
-			sidebar.setState(await getAllDocumentList());
+			deleteDocument(this.state.documentList, documentId);
 			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
 		}
 	};
@@ -81,8 +93,10 @@ export default function App({ $target }) {
 
 	const init = async () => {
 		const data = await getAllDocumentList();
+		const filterTarget = [ROOT_DOCUMENT_ID, NOT_FOUND_DOCUMENT_ID];
+		const filteredDocuments = data.filter((item) => !filterTarget.includes(item.id));
 
-		this.setState({ documentList: data, focusedDocumentId: ROOT_DOCUMENT_ID });
+		this.setState({ documentList: filteredDocuments, focusedDocumentId: ROOT_DOCUMENT_ID });
 		const { focusedDocumentId } = this.state;
 		sidebar.setState(this.state);
 		document.setState(await fetchDocumentContents(focusedDocumentId));

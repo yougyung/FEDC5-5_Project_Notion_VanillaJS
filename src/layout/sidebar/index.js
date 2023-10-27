@@ -40,9 +40,9 @@ export default function SideBar({ $target, initialState, handleState }) {
 		addEvent($sidebar, 'sidebar__documentCreateBtn-img', 'click', this.handleClickCreate);
 	};
 	this.render();
+
 	this.handleClickCreate = async () => {
 		const resposne = await createDocument('문서 제목', null);
-
 		handleState({
 			focusedDocumentId: resposne.id,
 			documentList: [
