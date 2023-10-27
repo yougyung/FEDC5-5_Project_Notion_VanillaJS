@@ -14,17 +14,26 @@ export default function Sidebar({ $target, initialState }) {
         title: '새 폴더',
         parent: null,
       };
-      const createdPost = await request('', {
+      const createdDocument = await request('', {
         method: 'POST',
         body: JSON.stringify(document),
       });
-      this.setState({ ...this.state, createdPost });
+      this.setState({ ...this.state, createdDocument });
     },
   });
 
   const sidebarList = new SidebarList({
     $target: $sidebar,
     initialState: [],
+    delDocument: async (docid) => {
+      const deletedDocuments = await request(`/${docid}`, {
+        method: 'DELETE',
+      });
+      // 삭제가 제대로 된 경우
+      if (deletedDocuments) {
+        this.setState();
+      }
+    },
   });
 
   this.setState = async () => {

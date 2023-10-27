@@ -10,6 +10,9 @@
 * button {
   cursor: pointer;
 }
+* button :hover {
+  background-color: rgba(55, 53, 47, 0.08);
+}
 
 #app .sidebar {
   width: 246px;
@@ -22,14 +25,11 @@
 #app .sidebar__header {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   color: rgba(55, 53, 47, 0.5);
   font-weight: 600;
   min-height: 24px;
-  padding: 0px 14px 0px 15px;
-  margin-top: 6px;
-  margin-bottom: 2px;
+  padding: 15px 5px 0 10px;
 }
 #app .sidebar__header__title {
   display: flex;
@@ -45,32 +45,34 @@
   background: rgba(0, 0, 0, 0.04);
 }
 #app .sidebar__content {
-  font-size: 12px;
-  color: rgba(55, 53, 47, 0.5);
-  font-weight: 600;
+  padding-right: 5px;
+}
+#app .sidebar__content span {
+  cursor: pointer;
+}
+#app .sidebar__content ul {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
+  padding: 0 0 0 10px;
 }
-#app .sidebar__content > li {
-  font-size: 12px;
+#app .sidebar__content div {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: rgba(55, 53, 47, 0.5);
-  font-weight: 600;
-  min-height: 24px;
-  padding: 5px 14px 0px 15px;
-  margin-top: 6px;
-  margin-bottom: 2px;
 }
-#app .sidebar__content > li:hover {
+#app .sidebar__content div:hover {
   background: rgba(0, 0, 0, 0.04);
 }
-#app .sidebar__content > li > button {
+#app .sidebar__content li {
   font-size: 12px;
   color: rgba(55, 53, 47, 0.5);
   font-weight: 600;
+  padding: 0 0 0 5px;
+}
+#app .sidebar__content li .text {
+  width: 100%;
+  padding-left: 5px;
 }
 
 /*# sourceMappingURL=style.css.map */
