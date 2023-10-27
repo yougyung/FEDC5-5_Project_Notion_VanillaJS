@@ -16,6 +16,7 @@ export async function createDocument(title, parent) {
 			parent,
 		}),
 	});
+	console.log(response);
 	return response;
 }
 export async function updateDocument(document, documentId) {
@@ -26,7 +27,7 @@ export async function updateDocument(document, documentId) {
 	return response;
 }
 export async function deleteDocument(documentId) {
-	const response = await requestInstance(`/documents${documentId}`, {
+	const response = await requestInstance(`/documents/${documentId}`, {
 		method: 'DELETE',
 	});
 	return response;

@@ -1,7 +1,7 @@
 import { createElementWithClass } from '@util/dom';
 import Document from '@layout/document';
 import SideBar from '@layout/sidebar';
-import { initRoute } from '@util/router';
+import { initRoute, push } from '@util/router';
 import { getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
 
@@ -20,16 +20,22 @@ export default function App({ $target }) {
 		handleState,
 	});
 
-	const handleOptimisticUITitle = (documentId, inputText) => {
-		// 뎁스 확인하기
-		// eslint-disable-next-line no-restricted-syntax
-		for (const item of this.state.documentList) {
-			const foundDocument = [...item.documents, item].find((document) => document.id === documentId);
-			if (foundDocument) {
-				foundDocument.title = inputText;
-				sidebar.setState(this.state);
-				break;
+	const handleOptimisticUITitle = async (documentId, inputText) => {
+		const { documentList } = this.state;
+		if (inputText) {
+			// eslint-disable-next-line no-restricted-syntax
+			for (const item of documentList) {
+				const foundDocument = [...item.documents, item].find((document) => document.id === documentId);
+				if (foundDocument) {
+					foundDocument.title = inputText;
+					sidebar.setState(this.state);
+					break;
+				}
 			}
+		} else {
+			push('/');
+			sidebar.setState(await getAllDocumentList());
+			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
 		}
 	};
 
@@ -75,6 +81,7 @@ export default function App({ $target }) {
 
 	const init = async () => {
 		const data = await getAllDocumentList();
+
 		this.setState({ documentList: data, focusedDocumentId: ROOT_DOCUMENT_ID });
 		const { focusedDocumentId } = this.state;
 		sidebar.setState(this.state);

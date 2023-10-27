@@ -42,7 +42,7 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 				<div class="document-nav__item-info__title">${document.title}</div>
 			</div>
 			<div class="document-nav__item-createBtn">
-				<img src=${CreateImg} alt="toggleBtnImg" class="document-nav__item-createBtn-img icon"  />
+				<img src=${CreateImg} alt="createBtnImg" class="document-nav__item-createBtn-img icon"  />
 			</div>
 		</div>
 		<div class="document-nav__children"></div>

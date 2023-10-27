@@ -1,7 +1,8 @@
-import { updateDocument } from '@api/document';
+import { updateDocument, deleteDocument } from '@api/document';
 import debounce from '@util/debounce';
 import ContentBlock from '@component/document/content-block';
 import { createElementWithClass, addEvent } from '../../util/dom';
+
 import './style.scss';
 
 const ARROWUP_CHARACTER = 'ArrowUp';
@@ -41,11 +42,13 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		$document.innerHTML = `
 		<h1 contenteditable="true" class="document__title" style="margin-top:0px;">${title}</h1>
 		<div class="document__content"></div>
+		<div class="document__deleteBtn" role='button'>페이지 삭제</div>
 		`;
 		test();
 		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
 		// addEvent($document, 'document__content', 'click', this.handleClickContent);
 		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
+		addEvent($document, 'document__deleteBtn', 'click', this.handleClickDelete);
 	};
 	this.render();
 
@@ -58,6 +61,11 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			const newDocument = { title: e.target.innerHTML, content };
 			await updateDocument(newDocument, id);
 		});
+	};
+	this.handleClickDelete = () => {
+		const { id } = this.state;
+		handleOptimisticUITitle(id);
+		deleteDocument(id);
 	};
 	// eslint-disable-next-line consistent-return
 	this.handleKeyUpContent = (e) => {
