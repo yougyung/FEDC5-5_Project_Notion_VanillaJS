@@ -5,20 +5,20 @@ export default function EditDocument({ $target, initialState }) {
 
   this.state = initialState;
 
-  const setState = (nextState) => {
+  this.setState = (nextState) => {
     this.state = nextState;
     render();
   };
 
   const render = () => {
+    const { title } = this.state.selectedDocument;
+
     $editContainer.innerHTML = `
-              <div class="editable" id="editable-title" contenteditable="true">
-                <h1>제목없음</h1>
-              </div>
-              <div class="editable" id="editable-content" contenteditable="true">
-                <p>Type your content here...</p>
-              </div>
-          `;
+      <div class="editable" id="editable-title" contenteditable="true">
+        <h1>${title || "제목 없음"}</h1>
+      </div>
+      <div class="editable" id="editable-content" contenteditable="true"></div>
+    `;
   };
 
   $editContainer.addEventListener("click", async (e) => {

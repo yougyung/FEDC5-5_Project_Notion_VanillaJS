@@ -51,7 +51,6 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
     if ($node.classList.contains("toggle-button")) {
       toggleDocument($parentDocument);
     } else if ($node.classList.contains("add-button")) {
-      console.log(id);
       onAddNewDocument(id);
     } else if ($node.classList.contains("delete-button")) {
       // 삭제 기능
