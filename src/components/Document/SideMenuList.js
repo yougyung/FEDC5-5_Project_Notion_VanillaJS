@@ -1,5 +1,6 @@
 import CreateMenu from './CreateMenu.js';
 import { push } from '../../route/router.js';
+import { getItem, removeItem } from '../../../utils/storage.js';
 
 export default function SideMenuList({ $target, initialState, onNavRemove, onNavCreate }) {
     const $sideMenuList = document.createElement('div');
@@ -42,7 +43,7 @@ export default function SideMenuList({ $target, initialState, onNavRemove, onNav
 
         if(target.nodeName === 'SPAN') {
             const { id } = $li.dataset;
-
+            if(getItem('save')) removeItem('save');
             push(`/documents/${id}`)
         }
     })
