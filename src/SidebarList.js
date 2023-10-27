@@ -54,6 +54,16 @@ export default function SidebarList({
       const { id } = $li.dataset;
       switch ($button.className) {
         case 'toggle':
+          if ($li.querySelector('ul')) {
+            const $ul = $li.querySelector('ul');
+            $ul.classList.toggle('hidden');
+
+            if ($ul.className === 'hidden') {
+              $button.innerHTML = `<img src="public/assets/img/close.svg" alt="페이지 토글 닫기 이미지"/>`;
+            } else {
+              $button.innerHTML = `<img src="public/assets/img/open.svg" alt="페이지 토글 열기 이미지"/>`;
+            }
+          }
           break;
         case 'delete':
           delDocument(id);

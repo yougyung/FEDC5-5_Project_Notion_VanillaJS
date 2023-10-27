@@ -59,6 +59,9 @@
   gap: 10px;
   padding: 0 0 0 10px;
 }
+#app .sidebar__content ul .hidden {
+  display: none;
+}
 #app .sidebar__content div {
   width: 100%;
   display: flex;
@@ -75,6 +78,9 @@
   color: rgba(55, 53, 47, 0.5);
   font-weight: 600;
   padding: 0 0 0 5px;
+}
+#app .sidebar__content li.hidden {
+  display: none;
 }
 #app .sidebar__content li .text {
   width: 100%;
