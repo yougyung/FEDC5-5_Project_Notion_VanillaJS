@@ -17,7 +17,7 @@ export default function DocumentList({
     this.render();
   };
 
-  const renderDocuments = (documents) => {
+  const renderDocumentsTree = (documents) => {
     return `
       <ul>
         ${documents
@@ -45,7 +45,7 @@ export default function DocumentList({
             
             ${
               document.documents && document.documents.length > 0
-                ? renderDocuments(document.documents)
+                ? renderDocumentsTree(document.documents)
                 : ''
             }
           </li>
@@ -57,7 +57,7 @@ export default function DocumentList({
   };
 
   this.render = () => {
-    $documentList.innerHTML = renderDocuments(this.state);
+    $documentList.innerHTML = renderDocumentsTree(this.state);
   };
 
   $documentList.addEventListener('click', (e) => {
