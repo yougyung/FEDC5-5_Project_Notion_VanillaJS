@@ -57,6 +57,6 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 		handleState({ focusedDoscumentId: response.id });
 	};
 
-	addEvent($documentNav, 'document-nav__item-info__title', 'click', this.handleClickTitle);
+	addEvent($documentNav, 'document-nav__item', 'click', this.handleClickTitle);
 	addEvent($documentNav, 'document-nav__item-createBtn', 'click', this.handleClickAddBtn);
 }

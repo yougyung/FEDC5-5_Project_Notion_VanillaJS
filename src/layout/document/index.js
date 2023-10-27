@@ -62,6 +62,10 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	this.render();
 
 	this.handleKeyUpTitle = (e) => {
+		if (e.code === ARROWDOWN_CHARACTER) {
+			const $content = $document?.querySelector('.document__content');
+			$content.firstChild.focus();
+		}
 		const { id, content } = this.state;
 		// optimistic UI
 		handleOptimisticUITitle(id, e.target.innerHTML);
@@ -76,9 +80,12 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		handleOptimisticUITitle(id);
 		deleteDocument(id);
 	};
+
 	this.handleKeyUpContent = (e) => {
 		if (e.code === ARROWUP_CHARACTER) {
-			return e.target.previousSibling?.focus();
+			const $title = $document?.querySelector('.document__title');
+			// eslint-disable-next-line no-unused-expressions
+			e.target.previousSibling ? e.target.previousSibling.focus() : $title.focus();
 		}
 		if (e.code === ARROWDOWN_CHARACTER) {
 			return e.target.nextSibling?.focus();
