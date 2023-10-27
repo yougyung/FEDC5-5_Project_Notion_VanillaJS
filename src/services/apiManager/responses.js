@@ -27,9 +27,9 @@ export function validateDocumentContentResponse(documentContent) {
             throw new Error("문서 id가 숫자 타입이 아닙니다");
         else if (typeof documentContent.title !== "string")
             throw new Error("문서 title가 문자열 타입이 아닙니다");
-        else if (typeof documentContent.content !== "string")
-            throw new Error("문서 content가 문자열 타입이 아닙니다");
-        else if (Array.isArray(data.documents) === false)
+        else if (!(typeof documentContent.content === "string" || documentContent.content === null))
+            throw new Error("문서 content가 문자열 타입 혹은 null이 아닙니다");
+        else if (Array.isArray(documentContent.documents) === false)
             throw new Error("문서 documents가 배열이 아닙니다");
         else if (typeof documentContent.createdAt !== "string")
             throw new Error("문서 createdAt이 문자열 타입이 아닙니다");

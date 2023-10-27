@@ -5,6 +5,7 @@ import {
 import requireNew from "../../services/requireNew.js";
 
 import { initialDocument } from "../../constants/initialData.js";
+import { replaceDocumentId } from "../../services/router.js";
 
 const validateSelf = (data) => {
     if (typeof data.id !== "number")
@@ -42,6 +43,7 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
     const $title = document.createElement("span");
 
     $documentNode.appendChild($title);
+    $title.classList.add("document-title");
 
     $documentNode.appendChild($addChildButton);
     $addChildButton.classList.add("add-button");
@@ -50,17 +52,24 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
     $deleteButton.classList.add("delete-button");
 
     $documentNode.classList.add("document-node");
-
+    
     this.id = initialData.id;
     this.title = initialData.title;
     this.documents = initialData.documents;
-
+    
+    $documentNode.setAttribute("data-id", `${this.id}`);
+    
     this.getNode = () => {
         return $documentNode;
     };
 
     $title.addEventListener("click", () => {
-        history.replaceState(null, null, `/document/${this.id}`);
+        history.replaceState(
+            { documentId: this.id },
+            null,
+            `/document/${this.id}`
+        );
+        document.dispatchEvent(replaceDocumentId(this.id));
     });
 
     $addChildButton.addEventListener("click", async () => {

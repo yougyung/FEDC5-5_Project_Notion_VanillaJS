@@ -1,10 +1,22 @@
+import { updateDocument } from "../services/apiManager/index.js";
 import requireNew from "../services/requireNew.js";
 
-export function Editor({ $target, initialContent }) {
+export function Editor({ $target, initialContent, changeTitle }) {
     requireNew(new.target);
 
-    const $editor = document.createElement("textarea");
+    const $editor = document.createElement("div");
     $editor.classList.add("editor");
+
+    const $title = document.createElement("input");
+    $title.classList.add("editor-title");
+    $title.setAttribute("placeholder", "제목 입력");
+
+    const $content = document.createElement("textarea");
+    $content.classList.add("editor-content");
+    $content.setAttribute("autofocus", "true")
+
+    $editor.appendChild($title);
+    $editor.appendChild($content);
 
     $target.appendChild($editor);
 
@@ -15,7 +27,29 @@ export function Editor({ $target, initialContent }) {
         this.render();
     }
 
-    this.render = () => {
+    let timeoutId;
 
+    $editor.addEventListener("keyup", (e) => {
+        const nextState = {...this.state};
+        if (e.target.classList.contains("editor-title")) {
+            this.setState({...nextState, title: e.target.value});
+            changeTitle(history.state.documentId, e.target.value);
+        } else if (e.target.classList.contains("editor-content")) {
+            this.setState({...nextState, content: e.target.value});
+        }
+
+        clearTimeout(timeoutId);
+    
+        timeoutId = setTimeout(() => {
+            // console.log(history.state.documentId);
+            updateDocument(history.state.documentId, this.state);
+        }, 2000);
+    });
+
+    this.render = () => {
+        $title.value = this.state.title;
+        $content.value = this.state.content;
+        // $editor.innerHTML = `<textarea>${this.state.content}</textarea>`
     }
+    this.render()
 }

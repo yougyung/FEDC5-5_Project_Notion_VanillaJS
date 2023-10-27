@@ -1,24 +1,40 @@
 import { DocumentTree } from "./components/DocumentTree/index.js";
 import { Editor } from "./components/Editor.js";
-import { createDocument, getRootDocument, deleteDocument } from "./services/apiManager/index.js";
+import { initialContent } from "./constants/initialData.js";
+import {
+    createDocument,
+    getRootDocument,
+    deleteDocument,
+    getDocumentContent,
+} from "./services/apiManager/index.js";
+import requireNew from "./services/requireNew.js";
 import { handleRouteChange } from "./services/router.js";
 
-async function App({ $target }) {
+function App({ $target }) {
+    requireNew(new.target);
 
-    const initialRootDocument = await getRootDocument();
-    // const documentTreeInstance = await fetch("/src/dummyDocument.json")
-    // .then((res) => res.json())
-    // .then(res => res.data)
-    // .then((initialData) => 
-    new DocumentTree({ $target, initialData: initialRootDocument });
+    async function initializeDocuments() {
+        const initialRootDocument = await getRootDocument();
+        const documentTreeInstance = new DocumentTree({
+            $target,
+            initialData: initialRootDocument,
+        });
 
-    // const editorInstance = new Editor({ $target, initialContent });
+        const editorInstance = new Editor({
+            $target,
+            initialContent,
+            changeTitle: (id, text) =>
+                documentTreeInstance.changeTitle(id, text),
+        });
 
-    const $test = document.createElement("button");
-    $test.classList.add("add-button");
-    $target.appendChild($test);
-
-    $test.addEventListener("click", () => deleteDocument(113428))
+        document.addEventListener("replacestate", async (event) => {
+            const content = await handleRouteChange(event);
+            if (content != null) {
+                editorInstance.setState(content);
+            }
+        });
+    }
+    initializeDocuments();
 }
 
 export default App;

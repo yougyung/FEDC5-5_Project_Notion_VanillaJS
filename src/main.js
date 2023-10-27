@@ -3,7 +3,15 @@ import { handleRouteChange } from "./services/router.js";
 
 const $app = document.querySelector("#app");
 
-document.addEventListener("DOMContentLoaded", () => handleRouteChange());
+new App({ $target: $app });
+
+
+
+// export const documentIdHandler = async (event) => {
+//     const content = await getDocumentContent(event.detail.documentId);
+//     console.log(content);
+//     AppInstance.editorChange(content);
+// };
 
 // document.addEventListener("replacestate", handleRouteChange);
 
@@ -19,4 +27,4 @@ document.addEventListener("DOMContentLoaded", () => handleRouteChange());
 //     window.dispatchEvent(newEvent);
 // };
 
-App({ $target: $app });
+// App({ $target: $app });

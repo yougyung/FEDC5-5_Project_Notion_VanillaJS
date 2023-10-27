@@ -58,6 +58,32 @@ export function DocumentTree({ $target, initialData }) {
         }
     };
 
+    const findNode = (id, currentNode) => {
+        if(currentNode?.dataset.id === id.toString()) {
+            return currentNode;
+        }
+        const children = currentNode.children;
+        console.log(Object.values(children));
+
+        for(const childNode of Object.values(children)) {
+            if(childNode.classList.contains("document-node")){
+                const result = findNode(id, childNode);
+                if(result != null) {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+    this.changeTitle = (id, text) => {
+        const node = findNode(id, $documentTree);
+        if(node != null) {
+            console.log(node.children.item(0));
+            node.children.item(0).innerText = text; // span 태그, 문서 제목
+        }
+    }
+
     this.render = () => {
         console.log(this.state);
         this.state.forEach((documentData) =>
