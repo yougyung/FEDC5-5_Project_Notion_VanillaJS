@@ -94,4 +94,9 @@
   gap: 20px;
   width: 100%;
   height: 100%;
+}
+
+[contenteditable=true]:focus {
+  outline: none;
+  border: none;
 }/*# sourceMappingURL=style.css.map */
