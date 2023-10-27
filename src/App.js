@@ -6,7 +6,8 @@ import { getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
 
 const ROOT_DOCUMENT_ID = 103858;
-const NOT_FOUND_DOCUMENT_ID = 103629;
+const NOT_FOUND_DOCUMENT_ID = 116012;
+
 export default function App({ $target }) {
 	const $layout = createElementWithClass('div', 'layout');
 	$target.appendChild($layout);

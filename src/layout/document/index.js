@@ -8,6 +8,10 @@ import './style.scss';
 const ARROWUP_CHARACTER = 'ArrowUp';
 const ARROWDOWN_CHARACTER = 'ArrowDown';
 
+const ROOT_DOCUMENT_ID = 103858;
+const NOT_FOUND_DOCUMENT_ID = 116012;
+const filterTarget = [ROOT_DOCUMENT_ID, NOT_FOUND_DOCUMENT_ID];
+
 export default function Document({ $target, initialState, handleOptimisticUITitle }) {
 	const $document = createElementWithClass('div', 'document');
 	$target.appendChild($document);
@@ -16,7 +20,12 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
+		$document.style.pointerEvents = filterTarget.includes(this.state.id) ? 'none' : 'auto';
+		$document.querySelector('.document__deleteBtn').style.display = filterTarget.includes(this.state.id)
+			? 'none'
+			: 'block';
 	};
+
 	this.parseContent = () => {
 		const htmlString = this.state.content;
 		const pattern = /<(\w+)[^>]*>([^<]+)<\/\1>/g;
@@ -46,7 +55,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		`;
 		test();
 		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
-		// addEvent($document, 'document__content', 'click', this.handleClickContent);
+		addEvent($document, 'document__content', 'click', this.handleClickContent);
 		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
 		addEvent($document, 'document__deleteBtn', 'click', this.handleClickDelete);
 	};
@@ -82,12 +91,12 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			await updateDocument(newDocument, id);
 		});
 	};
-	// this.handleClickContent = () => {
-	// const $contentBox = $document.querySelector('.document__content');
-	// const init = {
-	// 	tagName: 'div',
-	// 	innerText: '### test입',
-	// };
-	// new ContentBlock({ $targets: $contentBox, initialState: init });
-	// };
+	this.handleClickContent = () => {
+		// const $contentBox = $document?.querySelector('.document__content');
+		// const init = {
+		// 	tagName: 'div',
+		// 	innerText: '### test입',
+		// };
+		// new ContentBlock({ $target: $contentBox, initialState: init });
+	};
 }
