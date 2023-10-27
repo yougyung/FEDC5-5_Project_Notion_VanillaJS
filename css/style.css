@@ -2,6 +2,10 @@
 #app {
   display: flex;
 }
+#app [contenteditable=true]:focus {
+  outline: none;
+  border: none;
+}
 #app button :hover {
   background-color: rgba(55, 53, 47, 0.08);
 }
@@ -92,11 +96,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
+  width: 1000px;
   height: 100%;
-}
-
-[contenteditable=true]:focus {
-  outline: none;
-  border: none;
 }/*# sourceMappingURL=style.css.map */

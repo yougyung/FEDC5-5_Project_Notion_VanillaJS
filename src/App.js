@@ -1,5 +1,6 @@
 import Sidebar from './Sidebar.js';
 import EditPage from './EditPage.js';
+import { initRouter } from './router.js';
 
 export default function App({ $target }) {
   const sidebar = new Sidebar({
@@ -28,9 +29,13 @@ export default function App({ $target }) {
 
   this.render = () => {
     const { pathname } = window.location;
-    if (pathname[0] === '/') {
+    if (pathname === '/') {
       sidebar.setState();
+    } else if (pathname.indexOf(`/posts/`) === 0) {
+      const [, , postId] = pathname.split('/');
+      editpage.setState({ postId });
     }
   };
   this.render();
+  initRouter(() => this.render());
 }

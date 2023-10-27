@@ -9,7 +9,7 @@ export default function Editor({
   $editor.className = 'editor';
   $editor.innerHTML = `
     <input type="text" name="title" />
-    <div name="content" contentEditable="true"style="width:600px; height:400px; border:1px solid black; padding: 8px;"></div>
+    <div name="content" contentEditable="true"style="width:100%; height:100%; border:1px solid black; padding: 8px;"></div>
   `;
   $target.appendChild($editor);
   this.state = initialState;

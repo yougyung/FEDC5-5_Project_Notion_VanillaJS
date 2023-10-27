@@ -42,8 +42,17 @@ export default function EditPage({ $target, initialState }) {
     },
   });
 
-  this.setState = async () => {
-    this.render();
+  this.setState = async (nextState) => {
+    if (this.state.postId !== nextState.postId) {
+      this.state = nextState;
+      this.render();
+      editor.setState(
+        this.state.post || {
+          title: '',
+          content: '',
+        },
+      );
+    }
   };
 
   this.render = async () => {

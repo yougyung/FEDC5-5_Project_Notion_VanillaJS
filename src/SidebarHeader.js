@@ -9,7 +9,7 @@ export default function SidebarHeader({ $target, addDocument }) {
             훈오의 Notion
         </span>
         <button class="add">
-        <img src="public/assets/img/add.svg" alt="페이지 추가 이미지" />
+        <img src="/public/assets/img/add.svg" alt="페이지 추가 이미지" />
         </button>
     `;
   };
