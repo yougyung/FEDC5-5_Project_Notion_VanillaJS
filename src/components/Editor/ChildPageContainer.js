@@ -11,10 +11,12 @@ export default function ChildPageContainer({
   this.render = () => {
     //console.log(this.state);
     $childPageContainer.innerHTML = `
-    ${this.state.map(
-      (page) =>
-        `<li data-id=${page.id} class='child_page'><span>${page.title}</span></li>`
-    )}
+    ${this.state
+      .map(
+        (page) =>
+          `<li data-id=${page.id} class='child_page'><span>${page.title}</span></li>`
+      )
+      .join("")}
     
   `;
   };
