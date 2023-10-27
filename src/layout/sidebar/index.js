@@ -14,6 +14,7 @@ export default function SideBar({ $target, initialState, handleState }) {
 		this.state = nextState;
 		this.render();
 	};
+
 	const documnentList = () => {
 		const $documentList = $sidebar.querySelector('.sidebar__documentList');
 		const { documentList, focusedDocumentId } = this.state;

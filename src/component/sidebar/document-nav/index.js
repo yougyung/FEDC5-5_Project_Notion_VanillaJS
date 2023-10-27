@@ -7,6 +7,7 @@ import './style.scss';
 export default function DocumentNav({ $target, initialState, handleState, focusedDocumentId }) {
 	const $documentNav = createElementWithClass('div', 'document-nav');
 	$target.appendChild($documentNav);
+
 	this.state = {
 		document: initialState,
 		isToggleOn: false,

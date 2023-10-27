@@ -16,7 +16,6 @@ export async function createDocument(title, parent) {
 			parent,
 		}),
 	});
-	console.log(response);
 	return response;
 }
 export async function updateDocument(document, documentId) {

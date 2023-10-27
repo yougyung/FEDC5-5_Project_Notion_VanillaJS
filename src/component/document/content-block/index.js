@@ -11,26 +11,38 @@ export default function ContentBlock({ $target, initialState }) {
 	const $content = createElementWithClass(initialState.tagName ?? 'div', 'content-block');
 	$content.setAttribute('contenteditable', true);
 	$content.setAttribute('placeholder', PLACEHOLDER_NODE);
-	$target.appendChild($content);
-	this.getElement = () => $content;
 
-	this.state = initialState;
+	$target.appendChild($content);
+
+	this.state = {
+		isEmpty: false,
+		...initialState,
+	};
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
 	};
 
+	this.getElement = () => $content;
+
 	this.render = () => {
 		$content.innerHTML = `${this.state.innerText}`;
-
 		$content.addEventListener('keyup', (e) => {
 			this.handleKeyUpContentBlock(e);
+			if ($content.innerHTML.length === 0) {
+				this.state.isEmpty = true;
+			}
 		});
 	};
 
 	this.handleKeyUpContentBlock = (e) => {
-		if (DELETE_CHARACTER === e.code && $content.innerHTML === PLACEHOLDER_NODE) {
+		if ($content.innerHTML.length === 1) {
+			this.state.isEmpty = false;
+			return;
+		}
+		if (this.state.isEmpty && DELETE_CHARACTER === e.code) {
 			$target.removeChild($content);
+
 			return;
 		}
 
@@ -44,6 +56,7 @@ export default function ContentBlock({ $target, initialState }) {
 			};
 			const $newElement = new ContentBlock({ $target, initialState: init });
 			$target.insertBefore($newElement.getElement(), $content.nextSibling);
+			$content.nextSibling.focus();
 			return;
 		}
 
