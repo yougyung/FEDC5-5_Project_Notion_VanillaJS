@@ -2,7 +2,7 @@ import SidebarList from './SidebarList.js';
 import SidebarHeader from './SidebarHeader.js';
 import { request } from './api.js';
 
-export default function Sidebar({ $target, initialState }) {
+export default function Sidebar({ $target, initialState = [] }) {
   const $sidebar = document.createElement('section');
   $sidebar.className = 'sidebar';
   this.state = initialState;
