@@ -3,7 +3,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.className = 'editor-wrap'
 
   let isInitialize = false
-  // {document: {title, content}}
+  // {title, content}
   this.state = initialState
 
   $target.appendChild($editor)

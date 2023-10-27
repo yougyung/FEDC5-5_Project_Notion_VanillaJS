@@ -14,10 +14,8 @@ export default function EditPage({ $target, initialState }) {
   const editor = new Editor({
     $target: $page,
     initialState: {
-      document: {
-        title: '',
-        content: '',
-      }
+      title: '',
+      content: '',
     },
     onEditing: (document) => {
       if (timer !== null) {
@@ -26,7 +24,7 @@ export default function EditPage({ $target, initialState }) {
       timer = setTimeout(async () => {
         this.setState({
           ...this.state,
-          document
+          ...document
         })
         await fetchSaveContent()
       }, 1000)
@@ -39,14 +37,17 @@ export default function EditPage({ $target, initialState }) {
       await fetchGetContent()
       return
     }
-    this.state = nextState
+    const {id, title, content} = nextState
+    this.state = {id, title, content}
 
-    editor.setState(this.state.document || {
-      title: '',
-      content: ''
-    })
-    
-    this.render()
+    // API 불러올 때만 editor.setState
+    if (nextState.updatedAt) {
+      editor.setState({
+        title: this.state.title ? this.state.title : "",
+        content: this.state.content ? this.state.content : ""
+      })
+      this.render()
+    }
   }
 
   this.render = async () => {
@@ -60,10 +61,10 @@ export default function EditPage({ $target, initialState }) {
   }
   // 수정
   const fetchSaveContent = async () => {
-    const { id, document } = this.state
+    const { id, title, content } = this.state
     await request(`/documents/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(document)
+      body: JSON.stringify({title, content})
     })
   }
 }

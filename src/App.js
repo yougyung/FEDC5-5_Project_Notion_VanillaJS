@@ -10,15 +10,14 @@ export default function App({ $target }) {
       this.route()
     }
   })
+
   // 편집페이지
   const editPage = new EditPage({
     $target,
     initialState: {
       id: null,
-      document: {
-        title: '',
-        content: '',
-      }
+      title: '',
+      content: '',
     }
   })
 
