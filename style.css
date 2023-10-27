@@ -7,9 +7,12 @@
   background: none;
   box-sizing: border-box;
 }
+* button {
+  cursor: pointer;
+}
 
 #app .sidebar {
-  width: 469px;
+  width: 246px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,7 +38,6 @@
   font-size: 15px;
 }
 #app .sidebar__header__btn {
-  cursor: pointer;
   font-size: 12px;
   color: rgba(55, 53, 47, 0.5);
 }
@@ -69,7 +71,6 @@
   font-size: 12px;
   color: rgba(55, 53, 47, 0.5);
   font-weight: 600;
-  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */
