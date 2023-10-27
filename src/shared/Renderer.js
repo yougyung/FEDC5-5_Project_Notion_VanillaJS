@@ -34,9 +34,16 @@ export const renderIntoHTML = (rawProps) => {
 
     // 4. 요소의 property 설정대로 추가
     for (const property of Object.keys(props)) {
-        // className도 key로 정상 동작하는 게 신기함
+        const isEventHandler = typeof props[property] === "function";
+        if (isEventHandler) {
+            $elem[property] = props[property];
+            debug($elem, "에", property, " 이벤트 핸들러로 ", props[property], "를 등록함");
+            continue;
+        }
         // setAttribute는 property로 등록 못하는 key도 등록 가능함
-        // TODO: setAttribute는 string 형태의 이벤트 리스너만 등록 가능한지 확인해보기
+        // className도 key로 정상 동작하는 게 신기함
+        // setAttribute로 이벤트 핸들러를 등록 시 함수로 넘겨도 string으로 escape되어 변환됨 (오작동)
+        debug(`${$elem.nodeName}.${property}=`, props[property]);
         $elem.setAttribute(property, props[property]);
     }
 
