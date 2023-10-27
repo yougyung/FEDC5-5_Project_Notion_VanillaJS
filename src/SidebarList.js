@@ -47,10 +47,13 @@ export default function SidebarList({ $target, initialState, delDocument }) {
     // 버튼 선택
     if ($button && $button.className) {
       const { id } = $li.dataset;
+      console.log($button.className);
       switch ($button.className) {
         case 'toggle':
+          return;
         case 'delete':
           delDocument(id);
+
         case 'add':
         default:
       }
