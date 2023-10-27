@@ -1,4 +1,9 @@
-export default function SidebarList({ $target, initialState, delDocument }) {
+export default function SidebarList({
+  $target,
+  initialState,
+  delDocument,
+  addDocument,
+}) {
   this.state = initialState;
   const $sidebartitle = document.createElement('div');
   $sidebartitle.className = 'sidebar__content';
@@ -47,14 +52,15 @@ export default function SidebarList({ $target, initialState, delDocument }) {
     // 버튼 선택
     if ($button && $button.className) {
       const { id } = $li.dataset;
-      console.log($button.className);
       switch ($button.className) {
         case 'toggle':
           return;
         case 'delete':
           delDocument(id);
-
+          return;
         case 'add':
+          addDocument(id);
+
         default:
       }
     } else {

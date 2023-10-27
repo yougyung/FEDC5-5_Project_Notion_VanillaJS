@@ -34,6 +34,21 @@ export default function Sidebar({ $target, initialState }) {
         this.setState();
       }
     },
+
+    addDocument: async (id) => {
+      const document = {
+        title: '새 폴더',
+        parent: id,
+      };
+      const updatedDocuments = await request(``, {
+        method: 'POST',
+        body: JSON.stringify(document),
+      });
+      // 삭제가 제대로 된 경우
+      if (updatedDocuments) {
+        this.setState();
+      }
+    },
   });
 
   this.setState = async () => {
