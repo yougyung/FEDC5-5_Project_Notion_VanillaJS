@@ -19,11 +19,11 @@ export default function SidebarHeader({ $target, onDocumentAdded }) {
 
   $sidebarHeader.addEventListener('click', (e) => {
     const $addButton = e.target.closest('.sidebar-header-add-button');
-    const $header3 = e.target.closest('h3');
+    const $logoHeader = e.target.closest('h3');
 
     if ($addButton) {
       onDocumentAdded(null);
-    } else if ($header3) {
+    } else if ($logoHeader) {
       push('/');
     }
   });

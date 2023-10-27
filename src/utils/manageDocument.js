@@ -1,41 +1,46 @@
-export const updateDocumentIsFolded = (documents, targetId) => {
+export const setOrToggleIsFolded = (documents, targetId, isFolded = null) => {
   return documents.map((document) => {
+    let newIsFolded = document.isFolded;
     if (document.id === targetId) {
-      return { ...document, isFolded: false };
+      newIsFolded = isFolded !== null ? isFolded : !document.isFolded;
     }
 
-    if (document.documents && document.documents.length > 0) {
-      return {
-        ...document,
-        documents: updateDocumentIsFolded(document.documents, targetId),
-      };
-    }
-
-    return document;
+    return {
+      ...document,
+      isFolded: newIsFolded,
+      documents: setOrToggleIsFolded(
+        document.documents || [],
+        targetId,
+        isFolded,
+      ),
+    };
   });
-};
-
-export const toggleIsFolded = (documents, targetId) => {
-  return documents.map((document) => ({
-    ...document,
-    isFolded: document.id === targetId ? !document.isFolded : document.isFolded,
-    documents: toggleIsFolded(document.documents || [], targetId),
-  }));
 };
 
 export const mergeDocuments = (oldDocuments, newDocuments) => {
   return newDocuments.map((newDocument) => {
-    const oldDocument = oldDocuments.find((doc) => doc.id === newDocument.id);
+    let isFolded;
+    let oldChildrenDocuments = [];
+
+    const matchedOldDocument = oldDocuments.find(
+      (oldDocument) => oldDocument.id === newDocument.id,
+    );
+
+    if (matchedOldDocument) {
+      isFolded = matchedOldDocument.isFolded;
+      oldChildrenDocuments = matchedOldDocument.documents;
+    } else {
+      const isNewDocEmpty =
+        !newDocument.documents || newDocument.documents.length === 0;
+      isFolded = isNewDocEmpty;
+    }
+
+    const newChildrenDocuments = newDocument.documents || [];
 
     return {
       ...newDocument,
-      isFolded: oldDocument
-        ? oldDocument.isFolded
-        : !newDocument.documents || newDocument.documents.length === 0,
-      documents: mergeDocuments(
-        oldDocument ? oldDocument.documents : [],
-        newDocument.documents || [],
-      ),
+      isFolded,
+      documents: mergeDocuments(oldChildrenDocuments, newChildrenDocuments),
     };
   });
 };

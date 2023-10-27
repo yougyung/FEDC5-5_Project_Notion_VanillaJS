@@ -8,8 +8,7 @@ import {
 import { initRouter, push } from '../utils/router.js';
 import { setItem, getItem } from '../utils/storage.js';
 import {
-  updateDocumentIsFolded,
-  toggleIsFolded,
+  setOrToggleIsFolded,
   mergeDocuments,
 } from '../utils/manageDocument.js';
 import debounce from '../utils/debounce.js';
@@ -35,13 +34,14 @@ export default function App({ $target, initialState }) {
   const sidebar = new Sidebar({
     $target: $sidebarContainer,
     onDocumentFoldToggle: (documentId) => {
-      const nextState = toggleIsFolded(this.state.documents, documentId);
+      const nextState = setOrToggleIsFolded(this.state.documents, documentId);
       this.setState({ ...this.state, documents: nextState });
     },
     onDocumentAdded: async (documentId) => {
-      const updatedDocuments = updateDocumentIsFolded(
+      const updatedDocuments = setOrToggleIsFolded(
         this.state.documents,
         documentId,
+        false,
       );
 
       this.setState({ ...this.state, documents: updatedDocuments });
@@ -76,8 +76,6 @@ export default function App({ $target, initialState }) {
 
       this.setState({ ...this.state, editingDocument: editedDocument });
       documentEditPage.setState({ ...editedDocument, isSaving: true });
-
-      console.log(editedDocument);
 
       await this.updateDocumentList();
     }, 2000),
