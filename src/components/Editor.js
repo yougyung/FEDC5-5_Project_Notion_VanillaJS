@@ -37,70 +37,40 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    let richContent = this.state.content
-      .split("<div>")
-      .map((line) => {
-        if (line.indexOf("# ") === 0) {
-          return `<h1>${line.substr(2)}</h1>`;
-        } else if (line.indexOf("## ") === 0) {
-          return `<h2>${line.substr(3)}</h2>`;
-        } else if (line.indexOf("### ") === 0) {
-          return `<h3>${line.substr(4)}</h3>`;
-        } else if (line.indexOf("#### ") === 0) {
-          return `<h4>${line.substr(5)}</h4>`;
-        }
-        if (line.indexOf("**") !== -1) {
-          const startIndex = line.indexOf("**");
-          const endIndex = line.lastIndexOf("**");
-          if (endIndex > 0) {
-            const before = line.slice(0, startIndex);
-            const after = line.slice(endIndex + 2);
-            const slicedText = line.slice(startIndex + 2, endIndex);
-            return `${before}<b>${slicedText}</b>${after}`;
-          } else {
-            return line;
-          }
-        }
-        if (line.indexOf("_") !== -1) {
-          const startIndex = line.indexOf("_");
-          const endIndex = line.lastIndexOf("_");
-          if (endIndex > 0) {
-            const before = line.slice(0, startIndex);
-            const after = line.slice(endIndex + 1);
-            const slicedText = line.slice(startIndex + 1, endIndex);
-            return `${before}<i>${slicedText}</i>${after}`;
-          } else {
-            return line;
-          }
-        }
-        if (line.indexOf("~~") !== -1) {
-          const startIndex = line.indexOf("~~");
-          const endIndex = line.lastIndexOf("~~");
-          if (endIndex > 0) {
-            const before = line.slice(0, startIndex);
-            const after = line.slice(endIndex + 2);
-            const slicedText = line.slice(startIndex + 2, endIndex);
-            return `${before}<s>${slicedText}</s>${after}`;
-          } else {
-            return line;
-          }
-        }
-        return line;
-      })
-      .filter((e) => e != "")
-      .join("<div>");
-
-    richContent = richContent
-      .replace(/&nbsp;/g, " ")
-      .replace(/\n/g, "<br>")
-      .replace(/<i><\/i>/g, "")
-      .replace(/<b><\/b>/g, "")
-      .replace(/<s><\/s>/g, "")
-      .replace(/<div><br><\/div>/gi, "<br>");
+    const richContent = transform(this.state.content);
 
     $editor.querySelector("#editor-title").value = this.state.title;
     $editor.querySelector("#editor-content").innerHTML = richContent;
   };
+
+  const transform = (text) => {
+    let h1Pattern = /<div>#\s+(.*?)<\/div>/g;
+    let h2Pattern = /<div>##\s+(.*?)<\/div>/g;
+    let h3Pattern = /<div>###\s+(.*?)<\/div>/g;
+    let h4Pattern = /<div>####\s+(.*?)<\/div>/g;
+    let boldPattern = /\*\*(.*?)\*\*/g;
+    let italicPattern = /_(.*?)_/g;
+    let strikePattern = /~~(.*?)~~/g;
+    let emptyPattern = /<[^>]*>(?:\s*|&nbsp;)*<\/[^>]*>/g;
+
+    return text
+    .replace(h1Pattern, "<div><h1>$1</h1></div>")
+    .replace(h2Pattern, "<div><h2>$1</h2></div>")
+    .replace(h3Pattern, "<div><h3>$1</h3></div>")
+    .replace(h4Pattern, "<div><h4>$1</h4></div>")
+    .replace(boldPattern, "<b>$1</b>")
+    .replace(italicPattern, "<i>$1</i>")
+    .replace(strikePattern, "<s>$1</s>")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\n/g, "<br>")
+    .replace(/<h1><br><\/h1>/g, "<br>")
+    .replace(/<h2><br><\/h2>/g, "<br>")
+    .replace(/<h3><br><\/h3>/g, "<br>")
+    .replace(/<h4><br><\/h4>/g, "<br>")
+    .replace(/<i><br><\/i>/g, "<br>")
+    .replace(/<b><br><\/b>/g, "<br>")
+    .replace(/<s><br><\/s>/g, "<br>")
+  }
 
   $editor.querySelector("#editor-title").addEventListener("keyup", (e) => {
     const parentId = history.state ? history.state.parentId : null;
@@ -123,11 +93,11 @@ export default function Editor({ $target, initialState, onEditing }) {
       done: false,
     });
 
-    if (offset === 0) postion.postion += 0.5;
+    const isDiv = e.target.innerHTML.includes("<div>");
 
     this.setState({
       ...this.state,
-      content: e.target.innerHTML,
+      content: isDiv ? e.target.innerHTML : `<div>${e.target.innerHTML}</div>`,
     });
 
     selection.removeAllRanges();
@@ -145,7 +115,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (state.done) return state;
 
     let currentNode = null;
-    if (parent.childNodes.length == 0) {
+    if (parent.childNodes.length === 0) {
       state.postion += parent.textContent.length;
     } else {
       for (let i = 0; i < parent.childNodes.length && !state.done; i++) {
