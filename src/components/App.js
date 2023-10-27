@@ -1,6 +1,6 @@
 import SideMenu from './Document/SideMenu.js';
 import PostEditPage from './Editor/PostEditPage.js';
-import { request } from '../../api/api.js';
+import { request } from '../api/api.js';
 import { push } from '../route/router.js';
 import { getItem, removeItem } from '../../utils/storage.js';
 

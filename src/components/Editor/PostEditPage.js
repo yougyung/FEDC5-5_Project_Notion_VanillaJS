@@ -1,6 +1,6 @@
 import { EditorPages, EditorPagesFooter } from './index.js';
 import { getItem, removeItem, setItem } from '../../../utils/storage.js';
-import { request } from '../../../api/api.js';
+import { request } from '../../api/api.js';
 
 
 export default function PostEditPage({$target, initialState, onMenuCorrection}) {
