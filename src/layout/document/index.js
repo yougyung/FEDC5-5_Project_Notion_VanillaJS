@@ -69,7 +69,6 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	};
 	this.handleKeyUpContent = (e) => {
 		if (e.code === ARROWUP_CHARACTER) {
-			console.log(e.target.previousSibling);
 			return e.target.previousSibling?.focus();
 		}
 		if (e.code === ARROWDOWN_CHARACTER) {

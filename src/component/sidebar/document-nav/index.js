@@ -1,6 +1,5 @@
 import { createElementWithClass, addEvent } from '@util/dom';
 import { createDocument } from '@api/document';
-import ArrowImg from '@asset/arrow.png';
 import CreateImg from '@asset/create.png';
 import { push } from '@util/router';
 import './style.scss';
@@ -18,17 +17,12 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 	};
 
 	const documnentList = () => {
-		if (this.state.isToggleOn) {
-			const $children = $documentNav.lastElementChild;
-			const { documents } = this.state.document;
-			if (documents.length === 0) {
-				$children.innerHTML = `<span class="document-nav__children-announce">하위 페이지 없음</span>`;
-			}
-			documents.map(
-				(document) =>
-					new DocumentNav({ $target: $children, initialState: document, handleState, focusedDocumentId })
-			);
-		}
+		const $children = $documentNav.lastElementChild;
+		const { documents } = this.state.document;
+		documents.map(
+			(document) =>
+				new DocumentNav({ $target: $children, initialState: document, handleState, focusedDocumentId })
+		);
 	};
 
 	this.render = () => {
@@ -39,9 +33,6 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 			isActive && 'color:#37352f; background:rgba(0,0,0,0.04)'
 		}">
 			<div class="document-nav__item-info">
-				<div class="document-nav__item-info__toggle">
-					<img src=${ArrowImg} alt="toggleBtnImg" class="document-nav__item-toggle-img" />
-				</div>
 				<div class="document-nav__item-info__title">${document.title}</div>
 			</div>
 			<div class="document-nav__item-createBtn">
@@ -65,11 +56,7 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 		const response = await createDocument('제목 없음', id);
 		handleState({ focusedDoscumentId: response.id });
 	};
-	this.handleClickToggle = () => {
-		this.setState({ ...this.state, isToggleOn: !this.state.isToggleOn });
-	};
 
-	addEvent($documentNav, 'document-nav__item-info__toggle', 'click', this.handleClickToggle);
 	addEvent($documentNav, 'document-nav__item-info__title', 'click', this.handleClickTitle);
 	addEvent($documentNav, 'document-nav__item-createBtn', 'click', this.handleClickAddBtn);
 }

@@ -12,17 +12,12 @@
 	gap: 4px;
 	&-info {
 		display: flex;
-		&__toggle {
-			padding: 1 5px;
-			margin: 0 10px;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			&-img {
-				max-height: 12px;
-			}
-		}
+		padding: 1 5px;
+		margin: 0 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		&__title {
 			display: flex;
 			flex-direction: column;
@@ -43,9 +38,4 @@
 
 .document-nav__children {
 	padding-left: 10px;
-	&-announce {
-		padding-left: 25px;
-		font-weight: 600;
-		color: #37352f80;
-	}
 }
