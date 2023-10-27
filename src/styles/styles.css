@@ -36,6 +36,7 @@ main {
 }
 
 .side-bar-header-title {
+  padding: 1rem 0;
   font-size: 1.5em;
   font-weight: bold;
   color: #333;
@@ -48,16 +49,17 @@ main {
 .side-bar-leaf-documents {
   display: flex;
   flex-direction: column;
-  margin-left: 1.5rem;
-  margin-top: 0.3125rem;
+  margin-left: 1rem;
+  margin-top: 0.1rem;
 }
 
-.toggle-button,
-.add-button,
-.delete-button {
-  margin-right: 0.625rem;
-  border: none;
-  /* background-color: transparent; */
+img {
+  width: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+img::after {
+  cursor: pointer;
 }
 
 /* 문서 작성 */
