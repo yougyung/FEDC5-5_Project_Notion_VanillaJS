@@ -17,13 +17,20 @@
   git clone -b 5/#5_kimjaemin_working --single-branch https://github.com/prgrms-fe-devcourse/FEDC5-5_Project_Notion_VanillaJS.git
 ```
 
-2. 필요한 패키지를 설치합니다.
+2. dotenv 파일 추가
+   전역에 `.env` 파일을 생성하고 `BASE_URL` 환경 변수를 추가합니다.
+
+```
+BASE_URL=https://kdt-frontend.programmers.co.kr
+```
+
+3. 필요한 패키지를 설치합니다.
 
 ```
  yarn && yarn install
 ```
 
-3. 로컬에서 실행합니다.
+4. 로컬에서 실행합니다.
 
 ```
 yarn start
