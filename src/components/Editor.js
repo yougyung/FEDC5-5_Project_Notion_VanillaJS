@@ -53,55 +53,66 @@ $editor.addEventListener("keyup", () => {
     checkSelectionAndDisplayPopup();
 });
 
-const nodesWithPlaceholder = [];
+// TODO: 상태 변수를 어딘가에 캡슐화하기
+let previousPlaceHolderNode = null;
 
 // keydown으로 하면 실제 입력 상태보다 한 키 전의 값이 온다.
 // keydown + setTimeout으로 하면 괜찮을 지도?
 $editor.addEventListener("keyup", function (e) {
-    // TODO: 부자연스러움. 개선 필요.
-    // TODO: 엔터를 꾹 누르는 경우엔 속도를 못 따라오는 듯함.. 계속 남음. why?
-    // --> 꾹 누르는 경우는 keyup이 호출되지 않기 때문임;
-    // TODO: 다른 노드로 넘어가는 경우에도 제거해줘야 함. HOW = ? 어렵넹
-    // 이건 blur에서 가능할 듯?
-    if (e.code === "Enter") {
-        // textContent가 없으면
-        // anchorNode는 새로 생성된 div가 됨
-        const { anchorNode } = window.getSelection();
-        if (anchorNode.textContent.toString() === "") {
-            // 1. 기존 노드의 placeholder 제거
-            while (nodesWithPlaceholder.length > 0) {
-                /**
-                 * @type {HTMLElement} node
-                 */
-                const node = nodesWithPlaceholder.pop();
-                console.log("toDelete:", node);
-                if (node.textContent.toString() === "") {
-                    // br 추가해줘야 함
-                    node.innerHTML = "<br />";
-                }
-                node.classList.remove("show_placeholder");
-            }
-
-            /*
-
-                node.onblur(() => {
-                    console.log("toDelete:", node);
-                    if (node.textContent.toString() === "") {
+    // TODO: 부자연스러움. 개선 필요. (이거 당장은 못 할 듯?)
+    // 엔터를 꾹 누르는 경우엔 속도를 못 따라오는 듯함.. 계속 남음. ---> 꾹 누르는 경우는 keyup이 호출되지 않기 때문임;
+    // 다른 노드로 넘어가는 경우에도 제거해줘야 함. ---> onblur 이벤트 달아주면 될 듯
+    // 그리고 마우스로 이동하는 경우도 있으니 onclick 혹은 onfocus 시에도 달아주는 게 좋을 듯
+    setTimeout(() => {
+        if (e.code === "Enter" || e.code === "Backspace") {
+            // textContent가 없다는 뜻은 anchorNode는 비어 있다는 뜻?
+            // 아마 이게 이미지가 있는 경우는 달라질 듯
+            const { anchorNode } = window.getSelection();
+            // TODO: textContent 말고 전체 컨텐츠를 봐야 함. img가 있어도 노드가 비워짐;
+            if (anchorNode.textContent.toString() === "") {
+                // 1. 기존 노드의 placeholder 제거
+                if (previousPlaceHolderNode) {
+                    // TODO: 나중엔 함수 호출 + return 문으로 바꾸기
+                    console.log("toDelete:", previousPlaceHolderNode);
+                    if (previousPlaceHolderNode.textContent.toString() === "") {
                         // br 추가해줘야 함
-                        node.innerHTML = "<br />";
+                        previousPlaceHolderNode.innerHTML = "<br />";
                     }
-                    node.classList.remove("show_placeholder");
-                    node.onblur = null; // 핸들러 삭제
-                });
-            */
+                    previousPlaceHolderNode.classList.remove("show_placeholder");
+                }
 
-            // 2. 현재 노드 비우기
-            anchorNode.replaceChildren(); // <br> 삭제 해주는 것. 어차피 사용자 입장에선 ctrl+z 무의미
-            console.log("adding show_placeholder on", anchorNode);
-            anchorNode.classList.add("show_placeholder");
-            nodesWithPlaceholder.push(anchorNode);
+                // 2. 현재 노드 비우기
+                anchorNode.replaceChildren(); // <br> 삭제 해주는 것. 어차피 사용자 입장에선 ctrl+z 무의미
+
+                // 3. Class 달아주기
+                console.log("adding show_placeholder on", anchorNode);
+                anchorNode.classList.add("show_placeholder");
+
+                // 4. placeholder 보유 노드로 등록
+                previousPlaceHolderNode = anchorNode;
+
+                const removePlaceholderHandler = (e) => {
+                    console.log("[removePlaceholderHandler] toDelete:", previousPlaceHolderNode, e);
+                    previousPlaceHolderNode.classList.remove("show_placeholder");
+                    previousPlaceHolderNode.removeEventListener("blur", removePlaceholderHandler); // 핸들러 삭제
+                    previousPlaceHolderNode.removeEventListener(
+                        "keydown",
+                        removePlaceholderHandler,
+                    ); // 핸들러 삭제
+                    previousPlaceHolderNode = null;
+                };
+
+                // onblur가 발생하려면 포커스 가능해야 하며 이는 tabIndex가 필요함 (div는 기본 값이 없음)
+                anchorNode.tabIndex = 0;
+
+                // 5. 마우스 대응을 위해 blur 시 자동으로 제거되도록 함
+                anchorNode.addEventListener("blur", removePlaceholderHandler);
+
+                // 6. 무언갈 입력할 때도 제거되어야 함
+                anchorNode.addEventListener("keydown", removePlaceholderHandler);
+            }
         }
-    }
+    }, 0);
 
     // Ctrl+Z 일 때도 발동된다..
     // 회피하기 위해 e.code === "Space"일 때만 발동하도록 함

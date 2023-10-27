@@ -32,6 +32,7 @@ export const renderIntoHTML = (rawProps) => {
     for (const property of Object.keys(props)) {
         // className도 key로 정상 동작하는 게 신기함
         // setAttribute는 property로 등록 못하는 key도 등록 가능함
+        // TODO: setAttribute는 string 형태의 이벤트 리스너만 등록 가능한지 확인해보기
         $elem.setAttribute(property, props[property]);
     }
 

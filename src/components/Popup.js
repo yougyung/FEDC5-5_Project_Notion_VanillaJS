@@ -61,15 +61,13 @@ export const checkSelectionAndDisplayPopup = () => {
     setTimeout(() => {
         // 1. Selection 확인하기
         const s = window.getSelection();
-        console.log(`${s.toString()}`, s.toString().length);
+        console.log(`[popup-check] selection: [${s.toString()}]`, s.toString().length);
 
         if (s.toString().length <= 0) {
             // 선택 영역이 없으면 취소
             $popup.style.display = "none";
             return;
         }
-
-        console.log("Selection:", s);
 
         const oRange = s.getRangeAt(0); //get the text range
         const oRect = oRange.getBoundingClientRect();
