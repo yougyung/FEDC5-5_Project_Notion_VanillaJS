@@ -1,11 +1,13 @@
-import { enableDebugModule } from "../shared/debug.js";
-import { $editor } from "./Editor.js";
+import { Editor } from "./Editor.js";
 import { Layout } from "./Layout.js";
 
-enableDebugModule("Parser");
+export const App = () => {
+    const $app = document.getElementById("app");
 
-const $app = document.getElementById("app");
+    const $editor = Editor();
+    const $layout = Layout($editor);
 
-const $layout = Layout($editor);
+    $app.appendChild($layout);
 
-$app.appendChild($layout);
+    return $app;
+};
