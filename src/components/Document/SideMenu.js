@@ -13,7 +13,7 @@ export default function SideMenu({ $target, initialState, onNavRemove, onNavCrea
 
     new SideHeader({
         $target: $sideMenu,
-        text: '조승현',
+        text: '조승현의 Notion',
         onNavCreate,
         onMainMove
     })

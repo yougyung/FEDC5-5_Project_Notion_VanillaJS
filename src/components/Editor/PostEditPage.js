@@ -22,7 +22,6 @@ export default function PostEditPage({$target, initialState, onMenuCorrection}) 
         $target: $page,
         initialState: post,
         onEditing: (post) => {
-            console.log(post);
             if(timer !== null) {
                 clearTimeout(timer);
             }
