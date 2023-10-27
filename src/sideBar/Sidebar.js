@@ -5,12 +5,13 @@ import { ROUTE_DOCUMENTS } from "../utils/contants.js";
 
 export default function SideBar({ $target, onAdd, onDelete }) {
   const $sideBarContents = document.createElement("div");
+  $sideBarContents.className = "sidebar";
   $target.appendChild($sideBarContents);
 
   const documentList = new DocumentList({
     $target: $sideBarContents,
     initialState: [],
-    onDelete
+    onDelete,
   });
   new DocumentAddButton({
     $target: $sideBarContents,

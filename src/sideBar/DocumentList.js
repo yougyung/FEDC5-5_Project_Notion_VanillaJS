@@ -5,6 +5,7 @@ import { ROUTE_DOCUMENTS } from "../utils/contants.js";
 export default function DocumentList({ $target, initialState , onDelete}) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
+  $documentList.className = 'document-list';
 
   this.state = initialState;
   this.setState = (nextState) => {

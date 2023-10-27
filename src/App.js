@@ -4,10 +4,6 @@ import { initRouter, push } from "./utils/router.js";
 import { request } from "./utils/api.js";
 
 export default function App({ $target, initialState }) {
-  const $page = document.createElement("div");
-  $page.style.display = "flex";
-  $page.style.flexDirection = "row";
-  $target.appendChild($page);
 
   const onAdd = async (NEW) => {
     push(`/documents/${NEW}`);
@@ -37,7 +33,7 @@ export default function App({ $target, initialState }) {
 
 
   const sideBar = new SideBar({
-    $target: $page,
+    $target,
     initialState,
     onAdd,
     onDelete
@@ -64,7 +60,7 @@ export default function App({ $target, initialState }) {
   };
 
   const documentEditPage = new DocumentEditPage({
-    $target: $page,
+    $target,
     initialState: {
       documentId: "",
       document: {

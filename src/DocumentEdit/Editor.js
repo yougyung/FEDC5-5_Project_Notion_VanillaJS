@@ -1,6 +1,7 @@
 export default function Editor({ $target, initialState = { title: '', content: '' }, onEdit }) {
   const $editor = document.createElement("div");
   $target.appendChild($editor);
+  $editor.className = 'editor';
 
   let initialize = false;
   this.state = initialState;

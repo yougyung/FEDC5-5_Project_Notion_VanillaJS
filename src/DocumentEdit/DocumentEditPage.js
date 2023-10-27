@@ -4,6 +4,8 @@ import {ROUTE_DOCUMENTS, NEW} from "../utils/contants.js"
 
 export default function DocumentEditPage({ $target, initialState, onEdit }) {
   this.state = initialState;
+  const $page = document.createElement('div');
+  $page.className = 'document-edit-page';
   /*
   initialState: {
     documentId: "",
@@ -14,7 +16,7 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
   },
   */
   const editor = new Editor({
-    $target,
+    $target: $page,
     initialState: {
       title: "",
       content: "",
@@ -31,18 +33,25 @@ export default function DocumentEditPage({ $target, initialState, onEdit }) {
           content: "",
         }
       );
+      this.render();
       return;
     }
     this.state = { ...this.state, ...nextState };
-    if (this.state.documentId === "new") {
+    if (this.state.documentId === NEW) {
       editor.setState({
         title: "",
         content: "",
       });
+      this.render();
     } else {
       await fetchDocument();
     }
   };
+
+  this.render = () => {
+    $target.appendChild($page);
+  };
+
   const fetchDocument = async () => {
     const { documentId } = this.state;
     const document = await request(`${ROUTE_DOCUMENTS}/${documentId}`);
