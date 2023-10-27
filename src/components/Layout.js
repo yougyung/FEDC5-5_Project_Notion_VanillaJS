@@ -1,9 +1,6 @@
 import { DUMMY_DATA } from "../assets/DUMMY_DATA.js";
 import { $ } from "../shared/$.js";
 import { DocumentTreeRoot } from "./DocumentTreeRoot.js";
-import { $editor } from "./Editor.js";
-
-const $app = document.getElementById("app");
 
 const username = "Seongbin Kim의 Notion";
 const userEmail = "seongbin9786@uos.ac.kr";
@@ -33,7 +30,3 @@ export const Layout = ($editor) => $`
         </main>
     </div>
 `;
-
-const $layout = Layout($editor);
-
-$app.appendChild($layout);

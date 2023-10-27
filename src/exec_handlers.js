@@ -1,18 +1,27 @@
+import { createDebug } from "./shared/debug.js";
+
+const debug = createDebug("exec_handler");
+
 export const handlePopUpFormatHeading = () => {
     document.execCommand("formatBlock", false, "h1");
 };
+
 export const handlePopUpAttachLink = () => {
     document.execCommand("createLink", false, "https://naver.com");
 };
+
 export const handlePopUpFormatBold = () => {
     document.execCommand("bold", false);
 };
+
 export const handlePopUpFormatItalic = () => {
     document.execCommand("italic", false);
 };
+
 export const handlePopUpFormatUnderline = () => {
     document.execCommand("underline", false);
 };
+
 export const handlePopUpFormatCode = () => {
     // 인라인 단위로 수정하고 싶기 때문에, Selection을 사용해야 할 듯.
     // 블록의 일부를 인라인 단위로 선택하면 TextNode가 선택됨
@@ -21,7 +30,7 @@ export const handlePopUpFormatCode = () => {
     const range = window.getSelection().getRangeAt(0);
     const textContent = range.toString(); // delete 후에는 빈 값이 됨(Live 객체인 듯). 미리 저장해놔야 함.
 
-    console.log(
+    debug(
         range.toString(), // textContent ?
         range.startContainer, // div (parent)
         range.endContainer, // textNode

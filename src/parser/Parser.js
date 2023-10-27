@@ -1,19 +1,7 @@
+import { createDebug } from "../shared/debug.js";
 import { NodeParser } from "./NodeParser.js";
 
-// 브라우저에서만 없음
-if (!window.process) {
-    window.process = {};
-    window.process.env = {};
-    window.process.env.DEBUG = true;
-    console.log("monkey patched");
-}
-
-const debug = (...args) => {
-    if (!process.env.DEBUG) {
-        return;
-    }
-    console.log(...args);
-};
+const debug = createDebug("Parser");
 
 // 뭐지? textNode가 안 잡힘.
 // \w 여서 alphanumeric + underscore만 됐음.

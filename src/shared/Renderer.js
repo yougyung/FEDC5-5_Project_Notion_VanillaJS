@@ -1,8 +1,12 @@
+import { createDebug } from "./debug.js";
+
+const debug = createDebug("Renderer");
+
 const createHTMLElement = (tag) => {
     try {
         return document.createElement(tag);
     } catch (e) {
-        console.log(`[${tag}]는 브라우저에서 지원하지 않는 태그입니다.`);
+        debug(`[${tag}]는 브라우저에서 지원하지 않는 태그입니다.`);
     }
 };
 

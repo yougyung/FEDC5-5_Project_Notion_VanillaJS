@@ -1,5 +1,8 @@
 import { $ } from "../shared/$.js";
+import { createDebug } from "../shared/debug.js";
 import { $popup, checkSelectionAndDisplayPopup } from "./Popup.js";
+
+const debug = createDebug("Editor");
 
 // emoji 예시
 const DUMMY_DATA_IMG_SRC =
@@ -56,13 +59,13 @@ $editor.addEventListener("keyup", () => {
 $editor.addEventListener("keyup", (e) => {
     // shift 여부 상관 없이 블럭
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === "KeyZ") {
-        console.log("Ctrl + Shift + z");
+        debug("Ctrl + Shift + z");
         document.execCommand("redo");
         e.preventDefault();
         return false;
     }
     if ((e.ctrlKey || e.metaKey) && e.code === "KeyZ") {
-        console.log("Ctrl + z");
+        debug("Ctrl + z");
         document.execCommand("undo");
         e.preventDefault();
         return false;
@@ -95,7 +98,7 @@ $editor.addEventListener("keyup", (e) => {
     }
     if (e.ctrlKey && e.shiftKey && e.code === "Digit0") {
         // removeFormat은 selection 대상인 거여서 그렇게 해줘야 함
-        console.log("ctrl+shift+0");
+        debug("ctrl+shift+0");
         document.execCommand("formatBlock", false, "div");
     }
 });
@@ -115,7 +118,15 @@ const findParnetUnderRoot = ($node) => {
     return $prevParent;
 };
 
-const triggeringKeys = ["Enter", "Backspace", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+const triggeringKeys = [
+    "KeyX", // TODO: Ctrl+X를 의미하는 건데, ctrl 여부를 다루기 귀찮.. 나중에 추상화하기
+    "Enter",
+    "Backspace",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowUp",
+    "ArrowDown",
+];
 
 let previousOwner = null;
 
@@ -123,7 +134,7 @@ const removePlaceholder = () => {
     // 1. 기존 걸 지우기 (항상 지움 어차피)
     if (previousOwner) {
         previousOwner.classList.remove("show_placeholder");
-        console.log("removed prev owner's classList:", previousOwner);
+        // debug("removed prev owner's classList:", previousOwner);
     }
 };
 
@@ -132,17 +143,17 @@ const showPlaceholderIfNeeded = () => {
 
     // 2-1. 루트가 빈 경우
     const $target = window.getSelection().anchorNode;
-    // console.log("$target:", $target);
+    // debug("$target:", $target);
     if (isRoot($target) && $target.children.length === 0) {
         $target.classList.add("show_placeholder");
         previousOwner = $target;
-        // console.log("target is root and empty:", $target);
+        // debug("target is root and empty:", $target);
         return;
     }
 
     // 2-2. 개행한 div가 빈 경우
     const $parent = findParnetUnderRoot($target);
-    // console.log("$parent:", $parent);
+    // debug("$parent:", $parent);
     if (
         $parent.nodeName === "DIV" &&
         $parent.children.length === 1 &&
@@ -150,11 +161,12 @@ const showPlaceholderIfNeeded = () => {
     ) {
         $parent.classList.add("show_placeholder");
         previousOwner = $parent;
-        // console.log("parent is div with br:", $parent);
+        // debug("parent is div with br:", $parent);
     }
 };
 
 const handlePlaceholderOnKeyEvent = (e) => {
+    debug(e.code);
     // TODO: setTimeout indent 제거하는 법 알아보기
     setTimeout(() => {
         // TODO: 부자연스러움. 개선 필요. (이거 당장은 못 할 듯?)

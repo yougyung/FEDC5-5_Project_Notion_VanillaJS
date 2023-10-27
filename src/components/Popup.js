@@ -7,6 +7,9 @@ import {
     handlePopUpFormatUnderline,
 } from "../exec_handlers.js";
 import { $ } from "../shared/$.js";
+import { createDebug } from "../shared/debug.js";
+
+const debug = createDebug("Popup");
 
 // TODO: 노션은 현재 선택된 영역에 해당 스타일이 적용된 경우 텍스트 색상이 파랑색으로 바뀜(inactive 시 검은색)
 // TODO: [제목 1] 부분을 노션처럼 만들려면 Select로 만들어야 함.
@@ -66,7 +69,7 @@ export const checkSelectionAndDisplayPopup = () => {
     setTimeout(() => {
         // 1. Selection 확인하기
         const s = window.getSelection();
-        console.log(`[popup-check] selection: [${s.toString()}]`, s.toString().length);
+        debug(`[popup-check] selection: [${s.toString()}]`, s.toString().length);
 
         if (s.toString().length <= 0) {
             // 선택 영역이 없으면 취소
