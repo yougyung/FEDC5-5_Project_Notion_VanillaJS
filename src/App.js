@@ -1,12 +1,12 @@
-import DocumentHeader from './components/Document/DocumentHeader.js';
-import DocumentList from './components/Document/DocumentList.js';
-import Editor from './components/Editor/Editor.js';
-import SubDocumentEditor from './components/Editor/SubDocumentEditor.js';
+import DocumentHeader from './components/document/DocumentHeader.js';
+import DocumentList from './components/document/DocumentList.js';
+import Editor from './components/editor/Editor.js';
+import SubDocumentEditor from './components/editor/SubDocumentEditor.js';
 import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
 import { removeItem, setItem } from './utils/storage.js';
-import Splitter from './components/UI/Splitter.js';
-import DocumentFooter from './components/Document/DocumentFooter.js';
+import Splitter from './components/ui/Splitter.js';
+import DocumentFooter from './components/document/DocumentFooter.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');

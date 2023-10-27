@@ -1,4 +1,4 @@
-import Modal from '../UI/Modal.js';
+import Modal from '../ui/Modal.js';
 
 export default function DocumentFooter({ $target, onOpen }) {
   const $documentFooter = document.createElement('div');
