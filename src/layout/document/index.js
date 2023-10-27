@@ -67,17 +67,17 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		handleOptimisticUITitle(id);
 		deleteDocument(id);
 	};
-	// eslint-disable-next-line consistent-return
 	this.handleKeyUpContent = (e) => {
 		if (e.code === ARROWUP_CHARACTER) {
-			return e.target.previousSibling.focus();
+			console.log(e.target.previousSibling);
+			return e.target.previousSibling?.focus();
 		}
 		if (e.code === ARROWDOWN_CHARACTER) {
-			return e.target.nextSibling.focus();
+			return e.target.nextSibling?.focus();
 		}
 
 		const $contentBox = $document.querySelector('.document__content');
-		debounce(async () => {
+		return debounce(async () => {
 			const { id, title } = this.state;
 			const newDocument = { title, content: $contentBox.innerHTML };
 			await updateDocument(newDocument, id);
