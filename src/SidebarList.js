@@ -54,16 +54,19 @@ export default function SidebarList({
       const { id } = $li.dataset;
       switch ($button.className) {
         case 'toggle':
-          return;
+          break;
         case 'delete':
           delDocument(id);
-          return;
+          break;
         case 'add':
           addDocument(id);
-
+          break;
         default:
+          break;
       }
-    } else {
+    }
+    // 문서 클릭
+    else {
     }
   });
 
