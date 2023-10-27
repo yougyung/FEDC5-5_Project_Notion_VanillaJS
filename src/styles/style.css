@@ -40,6 +40,18 @@ button {
   padding: 3px;
 } */
 
+.sidebar-header {
+  display: flex;
+  color: #37352f;
+  margin: 15px 0;
+  padding-left: 15px;
+  cursor: default;
+}
+.sidebar-header > svg{
+    width:20px;
+    height:20px;
+    margin-right: 10px;
+}
 
 .document-list li {
     display: flex;

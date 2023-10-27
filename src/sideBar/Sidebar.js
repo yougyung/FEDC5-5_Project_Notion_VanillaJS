@@ -2,12 +2,20 @@ import DocumentList from "./DocumentList.js";
 import { request } from "../utils/api.js";
 import DocumentAddButton from "./DocumentAddButton.js";
 import { ROUTE_DOCUMENTS } from "../utils/contants.js";
+import SideHeader from "../SideBar/SideHeader.js";
 
 export default function SideBar({ $target, onAdd, onDelete }) {
   const $sideBarContents = document.createElement("div");
   $sideBarContents.className = "sidebar";
   $target.appendChild($sideBarContents);
 
+  new SideHeader({
+    $target: $sideBarContents,
+    initialState: {
+      username: '박경빈의 Notion',
+    },
+  });
+  
   const documentList = new DocumentList({
     $target: $sideBarContents,
     initialState: [],

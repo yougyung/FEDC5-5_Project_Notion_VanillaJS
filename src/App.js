@@ -4,7 +4,6 @@ import { initRouter, push } from "./utils/router.js";
 import { request } from "./utils/api.js";
 
 export default function App({ $target, initialState }) {
-
   const onAdd = async (NEW) => {
     push(`/documents/${NEW}`);
     const createdDocument = await request("/documents", {
@@ -18,25 +17,24 @@ export default function App({ $target, initialState }) {
     documentEditPage.setState({ documentId: createdDocument.id });
     sideBar.render();
   };
-  
+
   const onDelete = async (a) => {
     push("/");
-     await request(`/documents/${a}`, {
+    await request(`/documents/${a}`, {
       method: "DELETE",
       body: JSON.stringify({
         title: "",
         parent: "",
       }),
-    })
+    });
     sideBar.render();
-  }
-
+  };
 
   const sideBar = new SideBar({
     $target,
     initialState,
     onAdd,
-    onDelete
+    onDelete,
   });
 
   let timer = null;
@@ -78,7 +76,7 @@ export default function App({ $target, initialState }) {
       sideBar.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       // /documents/ 이걸로 시작하는 경우는
-      const [, , documentId] = pathname.split("/"); // 두번째 인덱스값이 필요. 
+      const [, , documentId] = pathname.split("/"); // 두번째 인덱스값이 필요.
       documentEditPage.setState({ documentId }); //19128
     }
   };
