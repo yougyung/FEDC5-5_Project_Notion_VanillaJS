@@ -31,11 +31,26 @@
 }
 
 /* Notion CSS */
+.show_placeholder {
+    /* after의 absoulte의 기준 위치가 되기 위함 */
+    /* TODO: 사이드 이펙트 있는지 알아보기 */
+    position: relative;
+}
+
 .show_placeholder::after {
+    /* 여기서 content를 하드 코딩하면 <br>을 지워 버리기 전에 등장하게 됨 */
+    /* 먼저 등장하면 <br>이 있을 때 밑에서 시작한 후 <br>을 지우면 올라오게 됨 */
+    /* br를 제거하고 data-placeholder를 직접 주면 그런 부자연스러움이 사라짐 */
     content: "명령어는 '/' 입력";
-    /* attr(data-placeholder); */
+    /* content: attr(data-placeholder); */
 
     color: rgba(55, 53, 47, 0.5);
+
+    /* <br>로 인한 위치 보정 */
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 4px 0px;
 }
 
 /* 텍스트 선택 영역 색상 */

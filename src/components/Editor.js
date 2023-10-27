@@ -33,7 +33,6 @@ export const $editor = $`
             contentEditable=true
             tabIndex=0
         >
-        <div data-placeholder=${placeholder}></div>
         <img 
             src=${DUMMY_DATA_IMG_SRC} 
             style=${DUMMY_DATA_STYLE}
@@ -53,80 +52,8 @@ $editor.addEventListener("keyup", () => {
     checkSelectionAndDisplayPopup();
 });
 
-// TODO: 상태 변수를 어딘가에 캡슐화하기
-let previousPlaceHolderNode = null;
-
-// keydown으로 하면 실제 입력 상태보다 한 키 전의 값이 온다.
-// keydown + setTimeout으로 하면 괜찮을 지도?
-$editor.addEventListener("keyup", function (e) {
-    // TODO: 부자연스러움. 개선 필요. (이거 당장은 못 할 듯?)
-    // 엔터를 꾹 누르는 경우엔 속도를 못 따라오는 듯함.. 계속 남음. ---> 꾹 누르는 경우는 keyup이 호출되지 않기 때문임;
-    // 다른 노드로 넘어가는 경우에도 제거해줘야 함. ---> onblur 이벤트 달아주면 될 듯
-    // 그리고 마우스로 이동하는 경우도 있으니 onclick 혹은 onfocus 시에도 달아주는 게 좋을 듯
-    setTimeout(() => {
-        if (e.code === "Enter" || e.code === "Backspace") {
-            // textContent가 없다는 뜻은 anchorNode는 비어 있다는 뜻?
-            // 아마 이게 이미지가 있는 경우는 달라질 듯
-            const { anchorNode } = window.getSelection();
-            // TODO: textContent 말고 전체 컨텐츠를 봐야 함. img가 있어도 노드가 비워짐;
-            if (anchorNode.textContent.toString() === "") {
-                // 1. 기존 노드의 placeholder 제거
-                if (previousPlaceHolderNode) {
-                    // TODO: 나중엔 함수 호출 + return 문으로 바꾸기
-                    console.log("toDelete:", previousPlaceHolderNode);
-                    if (previousPlaceHolderNode.textContent.toString() === "") {
-                        // br 추가해줘야 함
-                        previousPlaceHolderNode.innerHTML = "<br />";
-                    }
-                    previousPlaceHolderNode.classList.remove("show_placeholder");
-                }
-
-                // 2. 현재 노드 비우기
-                anchorNode.replaceChildren(); // <br> 삭제 해주는 것. 어차피 사용자 입장에선 ctrl+z 무의미
-
-                // 3. Class 달아주기
-                console.log("adding show_placeholder on", anchorNode);
-                anchorNode.classList.add("show_placeholder");
-
-                // 4. placeholder 보유 노드로 등록
-                previousPlaceHolderNode = anchorNode;
-
-                const removePlaceholderHandler = (e) => {
-                    console.log("[removePlaceholderHandler] toDelete:", previousPlaceHolderNode, e);
-                    previousPlaceHolderNode.classList.remove("show_placeholder");
-                    previousPlaceHolderNode.removeEventListener("blur", removePlaceholderHandler); // 핸들러 삭제
-                    previousPlaceHolderNode.removeEventListener(
-                        "keydown",
-                        removePlaceholderHandler,
-                    ); // 핸들러 삭제
-                    previousPlaceHolderNode = null;
-                };
-
-                // onblur가 발생하려면 포커스 가능해야 하며 이는 tabIndex가 필요함 (div는 기본 값이 없음)
-                anchorNode.tabIndex = 0;
-
-                // 5. 마우스 대응을 위해 blur 시 자동으로 제거되도록 함
-                anchorNode.addEventListener("blur", removePlaceholderHandler);
-
-                // 6. 무언갈 입력할 때도 제거되어야 함
-                anchorNode.addEventListener("keydown", removePlaceholderHandler);
-            }
-        }
-    }, 0);
-
-    // Ctrl+Z 일 때도 발동된다..
-    // 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
-    if (
-        e.code === "Space" &&
-        window.getSelection().anchorNode.textContent.toString() === "#\u00a0"
-    ) {
-        document.execCommand("formatBlock", false, "<h1>");
-        // TODO: delete를 한 번만 써도 되지 않나?
-        // 선택이 안 됐으면 한 글자만 지움
-        document.execCommand("delete");
-        document.execCommand("delete");
-    }
-
+// UNDO, REDO intercept
+$editor.addEventListener("keyup", (e) => {
     // shift 여부 상관 없이 블럭
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === "KeyZ") {
         console.log("Ctrl + Shift + z");
@@ -140,6 +67,25 @@ $editor.addEventListener("keyup", function (e) {
         e.preventDefault();
         return false;
     }
+});
+
+// keydown에서는 Digit0이 발생되지 않았다.
+$editor.addEventListener("keyup", (e) => {
+    // 문제: Ctrl+Z를 눌러 textContent가 `# `이 될 때도 발동된다.. --> 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
+    if (
+        e.code === "Space" &&
+        window.getSelection().anchorNode.textContent.toString() === "#\u00a0"
+    ) {
+        document.execCommand("formatBlock", false, "h1");
+        // TODO: delete를 한 번만 써도 되지 않나?
+        // 선택이 안 됐으면 한 글자만 지움
+        document.execCommand("delete");
+        document.execCommand("delete");
+    }
+});
+
+$editor.addEventListener("keyup", (e) => {
+    // 문제: Ctrl+Shift+0 입력 시 keydown에서는 ShiftLeft, ControlLeft만 발생했다. keyup에선 Digit0도 발생했다.
     if (e.ctrlKey && e.shiftKey && e.code === "Digit1") {
         // TODO: 이미 h1인 경우 무시해야 함.
         document.execCommand("formatBlock", false, "h1");
@@ -149,6 +95,84 @@ $editor.addEventListener("keyup", function (e) {
     }
     if (e.ctrlKey && e.shiftKey && e.code === "Digit0") {
         // removeFormat은 selection 대상인 거여서 그렇게 해줘야 함
+        console.log("ctrl+shift+0");
         document.execCommand("formatBlock", false, "div");
     }
+});
+
+// 텍스트 노드가 대상인 경우 classList가 없다.
+const isRoot = ($node) => $node.classList?.contains("editor__content_root");
+
+const findParnetUnderRoot = ($node) => {
+    // 부모보다 1단계 이전을 봐야 하기 때문
+    let $prevParent = $node;
+    let $parent = $node;
+    while (!isRoot($parent) && $parent.parentElement) {
+        $prevParent = $parent;
+        $parent = $parent.parentElement;
+    }
+
+    return $prevParent;
+};
+
+const triggeringKeys = ["Enter", "Backspace", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+let previousOwner = null;
+
+const removePlaceholder = () => {
+    // 1. 기존 걸 지우기 (항상 지움 어차피)
+    if (previousOwner) {
+        previousOwner.classList.remove("show_placeholder");
+        console.log("removed prev owner's classList:", previousOwner);
+    }
+};
+
+const showPlaceholderIfNeeded = () => {
+    // 2. 빈 요소인지 체크하기
+
+    // 2-1. 루트가 빈 경우
+    const $target = window.getSelection().anchorNode;
+    // console.log("$target:", $target);
+    if (isRoot($target) && $target.children.length === 0) {
+        $target.classList.add("show_placeholder");
+        previousOwner = $target;
+        // console.log("target is root and empty:", $target);
+        return;
+    }
+
+    // 2-2. 개행한 div가 빈 경우
+    const $parent = findParnetUnderRoot($target);
+    // console.log("$parent:", $parent);
+    if (
+        $parent.nodeName === "DIV" &&
+        $parent.children.length === 1 &&
+        $parent.firstChild.nodeName === "BR"
+    ) {
+        $parent.classList.add("show_placeholder");
+        previousOwner = $parent;
+        // console.log("parent is div with br:", $parent);
+    }
+};
+
+const handlePlaceholderOnKeyEvent = (e) => {
+    // TODO: setTimeout indent 제거하는 법 알아보기
+    setTimeout(() => {
+        // TODO: 부자연스러움. 개선 필요. (이거 당장은 못 할 듯?)
+        // 엔터를 꾹 누르는 경우엔 속도를 못 따라오는 듯함.. 계속 남음. ---> 꾹 누르는 경우는 keyup이 호출되지 않기 때문임;
+        // 다른 노드로 넘어가는 경우에도 제거해줘야 함. ---> onblur 이벤트 달아주면 될 듯
+        // 그리고 마우스로 이동하는 경우도 있으니 onclick 혹은 onfocus 시에도 달아주는 게 좋을 듯
+        removePlaceholder();
+        if (!triggeringKeys.includes(e.code)) {
+            return;
+        }
+        showPlaceholderIfNeeded();
+    }, 0);
+};
+
+// keydown으로 하면 실제 입력 상태보다 한 키 전의 값이 온다.
+$editor.addEventListener("keydown", handlePlaceholderOnKeyEvent);
+
+$editor.addEventListener("click", () => {
+    removePlaceholder();
+    showPlaceholderIfNeeded();
 });
