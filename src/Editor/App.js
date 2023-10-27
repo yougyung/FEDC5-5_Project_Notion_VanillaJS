@@ -24,6 +24,7 @@ export default function App({ $target, initialState }) {
   const editor = new Editor({
     $target: $editor,
     initialState,
+    // title을 서버에 저장
     titlePost: async (title, id) => {
       await fetchData(id, {
         method: "PUT",
@@ -32,6 +33,7 @@ export default function App({ $target, initialState }) {
         }),
       });
     },
+    // content을 서버에 저장
     EditPost: async (title, content, id) => {
       // 제목, 내용, id, 현재 시간 로컬에 저장
       setItem(LOCAL_STORAGE_KEY + id, {
@@ -58,6 +60,7 @@ export default function App({ $target, initialState }) {
     },
   });
 
+  // HTTP request
   const fetchData = async (url, payload = {}) => {
     const data = await HTTPRequest(`/${url}`, payload);
 

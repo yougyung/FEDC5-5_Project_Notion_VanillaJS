@@ -17,6 +17,7 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
   $title.setAttribute("name", "title");
   $title.style.outline = 0;
 
+  // 사이드 메뉴바 넓이 조정
   const resizeMenu = new ResizeMenu();
 
   this.state = initialState;
@@ -33,6 +34,7 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
     $title.addEventListener("keyup", (e) => {
       const titleText = $title.innerText;
 
+      // 제목 서버에 저장
       titlePost(titleText, this.state.id);
     });
     // 포스트 content 수정 시 서버 저장
@@ -41,10 +43,12 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
       const linkData = linkText($editor.innerText);
       const editText = applyMarkup(linkData);
 
+      // 내용 서버에 저장
       EditPost(titleText, editText, this.state.id);
     });
   };
 
+  // 링크가 걸려있는 텍스트 입력 -> 해당 id(pathname)으로 이동
   const onClickTextRoute = () => {
     [...$editor.querySelectorAll(".linktext")].forEach((item) => {
       item.addEventListener("click", (e) => setCustomEvent(item.id));
@@ -66,8 +70,8 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
       return;
     }
 
+    // title 텍스트 입력
     const { title } = this.state;
-
     $title.textContent = title;
 
     $editor.innerHTML = `
@@ -81,6 +85,7 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
     $target.appendChild($title);
     $target.appendChild($editor);
 
+    // 메뉴바 리사이즈 작동
     resizeMenu.render();
 
     // 하위 post 링크
@@ -96,6 +101,7 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
     });
 
     onEditTextKeyUpEvent();
+    // 마크업 제거
     removeMarkup($editor);
     onClickTextRoute();
   };

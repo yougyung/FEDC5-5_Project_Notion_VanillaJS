@@ -7,6 +7,7 @@ export default function App({ $target, initialState }) {
   // 문서 리스트 최상위 DOM의 클래스 설정
   $menuBar.setAttribute("class", "menuBar");
 
+  // 사이드 메뉴바 리사이징 하기 위한 div 엘리먼트
   const $resizeMenu = document.createElement("div");
   $resizeMenu.setAttribute("class", "resizeMenu");
 

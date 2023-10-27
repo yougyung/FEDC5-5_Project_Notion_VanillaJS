@@ -8,6 +8,7 @@ export const pushPostStorage = (postData) => {
   else postStorage[title] = id;
 };
 
+// title과 일치하는 text에 링크 걸어줌 -> 클릭 이벤트로 class="linktext"를 뽑아서 씀
 export const linkText = (text) => {
   for (const key in postStorage) {
     const regex = new RegExp(key, "g");
@@ -17,7 +18,7 @@ export const linkText = (text) => {
       `<div class="linktext" id="${postStorage[key]}">📃 ${key}</div>`
     );
   }
-  // 일단 title과 같은 content들에 div 입히는건 완료
+
   const splitText = text.split("\n").map((data) => {
     if (!data.startsWith("📃")) return data;
     else return;

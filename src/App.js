@@ -26,6 +26,7 @@ export default function App({ $target, initialState }) {
   const render = async () => {
     const { pathname } = window.location;
 
+    // 루트 페이지
     if (pathname === "/") {
       const postList = await fetchData("");
       console.log("초기 데이터", postList);
@@ -49,6 +50,7 @@ export default function App({ $target, initialState }) {
   const route = async () => {
     const { pathname } = window.location;
 
+    // 루트 페이지
     if (pathname === "/") {
       const postList = await fetchData("");
       console.log("초기 데이터", postList);

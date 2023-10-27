@@ -19,8 +19,7 @@ export default function Modal({ initialState, onSavePost }) {
       $modal.querySelector("[name=content]").innerText
     );
 
-    console.log(content);
-
+    // 모달 데이터 서버에 저장
     onSavePost(title, content, id);
 
     if ($modal.getAttribute("class") === "modal") {
