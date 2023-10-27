@@ -5,7 +5,22 @@
   해당 프로젝트의 커밋 메세지는 <a href="https://gitmoji.dev/">깃모지</a>를 사용하고 있습니다.
   <small>(자세한 커밋 이모지의 의미는 링크를 참고해주세요.)</small>
 
+## 프로젝트 실행 필요 파일
+
+<strong>config.js를 ./src/utils 폴더에 추가해야 프로젝트 파일을 로컬에서 실행시킬 수 있습니다. </strong>
+
+```
+// config.js
+
+export const RESPONSE_HEADER = {
+  API_END_POINT: "https://kdt-frontend.programmers.co.kr",
+  X_USERNAME: "고유한 유저 이름",
+};
+
+```
+
 ## 프로젝트 미리보기
+
 ![노션 클로닝 v1 미리보기](https://github.com/prgrms-fe-devcourse/FEDC5-5_Project_Notion_VanillaJS/assets/114740795/aff3b551-7b55-4edf-b758-bdb39dd5923d)
 
 ### 기본 요구사항
