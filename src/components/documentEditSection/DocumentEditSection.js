@@ -1,6 +1,7 @@
+import request from "../../api/api.js"
 import DocumentEditor from "./DocumnetEditor.js"
 
-export default function DocumentEditSection({$target, initialState}) {
+export default function DocumentEditSection({$target, initialState, onChangeList}) {
 
     const $section = document.createElement('div')
     $target.appendChild($section)
@@ -16,35 +17,34 @@ export default function DocumentEditSection({$target, initialState}) {
         })
     }
 
+    let timer = null
+
     const editor = new DocumentEditor({
         $target,
         initialState: this.state,
-        onEdit: async (post) => {
+        onEdit: (post) => {
             const {id} = this.state
 
             if (id) {
-                setTimeout(async () => {
-                    if (id === 'new') {
-                        await request('/documents/new', {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                title: post.title,
-                                parent: null
-                            })
-                        })
-                        
-                    } else {
-                        await request(`/documnets/${id}`, {
-                            method: 'PUT',
-                            body: JSON.stringify(post)
-                        })
+                if (timer) {
+                    clearTimeout(timer)
+                }
 
-                        this.state({
-                            ...this.state,
-                            title: post.title,
-                            content: post.content
-                        })
+                timer = setTimeout(async () => {
+                    await request(`/documents/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(post)
+                    })
+
+                    if (this.state.title !== post.title) {
+                        await onChangeList(post)
                     }
+                    
+                    this.setState({
+                        ...this.state,
+                        title: post.title,
+                        content: post.content
+                    })
                 }, 2000)
             }
         }

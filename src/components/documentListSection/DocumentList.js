@@ -38,9 +38,9 @@ export default function DocumnetList({ $target, initialState, onAdd, onRemove })
 
     $list.addEventListener('click', (e) => {
         const $li = e.target.closest('li')
-        const id = $li.dataset.id
+        if ($li) {
+            const id = $li.dataset.id
 
-        if (id) {
             if (e.target.name === 'add') {
                 onAdd(id)
             }
@@ -50,5 +50,7 @@ export default function DocumnetList({ $target, initialState, onAdd, onRemove })
                 routeTrigger(`/documents/${id}`)
             }
         }
+
     })
+
 }

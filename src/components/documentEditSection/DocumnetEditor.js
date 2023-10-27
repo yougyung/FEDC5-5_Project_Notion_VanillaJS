@@ -13,8 +13,9 @@ export default function DocumentEditor({$target, initialState, onEdit}) {
 
     this.render = () => {
         const {title, content} = this.state
+        
         $editor.innerHTML = `
-            <input name="title" type="text" style="width:300px;" value=${title}></input>
+            <input name="title" style="width:300px;" value="${title}"></input>
             <br>
             <textarea name="content" style="width:300px; height:500px">${content ?? ''}</textarea>
         `
@@ -22,17 +23,13 @@ export default function DocumentEditor({$target, initialState, onEdit}) {
 
     this.render()
 
-    $editor.querySelector('[name="title"]').addEventListener('input', (e) => {
-        onEdit({
-            ...this.state,
-            title: e.target.value
-        })
-    })
+    $editor.addEventListener('input', () => {
+        const $input = $editor.querySelector('[name="title"]')
+        const $content = $editor.querySelector('[name="content"]')
 
-    $editor.querySelector('[name="content"]').addEventListener('input', e => {
         onEdit({
-            ...this.state,
-            content: e.target.value
+            title: $input.value,
+            content: $content.value
         })
     })
 }

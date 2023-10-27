@@ -33,6 +33,18 @@ export default function App({ $target, initialState }) {
     const documentEditSection = new DocumentEditSection({
         $target: $documentContainer,
         initialState: this.state.selectedDocument,
+        onChangeList: async (editedPost) => {
+            const documents = await fetchDocuments()
+ 
+            this.setState({
+                ...this.state,
+                documents,
+                selectedDocument: {
+                    ...this.state.selectedDocument,
+                    ...editedPost
+                }
+            })
+        }
     })
 
     const route = async () => {
