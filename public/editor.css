@@ -38,11 +38,8 @@
 }
 
 .show_placeholder::after {
-    /* 여기서 content를 하드 코딩하면 <br>을 지워 버리기 전에 등장하게 됨 */
-    /* 먼저 등장하면 <br>이 있을 때 밑에서 시작한 후 <br>을 지우면 올라오게 됨 */
-    /* br를 제거하고 data-placeholder를 직접 주면 그런 부자연스러움이 사라짐 */
     content: "명령어는 '/' 입력";
-    /* content: attr(data-placeholder); */
+    cursor: text;
 
     color: rgba(55, 53, 47, 0.5);
 
