@@ -18,7 +18,9 @@ export class NodeParser {
      */
     constructor(token) {
         // "<tag a=b c=" --> ['<tag', 'a=b', 'c=']
-        const [tag, ...propsStrings] = token.slice(1).split(" ");
+        // trim 추가했음. '<h1 className=editor__title contentEditable=true '처럼 들어오면 문제가 됨.
+        // TODO: trim이 괜찮은지 알아보기, 문제가 되면 정규 표현식 고치기
+        const [tag, ...propsStrings] = token.trim().slice(1).split(" ");
 
         this.#tag = tag;
         this.#type = "open";

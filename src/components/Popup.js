@@ -56,6 +56,7 @@ $popup.style.display = "none";
 // TODO: 공개 방식 변경
 // mouseup 직후의 상태는 selection이 제거되어도 제거된 것을 인식하지 못 함.
 // setTimeout이 왜 되는지 모르겠지만, 됨.
+// keydown에서는 setTimeout 이어도 안 됨. keyup에서만 됨.
 export const checkSelectionAndDisplayPopup = () => {
     setTimeout(() => {
         // 1. Selection 확인하기

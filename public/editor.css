@@ -6,22 +6,36 @@
 
     /* notion CSS */
     /* css variable 쓰긴 하는데 거의 96px이길래 그냥 하드 코딩 */
-    padding-left: 96px;
-    padding-right: 96px;
+    padding-left: 20%;
+    padding-right: 20%;
 
     /* 제목 상단 height인데 관찰한 값 사용함 */
     /* 원래 162px인데, 42.5px 높이임 (아래 margin 포함이라 빼줘야 할 듯) */
     padding-top: 120px; 
+
+    /* 에디터 width가 정의되지 않으면 줄바꿈 없이 무한히 늘어남. */
+    /* calc 말고 width로 해결할 수 없었음.. */
+    /* 330px은 사이드바 크기를 의미 */
+    width: calc(100vw - 330px);
 }
 
 .editor [contenteditable] {
     /* TODO: emoji가 무조건 개행 상태로만 되는 듯? 이유 찾아야 함. */
     /* nbsp 생성 못하게 */
     /* https://stackoverflow.com/questions/54488382/how-to-prevent-non-breaking-spaces-from-being-created-in-a-contenteditable-eleme */
+    /* pre-wrap으로 바꾸니까 img 개행 문제가 사라짐? */
     white-space: break-spaces;
 
     /* 에디터 내부의 div는 outline이 보이는데 제거함. (contenteditable이므로 focus를 받기 때문) */
     outline: none;
+}
+
+/* Notion CSS */
+.show_placeholder::after {
+    content: "명령어는 '/' 입력";
+    /* attr(data-placeholder); */
+
+    color: rgba(55, 53, 47, 0.5);
 }
 
 /* 텍스트 선택 영역 색상 */
@@ -34,22 +48,23 @@
     /* Notion CSS */
     font-size: 40px;
     padding: 3px 2px;
+    color: rgb(55, 53, 47);
 }
 
 .editor__content_root {
-
-    display: flex;
-    flex-direction: column;
-    
     /* notion 유사하게 */
-    gap: 8px;
     font-size: 16px;
+}
+
+.editor__content_root div {
+    padding: 4px 0px;
 }
 
 .editor__content_root h1 {
     /* Notion CSS */
-    margin-top: 32px;
-    margin-bottom: 0;
+    margin: 0;
+    padding-top: 32px;
+    padding-bottom: 4px;
     font-weight: 600;
     font-size: 30px;
     line-height: 1.3;

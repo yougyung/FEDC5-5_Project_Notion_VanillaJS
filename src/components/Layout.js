@@ -1,6 +1,6 @@
-import { DocumentTreeRoot } from "../assets/DocumentTreeRoot.js";
+import { DUMMY_DATA } from "../assets/DUMMY_DATA.js";
 import { $ } from "../shared/$.js";
-import { DUMMY_DATA } from "./DUMMY_DATA.js";
+import { DocumentTreeRoot } from "./DocumentTreeRoot.js";
 import { $editor } from "./Editor.js";
 
 const $app = document.getElementById("app");
@@ -17,11 +17,12 @@ const documentTreeRoot = DocumentTreeRoot(DUMMY_DATA);
 
 export const Layout = ($editor) => $`
     <div id=notion-app>
-        <nav>
-            <header className=sidebar>
+        <nav className=sidebar>
+            <header className=sidebar--header>
                 <span className=sidebar--header--username>${username}</span>
                 <span className=sidebar--header--email>${userEmail}</span>
             </header>
+            <div className=sidebar--tree--title>개인 페이지</div>
             ${documentTreeRoot}
         </nav>
         <header>

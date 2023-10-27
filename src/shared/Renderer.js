@@ -30,7 +30,9 @@ export const renderIntoHTML = (rawProps) => {
 
     // 4. 요소의 property 설정대로 추가
     for (const property of Object.keys(props)) {
-        $elem[property] = props[property];
+        // className도 key로 정상 동작하는 게 신기함
+        // setAttribute는 property로 등록 못하는 key도 등록 가능함
+        $elem.setAttribute(property, props[property]);
     }
 
     // 5. 자식 요소 생성 및 등록
