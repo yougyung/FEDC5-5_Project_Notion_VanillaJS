@@ -1,22 +1,18 @@
+import { push } from "../utils/router.js";
 import { NEW } from "../utils/contants.js";
 
-export default function DocumentAddButton({ $target, onAdd, intialState }) {
-  const $documentAddButton = document.createElement("button");
-  $documentAddButton.className = "add-button";
-  $documentAddButton.type = "button";
-  $target.appendChild($documentAddButton);
+export default function DocumentAddButton({ $target, initialState, onAdd }) {
+  this.state = initialState;
+  const $linkButton = document.createElement("button");
 
-  this.state = intialState;
+  $target.appendChild($linkButton);
 
   this.render = () => {
-    $documentAddButton.innerHTML = `
-        새 페이지 추가  
-      `;
+    $linkButton.textContent = this.state.text;
   };
+  this.render();
 
-  $documentAddButton.addEventListener("click", () => {
+  $linkButton.addEventListener("click", () => {
     onAdd(NEW);
   });
-
-  this.render();
 }

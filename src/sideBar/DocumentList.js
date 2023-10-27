@@ -1,56 +1,50 @@
 import { push } from "../utils/router.js";
-import { NEW, ROUTE_DOCUMENTS } from "../utils/contants.js";
-import { setItem, } from '../utils/storage.js';
+import DocumentAddButton from "./DocumentAddButton.js";
+import { ROUTE_DOCUMENTS } from "../utils/contants.js";
 
-export default function DocumentList({ $target, initialState }) {
+export default function DocumentList({ $target, initialState , onDelete}) {
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
 
   this.state = initialState;
-
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    this.renderDocument();
   };
 
-  const renderDocuments = (nextDocuments) => `
-      <ul>
-        ${nextDocuments
-          .map(
-            ({ id, title, documents }) => `
-              <li data-id="${id}" class="document-item">
-                ${title ? title : "제목 없음"}
-                <button class="add" type="button">+</button>
-              </li>
-              ${
-                documents.length
-                  ? renderDocuments(documents)
-                  : "하위 항목 없음"
-              }
-            `
-          )
+  this.renderDocument = () => {
+    $documentList.innerHTML = `
+    <ul>
+        ${this.state
+          .map((item) => `<li data-id=${item.id}>${item.title||"제목 없음"}
+          <button class="delete">🗑</button>
+          </li>`)
           .join("")}
-      </ul>
-    `;
-
-  this.render = () => {
-    if (this.state.length > 0) {
-      $documentList.innerHTML = renderDocuments(this.state);
-    }
-  };
-
+    </ul>
+`;
+  }
+  // this.render = () => {
+  //   $documentList.innerHTML = `
+  //           <ul>
+  //               ${this.state
+  //                 .map((item) => `<li data-id=${item.id}>${item.title||"제목 없음"}
+  //                 <button class="delete">🗑</button>
+  //                 </li>`)
+  //                 .join("")}
+  //           </ul>
+  //       `;
+  // };
   $documentList.addEventListener("click", (e) => {
     const $li = e.target.closest("li");
-    if (!$li) return;
-
     const { id } = $li.dataset;
-    if (e.target.className === "document-item") {
-      push(`${ROUTE_DOCUMENTS}/${id}`);
-    } else if (e.target.className === "add") {
-      setItem("NEW-PARENT", id)
-      push(`${ROUTE_DOCUMENTS}/${NEW}`);
+    if ($li) {
+      push(`${ROUTE_DOCUMENTS}/${parseInt(id)}`);
     }
+    if (e.target.className === "delete") {
+      onDelete(id)
+    }
+    
   });
 
-  this.render();
+  this.renderDocument();
 }

@@ -1,34 +1,28 @@
-import DocumentList from "../sideBar/DocumentList.js";
-import DocumentAddButton from "./DocumentAddButton.js";
+import DocumentList from "./DocumentList.js";
 import { request } from "../utils/api.js";
+import DocumentAddButton from "./DocumentAddButton.js";
 import { ROUTE_DOCUMENTS } from "../utils/contants.js";
-import SideHeader from "./SideHeader.js";
 
-export default function Sidebar({ $target, onAdd }) {
-  const $sidebar = document.createElement("div");
-
-  $target.appendChild($sidebar);
-
-  new SideHeader({
-    initialState: {
-      username: "kyungbin",
-    },
-    $target: $sidebar,
-  });
+export default function SideBar({ $target, onAdd, onDelete }) {
+  const $sideBarContents = document.createElement("div");
+  $target.appendChild($sideBarContents);
 
   const documentList = new DocumentList({
-    $target: $sidebar,
+    $target: $sideBarContents,
     initialState: [],
+    onDelete
   });
-
   new DocumentAddButton({
-    $target: $sidebar,
+    $target: $sideBarContents,
+    initialState: {
+      text: "새 페이지 추가",
+    },
     onAdd,
   });
 
   this.render = async () => {
-    const documents = await request(ROUTE_DOCUMENTS);
-    documentList.setState(documents);
+    const document = await request(ROUTE_DOCUMENTS);
+    documentList.setState(document);
   };
 
   this.render();
