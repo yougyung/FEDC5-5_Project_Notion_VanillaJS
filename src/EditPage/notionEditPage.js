@@ -3,7 +3,7 @@ import {
     removeItem,
     setItem
 } from "../utils/storage.js"
-import Editor from "./Editor.js"
+import Editor from "./DocumentEditor.js"
 import EditPageFooter from "./EditPageFooter.js"
 import {
     request
@@ -47,6 +47,7 @@ export default function NotionEditPage({
     })
 
     this.setState = async (nextState) => {
+        console.log(this.state.postId,nextState.postId)
         if (this.state.postId !== nextState.postId) {
             notionLocalSaveKey = `temp-post-${nextState.postId}`
             this.state = nextState
@@ -67,7 +68,8 @@ export default function NotionEditPage({
         }
 
         if(nextState.post){
-            this.state = nextState
+            this.state = { ...this.state, ...nextState };
+      
         }
         editor.setState(this.state.post || defaultState)
         editPageFooter.setState(this.state.post || defaultState)
@@ -77,7 +79,9 @@ export default function NotionEditPage({
     }
 
     this.render = () => {
-        $target.appendChild($page)
+        if(!$target.querySelector(`.editpage`)){//?
+            $target.appendChild($page)
+        }
     }
 
     const fetchPost = async () => {

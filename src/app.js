@@ -44,7 +44,15 @@ export default function App({
             })
 
             removeItem(notionLocalSaveKey)
+        
+
+            notionEditPage.setState({	
+                postId: editedDocument.id,	
+                post: editedDocument,	
+            });
+          
             notionSidebar.setState()
+            
         }, 500)
 
     }
