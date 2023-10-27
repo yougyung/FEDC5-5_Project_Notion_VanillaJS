@@ -1,6 +1,7 @@
-import request from "./api/api.js"
-import DocumentSection from "./components/documentEditSection/DocumentEditSection.js"
+import { fetchDocument, fetchDocuments } from "./api/fetch.js"
+import DocumentEditSection from "./components/documentEditSection/DocumentEditSection.js"
 import DocumnetListSection from "./components/documentListSection/DocumentListSection.js"
+import { initRouter } from "./router/router.js"
 
 export default function App({ $target, initialState }) {
 
@@ -13,38 +14,28 @@ export default function App({ $target, initialState }) {
         this.state = newState
 
         documentListSection.setState(this.state.documents)
-        documentSection.setState(this.state.selectedDocument)
+        documentEditSection.setState(this.state.selectedDocument)
     }
 
     const documentListSection = new DocumnetListSection({
         $target: $listContainer,
-        initialState: this.state.documents
+        initialState: this.state.documents,
+        onChangeList: async () => {
+            const documents = await fetchDocuments()
+
+            this.setState({
+                ...this.state,
+                documents
+            })
+        }
     })
 
-    const documentSection = new DocumentSection({
+    const documentEditSection = new DocumentEditSection({
         $target: $documentContainer,
-        initialState: this.state.selectedDocument
+        initialState: this.state.selectedDocument,
     })
 
-    const fetchDocument = async (id) => {
-        const selectedDocument = await request(`/documents/${id}`)
-
-        this.setState({
-            ...this.state,
-            selectedDocument
-        })
-    }
-
-    const fetchDocuments = async () => {
-        const documents = await request('/documents')
-
-        this.setState({
-            ...this.state,
-            documents
-        })
-    }
-
-    const route = () => {
+    const route = async () => {
         const {pathname} = window.location
 
         $target.innerHTML = ''
@@ -53,23 +44,32 @@ export default function App({ $target, initialState }) {
 
         if (pathname.startsWith('/documents/')) {
             const id = pathname.split('/documents/')[1]
-            fetchDocument(id)
-            $target.appendChild($documentContainer)
+
+            if (id) {
+                const selectedDocument = await fetchDocument(id)
+
+                this.setState({
+                    ...this.state,
+                    selectedDocument
+                })
+    
+                $target.appendChild($documentContainer)
+            }
         }
     }
 
-    window.addEventListener('route-content', (e) => {
-        const { id } = e.detail
+    const init = async () => {
+        const documents = await fetchDocuments()
 
-        if (id) {
-            history.pushState(null,null, `/documents/${id}`)
-        
-            route()
-        }
-    })
+        this.setState({
+            ...this.state,
+            documents
+        })
 
-    window.addEventListener('popstate', route)
+        route()
+
+        initRouter(route)
+    }
     
-    fetchDocuments()
-    route()
+    init()
 }

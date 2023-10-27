@@ -1,6 +1,8 @@
+import request from "../../api/api.js"
+import { routeTrigger } from "../../router/router.js"
 import DocumnetList from "./DocumentList.js"
 
-export default function DocumnetListSection({ $target, initialState, onSelect, onAdd, onRemove, onToggle }) {
+export default function DocumnetListSection({ $target, initialState, onChangeList, onToggle }) {
     
     const $section = document.createElement('div')
     $target.appendChild($section)
@@ -9,11 +11,43 @@ export default function DocumnetListSection({ $target, initialState, onSelect, o
 
     this.setState = (newState) => {
         this.state = newState
+
         documentList.setState(this.state)
+    }
+
+    const onAddDocument = async (parentId) => {
+        const newDocument = await request(`/documents`,{
+            method: 'POST',
+            body: JSON.stringify({
+                title: '',
+                parent: parentId
+            })
+        })
+
+        routeTrigger(`/documents/${newDocument.id}`)
+
+        await onChangeList()
     }
 
     const documentList = new DocumnetList({
         $target: $section,
-        initialState: this.state
+        initialState: this.state,
+        onAdd: (parentId) => onAddDocument(parentId),
+        onRemove : async (id) => {
+            await request(`/documents/${id}`, {
+                method: 'DELETE'
+            })
+
+            routeTrigger('/')
+
+            await onChangeList()
+        },
     })
+
+    const $addPostButton = document.createElement('button')
+    $addPostButton.textContent = "글 추가하기"
+    $addPostButton.addEventListener('click', () => {
+        onAddDocument(null)
+    })
+    $target.appendChild($addPostButton)
 }
