@@ -35,7 +35,7 @@ export default function Sidebar({
     return `
       <div class="side-bar-document" data-id="${id}">
         <img class="toggle-button" src="src/assets/arrow.png" alt="toggle button">
-        <span class="click-title">${title}</span>s
+        <span class="click-title">${title}</span>
         <img class="add-button" src="src/assets/add.png"/>
         <img class="delete-button" src="src/assets/delete.png"/>
         ${childDocumentsHTML}

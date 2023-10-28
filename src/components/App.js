@@ -49,6 +49,9 @@ export default function App({ $target }) {
     // 부모 문서의 최신 정보 가져오기
     const parentDocument = await getDocumentContent(parentId);
 
+    // 사이드바를 업데이트하기 위해 최신 문서 목록 가져오기
+    await fetchDocumentLists();
+
     // 새 문서를 부모 문서의 하위로 추가
     parentDocument.documents.push(newDocument);
 
@@ -74,15 +77,15 @@ export default function App({ $target }) {
     });
 
     console.log(newDocument);
-
-    if (parentId) {
+    if (parentId !== null) {
       await updateParentDocument(parentId, newDocument);
+    } else {
+      await fetchDocumentLists();
     }
 
-    // 사이드바를 업데이트하기 위해 최신 문서 목록 가져오기
-    await fetchDocumentLists();
-
     this.setState({ ...this.state, selectedDocument: newDocument });
+
+    console.log(this.state);
     editDocument.setState(this.state);
   };
 
