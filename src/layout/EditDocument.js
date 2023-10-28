@@ -11,7 +11,8 @@ export default function EditDocument({ $target, initialState }) {
   };
 
   const render = () => {
-    const { title, content } = this.state;
+    const { title, content } = this.state.selectedDocument;
+
     $editContainer.innerHTML = `
       <div class="editable" id="editable-title" contenteditable="true">
         <h1>${title || "제목 없음"}</h1>
@@ -21,6 +22,15 @@ export default function EditDocument({ $target, initialState }) {
       </div>
     `;
   };
+
+  $editContainer.addEventListener("click", async (e) => {
+    const $node = e.target;
+
+    if ($node.matches(".side-bar-document")) {
+      const documentId = $node.dataset.id;
+      const documentContent = await getDocumentContent(documentId);
+    }
+  });
 
   render();
 }
