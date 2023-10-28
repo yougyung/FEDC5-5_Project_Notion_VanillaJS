@@ -50,17 +50,22 @@ export default function Sidebar({
 
   const handleButtonClick = (e) => {
     const $node = e.target;
-    const $parentDocument = $node.closest(".side-bar-document");
-    const { id } = $parentDocument.dataset;
 
-    if ($node.classList.contains("click-title")) {
-      fetchDocument(id);
-    } else if ($node.classList.contains("toggle-button")) {
-      toggleDocument($parentDocument);
-    } else if ($node.classList.contains("add-button")) {
-      addNewDocument(id);
-    } else if ($node.classList.contains("delete-button")) {
-      // 삭제 기능
+    if ($node.classList.contains("add-document")) {
+      addNewDocument(null);
+    } else {
+      const $parentDocument = $node.closest(".side-bar-document");
+      const { id } = $parentDocument.dataset;
+
+      if ($node.classList.contains("click-title")) {
+        fetchDocument(id);
+      } else if ($node.classList.contains("toggle-button")) {
+        toggleDocument($parentDocument);
+      } else if ($node.classList.contains("add-button")) {
+        addNewDocument(id);
+      } else if ($node.classList.contains("delete-button")) {
+        // 삭제 기능
+      }
     }
   };
 
@@ -70,6 +75,7 @@ export default function Sidebar({
     $sideContainer.innerHTML = `
       <div class="side-bar-container">
         <h3 class="side-bar-header-title">김윤경의 Notion</h3>
+        <button class="add-document">문서 추가</button>
         ${documentListHTML}
       </div>
     `;

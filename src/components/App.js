@@ -44,22 +44,13 @@ export default function App({ $target }) {
     editDocument.setState(this.state);
   };
 
-  /** 새로운 문서 생성하기 */
-  const addNewDocument = async (parentId) => {
-    // 새 문서 생성
-    const newDocument = await createDocument({
-      title: "제목 없음",
-      parent: parentId,
-    });
-
+  /** 부모 문서 정보 업데이트 및 토글 열기 */
+  const updateParentDocument = async (parentId, newDocument) => {
     // 부모 문서의 최신 정보 가져오기
     const parentDocument = await getDocumentContent(parentId);
 
     // 새 문서를 부모 문서의 하위로 추가
     parentDocument.documents.push(newDocument);
-
-    // 사이드바를 업데이트하기 위해 최신 문서 목록 가져오기
-    await fetchDocumentLists();
 
     // 부모 문서부터 최상위 문서까지 토글 열기
     let $parentDocument = document.querySelector(`[data-id="${parentId}"]`);
@@ -72,6 +63,24 @@ export default function App({ $target }) {
       $parentDocument =
         $parentDocument.parentElement.closest(".side-bar-document");
     }
+  };
+
+  /** 새로운 문서 생성하기 */
+  const addNewDocument = async (parentId) => {
+    // 새 문서 생성
+    const newDocument = await createDocument({
+      title: "제목 없음",
+      parent: parentId,
+    });
+
+    console.log(newDocument);
+
+    if (parentId) {
+      await updateParentDocument(parentId, newDocument);
+    }
+
+    // 사이드바를 업데이트하기 위해 최신 문서 목록 가져오기
+    await fetchDocumentLists();
 
     this.setState({ ...this.state, selectedDocument: newDocument });
     editDocument.setState(this.state);
