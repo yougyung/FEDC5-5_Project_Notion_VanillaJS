@@ -1,5 +1,6 @@
-import { createComponent } from "@/core";
 import classNames from "classnames";
+
+import { createComponent } from "@/core";
 import { DocumentResponseDto } from "@/types";
 import styles from "./documentItem.module.scss";
 
