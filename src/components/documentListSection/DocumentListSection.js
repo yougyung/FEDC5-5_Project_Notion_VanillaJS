@@ -2,7 +2,7 @@ import request from "../../api/api.js"
 import { routeTrigger } from "../../router/router.js"
 import DocumnetList from "./DocumentList.js"
 
-export default function DocumnetListSection({ $target, initialState, onChangeList, onToggle }) {
+export default function DocumnetListSection({ $target, initialState, onDelete, onAdd, onToggle }) {
     
     const $section = document.createElement('div')
     $target.appendChild($section)
@@ -26,7 +26,7 @@ export default function DocumnetListSection({ $target, initialState, onChangeLis
 
         routeTrigger(`/documents/${newDocument.id}`)
 
-        await onChangeList()
+        onAdd()
     }
 
     const documentList = new DocumnetList({
@@ -38,9 +38,7 @@ export default function DocumnetListSection({ $target, initialState, onChangeLis
                 method: 'DELETE'
             })
 
-            routeTrigger('/')
-
-            await onChangeList()
+            onDelete(id)
         },
     })
 

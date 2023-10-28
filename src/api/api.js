@@ -6,12 +6,12 @@ export default async function request(url, options) {
         const res = await fetch(`${API_END_POINT}${url}`, {
             ...options,
             headers: {
-                'x-username': 'roto',
+                'x-username': 'JeongeunAn',
                 'Content-Type': 'application/json'
             }
         })
 
-        return res.ok ? res.json() : new Error('응답 오류')
+        return res.ok ? res.json() : null
     } catch(e) {
         throw new Error(`API 요청에 실패했습니다!: ${e.message}`)
     }

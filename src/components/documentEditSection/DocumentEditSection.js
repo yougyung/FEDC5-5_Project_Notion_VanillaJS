@@ -45,7 +45,7 @@ export default function DocumentEditSection({$target, initialState, onChangeList
                         title: post.title,
                         content: post.content
                     })
-                }, 2000)
+                }, 1000)
             }
         }
     })

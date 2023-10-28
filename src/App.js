@@ -1,7 +1,7 @@
 import { fetchDocument, fetchDocuments } from "./api/fetch.js"
 import DocumentEditSection from "./components/documentEditSection/DocumentEditSection.js"
 import DocumnetListSection from "./components/documentListSection/DocumentListSection.js"
-import { initRouter } from "./router/router.js"
+import { initRouter, routeTrigger } from "./router/router.js"
 
 export default function App({ $target, initialState }) {
 
@@ -14,19 +14,39 @@ export default function App({ $target, initialState }) {
         this.state = newState
 
         documentListSection.setState(this.state.documents)
-        documentEditSection.setState(this.state.selectedDocument)
+
+        if (this.state.selectedDocument) {
+            documentEditSection.setState(this.state.selectedDocument)
+        }
     }
 
     const documentListSection = new DocumnetListSection({
         $target: $listContainer,
         initialState: this.state.documents,
-        onChangeList: async () => {
+        onAdd: async () => {
             const documents = await fetchDocuments()
 
             this.setState({
                 ...this.state,
                 documents
             })
+        },
+        onDelete: async (deleteId) => {
+            const documents = await fetchDocuments()
+
+            this.setState({
+                ...this.state,
+                documents
+            })
+
+            if (deleteId == this.state.selectedDocument.id) {
+                this.setState({
+                    ...this.state,
+                    selectedDocument: null
+                })
+
+                routeTrigger("/")
+            }
         }
     })
 
@@ -64,9 +84,11 @@ export default function App({ $target, initialState }) {
                     ...this.state,
                     selectedDocument
                 })
-    
-                $target.appendChild($documentContainer)
-            }
+                
+                if (selectedDocument) {
+                    $target.appendChild($documentContainer)
+                }
+            }           
         }
     }
 
