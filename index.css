@@ -5,6 +5,11 @@ body {
   width: 99%;
   height: 99vh;
 }
+
+body {
+  font-family: "Noto Serif KR", serif;
+  /* font-weight: 400; */
+}
 .app {
   width: 100%;
   height: 100%;
