@@ -69,6 +69,5 @@ export default function ContentBlock({ $target, initialState }) {
 			}
 		}
 	};
-
 	this.render();
 }

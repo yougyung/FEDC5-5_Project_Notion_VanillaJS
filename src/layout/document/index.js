@@ -97,12 +97,15 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			await updateDocument(newDocument, id);
 		});
 	};
-	this.handleClickContent = () => {
-		// const $contentBox = $document?.querySelector('.document__content');
-		// const init = {
-		// 	tagName: 'div',
-		// 	innerText: '### test입',
-		// };
-		// new ContentBlock({ $target: $contentBox, initialState: init });
+	this.handleClickContent = (e) => {
+		const $contentBox = $document.querySelector('.document__content');
+		if (e.target === $contentBox) {
+			const init = {
+				tagName: 'div',
+				innerText: '',
+			};
+			new ContentBlock({ $target: $contentBox, initialState: init });
+			$contentBox.lastChild.focus();
+		}
 	};
 }
