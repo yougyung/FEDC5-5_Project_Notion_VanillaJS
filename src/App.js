@@ -1,48 +1,48 @@
-import { fetchDocument, fetchDocuments } from "./api/fetch.js"
-import DocumentEditSection from "./components/documentEditSection/DocumentEditSection.js"
-import DocumnetListSection from "./components/documentListSection/DocumentListSection.js"
+import { fetchPost, fetchPostList } from "./api/fetch.js"
+import PostEditSection from "./components/postEditSection/PostEditSection.js"
+import PostListSection from "./components/postListSection/PosttListSection.js"
 import { initRouter, routeTrigger } from "./router/router.js"
 
 export default function App({ $target, initialState }) {
 
     const $listContainer = document.createElement('div')
-    const $documentContainer = document.createElement('div')
+    const $editorContainer = document.createElement('div')
 
     this.state = initialState
 
     this.setState = (newState) => {
         this.state = newState
 
-        documentListSection.setState(this.state.documents)
+        postListSection.setState(this.state.postList)
 
-        if (this.state.selectedDocument) {
-            documentEditSection.setState(this.state.selectedDocument)
+        if (this.state.selectedPost) {
+            postEditSection.setState(this.state.selectedPost)
         }
     }
 
-    const documentListSection = new DocumnetListSection({
+    const postListSection = new PostListSection({
         $target: $listContainer,
-        initialState: this.state.documents,
+        initialState: this.state.postList,
         onAdd: async () => {
-            const documents = await fetchDocuments()
+            const postList = await fetchPostList()
 
             this.setState({
                 ...this.state,
-                documents
+                postList
             })
         },
         onDelete: async (deleteId) => {
-            const documents = await fetchDocuments()
+            const postList = await fetchPostList()
 
             this.setState({
                 ...this.state,
-                documents
+                postList
             })
 
-            if (deleteId == this.state.selectedDocument.id) {
+            if (deleteId == this.state.selectedPost.id) {
                 this.setState({
                     ...this.state,
-                    selectedDocument: null
+                    selectedPost: null
                 })
 
                 routeTrigger("/")
@@ -50,17 +50,17 @@ export default function App({ $target, initialState }) {
         }
     })
 
-    const documentEditSection = new DocumentEditSection({
-        $target: $documentContainer,
-        initialState: this.state.selectedDocument,
+    const postEditSection = new PostEditSection({
+        $target: $editorContainer,
+        initialState: this.state.selectedPost,
         onChangeList: async (editedPost) => {
-            const documents = await fetchDocuments()
+            const postList = await fetchPostList()
  
             this.setState({
                 ...this.state,
-                documents,
-                selectedDocument: {
-                    ...this.state.selectedDocument,
+                postList,
+                selectedPost: {
+                    ...this.state.selectedPost,
                     ...editedPost
                 }
             })
@@ -74,30 +74,31 @@ export default function App({ $target, initialState }) {
 
         $target.appendChild($listContainer)
 
-        if (pathname.startsWith('/documents/')) {
-            const id = pathname.split('/documents/')[1]
+        if (pathname.startsWith('/posts/')) {
+            const id = pathname.split('/posts/')[1]
 
             if (id) {
-                const selectedDocument = await fetchDocument(id)
+                const selectedPost = await fetchPost(id)
 
                 this.setState({
                     ...this.state,
-                    selectedDocument
+                    selectedPost
                 })
                 
-                if (selectedDocument) {
-                    $target.appendChild($documentContainer)
+                if (selectedPost) {
+                    $target.appendChild($editorContainer)
                 }
             }           
         }
     }
 
     const init = async () => {
-        const documents = await fetchDocuments()
+        const postList = await fetchPostList()
 
         this.setState({
             ...this.state,
-            documents
+            postList,
+            selectedPost: null
         })
 
         route()

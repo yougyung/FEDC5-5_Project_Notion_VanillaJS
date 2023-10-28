@@ -1,15 +1,15 @@
 import request from "./api.js"
 
-export const fetchDocument = async (id) => {
-    const defaultDocument = {
+export const fetchPost = async (id, options={}) => {
+    const defaultPost = {
         title: '',
         content: ''
     }
 
-    return id === 'new' ? defaultDocument : await request(`/documents/${id}`)
+    return id === 'new' ? defaultPost : await request(`/documents/${id}`,options)
 }
 
-export const fetchDocuments = async () => {
+export const fetchPostList = async (options={}) => {
 
-    return await request('/documents')
+    return await request('/documents',options)
 }

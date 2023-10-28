@@ -1,7 +1,7 @@
-import request from "../../api/api.js"
-import DocumentEditor from "./DocumnetEditor.js"
+import { fetchPost } from "../../api/fetch.js"
+import PostEditor from "./PostEditor.js"
 
-export default function DocumentEditSection({$target, initialState, onChangeList}) {
+export default function PostEditSection({$target, initialState, onChangeList}) {
 
     const $section = document.createElement('div')
     $target.appendChild($section)
@@ -19,7 +19,7 @@ export default function DocumentEditSection({$target, initialState, onChangeList
 
     let timer = null
 
-    const editor = new DocumentEditor({
+    const editor = new PostEditor({
         $target,
         initialState: this.state,
         onEdit: (post) => {
@@ -31,7 +31,7 @@ export default function DocumentEditSection({$target, initialState, onChangeList
                 }
 
                 timer = setTimeout(async () => {
-                    await request(`/documents/${id}`, {
+                    await fetchPost(id, {
                         method: 'PUT',
                         body: JSON.stringify(post)
                     })

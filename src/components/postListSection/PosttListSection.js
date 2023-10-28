@@ -1,8 +1,8 @@
-import request from "../../api/api.js"
+import { fetchPost, fetchPostList } from "../../api/fetch.js"
 import { routeTrigger } from "../../router/router.js"
-import DocumnetList from "./DocumentList.js"
+import PostList from "./PostList.js"
 
-export default function DocumnetListSection({ $target, initialState, onDelete, onAdd, onToggle }) {
+export default function PostListSection({ $target, initialState, onDelete, onAdd, onToggle }) {
     
     const $section = document.createElement('div')
     $target.appendChild($section)
@@ -12,11 +12,11 @@ export default function DocumnetListSection({ $target, initialState, onDelete, o
     this.setState = (newState) => {
         this.state = newState
 
-        documentList.setState(this.state)
+        postList.setState(this.state)
     }
 
-    const onAddDocument = async (parentId) => {
-        const newDocument = await request(`/documents`,{
+    const onAddPost = async (parentId) => {
+        const newPost = await fetchPostList({
             method: 'POST',
             body: JSON.stringify({
                 title: '',
@@ -24,17 +24,17 @@ export default function DocumnetListSection({ $target, initialState, onDelete, o
             })
         })
 
-        routeTrigger(`/documents/${newDocument.id}`)
+        routeTrigger(`/posts/${newPost.id}`)
 
         onAdd()
     }
 
-    const documentList = new DocumnetList({
+    const postList = new PostList({
         $target: $section,
         initialState: this.state,
-        onAdd: (parentId) => onAddDocument(parentId),
+        onAdd: (parentId) => onAddPost(parentId),
         onRemove : async (id) => {
-            await request(`/documents/${id}`, {
+            await fetchPost(id, {
                 method: 'DELETE'
             })
 
@@ -45,7 +45,7 @@ export default function DocumnetListSection({ $target, initialState, onDelete, o
     const $addPostButton = document.createElement('button')
     $addPostButton.textContent = "글 추가하기"
     $addPostButton.addEventListener('click', () => {
-        onAddDocument(null)
+        onAddPost(null)
     })
     $target.appendChild($addPostButton)
 }

@@ -1,4 +1,4 @@
-export default function DocumentEditor({$target, initialState, onEdit}) {
+export default function PostEditor({$target, initialState, onEdit}) {
 
     const $editor = document.createElement('div')
     $target.appendChild($editor)

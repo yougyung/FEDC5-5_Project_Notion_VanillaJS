@@ -1,6 +1,6 @@
 import { routeTrigger } from "../../router/router.js"
 
-export default function DocumnetList({ $target, initialState, onAdd, onRemove }) {
+export default function PostList({ $target, initialState, onAdd, onRemove }) {
 
     const $list = document.createElement('div')
     $target.appendChild($list)
@@ -47,7 +47,7 @@ export default function DocumnetList({ $target, initialState, onAdd, onRemove })
             else if (e.target.name === "remove") {    
                 onRemove(id)
             } else {
-                routeTrigger(`/documents/${id}`)
+                routeTrigger(`/posts/${id}`)
             }
         }
 
