@@ -1,4 +1,4 @@
-import styles from "./userGuide.module.scss";
+import styles from "./userGuide.module.scss";
 
 const { s_guideSection, s_guideArticle, s_guideSummary } = styles;
 
