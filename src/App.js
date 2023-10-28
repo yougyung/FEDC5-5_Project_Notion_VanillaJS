@@ -62,8 +62,8 @@ export default function App({ $target }) {
 		const response = await getDocument(focusedDocumentId);
 		if (!response) {
 			this.setState({ ...this.state, focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
-			const document400 = await getDocument(this.state.focusedDocumentId);
-			return document400;
+			const page404 = await getDocument(this.state.focusedDocumentId);
+			return page404;
 		}
 		return response;
 	};

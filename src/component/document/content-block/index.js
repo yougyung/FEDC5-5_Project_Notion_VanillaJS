@@ -14,7 +14,10 @@ export default function ContentBlock({ $target, initialState }) {
 	$target.appendChild($content);
 	this.getElement = () => $content;
 
-	this.state = initialState;
+	this.state = {
+		isEmpty: false,
+		...initialState,
+	};
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
@@ -29,8 +32,16 @@ export default function ContentBlock({ $target, initialState }) {
 	};
 
 	this.handleKeyUpContentBlock = (e) => {
-		if (DELETE_CHARACTER === e.code && $content.innerHTML === PLACEHOLDER_NODE) {
+		if ($content.innerHTML.length === 1) {
+			this.state.isEmpty = false;
+			return;
+		}
+		if (this.state.isEmpty && DELETE_CHARACTER === e.code) {
 			$target.removeChild($content);
+			return;
+		}
+		if ($content.innerHTML.length === 0) {
+			this.state.isEmpty = true;
 			return;
 		}
 
@@ -44,6 +55,7 @@ export default function ContentBlock({ $target, initialState }) {
 			};
 			const $newElement = new ContentBlock({ $target, initialState: init });
 			$target.insertBefore($newElement.getElement(), $content.nextSibling);
+			$content.nextSibling.focus();
 			return;
 		}
 

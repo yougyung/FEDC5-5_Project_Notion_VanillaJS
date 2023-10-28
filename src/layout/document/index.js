@@ -26,7 +26,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			: 'block';
 	};
 
-	this.parseContent = () => {
+	this.parseStringToHTML = () => {
 		const htmlString = this.state.content;
 		const pattern = /<(\w+)[^>]*>([^<]+)<\/\1>/g;
 		let match;
@@ -40,9 +40,9 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		return parsed;
 	};
 
-	const test = () => {
+	const parseContent = () => {
 		const $contentBox = $document.querySelector('.document__content');
-		const elements = this.parseContent();
+		const elements = this.parseStringToHTML();
 		elements.map((element) => new ContentBlock({ $target: $contentBox, initialState: element }));
 	};
 
@@ -53,7 +53,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 		<div class="document__content"></div>
 		<div class="document__deleteBtn" role='button'>페이지 삭제</div>
 		`;
-		test();
+		parseContent();
 		addEvent($document, 'document__title', 'keyup', this.handleKeyUpTitle);
 		addEvent($document, 'document__content', 'click', this.handleClickContent);
 		addEvent($document, 'document__content', 'keyup', this.handleKeyUpContent);
@@ -67,14 +67,13 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 			$content.firstChild.focus();
 		}
 		const { id, content } = this.state;
-		// optimistic UI
 		handleOptimisticUITitle(id, e.target.innerHTML);
-		// api update
 		debounce(async () => {
 			const newDocument = { title: e.target.innerHTML, content };
 			await updateDocument(newDocument, id);
 		});
 	};
+
 	this.handleClickDelete = () => {
 		const { id } = this.state;
 		handleOptimisticUITitle(id);
