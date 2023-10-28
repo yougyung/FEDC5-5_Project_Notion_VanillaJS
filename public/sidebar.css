@@ -58,7 +58,6 @@
 
 .document_list_item__title:hover {
     background-color: rgba(55, 53, 47, 0.08);
-    transition: background 20ms ease-in 0s;
 }
 
 .document_list_item__title {
@@ -67,4 +66,5 @@
     user-select: none;
     cursor: pointer;
     color: rgba(25, 23, 17, 0.6);
+    transition: background 20ms ease-in 0s;
 }

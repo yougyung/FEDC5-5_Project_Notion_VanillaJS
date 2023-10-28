@@ -65,11 +65,13 @@ export const Popup = () => {
     // keydown에서는 setTimeout 이어도 안 됨. keyup에서만 됨.
 
     // TODO: 마우스로 드래그할 때는 좀 이상한 듯? 드래그했을 때 안 뜰 때가 있음. 확인 필요
+    // TODO: 역방향 드래그로 하면 인식이 안 됨.
     const checkSelectionAndDisplayPopup = () => {
+        // TODO: 아니.. 굳이 setTimeout이 필요함?
         setTimeout(() => {
             // 1. Selection 확인하기
             const s = window.getSelection();
-            debug(`[popup-check] selection: [${s.toString()}]`, s.toString().length);
+            debug(`selection: [${s.toString()}]`, s.toString().length);
 
             if (s.toString().length <= 0) {
                 // 선택 영역이 없으면 취소

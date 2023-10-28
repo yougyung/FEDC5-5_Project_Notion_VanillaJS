@@ -66,10 +66,11 @@
 .editor__content_root {
     /* notion 유사하게 */
     font-size: 16px;
+    line-height: 1.5;
 }
 
 .editor__content_root div {
-    padding: 4px 0px;
+    padding: 3px 0px;
 }
 
 .editor__content_root h1 {
@@ -90,6 +91,20 @@
     border-radius: 4px;
     font-size: 85%;
     padding: 0.2em 0.4em;
+}
+
+.editor__page_link {
+    width: 100%;
+    /* left, right 2px씩 추가 */
+    padding: 3px 2px !important;
+    border-radius: 4px;
+    user-select: none;
+    cursor: pointer;
+    transition: background 20ms ease-in 0s;
+}
+
+.editor__page_link:hover {
+    background-color: rgba(55, 53, 47, 0.08);
 }
 
 /* TODO: 나타나기 fadein-out 만들면 좋을 듯 */
@@ -137,4 +152,22 @@
 
 .editor__popup_item:hover {
     background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+/* TODO: 이름 바꾸기. dropdown이 뭐냐 */
+.editor__dropdown {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    /* 노션 스타일 가져오기 */
+    background-color: white;
+    border-radius: 5px;
+    box-shadow:
+        rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+        rgba(15, 15, 15, 0.1) 0px 3px 6px,
+        rgba(15, 15, 15, 0.2) 0px 9px 24px;
+
+    display: flex;
 }

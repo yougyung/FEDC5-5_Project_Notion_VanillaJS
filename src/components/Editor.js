@@ -1,5 +1,6 @@
 import { $ } from "../shared/$.js";
 import { createDebug } from "../shared/debug.js";
+import { Dropdown } from "./Dropdown.js";
 import { Popup } from "./Popup.js";
 
 const debug = createDebug("Editor");
@@ -56,6 +57,8 @@ export const Editor = () => {
         checkSelectionAndDisplayPopup();
     });
 
+    // Q. 사실 이거 필요 없는 거 아님? 애초에 execCommand로 하면 history에 들어가는 느낌인데?
+    // (굳이 undo로 실행해주지 않아도?)
     // UNDO, REDO intercept
     $editor.addEventListener("keyup", (e) => {
         // shift 여부 상관 없이 블럭
@@ -76,10 +79,9 @@ export const Editor = () => {
     // keydown에서는 Digit0이 발생되지 않았다.
     $editor.addEventListener("keyup", (e) => {
         // 문제: Ctrl+Z를 눌러 textContent가 `# `이 될 때도 발동된다.. --> 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
-        if (
-            e.code === "Space" &&
-            window.getSelection().anchorNode.textContent.toString() === "#\u00a0"
-        ) {
+        // nbsp = #\u00a0
+        // TODO: 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
+        if (e.code === "Space" && window.getSelection().anchorNode.textContent.startsWith("# ")) {
             document.execCommand("formatBlock", false, "h1");
             // TODO: delete를 한 번만 써도 되지 않나?
             // 선택이 안 됐으면 한 글자만 지움
@@ -189,6 +191,62 @@ export const Editor = () => {
         removePlaceholder();
         showPlaceholderIfNeeded();
     });
+
+    const { $dropdown, displayDropdown } = Dropdown();
+
+    const openDropdownOnSlash = (e) => {
+        // selection 반영을 위함.
+        setTimeout(() => {
+            // shiftKey=true일 때는 ?도 통과하기 때문에 필터
+            if (e.code !== "Slash" || e.shiftKey) {
+                return;
+            }
+
+            // 명령 창 띄우기 - popup처럼
+            displayDropdown();
+        }, 0);
+    };
+
+    const closeDropdownOnDeleteSlash = (e) => {
+        // selection 반영을 위함.
+        // CASE 1: anchorNode가 div (텍스트가 업고, innerHTML = "<br>")
+        // CASE 2: anchorNode가 textNode (텍스트가 남아 있음)
+        // CASE 3: anchorNode가 root (innerHTML = "")
+        setTimeout(() => {
+            const s = window.getSelection();
+            const $target = s.anchorNode;
+
+            if ($target.nodeName === "DIV") {
+                // 어차피 텍스트는 없는 상태
+                $dropdown.style.display = "none";
+                return;
+            }
+
+            if (!$target.includes("/")) {
+                $dropdown.style.display = "none";
+            }
+        }, 0);
+    };
+
+    const execDropdownOnEnter = (e) => {
+        // TODO: slash 이후의 명령어 입력 시 Enter를 치는데 이 때 명령을 인식하고 실행해야 함.
+        // CASE 1: 명령이 없는 경우
+        // /Enter => /가 사라지고 창도 닫힘
+        // /SpaceEnter => 다 사라지고 창도 닫힘
+        // /조나단Enter => [결과 없음]으로 나오고 Enter가 무시됨
+        // CASE 2: 명령이 있는 경우
+        // 1. Text => 아래에 개행 후 포커스해줌
+        // 2. H1 => 아래에 개행 후 포커스해줌
+        // 3. Table => 동일
+    };
+
+    $editor.appendChild($dropdown);
+
+    $editor.addEventListener("keydown", openDropdownOnSlash);
+
+    // SlashSpaceSpace => 닫힘
+    $editor.addEventListener("keydown", closeDropdownOnDeleteSlash);
+    $editor.addEventListener("keydown", execDropdownOnEnter);
 
     return $editor;
 };
