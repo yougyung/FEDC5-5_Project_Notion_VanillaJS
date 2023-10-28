@@ -4,6 +4,7 @@ export default function Editor({
     title: '',
     content: '',
   },
+  onEditing,
 }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor';
@@ -32,7 +33,7 @@ export default function Editor({
     };
     this.setState(nextState);
     // 로컬 스토리지 저장
-    // onEditing(this.state);
+    onEditing(this.state);
   });
   $editor.querySelector('[name=content]').addEventListener('input', (e) => {
     const nextState = {

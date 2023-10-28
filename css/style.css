@@ -2,10 +2,6 @@
 #app {
   display: flex;
 }
-#app [contenteditable=true]:focus {
-  outline: none;
-  border: none;
-}
 #app button :hover {
   background-color: rgba(55, 53, 47, 0.08);
 }

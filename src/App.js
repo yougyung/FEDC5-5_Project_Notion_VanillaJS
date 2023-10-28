@@ -5,7 +5,6 @@ import { initRouter } from './router.js';
 export default function App({ $target }) {
   const sidebar = new Sidebar({
     $target,
-    initialState: [],
   });
 
   const editpage = new EditPage({

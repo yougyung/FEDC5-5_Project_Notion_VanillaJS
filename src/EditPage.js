@@ -1,4 +1,5 @@
 import Editor from './Editor.js';
+import { request } from './api.js';
 
 export default function EditPage({ $target, initialState }) {
   this.state = initialState;
@@ -8,42 +9,17 @@ export default function EditPage({ $target, initialState }) {
   const editor = new Editor({
     $target: $page,
     initialState: this.state,
-    // 로컬 스토리지 저장
-    onEditing: (post) => {
-      // // 계속 입력하고 있는 경우 저장하는 타이머 해제
-      // if (timer !== null) {
-      //   clearTimeout(timer);
-      // }
-      // timer = setTimeout(async () => {
-      //   setItem(postLocalSaveKey, {
-      //     ...post,
-      //     tempSaveDate: new Date(),
-      //   });
-      //   const isNew = this.state.postId === 'new';
-      //   if (isNew) {
-      //     const createdPost = await request(`/posts`, {
-      //       method: 'POST',
-      //       body: JSON.stringify(post),
-      //     });
-      //     history.replaceState(null, null, `/posts/${createdPost.id}`);
-      //     removeItem(postLocalSaveKey);
-      //     this.setState({
-      //       postId: createdPost.id,
-      //     });
-      //   } else {
-      //     await request(`/posts/${post.id}`, {
-      //       method: 'PUT',
-      //       body: JSON.stringify(post),
-      //     });
-      //     // 서버에 반영이 되면 로컬 삭제
-      //     removeItem(postLocalSaveKey);
-      //   }
-      // }, 2000);
+    onEditing: async (document) => {
+      await request(`/${document.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(document),
+      });
     },
   });
 
   this.setState = async (nextState) => {
-    if (this.state.postId !== nextState.postId) {
+    // 클릭으로 글 이동
+    if (this.state.id !== nextState.postId) {
       this.state = nextState;
       this.render();
       editor.setState(
@@ -58,6 +34,16 @@ export default function EditPage({ $target, initialState }) {
   this.render = async () => {
     $target.appendChild($page);
   };
+  // 새글이 아니면 기존 글 받아오기
+  const fetchPost = async () => {
+    const { postId } = this.state;
 
-  this.render();
+    const post = await request(`/${postId}`);
+
+    this.setState({
+      ...this.state,
+      post,
+    });
+  };
+  fetchPost();
 }

@@ -1,11 +1,11 @@
 import SidebarList from './SidebarList.js';
 import SidebarHeader from './SidebarHeader.js';
 import { request } from './api.js';
+import { push } from './router.js';
 
-export default function Sidebar({ $target, initialState = [] }) {
+export default function Sidebar({ $target }) {
   const $sidebar = document.createElement('section');
   $sidebar.className = 'sidebar';
-  this.state = initialState;
 
   new SidebarHeader({
     $target: $sidebar,
@@ -44,8 +44,10 @@ export default function Sidebar({ $target, initialState = [] }) {
         method: 'POST',
         body: JSON.stringify(document),
       });
-      // 삭제가 제대로 된 경우
+      // 추가가 제대로 된 경우
       if (updatedDocuments) {
+        // 새로 들어온 디렉토리 편집화면
+        push(`/posts/${updatedDocuments.id}`);
         this.setState();
       }
     },
