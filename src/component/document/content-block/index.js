@@ -37,6 +37,7 @@ export default function ContentBlock({ $target, initialState }) {
 			return;
 		}
 		if (this.state.isEmpty && DELETE_CHARACTER === e.code) {
+			$content.previousSibling?.focus();
 			$target.removeChild($content);
 			return;
 		}
@@ -51,11 +52,11 @@ export default function ContentBlock({ $target, initialState }) {
 			e.target.innerHTML = previousText;
 			const init = {
 				tagName: 'div',
-				innerText: nextText.slice(0, -6),
+				innerText: nextText?.slice(0, -6),
 			};
 			const $newElement = new ContentBlock({ $target, initialState: init });
 			$target.insertBefore($newElement.getElement(), $content.nextSibling);
-			$content.nextSibling.focus();
+			$content.nextSibling?.focus();
 			return;
 		}
 
