@@ -1,5 +1,5 @@
-import { fetchPost } from "../../api/fetch.js"
-import PostEditor from "./PostEditor.js"
+import { fetchPost } from "../api/fetch.js"
+import PostEditor from "../components/postEditSection/PostEditor.js"
 
 export default function PostEditSection({$target, initialState, onChangeList}) {
 

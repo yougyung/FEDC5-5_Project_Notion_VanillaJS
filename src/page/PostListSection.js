@@ -1,6 +1,6 @@
-import { fetchPost, fetchPostList } from "../../api/fetch.js"
-import { routeTrigger } from "../../router/router.js"
-import PostList from "./PostList.js"
+import { fetchPost, fetchPostList } from "../api/fetch.js"
+import { routeTrigger } from "../router/router.js"
+import PostList from "../components/postListSection/PostList.js"
 
 export default function PostListSection({ $target, initialState, onDelete, onAdd, onToggle }) {
     

@@ -1,6 +1,6 @@
 import { fetchPost, fetchPostList } from "./api/fetch.js"
-import PostEditSection from "./components/postEditSection/PostEditSection.js"
-import PostListSection from "./components/postListSection/PosttListSection.js"
+import PostEditSection from "./page/PostEditSection.js"
+import PostListSection from "./page/PostListSection.js"
 import { initRouter, routeTrigger } from "./router/router.js"
 
 export default function App({ $target, initialState }) {
