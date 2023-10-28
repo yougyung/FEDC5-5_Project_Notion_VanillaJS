@@ -12,30 +12,14 @@ export default function App({ $target }) {
 	const $layout = createElementWithClass('div', 'layout');
 	$target.appendChild($layout);
 
-	this.state = {};
-
-	this.setState = async (nextState) => {
-		this.state = nextState;
-		const { focusedDocumentId } = this.state;
-		sidebar.setState(this.state);
-		document.setState(await fetchDocumentContents(focusedDocumentId));
-	};
-
 	const handleState = (nextState) => {
 		this.setState({ ...this.state, ...nextState });
 	};
-
 	const sidebar = new SideBar({
 		$target: $layout,
 		initialState: this.state,
 		handleState,
 	});
-	const document = new Document({
-		$target: $layout,
-		initialState: [],
-		handleOptimisticUITitle,
-	});
-
 	const deleteDocument = (array, id) => {
 		for (let i = 0; i < array.length; i += 1) {
 			const item = array[i];
@@ -52,6 +36,7 @@ export default function App({ $target }) {
 	const handleOptimisticUITitle = async (documentId, inputText) => {
 		const { documentList } = this.state;
 		if (inputText) {
+			// eslint-disable-next-line no-restricted-syntax
 			for (const item of documentList) {
 				const foundDocument = [...item.documents, item].find((document) => document.id === documentId);
 				if (foundDocument) {
@@ -67,14 +52,29 @@ export default function App({ $target }) {
 		}
 	};
 
+	const document = new Document({
+		$target: $layout,
+		initialState: [],
+		handleOptimisticUITitle,
+	});
+
 	const fetchDocumentContents = async (focusedDocumentId) => {
 		const response = await getDocument(focusedDocumentId);
 		if (!response) {
 			this.setState({ ...this.state, focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
-			const page404 = await getDocument(this.state.focusedDocumentId);
-			return page404;
+			const document400 = await getDocument(this.state.focusedDocumentId);
+			return document400;
 		}
 		return response;
+	};
+
+	this.state = {};
+	this.setState = async (nextState) => {
+		this.state = nextState;
+
+		const { focusedDocumentId } = this.state;
+		sidebar.setState(this.state);
+		document.setState(await fetchDocumentContents(focusedDocumentId));
 	};
 
 	this.route = () => {
