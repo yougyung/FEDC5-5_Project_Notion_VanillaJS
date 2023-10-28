@@ -1,6 +1,11 @@
 import { getAllDocumentLists, createDocument } from "../api/document.js";
 
-export default function Sidebar({ $target, initialState, onAddNewDocument }) {
+export default function Sidebar({
+  $target,
+  initialState,
+  addNewDocument,
+  fetchDocument,
+}) {
   const $sideContainer = document.createElement("div");
   $sideContainer.classList.add("side-container");
   $target.appendChild($sideContainer);
@@ -30,7 +35,7 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
     return `
       <div class="side-bar-document" data-id="${id}">
         <img class="toggle-button" src="src/assets/arrow.png" alt="toggle button">
-        ${title}
+        <span class="click-title">${title}</span>s
         <img class="add-button" src="src/assets/add.png"/>
         <img class="delete-button" src="src/assets/delete.png"/>
         ${childDocumentsHTML}
@@ -48,10 +53,12 @@ export default function Sidebar({ $target, initialState, onAddNewDocument }) {
     const $parentDocument = $node.closest(".side-bar-document");
     const { id } = $parentDocument.dataset;
 
-    if ($node.classList.contains("toggle-button")) {
+    if ($node.classList.contains("click-title")) {
+      fetchDocument(id);
+    } else if ($node.classList.contains("toggle-button")) {
       toggleDocument($parentDocument);
     } else if ($node.classList.contains("add-button")) {
-      onAddNewDocument(id);
+      addNewDocument(id);
     } else if ($node.classList.contains("delete-button")) {
       // 삭제 기능
     }

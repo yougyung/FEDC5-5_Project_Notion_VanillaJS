@@ -58,7 +58,8 @@ img {
   margin-top: 0.2rem;
 }
 
-img::after {
+img,
+span {
   cursor: pointer;
 }
 

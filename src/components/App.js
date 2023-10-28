@@ -36,15 +36,16 @@ export default function App({ $target }) {
 
   /** 선택된 문서 가져오기 */
   const fetchDocument = async (documentId) => {
-    const selectedDocument = await getPost(documentId);
+    const selectedDocument = await getDocumentContent(documentId);
     this.setState({
       ...this.state,
       selectedDocument,
     });
+    editDocument.setState(this.state);
   };
 
   /** 새로운 문서 생성하기 */
-  const onAddNewDocument = async (parentId) => {
+  const addNewDocument = async (parentId) => {
     // 새 문서 생성
     const newDocument = await createDocument({
       title: "제목 없음",
@@ -84,7 +85,8 @@ export default function App({ $target }) {
   const sidebar = new Sidebar({
     $target,
     initialState: this.state.documents,
-    onAddNewDocument,
+    addNewDocument,
+    fetchDocument,
   });
 
   // EditorDocument

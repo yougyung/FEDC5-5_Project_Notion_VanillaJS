@@ -11,13 +11,15 @@ export default function EditDocument({ $target, initialState }) {
   };
 
   const render = () => {
-    const { title } = this.state.selectedDocument;
+    const { title, content } = this.state.selectedDocument;
 
     $editContainer.innerHTML = `
       <div class="editable" id="editable-title" contenteditable="true">
         <h1>${title || "제목 없음"}</h1>
       </div>
-      <div class="editable" id="editable-content" contenteditable="true"></div>
+      <div class="editable" id="editable-content" contenteditable="true">
+        <p>${content || "내용을 입력하세요."}</p>
+      </div>
     `;
   };
 
