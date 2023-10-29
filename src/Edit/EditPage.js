@@ -36,7 +36,7 @@ export default function EditPage({ $target, initialState }) {
     const { id } = this.state;
     // 루트 페이지에서는 에디터 페이지 가리기
     if (id) {
-      $page.style.display = 'block';
+      $page.style.display = 'flex';
     } else {
       $page.style.display = 'none';
     }

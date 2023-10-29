@@ -10,7 +10,7 @@ export default function Editor({
   $editor.className = 'editor';
   $editor.innerHTML = `
   <input type="text" name="title" />
-  <div name="content" contentEditable="true"style="width:100%; height:100%; border:1px solid black; padding: 8px;"></div>
+  <div name="content" contentEditable="true"></div>
   `;
   this.state = initialState;
   $target.appendChild($editor);
@@ -33,13 +33,29 @@ export default function Editor({
     this.setState(nextState);
     onEditing(this.state);
   });
-  $editor.querySelector('[name=content]').addEventListener('input', (e) => {
+
+  const getCaret = (node) => {
+    // // 커서 위치 옮기고 span태그 삭제하기
+  };
+  const $content = $editor.querySelector('[name=content]');
+
+  $content.addEventListener('input', (e) => {
     const nextState = {
       ...this.state,
       content: e.target.innerHTML,
     };
     this.setState(nextState);
+
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents($content);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    $content.focus();
+
     onEditing(this.state);
   });
+
   this.render();
 }

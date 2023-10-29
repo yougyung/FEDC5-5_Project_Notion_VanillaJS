@@ -3,14 +3,14 @@ import EditPage from './Edit/EditPage.js';
 import { initRouter } from './router/router.js';
 
 export default function App({ $target }) {
-  const sidebar = new Sidebar({
-    $target,
-  });
-
   const document = {
     title: '',
     content: '',
   };
+
+  const sidebar = new Sidebar({
+    $target,
+  });
 
   const editpage = new EditPage({
     $target,
