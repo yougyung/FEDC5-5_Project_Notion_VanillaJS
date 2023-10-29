@@ -38,6 +38,7 @@ module.exports = (_env, argv) => {
     output: {
       filename: 'index.js',
       path: path.resolve(__dirname, 'build'),
+      publicPath: '/',
       assetModuleFilename: 'public/[name][ext]',
       clean: true,
     },
@@ -46,7 +47,9 @@ module.exports = (_env, argv) => {
       port: 3000,
       host: 'localhost',
       hot: true,
-      historyApiFallback: true,
+      historyApiFallback: {
+        index: '/index.html',
+      },
     },
 
     resolve: {
