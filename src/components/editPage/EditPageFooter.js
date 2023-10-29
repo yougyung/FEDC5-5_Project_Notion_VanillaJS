@@ -1,6 +1,7 @@
 import {
     push
-} from "../utils/router.js"
+} from "../../utils/router.js"
+
 export default function EditPageFooter({
     $target,
     initialState = {

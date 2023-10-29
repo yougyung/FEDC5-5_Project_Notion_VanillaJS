@@ -2,12 +2,12 @@ import {
     getItem,
     removeItem,
     setItem
-} from "../utils/storage.js"
+} from "../../utils/storage.js"
 import Editor from "./DocumentEditor.js"
 import EditPageFooter from "./EditPageFooter.js"
 import {
     request
-} from "../utils/api.js"
+} from "../../utils/api.js"
 import EditPageHeader from "./EditPageHeader.js"
 
 export default function NotionEditPage({
@@ -47,7 +47,6 @@ export default function NotionEditPage({
     })
 
     this.setState = async (nextState) => {
-        console.log(this.state.postId,nextState.postId)
         if (this.state.postId !== nextState.postId) {
             notionLocalSaveKey = `temp-post-${nextState.postId}`
             this.state = nextState

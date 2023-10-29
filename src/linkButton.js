@@ -2,7 +2,6 @@ import {
     push
 } from "./utils/router.js"
 
-
 export default function LinkButton({
     $target,
     initialState

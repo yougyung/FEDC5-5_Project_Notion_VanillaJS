@@ -30,7 +30,7 @@ export default function Editor({
             isinitialize = false
         }
        
-        console.log('d')
+        
 
     }
     this.render()

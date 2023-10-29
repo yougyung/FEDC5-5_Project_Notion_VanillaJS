@@ -1,7 +1,5 @@
-import {
-    push
-} from "../utils/router.js"
 
+import {push} from "../../utils/router.js"
 export default function SidebarList({
     $target,
     initialState,

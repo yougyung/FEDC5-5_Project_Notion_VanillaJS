@@ -1,5 +1,5 @@
-import NotionSidebar from "./sidebar/NotionSidebar.js"
-import NotionEditPage from "./editPage/NotionEditPage.js"
+import NotionSidebar from "./components/sidebar/NotionSidebar.js"
+import NotionEditPage from "./components/editPage/NotionEditPage.js"
 import {
     initRouter,
     push
@@ -12,6 +12,7 @@ import {
 import {
     request
 } from "./utils/api.js"
+
 export default function App({
     $target
 }) {

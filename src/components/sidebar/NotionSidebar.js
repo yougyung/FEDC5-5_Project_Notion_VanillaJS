@@ -2,13 +2,13 @@ import SidebarList from './SidebarList.js'
 import SidebarHeader from './SidebarHeader.js'
 import {
     removeItem,
-} from "../utils/storage.js"
+} from "../../utils/storage.js"
 import {
     push
-} from "../utils/router.js"
+} from "../../utils/router.js"
 import {
     request
-} from '../utils/api.js'
+} from '../../utils/api.js'
 export default function NotionSidebar({
     $target,
     onAdd
