@@ -1,6 +1,6 @@
-import Sidebar from './Sidebar.js';
-import EditPage from './EditPage.js';
-import { initRouter } from './router.js';
+import Sidebar from './Sidebar/Sidebar.js';
+import EditPage from './Edit/EditPage.js';
+import { initRouter } from './router/router.js';
 
 export default function App({ $target }) {
   const sidebar = new Sidebar({

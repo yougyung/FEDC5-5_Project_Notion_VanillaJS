@@ -1,6 +1,6 @@
 // EditPage.js
 import Editor from './Editor.js';
-import { request } from './api.js';
+import { request } from '../api/api.js';
 
 export default function EditPage({ $target, initialState }) {
   this.state = initialState;

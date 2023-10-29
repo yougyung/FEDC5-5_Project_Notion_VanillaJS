@@ -1,7 +1,7 @@
 import SidebarList from './SidebarList.js';
 import SidebarHeader from './SidebarHeader.js';
-import { request } from './api.js';
-import { push } from './router.js';
+import { request } from '../api/api.js';
+import { push } from '../router/router.js';
 
 export default function Sidebar({ $target }) {
   const $sidebar = document.createElement('section');

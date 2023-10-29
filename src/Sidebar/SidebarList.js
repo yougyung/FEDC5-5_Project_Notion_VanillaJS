@@ -1,4 +1,4 @@
-import { push } from './router.js';
+import { push } from '../router/router.js';
 
 export default function SidebarList({
   $target,
