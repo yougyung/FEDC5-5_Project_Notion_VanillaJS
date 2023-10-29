@@ -32,11 +32,7 @@
 
 DocumentStore라는 Store를 생성하고, 필요한 action을 dispatch가 인자로 받아서 reducer에 전달하고 -> 새로운 data를 반환 후, 해당 Store를 subscribe하고 있는 Sidebar와 Content에서는 지정된 callback이 실행되는 구조입니다.
 
-고민 - 해당 Store를 상위 컴포넌트인 App에서 관리해야 하는지?
-
-현재는 Sidebar , Content 컴포넌트에서 각각 해당 Store를 subscribe하고 있는데, 만약 상위 컴포넌트인 App에서 Store를 subscribe하고, 해당 state가 바뀔 때마다 렌더링을 한다면 로직이 단순해질 것 같다는 생각이 드는데,
-
-현재 Store에 저장되어 있는 데이터는 거의 Sidebar에 필요한 데이터(문서 리스트)이고, Content는 해당 데이터가 변경될때마다 렌더링 할 필요까지는 없고 조건부로 렌더링이 필요하기 때문에(만약 Sidebar에서 현재 편집중인 문서를 지웠을 경우 Content 컴포넌트에서도 알아야 한다고 생각) 이런 식으로 구성했는데, 너무 불필요한 로직이 많이 추가된 건 아닌지 의문
+현재 최상위 컴포넌트인 App에서 해당 store를 구독 중이고, store의 상태가 변경될 시 하위 컴포넌트인 Sidebar와 Content가 다시 렌더링 되는 방식을 적용해보았습니다.
 
 ## 다크모드 기능 추가
 
@@ -52,6 +48,5 @@ debounce를 적용하여 실제로 API 요청은 편집이 끝난 후 마지막 
 
 ## 현재 추가/수정중인 사항
 
-- 현재 편집중인 문서가 어떤 문서인지 Sidebar에서 highlight처리하기 - 단순히 클릭 이벤트가 아니라, Store의 데이터를 활용하여 처리 예정
 - 전반적인 css 정리하기(scss) 및 스타일 라이브러리 사용
 - 현재 debounce를 위해 `setTimeout`을 사용 중인데, 이를 `requestAnimateFrame`으로 리팩토링 해보기
