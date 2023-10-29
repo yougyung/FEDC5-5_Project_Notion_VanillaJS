@@ -58,6 +58,9 @@ export default class DocumentList extends Component {
   setEvent() {
     this.$documentList.addEventListener('click', ({ target }) => {
       const $li = target.closest('li');
+
+      if (!$li) return;
+
       const documentId = Number($li.dataset.id);
       const { onSelect, onCreate, onDelete } = this.props;
 
