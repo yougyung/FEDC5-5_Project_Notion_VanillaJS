@@ -1,3 +1,5 @@
+import revertCursor from '../utils/revertCursor.js';
+
 export default function Editor({
   $target,
   initialState = {
@@ -34,9 +36,6 @@ export default function Editor({
     onEditing(this.state);
   });
 
-  const getCaret = (node) => {
-    // // 커서 위치 옮기고 span태그 삭제하기
-  };
   const $content = $editor.querySelector('[name=content]');
 
   $content.addEventListener('input', (e) => {
@@ -46,14 +45,7 @@ export default function Editor({
     };
     this.setState(nextState);
 
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents($content);
-    range.collapse(false);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    $content.focus();
-
+    revertCursor($content);
     onEditing(this.state);
   });
 
