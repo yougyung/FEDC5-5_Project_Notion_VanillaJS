@@ -7,34 +7,30 @@ export default function App({ $target }) {
     $target,
   });
 
+  const document = {
+    title: '',
+    content: '',
+  };
+
   const editpage = new EditPage({
     $target,
-    initialState: {
-      id: 1,
-      title: '노션을 만들자',
-      content: '즐거운 자바스크립트의 세계!',
-      documents: [
-        {
-          id: 2,
-          title: '',
-          createdAt: '',
-          updatedAt: '',
-        },
-      ],
-      createdAt: '',
-      updatedAt: '',
-    },
+    initialState: document,
   });
 
-  this.render = () => {
+  this.render = async () => {
     const { pathname } = window.location;
-    if (pathname === '/') {
-      sidebar.setState();
-    } else if (pathname.indexOf(`/posts/`) === 0) {
+    sidebar.setState();
+    if (pathname.indexOf(`/posts/`) === 0) {
       const [, , postId] = pathname.split('/');
-      editpage.setState({ postId });
+      editpage.setState(`${postId}`);
+    } else {
+      // 에디터 페이지 가리기
     }
   };
+  // 뒤,앞으로 가기
+  window.addEventListener('popstate', async () => {
+    this.render();
+  });
   this.render();
   initRouter(() => this.render());
 }

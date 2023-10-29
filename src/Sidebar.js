@@ -33,6 +33,10 @@ export default function Sidebar({ $target }) {
       if (deletedDocuments) {
         this.setState();
       }
+      // 삭제가 제대로 되지 않은 경우
+      else {
+        console.log('삭제가 제대로 되지 않았습니다.');
+      }
     },
 
     addDocument: async (id) => {

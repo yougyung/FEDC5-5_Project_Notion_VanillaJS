@@ -9,11 +9,11 @@ export default function Editor({
   const $editor = document.createElement('div');
   $editor.className = 'editor';
   $editor.innerHTML = `
-    <input type="text" name="title" />
-    <div name="content" contentEditable="true"style="width:100%; height:100%; border:1px solid black; padding: 8px;"></div>
+  <input type="text" name="title" />
+  <div name="content" contentEditable="true"style="width:100%; height:100%; border:1px solid black; padding: 8px;"></div>
   `;
-  $target.appendChild($editor);
   this.state = initialState;
+  $target.appendChild($editor);
 
   this.setState = async (nextState) => {
     this.state = nextState;
@@ -25,14 +25,12 @@ export default function Editor({
     $editor.querySelector('[name=content]').innerHTML = this.state.content;
   };
 
-  // 값 업데이트는 여기서, 로컬저장은 밖에서
   $editor.querySelector('[name=title]').addEventListener('keyup', (e) => {
     const nextState = {
       ...this.state,
       title: e.target.value,
     };
     this.setState(nextState);
-    // 로컬 스토리지 저장
     onEditing(this.state);
   });
   $editor.querySelector('[name=content]').addEventListener('input', (e) => {
@@ -41,6 +39,8 @@ export default function Editor({
       content: e.target.innerHTML,
     };
     this.setState(nextState);
+
+    onEditing(this.state);
   });
   this.render();
 }

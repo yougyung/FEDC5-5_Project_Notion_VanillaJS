@@ -1,10 +1,13 @@
+// EditPage.js
 import Editor from './Editor.js';
 import { request } from './api.js';
 
 export default function EditPage({ $target, initialState }) {
   this.state = initialState;
+
   const $page = document.createElement('section');
   $page.className = 'editpage';
+  $target.appendChild($page);
 
   const editor = new Editor({
     $target: $page,
@@ -18,32 +21,25 @@ export default function EditPage({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
-    // 클릭으로 글 이동
-    if (this.state.id !== nextState.postId) {
-      this.state = nextState;
-      this.render();
-      editor.setState(
-        this.state.post || {
-          title: '',
-          content: '',
-        },
-      );
-    }
+    const post = await request(`/${nextState}`);
+    this.state = post;
+    editor.setState(
+      this.state || {
+        title: '',
+        content: '',
+      },
+    );
+    this.render();
   };
 
   this.render = async () => {
-    $target.appendChild($page);
+    const { id } = this.state;
+    // 루트 페이지에서는 에디터 페이지 가리기
+    if (id) {
+      $page.style.display = 'block';
+    } else {
+      $page.style.display = 'none';
+    }
   };
-  // 새글이 아니면 기존 글 받아오기
-  const fetchPost = async () => {
-    const { postId } = this.state;
-
-    const post = await request(`/${postId}`);
-
-    this.setState({
-      ...this.state,
-      post,
-    });
-  };
-  fetchPost();
+  this.render();
 }
