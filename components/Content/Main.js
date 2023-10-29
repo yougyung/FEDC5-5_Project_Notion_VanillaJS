@@ -17,7 +17,6 @@ export default class Main {
 
   setState(nextState) {
     this.state = nextState
-    this.findDocumentByTitle(this.state)
   }
 
   template() {

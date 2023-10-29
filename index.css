@@ -62,9 +62,9 @@ body {
   display: inline-flex;
 }
 
-.title:hover {
+/* .title:hover {
   background-color: #d3d1cb;
-}
+} */
 
 .flip.fold::after {
   content: "📁";
@@ -128,4 +128,8 @@ body {
 
 .hidden {
   display: none;
+}
+
+.clicked {
+  background-color: #d3d1cb;
 }

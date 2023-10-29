@@ -1,9 +1,14 @@
 export default class SidebarItem {
-  render(item) {
+  constructor({ props }) {
+    this.state = props
+  }
+  template(item) {
     const { id, title, documents } = item
     return `
     <div>
-    <div class="title" data-id=${id}>
+    <div class="title ${
+      id === this.state.selectedDocument ? "clicked" : ""
+    }" data-id=${id}>
     <button class='flip unfold'>
     </button>
     <a href=/documents/${id}>${title}</a>
@@ -13,9 +18,13 @@ export default class SidebarItem {
     </div>
     </div>          
         <div class="sub">${documents
-          .map(document => this.render(document))
+          .map(document => this.template(document))
           .join("")}</div>
     </div>
       `
+  }
+  render(nextState) {
+    this.state = nextState
+    return this.template(this.state.document)
   }
 }

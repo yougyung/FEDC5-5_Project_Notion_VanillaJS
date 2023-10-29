@@ -2,37 +2,47 @@ import Sidebar from "./components/Sidebar/Sidebar.js"
 import Content from "./components/Content/Content.js"
 import Route from "./route/route.js"
 import { checkUserColorMode } from "./utils/checkUserColorMode.js"
+import { documentStore } from "./store/documentStore.js"
 export default class App {
-  sidebar_initialState = []
-  content_initialState = {
-    id: null,
-    title: null,
-    content: null,
-    documents: null,
-    createdAt: null,
-    updatedAt: null
-  }
   constructor({ $target }) {
-    this.init()
     this.$target = $target
     this.sidebar = new Sidebar({
       $target,
-      initialState: this.sidebar_initialState
+      props: {
+        documents: [],
+        selectedDocument: null
+      }
     })
     this.content = new Content({
       $target,
-      initialState: this.content_initialState
+      props: {
+        documents: [],
+        selectedDocument: null
+      }
     })
-    this.route = new Route({
-      render: this.changeContentDisplay.bind(this)
+    this.route = new Route()
+    this.store()
+    this.init()
+  }
+  store() {
+    documentStore.subscribe(() => {
+      this.setState(documentStore.getState())
     })
   }
 
-  changeContentDisplay(id) {
-    this.content.fetchSelectedDocument(id)
+  setState(nextState) {
+    const { documents, selectedDocument, error, deletedDocument } = nextState
+    this.sidebar.setState({ documents, selectedDocument })
+    this.content.setState({
+      documents,
+      selectedDocument,
+      deletedDocument,
+      error
+    })
   }
 
   init() {
     document.body.classList.add(checkUserColorMode())
   }
 }
+//상위 컴포넌트인 App에서 DocumentStore 구독 -> 변경 시  Sidebar , Content 컴포넌트 재렌더링

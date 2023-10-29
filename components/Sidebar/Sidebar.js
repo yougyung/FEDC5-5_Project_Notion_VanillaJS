@@ -2,13 +2,16 @@ import SidebarItem from "./SidebarItem.js"
 import { documentStore } from "../../store/documentStore.js"
 import { urlchangeHandler } from "../../utils/urlChange.js"
 export default class Sidebar {
-  constructor({ $target, initialState = [] }) {
+  constructor({ $target, props }) {
     this.$target = $target
-    this.state = initialState
+    this.state = props //{
+    //     documents: [],
+    //     selectedDocument: 'root'
+    //   }
     this.setup()
-    this.sidebarItem = new SidebarItem()
-    documentStore.subscribe(() => this.render())
-    documentStore.dispatch({ type: "FETCH" })
+    this.sidebarItem = new SidebarItem({
+      props: { document: null, selectedDocument: "root" }
+    })
   }
 
   setup() {
@@ -24,10 +27,20 @@ export default class Sidebar {
     this.addEvent("#add", "click", e => this.handleAppendButton(e))
   }
 
+  setState(nextState) {
+    this.state = nextState
+    this.render()
+  }
+
   renderSidebarItem() {
-    return documentStore
-      .getState()
-      .documents.map(item => this.sidebarItem.render(item))
+    const { documents, selectedDocument } = this.state
+    return documents
+      .map(document =>
+        this.sidebarItem.render({
+          document,
+          selectedDocument: selectedDocument.id
+        })
+      )
       .join("")
   }
 
@@ -65,9 +78,13 @@ export default class Sidebar {
   }
 
   async handleDeleteButton(e) {
+    const { selectedDocument } = this.state
     const { id } = e.target.closest("div .title").dataset
     try {
-      documentStore.dispatch({ type: "DELETE", payload: id })
+      documentStore.dispatch({ type: "DELETE", payload: Number(id) })
+      if (selectedDocument.id === Number(id)) {
+        console.log("sdfsdf")
+      }
     } catch (err) {
       err.showAlert("삭제에 실패했습니다")
     }
@@ -88,7 +105,13 @@ export default class Sidebar {
 
   onClick(e) {
     e.preventDefault()
-    urlchangeHandler(e.target.href)
+    const urlchange = new CustomEvent("urlchange", {
+      detail: {
+        link: e.target.href
+      }
+    })
+    history.pushState(null, null, e.target.href)
+    window.dispatchEvent(urlchange)
   }
 
   toggleSubDocuments(e) {
