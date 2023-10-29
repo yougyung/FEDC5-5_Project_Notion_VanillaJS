@@ -1,6 +1,6 @@
 import { DUMMY_DATA } from "../assets/DUMMY_DATA.js";
 import { $ } from "../shared/$.js";
-import { DocumentTreeRoot } from "./DocumentTreeRoot.js";
+import { Sidebar } from "./Sidebar.js";
 
 const username = "Seongbin Kim의 Notion";
 const userEmail = "seongbin9786@uos.ac.kr";
@@ -10,7 +10,7 @@ const userEmail = "seongbin9786@uos.ac.kr";
 // TODO: 아 문서 탐색은 좀 걸리겠는데?
 // TODO: 리렌더를 어떻게, 누가 할지(즉 상태를 누가 가질지) 고민해야 함.
 // TODO: 일단 documents는 모두 펼쳐서 렌더링하기로 함.
-const documentTreeRoot = DocumentTreeRoot(DUMMY_DATA);
+const $sidebar = Sidebar(DUMMY_DATA);
 
 export const Layout = ($editor) => $`
     <div id=notion-app>
@@ -20,13 +20,11 @@ export const Layout = ($editor) => $`
                 <span className=sidebar--header--email>${userEmail}</span>
             </header>
             <div className=sidebar--tree--title>개인 페이지</div>
-            ${documentTreeRoot}
+            ${$sidebar}
         </nav>
         <header>
             header
         </header>
-        <main className=editor>
-            ${$editor}
-        </main>
+        ${$editor}
     </div>
 `;

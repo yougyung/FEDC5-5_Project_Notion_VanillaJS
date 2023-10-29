@@ -7,8 +7,8 @@ const DocumentListItem = ({ title, documents }) => $`
     </div>
 `;
 
-export const DocumentTreeRoot = (documentRoot) => $`
+export const Sidebar = (rootDocuments) => $`
     <div>
-        ${documentRoot.map(DocumentListItem)}
+        ${rootDocuments.map(DocumentListItem)}
     </div>
 `;

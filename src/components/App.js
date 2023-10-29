@@ -2,12 +2,12 @@ import { Editor } from "./Editor.js";
 import { Layout } from "./Layout.js";
 
 export const App = () => {
-    const $app = document.getElementById("app");
+    const $body = document.getElementsByTagName("body").item(0);
 
     const $editor = Editor();
     const $layout = Layout($editor);
 
-    $app.appendChild($layout);
+    $body.appendChild($layout);
 
-    return $app;
+    return $body;
 };
