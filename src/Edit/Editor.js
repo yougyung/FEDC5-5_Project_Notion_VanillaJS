@@ -11,7 +11,7 @@ export default function Editor({
   const $editor = document.createElement('div');
   $editor.className = 'editor';
   $editor.innerHTML = `
-  <input type="text" name="title" />
+  <input type="text" name="title" placeholder="제목을 입력해주세요."/>
   <div name="content" contentEditable="true"></div>
   `;
   this.state = initialState;
@@ -23,7 +23,8 @@ export default function Editor({
   };
 
   this.render = async () => {
-    $editor.querySelector('[name=title]').value = this.state.title;
+    $editor.querySelector('[name=title]').value =
+      this.state.title === '새 폴더' ? '' : this.state.title;
     $editor.querySelector('[name=content]').innerHTML = this.state.content;
   };
 
