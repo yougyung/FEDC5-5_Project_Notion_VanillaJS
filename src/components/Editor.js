@@ -9,15 +9,6 @@ const debug = createDebug("Editor");
 const DUMMY_DATA_IMG_SRC =
     "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 
-const DUMMY_DATA_BACK_SRC =
-    "https://www.notion.so/images/emoji/twitter-emoji-spritesheet-64.d3a69865.png";
-
-const DUMMY_DATA_STYLE = {
-    width: "18px",
-    height: "18px",
-    background: `url(${DUMMY_DATA_BACK_SRC}) 49.1525% 18.6441% / 6000% 6000%`,
-};
-
 const DUMMY_DATA_TEXT = "default T   ex    t";
 
 const DUMMY_DATA_TITLE = "[dummy] 문서 제목입니다";
@@ -38,7 +29,7 @@ export const Editor = () => {
             >
             <img 
                 src=${DUMMY_DATA_IMG_SRC} 
-                style=${DUMMY_DATA_STYLE}
+                className=dummy_emoji
             />
             <div>${DUMMY_DATA_TEXT}</div>
             <div>
@@ -258,75 +249,54 @@ export const Editor = () => {
     $editor.addEventListener("keydown", closeDropdownOnDeleteSlash);
     $editor.addEventListener("keydown", execDropdownOnEnter);
 
-    // Ctrl+V 인터셉트하기
-    // keydown을 써야 될지 모르겠음.
-    // 맞네. keyup을 쓰면 e.prevent를 할 수가 없음.
-    // $editor.addEventListener("keydown", async (e) => {
-    //     // 문제: Ctrl+Z를 눌러 textContent가 `# `이 될 때도 발동된다.. --> 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
-    //     // nbsp = #\u00a0
-    //     // TODO: 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
-    //     if (e.code !== "KeyV" || !e.ctrlKey) {
-    //         return;
-    //     }
-    //     console.log("ctrl+v");
-    //     e.preventDefault();
-
-    //     const read = await navigator.clipboard.read();
-    //     const readText = await navigator.clipboard.readText();
-
-    //     console.log("read:", read, read[0]);
-    //     console.log("readText:", readText);
-    // });
-
-    const waitFor0ms = () => window.Promise.resolve();
-
-    $editor.addEventListener("paste", async (e) => {
-        // // 2. Text 선택 시 Div 선택하도록 변경
-        // const userSelected = window.getSelection().anchorNode;
-        // console.log("userSelected:", userSelected);
-        // const range = document.createRange();
-        // range.selectNode(userSelected); // 이걸 하면 부모가 선택됨
-
-        // // Q. 이렇게 하면 파랗게 떠야 하는 거 아님?
-        // const sel = window.getSelection();
-        // sel.removeAllRanges();
-        // sel.addRange(range);
-
-        // console.log("modified selection:", sel.type, sel.anchorNode);
-
-        // setTimeout(() => {
-        //     console.log("[again] modified selection:", sel.type, sel.anchorNode);
-        // }, 0);
-
-        // 1. 걍 유저 선택한 거 제거함
-        let userSelected = window.getSelection().anchorNode;
-        if (userSelected instanceof Text) {
-            userSelected = userSelected.parentElement;
+    const pasteHandler = async (e) => {
+        // 1. 붙여넣을 위치 가져오기. 무조건 block div를 가져온다.
+        const $selectedNodeOrText = window.getSelection().anchorNode;
+        const $target =
+            $selectedNodeOrText instanceof Text
+                ? $selectedNodeOrText.parentElement
+                : $selectedNodeOrText;
+        if ($selectedNodeOrText.textContent === "") {
+            // textContent가 없으면 빈 DIV로 인식하기 때문에 DIV 속으로 innerHTML이 들어가게 됨
+            // 삽입 이후 해당 textContent의 맨 앞을 제거해주면 될 듯? best 전략 ㄱ?
+            // 오 space가 붙여 넣은 컨텐츠 뒤에 생김(붙여넣기 후의 커서 뒤에 space하나 있음). 신기하네.
+            $selectedNodeOrText.textContent = " ";
         }
-        console.log("userSelected:", userSelected);
+        console.log("$target:", $target);
 
-        const range = document.createRange();
-        range.selectNodeContents(userSelected);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        console.log("range:", range);
-
-        document.execCommand("delete"); // <div><br></div>만 남으면 한 방에 지움
-
-        // // 2. 선택 영역 없게 해서 추가로 지워지는 부분 없게 함
-        // window.getSelection().removeAllRanges();
-
-        // await waitFor0ms();
-
-        // e.preventDefault();
+        // 2. 붙여 넣을 위치를 생성한다.
+        // block div 이후에 br을 만들고 선택하기?
 
         // 3. 데이터를 html로 해석해서 가져오기
-        // console.log("data:", e.clipboardData.getData("text/html").slice(0, 20));
+        // 이상한 style 제거하기 위해, style 자체를 아예 제거하기
+        const rawHTML = e.clipboardData.getData("text/html");
+        const htmlWithoutComments = rawHTML
+            .split("<!--StartFragment-->")[1]
+            .split("<!--EndFragment-->")[0];
+        const htmlWithoutStyle = htmlWithoutComments.split(/style="[^"]*"/).join("");
+        console.log("data:", htmlWithoutStyle);
 
-        // 4. 그냥 이벤트 그대로 실행
-        // 왜 node를 선택했는데, selection 제거를 안 해주지? 모르겠넹
-    });
+        // 4. 현재 Selection을 지워야 한다.
+        // 같은 텍스트인 경우에는 안 지워도 된다.
+        // document.execCommand("delete");
+
+        // 지우고 나면 지운 div의 윗 div가 선택 영역이 된다.
+        // 따라서 지운 div 위에 빈 div가 있으면 지운 보람이 없게 된다... 거기로 들어가기 때문에.
+        // 반드시 윗 div의 text가 있을 때만 유효하다. 근데 이건 emoji 때문에 그럴 수도 있다.
+        console.log("after delete - selection:", window.getSelection());
+
+        // 5. 일단 붙여 넣음
+        // 빈 div를 선택하고 있는 경우 해당 div에 넣게 된다.
+        // text일 때는 상관이 없다.
+        document.execCommand("insertHTML", false, htmlWithoutStyle); // <div><br></div>만 남으면 한 방에 지움
+        document.execCommand("forwardDelete"); // 커서 기준 우측 글자 지우기. 선택 영역이 없어서 가능함.
+
+        e.preventDefault();
+    };
+
+    // Ctrl+V로 인터셉트 시에는 keyup을 쓰면 e.prevent를 할 수가 없음.
+    // 편하게 paste event 쓰자.
+    $editor.addEventListener("paste", pasteHandler);
 
     return $editor;
 };
