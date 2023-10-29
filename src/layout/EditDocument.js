@@ -1,4 +1,10 @@
-export default function EditDocument({ $target, initialState }) {
+import { getItem, setItem } from "../utils/storage.js";
+
+export default function EditDocument({
+  $target,
+  initialState,
+  changeDocument,
+}) {
   const $editContainer = document.createElement("div");
   $editContainer.className = "edit-container";
   $target.appendChild($editContainer);
@@ -11,7 +17,7 @@ export default function EditDocument({ $target, initialState }) {
   };
 
   const render = () => {
-    const { title, content } = this.state.selectedDocument;
+    const { id, title, content } = this.state.selectedDocument;
 
     $editContainer.innerHTML = `
       <div class="editable" id="editable-title" contenteditable="true">
@@ -23,13 +29,21 @@ export default function EditDocument({ $target, initialState }) {
     `;
   };
 
-  $editContainer.addEventListener("click", async (e) => {
-    const $node = e.target;
+  $editContainer.addEventListener("input", (e) => {
+    const { id, title, content } = this.state.selectedDocument;
 
-    if ($node.matches(".side-bar-document")) {
-      const documentId = $node.dataset.id;
-      const documentContent = await getDocumentContent(documentId);
+    const currentSavedData = getItem(this.state.selectedDocument.id, {
+      title,
+      content,
+    });
+
+    if (e.target.id === "editable-title") {
+      setItem(id, { ...currentSavedData, title: e.target.innerText });
+    } else if (e.target.id === "editable-content") {
+      setItem(id, { ...currentSavedData, content: e.target.innerText });
     }
+
+    changeDocument(id, getItem(id, currentSavedData));
   });
 
   render();

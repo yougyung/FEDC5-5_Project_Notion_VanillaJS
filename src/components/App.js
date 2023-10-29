@@ -76,7 +76,6 @@ export default function App({ $target }) {
       parent: parentId,
     });
 
-    console.log(newDocument);
     if (parentId !== null) {
       await updateParentDocument(parentId, newDocument);
     } else {
@@ -85,8 +84,13 @@ export default function App({ $target }) {
 
     this.setState({ ...this.state, selectedDocument: newDocument });
 
-    console.log(this.state);
     editDocument.setState(this.state);
+  };
+
+  /** 문서 수정하기 */
+  const changeDocument = async (documentId, documentData) => {
+    await updateDocument(documentId, documentData);
+    await fetchDocumentLists();
   };
 
   const init = async () => {
@@ -105,6 +109,7 @@ export default function App({ $target }) {
   const editDocument = new EditDocument({
     $target,
     initialState: this.state,
+    changeDocument,
   });
 
   init();
