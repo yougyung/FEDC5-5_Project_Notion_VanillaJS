@@ -38,14 +38,14 @@ export default function PostListSection({ $target, initialState, onDelete, onAdd
                 method: 'DELETE'
             })
 
-            onDelete(id)
+            await onDelete(id)
         },
     })
 
     const $addPostButton = document.createElement('button')
     $addPostButton.textContent = "글 추가하기"
-    $addPostButton.addEventListener('click', () => {
-        onAddPost(null)
+    $addPostButton.addEventListener('click', async () => {
+        await onAddPost()
     })
     $target.appendChild($addPostButton)
 }

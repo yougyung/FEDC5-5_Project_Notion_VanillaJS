@@ -46,6 +46,19 @@ export default function App({ $target, initialState }) {
                 })
 
                 routeTrigger("/")
+
+                return
+            }
+
+            const deletedIdx = this.state.selectedPost.documents.findIndex(post => post.id == deleteId)
+            if (deletedIdx !== -1) {
+                const newPost = {...this.state.selectedPost}
+
+                newPost.documents.splice(deletedIdx,1)
+                this.setState({
+                    ...this.state,
+                    selectedPost: newPost
+                })
             }
         }
     })

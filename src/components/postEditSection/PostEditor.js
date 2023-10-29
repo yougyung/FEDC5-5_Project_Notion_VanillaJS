@@ -13,7 +13,7 @@ export default function PostEditor({$target, initialState, onEdit}) {
 
     this.render = () => {
         const {title, content} = this.state
-        
+
         $editor.innerHTML = `
             <input name="title" style="width:300px;" value="${title}"></input>
             <br>

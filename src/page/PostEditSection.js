@@ -1,4 +1,5 @@
 import { fetchPost } from "../api/fetch.js"
+import ChildrenPostButton from "../components/postEditSection/ChilderenPostButton.js"
 import PostEditor from "../components/postEditSection/PostEditor.js"
 
 export default function PostEditSection({$target, initialState, onChangeList}) {
@@ -15,12 +16,14 @@ export default function PostEditSection({$target, initialState, onChangeList}) {
             title: this.state.title,
             content: this.state.content
         })
+
+        this.buttonsRender()
     }
 
     let timer = null
 
     const editor = new PostEditor({
-        $target,
+        $target: $section,
         initialState: this.state,
         onEdit: (post) => {
             const {id} = this.state
@@ -49,4 +52,17 @@ export default function PostEditSection({$target, initialState, onChangeList}) {
             }
         }
     })
+
+    this.buttonsRender = () => {
+        const $editor = $section.querySelector('div')
+        $section.replaceChildren($editor)
+
+        this.state.documents.forEach((post) => {
+            new ChildrenPostButton({
+                $target: $section,
+                title: post.title,
+                id: post.id
+            })
+        })
+    }
 }
