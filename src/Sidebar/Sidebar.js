@@ -25,8 +25,8 @@ export default function Sidebar({ $target }) {
   const sidebarList = new SidebarList({
     $target: $sidebar,
     initialState: [],
-    delDocument: async (docid) => {
-      const deletedDocuments = await request(`/${docid}`, {
+    delDocument: async (docId) => {
+      const deletedDocuments = await request(`/${docId}`, {
         method: 'DELETE',
       });
       // 삭제가 제대로 된 경우

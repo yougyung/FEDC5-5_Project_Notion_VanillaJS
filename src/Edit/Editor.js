@@ -39,7 +39,6 @@ export default function Editor({
       content: e.target.innerHTML,
     };
     this.setState(nextState);
-
     onEditing(this.state);
   });
   this.render();
