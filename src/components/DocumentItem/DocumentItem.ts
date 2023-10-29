@@ -16,7 +16,7 @@ interface DocumentItemReturnType {
 const {
   s_documentItem,
   s_childrenDocumentList,
-  s_document_title,
+  s_documentTitle,
   s_buttonContainer,
   s_titleContainer,
   s_contentContainer,
@@ -43,7 +43,7 @@ function DocumentItem({ document }: DocumentItemProps): DocumentItemReturnType {
         <div class="${s_contentContainer}" >
           <img src="/assets/svg/arrow.svg" class="documentToggle" alt="문서 토글" tabindex="0"/>
           <div class="${s_titleContainer}">
-            <span data-id="${id}" tabindex="0" class="${classNames("documentTitle", s_document_title)}">${title}</span>
+            <span data-id="${id}" tabindex="0" class="${classNames("documentTitle", s_documentTitle)}">${title}</span>
             <div class="${s_buttonContainer}">
               <button data-parent-id="${id}" class="addDocumentButton" tabindex="0" type="button">
                 <img src="/assets/svg/plus.svg" alt="하위 문서 추가" />
