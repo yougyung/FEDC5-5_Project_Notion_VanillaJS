@@ -58,16 +58,16 @@ export default class DocumentItem extends Component {
     $pageClickButtonContainer.appendChild($addChildPageButton);
     $pageClickButtonContainer.appendChild($deletePageButton);
 
-    createList(this.$li, docs.documents, depth, unfoldedList);
+    if (docs.documents.length > 0) createList(this.$li, docs.documents, depth, unfoldedList);
+    else this.createEmptyDom(this.$li, depth + 1);
   }
 
-  createEmptyDom() {
-    const $emptyLi = createTemplate('<li class="document-item end-of-list">하위 페이지 없음</li>');
-    this.$target.appendChild($emptyLi);
-  }
+  createEmptyDom($wrapper, depth) {
+    const $emptyUl = createTemplate(`
+    <ul class="document-list depth-${depth}">
+      <li class="document-item end-of-list">하위 페이지 없음</li>
+    </ul>`);
 
-  render() {
-    if (!this.state) this.createEmptyDom();
-    else this.createDom();
+    $wrapper.appendChild($emptyUl);
   }
 }
