@@ -1,3 +1,5 @@
+import { $ } from "../shared/$.js";
+import { createDebug } from "../shared/debug.js";
 import {
     handlePopUpAttachLink,
     handlePopUpFormatBold,
@@ -5,9 +7,7 @@ import {
     handlePopUpFormatHeading,
     handlePopUpFormatItalic,
     handlePopUpFormatUnderline,
-} from "../exec_handlers.js";
-import { $ } from "../shared/$.js";
-import { createDebug } from "../shared/debug.js";
+} from "./handlePopup.js";
 
 const debug = createDebug("Popup");
 
