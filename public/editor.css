@@ -67,6 +67,8 @@
     /* notion 유사하게 */
     font-size: 16px;
     line-height: 1.5;
+
+    padding-bottom: 30vh;
 }
 
 .editor__content_root div {
@@ -157,7 +159,9 @@
 
 /* TODO: 이름 바꾸기. dropdown이 뭐냐 */
 .editor__dropdown {
-    position: fixed;
+    /* fixed는 화면 자체의 기준인듯? 스크롤하면 이동됨  */
+    /* absolute는 스크롤해도 처음 등장한 그 자리에 그대로 있음 */
+    position: absolute;
     top: 0px;
     left: 0px;
 
@@ -170,4 +174,92 @@
         rgba(15, 15, 15, 0.2) 0px 9px 24px;
 
     display: flex;
+    flex-direction: column;
+
+    /* Notion CSS */
+    width: 324px;
+    max-width: calc(100vw - 24px);
+    max-height: 40vh;
+}
+
+.editor__dropdown__list {
+    overflow: auto;
+}
+
+.editor__dropdown__header {
+    /* Notion CSS */
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+    color: rgba(55, 53, 47, 0.65);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 120%;
+    user-select: none;
+}
+
+.editor__dropdown__item {
+
+    /* Notion CSS */
+    user-select: none;
+    transition: background 20ms ease-in 0s;
+    cursor: pointer;
+    width: calc(100% - 8px);
+    margin-left: 4px;
+    margin-right: 4px;
+    border-radius: 4px;
+    
+    min-height: 45px;
+    font-size: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    
+    line-height: 120%;
+
+    display: flex;
+
+}
+
+
+.editor__dropdown__item:hover {
+    /* Notion CSS */
+    background: rgba(55, 53, 47, 0.08);
+}
+
+.editor__dropdown__item_thumbnail {
+    /* Notion CSS */
+    width: 46px;
+    height: 46px;
+
+    margin-left: 10px;
+    margin-right: 4px;
+    margin-top: 1px;
+
+    border-radius: 4px;
+    background: white;
+    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px;
+    
+    object-fit: cover;
+}
+
+.editor__dropdown__item_textbox {
+    display: flex;
+    flex-direction: column;
+
+    /* Notion CSS */
+    margin-left: 6px;
+    margin-right: 12px;
+
+}
+
+.editor__dropdown__item_title {
+}
+
+.editor__dropdown__item_description {
+    /* Notion CSS */
+    color: rgb(120, 119, 116);
+    font-size: 12px;
+    
+    margin-top: 2px;
 }

@@ -15,7 +15,7 @@ const DUMMY_DATA_TITLE = "[dummy] 문서 제목입니다";
 
 export const Editor = () => {
     const $editor = $`
-        <div>
+        <main className=editor>
             <h1 
                 className=editor__title
                 contentEditable=true
@@ -42,7 +42,7 @@ export const Editor = () => {
             </div>
             <div>${DUMMY_DATA_TEXT}</div>
             </div>
-        </div>
+        </main>
     `;
 
     const { $popup, checkSelectionAndDisplayPopup } = Popup();
@@ -260,6 +260,8 @@ export const Editor = () => {
             // textContent가 없으면 빈 DIV로 인식하기 때문에 DIV 속으로 innerHTML이 들어가게 됨
             // 삽입 이후 해당 textContent의 맨 앞을 제거해주면 될 듯? best 전략 ㄱ?
             // 오 space가 붙여 넣은 컨텐츠 뒤에 생김(붙여넣기 후의 커서 뒤에 space하나 있음). 신기하네.
+            // 아마도 커서는 원래 위치인 (0, 1)에 머물기 때문인 듯. 굳이 바꿔주려면 range 바꿔주면 될 듯.
+            // yes. 이게 맞네.
             $selectedNodeOrText.textContent = " ";
         }
         console.log("$target:", $target);
@@ -290,7 +292,6 @@ export const Editor = () => {
         // text일 때는 상관이 없다.
         document.execCommand("insertHTML", false, htmlWithoutStyle); // <div><br></div>만 남으면 한 방에 지움
         document.execCommand("forwardDelete"); // 커서 기준 우측 글자 지우기. 선택 영역이 없어서 가능함.
-
         e.preventDefault();
     };
 
