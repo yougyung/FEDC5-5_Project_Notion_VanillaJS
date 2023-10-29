@@ -40,7 +40,16 @@ export const Editor = () => {
                 src=${DUMMY_DATA_IMG_SRC} 
                 style=${DUMMY_DATA_STYLE}
             />
-            ${DUMMY_DATA_TEXT}
+            <div>${DUMMY_DATA_TEXT}</div>
+            <div>
+                <div 
+                    contentEditable=false
+                    className=editor__page_link
+                >
+                    페이지 링크인데 드래그 후 삭제는 된다? 이상하네. 아. 백스페이스 누르면 앞 태그가 사라지는 구조구나?
+                </div>
+            </div>
+            <div>${DUMMY_DATA_TEXT}</div>
             </div>
         </div>
     `;
@@ -222,7 +231,8 @@ export const Editor = () => {
                 return;
             }
 
-            if (!$target.includes("/")) {
+            // textContent는 String 자체가 아니다.
+            if (!$target.toString().includes("/")) {
                 $dropdown.style.display = "none";
             }
         }, 0);
@@ -247,6 +257,76 @@ export const Editor = () => {
     // SlashSpaceSpace => 닫힘
     $editor.addEventListener("keydown", closeDropdownOnDeleteSlash);
     $editor.addEventListener("keydown", execDropdownOnEnter);
+
+    // Ctrl+V 인터셉트하기
+    // keydown을 써야 될지 모르겠음.
+    // 맞네. keyup을 쓰면 e.prevent를 할 수가 없음.
+    // $editor.addEventListener("keydown", async (e) => {
+    //     // 문제: Ctrl+Z를 눌러 textContent가 `# `이 될 때도 발동된다.. --> 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
+    //     // nbsp = #\u00a0
+    //     // TODO: 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
+    //     if (e.code !== "KeyV" || !e.ctrlKey) {
+    //         return;
+    //     }
+    //     console.log("ctrl+v");
+    //     e.preventDefault();
+
+    //     const read = await navigator.clipboard.read();
+    //     const readText = await navigator.clipboard.readText();
+
+    //     console.log("read:", read, read[0]);
+    //     console.log("readText:", readText);
+    // });
+
+    const waitFor0ms = () => window.Promise.resolve();
+
+    $editor.addEventListener("paste", async (e) => {
+        // // 2. Text 선택 시 Div 선택하도록 변경
+        // const userSelected = window.getSelection().anchorNode;
+        // console.log("userSelected:", userSelected);
+        // const range = document.createRange();
+        // range.selectNode(userSelected); // 이걸 하면 부모가 선택됨
+
+        // // Q. 이렇게 하면 파랗게 떠야 하는 거 아님?
+        // const sel = window.getSelection();
+        // sel.removeAllRanges();
+        // sel.addRange(range);
+
+        // console.log("modified selection:", sel.type, sel.anchorNode);
+
+        // setTimeout(() => {
+        //     console.log("[again] modified selection:", sel.type, sel.anchorNode);
+        // }, 0);
+
+        // 1. 걍 유저 선택한 거 제거함
+        let userSelected = window.getSelection().anchorNode;
+        if (userSelected instanceof Text) {
+            userSelected = userSelected.parentElement;
+        }
+        console.log("userSelected:", userSelected);
+
+        const range = document.createRange();
+        range.selectNodeContents(userSelected);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        console.log("range:", range);
+
+        document.execCommand("delete"); // <div><br></div>만 남으면 한 방에 지움
+
+        // // 2. 선택 영역 없게 해서 추가로 지워지는 부분 없게 함
+        // window.getSelection().removeAllRanges();
+
+        // await waitFor0ms();
+
+        // e.preventDefault();
+
+        // 3. 데이터를 html로 해석해서 가져오기
+        // console.log("data:", e.clipboardData.getData("text/html").slice(0, 20));
+
+        // 4. 그냥 이벤트 그대로 실행
+        // 왜 node를 선택했는데, selection 제거를 안 해주지? 모르겠넹
+    });
 
     return $editor;
 };
