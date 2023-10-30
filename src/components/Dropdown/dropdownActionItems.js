@@ -85,6 +85,8 @@ export const createDropdownItems = (documentId) => [
             // history를 어떻게 이용해야 하지?
             // /로 시작해서 그런지, /부터 suburl이 되는 듯. 편해서 좋음.
             history.pushState(null, "", `/documents/${id}`);
+            // 이걸 해줘야 push 시에도 popState 호출이 됨... 뭐야
+            window.dispatchEvent(new Event("popstate"));
 
             // TODO: 에디터에서 신규 컨텐츠 로딩하는 구조 만들어야 함. 후.. 이제 에디터 갈아엎기 시작이다...
 
