@@ -269,7 +269,7 @@ export const Editor = () => {
             $selectedNodeOrText.textContent = " ";
             spaceAdded = true;
         }
-        console.log("$target:", $target);
+        debug("$target:", $target);
 
         // 2. 붙여 넣을 위치를 생성한다.
         // block div 이후에 br을 만들고 선택하기?
@@ -284,7 +284,7 @@ export const Editor = () => {
             .split("<!--StartFragment-->")[1]
             .split("<!--EndFragment-->")[0];
         const htmlWithoutStyle = htmlWithoutComments.split(/style="[^"]*"/).join("");
-        console.log("data:", htmlWithoutStyle);
+        debug("data:", htmlWithoutStyle);
 
         // 4. 현재 Selection을 지워야 한다.
         // 같은 텍스트인 경우에는 안 지워도 된다.
@@ -293,7 +293,7 @@ export const Editor = () => {
         // 지우고 나면 지운 div의 윗 div가 선택 영역이 된다.
         // 따라서 지운 div 위에 빈 div가 있으면 지운 보람이 없게 된다... 거기로 들어가기 때문에.
         // 반드시 윗 div의 text가 있을 때만 유효하다. 근데 이건 emoji 때문에 그럴 수도 있다.
-        console.log("after delete - selection:", window.getSelection());
+        debug("after delete - selection:", window.getSelection());
 
         // 5. 일단 붙여 넣음
         // 빈 div를 선택하고 있는 경우 해당 div에 넣게 된다.

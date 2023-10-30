@@ -42,7 +42,25 @@ const dropdownItems = [
                 .replace(/(?!>) (?=<)/g, ""); // 남은 공백 제거
             // 3. div를 만들고 입력하고, 클릭 핸들러를 만들고, 저장한다.
             // TODO: 클릭 시 해당 페이지로 이동하는 기능 필요함
-            // TODO: [/ ] 제거하기 <-- 입력하고 있던 range
+            // TODO: [/] 제거하기 <-- 입력하고 있던 range
+            // 근데 이게 [/]일 수도 있고, [/page ]일 수도 있음.
+            // 또한 기존 textNode 뒤일 수도 있음. how?
+            // 그냥 anchorNode가 text일텐데 그 text의 마지막 /를 포함해 뒤를 날리면 될 듯
+            // 이건 js로 해도 됨. 곧장 page 이동을 하기 때문에 history 필요 없음.
+            // range 연습 삼아 해봄.
+            // TODO: selection 쪽 코드는 유틸로 빼는 게 좋을 듯
+            const $targetTextNode = window.getSelection().anchorNode;
+            const targetString = $targetTextNode.textContent.toString();
+            // 그냥 강제로 선택하게 할까?
+            const range = document.createRange();
+            range.setStart($targetTextNode, targetString.lastIndexOf("/"));
+            range.setEnd($targetTextNode, targetString.length);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("delete"); // 선택 영역 제거
+
+            // TODO: 왜 div를 먼저 넣어야 div가 밑으로 가는지 알려줘~!!!
+            document.execCommand("insertHTML", false, "<div><br></div>");
             document.execCommand("insertHTML", false, pageLinkHTML);
             // 임시 방편....
             document.getElementsByClassName("editor__dropdown").item(0).style.display = "none";
@@ -111,7 +129,7 @@ export const Dropdown = () => {
             const s = window.getSelection();
             const oRange = s.getRangeAt(0); //get the text range
             const oRect = oRange.getBoundingClientRect();
-            console.log(s, oRange);
+            debug(s, oRange);
 
             // 그냥 top, left만 주면 선택 영역과 popup이 겹침.
             // height만큼 top에서 빼주면 딱 위에 붙음. 여기서 대충 한 10px 정도 더 빼주면 무난할 듯
