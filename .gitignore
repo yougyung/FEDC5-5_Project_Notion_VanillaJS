@@ -1,6 +1,6 @@
 # Node 패키지 제외
+# package.json을 제외하면 배포가 불가능함
 node_modules
-package*.json
 
 # ESLint, Prettier 제외
 .eslintrc.cjs
