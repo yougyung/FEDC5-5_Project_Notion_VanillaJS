@@ -4,6 +4,7 @@ import SideBar from '@layout/sidebar';
 import { initRoute, push } from '@util/router';
 import { getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
+import { compileString } from 'sass';
 
 const ROOT_DOCUMENT_ID = 103858;
 const NOT_FOUND_DOCUMENT_ID = 116012;
@@ -20,34 +21,39 @@ export default function App({ $target }) {
 		initialState: this.state,
 		handleState,
 	});
-	const deleteDocument = (array, id) => {
-		for (let i = 0; i < array.length; i += 1) {
-			const item = array[i];
+
+	const deleteDocument = (id) => {
+		const { documentList } = this.state;
+		for (let i = 0; i < documentList.length; i += 1) {
+			const item = documentList[i];
 			if (item.id === id) {
-				array.splice(i, 1);
+				documentList.splice(i, 1);
 				break;
-			}
-			if (item.documents && item.documents.length > 0) {
-				deleteDocument(item.documents, id);
 			}
 		}
 	};
 
-	const handleOptimisticUITitle = async (documentId, inputText) => {
-		const { documentList } = this.state;
-		if (inputText) {
-			// eslint-disable-next-line no-restricted-syntax
-			for (const item of documentList) {
-				const foundDocument = [...item.documents, item].find((document) => document.id === documentId);
-				if (foundDocument) {
-					foundDocument.title = inputText;
-					sidebar.setState(this.state);
-					break;
-				}
+	const modifyDocumentTitle = (documentList, id, inputText) => {
+		const foundDocument = documentList?.find((document) => document.id === id);
+		if (foundDocument) {
+			foundDocument.title = inputText;
+			sidebar.setState(this.state);
+			return;
+		}
+		documentList.forEach((item) => {
+			const itemDocuments = item.documents;
+			if (itemDocuments.length > 0) {
+				modifyDocumentTitle(itemDocuments, id, inputText);
 			}
+		});
+	};
+
+	const handleOptimisticUITitle = async (documentId, inputText) => {
+		if (inputText) {
+			modifyDocumentTitle(this.state.documentList, documentId, inputText);
 		} else {
 			push('/');
-			deleteDocument(this.state.documentList, documentId);
+			deleteDocument(documentId);
 			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
 		}
 	};
