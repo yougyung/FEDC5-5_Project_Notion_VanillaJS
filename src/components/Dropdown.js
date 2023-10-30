@@ -16,7 +16,16 @@ const dropdownItems = [
         imageUrl: "https://www.notion.so/images/blocks/page.83b0bf31.png",
         name: "페이지",
         description: "이 페이지 안에 하위 페이지를 만드세요.",
-        handler: () => alert("페이지"),
+        handler: () => {
+            // TODO: 페이지 블럭 생성 기능 구현하기
+            // 1. 페이지 생성 API를 호출한다.
+            // 2. id를 받아온다.
+            // 3. id를 div의 프로퍼티로 놓고(data-page-id) 저장 API를 호출한다.
+            // 4. 신규 페이지로 이동한다.
+            // 5. 신규 페이지에서 이름을 바꿀 때마다 실시간으로 변경한다.
+            // 6. 이름 변경 완료 시(debounce로 지연) 저장 API를 호출하고, root documents API를 호출한다.
+            // 7. 페이지를 열 때, 렌더링하기 전에, data-page-id인 블럭에 대해 root documents에서 id를 찾아 이름을 입력해준다.
+        },
     },
     {
         imageUrl: "https://www.notion.so/images/blocks/header.57a7576a.png",
@@ -26,19 +35,19 @@ const dropdownItems = [
     },
 ];
 
-// TODO: 노션은 현재 선택된 영역에 해당 스타일이 적용된 경우 텍스트 색상이 파랑색으로 바뀜(inactive 시 검은색)
-// TODO: [제목 1] 부분을 노션처럼 만들려면 Select로 만들어야 함.
-// TODO: 링크는 링크 입력 모달을 추가로 렌더링한 후 해야 하는데 일단은 네이버 주소로 하드코딩했음.
-
-// TODO: 팝업의 버튼을 엔터로 누를 수 있게 하기 + 버튼 눌러도 안 닫히게
-// TODO: 팝업에서 ESC를 누르면 팝업이 닫히게
+// TODO: 팝업은 focus가 팝업에 되는데, 드롭다운은 focus가 안 됨. 뭐지?
+// 관찰: Caret은 Text에 그대로 있는데, 화살표 입력만 인터셉트해서 직접 움직이는 듯
+// 이 때 focus를 쓰는 게 아니라(그럼 텍스트 입력을 못할테니) js로 이동만 하고, hover 같은 애니메이션
+// 띄워서 마치 hover인 것처럼, focus인 것처럼 생각하게 하는 듯.
+// 마우스로 드롭다운 클릭을 한 번 해버리면 텍스트 focus를 잃어서 더 이상 입력할 수 없게 됨.
 export const Dropdown = () => {
     // TODO: hover 후에도 나갔던 영역을 계속 하이라이팅해야 함.
     // 일단 당장은 hover로 떼우기
+    // TODO: /page와 같이 명령어 방식으로도 처리할 수 있게 이벤트 핸들링하기
     const $dropdown = $`
         <div className=editor__dropdown>
             <div className=editor__dropdown__header>기본 블록</div>
-            <div className=editor__dropdown__list>
+            <div className=editor__dropdown__list autoFocus=true>
                 ${dropdownItems.map(
                     ({ imageUrl, name, description, handler }) => $`
                     <div 
