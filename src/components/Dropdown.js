@@ -1,3 +1,4 @@
+import { EMOJI_EMPTY_DOC_HTML } from "../assets/EMOJI_EMPTY_DOC.js";
 import { $ } from "../shared/$.js";
 import { createDebug } from "../shared/debug.js";
 
@@ -16,13 +17,37 @@ const dropdownItems = [
         imageUrl: "https://www.notion.so/images/blocks/page.83b0bf31.png",
         name: "페이지",
         description: "이 페이지 안에 하위 페이지를 만드세요.",
-        handler: () => {
+        handler: async () => {
             // TODO: 페이지 블럭 생성 기능 구현하기
-            // 1. 페이지 생성 API를 호출한다.
-            // 2. id를 받아온다.
-            // 3. id를 div의 프로퍼티로 놓고(data-page-id) 저장 API를 호출한다.
+            // 1. 페이지 생성 API를 호출하고 id를 받아온다.
+            const parentId = window.currentDocument?.id || 117351;
+            // 현재 페이지 id가 우선 필요함...
+            // 일단 상태 관리는 전역으로 하자
+            const { id } = await window.api.create(parentId);
+            // 2. id를 div의 프로퍼티로 놓고(data-page-id) 저장 API를 호출한다.
+            // 이건 셀렉션이 있으니깐 그냥 div 넣으라고 하면 댈듯?
+            // 텍스트 상에서 Caret 선택 중이어도 그냥 아래 div로 갈 듯? 제발.
+            const pageLinkHTML = `
+                <div>
+                    <div 
+                        contenteditable=false
+                        class=editor__page_link
+                    >
+                        ${EMOJI_EMPTY_DOC_HTML}
+                        <span class=editor__page_link_title>${id}</span>
+                    </div>
+                </div>
+            `
+                .replace(/\s{2,}/g, " ") // 긴 공백 제거
+                .replace(/(?!>) (?=<)/g, ""); // 남은 공백 제거
+            // 3. div를 만들고 입력하고, 클릭 핸들러를 만들고, 저장한다.
+            // TODO: 클릭 시 해당 페이지로 이동하는 기능 필요함
+            // TODO: [/ ] 제거하기 <-- 입력하고 있던 range
+            document.execCommand("insertHTML", false, pageLinkHTML);
+            // 임시 방편....
+            document.getElementsByClassName("editor__dropdown").item(0).style.display = "none";
             // 4. 신규 페이지로 이동한다.
-            // 5. 신규 페이지에서 이름을 바꿀 때마다 실시간으로 변경한다.
+            // 5. TODO: [이름 동기화는 나중에 하자] 신규 페이지에서 이름을 바꿀 때마다 실시간으로 변경한다.
             // 6. 이름 변경 완료 시(debounce로 지연) 저장 API를 호출하고, root documents API를 호출한다.
             // 7. 페이지를 열 때, 렌더링하기 전에, data-page-id인 블럭에 대해 root documents에서 id를 찾아 이름을 입력해준다.
         },
@@ -44,6 +69,7 @@ export const Dropdown = () => {
     // TODO: hover 후에도 나갔던 영역을 계속 하이라이팅해야 함.
     // 일단 당장은 hover로 떼우기
     // TODO: /page와 같이 명령어 방식으로도 처리할 수 있게 이벤트 핸들링하기
+    // TODO: 아이템 핸들러가 드롭다운 자체를 조작 가능해야 하는데, 초기화 전에 전달할 방법이 없다.
     const $dropdown = $`
         <div className=editor__dropdown>
             <div className=editor__dropdown__header>기본 블록</div>

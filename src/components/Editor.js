@@ -1,4 +1,4 @@
-import { EMOJI_EMPTY_DOC } from "../assets/EMOJI_EMPTY_DOC.js";
+import { $EMOJI_EMPTY_DOC } from "../assets/EMOJI_EMPTY_DOC.js";
 import { $ } from "../shared/$.js";
 import { createDebug } from "../shared/debug.js";
 import { Dropdown } from "./Dropdown.js";
@@ -38,7 +38,7 @@ export const Editor = () => {
                     contentEditable=false
                     className=editor__page_link
                 >
-                    ${EMOJI_EMPTY_DOC}
+                    ${$EMOJI_EMPTY_DOC}
                     <span className=editor__page_link_title>제목 없음</span>
                 </div>
             </div>
