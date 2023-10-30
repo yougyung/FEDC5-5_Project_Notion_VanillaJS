@@ -30,6 +30,7 @@ export class DocumentAPI {
     async create(parentDocumentId = null) {
         const response = await this.#request("/documents", "POST", {
             title: "",
+            content: "<div>default text</div>",
             parent: parentDocumentId,
         });
 
@@ -53,12 +54,23 @@ export class DocumentAPI {
         return response.json();
     }
 
+    async delete(id) {
+        const response = await this.#request(`/documents/${id}`, "DELETE");
+
+        if (!response.ok) {
+            throw new Error("기존 문서를 삭제하는데 실패했습니다.");
+        }
+
+        return response.json();
+    }
+
     #request(url, method, body) {
         return fetch(`${SERVER_URL}${url}`, {
             headers: {
                 "x-username": this.#username,
+                "Content-Type": "application/json",
             },
-            body,
+            body: JSON.stringify(body) ?? undefined,
             method: method ?? "GET",
         });
     }
