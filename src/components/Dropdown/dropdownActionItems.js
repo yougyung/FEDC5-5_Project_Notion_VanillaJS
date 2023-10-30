@@ -41,7 +41,6 @@ export const createDropdownItems = (documentId) => [
 
             // 3. div를 만들고 입력하고, 클릭 핸들러를 만들고, 저장한다.
             // TODO: 클릭 시 해당 페이지로 이동하는 기능 필요함
-            // TODO: [/] 제거하기 <-- 입력하고 있던 range
             // 근데 이게 [/]일 수도 있고, [/page ]일 수도 있음.
             // 또한 기존 textNode 뒤일 수도 있음. how?
             // 그냥 anchorNode가 text일텐데 그 text의 마지막 /를 포함해 뒤를 날리면 될 듯
@@ -59,7 +58,11 @@ export const createDropdownItems = (documentId) => [
             document.execCommand("delete"); // 선택 영역 제거
 
             // TODO: 왜 div를 먼저 넣어야 div가 밑으로 가는지 알려줘~!!!
-            document.execCommand("insertHTML", false, "<div><br></div>");
+            // FIXME: 버그 해결하기. 또 중첩 div 문제가 다시 재발해버렸다.
+            // 페이지 만든 경우 이렇게 됨. 혹시 여기서도 공백이 필요한가? 그런듯?
+            // 일단 공백이 있는 div에 /로 페이지 생성하면 괜찮음.
+            // 얘가 원인인 듯. 얘가 div 안으로 들어감
+            document.execCommand("insertHTML", false, " <div><br></div>");
             document.execCommand("insertHTML", false, pageLinkHTML);
             // 임시 방편....
             document.getElementsByClassName("editor__dropdown").item(0).style.display = "none";

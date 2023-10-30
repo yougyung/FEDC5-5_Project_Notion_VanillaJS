@@ -52,7 +52,6 @@ export const enableSafeHTMLPasteFeature = ($editor) => {
         document.execCommand("insertHTML", false, htmlWithoutStyle); // <div><br></div>만 남으면 한 방에 지움
 
         // 커서 기준 우측 글자 지우기. 선택 영역이 없어서 가능함.
-        // TODO: 버그 발견. emoji를 복붙할 때마다 뒷 문자가 사라짐
         if (spaceAdded) {
             document.execCommand("forwardDelete");
         }

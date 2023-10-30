@@ -12,7 +12,7 @@ export const enableDropdownFeature = ($editor, documentId) => {
     // keydown에서는 setTimeout 이어도 안 됨. keyup에서만 됨.
 
     // TODO: 마우스로 드래그할 때는 좀 이상한 듯? 드래그했을 때 안 뜰 때가 있음. 확인 필요
-    // TODO: 역방향 드래그로 하면 인식이 안 됨.
+    // FIXME: 역방향 드래그로 하면 인식이 안 됨.
     // 아니, 왜 될 때가 있고 안 될 때가 있지?
     // TODO: ESC 눌러야만 꺼지는데, 왜 ESC 누르면 꺼지는지 알아보기
     const displayDropdown = () => {

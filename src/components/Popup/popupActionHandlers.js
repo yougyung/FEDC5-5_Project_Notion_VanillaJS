@@ -22,6 +22,8 @@ export const handlePopUpFormatUnderline = () => {
     document.execCommand("underline", false);
 };
 
+// TODO: 포매팅 한 후 제거할 수도 있게 만들기
+// FIXME: 포맷팅 후 <code>가 아닌 <div>에 style이 들어가는 문제가 있음. 언제 발생하는진 확인 필요
 export const handlePopUpFormatCode = () => {
     // 인라인 단위로 수정하고 싶기 때문에, Selection을 사용해야 할 듯.
     // 블록의 일부를 인라인 단위로 선택하면 TextNode가 선택됨

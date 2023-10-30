@@ -10,7 +10,6 @@ export const enableFormatShortcutFeature = ($editor) => {
         // TODO: <후순위> 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
         if (e.code === "Space" && window.getSelection().anchorNode.textContent.startsWith("# ")) {
             document.execCommand("formatBlock", false, "h1");
-            // TODO: delete를 한 번만 써도 되지 않나?
             // 선택이 안 됐으면 한 글자만 지움. Caret이기 때문에 이렇게 지우는 것
             // TODO: 한 번에 지우고 싶으면 Range로 만들어도 될 듯?
             document.execCommand("delete");
