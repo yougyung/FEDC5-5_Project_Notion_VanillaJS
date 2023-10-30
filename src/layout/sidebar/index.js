@@ -14,7 +14,8 @@ export default function SideBar({ $target, initialState, handleState }) {
 		this.state = nextState;
 		this.render();
 	};
-	const documnentList = () => {
+
+	const parseDocumentList = () => {
 		const $documentList = $sidebar.querySelector('.sidebar__documentList');
 		const { documentList, focusedDocumentId } = this.state;
 		return documentList.map(
@@ -36,7 +37,7 @@ export default function SideBar({ $target, initialState, handleState }) {
 		<div class="sidebar__documentList" role="tabList"></div>
 		`;
 
-		if (this.state && this.state.documentList.length > 1) documnentList();
+		if (this.state && this.state.documentList.length > 1) parseDocumentList();
 		addEvent($sidebar, 'sidebar__documentCreateBtn-img', 'click', this.handleClickCreate);
 	};
 	this.render();
