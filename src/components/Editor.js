@@ -1,4 +1,5 @@
 import EditButtons from "./EditButtons.js";
+import { transformTag, transformText, deleteText } from "../utils/transform.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
@@ -27,9 +28,18 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.state = initialState;
 
+  let init = false;
+
   this.setState = (nextState) => {
     this.state = nextState;
     $editor.querySelector("#editor-title").value = this.state.title || "";
+    if (!init) {
+      this.state.content = this.state.content.replace(
+        /<span class="empty"><\/span>/g,
+        ""
+      );
+      init = true;
+    }
     $editor.querySelector("#editor-content").innerHTML =
       this.state.content || "";
     editButtons.setState(this.state.content);
@@ -37,40 +47,11 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    const richContent = transform(this.state.content);
+    const richContent = transformTag(this.state.content);
 
     $editor.querySelector("#editor-title").value = this.state.title;
     $editor.querySelector("#editor-content").innerHTML = richContent;
   };
-
-  const transform = (text) => {
-    let h1Pattern = /<div>#\s+(.*?)<\/div>/g;
-    let h2Pattern = /<div>##\s+(.*?)<\/div>/g;
-    let h3Pattern = /<div>###\s+(.*?)<\/div>/g;
-    let h4Pattern = /<div>####\s+(.*?)<\/div>/g;
-    let boldPattern = /\*\*(.*?)\*\*/g;
-    let italicPattern = /_(.*?)_/g;
-    let strikePattern = /~~(.*?)~~/g;
-    let emptyPattern = /<[^>]*>(?:\s*|&nbsp;)*<\/[^>]*>/g;
-
-    return text
-    .replace(h1Pattern, "<div><h1>$1</h1></div>")
-    .replace(h2Pattern, "<div><h2>$1</h2></div>")
-    .replace(h3Pattern, "<div><h3>$1</h3></div>")
-    .replace(h4Pattern, "<div><h4>$1</h4></div>")
-    .replace(boldPattern, "<b>$1</b>")
-    .replace(italicPattern, "<i>$1</i>")
-    .replace(strikePattern, "<s>$1</s>")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\n/g, "<br>")
-    .replace(/<h1><br><\/h1>/g, "<br>")
-    .replace(/<h2><br><\/h2>/g, "<br>")
-    .replace(/<h3><br><\/h3>/g, "<br>")
-    .replace(/<h4><br><\/h4>/g, "<br>")
-    .replace(/<i><br><\/i>/g, "<br>")
-    .replace(/<b><br><\/b>/g, "<br>")
-    .replace(/<s><br><\/s>/g, "<br>")
-  }
 
   $editor.querySelector("#editor-title").addEventListener("keyup", (e) => {
     const parentId = history.state ? history.state.parentId : null;
@@ -85,68 +66,80 @@ export default function Editor({ $target, initialState, onEditing }) {
   });
 
   $content.addEventListener("compositionend", (e) => {
-    const selection = window.getSelection();
+    let selection = window.getSelection();
     const node = selection.focusNode;
-    const offset = selection.focusOffset;
-    const postion = getCursorPosition($content, node, offset, {
-      postion: 0,
-      done: false,
-    });
+    let offset = selection.focusOffset;
 
+    // 첫 입력시 div가 없어서 div를 씌어주기 위한 판별
     const isDiv = e.target.innerHTML.includes("<div>");
+    // span을 삽입할 node를 찾는다.
+    const elementPosition = getPosition(node.parentElement, offset);
+
+    const $empty = document.createElement("span");
+    $empty.setAttribute("class", "empty");
+
+    // 변환이 되면서 줄어든 문자열을 반영
+    const text = transformText(node.data);
+
+    if (text !== node.data) {
+      offset = deleteText(node.data).length;
+      if (offset === text.length) {
+        offset = text.length;
+      }
+    } else {
+      if (offset === node.data.length) {
+        offset = node.data.length;
+      }
+    }
+
+    if (!elementPosition.querySelector(".empty")) {
+      elementPosition.appendChild($empty);
+    }
 
     this.setState({
       ...this.state,
       content: isDiv ? e.target.innerHTML : `<div>${e.target.innerHTML}</div>`,
     });
 
+    // 원래 있던 range를 모두 제거
     selection.removeAllRanges();
-    const range = setCursorPosition($content, document.createRange(), {
-      postion: postion.postion,
-      done: false,
-    });
-
-    range.collapse(true);
+    const range = document.createRange();
+    const temp = document.querySelector(".empty");
+    range.setStart(temp.previousSibling, 0);
+    range.setEnd(temp.previousSibling, offset);
+    range.collapse(false);
+    // 위치 표시해주는 span태그를 range에 더해준다.
     selection.addRange(range);
+
+    // 위치를 찾기 위해 임시로 삽입한 span태그 제거
+    temp.remove();
     onEditing(this.state);
   });
 
-  const getCursorPosition = (parent, node, offset, state) => {
-    if (state.done) return state;
+  const getPosition = (parentElement) => {
+    let currentNode = parentElement;
+    const indexStack = [];
 
-    let currentNode = null;
-    if (parent.childNodes.length === 0) {
-      state.postion += parent.textContent.length;
-    } else {
-      for (let i = 0; i < parent.childNodes.length && !state.done; i++) {
-        currentNode = parent.childNodes[i];
-        if (currentNode === node) {
-          state.postion += offset;
-          state.done = true;
-          return state;
-        } else getCursorPosition(currentNode, node, offset, state);
-      }
+    while (currentNode === $content) {
+      indexStack.push(getIndex(currentNode));
+      currentNode = currentNode.parentElement;
     }
-    return state;
+
+    for (let i = 0; i < indexStack.length - 1; i++) {
+      currentNode = currentNode.children[indexStack[i]];
+    }
+
+    return currentNode;
   };
 
-  const setCursorPosition = (parent, range, state) => {
-    if (state.done) return range;
+  const getIndex = (element) => {
+    let count = 0;
 
-    if (parent.childNodes.length == 0) {
-      if (parent.textContent.length >= state.postion) {
-        range.setStart(parent, state.postion);
-        state.done = true;
-      } else {
-        state.postion = state.postion - parent.textContent.length;
-      }
-    } else {
-      for (let i = 0; i < parent.childNodes.length && !state.done; i++) {
-        let currentNode = parent.childNodes[i];
-        setCursorPosition(currentNode, range, state);
-      }
+    while ((element = element.previousSibling) != null) {
+      count += 1;
     }
-    return range;
+
+    return count;
   };
 
   document.addEventListener("selectionchange", () => {
