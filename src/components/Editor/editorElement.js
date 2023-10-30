@@ -1,4 +1,5 @@
 import { $ } from "../../shared/$.js";
+import { goToDocument } from "../../shared/goToDocument.js";
 import { enableDropdownFeature } from "./eventHandlers/attachDropdown.js";
 import { enablePopupFeature } from "./eventHandlers/attachPopup.js";
 import { enableFormatShortcutFeature } from "./eventHandlers/formatShortcut.js";
@@ -35,6 +36,17 @@ export const Editor = (currentDocument) => {
     enableShowPlaceholderOnEmptyBlockFeature($editor);
     enableDropdownFeature($editor, id);
     enableSafeHTMLPasteFeature($editor);
+
+    // 페이지 링크 클릭 시 이동하게
+    $editor.addEventListener("click", (e) => {
+        const { pageId } = e.target.dataset;
+
+        if (!pageId) {
+            return;
+        }
+
+        goToDocument(pageId);
+    });
 
     return $editor;
 };

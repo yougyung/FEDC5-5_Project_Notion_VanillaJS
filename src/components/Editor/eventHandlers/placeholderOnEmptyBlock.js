@@ -6,6 +6,7 @@ const debug = createDebug("Editor/ShowPlaceholderOnEmptyBlock");
 // div 중첩 상태가 아니면 정상 동작함.
 export const enableShowPlaceholderOnEmptyBlockFeature = ($editor) => {
     // 텍스트 노드가 대상인 경우 classList가 없다.
+    // FIXME: 빈 페이지로 이동하면 오류남. classList 없다고.
     const isRoot = ($node) => $node.classList?.contains("editor__content_root");
 
     const findParentUnderRoot = ($node) => {

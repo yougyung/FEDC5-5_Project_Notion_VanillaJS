@@ -1,4 +1,5 @@
 import { EMOJI_EMPTY_DOC_HTML } from "../../assets/EMOJI_EMPTY_DOC.js";
+import { goToDocument } from "../../shared/goToDocument.js";
 
 // TODO: 핸들러에 필요한 인자를 제공하거나 핸들러를 클로저에서 정의하기 (클래스로 정의하는 게 나을 듯)
 // TODO: 툴팁 표시도 구현하기
@@ -30,6 +31,7 @@ export const createDropdownItems = (documentId) => [
                     <div 
                         contenteditable=false
                         class=editor__page_link
+                        data-page-id=${id}
                     >
                         ${EMOJI_EMPTY_DOC_HTML}
                         <span class=editor__page_link_title>${id}</span>
@@ -83,10 +85,7 @@ export const createDropdownItems = (documentId) => [
 
             // 5. 신규 페이지로 이동한다.
             // history를 어떻게 이용해야 하지?
-            // /로 시작해서 그런지, /부터 suburl이 되는 듯. 편해서 좋음.
-            history.pushState(null, "", `/documents/${id}`);
-            // 이걸 해줘야 push 시에도 popState 호출이 됨... 뭐야
-            window.dispatchEvent(new Event("popstate"));
+            goToDocument(id);
 
             // TODO: 에디터에서 신규 컨텐츠 로딩하는 구조 만들어야 함. 후.. 이제 에디터 갈아엎기 시작이다...
 

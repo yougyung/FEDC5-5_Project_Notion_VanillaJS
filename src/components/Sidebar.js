@@ -1,18 +1,14 @@
 import { $ } from "../shared/$.js";
+import { goToDocument } from "../shared/goToDocument.js";
 
 const username = "Seongbin Kim의 Notion";
 const userEmail = "seongbin9786@uos.ac.kr";
-
-const goTo = (id) => {
-    history.pushState(null, "", `/documents/${id}`);
-    window.dispatchEvent(new Event("popstate"));
-};
 
 const DocumentListItem = ({ id, title, documents }) => $`
     <div className=document_list_item>
         <div 
             className=document_list_item__title
-            onclick=${() => goTo(id)}
+            onclick=${() => goToDocument(id)}
         >
             ${title === "" ? "제목 없음" : title}
         </div>
