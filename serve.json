@@ -1,0 +1,6 @@
+{
+    "rewrites": [
+        { "source": "documents/**", "destination": "/public/index.html" },
+        { "source": "/**/*.css", "destination": "/public/" }
+    ]
+}
