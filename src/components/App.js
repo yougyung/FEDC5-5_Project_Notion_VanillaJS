@@ -27,7 +27,7 @@ const getCurrentDocumentIdFromUrl = () => {
     console.log("popstate - path:", path);
 
     const matched = path.match(/\/documents\/(\d+)\/?/);
-    if (matched.length < 2) {
+    if (!matched || matched.length < 2) {
         return null; // ??로 체크함.
     }
 
