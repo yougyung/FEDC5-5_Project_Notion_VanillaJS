@@ -1,4 +1,4 @@
-import revertCursor from '../utils/revertCursor.js';
+import reverCursor from '../utils/revertCursor.js';
 
 export default function Editor({
   $target,
