@@ -73,7 +73,7 @@ export default class Content {
       //Header 컴포넌트에 입력한 경우
       return setTimeout(async () => {
         await editDocument(id, { title: payload, content })
-        documentStore.dispatch({ type: "FETCH", payload: this.state.id }) //title이 변경되었음을 알려 Sidebar 컴포넌트가 재렌더링됨
+        documentStore.dispatch({ type: "FETCH", payload: id }) //title이 변경되었음을 알려 Sidebar 컴포넌트가 재렌더링됨
       }, 1000)
     }
     if (type === "CONTENT") {

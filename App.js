@@ -1,6 +1,6 @@
 import Sidebar from "./components/Sidebar/Sidebar.js"
 import Content from "./components/Content/Content.js"
-import Route from "./route/route.js"
+import Route from "./route/Route.js"
 import { checkUserColorMode } from "./utils/checkUserColorMode.js"
 import { documentStore } from "./store/documentStore.js"
 export default class App {
