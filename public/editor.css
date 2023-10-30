@@ -46,12 +46,12 @@
 
     color: rgba(55, 53, 47, 0.5);
 
-    /* <br>로 인한 위치 보정 */
     position: absolute;
     top: 0px;
     left: 0px;
     padding: 4px 0px;
 }
+
 
 /* 텍스트 선택 영역 색상 */
 .editor ::selection {
@@ -64,7 +64,22 @@
     font-size: 40px;
     padding: 3px 2px;
     color: rgb(55, 53, 47);
+
+    position: relative;
 }
+
+.editor__title:empty::after {
+    content: "제목 없음";
+    cursor: text;
+
+    color: rgba(55, 53, 47, 0.15);
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 4px 0px;
+}
+
 
 .editor__content_root {
     /* notion 유사하게 */
