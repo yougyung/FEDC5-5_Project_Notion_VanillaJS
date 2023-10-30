@@ -1,10 +1,9 @@
 import { createElementWithClass, addEvent } from '@util/dom';
-import { createDocument } from '@api/document';
 import CreateImg from '@asset/create.png';
 import { push } from '@util/router';
 import './style.scss';
 
-export default function DocumentNav({ $target, initialState, handleState, focusedDocumentId }) {
+export default function DocumentNav({ $target, initialState, handleState, focusedDocumentId, handleClickCreate }) {
 	const $documentNav = createElementWithClass('div', 'document-nav');
 	$target.appendChild($documentNav);
 	this.state = {
@@ -21,7 +20,13 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 		const { documents } = this.state.document;
 		documents.map(
 			(document) =>
-				new DocumentNav({ $target: $children, initialState: document, handleState, focusedDocumentId })
+				new DocumentNav({
+					$target: $children,
+					initialState: document,
+					handleState,
+					focusedDocumentId,
+					handleClickCreate,
+				})
 		);
 	};
 
@@ -53,8 +58,7 @@ export default function DocumentNav({ $target, initialState, handleState, focuse
 	};
 	this.handleClickAddBtn = async () => {
 		const { id } = this.state.document;
-		const response = await createDocument('제목 없음', id);
-		handleState({ focusedDoscumentId: response.id });
+		handleClickCreate(id);
 	};
 
 	addEvent($documentNav, 'document-nav__item', 'click', this.handleClickTitle);

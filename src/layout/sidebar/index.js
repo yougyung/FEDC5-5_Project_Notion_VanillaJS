@@ -15,12 +15,50 @@ export default function SideBar({ $target, initialState, handleState }) {
 		this.render();
 	};
 
+	const handleCreateDocument = (newDocument, documentList, id) => {
+		if (!id) {
+			return [...documentList, newDocument];
+		}
+		const foundDocument = documentList?.find((document) => document.id === id);
+		if (foundDocument) {
+			foundDocument.documents.push(newDocument);
+			return this.state.documentList;
+		}
+		documentList.forEach((item) => {
+			const itemDocuments = item.documents;
+			if (itemDocuments && itemDocuments.length > 0) {
+				handleCreateDocument(newDocument, itemDocuments, id);
+			}
+		});
+		return this.state.documentList;
+	};
+
+	const handleClickCreate = async (id) => {
+		const resposne = await createDocument('문서 제목', id);
+		const newDocument = {
+			id: resposne.id,
+			title: resposne.title,
+			documents: [],
+		};
+		const newList = handleCreateDocument(newDocument, this.state.documentList, Number(id));
+		handleState({
+			focusedDocumentId: resposne.id,
+			documentList: newList,
+		});
+		push(`/documents/${resposne.id}`);
+	};
 	const parseDocumentList = () => {
 		const $documentList = $sidebar.querySelector('.sidebar__documentList');
 		const { documentList, focusedDocumentId } = this.state;
 		return documentList.map(
 			(document) =>
-				new DocumentNav({ $target: $documentList, initialState: document, handleState, focusedDocumentId })
+				new DocumentNav({
+					$target: $documentList,
+					initialState: document,
+					handleState,
+					focusedDocumentId,
+					handleClickCreate,
+				})
 		);
 	};
 
@@ -36,25 +74,8 @@ export default function SideBar({ $target, initialState, handleState }) {
 		</div>
 		<div class="sidebar__documentList" role="tabList"></div>
 		`;
-
-		if (this.state && this.state.documentList.length > 1) parseDocumentList();
-		addEvent($sidebar, 'sidebar__documentCreateBtn-img', 'click', this.handleClickCreate);
+		if (this.state && this.state.documentList?.length > 0) parseDocumentList();
+		addEvent($sidebar, 'sidebar__documentCreateBtn-img', 'click', () => handleClickCreate(null));
 	};
 	this.render();
-
-	this.handleClickCreate = async () => {
-		const resposne = await createDocument('문서 제목', null);
-		handleState({
-			focusedDocumentId: resposne.id,
-			documentList: [
-				...this.state.documentList,
-				{
-					id: resposne.id,
-					title: resposne.title,
-					documents: [],
-				},
-			],
-		});
-		push(`/documents/${resposne.id}`);
-	};
 }
