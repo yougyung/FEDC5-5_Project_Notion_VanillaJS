@@ -25,7 +25,7 @@ const api = async (endPoint: string, options: RequestInit = {}) => {
 
   const data = await response.json();
 
-  return await data;
+  return data;
 };
 
 const createApiMethod =
