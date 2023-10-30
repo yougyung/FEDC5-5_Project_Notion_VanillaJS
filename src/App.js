@@ -2,11 +2,9 @@ import { createElementWithClass } from '@util/dom';
 import Document from '@layout/document';
 import SideBar from '@layout/sidebar';
 import { initRoute, push } from '@util/router';
+import { ANNOUNCE_PAGE } from '@util/constant';
 import { deleteDocument, getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
-
-const ROOT_DOCUMENT_ID = 103858;
-const NOT_FOUND_DOCUMENT_ID = 116012;
 
 export default function App({ $target }) {
 	const $layout = createElementWithClass('div', 'layout');
@@ -65,7 +63,7 @@ export default function App({ $target }) {
 		} else {
 			push('/');
 			handledeleteDocument(this.state.documentList, documentId);
-			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
+			handleState({ focusedDocumentId: ANNOUNCE_PAGE.root });
 		}
 	};
 
@@ -78,7 +76,7 @@ export default function App({ $target }) {
 	const fetchDocumentContents = async (focusedDocumentId) => {
 		const response = await getDocument(focusedDocumentId);
 		if (!response) {
-			this.setState({ ...this.state, focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
+			this.setState({ ...this.state, focusedDocumentId: ANNOUNCE_PAGE.notFound });
 			const page404 = await getDocument(this.state.focusedDocumentId);
 			return page404;
 		}
@@ -98,11 +96,11 @@ export default function App({ $target }) {
 		const { pathname } = window.location;
 		const ALLOWD_PATH = ['/', '/documents', '/documents/'];
 		if (ALLOWD_PATH.includes(pathname)) {
-			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
+			handleState({ focusedDocumentId: ANNOUNCE_PAGE.root });
 			return;
 		}
 		if (!pathname.startsWith('/documents/')) {
-			handleState({ focusedDocumentId: NOT_FOUND_DOCUMENT_ID });
+			handleState({ focusedDocumentId: ANNOUNCE_PAGE.notFound });
 			return;
 		}
 		const [, , documentId] = pathname.split('/');
@@ -111,10 +109,10 @@ export default function App({ $target }) {
 
 	const init = async () => {
 		const data = await getAllDocumentList();
-		const filterTarget = [ROOT_DOCUMENT_ID, NOT_FOUND_DOCUMENT_ID];
-		const filteredDocuments = data.filter((item) => !filterTarget.includes(item.id));
 
-		this.setState({ documentList: filteredDocuments, focusedDocumentId: ROOT_DOCUMENT_ID });
+		const filteredDocuments = data.filter((item) => !Object.values(ANNOUNCE_PAGE).includes(item.id));
+
+		this.setState({ documentList: filteredDocuments, focusedDocumentId: ANNOUNCE_PAGE.root });
 		const { focusedDocumentId } = this.state;
 		sidebar.setState(this.state);
 		document.setState(await fetchDocumentContents(focusedDocumentId));

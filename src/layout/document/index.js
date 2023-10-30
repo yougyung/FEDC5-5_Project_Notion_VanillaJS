@@ -1,16 +1,9 @@
 import { updateDocument, deleteDocument } from '@api/document';
 import debounce from '@util/debounce';
 import ContentBlock from '@component/document/content-block';
-import { createElementWithClass, addEvent } from '../../util/dom';
-
+import { createElementWithClass, addEvent } from '@util/dom';
+import { ANNOUNCE_PAGE, CHARACTER } from '@util/constant';
 import './style.scss';
-
-const ARROWUP_CHARACTER = 'ArrowUp';
-const ARROWDOWN_CHARACTER = 'ArrowDown';
-
-const ROOT_DOCUMENT_ID = 103858;
-const NOT_FOUND_DOCUMENT_ID = 116012;
-const filterTarget = [ROOT_DOCUMENT_ID, NOT_FOUND_DOCUMENT_ID];
 
 export default function Document({ $target, initialState, handleOptimisticUITitle }) {
 	const $document = createElementWithClass('div', 'document');
@@ -20,8 +13,10 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	this.setState = (nextState) => {
 		this.state = nextState;
 		this.render();
-		$document.style.pointerEvents = filterTarget.includes(this.state.id) ? 'none' : 'auto';
-		$document.querySelector('.document__deleteBtn').style.display = filterTarget.includes(this.state.id)
+		$document.style.pointerEvents = Object.values(ANNOUNCE_PAGE).includes(this.state.id) ? 'none' : 'auto';
+		$document.querySelector('.document__deleteBtn').style.display = Object.values(ANNOUNCE_PAGE).includes(
+			this.state.id
+		)
 			? 'none'
 			: 'block';
 	};
@@ -62,7 +57,7 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	this.render();
 
 	this.handleKeyUpTitle = (e) => {
-		if (e.code === ARROWDOWN_CHARACTER) {
+		if (e.code === CHARACTER.arrowDown) {
 			const $content = $document?.querySelector('.document__content');
 			$content.firstChild.focus();
 		}
@@ -81,12 +76,12 @@ export default function Document({ $target, initialState, handleOptimisticUITitl
 	};
 
 	this.handleKeyUpContent = (e) => {
-		if (e.code === ARROWUP_CHARACTER) {
+		if (e.code === CHARACTER.arrowUp) {
 			const $title = $document?.querySelector('.document__title');
 			// eslint-disable-next-line no-unused-expressions
 			e.target.previousSibling ? e.target.previousSibling.focus() : $title.focus();
 		}
-		if (e.code === ARROWDOWN_CHARACTER) {
+		if (e.code === CHARACTER.arrowDown) {
 			return e.target.nextSibling?.focus();
 		}
 

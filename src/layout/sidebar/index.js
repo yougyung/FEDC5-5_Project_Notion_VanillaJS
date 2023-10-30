@@ -1,9 +1,10 @@
 import CreateImg from '@asset/create.png';
 import DocumentNav from '@component/sidebar/document-nav';
-import './style.scss';
 import { createElementWithClass, addEvent } from '@util/dom';
+import { TEXT } from '@util/constant';
 import { createDocument } from '@api/document';
 import { push } from '@util/router';
+import './style.scss';
 
 export default function SideBar({ $target, initialState, handleState }) {
 	const $sidebar = createElementWithClass('div', 'sidebar');
@@ -34,7 +35,7 @@ export default function SideBar({ $target, initialState, handleState }) {
 	};
 
 	const handleClickCreate = async (id) => {
-		const resposne = await createDocument('문서 제목', id);
+		const resposne = await createDocument(TEXT.initTitle, id);
 		const newDocument = {
 			id: resposne.id,
 			title: resposne.title,

@@ -1,16 +1,12 @@
 import { createElementWithClass } from '@util/dom';
-import { parsedTagType } from '@util/tag';
+import parsedTagType from '@util/tag';
+import { CHARACTER, TEXT } from '@util/constant';
 import './style.scss';
-
-const TYPE_CHANGE_CHARACTER = 'Space';
-const PLACEHOLDER_NODE = '글자를 입력해주세요.';
-const DELETE_CHARACTER = 'Backspace';
-const ENTER_CHARACTER = 'Enter';
 
 export default function ContentBlock({ $target, initialState }) {
 	const $content = createElementWithClass(initialState.tagName ?? 'div', 'content-block');
 	$content.setAttribute('contenteditable', true);
-	$content.setAttribute('placeholder', PLACEHOLDER_NODE);
+	$content.setAttribute('placeholder', TEXT.placeholder);
 	$target.appendChild($content);
 	this.getElement = () => $content;
 
@@ -36,7 +32,7 @@ export default function ContentBlock({ $target, initialState }) {
 			this.state.isEmpty = false;
 			return;
 		}
-		if (this.state.isEmpty && DELETE_CHARACTER === e.code) {
+		if (this.state.isEmpty && CHARACTER.delete === e.code) {
 			$content.previousSibling?.focus();
 			$target.removeChild($content);
 			return;
@@ -46,7 +42,7 @@ export default function ContentBlock({ $target, initialState }) {
 			return;
 		}
 
-		if (ENTER_CHARACTER === e.code) {
+		if (CHARACTER.enter === e.code) {
 			const text = e.target.innerHTML;
 			const [previousText, nextText] = text.split('<div>');
 			e.target.innerHTML = previousText;
@@ -60,7 +56,7 @@ export default function ContentBlock({ $target, initialState }) {
 			return;
 		}
 
-		if (TYPE_CHANGE_CHARACTER === e.code) {
+		if (CHARACTER.change === e.code) {
 			const tag = $content.innerHTML.split(' ')[0];
 			const isParsedTag = tag in parsedTagType;
 			const init = { tagName: parsedTagType[tag], innerText: $content.innerHTML.slice(tag.length).trim() };
