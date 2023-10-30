@@ -2,6 +2,7 @@
 .editor {
     grid-area: main;
 
+    color: rgb(55, 53, 47);
     background-color: white;
 
     /* notion CSS */
@@ -17,6 +18,8 @@
     /* calc 말고 width로 해결할 수 없었음.. */
     /* 330px은 사이드바 크기를 의미 */
     width: calc(100vw - 330px);
+
+    overflow: auto;
 }
 
 .editor [contenteditable] {
@@ -103,11 +106,22 @@
     user-select: none;
     cursor: pointer;
     transition: background 20ms ease-in 0s;
+
+    display: flex;
+    align-items: center;
 }
 
 .editor__page_link:hover {
     background-color: rgba(55, 53, 47, 0.08);
 }
+
+.editor__page_link_title {
+    /* Notion CSS */
+    text-overflow: ellipsis;
+    font-weight: 500;
+    line-height: 1.3;
+    border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+ }
 
 /* TODO: 나타나기 fadein-out 만들면 좋을 듯 */
 .editor__popup {
@@ -220,7 +234,6 @@
     display: flex;
 
 }
-
 
 .editor__dropdown__item:hover {
     /* Notion CSS */

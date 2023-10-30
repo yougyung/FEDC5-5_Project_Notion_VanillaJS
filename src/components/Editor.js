@@ -1,3 +1,4 @@
+import { EMOJI_EMPTY_DOC } from "../assets/EMOJI_EMPTY_DOC.js";
 import { $ } from "../shared/$.js";
 import { createDebug } from "../shared/debug.js";
 import { Dropdown } from "./Dropdown.js";
@@ -37,7 +38,8 @@ export const Editor = () => {
                     contentEditable=false
                     className=editor__page_link
                 >
-                    페이지 링크인데 드래그 후 삭제는 된다? 이상하네. 아. 백스페이스 누르면 앞 태그가 사라지는 구조구나?
+                    ${EMOJI_EMPTY_DOC}
+                    <span className=editor__page_link_title>제목 없음</span>
                 </div>
             </div>
             <div>${DUMMY_DATA_TEXT}</div>
@@ -80,11 +82,12 @@ export const Editor = () => {
     $editor.addEventListener("keyup", (e) => {
         // 문제: Ctrl+Z를 눌러 textContent가 `# `이 될 때도 발동된다.. --> 회피하기 위해 e.code === "Space"일 때만 발동하도록 함
         // nbsp = #\u00a0
-        // TODO: 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
+        // TODO: <후순위> 노션은 맨 앞에서 Backspace 누르면 format이 사라짐.
         if (e.code === "Space" && window.getSelection().anchorNode.textContent.startsWith("# ")) {
             document.execCommand("formatBlock", false, "h1");
             // TODO: delete를 한 번만 써도 되지 않나?
-            // 선택이 안 됐으면 한 글자만 지움
+            // 선택이 안 됐으면 한 글자만 지움. Caret이기 때문에 이렇게 지우는 것
+            // TODO: 한 번에 지우고 싶으면 Range로 만들어도 될 듯?
             document.execCommand("delete");
             document.execCommand("delete");
         }
@@ -271,6 +274,9 @@ export const Editor = () => {
 
         // 3. 데이터를 html로 해석해서 가져오기
         // 이상한 style 제거하기 위해, style 자체를 아예 제거하기
+        // TODO: 이 코드 때문에 우리 자체 코드는 더 이상 style을 쓸 수가 없게 됨. 해결 방법 찾기.
+        // ---> 복사, 잘라내기를 인터셉트해서 클립보드 내용에서 이상한 style을 제거하는 것도 답일 듯
+        // 그러면 붙여넣을 때는 아무런 처리 안해도 되니 외부 HTML 입력 시 정상적으로 동작할 듯?
         const rawHTML = e.clipboardData.getData("text/html");
         const htmlWithoutComments = rawHTML
             .split("<!--StartFragment-->")[1]
@@ -292,6 +298,12 @@ export const Editor = () => {
         // text일 때는 상관이 없다.
         document.execCommand("insertHTML", false, htmlWithoutStyle); // <div><br></div>만 남으면 한 방에 지움
         document.execCommand("forwardDelete"); // 커서 기준 우측 글자 지우기. 선택 영역이 없어서 가능함.
+
+        // 문제: 붙여 넣은 내용이 화면 아래로 넘어가도 focus가 따라가지 않음 (기본 paste는 잘 됨)
+        // Selection의 anchorNode에 scrollIntoView 실행
+        // 잘 됨. 나이스하다.
+        window.getSelection().anchorNode.scrollIntoView();
+
         e.preventDefault();
     };
 
