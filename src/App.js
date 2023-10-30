@@ -2,9 +2,8 @@ import { createElementWithClass } from '@util/dom';
 import Document from '@layout/document';
 import SideBar from '@layout/sidebar';
 import { initRoute, push } from '@util/router';
-import { getAllDocumentList, getDocument } from '@api/document';
+import { deleteDocument, getAllDocumentList, getDocument } from '@api/document';
 import './app.scss';
-import { compileString } from 'sass';
 
 const ROOT_DOCUMENT_ID = 103858;
 const NOT_FOUND_DOCUMENT_ID = 116012;
@@ -22,16 +21,28 @@ export default function App({ $target }) {
 		handleState,
 	});
 
-	const deleteDocument = (id) => {
-		const { documentList } = this.state;
-		for (let i = 0; i < documentList.length; i += 1) {
-			const item = documentList[i];
-			if (item.id === id) {
-				documentList.splice(i, 1);
-				break;
-			}
-		}
+	const deleteDocumenChildren = (document) => {
+		const children = document.documents;
+		children.forEach((item) => {
+			deleteDocumenChildren(item);
+			deleteDocument(item.id);
+		});
 	};
+
+	function handledeleteDocument(documentList, id) {
+		const foundDocument = documentList?.findIndex((document) => document.id === id);
+		if (foundDocument > -1) {
+			deleteDocumenChildren(documentList[foundDocument]);
+			documentList.splice(foundDocument, 1);
+			return;
+		}
+		documentList.forEach((item) => {
+			const itemDocuments = item.documents;
+			if (itemDocuments.length > 0) {
+				handledeleteDocument(itemDocuments, id);
+			}
+		});
+	}
 
 	const modifyDocumentTitle = (documentList, id, inputText) => {
 		const foundDocument = documentList?.find((document) => document.id === id);
@@ -53,7 +64,7 @@ export default function App({ $target }) {
 			modifyDocumentTitle(this.state.documentList, documentId, inputText);
 		} else {
 			push('/');
-			deleteDocument(documentId);
+			handledeleteDocument(this.state.documentList, documentId);
 			handleState({ focusedDocumentId: ROOT_DOCUMENT_ID });
 		}
 	};
