@@ -48,10 +48,10 @@ const reducer = async (state, action) => {
 
     case "DELETE":
       const deletedDocument = await deleteDocumentById(action.payload)
-      const deletedDocuments = await fetchAllDocuments()
+      const documents = await fetchAllDocuments()
       return {
         ...state,
-        documents: deletedDocuments,
+        documents,
         deletedDocument,
         error: false
       }
