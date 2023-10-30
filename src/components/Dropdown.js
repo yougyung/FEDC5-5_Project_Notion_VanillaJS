@@ -19,11 +19,13 @@ const dropdownItems = [
         description: "이 페이지 안에 하위 페이지를 만드세요.",
         handler: async () => {
             // TODO: 페이지 블럭 생성 기능 구현하기
+
             // 1. 페이지 생성 API를 호출하고 id를 받아온다.
-            const parentId = window.currentDocument?.id || 117351;
+            const parentId = window.currentDocument?.id || 120297;
             // 현재 페이지 id가 우선 필요함...
             // 일단 상태 관리는 전역으로 하자
             const { id } = await window.api.create(parentId);
+
             // 2. id를 div의 프로퍼티로 놓고(data-page-id) 저장 API를 호출한다.
             // 이건 셀렉션이 있으니깐 그냥 div 넣으라고 하면 댈듯?
             // 텍스트 상에서 Caret 선택 중이어도 그냥 아래 div로 갈 듯? 제발.
@@ -40,6 +42,7 @@ const dropdownItems = [
             `
                 .replace(/\s{2,}/g, " ") // 긴 공백 제거
                 .replace(/(?!>) (?=<)/g, ""); // 남은 공백 제거
+
             // 3. div를 만들고 입력하고, 클릭 핸들러를 만들고, 저장한다.
             // TODO: 클릭 시 해당 페이지로 이동하는 기능 필요함
             // TODO: [/] 제거하기 <-- 입력하고 있던 range
@@ -64,10 +67,30 @@ const dropdownItems = [
             document.execCommand("insertHTML", false, pageLinkHTML);
             // 임시 방편....
             document.getElementsByClassName("editor__dropdown").item(0).style.display = "none";
-            // 4. 신규 페이지로 이동한다.
-            // 5. TODO: [이름 동기화는 나중에 하자] 신규 페이지에서 이름을 바꿀 때마다 실시간으로 변경한다.
-            // 6. 이름 변경 완료 시(debounce로 지연) 저장 API를 호출하고, root documents API를 호출한다.
-            // 7. 페이지를 열 때, 렌더링하기 전에, data-page-id인 블럭에 대해 root documents에서 id를 찾아 이름을 입력해준다.
+
+            // 4. 저장 API를 호출한다.
+            const currentTitle = document.getElementsByClassName("editor__title").item(0).innerHTML;
+            const currentContent = document
+                .getElementsByClassName("editor__content_root")
+                .item(0).innerHTML;
+            console.log("TO SAVE:", currentTitle, currentContent);
+
+            // 굳이 await 할 필요 없을 듯
+            window.api.update(parentId, currentTitle, currentContent);
+
+            // 생성 후 이동해야지.
+            const created = await window.api.create(parentId);
+            console.log("created:", created);
+
+            // 5. 신규 페이지로 이동한다.
+            // history를 어떻게 이용해야 하지?
+            // /로 시작해서 그런지, /부터 suburl이 되는 듯. 편해서 좋음.
+            history.pushState(null, "", `/documents/${id}`);
+
+            // TODO: 에디터에서 신규 컨텐츠 로딩하는 구조 만들어야 함. 후.. 이제 에디터 갈아엎기 시작이다...
+
+            // TODO: [이름 동기화] 나중에 할 건데, 매번 로딩할 때마다 바꿀 계획임. 다른 탭 열고 수정하는 건 미반영
+            // 페이지를 열 때, 렌더링하기 전에, data-page-id인 블럭에 대해 root documents에서 id를 찾아 이름을 입력해준다.
         },
     },
     {
