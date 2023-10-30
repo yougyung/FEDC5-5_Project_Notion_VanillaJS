@@ -1,4 +1,4 @@
-import { getAllDocumentLists, createDocument } from "../api/document.js";
+import { initRouter, navigate } from "../utils/router.js";
 
 export default function Sidebar({
   $target,
@@ -34,13 +34,13 @@ export default function Sidebar({
 
     return `
       <div class="side-bar-document" data-id="${id}">
-        <img class="toggle-button" src="src/assets/arrow.png" alt="toggle button">
+        <img class="toggle-button" src="/src/assets/arrow.png" alt="toggle button">
         <span class="click-title">${title}</span>
-        <img class="add-button" src="src/assets/add.png"/>
-        <img class="delete-button" src="src/assets/delete.png"/>
+        <img class="add-button" src="/src/assets/add.png"/>
+        <img class="delete-button" src="/src/assets/delete.png"/>
         ${childDocumentsHTML}
-  </div>
-`;
+      </div>
+    `;
   };
 
   this.setState = (nextState) => {
@@ -58,7 +58,9 @@ export default function Sidebar({
       const { id } = $parentDocument.dataset;
 
       if ($node.classList.contains("click-title")) {
+        e.preventDefault();
         fetchDocument(id);
+        navigate(`/documents/${id}`);
       } else if ($node.classList.contains("toggle-button")) {
         toggleDocument($parentDocument);
       } else if ($node.classList.contains("add-button")) {
