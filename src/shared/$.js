@@ -1,4 +1,4 @@
-import { parseTag } from "../parser/Parser.js";
+import { parseTag } from "./Parser.js";
 import { renderIntoHTML } from "./Renderer.js";
 
 // tagged tempalte literal로 호출하게

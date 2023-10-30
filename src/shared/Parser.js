@@ -1,4 +1,4 @@
-import { createDebug } from "../shared/debug.js";
+import { createDebug } from "./debug.js";
 import { NodeParser } from "./NodeParser.js";
 
 const debug = createDebug("Parser");
