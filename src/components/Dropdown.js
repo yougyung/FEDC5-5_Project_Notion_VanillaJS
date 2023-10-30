@@ -6,7 +6,7 @@ const debug = createDebug("Dropdown");
 
 // TODO: 핸들러에 필요한 인자를 제공하거나 핸들러를 클로저에서 정의하기 (클래스로 정의하는 게 나을 듯)
 // TODO: 툴팁 표시도 구현하기
-const dropdownItems = [
+const createDropdownItems = (documentId) => [
     {
         imageUrl: "https://www.notion.so/images/blocks/text/ko-KR.png",
         name: "텍스트",
@@ -21,7 +21,7 @@ const dropdownItems = [
             // TODO: 페이지 블럭 생성 기능 구현하기
 
             // 1. 페이지 생성 API를 호출하고 id를 받아온다.
-            const parentId = window.currentDocument?.id || 120297;
+            const parentId = documentId;
             // 현재 페이지 id가 우선 필요함...
             // 일단 상태 관리는 전역으로 하자
             const { id } = await window.api.create(parentId);
@@ -106,7 +106,7 @@ const dropdownItems = [
 // 이 때 focus를 쓰는 게 아니라(그럼 텍스트 입력을 못할테니) js로 이동만 하고, hover 같은 애니메이션
 // 띄워서 마치 hover인 것처럼, focus인 것처럼 생각하게 하는 듯.
 // 마우스로 드롭다운 클릭을 한 번 해버리면 텍스트 focus를 잃어서 더 이상 입력할 수 없게 됨.
-export const Dropdown = () => {
+export const Dropdown = (documentId) => {
     // TODO: hover 후에도 나갔던 영역을 계속 하이라이팅해야 함.
     // 일단 당장은 hover로 떼우기
     // TODO: /page와 같이 명령어 방식으로도 처리할 수 있게 이벤트 핸들링하기
@@ -115,7 +115,7 @@ export const Dropdown = () => {
         <div className=editor__dropdown>
             <div className=editor__dropdown__header>기본 블록</div>
             <div className=editor__dropdown__list autoFocus=true>
-                ${dropdownItems.map(
+                ${createDropdownItems(documentId).map(
                     ({ imageUrl, name, description, handler }) => $`
                     <div 
                         className=editor__dropdown__item
