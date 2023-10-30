@@ -5,6 +5,7 @@ import {
   getDocumentContent,
   createDocument,
   updateDocument,
+  deleteDocument,
 } from "../api/document.js";
 import { initRouter, navigate } from "../utils/router.js";
 
@@ -125,12 +126,19 @@ export default function App({ $target }) {
     await fetchDocumentLists();
   };
 
+  /** 문서 삭제하기 */
+  const removeDocument = async (documentId) => {
+    await deleteDocument(documentId);
+    await fetchDocumentLists();
+  };
+
   // Sidebar
   const sidebar = new Sidebar({
     $target,
     initialState: this.state.documents,
     addNewDocument,
     fetchDocument,
+    removeDocument,
   });
 
   // EditorDocument

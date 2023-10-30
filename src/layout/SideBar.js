@@ -1,10 +1,11 @@
-import { initRouter, navigate } from "../utils/router.js";
+import { navigate } from "../utils/router.js";
 
 export default function Sidebar({
   $target,
   initialState,
   addNewDocument,
   fetchDocument,
+  removeDocument,
 }) {
   const $sideContainer = document.createElement("div");
   $sideContainer.classList.add("side-container");
@@ -66,7 +67,7 @@ export default function Sidebar({
       } else if ($node.classList.contains("add-button")) {
         addNewDocument(id);
       } else if ($node.classList.contains("delete-button")) {
-        // 삭제 기능
+        removeDocument(id);
       }
     }
   };
