@@ -126,7 +126,7 @@ ul {
   position: relative;
   padding-left: inherit;
   right: inherit;
-  min-width: 150px;
+  min-width: 200px;
   align-items: center;
   font-size: 14px;
   min-height: 27px;
@@ -143,6 +143,9 @@ ul {
   }
   .button_wrap {
     opacity: 1;
+  }
+  .list_title_wrap {
+    width: calc(100% - 70px) !important;
   }
 }
 
@@ -162,7 +165,7 @@ ul {
 
 .list_title_wrap {
   width: calc(100% - 20px);
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   white-space: nowrap;
   min-width: 0px;
   overflow: hidden;
