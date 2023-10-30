@@ -1,4 +1,4 @@
-import { createDebug } from "../shared/debug.js";
+import { createDebug } from "../../shared/debug.js";
 
 const debug = createDebug("exec_handler");
 

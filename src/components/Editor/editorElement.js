@@ -1,13 +1,10 @@
 import { $ } from "../../shared/$.js";
-import { createDebug } from "../../shared/debug.js";
-import { enableDropdownFeature } from "./eventHandlers/dropdown.js";
+import { enableDropdownFeature } from "./eventHandlers/attachDropdown.js";
+import { enablePopupFeature } from "./eventHandlers/attachPopup.js";
 import { enableFormatShortcutFeature } from "./eventHandlers/formatShortcut.js";
 import { enableShowPlaceholderOnEmptyBlockFeature } from "./eventHandlers/placeholderOnEmptyBlock.js";
-import { enablePopupFeature } from "./eventHandlers/popup.js";
 import { enableSafeHTMLPasteFeature } from "./eventHandlers/safeHTMLPaste.js";
 import { enableUndoFeature } from "./eventHandlers/undo.js";
-
-const debug = createDebug("Editor");
 
 export const Editor = (currentDocument) => {
     // 최초 렌더링 시 사용

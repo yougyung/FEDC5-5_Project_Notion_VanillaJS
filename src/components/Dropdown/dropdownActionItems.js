@@ -1,12 +1,8 @@
-import { EMOJI_EMPTY_DOC_HTML } from "../assets/EMOJI_EMPTY_DOC.js";
-import { $ } from "../shared/$.js";
-import { createDebug } from "../shared/debug.js";
-
-const debug = createDebug("Dropdown");
+import { EMOJI_EMPTY_DOC_HTML } from "../../assets/EMOJI_EMPTY_DOC.js";
 
 // TODO: 핸들러에 필요한 인자를 제공하거나 핸들러를 클로저에서 정의하기 (클래스로 정의하는 게 나을 듯)
 // TODO: 툴팁 표시도 구현하기
-const createDropdownItems = (documentId) => [
+export const createDropdownItems = (documentId) => [
     {
         imageUrl: "https://www.notion.so/images/blocks/text/ko-KR.png",
         name: "텍스트",
@@ -100,73 +96,3 @@ const createDropdownItems = (documentId) => [
         handler: () => alert("제목 1"),
     },
 ];
-
-// TODO: 팝업은 focus가 팝업에 되는데, 드롭다운은 focus가 안 됨. 뭐지?
-// 관찰: Caret은 Text에 그대로 있는데, 화살표 입력만 인터셉트해서 직접 움직이는 듯
-// 이 때 focus를 쓰는 게 아니라(그럼 텍스트 입력을 못할테니) js로 이동만 하고, hover 같은 애니메이션
-// 띄워서 마치 hover인 것처럼, focus인 것처럼 생각하게 하는 듯.
-// 마우스로 드롭다운 클릭을 한 번 해버리면 텍스트 focus를 잃어서 더 이상 입력할 수 없게 됨.
-export const Dropdown = (documentId) => {
-    // TODO: hover 후에도 나갔던 영역을 계속 하이라이팅해야 함.
-    // 일단 당장은 hover로 떼우기
-    // TODO: /page와 같이 명령어 방식으로도 처리할 수 있게 이벤트 핸들링하기
-    // TODO: 아이템 핸들러가 드롭다운 자체를 조작 가능해야 하는데, 초기화 전에 전달할 방법이 없다.
-    const $dropdown = $`
-        <div className=editor__dropdown>
-            <div className=editor__dropdown__header>기본 블록</div>
-            <div className=editor__dropdown__list autoFocus=true>
-                ${createDropdownItems(documentId).map(
-                    ({ imageUrl, name, description, handler }) => $`
-                    <div 
-                        className=editor__dropdown__item
-                        onclick=${handler}
-                    >
-                        <img 
-                            className=editor__dropdown__item_thumbnail 
-                            src=${imageUrl}
-                        />
-                        <div className=editor__dropdown__item_textbox>
-                            <div className=editor__dropdown__item_title>${name}</div>
-                            <div className=editor__dropdown__item_description>${description}</div>
-                        </div>
-                    </div>`,
-                )}
-            </div>
-        </div>
-    `;
-
-    $dropdown.style.display = "none";
-
-    // mouseup 직후의 상태는 selection이 제거되어도 제거된 것을 인식하지 못 함.
-    // setTimeout이 왜 되는지 모르겠지만, 됨.
-    // keydown에서는 setTimeout 이어도 안 됨. keyup에서만 됨.
-
-    // TODO: 마우스로 드래그할 때는 좀 이상한 듯? 드래그했을 때 안 뜰 때가 있음. 확인 필요
-    // TODO: 역방향 드래그로 하면 인식이 안 됨.
-    // 아니, 왜 될 때가 있고 안 될 때가 있지?
-    // TODO: ESC 눌러야만 꺼지는데, 왜 ESC 누르면 꺼지는지 알아보기
-    const displayDropdown = () => {
-        setTimeout(() => {
-            // 1. Selection은 위치 확인 용도
-            // 무조건 textNode가 걸린다. slash를 입력했기 때문에.
-            const s = window.getSelection();
-            const oRange = s.getRangeAt(0); //get the text range
-            const oRect = oRange.getBoundingClientRect();
-            debug(s, oRange);
-
-            // 그냥 top, left만 주면 선택 영역과 popup이 겹침.
-            // height만큼 top에서 빼주면 딱 위에 붙음. 여기서 대충 한 10px 정도 더 빼주면 무난할 듯
-            // fadein-fadeout도 만들면 좋겠다.
-            // 그리고 그냥 css로 처리하는 게 좋을 듯? 물론 top/left는 js로 해야겠지만.
-            // TODO: 화면 꽤 하단에서 /를 누르면, 되게 올라간 위치에서 표시함.
-            $dropdown.style.removeProperty("display");
-            $dropdown.style.top = `${oRect.bottom + 4}px`;
-            $dropdown.style.left = `${oRect.left}px`;
-        }, 0);
-    };
-
-    return {
-        $dropdown,
-        displayDropdown,
-    };
-};
