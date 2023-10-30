@@ -15,6 +15,10 @@
 - [ ] 기본적으로 편집기는 textarea 기반으로 단순한 텍스트 편집기로 시작하되, 여력이 되면 div와 contentEditable을 조합해서 좀 더 Rich한 에디터를 만들어봅니다.
 - [x] 편집기 최하단에는 현재 편집 중인 Document의 하위 Document 링크를 렌더링하도록 추가합니다.
 
+## 배포 링크
+
+[fileeditor.vercel.app](https://fileeditor.vercel.app/)
+
 ## 컴포넌트 구조
 
 ![1698638704971](image/README/1698638704971.png)
