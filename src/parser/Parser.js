@@ -46,6 +46,23 @@ export const parseTag = (strings, ...values) => {
         const tokens = rawString.match(REGEXP_FIND_TOKENS); // 열리는 태그 OR />로 닫히기 전까지 내용 OR >,< 사이의 내용
         debug("TOKENS:", tokens);
 
+        // VALUE가 연속되는 CASE (e.g.)
+        /*
+            <div>
+                ${$sidebar}
+                ${$header}
+                ${$editor}
+            </div>
+        */
+        // TODO: 예외가 있는지 확인하기
+        if (rawString.length === 0) {
+            const currentParser = getCurrentParser();
+            const value = values[idx];
+            currentParser.parseValue(value);
+            debug("VALUE:", value);
+            continue;
+        }
+
         if (!tokens) {
             continue;
         }
