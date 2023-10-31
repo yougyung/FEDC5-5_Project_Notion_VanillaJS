@@ -6,14 +6,19 @@ import { initRouter, routeTrigger } from "./router/router.js"
 export default function App({ $target, initialState }) {
 
     const $listContainer = document.createElement('div')
+    $listContainer.className = 'listContainer';
     const $editorContainer = document.createElement('div')
+    $editorContainer.className = 'editorContainer';
 
     this.state = initialState
 
     this.setState = (newState) => {
         this.state = newState
 
-        postListSection.setState(this.state.postList)
+        postListSection.setState({
+            posts: this.state.postList,
+            selectedId: this.state.selectedPost?.id
+        })
 
         if (this.state.selectedPost) {
             postEditSection.setState(this.state.selectedPost)
@@ -22,7 +27,10 @@ export default function App({ $target, initialState }) {
 
     const postListSection = new PostListSection({
         $target: $listContainer,
-        initialState: this.state.postList,
+        initialState: {
+            posts: this.state.postList,
+            selectedId: null
+        },
         onAdd: async () => {
             const postList = await fetchPostList()
 
@@ -39,7 +47,7 @@ export default function App({ $target, initialState }) {
                 postList
             })
 
-            if (deleteId == this.state.selectedPost.id) {
+            if (deleteId == this.state.selectedPost?.id) {
                 this.setState({
                     ...this.state,
                     selectedPost: null
@@ -50,8 +58,8 @@ export default function App({ $target, initialState }) {
                 return
             }
 
-            const deletedIdx = this.state.selectedPost.documents.findIndex(post => post.id == deleteId)
-            if (deletedIdx !== -1) {
+            const deletedIdx = this.state.selectedPost?.documents.findIndex(post => post.id == deleteId)
+            if (deletedIdx && deletedIdx !== -1) {
                 const newPost = {...this.state.selectedPost}
 
                 newPost.documents.splice(deletedIdx,1)

@@ -1,6 +1,7 @@
 export default function PostEditor({$target, initialState, onEdit}) {
 
     const $editor = document.createElement('div')
+    $editor.className = 'editor'
     $target.appendChild($editor)
 
     this.state = initialState
@@ -15,9 +16,8 @@ export default function PostEditor({$target, initialState, onEdit}) {
         const {title, content} = this.state
 
         $editor.innerHTML = `
-            <input name="title" style="width:300px;" value="${title}"></input>
-            <br>
-            <textarea name="content" style="width:300px; height:500px">${content ?? ''}</textarea>
+            <input name="title" class="title" placeholder="Untitled" value="${title}"></input>
+            <textarea name="content" class="content" placeholder="내용을 입력하세요">${content ?? ''}</textarea>
         `
     }
 

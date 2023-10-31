@@ -2,10 +2,15 @@ import { fetchPost, fetchPostList } from "../api/fetch.js"
 import { routeTrigger } from "../router/router.js"
 import PostList from "../components/postListSection/PostList.js"
 
-export default function PostListSection({ $target, initialState, onDelete, onAdd, onToggle }) {
+export default function PostListSection({ $target, initialState, onDelete, onAdd }) {
     
     const $section = document.createElement('div')
     $target.appendChild($section)
+
+    const $header = document.createElement('div')
+    $header.className = 'header'
+    $header.innerHTML = '⭐️ 정은쓰의 Notion'
+    $section.appendChild($header)
 
     this.state = initialState
 
@@ -42,10 +47,14 @@ export default function PostListSection({ $target, initialState, onDelete, onAdd
         },
     })
 
+    const $addPost = document.createElement('div')
+    $addPost.className = 'addPostBottomButton'
+    $target.appendChild($addPost)
+
     const $addPostButton = document.createElement('button')
     $addPostButton.textContent = "글 추가하기"
     $addPostButton.addEventListener('click', async () => {
         await onAddPost()
     })
-    $target.appendChild($addPostButton)
+    $addPost.appendChild($addPostButton)
 }

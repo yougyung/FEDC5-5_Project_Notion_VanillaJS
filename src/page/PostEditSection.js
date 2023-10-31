@@ -3,9 +3,6 @@ import ChildrenPostButton from "../components/postEditSection/ChilderenPostButto
 import PostEditor from "../components/postEditSection/PostEditor.js"
 
 export default function PostEditSection({$target, initialState, onChangeList}) {
-
-    const $section = document.createElement('div')
-    $target.appendChild($section)
     
     this.state = initialState
 
@@ -17,13 +14,14 @@ export default function PostEditSection({$target, initialState, onChangeList}) {
             content: this.state.content
         })
 
+        
         this.buttonsRender()
     }
 
     let timer = null
 
     const editor = new PostEditor({
-        $target: $section,
+        $target,
         initialState: this.state,
         onEdit: (post) => {
             const {id} = this.state
@@ -54,15 +52,21 @@ export default function PostEditSection({$target, initialState, onChangeList}) {
     })
 
     this.buttonsRender = () => {
-        const $editor = $section.querySelector('div')
-        $section.replaceChildren($editor)
+        const $editor = $target.querySelector('div')
+        $target.replaceChildren($editor)
 
-        this.state.documents.forEach((post) => {
-            new ChildrenPostButton({
-                $target: $section,
-                title: post.title,
-                id: post.id
+        if (this.state.documents.length)  {
+            const $childButton = document.createElement('div')
+            $childButton.className = 'postFooter'
+            $target.appendChild($childButton)
+
+            this.state.documents.forEach((post) => {
+                new ChildrenPostButton({
+                    $target: $childButton,
+                    title: post.title ? post.title : 'Untitled',
+                    id: post.id
+                })
             })
-        })
+        }
     }
 }
