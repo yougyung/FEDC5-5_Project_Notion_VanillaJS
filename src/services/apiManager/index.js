@@ -35,7 +35,6 @@ export async function getRootDocument() {
         const res = await fetchApi(ENDPOINT);
         if (responses.validateRootDocumentResponse(res) === false)
             return null;
-        console.log(res)
         return res;
     } catch (err) {
         console.error(err);

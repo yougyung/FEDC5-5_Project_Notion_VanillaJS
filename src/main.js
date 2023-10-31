@@ -1,30 +1,20 @@
 import App from "./App.js";
-import { handleRouteChange } from "./services/router.js";
 
 const $app = document.querySelector("#app");
 
-new App({ $target: $app });
+const initiate = async () => {
+    const appInstance = new App({ $target: $app });
 
+    const editorInstance = await appInstance.init();
 
+    document.addEventListener("replacestate", (e) =>
+        appInstance.onEditor.call(appInstance, e, editorInstance)
+    );
 
-// export const documentIdHandler = async (event) => {
-//     const content = await getDocumentContent(event.detail.documentId);
-//     console.log(content);
-//     AppInstance.editorChange(content);
-// };
+    document.addEventListener("removeEditor", () =>
+        appInstance.onEditor.call(appInstance, null, editorInstance)
+    );
 
-// document.addEventListener("replacestate", handleRouteChange);
-
-// const originalReplaceState = history.replaceState;
-
-// history.replaceState = function (state, title, url) {
-//     originalReplaceState.apply(this, arguments);
-
-//     const newEvent = new CustomEvent("replacestate", {
-//         detail: { state, title, url },
-//     });
-    
-//     window.dispatchEvent(newEvent);
-// };
-
-// App({ $target: $app });
+    appInstance.onEditor(true, editorInstance);
+};
+initiate();

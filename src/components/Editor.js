@@ -13,35 +13,40 @@ export function Editor({ $target, initialContent, changeTitle }) {
 
     const $content = document.createElement("textarea");
     $content.classList.add("editor-content");
-    $content.setAttribute("autofocus", "true")
+    $content.setAttribute("autofocus", "true");
 
     $editor.appendChild($title);
     $editor.appendChild($content);
-
-    $target.appendChild($editor);
 
     this.state = initialContent;
 
     this.setState = (nextState) => {
         this.state = nextState;
         this.render();
+    };
+
+    this.appendEditor = () => {
+        $target.appendChild($editor);
+    }
+
+    this.removeEditor = () => {
+        $editor.remove()
     }
 
     let timeoutId;
 
     $editor.addEventListener("keyup", (e) => {
-        const nextState = {...this.state};
+        const nextState = { ...this.state };
         if (e.target.classList.contains("editor-title")) {
-            this.setState({...nextState, title: e.target.value});
+            this.setState({ ...nextState, title: e.target.value });
             changeTitle(history.state.documentId, e.target.value);
         } else if (e.target.classList.contains("editor-content")) {
-            this.setState({...nextState, content: e.target.value});
+            this.setState({ ...nextState, content: e.target.value });
         }
 
         clearTimeout(timeoutId);
-    
+
         timeoutId = setTimeout(() => {
-            // console.log(history.state.documentId);
             updateDocument(history.state.documentId, this.state);
         }, 2000);
     });
@@ -49,7 +54,5 @@ export function Editor({ $target, initialContent, changeTitle }) {
     this.render = () => {
         $title.value = this.state.title;
         $content.value = this.state.content;
-        // $editor.innerHTML = `<textarea>${this.state.content}</textarea>`
-    }
-    this.render()
+    };
 }

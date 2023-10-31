@@ -20,7 +20,7 @@ export function validateUpdateDocumentRequest(updateDocument) {
     try {
         if (typeof updateDocument.title !== "string")
             throw new Error("문서 수정 title이 문자열 타입이 아닙니다");
-        else if (typeof updateDocument.content !== "string")
+        else if ((typeof updateDocument.content === "string" || updateDocument.content == null) === false)
             throw new Error("문서 수정 content가 문자열 타입이 아닙니다");
         return true;
     } catch (err) {

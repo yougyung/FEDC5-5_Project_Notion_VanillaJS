@@ -39,6 +39,10 @@ body {
     }
 }
 
+.document-title :hover {
+    filter: brightness(90%);
+}
+
 .container {
     display: flex;
     flex-direction: column;

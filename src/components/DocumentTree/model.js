@@ -5,7 +5,10 @@ import {
 import requireNew from "../../services/requireNew.js";
 
 import { initialDocument } from "../../constants/initialData.js";
-import { replaceDocumentId } from "../../services/router.js";
+import {
+    customDeleteEvent,
+    customReplaceStateEvent,
+} from "../../services/router.js";
 
 const validateSelf = (data) => {
     if (typeof data.id !== "number")
@@ -52,13 +55,13 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
     $deleteButton.classList.add("delete-button");
 
     $documentNode.classList.add("document-node");
-    
+
     this.id = initialData.id;
     this.title = initialData.title;
     this.documents = initialData.documents;
-    
+
     $documentNode.setAttribute("data-id", `${this.id}`);
-    
+
     this.getNode = () => {
         return $documentNode;
     };
@@ -69,7 +72,7 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
             null,
             `/document/${this.id}`
         );
-        document.dispatchEvent(replaceDocumentId(this.id));
+        document.dispatchEvent(customReplaceStateEvent(this.id));
     });
 
     $addChildButton.addEventListener("click", async () => {
@@ -89,6 +92,7 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
     });
 
     $deleteButton.addEventListener("click", () => {
+        const pathname = location.pathname;
         const $documentTree = document.querySelector(".document-tree");
         const $rootNode = findRootOf($documentNode);
         const children = $documentNode.children;
@@ -103,8 +107,12 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
                 );
             }
         }
-        deleteDocument(this.id);
+        if (pathname.endsWith(this.id)) {
+            history.replaceState(null, null, "/");
+            document.dispatchEvent(customDeleteEvent());
+        }
         $documentNode.remove();
+        deleteDocument(this.id);
     });
 
     this.render = () => {
