@@ -1,4 +1,4 @@
-export default function Title({ $target, initialState, onTitleClick }) {
+export default function Title({ $target, initialState }) {
   // state = {title, href}
   const $title = document.createElement("a");
   this.state = initialState;
@@ -14,7 +14,6 @@ export default function Title({ $target, initialState, onTitleClick }) {
   };
   $title.addEventListener("click", (e) => {
     e.preventDefault();
-    //onTitleClick(e);
   });
   this.render();
 }

@@ -1,5 +1,6 @@
 import Button from "../common/Button.js";
 import Title from "../common/Title.js";
+import { paddingCoefficient } from "../constants/paddingCoefficient.js";
 import arrowIconSvg from "../svg/arrowIcon.js";
 import plusIcon from "../svg/plusIcon.js";
 import xIcon from "../svg/xIcon.js";
@@ -19,8 +20,10 @@ export default function DocumentItem({
   this.state = initialState;
   const $documentItem = document.createElement("div");
   const $documentItemInner = document.createElement("div");
-  $documentItemInner.style.paddingLeft = `${depth > 0 ? depth * 10 : 10}px`;
   $target.appendChild($documentItem);
+  $documentItemInner.style.paddingLeft = `${
+    depth > 0 ? depth * paddingCoefficient : paddingCoefficient
+  }px`;
   $documentItem.dataset.id = this.state.id;
   $documentItem.classList.add("document-item");
   $documentItemInner.classList.add("document-item-inner");
