@@ -9,6 +9,7 @@ export default function App({ $target }) {
   new NavPage({
     $target,
   });
+  const routes1 = new Map();
   const routes = [{ path: "documents", component: DocumentPage }];
   this.render = async (url) => {
     const path = url ?? window.location.pathname;

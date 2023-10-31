@@ -6,6 +6,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   $editor.classList.add("editor");
   $target.appendChild($editor);
   this.state = initialState;
+  this.richEditorState = { content: null };
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
@@ -32,7 +33,6 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     newLine.setAttribute("placeholder", "내용을 입력하쎄용");
     return newLine;
   };
-  this.richEditorState = { content: null };
   const convertMarkDown = (text) => {
     let isConverted = false;
     const prevText = text.split("\n").join("\n");
@@ -70,6 +70,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     if (e.target.getAttribute("contenteditable") !== "true") {
       return;
     }
+    //함수로 뽑아서 역할을 나눠주자
     switch (e.key) {
       case "Enter":
         e.preventDefault();
@@ -98,6 +99,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   };
   $editor.addEventListener("keydown", keyDownHandler);
   const onInputHandler = (e) => {
+    //여기도 함수 분리 필요...
     let nextState = { ...this.state };
     if (e.target.dataset.name === "title") {
       nextState = {

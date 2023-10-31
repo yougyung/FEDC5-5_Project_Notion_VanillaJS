@@ -1,4 +1,4 @@
-import { paddingCoefficient } from "../constants/paddingCoefficient";
+import { paddingCoefficient } from "../constants/paddingCoefficient.js";
 
 export default function NoSubDocument({ $target, depth }) {
   const $noSubDocument = document.createElement("div");

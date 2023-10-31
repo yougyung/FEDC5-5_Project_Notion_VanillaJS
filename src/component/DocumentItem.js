@@ -97,6 +97,7 @@ export default function DocumentItem({
         storage.setItem($documentItem.dataset.id, { isFolded: false });
       },
     });
+    //if문 내부를 다른 컴포넌트로 빼보자
     if (this.state.documents.length) {
       new DocumentList({
         $target: $documentItem,

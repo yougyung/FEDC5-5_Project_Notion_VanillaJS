@@ -15,7 +15,7 @@ export default function DocumentList({
   if (depth > 0) {
     $documentList.classList.add("document-children", "display-none");
   }
-  const changeBackgroundSelectedDocument = () => {
+  const highlightSelectedDocument = () => {
     const documentList = document.querySelectorAll(".document-item-inner");
     const { pathname } = window.location;
     const [, , pathdata] = pathname.split("/");
@@ -41,12 +41,12 @@ export default function DocumentList({
         createDocument,
         removeDocument,
         depth: depth + 1,
-        changeBackgroundSelectedDocument,
+        highlightSelectedDocument,
       });
     });
   };
 
   this.render();
-  addDependOnPathEvent(changeBackgroundSelectedDocument);
-  changeBackgroundSelectedDocument();
+  addDependOnPathEvent(highlightSelectedDocument);
+  highlightSelectedDocument();
 }
