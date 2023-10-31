@@ -44,7 +44,7 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
     }
 
     if (target && target.dataset.id) {
-      const id = target.dataset.id;
+      const { id } = target.dataset;
 
       navigateTo(`/documents/${id}`);
     }
