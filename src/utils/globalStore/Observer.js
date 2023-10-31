@@ -1,14 +1,12 @@
 class Observer {
   constructor() {
-    this.subscribers = [];
+    this.subscribers = new Set();
   }
   subscribe(observerCallback) {
-    this.subscribers.push(observerCallback);
+    this.subscribers.add(observerCallback);
   }
   unsubscribe(observerCallback) {
-    this.subscribers = this.subscribers.filter(
-      (subscriber) => subscriber !== observerCallback
-    );
+    this.subscribers.delete(observerCallback);
   }
   notify(data) {
     this.subscribers.forEach((subscriber) => subscriber(data));
