@@ -1,10 +1,10 @@
 import { push, replace } from '@/router';
 import Component from '@/core/Component';
-import DocumentList from '@/components/DocumentList';
-import Editor from '@/components/Editor';
-import Navigation from '@/components/Navigation';
-import Fallback from '@/components/Fallback';
-import DocumentHeader from '@/components/DocumentHeader';
+import Editor from '@/components/editor/EditorBody';
+import Navigation from '@/components/editor/Navigation';
+import DocumentHeader from '@/components/sidebar/DocumentHeader';
+import DocumentList from '@/components/sidebar/DocumentList';
+import Fallback from '@/components/common/Fallback';
 
 import {
   getAllDocuments,

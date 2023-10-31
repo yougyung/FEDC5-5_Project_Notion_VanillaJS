@@ -61,6 +61,8 @@ export default class Navigation extends Component {
       const $li = target.closest('li');
       const documentId = Number($li.dataset.id);
 
+      if (!documentId) return;
+
       push(`${API_END_POINT.DOCUMENTS}/${documentId}`);
     });
   }

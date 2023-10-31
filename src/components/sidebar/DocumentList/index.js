@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import Component from '@/core/Component';
-import DocumentItem from '@/components/DocumentItem';
+import DocumentItem from '@/components/sidebar/DocumentItem';
 import { createTemplate } from '@/utils/dom';
 import { initStorage } from '@/utils/storage';
 import { STORAGE_KEY } from '@/constants/storage';

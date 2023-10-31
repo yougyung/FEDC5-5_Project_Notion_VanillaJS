@@ -1,9 +1,9 @@
 import Component from '@/core/Component';
 import { FALLBACK } from '@/constants/fallback';
 
-import './Editor.scss';
+import './EditorBody.scss';
 
-export default class Editor extends Component {
+export default class EditorBody extends Component {
   setup() {
     this.state = null;
 

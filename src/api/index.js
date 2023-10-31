@@ -1,4 +1,4 @@
-import CustomError from '@/error/Error';
+import CustomError from '@/core/Error';
 
 const { BASE_URL, USER_NAME } = process.env;
 
