@@ -4,6 +4,7 @@ import Editor from "./Editor.js";
 
 export default function PostEditPage({ $target, initialState }) {
   const $postEditPage = document.createElement("div");
+  $target.appendChild($postEditPage);
   $postEditPage.className = "post-edit-page";
 
   this.state = initialState;

@@ -4,6 +4,7 @@ import SidebarFooter from "./SidebarFooter.js";
 
 export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("div");
+  $target.appendChild($sidebar);
   $sidebar.className = "sidebar";
 
   new SidebarHeader({

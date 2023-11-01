@@ -3,16 +3,10 @@ import PostEditPage from "./components/Editor/PostEditPage.js";
 import { initRouter } from "./utils/router.js";
 
 export default function App({ $target }) {
-  const $sidebar = document.createElement("div");
-  const $postEditPage = document.createElement("div");
-
-  $target.appendChild($sidebar);
-  $target.appendChild($postEditPage);
-
-  const sidebar = new Sidebar({ $target: $sidebar });
+  const sidebar = new Sidebar({ $target });
 
   const postEditPage = new PostEditPage({
-    $target: $postEditPage,
+    $target,
     initialState: {
       postId: "new",
       post: {
