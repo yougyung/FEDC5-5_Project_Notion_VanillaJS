@@ -1,12 +1,12 @@
-import NavPage from "./page/NavPage.js";
 import DocumentPage from "./page/DocumentPage.js";
 import { initRouter } from "./utils/router.js";
 import ErrorPage from "./page/ErrorPage.js";
+import Nav from "./component/Nav.js";
 
 export default function App({ $target }) {
   const $app = document.getElementById("app");
   //NavPage는 항상 렌더되야한다
-  new NavPage({
+  new Nav({
     $target,
   });
 

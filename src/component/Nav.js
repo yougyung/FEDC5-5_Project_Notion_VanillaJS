@@ -1,6 +1,6 @@
 import Button from "../common/Button.js";
-import DocumentList from "../component/DocumentList.js";
-import DocumentListHeader from "../component/DocumentListHeader.js";
+import DocumentList from "./DocumentList.js";
+import DocumentListHeader from "./DocumentListHeader.js";
 import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
 import Observer from "../utils/globalStore/Observer.js";
@@ -8,7 +8,7 @@ import { push } from "../utils/router.js";
 import Storage from "../utils/storage.js";
 
 //initialState = [{id:num, title:string, documents:array }]
-export default function NavPage({ $target }) {
+export default function Nav({ $target }) {
   const $nav = document.createElement("nav");
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   $target.prepend($nav);
