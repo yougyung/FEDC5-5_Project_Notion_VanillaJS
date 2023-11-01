@@ -8,7 +8,7 @@ export default function Button({
   attributes.forEach((attribute) => {
     const { name, value } = attribute;
     if (name === "class") {
-      //클래스는 여러개 있을수 있으므로, 예외 처리
+      //클래스는 여러개라면 배열로 넣어줍니다
       const values = Array.isArray(value) ? value : [value];
       values.forEach((className) => {
         $button.classList.add(className);

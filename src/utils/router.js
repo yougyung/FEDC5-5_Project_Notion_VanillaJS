@@ -13,10 +13,6 @@ export const initRouter = (onRoute) => {
   window.addEventListener("popstate", () => {
     onRoute();
   });
-  //첫화면, 새로고침시 라우팅(렌더링)
-  window.addEventListener("DOMContentLoaded", () => {
-    onRoute();
-  });
 };
 export const push = (nextUrl, callback) => {
   window.dispatchEvent(

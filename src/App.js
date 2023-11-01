@@ -28,6 +28,6 @@ export default function App({ $target }) {
       initialState: { id: pathData },
     });
   };
-
+  this.render();
   initRouter(this.render);
 }
