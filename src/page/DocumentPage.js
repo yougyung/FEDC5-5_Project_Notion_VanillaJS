@@ -44,7 +44,6 @@ export default function DocumentPage({ $target, initialState }) {
     },
   });
   let timerOfSetTimeout = null;
-  const observer = Observer;
   const editor = new Editor({
     $target: $documentPage,
     initialState: {
@@ -61,7 +60,7 @@ export default function DocumentPage({ $target, initialState }) {
           method: "PUT",
           body: JSON.stringify(requestBody),
         });
-        observer.notify();
+        Observer.notify();
         documentHeader.setState({ title: response.title });
       }, 1500);
     },

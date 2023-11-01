@@ -17,8 +17,7 @@ export default function Nav({ $target }) {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
   };
-  const observer = Observer;
-  observer.subscribe(this.getDocuments);
+  Observer.subscribe(this.getDocuments);
   const createDocument = async (id = null) => {
     const body = { title: "제목 없음", parent: id };
     const response = await request("/documents", {

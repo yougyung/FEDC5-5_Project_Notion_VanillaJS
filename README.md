@@ -34,13 +34,12 @@
 - [x] 함수 if문대신 옵셔널 체이닝
 - [x] NavPage이름 Nav로 변경
 - [x] routes 데이터 구조 배열에서 Map으로 변경
-- [ ] App.js에서 render함수 호출되는 방식 변경
-- [ ] Button컴포넌트의 attributes 명시적으로 알 수 있게 변경
-- [ ] DocumentItem컴포넌트에서 쿼리셀렉터 예외처리로 `undefined`리턴하는 부분 삭제
+- [x] App.js에서 render함수 호출되는 방식 변경
+- [?] Button컴포넌트의 attributes 명시적으로 알 수 있게 변경
+- [x] DocumentItem컴포넌트에서 쿼리셀렉터 예외처리로 `undefined`리턴하는 부분 삭제
 - [ ] Editor컴포넌트 상단에 state 모아두기
 - [ ] Editor컴포넌트의 `keyDownHandler, onInputHanlder` 내부 함수 분리하기
 - [ ] `Observer`가져올때 굳이 다시 참조하지 않기(이미 인스턴스를 생성하여 export중이다)
-- [ ]
 
 ## ✅ PR 포인트 & 궁금한 점 <!-- 리뷰어 분들이 집중적으로 보셨으면 하는 내용을 적어주세요 -->
 
