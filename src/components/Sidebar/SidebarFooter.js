@@ -13,7 +13,7 @@ export default function SidebarFooter({ $target, setState }) {
   this.render();
 
   const addNewPage = async () => {
-    const newDocument = await request("/documents", {
+    await request("/documents", {
       method: "POST",
       body: JSON.stringify({
         title: "제목 없음",
