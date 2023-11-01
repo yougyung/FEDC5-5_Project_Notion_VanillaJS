@@ -70,24 +70,31 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
     if (e.target.getAttribute("contenteditable") !== "true") {
       return;
     }
+    const enterKeyDown = (e) => {
+      e.preventDefault();
+      const nextLine = makeNewLine();
+      e.target.after(nextLine); //다음 형제로 삽입해준다
+      nextLine.focus();
+    };
+    const backSapceKeyDown = (e) => {
+      //안에 내용물이 없는 라인은 위로 포커싱해주고 라인 지워줌
+      if (!e.target.innerHTML) {
+        e.preventDefault();
+        const prevLine = e.target.previousElementSibling;
+        if (prevLine) {
+          prevLine.focus();
+          getSelection().collapse(prevLine, prevLine.childNodes.length);
+          e.target.remove();
+        }
+      }
+    };
     //함수로 뽑아서 역할을 나눠주자
     switch (e.key) {
       case "Enter":
-        e.preventDefault();
-        const nextLine = makeNewLine();
-        e.target.after(nextLine); //다음 형제로 삽입해준다
-        nextLine.focus();
+        enterKeyDown(e);
         break;
       case "Backspace":
-        if (!e.target.innerHTML) {
-          e.preventDefault();
-          const prevLine = e.target.previousElementSibling;
-          if (prevLine) {
-            prevLine.focus();
-            getSelection().collapse(prevLine, prevLine.childNodes.length);
-            e.target.remove();
-          }
-        }
+        backSapceKeyDown(e);
         break;
       case "ArrowUp":
         e.target.previousElementSibling.focus();
