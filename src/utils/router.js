@@ -5,9 +5,7 @@ export const initRouter = (onRoute) => {
     const { nextUrl, callback } = e.detail;
     if (nextUrl) {
       history.pushState(null, null, nextUrl);
-      if (callback) {
-        callback();
-      }
+      callback?.();
       onRoute();
     }
   });

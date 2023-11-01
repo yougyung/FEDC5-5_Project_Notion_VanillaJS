@@ -15,7 +15,7 @@ export default function DocumentItem({
   createDocument,
   removeDocument,
   depth,
-  changeBackgroundSelectedDocument,
+  highlightSelectedDocument,
 }) {
   this.state = initialState;
   const $documentItem = document.createElement("div");
@@ -120,10 +120,7 @@ export default function DocumentItem({
       e.preventDefault();
     }
     if (!e.target.closest("button")) {
-      push(
-        `/documents/${$documentItem.dataset.id}`,
-        changeBackgroundSelectedDocument
-      );
+      push(`/documents/${$documentItem.dataset.id}`, highlightSelectedDocument);
     }
   });
   this.render();

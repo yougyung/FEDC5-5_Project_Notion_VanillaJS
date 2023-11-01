@@ -25,7 +25,6 @@ export default function NavPage({ $target }) {
       method: "POST",
       body: JSON.stringify(body),
     });
-    console.log(response);
     this.getDocuments();
     push(`/documents/${response.id}`);
     return response;

@@ -9,24 +9,25 @@ export default function App({ $target }) {
   new NavPage({
     $target,
   });
-  const routes1 = new Map();
-  const routes = [{ path: "documents", component: DocumentPage }];
+
+  const routes = new Map();
+  routes.set("documents", DocumentPage);
+
   this.render = async (url) => {
     const path = url ?? window.location.pathname;
     const [, pathname, pathData] = path.split("/");
     if (pathname === "") {
       //메인이면 메인 비워주기
       $app.innerHTML = "";
-    } else if (pathname === "documents") {
-      //라우팅 되는 직계 자식들은 replaceChildren으로 깜빡임 방지..
-      const component = routes.find(
-        (route) => route.path === "documents"
-      ).component;
-      new component({
-        $target: $app,
-        initialState: { id: pathData },
-      });
-    } else new ErrorPage({ $target: $app });
+      return;
+    }
+    const component = routes.get(pathname) || ErrorPage;
+    //라우팅 되는 직계 자식들은 replaceChildren으로 깜빡임 방지..
+    new component({
+      $target: $app,
+      initialState: { id: pathData },
+    });
   };
+
   initRouter(this.render);
 }
