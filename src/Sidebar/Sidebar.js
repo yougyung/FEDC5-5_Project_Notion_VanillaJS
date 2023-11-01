@@ -18,6 +18,7 @@ export default function Sidebar({ $target }) {
         method: 'POST',
         body: JSON.stringify(document),
       });
+      console.log(createdDocument);
       this.setState({ ...this.state, createdDocument });
     },
   });

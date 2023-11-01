@@ -9,13 +9,12 @@ export default function SidebarHeader({ $target, addDocument }) {
             훈오의 Notion
         </span>
         <button class="add">
-          <img src="/public/assets/img/add.svg" alt="페이지 추가 이미지" />
+          <img src="/src/img/add.svg" alt="페이지 추가 이미지" />
         </button>
     `;
   };
 
   $sidebarHeader.addEventListener('click', (e) => {
-    console.log(e.target);
     if (e.target.classList.contains('add') || e.target.tagName === 'IMG') {
       addDocument();
     }
