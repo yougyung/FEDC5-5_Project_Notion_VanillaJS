@@ -71,9 +71,10 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
       return;
     }
     const enterKeyDown = (e) => {
+      //기본 이벤트 막아주고 새 div생성후 형제로 붙여줌
       e.preventDefault();
       const nextLine = makeNewLine();
-      e.target.after(nextLine); //다음 형제로 삽입해준다
+      e.target.after(nextLine);
       nextLine.focus();
     };
     const backSapceKeyDown = (e) => {
@@ -88,7 +89,6 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
         }
       }
     };
-    //함수로 뽑아서 역할을 나눠주자
     switch (e.key) {
       case "Enter":
         enterKeyDown(e);
@@ -106,7 +106,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   };
   $editor.addEventListener("keydown", keyDownHandler);
   const onInputHandler = (e) => {
-    //여기도 함수 분리 필요...
+    //여기도 함수 분리 필요...어떻게 한담?
     let nextState = { ...this.state };
     if (e.target.dataset.name === "title") {
       nextState = {
@@ -115,8 +115,8 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
       };
     } else if (e.target.classList.contains("content")) {
       const [converted, isConverted] = convertMarkDown(e.target.innerHTML);
+      console.log(isConverted);
       if (isConverted) {
-        console.log("바뀜");
         e.target.innerHTML = converted;
         e.target.focus();
         getSelection().collapse(e.target.childNodes[0], 0);
