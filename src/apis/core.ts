@@ -23,9 +23,7 @@ const api = async (endPoint: string, options: RequestInit = {}) => {
     throw new Error("Network error");
   }
 
-  const data = await response.json();
-
-  return data;
+  return await response.json();
 };
 
 const createApiMethod =
