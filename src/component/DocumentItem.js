@@ -28,13 +28,8 @@ export default function DocumentItem({
   $documentItem.classList.add("document-item");
   $documentItemInner.classList.add("document-item-inner");
   const storage = new Storage(window.localStorage);
-  const getChildDocuments = () => {
-    const childDocuments = $documentItem.querySelector(".document-children");
-    if (childDocuments) {
-      return childDocuments;
-    }
-    return undefined;
-  };
+  const getChildDocuments = () =>
+    $documentItem.querySelector(".document-children");
   const rotateSvg = () => {
     const arrowIcon = $documentItem.querySelector(".arrow-icon");
     arrowIcon.classList.toggle("rotate-90edge");
