@@ -64,9 +64,7 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
         `;
   };
 
-  $documentList.addEventListener("click", (event) => {
-    const { target } = event;
-
+  $documentList.addEventListener("click", ({ target }) => {
     const $delete = target.closest(".delete-button");
     const $add = target.closest(".add-button");
     const $toggle = target.closest(".toggle-button");
