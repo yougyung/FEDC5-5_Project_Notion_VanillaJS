@@ -61,7 +61,6 @@ export default function DocumentItem({
   };
   this.render = () => {
     $documentItem.innerHTML = "";
-    //렌더타임에 붙이지 않으면, 사라진다
     $documentItem.appendChild($documentItemInner);
     new Button({
       $target: $documentItemInner,
