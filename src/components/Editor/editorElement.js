@@ -48,5 +48,16 @@ export const Editor = (currentDocument) => {
         goToDocument(pageId);
     });
 
+    // autosave
+    $editor.addEventListener("keyup", async () => {
+        // TODO: debounce 넣기
+        const titleHTML = $editor.getElementsByClassName("editor__title").item(0).innerHTML;
+        const contentHTML = $editor
+            .getElementsByClassName("editor__content_root")
+            .item(0).innerHTML;
+        console.log("saving:", titleHTML, contentHTML, id);
+        await window.api.update(id, titleHTML, contentHTML);
+    });
+
     return $editor;
 };
