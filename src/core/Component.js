@@ -6,18 +6,20 @@ export default class Component {
     this.$target = $target;
     this.wrapper = document.createElement(tagName);
     this.$target.appendChild(this.wrapper);
-    this.createElement();
+    this.createTemplate();
     this.setEvent();
   }
   render() {
-    return "";
-  }
-  createElement() {
-    const content = this.render();
+    const content = this.createTemplate();
     this.wrapper.innerHTML = content;
     this.renderChild();
   }
-  setEvent() {}
+  createTemplate() {
+    return "";
+  }
+  setEvent() {
+    this.addEvent();
+  }
   addEvent(eventType, selector, callback) {
     this.wrapper.addEventListener(eventType, (e) => {
       if (!e.target.closest(selector)) return false;
@@ -31,6 +33,5 @@ export default class Component {
       this.state = validateState(this.state, nextState);
       this.render();
     }
-    this.createElement();
   }
 }
