@@ -4,9 +4,9 @@ import Editor from './components/editor/Editor.js';
 import SubDocumentEditor from './components/editor/SubDocumentEditor.js';
 import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
-import { removeItem, setItem } from './utils/storage.js';
 import Splitter from './components/ui/Splitter.js';
 import DocumentFooter from './components/document/DocumentFooter.js';
+import { debounce } from './utils/debounce.js';
 
 export default function App({ $target }) {
   const $documentListContainer = document.createElement('div');
@@ -96,19 +96,8 @@ export default function App({ $target }) {
     $target: $editorContainer,
     initialState: this.state.selectedDocument,
     onEditing: (document) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        setItem('temp-post', {
-          ...document,
-          tempSavedAt: new Date(),
-        });
-
+      debounce(async () => {
         await editDocument(document.id, document.title, document.content);
-
-        removeItem('temp-post');
-        // this.render();
       }, 1000);
     },
   });
