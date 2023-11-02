@@ -62,22 +62,18 @@
 .editor__title {
     /* Notion CSS */
     font-size: 40px;
+    font-weight: bold;
     padding: 3px 2px;
     color: rgb(55, 53, 47);
 
     position: relative;
+
+    border: none;
+    outline: none;
 }
 
-.editor__title:empty::after {
-    content: "제목 없음";
-    cursor: text;
-
+.editor__title::placeholder {
     color: rgba(55, 53, 47, 0.15);
-
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    padding: 4px 0px;
 }
 
 

@@ -7,16 +7,20 @@ import { enableShowPlaceholderOnEmptyBlockFeature } from "./eventHandlers/placeh
 import { enableSafeHTMLPasteFeature } from "./eventHandlers/safeHTMLPaste.js";
 import { enableUndoFeature } from "./eventHandlers/undo.js";
 
+// TODO: 파서에서 공백을 포함한 string도 처리할 수 있게
+const TITLE_PLACEHOLDER = "제목 없음";
+
 export const Editor = (currentDocument) => {
     // 최초 렌더링 시 사용
-    const { id, title: titleHTML, content: contentHTML } = currentDocument;
+    const { id, title, content: contentHTML } = currentDocument;
 
     const $editor = $`
         <main className=editor>
-            <h1 
+            <input 
                 className=editor__title
                 contentEditable=true
-            ></h1>
+                placeholder=${TITLE_PLACEHOLDER}
+            />
             <div
                 className=editor__content_root
                 contentEditable=true
@@ -26,7 +30,7 @@ export const Editor = (currentDocument) => {
     `;
 
     // innerHTML로 주입하는 Case
-    $editor.getElementsByClassName("editor__title").item(0).innerHTML = titleHTML;
+    $editor.getElementsByClassName("editor__title").item(0).value = title;
     $editor.getElementsByClassName("editor__content_root").item(0).innerHTML = contentHTML;
 
     // 분리 전 코드 순서대로 등록
@@ -51,12 +55,12 @@ export const Editor = (currentDocument) => {
     // autosave
     $editor.addEventListener("keyup", async () => {
         // TODO: debounce 넣기
-        const titleHTML = $editor.getElementsByClassName("editor__title").item(0).innerHTML;
+        const titleText = $editor.getElementsByClassName("editor__title").item(0).value;
         const contentHTML = $editor
             .getElementsByClassName("editor__content_root")
             .item(0).innerHTML;
 
-        await window.api.update(id, titleHTML, contentHTML);
+        await window.api.update(id, titleText, contentHTML);
     });
 
     return $editor;
