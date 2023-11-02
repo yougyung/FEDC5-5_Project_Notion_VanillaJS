@@ -15,6 +15,27 @@ export const enableFormatShortcutFeature = ($editor) => {
             document.execCommand("delete");
             document.execCommand("delete");
         }
+
+        // h2
+        if (e.code === "Space" && window.getSelection().anchorNode.textContent.startsWith("## ")) {
+            document.execCommand("formatBlock", false, "h2");
+            // 선택이 안 됐으면 한 글자만 지움. Caret이기 때문에 이렇게 지우는 것
+            // TODO: 한 번에 지우고 싶으면 Range로 만들어도 될 듯?
+            document.execCommand("delete");
+            document.execCommand("delete");
+            document.execCommand("delete");
+        }
+
+        // h3
+        if (e.code === "Space" && window.getSelection().anchorNode.textContent.startsWith("### ")) {
+            document.execCommand("formatBlock", false, "h3");
+            // 선택이 안 됐으면 한 글자만 지움. Caret이기 때문에 이렇게 지우는 것
+            // TODO: 한 번에 지우고 싶으면 Range로 만들어도 될 듯?
+            document.execCommand("delete");
+            document.execCommand("delete");
+            document.execCommand("delete");
+            document.execCommand("delete");
+        }
     });
 
     $editor.addEventListener("keyup", (e) => {
@@ -25,6 +46,9 @@ export const enableFormatShortcutFeature = ($editor) => {
         }
         if (e.ctrlKey && e.shiftKey && e.code === "Digit2") {
             document.execCommand("formatBlock", false, "h2");
+        }
+        if (e.ctrlKey && e.shiftKey && e.code === "Digit3") {
+            document.execCommand("formatBlock", false, "h3");
         }
         if (e.ctrlKey && e.shiftKey && e.code === "Digit0") {
             // removeFormat은 selection 대상인 거여서 그렇게 해줘야 함
