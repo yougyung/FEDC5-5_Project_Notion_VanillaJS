@@ -55,7 +55,7 @@ export const Editor = (currentDocument) => {
         const contentHTML = $editor
             .getElementsByClassName("editor__content_root")
             .item(0).innerHTML;
-        console.log("saving:", titleHTML, contentHTML, id);
+
         await window.api.update(id, titleHTML, contentHTML);
     });
 
