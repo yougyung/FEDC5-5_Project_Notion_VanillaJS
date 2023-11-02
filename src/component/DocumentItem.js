@@ -4,7 +4,7 @@ import { paddingCoefficient } from "../constants/paddingCoefficient.js";
 import arrowIconSvg from "../svg/arrowIcon.js";
 import plusIcon from "../svg/plusIcon.js";
 import xIcon from "../svg/xIcon.js";
-import { push } from "../utils/router.js";
+import { push } from "../utils/handleRouteEvent.js";
 import Storage from "../utils/storage.js";
 import DocumentList from "./DocumentList.js";
 import NoSubDocument from "./NoSubDocument.js";

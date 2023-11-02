@@ -1,7 +1,7 @@
 import Editor from "../component/Editor.js";
 import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
-import { push } from "../utils/router.js";
+import { push } from "../utils/handleRouteEvent.js";
 import Observer from "../utils/globalStore/Observer.js";
 
 // initialState : {doucmentId :null, document:null}

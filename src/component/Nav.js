@@ -4,7 +4,7 @@ import DocumentListHeader from "./DocumentListHeader.js";
 import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
 import Observer from "../utils/globalStore/Observer.js";
-import { push } from "../utils/router.js";
+import { push } from "../utils/handleRouteEvent.js";
 import Storage from "../utils/storage.js";
 
 //initialState = [{id:num, title:string, documents:array }]

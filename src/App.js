@@ -1,42 +1,27 @@
 import DocumentPage from "./page/DocumentPage.js";
-import { initRouter } from "./utils/router.js";
-import ErrorPage from "./page/ErrorPage.js";
 import Nav from "./component/Nav.js";
 import Component from "./core/Component.js";
 import Router from "./core/Router.js";
 import Route from "./core/Route.js";
 
-export default class App extends Component({ $target }) {
+export default class App extends Component {
   $app = document.getElementById("app");
   constructor($target, tagName) {
+    console.log($target);
     super($target, tagName);
   }
   //NavPage는 항상 렌더되야한다
   renderChild() {
     new Nav({
-      $target: $app,
+      $target: this.$target,
     });
     new Router(
       new Route({
+        $target: this.$app,
         path: "documents",
         component: DocumentPage,
         initialState: "",
       })
     );
   }
-  /*   render() {
-    const { pathname } = window.location;
-    const [, path, pathData] = path.split("/");
-    if (pathname === "") {
-      //메인이면 메인 비워주기
-      $app.innerHTML = "";
-      return;
-    }
-    const component = routes.get(pathname) || ErrorPage;
-    //라우팅 되는 직계 자식들은 replaceChildren으로 깜빡임 방지..
-    new component({
-      $target: $app,
-      initialState: { id: pathData },
-    });
-  } */
 }

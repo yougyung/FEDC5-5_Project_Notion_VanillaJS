@@ -1,4 +1,4 @@
-import { addDependOnPathEvent } from "../utils/router.js";
+import { addDependOnPathEvent } from "../utils/handleRouteEvent.js";
 import DocumentItem from "./DocumentItem.js";
 
 export default function DocumentList({

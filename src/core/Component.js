@@ -2,16 +2,18 @@ import { validateState } from "../utils/validateState.js";
 
 export default class Component {
   state;
-  constructor({ $target, tagName }) {
+  constructor({ $target, tagName = null }) {
     this.$target = $target;
     this.wrapper = tagName ? document.createElement(tagName) : null;
-    this.$target.appendChild(this.wrapper);
-    this.createTemplate();
+    this.wrapper && this.$target.appendChild(this.wrapper);
     this.setEvent();
+    this.render();
   }
   render() {
-    const content = this.createTemplate();
-    this.wrapper.innerHTML = content;
+    if (this.wrapper) {
+      const content = this.createTemplate();
+      this.wrapper.innerHTML = content;
+    }
     this.renderChild();
   }
   createTemplate() {
@@ -21,7 +23,10 @@ export default class Component {
     this.addEvent();
   }
   addEvent(eventType, selector, callback) {
-    this?.wrapper.addEventListener(eventType, (e) => {
+    if (!this.wrapper) {
+      return;
+    }
+    this.wrapper.addEventListener(eventType, (e) => {
       if (!e.target.closest(selector)) return false;
       callback(e);
     });
