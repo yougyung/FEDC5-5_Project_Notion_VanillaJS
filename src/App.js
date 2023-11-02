@@ -114,7 +114,7 @@ export default function App({ $target }) {
     const { pathname } = window.location;
     if (pathname.includes("/document/")) {
       loading.setState({ isLoading: true });
-      const [_, id] = pathname.split("/document/");
+      const id = pathname.split("/document/").pop();
       const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
       editor.setState(data);
       loading.setState({ isLoading: false });
