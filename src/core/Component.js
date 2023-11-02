@@ -4,7 +4,7 @@ export default class Component {
   state;
   constructor({ $target, tagName }) {
     this.$target = $target;
-    this.wrapper = document.createElement(tagName);
+    this.wrapper = tagName ? document.createElement(tagName) : null;
     this.$target.appendChild(this.wrapper);
     this.createTemplate();
     this.setEvent();

@@ -2,18 +2,25 @@ import DocumentPage from "./page/DocumentPage.js";
 import { initRouter } from "./utils/router.js";
 import ErrorPage from "./page/ErrorPage.js";
 import Nav from "./component/Nav.js";
+import Component from "./core/Component.js";
 
-export default function App({ $target }) {
-  const $app = document.getElementById("app");
+export default class App extends Component({ $target }) {
+  $app = document.getElementById("app");
+  routes = new Map();
+  constructor($target, tagName){
+    super($target, tagName)
+  }
   //NavPage는 항상 렌더되야한다
-  new Nav({
-    $target,
-  });
-
-  const routes = new Map();
-  routes.set("documents", DocumentPage);
-
-  this.render = async (url) => {
+  renderChild() {
+    new Nav({
+      $target: $app,
+    });
+  }
+  addRoutes() {
+    routes.set("documents", DocumentPage);
+    initRouter(this.render);
+  }
+  render(url) {
     const path = url ?? window.location.pathname;
     const [, pathname, pathData] = path.split("/");
     if (pathname === "") {
@@ -27,7 +34,6 @@ export default function App({ $target }) {
       $target: $app,
       initialState: { id: pathData },
     });
-  };
-  this.render();
-  initRouter(this.render);
+  }
+  addRoutes()
 }
