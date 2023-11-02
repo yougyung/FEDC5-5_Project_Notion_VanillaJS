@@ -108,7 +108,7 @@ export default function App({ $target }) {
     loading.setState({ isLoading: false });
   };
 
-  this.route = async () => {
+  (this.route = async () => {
     this.init();
 
     const { pathname } = window.location;
@@ -119,7 +119,5 @@ export default function App({ $target }) {
       editor.setState(data);
       loading.setState({ isLoading: false });
     }
-  };
-
-  this.route();
+  })();
 }
