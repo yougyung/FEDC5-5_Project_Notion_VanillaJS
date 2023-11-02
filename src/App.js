@@ -41,7 +41,7 @@ export default function App({ $target }) {
   const documentHeader = new DocumentHeader({
     $target: $documentListContainer,
     onClickPageAddButton: async () => {
-      const addedDocument = await addDocument(null, '제목 없음');
+      const addedDocument = await addDocument(null);
 
       this.setState({
         ...this.state,
@@ -63,7 +63,7 @@ export default function App({ $target }) {
       subDocumentEditor.setState(this.state.subDocuments);
     },
     onClickAddButton: async (id) => {
-      const addedDocument = await addDocument(id, '제목 없음');
+      const addedDocument = await addDocument(id);
 
       this.setState({
         ...this.state,
@@ -146,13 +146,13 @@ export default function App({ $target }) {
   };
 
   // API: Document 추가하기
-  const addDocument = async (parentId, title) => {
+  const addDocument = async (parentId) => {
     const newDocument = await request('', {
       method: 'POST',
-      body: JSON.stringify({
-        title: title,
+      body: {
+        title: '제목 없음',
         parent: parentId,
-      }),
+      },
     });
     return newDocument;
   };
@@ -161,10 +161,10 @@ export default function App({ $target }) {
   const editDocument = async (id, title, content) => {
     await request(`/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({
+      body: {
         title: title,
         content: content,
-      }),
+      },
     });
   };
   // API: 특정 Document 삭제하기
