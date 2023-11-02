@@ -3,26 +3,30 @@ import { initRouter } from "./utils/router.js";
 import ErrorPage from "./page/ErrorPage.js";
 import Nav from "./component/Nav.js";
 import Component from "./core/Component.js";
+import Router from "./core/Router.js";
+import Route from "./core/Route.js";
 
 export default class App extends Component({ $target }) {
   $app = document.getElementById("app");
-  routes = new Map();
-  constructor($target, tagName){
-    super($target, tagName)
+  constructor($target, tagName) {
+    super($target, tagName);
   }
   //NavPage는 항상 렌더되야한다
   renderChild() {
     new Nav({
       $target: $app,
     });
+    new Router(
+      new Route({
+        path: "documents",
+        component: DocumentPage,
+        initialState: "",
+      })
+    );
   }
-  addRoutes() {
-    routes.set("documents", DocumentPage);
-    initRouter(this.render);
-  }
-  render(url) {
-    const path = url ?? window.location.pathname;
-    const [, pathname, pathData] = path.split("/");
+  /*   render() {
+    const { pathname } = window.location;
+    const [, path, pathData] = path.split("/");
     if (pathname === "") {
       //메인이면 메인 비워주기
       $app.innerHTML = "";
@@ -34,6 +38,5 @@ export default class App extends Component({ $target }) {
       $target: $app,
       initialState: { id: pathData },
     });
-  }
-  addRoutes()
+  } */
 }

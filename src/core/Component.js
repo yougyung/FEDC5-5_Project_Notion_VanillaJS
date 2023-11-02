@@ -21,7 +21,7 @@ export default class Component {
     this.addEvent();
   }
   addEvent(eventType, selector, callback) {
-    this.wrapper.addEventListener(eventType, (e) => {
+    this?.wrapper.addEventListener(eventType, (e) => {
       if (!e.target.closest(selector)) return false;
       callback(e);
     });
