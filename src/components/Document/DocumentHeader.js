@@ -29,13 +29,15 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
 
   const $group = document.createElement('div');
   $group.className = 'group';
-  
+  $group.style.cursor = 'pointer';
+
   const $addButton = document.createElement('button');
   $addButton.innerHTML = `<i class="fa-solid fa-plus"></i>`
   $addButton.className = 'page-add-button';
 
   const $span = document.createElement('span');
   $span.textContent = '페이지 추가';
+  $span.className = 'group-text';
 
   $group.appendChild($addButton);
   $group.appendChild($span);
@@ -50,7 +52,7 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
 
   $documentHeader.addEventListener('click', (e) => {
     const { target } = e;
-    if (target.className === 'page-add-button' || target.className === 'fa-solid fa-plus') {
+    if (target.className === 'group' || target.className === 'group-text' || target.className === 'page-add-button') {
       if (onClickPageAddButton) {
         onClickPageAddButton();
       }
