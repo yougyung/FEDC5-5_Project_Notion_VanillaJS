@@ -14,12 +14,32 @@ export const Editor = (currentDocument) => {
     // 최초 렌더링 시 사용
     const { id, title, content: contentHTML } = currentDocument;
 
+    // 제목 변경 시 탭 제목 갱신
+    const handleTitleChange = (e) => {
+        const title = e.target.value;
+        document.title = title;
+
+        // TODO: 사이드바 업데이트하기
+        // 이거는 좀 애매한뎅?
+        // Sidebar 내부에서 핸들링할 수 밖에 없을 듯?
+        window.dispatchEvent(
+            new CustomEvent("document_title_changed", {
+                detail: {
+                    id,
+                    title,
+                },
+                bubbles: false, // 현재는 window로 통신
+            }),
+        );
+    };
+
     const $editor = $`
         <main className=editor>
             <input 
                 className=editor__title
                 contentEditable=true
                 placeholder=${TITLE_PLACEHOLDER}
+                oninput=${handleTitleChange}
             />
             <div
                 className=editor__content_root
@@ -40,6 +60,9 @@ export const Editor = (currentDocument) => {
     enableShowPlaceholderOnEmptyBlockFeature($editor);
     enableDropdownFeature($editor, id);
     enableSafeHTMLPasteFeature($editor);
+
+    // 탭 제목 갱신
+    document.title = title;
 
     // 페이지 링크 클릭 시 이동하게
     $editor.addEventListener("click", (e) => {
