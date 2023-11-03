@@ -25,12 +25,12 @@ export default function SideBarList({
 
   const showSubLi = ({ $target, documents }) => {
     const $subUl = document.createElement("ul");
-    const padding = $target.style.paddingLeft;
+    const paddingLeftValue = $target.style.paddingLeft;
     $subUl.style.position = "relative";
-    $subUl.style.paddingLeft = padding
-      ? Number(padding.split("px")[0]) + 10 + "px"
+    $subUl.style.paddingLeft = paddingLeftValue
+      ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
       : "0px";
-    $subUl.style.right = padding ? padding : "0px";
+    $subUl.style.right = paddingLeftValue ? paddingLeftValue : "0px";
     $target.appendChild($subUl);
 
     if ($target !== $sideBarList) {
@@ -45,11 +45,11 @@ export default function SideBarList({
     documents.map((doc) => {
       const $subLi = document.createElement("li");
       $subLi.style.position = "relative";
-      $subLi.style.paddingLeft = padding
-        ? Number(padding.split("px")[0]) + 10 + "px"
+      $subLi.style.paddingLeft = paddingLeftValue
+        ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
         : "0px";
-      $subLi.style.right = padding
-        ? Number(padding.split("px")[0]) + 10 + "px"
+      $subLi.style.right = paddingLeftValue
+        ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
         : "0px";
       $subLi.dataset.id = doc.id;
       if (
@@ -100,7 +100,7 @@ export default function SideBarList({
   this.render();
 
   $sideBarList.addEventListener("click", (e) => {
-    const { className, classList } = e.target;
+    const { classList } = e.target;
 
     if (classList.contains("toggle_button")) {
       const li = e.target.closest("li");

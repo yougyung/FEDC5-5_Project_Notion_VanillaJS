@@ -5,8 +5,12 @@ import { customSideBarList } from "./utils/customEvent.js";
 
 export default function App({ $target }) {
   const $wrap = document.createElement("div");
+  $wrap.style.display = "flex";
+  $wrap.style.height = "100vh";
 
   const $wrapSideBar = document.createElement("div");
+  $wrapSideBar.className = "wrap_side_bar";
+
   const $wrapEditPage = document.createElement("div");
   $wrapEditPage.className = "wrap_edit_page";
 
@@ -23,7 +27,6 @@ export default function App({ $target }) {
   );
 
   this.route = () => {
-    $wrap.style.display = "flex";
     $wrapEditPage.style.display = "none";
 
     const { pathname } = location;

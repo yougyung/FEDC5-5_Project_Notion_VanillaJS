@@ -6,36 +6,26 @@ import { initPageAll, pageAll } from "./utils/pageAll.js";
 import { searchTrie } from "./utils/trie.js";
 
 export default function SideBar({ $target }) {
-  const $sideBar = document.createElement("div");
-  $sideBar.className = "side_bar";
-
-  new SideBarHeader({ $target: $sideBar });
+  new SideBarHeader({ $target });
 
   const sideBarList = new SideBarList({
-    $target: $sideBar,
+    $target,
     initialState: [],
     handleChangeList: async () => await this.setState(),
   });
 
   new pageAddDeleteButton({
-    $target: $sideBar,
-    id: null,
+    $target,
     handleChangeList: async () => await this.setState(),
-    handleToggle: () => {},
   }); //새페이지 버튼
 
   this.setState = async () => {
     const res = await request("/documents");
     sideBarList.setState(res);
     initPageAll(res);
-    for (let page of pageAll) {
+    for (const page of pageAll) {
       const [id, title] = page;
       searchTrie.insert(id, title);
     }
-    this.render();
-  };
-
-  this.render = () => {
-    $target.appendChild($sideBar);
   };
 }

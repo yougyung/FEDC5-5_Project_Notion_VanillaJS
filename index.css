@@ -4,6 +4,7 @@
 body {
   margin: 0;
 }
+
 ul {
   list-style: none;
   margin: 0px;
@@ -54,12 +55,11 @@ ul {
   align-items: center;
   justify-content: center;
 }
-.side_bar {
+.wrap_side_bar {
   width: 220px;
   background-color: #ebedf4c9;
   height: 100vh;
   overflow: hidden;
-  /* ////////// */
   position: sticky;
   left: 0;
   top: 0;
@@ -80,7 +80,6 @@ ul {
 }
 .side_bar_list::-webkit-scrollbar-thumb {
   background: rgba(55, 53, 47, 0.08);
-  /* display: none; Chrome, Safari, Opera */
 }
 .plus_page_button,
 .delete_page_button {
@@ -94,7 +93,7 @@ ul {
   position: absolute;
   left: 145px;
   width: 50px;
-  opacity: 0; /* ******** 0 */
+  opacity: 0;
   &:hover {
     opacity: 1;
   }

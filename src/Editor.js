@@ -30,7 +30,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.state = initialState;
 
   this.setState = (nextState) => {
-    let isInit = this.state.id === nextState.id; //같은 id면 수정중일테니까 새로 렌더하진 않는다.
+    const isInit = this.state.id === nextState.id; //같은 id면 수정중일테니까 새로 렌더하진 않는다.
     this.state = nextState; //{id: 101456, title: '새로 만든 페이지', createdAt: '2023-10-18T04:52:39.676Z', updatedAt: '2023-10-18T04:52:39.680Z', content: null, …}
     if (!isInit) {
       this.render();
@@ -90,7 +90,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     newline.innerHTML = txt;
     e.currentTarget.after(newline);
     newline.focus();
-    let changedAllHTML = e.currentTarget.parentNode.innerHTML;
+    const changedAllHTML = e.currentTarget.parentNode.innerHTML;
     e.currentTarget.remove();
 
     return changedAllHTML;
@@ -119,7 +119,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     } //
     else if (e.key === "Backspace") {
       const { target } = e;
-      let parentNode = e.currentTarget.parentNode;
+      const parentNode = e.currentTarget.parentNode;
       // 맨첫줄 제외 한줄을 완전히 지우는 경우
       if (
         target.textContent.length === 0 &&
@@ -141,7 +141,7 @@ export default function Editor({ $target, initialState, onEditing }) {
         return;
       }
       if (target.childNodes[0] && target.childNodes[0].tagName === "A") {
-        for (let childNode of target.childNodes) {
+        for (const childNode of target.childNodes) {
           childNode.remove();
         }
       }
@@ -193,19 +193,17 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     $editorTitle.innerHTML = this.state.title;
     if (this.state.content !== null) {
-      $editorContent.innerHTML =
-        this.state.content +
-        `<div class="editor_content_block d" contenteditable="true"></div>`;
+      $editorContent.innerHTML = `${this.state.content}<div class="editor_content_block" contenteditable="true"></div>`;
     } else {
       //처음 페이지 만든 경우 this.state.content === null
-      $editorContent.innerHTML = `<div class="editor_content_block d" contenteditable="true"></div>`;
+      $editorContent.innerHTML = `<div class="editor_content_block" contenteditable="true"></div>`;
     }
     $editorContentWrap.appendChild($editorContent);
 
     const blocks = $editorContent.getElementsByClassName(
       "editor_content_block"
     );
-    for (let block of blocks) {
+    for (const block of blocks) {
       block.addEventListener("keyup", (e) => handleChangeContent(e));
     }
     if ($editor.querySelector("a")) {

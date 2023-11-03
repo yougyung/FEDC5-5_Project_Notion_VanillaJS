@@ -6,7 +6,7 @@ export function pageAddDeleteButton({
   $target,
   id = null,
   handleChangeList,
-  handleToggle,
+  handleToggle = () => {},
 }) {
   const $buttonWrap = document.createElement("div");
 
@@ -45,12 +45,11 @@ export function pageAddDeleteButton({
     $buttonWrap.appendChild($deletePageButton);
 
     $deletePageButton.addEventListener("click", async () => {
-      const res = await request(`/documents/${id}`, {
+      await request(`/documents/${id}`, {
         method: "DELETE",
       });
       handleChangeList();
       replaceRoute("/");
-      console.log("DELETE", res);
     });
   }
   $target.appendChild($buttonWrap);

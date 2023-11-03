@@ -22,35 +22,25 @@ export default function EditPage({ $target, initialState }) {
       clearTimeout(timer);
       clearTimeout(timerPost);
 
-      timer = setTimeout(async () => {
-        const isOpen = localStorageGetItem(DOC_TMP_KEY).open;
-        localStorageSetItem(DOC_TMP_KEY, {
-          ...nextState,
-          updatedAt: new Date(),
-          open: isOpen,
-        });
-      });
       if (type === "title") {
         //<< 제목의 경우 즉시 실행함수로 PUT
-        const res = await request(`/documents/${nextState.id}`, {
+        await request(`/documents/${nextState.id}`, {
           method: "PUT",
           body: JSON.stringify({
             title: nextState.title,
             content: nextState.content,
           }),
         });
-        console.log("PUT", res);
       } else {
         // << content는 2초 디바운스
         timerPost = setTimeout(async () => {
-          const res = await request(`/documents/${nextState.id}`, {
+          await request(`/documents/${nextState.id}`, {
             method: "PUT",
             body: JSON.stringify({
               title: nextState.title,
               content: nextState.content,
             }),
           });
-          console.log("PUT", res);
         }, 2000);
       }
     },
