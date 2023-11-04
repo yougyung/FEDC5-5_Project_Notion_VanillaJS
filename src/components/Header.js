@@ -3,6 +3,6 @@ export default function Header({ $target, initialState }) {
 
 	this.state = initialState;
 
-	$target.appendChild($div);
 	$div.innerHTML = `<p style="padding-left:12px;">${this.state}</p>`;
+	$target.appendChild($div);
 }
