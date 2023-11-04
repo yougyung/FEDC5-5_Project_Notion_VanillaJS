@@ -34,7 +34,7 @@ const createApiMethod =
       method,
     };
 
-    if (body) {
+    if (body || method !== HTTP_METHODS.GET) {
       config.body = JSON.stringify(body);
     }
     return api(`${BASE_URL}${url}`, config);
