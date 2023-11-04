@@ -26,7 +26,10 @@ export default class Trie {
 
   exists(title) {
     let currentNode = this.root;
-    for (const letter of title) {
+    for (let letter of title) {
+      if (letter.charCodeAt(0) === 160) {
+        letter = " ";
+      }
       if (!currentNode.children.has(letter)) {
         return false;
       }
