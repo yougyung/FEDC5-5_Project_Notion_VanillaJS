@@ -42,15 +42,16 @@ export default class Trie {
     if (!title) {
       return [];
     }
-    let madeword = [];
     let currentNode = searchTrie.exists(title);
-    if (currentNode) {
-      madeword.push(title);
-    } else {
+    if (!currentNode) {
       return [];
     }
-
     let result = [];
+
+    if (currentNode.idx) {
+      result.push([currentNode.idx, currentNode.value]);
+    }
+
     let queue = [currentNode];
     while (queue.length > 0) {
       let q = queue.shift();
