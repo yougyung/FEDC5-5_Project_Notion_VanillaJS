@@ -7,8 +7,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.className = "editor_wrap";
   $target.appendChild($editor);
 
-  const $editorTitle = document.createElement("h1");
-  $editorTitle.contentEditable = "true";
+  const $editorTitle = document.createElement("input");
   $editorTitle.className = "editor_title";
   $editor.appendChild($editorTitle);
 
@@ -41,6 +40,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     const searchString = e.currentTarget.childNodes[1].innerText.substring(1); //NodeList[text,span]
     if (!searchString) return;
     const searchResult = searchTrie.autoComplete(searchString);
+    console.log(searachString, searchResult);
     if (searchResult.length > 0) {
       $linkWrap.innerHTML =
         `<p class="link_wrap_inner_p">페이지 링크</p>` +
@@ -60,7 +60,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       page.addEventListener("click", async (event) => {
         const id = event.target.dataset.id;
         const txt = event.target.innerText;
-        e.target.innerHTML = `<a data-id=${id} style="text-decoration:underline">${txt}</a>`;
+        e.target.innerHTML = `<a data-id=${id} contentEditable = "false" style="text-decoration:underline">${txt}</a>`;
         const newBlock = document.createElement("div");
         newBlock.className = "editor_content_block";
         newBlock.setAttribute("contenteditable", true);
@@ -191,7 +191,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   this.render = () => {
-    $editorTitle.innerHTML = this.state.title;
+    $editorTitle.value = this.state.title;
     if (this.state.content !== null) {
       $editorContent.innerHTML = `${this.state.content}<div class="editor_content_block" contenteditable="true"></div>`;
     } else {
@@ -214,16 +214,14 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   $editorTitle.addEventListener("keyup", async (e) => {
-    if (
-      e.key === "Enter" &&
-      document.querySelector(".editor_title").childNodes[1]
-    ) {
-      document.querySelector(".editor_title").childNodes[1].remove(); //엔터로 생성된 다음줄제거
+    console.log(e.target.value);
+    if (e.key === "Enter") {
       e.target.nextSibling.firstChild.firstChild.focus();
     }
+
     const nextState = {
       ...this.state,
-      title: e.target.innerHTML,
+      title: e.target.value,
     };
     this.setState(nextState);
     await onEditing(nextState, "title");

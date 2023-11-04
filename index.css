@@ -202,9 +202,17 @@ li {
 .editor_title {
   padding-left: calc(20px + env(safe-area-inset-left));
   font-size: 40px;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+.editor_title {
+  border: 0;
 }
 .editor_title:focus {
-  outline: none;
+  outline: 0;
 }
 .editor_content_wrap {
   display: flex;
