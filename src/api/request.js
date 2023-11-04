@@ -1,4 +1,4 @@
-export const API_END_POINT = 'https://kdt-frontend.programmers.co.kr';
+import { API_END_POINT } from '../constants/url.js';
 import { API_REQUEST_ERROR } from '../constants/messages.js';
 
 export const request = async (url, options = {}) => {
