@@ -4,7 +4,7 @@ import Header from './components/Header.js';
 import Breadcrumb from './components/Breadcrumb.js';
 import SubDocumentLinkList from './components/SubDocumentLinkList.js';
 import { request } from './api/request.js';
-import { GET, POST, PUT, DELETE, OWNER, DOCUMENTS } from './constants/index.js';
+import { HTTP_METHOD, OWNER, DOCUMENTS } from './constants/index.js';
 import { initRouter, push } from './route/router.js';
 import { getBreadcrumb } from './utils/getBreadCrumb.js';
 import PageGenerator from './components/PageGenerator.js';
@@ -35,14 +35,14 @@ export default function App({ $target, initialState }) {
 			const document = { title: '', parent: parentId ? parentId : null };
 			const nextState = await this.fetch({
 				url: DOCUMENTS,
-				method: POST,
+				method: HTTP_METHOD.POST,
 				body: JSON.stringify({ ...document }),
 			});
 			const { id } = nextState;
 
 			await this.fetch({
 				url: DOCUMENTS,
-				method: GET,
+				method: HTTP_METHOD.GET,
 				callback: this.setState,
 			});
 			documentEditPage.setState({ ...nextState, documents: [] });
@@ -59,7 +59,7 @@ export default function App({ $target, initialState }) {
 		onTitleClick: async (id) => {
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
-				method: GET,
+				method: HTTP_METHOD.GET,
 			});
 			documentEditPage.setState(nextState);
 			push(`${DOCUMENTS}/${id}`);
@@ -72,14 +72,14 @@ export default function App({ $target, initialState }) {
 			const document = { title: '', parent: parentId ? parentId : null };
 			const nextState = await this.fetch({
 				url: DOCUMENTS,
-				method: POST,
+				method: HTTP_METHOD.POST,
 				body: JSON.stringify({ ...document }),
 			});
 			const { id } = nextState;
 
 			await this.fetch({
 				url: DOCUMENTS,
-				method: GET,
+				method: HTTP_METHOD.GET,
 				callback: this.setState,
 			});
 			documentEditPage.setState({ ...nextState, documents: [] });
@@ -89,11 +89,14 @@ export default function App({ $target, initialState }) {
 			push(`${DOCUMENTS}/${id}`);
 		},
 		onDeletePage: async (id, target) => {
-			await this.fetch({ url: `${DOCUMENTS}/${id}`, method: DELETE });
+			await this.fetch({
+				url: `${DOCUMENTS}/${id}`,
+				method: HTTP_METHOD.DELETE,
+			});
 
 			await this.fetch({
 				url: DOCUMENTS,
-				method: GET,
+				method: HTTP_METHOD.GET,
 				callback: this.setState,
 			});
 			breadcrumb.setState([]);
@@ -108,7 +111,7 @@ export default function App({ $target, initialState }) {
 		onBreadcrumbItemClick: async (id) => {
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
-				method: GET,
+				method: HTTP_METHOD.GET,
 			});
 			documentEditPage.setState(nextState);
 			push(`${DOCUMENTS}/${id}`);
@@ -131,13 +134,13 @@ export default function App({ $target, initialState }) {
 				};
 				await this.fetch({
 					url: `${DOCUMENTS}/${id}`,
-					method: PUT,
+					method: HTTP_METHOD.PUT,
 					body: JSON.stringify({ ...modifiedPost }),
 				});
 
 				await this.fetch({
 					url: DOCUMENTS,
-					method: GET,
+					method: HTTP_METHOD.GET,
 					callback: this.setState,
 				});
 				const breadcrumbPath = getBreadcrumb(this.state, id);
@@ -145,7 +148,7 @@ export default function App({ $target, initialState }) {
 
 				const nextState = await this.fetch({
 					url: `${DOCUMENTS}/${id}`,
-					method: GET,
+					method: HTTP_METHOD.GET,
 				});
 				documentEditPage.setState(nextState);
 			}, 500);
@@ -158,7 +161,7 @@ export default function App({ $target, initialState }) {
 		onSubDocumentLinkClick: async (id) => {
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
-				method: GET,
+				method: HTTP_METHOD.GET,
 			});
 			documentEditPage.setState(nextState);
 			subDocumentLinkList.setState(nextState);
@@ -190,7 +193,7 @@ export default function App({ $target, initialState }) {
 			const [, , id] = pathname.split('/');
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
-				method: GET,
+				method: HTTP_METHOD.GET,
 			});
 			documentEditPage.setState(nextState);
 		}
@@ -210,7 +213,7 @@ export default function App({ $target, initialState }) {
 			const [, , id] = pathname.split('/');
 			const nextState = await this.fetch({
 				url: `${DOCUMENTS}/${id}`,
-				method: GET,
+				method: HTTP_METHOD.GET,
 			});
 			documentEditPage.setState(nextState);
 
