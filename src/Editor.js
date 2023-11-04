@@ -205,9 +205,12 @@ export default function Editor({ $target, initialState, onEditing }) {
     for (const block of blocks) {
       block.addEventListener("keyup", (e) => handleChangeContent(e));
     }
-    if ($editor.querySelector("a")) {
-      $editor.querySelector("a").addEventListener("click", (each) => {
-        pushRoute(`/docs/${each.target.dataset.id}`);
+    const linkTags = $editor.querySelectorAll("a");
+    if (linkTags) {
+      linkTags.forEach((tag) => {
+        tag.addEventListener("click", (each) => {
+          pushRoute(`/docs/${each.target.dataset.id}`);
+        });
       });
     }
   };
