@@ -11,19 +11,16 @@ export default function EditPage({ $target, initialState }) {
   this.state = initialState;
 
   let DOC_TMP_KEY = `doc_tmp_${this.state.docId}`;
-  let timer = null;
   let timerPost = null;
 
   const editor = new Editor({
     $target: $editPage,
     initialState: { title: "", content: "" },
     onEditing: async (nextState, type = "") => {
-      // 디바운스
-      clearTimeout(timer);
       clearTimeout(timerPost);
 
       if (type === "title") {
-        //<< 제목의 경우 즉시 실행함수로 PUT
+        //<< 제목의 경우 디바운스 없이 PUT
         await request(`/documents/${nextState.id}`, {
           method: "PUT",
           body: JSON.stringify({

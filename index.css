@@ -81,6 +81,10 @@ ul {
 .side_bar_list::-webkit-scrollbar-thumb {
   background: rgba(55, 53, 47, 0.08);
 }
+.side_bar_list ul,
+li {
+  position: relative;
+}
 .plus_page_button,
 .delete_page_button {
   padding: 2px 6px;

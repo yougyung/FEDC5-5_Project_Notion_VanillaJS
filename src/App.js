@@ -6,7 +6,6 @@ import { customSideBarList } from "./utils/customEvent.js";
 export default function App({ $target }) {
   const $wrap = document.createElement("div");
   $wrap.style.display = "flex";
-  $wrap.style.height = "100vh";
 
   const $wrapSideBar = document.createElement("div");
   $wrapSideBar.className = "wrap_side_bar";

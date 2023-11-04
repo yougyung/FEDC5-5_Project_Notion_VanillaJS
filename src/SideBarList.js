@@ -26,11 +26,12 @@ export default function SideBarList({
   const showSubLi = ({ $target, documents }) => {
     const $subUl = document.createElement("ul");
     const paddingLeftValue = $target.style.paddingLeft;
-    $subUl.style.position = "relative";
-    $subUl.style.paddingLeft = paddingLeftValue
-      ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
+    const spaceValue = paddingLeftValue
+      ? Number(paddingLeftValue.replace("px", "")) + 10 + "px"
       : "0px";
-    $subUl.style.right = paddingLeftValue ? paddingLeftValue : "0px";
+
+    $subUl.style.paddingLeft = spaceValue;
+    $subUl.style.right = paddingLeftValue || "0px";
     $target.appendChild($subUl);
 
     if ($target !== $sideBarList) {
@@ -44,13 +45,8 @@ export default function SideBarList({
     }
     documents.map((doc) => {
       const $subLi = document.createElement("li");
-      $subLi.style.position = "relative";
-      $subLi.style.paddingLeft = paddingLeftValue
-        ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
-        : "0px";
-      $subLi.style.right = paddingLeftValue
-        ? Number(paddingLeftValue.split("px")[0]) + 10 + "px"
-        : "0px";
+      $subLi.style.paddingLeft = spaceValue;
+      $subLi.style.right = spaceValue;
       $subLi.dataset.id = doc.id;
       if (
         localStorageGetItem(`doc_tmp_${$subLi.dataset.id}`, { open: false })
