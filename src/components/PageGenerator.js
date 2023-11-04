@@ -1,4 +1,4 @@
-import { SVG_CIRCLE_ADD } from '../constants/index.js';
+import { SVG_CIRCLE_ADD } from '../assets/svg.js';
 
 export default function PageGenerator({ $target, initialState, onCreatePage }) {
 	const $div = document.createElement('div');

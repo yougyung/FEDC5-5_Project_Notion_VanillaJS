@@ -1,5 +1,5 @@
 import { EMPTY_TITLE } from '../constants/messages.js';
-import { SVG_DOCUMENT } from '../constants/index.js';
+import { SVG_DOCUMENT } from '../assets/svg.js';
 
 export default function SubDocumentLinkList({
 	$target,

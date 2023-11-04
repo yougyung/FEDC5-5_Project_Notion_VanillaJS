@@ -1,6 +1,6 @@
 import { EMPTY_TITLE } from '../constants/messages.js';
 import { getItem, setItem } from '../storage.js';
-import { SVG_ARROW_DOWN, SVG_PLUS, SVG_DELETE } from '../constants/index.js';
+import { SVG_ARROW_DOWN, SVG_PLUS, SVG_DELETE } from '../assets/svg.js';
 export default function DocumentList({
 	$target,
 	initialState,
