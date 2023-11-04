@@ -14,35 +14,33 @@ export default class Trie {
 
   insert(id, title) {
     let currentNode = this.root;
-    for (const t of title) {
-      if (!currentNode.children.has(t)) {
-        currentNode.children.set(t, new Node(currentNode.value + t)); // {o : pro}
+    for (const letter of title) {
+      if (!currentNode.children.has(letter)) {
+        currentNode.children.set(letter, new Node(currentNode.value + letter)); // {o : pro}
       }
-      currentNode = currentNode.children.get(t);
+      currentNode = currentNode.children.get(letter);
     }
     currentNode.end = true;
     currentNode.idx = id;
   }
 
   exists(title) {
-    let currentNode = this.root.children.get(" ");
-    for (const t of title) {
-      if (!currentNode.children.has(t)) {
+    let currentNode = this.root;
+    for (const letter of title) {
+      if (!currentNode.children.has(letter)) {
         return false;
       }
-      currentNode = currentNode.children.get(t);
+      currentNode = currentNode.children.get(letter);
     }
     return currentNode;
   }
 
   autoComplete(title) {
-    title = title.replace(" ", "");
     if (!title) {
       return [];
     }
-    let currentNode = searchTrie.root.children.get(" ");
     let madeword = [];
-    currentNode = searchTrie.exists(title);
+    let currentNode = searchTrie.exists(title);
     if (currentNode) {
       madeword.push(title);
     } else {
@@ -64,8 +62,7 @@ export default class Trie {
   }
 
   init() {
-    let currentNode = this.root.children.get(" ");
-    searchTrie.root.children.get(" ").children = new Map();
+    searchTrie.root.children = new Map();
   }
 }
 

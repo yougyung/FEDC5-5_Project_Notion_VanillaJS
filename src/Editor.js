@@ -40,7 +40,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     const searchString = e.currentTarget.childNodes[1].innerText.substring(1); //NodeList[text,span]
     if (!searchString) return;
     const searchResult = searchTrie.autoComplete(searchString);
-    console.log(searachString, searchResult);
     if (searchResult.length > 0) {
       $linkWrap.innerHTML =
         `<p class="link_wrap_inner_p">페이지 링크</p>` +
@@ -214,14 +213,12 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   $editorTitle.addEventListener("keyup", async (e) => {
-    console.log(e.target.value);
     if (e.key === "Enter") {
       e.target.nextSibling.firstChild.firstChild.focus();
     }
-
     const nextState = {
       ...this.state,
-      title: e.target.value,
+      title: e.target.value.replace(/^\s{1,}/g, ""),
     };
     this.setState(nextState);
     await onEditing(nextState, "title");

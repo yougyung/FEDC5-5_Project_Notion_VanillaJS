@@ -25,7 +25,7 @@ export function pageAddDeleteButton({
     const res = await request("/documents", {
       method: "POST",
       body: JSON.stringify({
-        title: " 제목 없음",
+        title: "제목 없음",
         parent: id,
       }),
     });
