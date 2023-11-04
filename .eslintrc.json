@@ -13,6 +13,6 @@
 		"indent": ["error", "tab"],
 		"linebreak-style": ["error", "auto"],
 		"quotes": ["error", "single"],
-		"semi": ["error", "never"]
+		"semi": ["error", "always"]
 	}
 }
