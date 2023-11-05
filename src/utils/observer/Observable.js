@@ -16,6 +16,6 @@ export default class Observable {
   }
   changedState(nextState) {
     this.state = { ...getDeepCopy(this.state), ...getDeepCopy(nextState) };
-    this.notify;
+    this.notify();
   }
 }

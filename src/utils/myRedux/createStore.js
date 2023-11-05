@@ -1,10 +1,11 @@
-import Observer from "../observer/Observable.js";
+import Observable from "../observer/Observable.js";
 
 export const createStore = (reducer) => {
-  const observer = Object.freeze(new Observer());
+  const observable = Object.freeze(new Observable());
   const state = reducer();
-  const subscribe = () => {
-    observer.subscribe();
-  };
+  observable(state);
+  const subscribe = (callback) => observable.subscribe(callback);
+  const dispatch = (action) => reducer(state, action);
+  const getState = () => Object.freeze(state);
   return { subscribe, dispatch, getState };
 };
