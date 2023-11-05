@@ -1,4 +1,4 @@
-class Observer {
+export default class Observer {
   constructor() {
     this.subscribers = new Set();
   }
@@ -12,4 +12,3 @@ class Observer {
     this.subscribers.forEach((subscriber) => subscriber(data));
   }
 }
-export default Object.freeze(new Observer());

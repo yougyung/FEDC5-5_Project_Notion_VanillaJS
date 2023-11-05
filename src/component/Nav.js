@@ -3,9 +3,9 @@ import DocumentList from "./DocumentList.js";
 import DocumentListHeader from "./DocumentListHeader.js";
 import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
-import Observer from "../utils/globalStore/Observer.js";
 import { push } from "../utils/handleRouteEvent.js";
 import Storage from "../utils/storage.js";
+import observer from "../main.js";
 
 //initialState = [{id:num, title:string, documents:array }]
 export default function Nav({ $target }) {
@@ -17,7 +17,7 @@ export default function Nav({ $target }) {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
   };
-  Observer.subscribe(this.getDocuments);
+  observer.subscribe(this.getDocuments);
   const createDocument = async (id = null) => {
     const body = { title: "제목 없음", parent: id };
     const response = await request("/documents", {

@@ -2,7 +2,7 @@ import Editor from "../component/Editor.js";
 import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/handleRouteEvent.js";
-import Observer from "../utils/globalStore/Observer.js";
+import observer from "../main.js";
 import { getPathData } from "../utils/getPathData.js";
 
 // initialState : {doucmentId :null, document:null}
@@ -63,7 +63,7 @@ export default function DocumentPage({ $target, initialState }) {
           method: "PUT",
           body: JSON.stringify(requestBody),
         });
-        Observer.notify();
+        observer.notify();
         documentHeader.setState({ title: response.title });
       }, 1500);
     },
