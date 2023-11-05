@@ -38,7 +38,7 @@ export default class Fallback extends Component {
   setEvent() {
     this.addEvent('click', '.reset-button', () => {
       this.$target.replaceChildren();
-      this.state = { isError: false, message: null };
+      this.state = { isError: false, code: null };
       push('/');
     });
   }

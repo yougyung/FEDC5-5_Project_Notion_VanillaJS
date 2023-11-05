@@ -16,7 +16,6 @@ import {
 import { API_END_POINT } from '@/constants/api';
 import { debounce } from '@/utils/debounce';
 import { createTemplate } from '@/utils/dom';
-import { ERROR_MESSAGE } from '@/constants/error';
 
 export default class MainPage extends Component {
   constructor($target) {
@@ -76,8 +75,7 @@ export default class MainPage extends Component {
 
       this.$documentList.setState({ ...this.$documentList.state, documentList });
     } catch (error) {
-      this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, code: error.code });
+      this.handleError(error);
     }
   }
 
@@ -88,8 +86,7 @@ export default class MainPage extends Component {
       this.$editor.setState(currentDocument);
       this.$navigation.setState(currentDocument.documents);
     } catch (error) {
-      this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, code: error.code });
+      this.handleError(error);
     }
   }
 
@@ -104,8 +101,7 @@ export default class MainPage extends Component {
       this.fetchDocumentList();
       push(`${API_END_POINT.DOCUMENTS}/${newDocument.id}`);
     } catch (error) {
-      this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
+      this.handleError(error);
     }
   }
 
@@ -113,13 +109,10 @@ export default class MainPage extends Component {
     try {
       await deleteDocument(documentId);
 
-      // TODO push가 아니라, replace로 수정해야 함!
       if (this.state.currentId === documentId) replace('/');
       this.fetchDocumentList();
     } catch (error) {
-      // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
-      this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
+      this.handleError(error);
     }
   }
 
@@ -128,11 +121,14 @@ export default class MainPage extends Component {
       const { id, title, content } = nextState;
 
       await updateDocument(id, { title, content });
-      this.fetchDocumentList(); // TODO 가능하면 낙관적 업데이트 해볼 것
+      this.fetchDocumentList();
     } catch (error) {
-      // TODO 에러 발생 시 $editor.setState로 내부 값 변경해서 렌더링해주기
-      this.$mainSection.replaceChildren();
-      this.$fallback.setState({ isError: true, message: ERROR_MESSAGE[error.code] });
+      this.handleError(error);
     }
+  }
+
+  handleError(error) {
+    this.$mainSection.replaceChildren();
+    this.$fallback.setState({ isError: true, code: error.code });
   }
 }
