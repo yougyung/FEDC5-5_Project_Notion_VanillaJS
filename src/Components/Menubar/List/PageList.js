@@ -1,7 +1,4 @@
-import {
-  removeToggleList,
-  setToggleList,
-} from "../../../LocalStorage/LocalStorage.js";
+import { removeToggleList, setToggleList } from "../../../LocalStorage/LocalStorage.js";
 import { makeRouterEvent } from "../../../Router/Router.js";
 import List from "./List.js";
 
@@ -38,45 +35,46 @@ export default function PageList({ target, state, onEvent }) {
 
   /* Event */
   pageListElement.addEventListener("click", (e) => {
-    if (e.target.closest("li[data-id")) {
-      const targetElement = e.target.closest("li[data-id]");
-      const { id } = targetElement.dataset;
-      const eventName = e.target.className;
+    const targetElement = e.target.closest("li[data-id]");
+    const { id } = targetElement.dataset;
 
-      /* Click List */
-      if (eventName === "menubar_pageList_list_info_title") {
-        e.preventDefault();
-        makeRouterEvent({ url: `/documents/${id}`, event: "push" });
+    if (!id) return;
+
+    const eventName = e.target.className;
+
+    /* Click List */
+    if (eventName === "menubar_pageList_list_info_title") {
+      e.preventDefault();
+      makeRouterEvent({ url: `/documents/${id}`, event: "push" });
+    }
+
+    /* Delete Event */
+    if (eventName === "menubar_pageList_list_info_deleteButton") {
+      onEvent({ id, delete: true });
+    }
+
+    /* insert Event */
+    if (eventName === "menubar_pageList_list_info_insertButton") {
+      onEvent({ id, insert: true });
+    }
+
+    /* Toggle Event */
+    if (eventName.includes("menubar_pageList_list_info_checkbox")) {
+      const checkBoxElement = targetElement.querySelector("input");
+      const display = targetElement.querySelector("ul");
+
+      if (!display.className.includes("toggleChecked")) {
+        checkBoxElement.setAttribute("checked", "true");
+        display.classList.add("toggleChecked");
+        setToggleList(id);
+        return;
       }
 
-      /* Delete Event */
-      if (eventName === "menubar_pageList_list_info_deleteButton") {
-        onEvent({ id, delete: true });
-      }
-
-      /* insert Event */
-      if (eventName === "menubar_pageList_list_info_insertButton") {
-        onEvent({ id, insert: true });
-      }
-
-      /* Toggle Event */
-      if (eventName.includes("menubar_pageList_list_info_checkbox")) {
-        const checkBoxElement = targetElement.querySelector("input");
-        const display = targetElement.querySelector("ul");
-
-        if (!display.className.includes("toggleChecked")) {
-          checkBoxElement.setAttribute("checked", "true");
-          display.classList.add("toggleChecked");
-          setToggleList(id);
-          return;
-        }
-
-        if (display.className.includes("toggleChecked")) {
-          checkBoxElement.removeAttribute("checked");
-          display.classList.remove("toggleChecked");
-          removeToggleList(id);
-          return;
-        }
+      if (display.className.includes("toggleChecked")) {
+        checkBoxElement.removeAttribute("checked");
+        display.classList.remove("toggleChecked");
+        removeToggleList(id);
+        return;
       }
     }
   });
