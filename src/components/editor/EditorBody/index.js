@@ -1,5 +1,6 @@
 import Component from '@/core/Component';
 import { FALLBACK } from '@/constants/fallback';
+import { createTemplate } from '@/utils/dom';
 
 import './EditorBody.scss';
 
@@ -7,24 +8,16 @@ export default class EditorBody extends Component {
   setup() {
     this.state = null;
 
-    this.$editor = document.createElement('article');
-    this.$editor.classList.add('editor-container');
+    this.$editor = createTemplate('<article class="editor-container"></article>');
     this.$target.appendChild(this.$editor);
 
-    this.$title = document.createElement('input');
-    this.$title.classList.add('editor-title');
-
-    this.$content = document.createElement('textarea');
-    this.$content.classList.add('editor-content');
     this.createDom();
   }
 
-  setState(nextState) {
-    this.state = nextState;
-    this.render();
-  }
-
   createDom() {
+    this.$title = createTemplate('<input class="editor-title"></input>');
+    this.$content = createTemplate('<textarea class="editor-content"></textarea>');
+
     this.$editor.appendChild(this.$title);
     this.$editor.appendChild(this.$content);
   }
@@ -48,7 +41,6 @@ export default class EditorBody extends Component {
     });
   }
 
-  // TODO 스타일 속성을 직접 변경하지 말고 className으로 변경해주기
   render() {
     if (!this.state) {
       this.$editor.classList.remove('visible');

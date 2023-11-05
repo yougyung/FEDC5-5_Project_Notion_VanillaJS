@@ -16,8 +16,7 @@ export default class DocumentList extends Component {
 
     this.unfoldedStorage = initStorage(STORAGE_KEY.UNFOLDED_STORAGE);
 
-    this.$documentList = document.createElement('nav');
-    this.$documentList.classList.add('document-navigator');
+    this.$documentList = createTemplate('<nav class="document-navigator"></nav>');
     this.$target.appendChild(this.$documentList);
 
     const $addNewPageButton = createTemplate(
