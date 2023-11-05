@@ -4,7 +4,7 @@
  */
 
 import styleInJS from '../../../style/tagStyles.js';
-import { saveDocumentTitle } from '../../../utils/saveDocumentTitle.js';
+import { saveDocumentTitleEvent } from '../../../utils/saveDocumentTitle.js';
 
 export default function DocumentTitle({ $target, initialState, onEditTitle }) {
   const $title = document.createElement('input');
@@ -21,7 +21,7 @@ export default function DocumentTitle({ $target, initialState, onEditTitle }) {
 
   $title.addEventListener('keyup', e => {
     const nextTitle = e.target.value;
-    saveDocumentTitle(nextTitle, this.state.id);
+    saveDocumentTitleEvent(nextTitle, this.state.id);
     onEditTitle(nextTitle);
   });
 

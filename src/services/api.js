@@ -1,8 +1,8 @@
 const API_BASE_URL = 'https://kdt-frontend.programmers.co.kr';
 
-export const request = async (url = '', options = {}) => {
+export const request = async (pathname = '', options = {}) => {
   try {
-    const res = await fetch(`${API_BASE_URL}${url.startsWith('/') ? url : `/${url}`}`, {
+    const res = await fetch(`${API_BASE_URL}${pathname.startsWith('/') ? pathname : `/${pathname}`}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',

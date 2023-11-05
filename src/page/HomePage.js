@@ -3,7 +3,7 @@ import NotionSideBar from '../components/template/NotionSideBar.js';
 import { request } from '../services/api.js';
 import { initRouter } from '../utils/router.js';
 import styleInJS from '../style/tagStyles.js';
-import { optimisticUpdate } from '../utils/saveDocumentTitle.js';
+import { addSaveDocumentTitleEvent } from '../utils/saveDocumentTitle.js';
 
 /*
  * HomePage
@@ -47,7 +47,7 @@ export default function HomePage({ $target }) {
 
   let tempDocumentData;
 
-  this.route = async () => {
+  this.handleRoute = async () => {
     const { pathname } = window.location;
 
     const newDocuments = await request(`/documents`);
@@ -79,17 +79,21 @@ export default function HomePage({ $target }) {
     }
   };
 
-  this.route();
-
-  this.optimisticTitle = () => {
+  this.optimisticTitleUpdate = () => {
     notionSideBar.setState(this.state);
     documentDetail.setState(tempDocumentData);
   };
-  optimisticUpdate(this.optimisticTitle);
 
-  initRouter(this.route);
+  this.init = () => {
+    this.handleRoute();
 
-  window.addEventListener('popstate', e => {
-    this.route();
-  });
+    addSaveDocumentTitleEvent(this.optimisticTitleUpdate);
+    initRouter(this.route);
+
+    window.addEventListener('popstate', e => {
+      this.handleRoute();
+    });
+  };
+
+  this.init();
 }
