@@ -11,13 +11,21 @@ export function makeDocTree(root, depth, domTree = [], closeList, hideList) {
     }"" style="padding-left: ${5 + (depth - 1) * 10}px">
         <button data-id="${child.id}" class="nav-toggle-btn ${
       closeList.indexOf(child.id.toString()) === -1 ? 'toggled' : ''
-    }">${closeList.indexOf(child.id.toString()) === -1 ? '▼' : '▶'}</button>
+    }">
+    <span class='close ${
+      closeList.indexOf(child.id.toString()) === -1 ? 'hidden' : ''
+    }'>▶</span>
+    <span class='open ${
+      closeList.indexOf(child.id.toString()) === -1 ? '' : 'hidden'
+    }'>▼</span>
+    </button>
         <div class="nav-document" data-id="${child.id}">${child.title}</div>
         <button data-id="${child.id}" class="nav-delete-btn hidden">✖</button>
         <button data-id="${child.id}" class="nav-plus-btn hidden">➕</button>
       </div>
       `;
 
+    // ${closeList.indexOf(child.id.toString()) === -1 ? '▼' : '▶'}
     domTree.push(dom);
 
     if (child.documents.length === 0) {

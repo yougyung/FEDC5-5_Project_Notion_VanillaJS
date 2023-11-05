@@ -92,8 +92,9 @@ export default function SideNav({
       onClickDoc(dataset.id);
     }
 
-    if (classList.contains('nav-toggle-btn')) {
-      onClickToggleBtn(dataset.id);
+    if (classList.contains('open') || classList.contains('close')) {
+      const $button = e.target.closest('button');
+      onClickToggleBtn($button.dataset.id);
     }
 
     if (classList.contains('nav-username')) {
