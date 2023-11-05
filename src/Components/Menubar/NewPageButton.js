@@ -3,10 +3,7 @@ export default function NewPageButton({ target, onEvent }) {
   rootInsertButton.setAttribute("class", "menubar_rootInsertButton");
 
   const emojiTextElement = document.createElement("p");
-  emojiTextElement.setAttribute(
-    "class",
-    "menubar_rootInsertButton_buttonImoji"
-  );
+  emojiTextElement.setAttribute("class", "menubar_rootInsertButton_buttonEmoji");
   emojiTextElement.textContent = "+";
   rootInsertButton.appendChild(emojiTextElement);
 
