@@ -25,7 +25,7 @@ export const validateDocumentNode = (nodes) => {
     }
 
     try {
-        nodes.forEach((node) => validateSelf(node));
+        nodes.forEach(validateSelf);
     } catch (err) {
         throw err;
     }
