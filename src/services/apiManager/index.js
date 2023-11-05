@@ -18,11 +18,10 @@ const fetchApi = (url, method = "GET", body) => {
 };
 
 export async function createDocument(body) {
-    if (requests.validateCreateDocumentRequest(body) === false) return null;
     try {
+        requests.validateCreateDocumentRequest(body);
         const res = await fetchApi(ENDPOINT, "POST", body);
-        if (responses.validateCreateDocumentResponse(res) === false)
-            return null;
+        responses.validateCreateDocumentResponse(res);
         return res;
     } catch (err) {
         console.error(err);
@@ -33,8 +32,7 @@ export async function createDocument(body) {
 export async function getRootDocument() {
     try {
         const res = await fetchApi(ENDPOINT);
-        if (responses.validateRootDocumentResponse(res) === false)
-            return null;
+        responses.validateRootDocumentResponse(res);
         return res;
     } catch (err) {
         console.error(err);
@@ -45,8 +43,7 @@ export async function getRootDocument() {
 export async function getDocumentContent(documentId) {
     try {
         const res = await fetchApi(`${ENDPOINT}/${documentId}`);
-        if (responses.validateDocumentContentResponse(res) === false)
-            return null;
+        responses.validateDocumentContentResponse(res);
         return res;
     } catch (err) {
         console.error(err);
@@ -64,8 +61,8 @@ export function deleteDocument(documentId) {
 }
 
 export function updateDocument(documentId, body) {
-    if(requests.validateUpdateDocumentRequest(body) === false) return null;
     try {
+        requests.validateUpdateDocumentRequest(body);
         fetchApi(`${ENDPOINT}/${documentId}`, "PUT", body);
     } catch (err) {
         console.error(err);
