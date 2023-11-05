@@ -40,7 +40,7 @@ export default function HomePage({ $target }) {
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/');
       const documentContent = request(`/documents/${postId}`);
-      const documentPathData = findDocumentDataById(Number(postId));
+      const documentPathData = findDocumentDataById(this.state, Number(postId));
 
       // sidebar 업데이트
       notionSideBar.setState(this.state);
@@ -66,10 +66,8 @@ export default function HomePage({ $target }) {
 
   this.init = () => {
     this.handleRoute();
-
     addSaveDocumentTitleEvent(this.optimisticTitleUpdate);
-    initRouter(this.route);
-
+    initRouter(this.handleRoute);
     window.addEventListener('popstate', e => {
       this.handleRoute();
     });

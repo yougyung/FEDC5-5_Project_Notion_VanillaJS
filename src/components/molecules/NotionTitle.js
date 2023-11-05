@@ -9,10 +9,9 @@ export default function NotionTitle({ $target, title }) {
   const $notionTitle = document.createElement('h1');
   $notionTitle.textContent = title;
   styleInJS({ $target: $notionTitle, styleTagName: 'NotionTitle' });
+  $target.appendChild($notionTitle);
+
   $notionTitle.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
     push('/');
   });
-  $target.appendChild($notionTitle);
 }

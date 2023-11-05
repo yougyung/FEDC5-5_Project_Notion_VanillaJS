@@ -17,8 +17,8 @@
   [o] init으로 초기값 관리
 
 - NotionSideBar.js
-  [ ] 이벤트 델리게이션 -> 다른 DOM에 있는것 적절치 않음
-  [ ] 헤더부분, list부분 분리해서 등록
+  [o] 이벤트 델리게이션 -> 다른 DOM에 있는것 적절치 않음
+  [o] 헤더부분, list부분 분리해서 등록
 
 - DeleteDocumentButton.js, DocumentLinkButton.js, NewDocumentButton.js
   [ ] 컨텍스트가 담겨있는 버튼들 => molecule보다는 organism에 가까움
@@ -32,7 +32,7 @@
   [o]파라미터 네이밍 변경
 
 - /utils/saveDocumentTitle.js
-  [ ] 함수명 직관적으로 변경
+  [o] 함수명 직관적으로 변경
 
 - Edit 수정
   [ ] 제목에 한글 입력 error

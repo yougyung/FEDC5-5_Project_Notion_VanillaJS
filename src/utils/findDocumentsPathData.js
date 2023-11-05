@@ -1,6 +1,5 @@
 export const findDocumentDataById = (rootDocument, id) => {
   const documentPath = [];
-
   const findDocument = (documents, id) => {
     for (const document of documents) {
       if (document.id === id) {
