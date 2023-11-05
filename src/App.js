@@ -6,6 +6,7 @@ import { validateListProps, validatePageProps } from "./Function/PropValidation.
 import { makeRouterEvent, pushRouter } from "./Router/Router.js";
 import HelpButton from "./Components/HelpCard/HelpButton.js";
 import HelpCard from "./Components/HelpCard/HelpCard.js";
+import debounce from "./Function/debounce.js";
 
 export default function App({ target }) {
   /* App 생성 정보 */
@@ -85,33 +86,25 @@ export default function App({ target }) {
     },
   });
 
-  // 디바운드를 위한 timer
-  let timer = null;
-
   const pageViewer = new PageViewer({
     target: appElement,
     state: {
       id: "Index",
     },
 
-    onEditing: (params) => {
+    /* 디바운스 */
+    onEditing: debounce(async (params) => {
       const { id } = params;
       /* local 저장 */
       setStorage(params);
 
-      /* 디바운스 */
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(async () => {
-        const res = await updatePage(params);
+      const res = await updatePage(params);
 
-        if (res.id === id) {
-          removeStorage(id);
-        }
-        await getPageList("/documents");
-      }, 600);
-    },
+      if (res.id === id) {
+        removeStorage(id);
+      }
+      await getPageList("/documents");
+    }, 300),
   });
 
   this.route = async () => {
