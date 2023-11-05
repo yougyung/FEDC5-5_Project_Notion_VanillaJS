@@ -21,7 +21,7 @@ export default function DocumentPage({ $target, initialState }) {
     }
     this.setState(document);
   };
-  this.fetchDocument(this.state.id);
+  this.fetchDocument(documentId);
   this.setState = async (nextState) => {
     this.state = nextState;
     const { id, title } = this.state;
