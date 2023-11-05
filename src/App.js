@@ -1,23 +1,8 @@
-import {
-  deletePage,
-  insertPage,
-  request,
-  getPage,
-  updatePage,
-} from "./API/API.js";
+import { deletePage, insertPage, request, getPage, updatePage } from "./API/API.js";
 import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
-import {
-  getStorage,
-  isCheckedToggled,
-  removeStorage,
-  setStorage,
-  setToggleList,
-} from "./LocalStorage/LocalStorage.js";
-import {
-  listPropValidation,
-  pagePropValidation,
-} from "./Function/PropValidation.js";
+import { getStorage, isCheckedToggled, removeStorage, setStorage, setToggleList } from "./LocalStorage/LocalStorage.js";
+import { validateListProps, validatePageProps } from "./Function/PropValidation.js";
 import { makeRouterEvent, pushRouter } from "./Router/Router.js";
 import HelpButton from "./Components/HelpCard/HelpButton.js";
 import HelpCard from "./Components/HelpCard/HelpCard.js";
@@ -32,7 +17,7 @@ export default function App({ target }) {
   const getPageList = async (url) => {
     const lists = await request(url);
     /* 유효성 검사 */
-    if (listPropValidation(lists)) {
+    if (validateListProps(lists)) {
       /* 리스트 상태 변경 */
       menubar.setState(lists);
     }
@@ -144,7 +129,7 @@ export default function App({ target }) {
       if (id) {
         const page = await getChechkedPage(id);
         /* 유효성 검사 */
-        if (pagePropValidation(page)) {
+        if (validatePageProps(page)) {
           pageViewer.setState(page);
         }
       }

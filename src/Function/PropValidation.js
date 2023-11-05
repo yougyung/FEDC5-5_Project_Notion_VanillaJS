@@ -1,4 +1,4 @@
-export function pagePropValidation(prop) {
+export function validatePageProps(prop) {
   if (!prop.updatedAt) {
     throw new Error("updatedAt 에 대한 정보가 없습니다");
   }
@@ -26,7 +26,7 @@ export function pagePropValidation(prop) {
   return true;
 }
 
-export function listPropValidation(prop) {
+export function validateListProps(prop) {
   if (!typeof prop === "object" || !Array.isArray(prop)) {
     throw new Error("불러온 Documnet List가 'objec' 또는 'Array'가 아닙니다 ");
   }
