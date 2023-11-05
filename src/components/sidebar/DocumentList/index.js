@@ -34,10 +34,15 @@ export default class DocumentList extends Component {
     this.$documentList.replaceChildren();
 
     const unfoldedList = this.unfoldedStorage.getItem();
-    this.createList(this.$documentList, this.state.documentList, 0, unfoldedList);
+    this.createList({
+      parent: this.$documentList,
+      childrens: this.state.documentList,
+      depth: 0,
+      unfoldedList,
+    });
   }
 
-  createList(parent, childrens, depth, unfoldedList) {
+  createList({ parent, childrens, depth, unfoldedList }) {
     const $ul = createTemplate(`<ul class="document-list depth-${depth}"></ul>`);
 
     if (childrens.length === 0) return;

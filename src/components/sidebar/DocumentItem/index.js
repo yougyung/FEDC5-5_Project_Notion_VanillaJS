@@ -58,7 +58,13 @@ export default class DocumentItem extends Component {
     $pageClickButtonContainer.appendChild($addChildPageButton);
     $pageClickButtonContainer.appendChild($deletePageButton);
 
-    if (docs.documents.length > 0) createList(this.$li, docs.documents, depth, unfoldedList);
+    if (docs.documents.length > 0)
+      createList({
+        parent: this.$li,
+        childrens: docs.documents,
+        depth,
+        unfoldedList,
+      });
     else this.createEmptyDom(this.$li, depth + 1);
   }
 
