@@ -135,11 +135,10 @@ export default function App({ target }) {
   });
 
   /* 가이드 토글 버튼 */
-  const helpButton = new HelpButton({
+  new HelpButton({
     target: appElement,
-    onClick: (newState) => {
-      helpCard.setState(newState);
-      helpButton.setState();
+    onClick: () => {
+      helpCard.setState();
     },
   });
 

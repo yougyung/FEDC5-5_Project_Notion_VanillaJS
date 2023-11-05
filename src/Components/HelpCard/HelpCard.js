@@ -1,8 +1,7 @@
 export default function HelpCard({ target }) {
   this.state = false;
 
-  this.setState = (newState) => {
-    this.state = newState;
+  this.setState = () => {
     this.render();
   };
 
@@ -51,12 +50,6 @@ export default function HelpCard({ target }) {
   target.appendChild(cardElement);
 
   this.render = () => {
-    if (!this.state) {
-      cardElement.classList.remove("cardToggled");
-      return;
-    }
-    setTimeout(() => {
-      cardElement.classList.add("cardToggled");
-    }, 10);
+    cardElement.classList.toggle("cardToggled");
   };
 }

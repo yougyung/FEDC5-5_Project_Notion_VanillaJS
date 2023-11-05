@@ -1,10 +1,4 @@
 export default function HelpButton({ target, onClick }) {
-  this.state = true;
-  /* Boolean 변경 */
-  this.setState = () => {
-    this.state = !this.state;
-  };
-
   /* 버튼 박스 */
   const helpButtonElement = document.createElement("button");
   helpButtonElement.setAttribute("class", "app_helpButton");
@@ -35,12 +29,14 @@ export default function HelpButton({ target, onClick }) {
 
   /* 버튼 클릭 이벤트 */
   buttonImgElement.addEventListener("click", () => {
-    onClick(this.state);
+    onClick();
   });
 
   /* 박스외의 click toggle off */
   window.addEventListener("click", (e) => {
-    if (e.target !== buttonImgElement && !this.state) {
+    const cardElement = document.querySelector(".app_helpCard").classList;
+
+    if (e.target !== buttonImgElement && cardElement.contains("cardToggled")) {
       onClick(this.state);
     }
   });
