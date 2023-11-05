@@ -3,8 +3,8 @@ import * as responses from "./responses.js";
 
 const ENDPOINT = "https://kdt-frontend.programmers.co.kr/documents";
 
-const fetchApi = (url, method = "GET", body) => {
-    return fetch(url, {
+const fetchApi = (pathname = "", method = "GET", body) => {
+    return fetch(`${ENDPOINT}${pathname}`, {
         method,
         headers: {
             "x-username": "dongguen",
@@ -20,7 +20,7 @@ const fetchApi = (url, method = "GET", body) => {
 export async function createDocument(body) {
     try {
         requests.validateCreateDocumentRequest(body);
-        const res = await fetchApi(ENDPOINT, "POST", body);
+        const res = await fetchApi("POST", body);
         responses.validateCreateDocumentResponse(res);
         return res;
     } catch (err) {
@@ -31,7 +31,7 @@ export async function createDocument(body) {
 
 export async function getRootDocument() {
     try {
-        const res = await fetchApi(ENDPOINT);
+        const res = await fetchApi();
         responses.validateRootDocumentResponse(res);
         return res;
     } catch (err) {
@@ -42,7 +42,7 @@ export async function getRootDocument() {
 
 export async function getDocumentContent(documentId) {
     try {
-        const res = await fetchApi(`${ENDPOINT}/${documentId}`);
+        const res = await fetchApi(`/${documentId}`);
         responses.validateDocumentContentResponse(res);
         return res;
     } catch (err) {
@@ -53,7 +53,7 @@ export async function getDocumentContent(documentId) {
 
 export function deleteDocument(documentId) {
     try {
-        fetchApi(`${ENDPOINT}/${documentId}`, "DELETE");
+        fetchApi(`/${documentId}`, "DELETE");
     } catch (err) {
         console.error(err);
         return null;
@@ -63,7 +63,7 @@ export function deleteDocument(documentId) {
 export function updateDocument(documentId, body) {
     try {
         requests.validateUpdateDocumentRequest(body);
-        fetchApi(`${ENDPOINT}/${documentId}`, "PUT", body);
+        fetchApi(`/${documentId}`, "PUT", body);
     } catch (err) {
         console.error(err);
         return null;
