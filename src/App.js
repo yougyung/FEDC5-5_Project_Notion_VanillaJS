@@ -22,14 +22,11 @@ export default function App({ $target, initialState }) {
     initialState,
   });
 
-  // 최초 실행 및 새로고침 시 동작 -> 현재 pathname에 맞는 라우팅
-  const render = async () => {
-    const { pathname } = window.location;
-
+  // pathname에 따른 경로 하위 컴포넌트의 상태 변경
+  const pathByRequestPostData = async (pathname, callMoment) => {
     // 루트 페이지
     if (pathname === "/") {
       const postList = await fetchPostData("");
-      console.log("초기 데이터", postList);
 
       menuBarApp.setState(postList);
       editorApp.setState(null);
@@ -41,32 +38,24 @@ export default function App({ $target, initialState }) {
         fetchPostData(""),
       ]);
 
-      menuBarApp.setState(postList);
+      // 렌더링 시기가 최초 렌더링인지 아닌지 검사 후 api 통신
+      callMoment === "first" ? menuBarApp.setState(postList) : "";
       editorApp.setState(post);
     }
   };
 
-  // 변경된 pathname을 라우팅 -> 윈도우 이벤트 핸들러에 의해 동작
+  // 최초 렌더링
+  const render = async () => {
+    const { pathname } = window.location;
+
+    pathByRequestPostData(pathname, "first");
+  };
+
+  // 변경된 pathname을 렌더링
   const route = async () => {
     const { pathname } = window.location;
 
-    // 루트 페이지
-    if (pathname === "/") {
-      const postList = await fetchPostData("");
-      console.log("초기 데이터", postList);
-
-      menuBarApp.setState(postList);
-      editorApp.setState(null);
-    } else {
-      // 해당 id를 가진 문서를 에디터 App의 state에 전송
-      const [_, id] = pathname.split("/");
-      const [post, postList] = await Promise.all([
-        fetchPostData(`/${id}`),
-        fetchPostData(""),
-      ]);
-
-      editorApp.setState(post);
-    }
+    pathByRequestPostData(pathname, "after");
   };
 
   // document 리스트 get 요청
