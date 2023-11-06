@@ -29,16 +29,16 @@ export default class Editor {
         const findHeadingTagArr = [findH1, findH2, findH3, findH4];
 
         findHeadingTagArr.map((item, index) => {
-            if (item.length > 1) {
-                e.target.innerHTML = item[0] + `<h${index + 1} id="cur">&nbsp;</h${index + 1}>`;
-                const selection = window.getSelection();
-                const range = document.createRange();
-                const HeadingTag = document.getElementById('cur');
-                range.selectNode(HeadingTag);
-                HeadingTag.id = "";
-                selection.removeAllRanges();
-                selection.addRange(range);
-            }
+            if (item.length < 1)
+                return;
+            e.target.innerHTML = item[0] + `<h${index + 1} id="cur">&nbsp;</h${index + 1}>`;
+            const selection = window.getSelection();
+            const range = document.createRange();
+            const HeadingTag = document.getElementById('cur');
+            range.selectNode(HeadingTag);
+            HeadingTag.id = "";
+            selection.removeAllRanges();
+            selection.addRange(range);
         });
     }
 
@@ -65,8 +65,9 @@ export default class Editor {
         this.editorElement.addEventListener("keyup", (e) => {
             const textHTML = e.target.innerHTML;
             const findDiv = this.editorElement.querySelector('div');
-
+            console.log(textHTML);
             if (findDiv) {
+                console.log("*");
                 e.preventDefault();
                 const newLine = document.createElement('br');
                 this.editorElement.removeChild(findDiv);
