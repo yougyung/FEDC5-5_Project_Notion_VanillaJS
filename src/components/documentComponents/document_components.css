@@ -6,3 +6,49 @@
   cursor: pointer;
   color: var(--default-font-color);
 }
+
+.editor {
+  width: 44.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 3rem;
+  border: none;
+  padding: 0.125rem 0;
+  margin-bottom: 0;
+}
+
+.title:focus {
+  outline: none;
+}
+
+[contenteditable="true"]:empty:after {
+  content: attr(placeholder);
+}
+
+.title[contenteditable="true"]:empty:after {
+  color: #e4e4e3;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  position: relative;
+  min-height: 37.5rem;
+  font-size: 1rem;
+  padding-top: 0.3125rem;
+  border: none;
+  caret-color: var(--default-font-color);
+}
+
+.content:focus {
+  outline: none;
+}
+
+.content[contenteditable="true"]:empty:after {
+  color: rgba(55, 53, 47, 0.65);
+}
