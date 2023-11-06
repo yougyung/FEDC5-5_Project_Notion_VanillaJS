@@ -177,12 +177,13 @@ export default function App({ $target }) {
   initRouter(this.updateStateBasedOnURL);
 }
 
-const findTitleInTree = (documents, targetTitle) => {
-  for (const document of documents) {
-    if (document.title === targetTitle) return document;
-    if (document.documents.length > 0) {
-      const result = findTitleInTree(document.documents, targetTitle);
-      if (result) return result;
+const findTitleInTree = (documentTree, targetTitle) => {
+  for (const document of documentTree) {
+    const { title, documents } = document;
+    if (title === targetTitle) return document;
+    if (documents.length > 0) {
+      const foundDocument = findTitleInTree(documents, targetTitle);
+      if (foundDocument) return foundDocument;
     }
   }
   return null;
