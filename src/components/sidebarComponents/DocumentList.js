@@ -64,11 +64,11 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   };
 
   const onClickDocumentList = ({ target }) => {
-    const dataId = target.closest("[data-id]");
+    const $dataId = target.closest("[data-id]");
 
-    if (!dataId) return;
+    if (!$dataId) return;
 
-    const { id } = dataId.dataset;
+    const { id } = $dataId.dataset;
 
     if (target.closest(".toggle-button")) {
       toggleDocumentList(parseInt(id));
