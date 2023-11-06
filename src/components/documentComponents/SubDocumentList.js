@@ -35,6 +35,8 @@ export default function SubDocumentList({ $target, initialState }) {
 
     const $li = target.closest("li");
 
+    if (!$li) return;
+
     let { id } = $li.dataset;
     id = parseInt(id);
 

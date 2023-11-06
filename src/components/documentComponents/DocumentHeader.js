@@ -24,7 +24,11 @@ export default function DocumentHeader({ $target, initialState, onDelete }) {
   };
 
   $documentHeader.addEventListener("click", ({ target }) => {
-    const { id } = target.closest("section").dataset;
+    const $section = target.closest("section");
+
+    if (!$section) return;
+
+    const { id } = $section.dataset;
 
     if (target.classList.contains("delete-button")) {
       onDelete(id);

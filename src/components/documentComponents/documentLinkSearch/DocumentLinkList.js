@@ -54,9 +54,11 @@ export default function DocumentLinkList({ $parent, $target, initialState, onClo
   };
 
   $documentLinkList.addEventListener("click", ({ target }) => {
-    const { id, title } = target.closest(".wrapper").dataset;
+    const $wrapper = target.closest(".wrapper");
 
-    console.log(title, id);
+    if (!$wrapper) return;
+
+    const { id, title } = $wrapper.dataset;
 
     if (id) {
       new DocumentLink({ $target: $parent, id, title });
