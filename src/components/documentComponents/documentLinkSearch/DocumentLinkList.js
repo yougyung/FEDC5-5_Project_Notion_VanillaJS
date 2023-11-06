@@ -10,7 +10,7 @@ export default function DocumentLinkList({ $parent, $target, initialState, onClo
   this.state = initialState;
 
   this.componentDidMount = async () => {
-    const documents = await request("");
+    const documents = await request("/documents");
     const documentLinks = documents.map(({ id, title, documents }) => ({
       id,
       title,

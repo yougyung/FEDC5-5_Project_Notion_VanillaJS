@@ -17,7 +17,7 @@ export default function App({ $target }) {
 
   const createDocument = async (title, parent) => {
     try {
-      const { id: newId, ...newDocument } = await request("", {
+      const { id: newId, ...newDocument } = await request("/documents", {
         method: "POST",
         body: JSON.stringify({
           title,
@@ -57,7 +57,7 @@ export default function App({ $target }) {
 
   const onDelete = async (id) => {
     try {
-      const document = await request(`${id}`);
+      const document = await request(`/documents/${id}`);
 
       if (!document) {
         alert("존재하지 않는 페이지이므로 초기 페이지로 이동합니다.");
@@ -65,7 +65,7 @@ export default function App({ $target }) {
         return;
       }
 
-      await request(`${id}`, {
+      await request(`/documents/${id}`, {
         method: "DELETE",
       });
 
@@ -85,7 +85,7 @@ export default function App({ $target }) {
       }
 
       timer = setTimeout(async () => {
-        const editedDocument = await request(documentId, {
+        const editedDocument = await request(`/documents/${documentId}`, {
           method: "PUT",
           body: JSON.stringify({ title, content }),
         });

@@ -4,7 +4,7 @@ export const request = async (documentId, options = {}) => {
   const { API_END_POINT, X_USERNAME } = RESPONSE_HEADER;
 
   try {
-    const response = await fetch(`${API_END_POINT}/documents${documentId ? `/${documentId}` : ""}`, {
+    const response = await fetch(`${API_END_POINT}${documentId ? `${documentId}` : ""}`, {
       ...options,
       headers: {
         "Content-type": "application/json",

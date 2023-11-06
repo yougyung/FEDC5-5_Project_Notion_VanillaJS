@@ -12,7 +12,7 @@ export default function DocumentEditPage({ $target, initialState, onEdit, onDele
   const fetchDocument = async () => {
     try {
       const { documentId } = this.state;
-      const { id, title, content, documents } = await request(documentId);
+      const { id, title, content, documents } = await request(`/documents/${documentId}`);
 
       documentHeader.setState({
         ...documentHeader.state,

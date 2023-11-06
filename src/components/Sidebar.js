@@ -34,7 +34,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   });
 
   this.render = async () => {
-    const documents = await request("");
+    const documents = await request("/documents");
 
     documentList.setState({
       documents,
