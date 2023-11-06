@@ -5,7 +5,8 @@ import plusIcon from "../svg/plusIcon.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/handleRouteEvent.js";
 import Storage from "../utils/storage.js";
-import observer from "../main.js";
+import { observer, store } from "../main.js";
+import { fetchDocuments } from "../modules/documentsDuck.js";
 
 //initialState = [{id:num, title:string, documents:array }]
 export default function Nav({ $target }) {
@@ -13,6 +14,9 @@ export default function Nav({ $target }) {
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   $target.prepend($nav);
   //문서 리스트를 가져온다.
+  store.dispatch(fetchDocuments);
+  const { documents } = store.getState();
+  console.log(documents);
   this.getDocuments = async () => {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
