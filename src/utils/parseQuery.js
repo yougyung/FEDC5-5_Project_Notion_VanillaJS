@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export const parseQuery = (queryString) => {
   return queryString
     .substring(1)

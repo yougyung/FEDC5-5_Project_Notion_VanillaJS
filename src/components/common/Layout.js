@@ -32,12 +32,13 @@ export default function Layout({ $app, initState }) {
 
     if (pathname === "/") {
       welcome.render();
-      leefView.render()
+      leefView.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [_, __, documentId] = pathname.split("/");
 
-      const docParentId =
-        search.length > 0 ? parseQuery(search)["parent"] ?? null : null;
+      const searchParams = new URLSearchParams(search);
+
+      const docParentId = search.length > 0 ? searchParams.get("parent") : null;
 
       editorView.setState({
         documentId,
