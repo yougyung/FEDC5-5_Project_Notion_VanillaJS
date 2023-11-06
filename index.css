@@ -104,8 +104,8 @@ img {
 }
 
 .editDiv {
-  /* width: 100%;
-  height: 100%; */
+  /* width: 100%; */
+  height: 100%;
   padding: 10px;
   /* box-sizing: border-box; */
 }
@@ -136,20 +136,20 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
 }
 
 .modal .background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 .modalBox {
-  position: absolute;
-  top: 10%;
-  left: 30%;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   width: 40vw;
   height: 70vh;
@@ -157,12 +157,21 @@ img {
   border-radius: 10px;
 }
 
+.modalBox .modalTitle {
+  outline: none;
+}
+
+.modalBox .modalContent {
+  outline: none;
+  overflow-y: auto;
+  flex: 20;
+}
+
 .modalBox button {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  flex: 1;
+  align-self: end;
   width: 80px;
-  margin: 10px;
+  margin-top: 5px;
 }
 
 .hidden {

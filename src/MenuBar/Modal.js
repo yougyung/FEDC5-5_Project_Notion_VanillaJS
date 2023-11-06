@@ -64,8 +64,8 @@ export default function Modal({ initialState, onSavePost }) {
     $div.innerHTML = `
       <div class="background" name="background">
         <div class="modalBox">
-          <h1 name="title" style="color:gray;" contentEditable="true">제목을 입력해주세요.</h1>
-          <div name="content" style="color:gray;" contentEditable="true">내용을 입력해주세요.</div>
+          <h1 class="modalTitle" name="title" style="color:gray;" contentEditable="true">제목을 입력해주세요.</h1>
+          <div class="modalContent" name="content" style="color:gray;" contentEditable="true">내용을 입력해주세요.</div>
           <button class="saveBtn">저장</button>
         </div>
       </div>
