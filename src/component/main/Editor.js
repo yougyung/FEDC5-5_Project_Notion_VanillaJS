@@ -65,9 +65,7 @@ export default class Editor {
         this.editorElement.addEventListener("keyup", (e) => {
             const textHTML = e.target.innerHTML;
             const findDiv = this.editorElement.querySelector('div');
-            console.log(textHTML);
             if (findDiv) {
-                console.log("*");
                 e.preventDefault();
                 const newLine = document.createElement('br');
                 this.editorElement.removeChild(findDiv);

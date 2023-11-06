@@ -52,7 +52,6 @@ export function serachButton(text) {
     findDocumentButtonElement.addEventListener('click', () => {
         const modalElement = document.querySelector('.searchModalBackground');
 
-        console.log(modalElement);
         modalElement.style.display = "block";
     });
     return findDocumentButtonElement;
