@@ -28,7 +28,7 @@ export default function App({ $target, initialState }) {
 
     // 루트 페이지
     if (pathname === "/") {
-      const postList = await fetchData("");
+      const postList = await fetchPostData("");
       console.log("초기 데이터", postList);
 
       menuBarApp.setState(postList);
@@ -37,8 +37,8 @@ export default function App({ $target, initialState }) {
       // 해당 id를 가진 문서를 에디터 App의 state에 전송
       const [_, id] = pathname.split("/");
       const [post, postList] = await Promise.all([
-        fetchData(`/${id}`),
-        fetchData(""),
+        fetchPostData(`/${id}`),
+        fetchPostData(""),
       ]);
 
       menuBarApp.setState(postList);
@@ -52,7 +52,7 @@ export default function App({ $target, initialState }) {
 
     // 루트 페이지
     if (pathname === "/") {
-      const postList = await fetchData("");
+      const postList = await fetchPostData("");
       console.log("초기 데이터", postList);
 
       menuBarApp.setState(postList);
@@ -61,8 +61,8 @@ export default function App({ $target, initialState }) {
       // 해당 id를 가진 문서를 에디터 App의 state에 전송
       const [_, id] = pathname.split("/");
       const [post, postList] = await Promise.all([
-        fetchData(`/${id}`),
-        fetchData(""),
+        fetchPostData(`/${id}`),
+        fetchPostData(""),
       ]);
 
       editorApp.setState(post);
@@ -70,7 +70,7 @@ export default function App({ $target, initialState }) {
   };
 
   // document 리스트 get 요청
-  const fetchData = async (url, payload = {}) => {
+  const fetchPostData = async (url, payload = {}) => {
     const postList = await HTTPRequest(url, payload);
 
     return postList;
