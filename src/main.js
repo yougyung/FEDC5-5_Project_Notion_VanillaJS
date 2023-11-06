@@ -7,7 +7,7 @@ const rootElement = document.querySelector('#app');
 const sidebar = new Sidebar({
     rootElement,
     onSetPage: (id) => {
-        page.setDocument(id);
+        page.getDocument(id);
     },
     onDeleteItem: () => {
         page.showNotDataPage();
@@ -23,6 +23,6 @@ const page = new Page({
 
 const searchModal = new SearchModal({
     rootElement, setPage: (id) => {
-        page.setDocument(id);
+        page.getDocument(id);
     }
 });

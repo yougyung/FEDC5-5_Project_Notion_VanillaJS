@@ -20,7 +20,7 @@ export default class Page {
         this.setEvent();
     }
 
-    async setDocument(id) {
+    async getDocument(id) {
         if (this.pageElement.style.display === "none") {
             this.pageElement.style.display = "block";
             this.notDatapageElement.style.display = "none";
@@ -48,7 +48,7 @@ export default class Page {
             const { pathname } = location;
             const path = pathname.replace(window.location.origin, '');
             const id = path.replace('/documents/', "");
-            this.setDocuments(id);
+            this.getDocuments(id);
         });
     }
 }
