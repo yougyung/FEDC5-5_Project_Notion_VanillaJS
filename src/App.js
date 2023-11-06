@@ -100,24 +100,20 @@ export default function App({ $target }) {
     },
   });
 
-  this.init = async () => {
+  (async () => {
     loading.setState({ isLoading: true });
-    const data = await api.get(GET_API_DOCUMENT_TREE);
-    documentTree.setState(data);
-    setItem("documentTree", data);
-    loading.setState({ isLoading: false });
-  };
 
-  (this.route = async () => {
-    this.init();
+    const treeData = await api.get(GET_API_DOCUMENT_TREE);
+    documentTree.setState(treeData);
+    setItem("documentTree", treeData);
 
     const { pathname } = window.location;
     if (pathname.includes("/document/")) {
-      loading.setState({ isLoading: true });
       const id = pathname.split("/document/").pop();
-      const data = await api.get(GET_API_DOCUMENT_DETAIL(id));
-      editor.setState(data);
-      loading.setState({ isLoading: false });
+      const detailData = await api.get(GET_API_DOCUMENT_DETAIL(id));
+      editor.setState(detailData);
     }
+
+    loading.setState({ isLoading: false });
   })();
 }
