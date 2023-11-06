@@ -7,6 +7,11 @@
   color: var(--default-font-color);
 }
 
+.document-header-right .delete-button:hover {
+  background-color: initial;
+  border-radius: initial;
+}
+
 .editor {
   width: 44.25rem;
   display: flex;
