@@ -10,8 +10,7 @@ export default async function request(url, id) {
         }
     })
     if (res.ok) {
-        const json = await res.json()
-        return json;
+        return res.json();
     }
 }
 
