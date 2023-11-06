@@ -1,10 +1,10 @@
 import { RESPONSE_HEADER } from "./config.js";
 
-export const request = async (documentId, options = {}) => {
+export const request = async (url, options = {}) => {
   const { API_END_POINT, X_USERNAME } = RESPONSE_HEADER;
 
   try {
-    const response = await fetch(`${API_END_POINT}${documentId ? `${documentId}` : ""}`, {
+    const response = await fetch(`${API_END_POINT}${url ? `${url}` : ""}`, {
       ...options,
       headers: {
         "Content-type": "application/json",
