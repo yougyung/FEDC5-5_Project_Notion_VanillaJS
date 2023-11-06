@@ -1,7 +1,8 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
-import { request, initRouter } from "./utils/index.js";
+import { initRouter, documentsApi } from "./utils/index.js";
 
 export default function App({ $target }) {
+  const { getDocuments, createDocument, updateDocument, deleteDocument } = documentsApi();
   let timer = null;
 
   const Init = () => {
@@ -15,15 +16,9 @@ export default function App({ $target }) {
     sidebar.render();
   };
 
-  const createDocument = async (title, parent) => {
+  const createDocumentAndUpdateUI = async (title, parent) => {
     try {
-      const { id: newId, ...newDocument } = await request("/documents", {
-        method: "POST",
-        body: JSON.stringify({
-          title,
-          parent,
-        }),
-      });
+      const { id: newId, ...newDocument } = await createDocument(title, parent);
 
       history.replaceState(null, null, `${newId}`);
 
@@ -45,10 +40,10 @@ export default function App({ $target }) {
     try {
       if (id === "new") {
         // 새 루트 문서 생성
-        createDocument("", null);
+        createDocumentAndUpdateUI("", null);
       } else if (typeof id === "number") {
         // 새 하위 문서 생성
-        createDocument("", id);
+        createDocumentAndUpdateUI("", id);
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +52,7 @@ export default function App({ $target }) {
 
   const onDelete = async (id) => {
     try {
-      const document = await request(`/documents/${id}`);
+      const document = await getDocuments(id);
 
       if (!document) {
         alert("존재하지 않는 페이지이므로 초기 페이지로 이동합니다.");
@@ -65,9 +60,7 @@ export default function App({ $target }) {
         return;
       }
 
-      await request(`/documents/${id}`, {
-        method: "DELETE",
-      });
+      await deleteDocument(id);
 
       Init();
     } catch (error) {
@@ -85,10 +78,7 @@ export default function App({ $target }) {
       }
 
       timer = setTimeout(async () => {
-        const editedDocument = await request(`/documents/${documentId}`, {
-          method: "PUT",
-          body: JSON.stringify({ title, content }),
-        });
+        const editedDocument = await updateDocument(documentId, title, content);
 
         documentEditPage.setState({
           documentId: editedDocument.id,

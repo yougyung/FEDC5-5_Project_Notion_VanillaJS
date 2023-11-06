@@ -22,3 +22,42 @@ export const request = async (url, options = {}) => {
     console.log(error.message);
   }
 };
+
+export const documentsApi = () => {
+  const getDocuments = async (id) => {
+    return await request(`/documents/${id}`);
+  };
+
+  const createDocument = async (title, parent) => {
+    return await request("/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        parent,
+      }),
+    });
+  };
+
+  const updateDocument = async (id, title, content) => {
+    return await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        content,
+      }),
+    });
+  };
+
+  const deleteDocument = async (id) => {
+    return await request(`/documents/${id}`, {
+      method: "DELETE",
+    });
+  };
+
+  return {
+    getDocuments,
+    createDocument,
+    updateDocument,
+    deleteDocument,
+  };
+};
