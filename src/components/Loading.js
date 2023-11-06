@@ -1,13 +1,10 @@
-export default function Loading({
-  $container,
-  initialState = { isLoading: false },
-}) {
+export default function Loading({ $container }) {
   const $loading = document.createElement("div");
   $loading.id = "loading";
   $loading.className = "loading";
   $container.appendChild($loading);
 
-  this.state = initialState;
+  this.state = { isLoading: false };
 
   this.setState = (nextState) => {
     this.state = nextState;

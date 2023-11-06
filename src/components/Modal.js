@@ -1,13 +1,10 @@
-export default function Modal({
-  $container,
-  initialState = { isShow: false, message: "", className: "" },
-}) {
+export default function Modal({ $container }) {
   const $modal = document.createElement("div");
   $modal.id = "modal-container";
   $modal.className = "modal-container";
   $container.appendChild($modal);
 
-  this.state = initialState;
+  this.state = { isShow: false, message: "", className: "" };
 
   this.setState = (nextState) => {
     this.state = nextState;
