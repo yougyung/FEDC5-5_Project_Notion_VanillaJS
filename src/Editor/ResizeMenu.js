@@ -5,10 +5,6 @@ export default function resizeMenu() {
     const leftSize = $target.previousElementSibling;
     const rightSize = $target.nextElementSibling;
 
-    // console.log($target.parentNode);
-    // console.log(leftSize);
-    // console.log(rightSize);
-
     // 마우스 위치 저장
     let x = 0;
     let y = 0;
