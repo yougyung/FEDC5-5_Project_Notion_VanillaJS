@@ -1,9 +1,9 @@
 import { API_END_POINT, X_USER_NAME } from "../../config.js";
 
-export const request = async (url, optiosn = {}) => {
+export const request = async (url, options = {}) => {
   try {
     const res = await fetch(`${API_END_POINT}/${url}`, {
-      ...optiosn,
+      ...options,
       headers: {
         "Content-Type": "application/json",
         "x-username": X_USER_NAME,
@@ -14,7 +14,7 @@ export const request = async (url, optiosn = {}) => {
       return await res.json();
     }
 
-    throw new Error("API ERROR");
+    throw new Error(`API ERROR - status ${res.status}`);
   } catch (error) {
     console.log(error);
   }

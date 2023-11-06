@@ -10,7 +10,6 @@ export function parseContent(content) {
   const h3 = /^#{3}[^#].*$/gm;
   const bold = /\*\*[^\*\n]+\*\*/gm;
   const italics = /\*([^*]+)\*/gm;
-  // const link = /\[[\w|\(|\)|\s|\*|\?|\-|\.|\,]*(\]\(){1}[^\)]*\)/gm;
   const link = /\[[^\]]*\]\([^)]*\)/gm;
 
   // # -> Heading 1
@@ -67,27 +66,34 @@ export function parseContent(content) {
   }
 
   //[content](URL)
-  if (link.test(content)) {
-    const links = content.match(link);
+  // case 1
+  // if (link.test(content)) {
+  //   const links = content.match(link);
 
-    links.forEach((element) => {
-      const text = element.match(/^\[.*\]/)[0].slice(1, -1);
-      const url = element.match(/\]\(.*\)/)[0].slice(2, -1);
+  //   links.forEach((element) => {
+  //     const text = element.match(/^\[.*\]/)[0].slice(1, -1);
+  //     const url = element.match(/\]\(.*\)/)[0].slice(2, -1);
+  //     content = content.replace(
+  //       element,
+  //       '<a href="' + url + '">' + text + "</a>"
+  //     );
+  //   });
+  // }
+  //case 2
+  content = content.replace(link, (match) => {
+    const text = match.match(/^\[.*\]/)?.[0]?.slice(1, -1);
+    const url = match.match(/\]\(.*\)/)?.[0]?.slice(2, -1);
 
-      content = content.replace(
-        element,
-        '<a href="' + url + '">' + text + "</a>"
-      );
-    });
-  }
+    return `<a href="${url}">${text}</a>`;
+  });
 
   const keywords = content.replace(/\n/gm, " ").split(" ");
   const docsMap = useDocsIndex.state.flattenMapData;
-  
+
   keywords.forEach((keyword) => {
     if (docsMap && docsMap[keyword]) {
       // 정확한 문자열 매칭을 위한 정규 표현식 패턴 생성
-      const keywordPattern = new RegExp(`(?<!\\S)${keyword}(?!\\S)`, 'g');
+      const keywordPattern = new RegExp(`(?<!\\S)${keyword}(?!\\S)`, "g");
 
       content = content.replace(
         keywordPattern,

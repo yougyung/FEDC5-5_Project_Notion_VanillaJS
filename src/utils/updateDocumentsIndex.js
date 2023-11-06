@@ -37,7 +37,7 @@ export const createDocumentTreeFromIndex = (data, id, newData) => {
 };
 
 export const flattenDocumentIndex = (data) => {
-  if (!data) return;
+  if (!data) return { arrayOfData: [], mapOfData: {} };
 
   const arrayOfData = data.reduce((acc, item) => {
     if (Array.isArray(item.documents)) {

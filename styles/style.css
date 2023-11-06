@@ -1,4 +1,4 @@
-*:not([contenteditable="true"], div) {
+*:not([contenteditable="true"], div, title) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

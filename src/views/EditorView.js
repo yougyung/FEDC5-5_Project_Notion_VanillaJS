@@ -1,5 +1,4 @@
 import Editor from "../components/editor/Editor.js";
-import EditorHeader from "../components/editor/EditorHeader.js";
 
 import { _GET, _POST, _PUT } from "../api/api.js";
 import { NEW_DOCUMENT_INIT_ID } from "../utils/constants.js";
@@ -8,7 +7,7 @@ import {
   createDocumentTreeFromIndex,
   flattenDocumentIndex,
 } from "../utils/updateDocumentsIndex.js";
-import EditorToolbar from "../components/editor/EditorToobar.js";
+import EditorToolbar from "../components/editor/EditorToolbar.js";
 
 const DocumentProps = {
   id: "string",
@@ -151,7 +150,7 @@ export default function EditorView({ $parent, initState }) {
   const fetchDocument = async () => {
     const { documentId, documentData } = this.state;
 
-    if (documentId !== "new") {
+    if (documentId !== NEW_DOCUMENT_INIT_ID) {
       const fethedData = await _GET(`documents/${documentId}`);
 
       // content 데이터 보정 - API body 에 content 가 포함되지 않기 때문에

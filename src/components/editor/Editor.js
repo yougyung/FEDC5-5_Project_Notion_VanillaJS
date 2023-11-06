@@ -61,7 +61,7 @@ export default function Editor({ $parent, onEditing }) {
     onEditing(useDocument.state);
   });
 
-  let position = { x: 0, y: 0 };
+  const position = { x: 0, y: 0 };
   $textarea.addEventListener("mousedown", (event) => {
     const { pageX, pageY } = event;
     position.x = pageX;

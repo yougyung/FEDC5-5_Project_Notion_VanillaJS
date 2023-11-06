@@ -53,9 +53,8 @@ export default function Sidebar({ $parent, initState }) {
   // API CALL ========================================================== //
   const fetchDocuments = async () => {
     const documents = await _GET("documents");
-    // this.setState({ data: documents });
 
-    return await documents;
+    return documents;
   };
   // ========================================================== API CALL //
 

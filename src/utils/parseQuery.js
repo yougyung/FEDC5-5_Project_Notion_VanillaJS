@@ -10,3 +10,4 @@ export const parseQuery = (queryString) => {
       return acc;
     }, {});
 };
+ 

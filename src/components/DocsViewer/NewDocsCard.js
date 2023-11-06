@@ -1,7 +1,7 @@
 import { NEW_DOCUMENT_INIT_ID } from "../../utils/constants.js";
 
 /**
- * @description Document 목록 카드F
+ * @description Document 목록 카드
  */
 export default function NewDocsCard({ $parent }) {
   const $component = document.createElement("li");
@@ -20,8 +20,4 @@ export default function NewDocsCard({ $parent }) {
     $cardName.textContent = "new docs";
   };
   this.render();
-
-  $component.addEventListener("click", () => {
-    console.log("NEW ROOT");
-  });
 }

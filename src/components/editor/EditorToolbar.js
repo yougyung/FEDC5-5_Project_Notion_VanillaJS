@@ -1,6 +1,6 @@
 import EditorButton from "./EditorButton.js";
 
-import { Bold, H1, H2, H3, Italic, Link, Ol, Ul } from "../../icons.js";
+import { Bold, H1, H2, H3, Italic, Link, Ol, Ul } from "../icons.js";
 import { editMarkdown } from "../../utils/editorHelper.js";
 import { useToolbar } from "../../utils/store.js";
 

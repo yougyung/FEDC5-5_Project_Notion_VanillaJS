@@ -73,7 +73,11 @@ export default function DocsIndexViewer({ $parent }) {
       const { id } = $li.dataset;
       // 윈도우에 사용자가 정의한 이벤트를 dispatch
 
-      push(`/documents/${parseInt(id) === NEW_DOCUMENT_INIT_ID ? "new" : id}`);
+      push(
+        `/documents/${
+          parseInt(id) === NEW_DOCUMENT_INIT_ID ? NEW_DOCUMENT_INIT_ID : id
+        }`
+      );
     }
   });
   // ==================================================== EVENT LISTENER //

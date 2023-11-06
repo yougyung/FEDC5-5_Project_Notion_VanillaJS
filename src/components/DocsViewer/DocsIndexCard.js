@@ -1,5 +1,5 @@
 import { _DELETE } from "../../api/api.js";
-import { Cross, Plus } from "../../icons.js";
+import { Cross, Plus } from "../icons.js";
 import { push } from "../../router.js";
 import { useDocsIndex } from "../../utils/store.js";
 import {

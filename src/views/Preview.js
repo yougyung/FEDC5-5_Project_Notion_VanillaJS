@@ -40,7 +40,7 @@ export default function PreView({ $parent, initState }) {
       `;
   };
 
-  const contentRener = (content) => {
+  const contentRender = (content) => {
     return parseContent(content);
   };
 
@@ -67,7 +67,7 @@ export default function PreView({ $parent, initState }) {
 
     $component.innerHTML =
       headerRender(title, createdAt) +
-      contentRener(content) +
+      contentRender(content) +
       footerRender(documents);
 
     $parent.appendChild($component);
