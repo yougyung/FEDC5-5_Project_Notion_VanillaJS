@@ -10,6 +10,7 @@ import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
 import { getItem, setItem } from '../../utils/storage.js';
 import createDOM from '../../utils/createDOM.js';
+import { checkCurrentDocument } from '../../utils/checkCurrentDocument.js';
 
 export default function DocumentObject({ $target, currentDocumentData }) {
   const $summary = createDOM({ $target, tagName: 'summary', style: 'DocumentObject' });
@@ -51,7 +52,9 @@ export default function DocumentObject({ $target, currentDocumentData }) {
       $target: $summary,
       title: this.state.title,
       documentId: this.state.id,
+      checkCurrentDocument: () => checkCurrentDocument($summary, this.state.id),
     });
+
     const saveTitle = getItem(`SAVE_DOCUMENT_TITLE_KEY-${this.state.id}`);
     saveTitle && documentLinkButton.setState(saveTitle);
 

@@ -7,6 +7,7 @@ import DocumentLinkButton from '../DocumentLinkButton.js';
 import { push } from '../../../utils/router.js';
 import { getItem } from '../../../utils/storage.js';
 import createDOM from '../../../utils/createDOM.js';
+import { checkCurrentDocument } from '../../../utils/checkCurrentDocument.js';
 
 export default function DocumentHeader({ $target, documentPath }) {
   const $documentHeader = createDOM({ $target, style: 'DocumentHeader' });
@@ -34,6 +35,7 @@ export default function DocumentHeader({ $target, documentPath }) {
         $target: $documentHeader,
         title: state.title,
         documentId: state.id,
+        checkCurrentDocument: () => checkCurrentDocument($documentHeader, state.id),
       });
 
       if (idx !== this.state.length - 1) {
