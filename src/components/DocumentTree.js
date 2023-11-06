@@ -15,16 +15,16 @@ export default function DocumentTree({
   this.state = initialState;
 
   this.setState = (nextState) => {
-    if ($tree.querySelector("ul")) $tree.querySelector("ul").remove();
     this.state = nextState;
     this.render();
   };
 
   this.render = () => {
+    console.log("DocumentTree render");
     const $ul = document.createElement("ul");
     recursion.makeDocumentTree(this.state, $ul);
     new TreeList({ $container: $ul });
-    $tree.appendChild($ul);
+    $tree.replaceChildren($ul);
 
     $ul.addEventListener("click", (e) => {
       if (e.target.classList.contains("toggle-button")) {
