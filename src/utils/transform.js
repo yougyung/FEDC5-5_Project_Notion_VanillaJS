@@ -1,11 +1,11 @@
 export const transformTag = (text) => {
-  let h1Pattern = /<div>#\s+(.*?)<\/div>/g;
-  let h2Pattern = /<div>##\s+(.*?)<\/div>/g;
-  let h3Pattern = /<div>###\s+(.*?)<\/div>/g;
-  let h4Pattern = /<div>####\s+(.*?)<\/div>/g;
-  let boldPattern = />(.*?)\*\*(.*?)\*\*(.*?)</g;
-  let italicPattern = />(.*?)_(.*?)_(.*?)</g;
-  let strikePattern = />(.*?)~~(.*?)~~(.*?)</g;
+  const h1Pattern = /<div>#\s+(.*?)<\/div>/g;
+  const h2Pattern = /<div>##\s+(.*?)<\/div>/g;
+  const h3Pattern = /<div>###\s+(.*?)<\/div>/g;
+  const h4Pattern = /<div>####\s+(.*?)<\/div>/g;
+  const boldPattern = />(.*?)\*\*(.*?)\*\*(.*?)</g;
+  const italicPattern = />(.*?)_(.*?)_(.*?)</g;
+  const strikePattern = />(.*?)~~(.*?)~~(.*?)</g;
 
   return text
     .replace(h1Pattern, "<div><h1>$1</h1></div>")
