@@ -20,7 +20,7 @@ export default class DocumentList {
             this.documentItemList.push(new DocumentItem(documentitem, this.documentListElement, this.onSetPage, this.onDeleteItem));
         });
     }
-    updateDocumentTitle(id, title) {
+    updateDocumentTitle(id, title) {                                // 낙관적 업데이트
         const findNode = () => {
             const queue = [...this.documentItemList];
             while (queue.length) {
@@ -35,8 +35,8 @@ export default class DocumentList {
             return null;
         };
         const node = findNode();
-        if (!node)
-            return;
+
+        if (!node) return;
 
         node.parentListElement.setAttribute("titlename", title);
         node.documentNameLabelElement.textContent = title;

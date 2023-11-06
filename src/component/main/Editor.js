@@ -9,6 +9,7 @@ export default class Editor {
         this.editorElement = document.createElement('form');
 
         boardElement.className = "editor";
+        this.editorElement.id = "asdf";
         this.editorElement.className = "textEditor";
         this.titleEditorElement.placeholder = "제목 없음";
         this.titleEditorElement.setAttribute("contenteditable", "true");

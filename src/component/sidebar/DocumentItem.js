@@ -50,7 +50,7 @@ export default class DocumentItem {
     }
 
     render() {
-        this.slotImgElement.src = this.isSlotOpen ? "../../../public/slotopen.png" : "../../../public/slotclose.png";
+        this.slotImgElement.src = this.isSlotOpen ? "/public/slotopen.png" : "/public/slotclose.png";
         this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
     };
 
