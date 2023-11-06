@@ -5,7 +5,7 @@ import { editMarkdown } from "../../utils/editorHelper.js";
 import { useToolbar } from "../../utils/store.js";
 
 /**
- * @description 편집기 뷰의 편집 유틸 헤더
+ * @description 편집기 뷰의 편집 유틸 툴바
  */
 export default function EditorToolbar({ $parent }) {
   const $component = document.createElement("div");
@@ -87,6 +87,10 @@ export default function EditorToolbar({ $parent }) {
     }
     $component.style.display = "flex";
 
+    /* ISSUES - getBoundingClientRect 도 $cmponent 의 위치를 경우에 따라 다르게 잡아주는 이슈가 있음
+     렌더링 순세나 과정에서 이러한 문제가 일어나는게 아닌지? */
+    // const domRect = $component.getBoundingClientRect();
+    // console.log("DOM: ", domRect);
     // 자식컴포넌트가 부모컴포넌트를 넘어서는지를 알기 위한 변수
     const { offsetLeft, offsetWidth } = $component;
     const toolbarOffsetRange = offsetLeft + offsetWidth;

@@ -5,6 +5,7 @@ import { editMarkdown } from "../../utils/editorHelper.js";
 
 /**
  * @description 편집기 뷰의 편집 유틸 헤더
+ * @deprecated
  */
 export default function EditorHeader({ $parent }) {
   const $component = document.createElement("div");
