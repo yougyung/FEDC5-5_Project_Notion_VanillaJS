@@ -27,7 +27,7 @@
 .header-subtitle {
   font-size: var(--small-font-size);
   font-weight: 600;
-  color: rgba(55, 53, 47, 0.5);
+  color: hsl(var(--default-font-color-hsl), 0.5);
 }
 
 .document-list-container {

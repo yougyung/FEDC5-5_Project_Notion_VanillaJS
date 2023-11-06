@@ -25,5 +25,5 @@
 .modal-title,
 .command small {
   font-size: var(--small-font-size);
-  color: rgba(55, 53, 47, 0.8);
+  color: hsl(var(--default-font-color-hsl), 0.8);
 }
