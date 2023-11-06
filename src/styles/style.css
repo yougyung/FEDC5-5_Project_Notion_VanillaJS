@@ -9,20 +9,6 @@
   --bold-font-weight: 600;
 }
 
-#app {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.sidebar {
-  overflow-y: auto;
-  position: fixed;
-  width: 20%;
-  height: calc(100% - -0.0625rem);
-  background-color: #fbfbfa;
-}
-
 .sidebar-header {
   color: var(--default-font-color);
   font-weight: var(--default-font-weight);
@@ -125,31 +111,6 @@
   border-radius: var(--default-hover-border-radius);
 }
 
-.document-edit-page {
-  position: absolute;
-  right: 0;
-  width: calc(100% - 20%);
-  height: 100%;
-}
-
-.document-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  cursor: pointer;
-  color: var(--default-font-color);
-}
-
-.document-edit-page-body {
-  overflow-y: auto;
-  margin-top: 6.25rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
 /* editor styles */
 .editor {
   width: 44.25rem;
@@ -197,7 +158,7 @@
   color: rgba(55, 53, 47, 0.65);
 }
 
-/* modal styles */
+/* document_link_search */
 
 #item.command {
   display: flex;
