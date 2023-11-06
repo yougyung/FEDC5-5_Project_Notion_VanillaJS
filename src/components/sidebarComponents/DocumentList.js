@@ -1,6 +1,5 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
-import { push } from "../../utils/index.js";
-import { filterTitle } from "../../utils/filterTitle.js";
+import { push, filterTitle } from "../../utils/index.js";
 import { ToggleButton } from "./ToggleButton.js";
 
 export default function DocumentList({ $target, initialState, onAdd, onDelete }) {
