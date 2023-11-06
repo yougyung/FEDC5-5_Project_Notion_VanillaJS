@@ -9,33 +9,6 @@
   --bold-font-weight: 600;
 }
 
-html {
-  position: relative;
-  font-size: var(--default-font-size);
-}
-
-/* reset default styles */
-body {
-  margin: 0;
-  padding: 0;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  list-style: none;
-}
-
-button {
-  padding-inline: 0;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
 #app {
   width: 100%;
   display: flex;
@@ -293,42 +266,4 @@ button {
 .document-link {
   display: block;
   cursor: pointer;
-}
-
-/* subdocumentlist style */
-.editor-bottom-nav {
-  width: 44.25rem;
-  display: flex;
-  text-wrap: nowrap;
-  flex-direction: row;
-  padding: 1.25rem 0;
-}
-
-.subdocument-list {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 0.625rem;
-}
-
-.fa-file {
-  font-size: 1.2rem;
-}
-
-.subdocument-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #b3b2b0;
-  padding: 0 0.5rem;
-  cursor: pointer;
-}
-
-.subdocument-link-title,
-.document-link {
-  font-weight: var(--default-font-weight);
-  color: var(--bold-font-color);
-  text-decoration: underline;
-  text-decoration-color: rgba(55, 53, 47, 0.16);
-  text-decoration-thickness: 0.05rem;
-  text-underline-offset: 0.3125rem;
 }
