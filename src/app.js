@@ -3,7 +3,7 @@ import Posting from "./components/Posting.js";
 import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
 import { titleMatched } from "./utils/match.js";
-import { initRouter } from "./utils/router.js";
+import { initRouter, push } from "./utils/router.js";
 import { findTitleInTree } from "./utils/tree.js";
 
 export default function App({ $target }) {
@@ -29,7 +29,7 @@ export default function App({ $target }) {
       documentList: this.state.documentList,
     },
     onHeaderClick: async () => {
-      history.replaceState(null, null, "/");
+      push("/");
       this.setState({
         ...this.state,
         selectedDocumentId: "new",
@@ -38,7 +38,7 @@ export default function App({ $target }) {
       await fetchSelectedDocument();
     },
     onSelect: async (documentId) => {
-      history.replaceState(null, null, `${documentId}`);
+      push(`${documentId}`);
       this.setState({
         ...this.state,
         selectedDocumentId: documentId,
@@ -55,7 +55,8 @@ export default function App({ $target }) {
         method: "POST",
         body: JSON.stringify({ title: "제목없음", parent }),
       });
-      history.replaceState(null, null, `${res.id}`);
+
+      push(`${res.id}`);
       this.setState({
         ...this.state,
         selectedDocumentId: res.id,
@@ -107,7 +108,7 @@ export default function App({ $target }) {
           this.setState({ ...this.state, selectedDocumentId: createdPost.id });
           await fetchSelectedDocument();
           await fetchDocumentList();
-          history.replaceState(null, null, `${createdPost.id}`);
+          push(`${createdPost.id}`);
         } else {
           await request(`${id}`, {
             method: "PUT",
