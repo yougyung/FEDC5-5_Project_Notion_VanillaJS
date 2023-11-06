@@ -8,3 +8,8 @@
   --default-font-weight: 500;
   --bold-font-weight: 600;
 }
+
+html {
+  position: relative;
+  font-size: var(--default-font-size);
+}
