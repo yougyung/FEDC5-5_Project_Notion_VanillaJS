@@ -21,9 +21,7 @@ export default function SubDocumentList({ $target, initialState }) {
           ({ id, title }) => `
         <li data-id=${id} class="subdocument-link">
         <i class="fa-regular fa-file"></i>
-          <span class="subdocument-link-title">${
-            (title ?? "제목 없음") || (title === "" && "제목 없음")
-          }</span>
+          <span class="subdocument-link-title">${(title ?? "제목 없음") || (title === "" && "제목 없음")}</span>
         </li>
         `
         )
@@ -32,10 +30,9 @@ export default function SubDocumentList({ $target, initialState }) {
         `;
   };
 
-  $editorFooter.addEventListener("click", (event) => {
+  $editorFooter.addEventListener("click", ({ target }) => {
     event.stopPropagation();
 
-    const { target } = event;
     const $li = target.closest("li");
 
     let { id } = $li.dataset;

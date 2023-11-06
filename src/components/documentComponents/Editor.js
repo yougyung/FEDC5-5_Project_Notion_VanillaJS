@@ -25,11 +25,10 @@ export default function Editor({ $target, initialState, onEdit }) {
     $editor.querySelector(".content").textContent = content;
   };
 
-  $editor.addEventListener("input", (event) => {
+  $editor.addEventListener("input", ({ target }) => {
     const selectedDocumentSidebarTitle = document.querySelector(".list-item.selected .list-item-title");
     const selectedDocumentHeaderTitle = document.querySelector(".document-header-left");
 
-    const { target } = event;
     const value = target.classList.value;
 
     if (this.state[value] !== undefined) {

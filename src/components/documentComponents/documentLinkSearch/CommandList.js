@@ -16,9 +16,7 @@ export default function CommandList({ $parent, $target, onClose }) {
     </ul>
     `;
 
-  $commandList.addEventListener("click", (event) => {
-    const { target } = event;
-
+  $commandList.addEventListener("click", ({ target }) => {
     if (target.className === "command") {
       const $searchDocumentLink = document.createElement("input");
       $searchDocumentLink.className = "search-document-link";
