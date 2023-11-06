@@ -3,7 +3,7 @@ import * as responses from "./responses.js";
 
 const ENDPOINT = "https://kdt-frontend.programmers.co.kr/documents";
 
-const fetchApi = (pathname = "", method = "GET", body) => {
+const fetchApi = ({ method = "GET", body, pathname = "" }) => {
     return fetch(`${ENDPOINT}${pathname}`, {
         method,
         headers: {
@@ -20,7 +20,7 @@ const fetchApi = (pathname = "", method = "GET", body) => {
 export async function createDocument(body) {
     try {
         requests.validateCreateDocumentRequest(body);
-        const res = await fetchApi("POST", body);
+        const res = await fetchApi({ method: "POST", body });
         responses.validateCreateDocumentResponse(res);
         return res;
     } catch (err) {
@@ -31,7 +31,7 @@ export async function createDocument(body) {
 
 export async function getRootDocument() {
     try {
-        const res = await fetchApi();
+        const res = await fetchApi({});
         responses.validateRootDocumentResponse(res);
         return res;
     } catch (err) {
@@ -42,7 +42,7 @@ export async function getRootDocument() {
 
 export async function getDocumentContent(documentId) {
     try {
-        const res = await fetchApi(`/${documentId}`);
+        const res = await fetchApi({ pathname: `/${documentId}` });
         responses.validateDocumentContentResponse(res);
         return res;
     } catch (err) {
@@ -53,7 +53,7 @@ export async function getDocumentContent(documentId) {
 
 export function deleteDocument(documentId) {
     try {
-        fetchApi(`/${documentId}`, "DELETE");
+        fetchApi({ pathname: `/${documentId}`, method: "DELETE" });
     } catch (err) {
         console.error(err);
         return null;
@@ -63,7 +63,7 @@ export function deleteDocument(documentId) {
 export function updateDocument(documentId, body) {
     try {
         requests.validateUpdateDocumentRequest(body);
-        fetchApi(`/${documentId}`, "PUT", body);
+        fetchApi({ pathname: `/${documentId}`, method: "PUT", body });
     } catch (err) {
         console.error(err);
         return null;
