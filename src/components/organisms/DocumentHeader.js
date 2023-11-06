@@ -3,11 +3,11 @@
  * - DocumentLinkButton / DocumentLinkButton / DocumentLinkButton ...
  * */
 
-import DocumentLinkButton from '../DocumentLinkButton.js';
-import { push } from '../../../utils/router.js';
-import { getItem } from '../../../utils/storage.js';
-import createDOM from '../../../utils/createDOM.js';
-import { checkCurrentDocument } from '../../../utils/checkCurrentDocument.js';
+import DocumentLinkButton from '../molecules/DocumentLinkButton.js';
+import { push } from '../../utils/router.js';
+import { getItem } from '../../utils/storage.js';
+import createDOM from '../../utils/createDOM.js';
+import { checkCurrentDocument } from '../../utils/checkCurrentDocument.js';
 
 export default function DocumentHeader({ $target, documentPath }) {
   const $documentHeader = createDOM({ $target, style: 'DocumentHeader' });

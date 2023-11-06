@@ -4,7 +4,7 @@
  * - EditDocument
  */
 
-import DocumentHeader from '../molecules/editor/DocumentHeader.js';
+import DocumentHeader from '../organisms/DocumentHeader.js';
 import EditDocument from '../organisms/EditDocument.js';
 import createDOM from '../../utils/createDOM.js';
 
