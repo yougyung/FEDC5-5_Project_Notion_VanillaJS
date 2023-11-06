@@ -7,13 +7,11 @@
 import DocumentTitle from '../molecules/editor/DocumentTitle.js';
 import DocumentContent from '../molecules/editor/DocumentContent.js';
 import { request } from '../../services/api.js';
-import styleInJS from '../../style/tagStyles.js';
 import { removeItem } from '../../utils/storage.js';
+import createDOM from '../../utils/createDOM.js';
 
 export default function EditDocument({ $target, initialState }) {
-  const $editDocument = document.createElement('div');
-  styleInJS({ $target: $editDocument, styleTagName: 'EditDocument' });
-  $target.appendChild($editDocument);
+  const $editDocument = createDOM({ $target, style: 'EditDocument' });
 
   this.state = initialState;
 

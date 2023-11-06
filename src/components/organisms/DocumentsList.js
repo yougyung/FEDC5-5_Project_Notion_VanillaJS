@@ -9,25 +9,26 @@
  * */
 import DocumentObject from './DocumentObject.js';
 import { getItem, setItem } from '../../utils/storage.js';
-import styleInJS from '../../style/tagStyles.js';
-import NewDocumentButton from '../molecules/NewDocumentButton.js';
-import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
+import createDOM from '../../utils/createDOM.js';
 
 export default function DocumentsList({ $target, initialState }) {
-  const $documentsContainer = document.createElement('div');
-  $documentsContainer.style.width = '100%';
-  $target.appendChild($documentsContainer);
+  const $documentsList = createDOM({ $target, tagName: 'ul', style: 'DocumentsList' });
 
-  const $documentsList = document.createElement('ul');
-  styleInJS({ $target: $documentsList, styleTagName: 'DocumentsList' });
-  $documentsContainer.appendChild($documentsList);
+  this.state = initialState;
+
+  this.setState = nextState => {
+    this.state = nextState;
+    this.render();
+  };
 
   $documentsList.addEventListener('click', e => {
-    const $sidebar = e.target.closest('div[data-notionSideBar]');
-    if (!$sidebar) return;
+    const $documentsContainer = e.target.closest('div[data-container]');
+    console.log(e.target);
+    if (!$documentsContainer) return;
 
     const { type, id } = e.target.dataset;
+
     if (type === 'document') {
       e.preventDefault();
       id && push(`/documents/${id}`);
@@ -46,29 +47,11 @@ export default function DocumentsList({ $target, initialState }) {
     }
   });
 
-  const onCreateDocument = async () => {
-    const postResponse = await request('/documents', {
-      method: 'POST',
-      body: { title: '첫 화면', parent: null },
-    });
-    push(`/documents/${postResponse.id}`);
-  };
-
-  new NewDocumentButton({ $target: $documentsContainer, onCreateDocument, isHidden: false });
-
-  this.state = initialState;
-
-  this.setState = nextState => {
-    this.state = nextState;
-    this.render();
-  };
-
   this.render = () => {
     $documentsList.innerHTML = '';
 
     this.state.forEach(state => {
-      const $details = document.createElement('details');
-
+      const $details = createDOM({ $target: $documentsList, tagName: 'details' });
       const openIds = getItem('openDocumentIds')?.map(Number);
       openIds?.includes(state.id) && $details.setAttribute('open', 'true');
 
@@ -77,14 +60,14 @@ export default function DocumentsList({ $target, initialState }) {
         currentDocumentData: { title: state.title, id: state.id },
       });
 
-      $documentsList.appendChild($details);
       if (state.documents.length) {
         new DocumentsList({ $target: $details, initialState: state.documents });
       } else {
-        const $span = document.createElement('span');
-        $span.setAttribute('data-type', 'document');
-        $span.textContent = '하위 페이지가 없습니다.';
-        $details.appendChild($span);
+        createDOM({
+          $target: $details,
+          tagName: 'span',
+          content: '하위 페이지가 없습니다.',
+        });
       }
     });
   };

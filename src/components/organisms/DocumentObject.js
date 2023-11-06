@@ -9,13 +9,18 @@ import DeleteDocumentButton from '../molecules/DeleteDocumentButton.js';
 import { request } from '../../services/api.js';
 import { push } from '../../utils/router.js';
 import { getItem, setItem } from '../../utils/storage.js';
-import styleInJS from '../../style/tagStyles.js';
+import createDOM from '../../utils/createDOM.js';
 
 export default function DocumentObject({ $target, currentDocumentData }) {
-  const $summary = document.createElement('summary');
+  const $summary = createDOM({ $target, tagName: 'summary', style: 'DocumentObject' });
 
-  styleInJS({ $target: $summary, styleTagName: 'DocumentObject' });
-  $target.appendChild($summary);
+  $summary.addEventListener('mouseover', e => {
+    $summary.querySelector('span[data-role]').style.visibility = 'visible';
+  });
+
+  $summary.addEventListener('mouseout', e => {
+    $summary.querySelector('span[data-role]').style.visibility = 'hidden';
+  });
 
   this.state = currentDocumentData;
 
@@ -49,30 +54,12 @@ export default function DocumentObject({ $target, currentDocumentData }) {
     });
     const saveTitle = getItem(`SAVE_DOCUMENT_TITLE_KEY-${this.state.id}`);
     saveTitle && documentLinkButton.setState(saveTitle);
-    const $setting = document.createElement('span');
-    $summary.appendChild($setting);
 
-    const deleteDocumentButton = new DeleteDocumentButton({
-      $target: $setting,
-      onDeleteDocument,
-      isHidden: true,
-    });
+    const $setting = createDOM({ $target: $summary, tagName: 'span', setAttribute: [['data-role', 'setting']] });
+    $setting.style.visibility = 'hidden';
 
-    const newDocumentButton = new NewDocumentButton({
-      $target: $setting,
-      onCreateDocument,
-      isHidden: true,
-    });
-
-    $summary.addEventListener('mouseover', e => {
-      newDocumentButton.$addDocumentButton.style.visibility = 'visible';
-      deleteDocumentButton.$addDocumentButton.style.visibility = 'visible';
-    });
-
-    $summary.addEventListener('mouseout', e => {
-      newDocumentButton.$addDocumentButton.style.visibility = 'hidden';
-      deleteDocumentButton.$addDocumentButton.style.visibility = 'hidden';
-    });
+    new DeleteDocumentButton({ $target: $setting, onDeleteDocument });
+    new NewDocumentButton({ $target: $setting, onCreateDocument });
   };
 
   this.render();

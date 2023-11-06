@@ -1,10 +1,9 @@
-import { push } from '../../utils/router.js';
 import NotionTitle from '../molecules/NotionTitle.js';
 import DocumentsList from '../organisms/DocumentsList.js';
+import createDOM from '../../utils/createDOM.js';
 import NewDocumentButton from '../molecules/NewDocumentButton.js';
-import { getItem, setItem } from '../../utils/storage.js';
 import { request } from '../../services/api.js';
-import styleInJS from '../../style/tagStyles.js';
+import { push } from '../../utils/router.js';
 
 /*
  * NotionSideBar
@@ -13,11 +12,11 @@ import styleInJS from '../../style/tagStyles.js';
  * */
 
 export default function NotionSideBar({ $target, initialState }) {
-  const $notionSideBar = document.createElement('div');
-  $notionSideBar.setAttribute('data-notionSideBar', 'notionSideBar');
-  styleInJS({ $target: $notionSideBar, styleTagName: 'NotionSideBar' });
-
-  $target.appendChild($notionSideBar);
+  const $notionSideBar = createDOM({
+    $target,
+    tagName: 'div',
+    style: 'NotionSideBar',
+  });
 
   this.state = initialState;
   this.setState = nextState => {
@@ -25,7 +24,26 @@ export default function NotionSideBar({ $target, initialState }) {
     documentList.setState(this.state);
   };
 
+  const onCreateDocument = async () => {
+    const postResponse = await request('/documents', {
+      method: 'POST',
+      body: { title: '첫 화면', parent: null },
+    });
+    push(`/documents/${postResponse.id}`);
+  };
+
   new NotionTitle({ $target: $notionSideBar, title: "Hun's Notion" });
 
-  const documentList = new DocumentsList({ $target: $notionSideBar, initialState: this.state, isOpenDocuments: [] });
+  const $documentsContainer = createDOM({
+    $target: $notionSideBar,
+    setAttribute: [['data-container', 'documentsContainer']],
+  });
+
+  const documentList = new DocumentsList({
+    $target: $documentsContainer,
+    initialState: this.state,
+    isOpenDocuments: [],
+  });
+
+  new NewDocumentButton({ $target: $documentsContainer, onCreateDocument, isFullSize: true });
 }

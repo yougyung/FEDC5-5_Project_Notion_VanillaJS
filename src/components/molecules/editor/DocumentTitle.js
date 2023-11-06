@@ -3,15 +3,16 @@
  * - Title : 문서 제목 (Editor)
  */
 
-import styleInJS from '../../../style/tagStyles.js';
 import { saveDocumentTitleEvent } from '../../../utils/saveDocumentTitle.js';
+import createDOM from '../../../utils/createDOM.js';
 
 export default function DocumentTitle({ $target, initialState, onEditTitle }) {
-  const $title = document.createElement('input');
-  styleInJS({ $target: $title, styleTagName: 'DocumentTitle' });
-
-  $title.setAttribute('placeholder', initialState.title || '제목을 입력하세요.');
-  $target.appendChild($title);
+  const $title = createDOM({
+    $target,
+    tagName: 'input',
+    style: 'DocumentTitle',
+    setAttribute: [['placeholder', initialState.title || '제목을 입력하세요.']],
+  });
 
   this.state = initialState;
   this.setState = nextState => {

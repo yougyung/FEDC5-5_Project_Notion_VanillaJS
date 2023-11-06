@@ -2,9 +2,9 @@ import DocumentDetail from '../components/template/DocumentDetail.js';
 import NotionSideBar from '../components/template/NotionSideBar.js';
 import { request } from '../services/api.js';
 import { initRouter } from '../utils/router.js';
-import styleInJS from '../style/tagStyles.js';
 import { addSaveDocumentTitleEvent } from '../utils/saveDocumentTitle.js';
 import { findDocumentDataById } from '../utils/findDocumentsPathData.js';
+import createDOM from '../utils/createDOM.js';
 
 /*
  * HomePage
@@ -13,9 +13,7 @@ import { findDocumentDataById } from '../utils/findDocumentsPathData.js';
  * */
 
 export default function HomePage({ $target }) {
-  const $homePage = document.createElement('div');
-  styleInJS({ $target: $homePage, styleTagName: 'HomePage' });
-  $target.appendChild($homePage);
+  const $homePage = createDOM({ $target, tagName: 'div', style: 'HomePage' });
 
   this.state = [];
   const initDocumentData = { id: null, title: '첫 화면', content: '내용을 채워주세요', documentPath: [] };

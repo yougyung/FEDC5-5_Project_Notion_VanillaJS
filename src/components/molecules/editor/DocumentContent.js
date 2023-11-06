@@ -4,13 +4,10 @@
  */
 
 import { moveCursorToEnd } from '../../../utils/editerUtils.js';
-import styleInJS from '../../../style/tagStyles.js';
+import createDOM from '../../../utils/createDOM.js';
 
 export default function DocumentContent({ $target, content, onEditContent, isDisabled = false }) {
-  const $content = document.createElement('div');
-  $content.setAttribute('contenteditable', 'true');
-  styleInJS({ $target: $content, styleTagName: 'DocumentContent' });
-  $target.appendChild($content);
+  const $content = createDOM({ $target, style: 'DocumentContent', setAttribute: [['contenteditable', 'true']] });
 
   $content.addEventListener('input', e => {
     this.setState({ ...this.state, content: e.target.innerHTML });

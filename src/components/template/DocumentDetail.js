@@ -6,13 +6,10 @@
 
 import DocumentHeader from '../molecules/editor/DocumentHeader.js';
 import EditDocument from '../organisms/EditDocument.js';
-import styleInJS from '../../style/tagStyles.js';
+import createDOM from '../../utils/createDOM.js';
 
 export default function DocumentDetail({ $target, documentState }) {
-  const $documentDetail = document.createElement('div');
-
-  styleInJS({ $target: $documentDetail, styleTagName: 'DocumentDetail' });
-  $target.appendChild($documentDetail);
+  const $documentDetail = createDOM({ $target, style: 'DocumentDetail' });
 
   this.setState = nextState => {
     const { id, title, content, documentPath } = nextState;

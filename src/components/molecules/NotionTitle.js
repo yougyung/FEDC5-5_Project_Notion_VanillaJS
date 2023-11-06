@@ -3,13 +3,10 @@
  * - Title : notion 이름
  * */
 import { push } from '../../utils/router.js';
-import styleInJS from '../../style/tagStyles.js';
+import createDOM from '../../utils/createDOM.js';
 
 export default function NotionTitle({ $target, title }) {
-  const $notionTitle = document.createElement('h1');
-  $notionTitle.textContent = title;
-  styleInJS({ $target: $notionTitle, styleTagName: 'NotionTitle' });
-  $target.appendChild($notionTitle);
+  const $notionTitle = createDOM({ $target, tagName: 'h1', content: title, style: 'NotionTitle' });
 
   $notionTitle.addEventListener('click', e => {
     push('/');
