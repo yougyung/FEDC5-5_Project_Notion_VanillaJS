@@ -1,5 +1,5 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
-import { filterTitle } from "../../utils/filterTitle.js";
+import { filterTitle } from "../../utils/index.js";
 
 export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement("section");
