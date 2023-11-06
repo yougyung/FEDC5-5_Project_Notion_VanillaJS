@@ -96,7 +96,7 @@ export default function Editor({ $target, initialState, titlePost, EditPost }) {
 
       $div.innerHTML = `📃 ${element.title}<br>`;
 
-      $div.addEventListener("click", (e) => setCustomEvent(element.id));
+      $div.addEventListener("click", () => setCustomEvent(element.id));
       $editor.appendChild($div);
     });
 
