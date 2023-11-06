@@ -56,8 +56,7 @@ export default class SearchModal {
         })
 
         searchInput.addEventListener("keydown", async (event) => {
-            if (event.keyCode !== 13)
-                return;
+            if (event.key !== "Enter") return;
 
             if (this.searchResultElement) {
                 this.searchResultElement.remove();
