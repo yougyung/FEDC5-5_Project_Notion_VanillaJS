@@ -29,7 +29,7 @@ export default class Editor {
         const findHeadingTagArr = [findH1, findH2, findH3, findH4];
 
         findHeadingTagArr.map((item, index) => {
-            if (item.length < 1)
+            if (item.length < 2)
                 return;
             e.target.innerHTML = item[0] + `<h${index + 1} id="cur">&nbsp;</h${index + 1}>`;
             const selection = window.getSelection();
@@ -64,13 +64,7 @@ export default class Editor {
 
         this.editorElement.addEventListener("keyup", (e) => {
             const textHTML = e.target.innerHTML;
-            const findDiv = this.editorElement.querySelector('div');
-            if (findDiv) {
-                e.preventDefault();
-                const newLine = document.createElement('br');
-                this.editorElement.removeChild(findDiv);
-                this.editorElement.appendChild(newLine);
-            }
+
             this.convertHeadingTag(textHTML, e);
             this.updateDocument(this.titleEditorElement.textContent, textHTML);
         });
