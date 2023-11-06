@@ -4,6 +4,7 @@ export default function Posting({ $target, initialState, onEditing }) {
   $target.appendChild($editor);
   this.state = initialState;
   let isInit = true;
+
   this.setState = (nextState) => {
     if (this.state.id !== nextState.id)
       document.getElementsByTagName("input")[0].focus();
@@ -29,13 +30,12 @@ export default function Posting({ $target, initialState, onEditing }) {
   $editor.addEventListener("keyup", (e) => {
     const { target } = e;
     const name = target.getAttribute("name");
-    if (this.state[name] !== undefined) {
-      const nextState = {
-        ...this.state,
-        [name]: target.value,
-      };
-      this.setState(nextState);
-      onEditing(this.state);
-    }
+    if (this.state[name] === undefined) return;
+    const nextState = {
+      ...this.state,
+      [name]: target.value,
+    };
+    this.setState(nextState);
+    onEditing(this.state);
   });
 }
