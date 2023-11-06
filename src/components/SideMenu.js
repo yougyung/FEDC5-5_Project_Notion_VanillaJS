@@ -41,7 +41,7 @@ export default function SideMenu({
     if ($postAddButton) {
       const { add } = $postAddButton.dataset;
       const $ul = $postAddButton.parentNode.nextSibling;
-      $ul.innerHTML += `<li>- 제목없음<button> + </button><button> - </button></li>`; // Optimistic update
+      $ul.innerHTML += `<li><span><ion-icon name="radio-button-on-outline"/></span>제목없음<button> + </button><button> - </button></li>`; // Optimistic update
       onPlusClick(add);
     }
   });
@@ -57,7 +57,7 @@ export default function SideMenu({
   });
 
   $nav.addEventListener("click", (e) => {
-    const $toggle = e.target.closest("label");
+    const $toggle = e.target.closest(".fold");
     if ($toggle) {
       const subCategory = $toggle.parentNode.nextElementSibling;
       subCategory.toggleAttribute("hidden");
@@ -70,11 +70,11 @@ const buildTree = (arr, targetId, depth) =>
   `<ul data-depth=${depth}>${arr
     .map(
       ({ id, title, documents }) =>
-        `<li>${
+        `<li><span>${
           documents.length
-            ? `<label><ion-icon name="chevron-down-outline" class="arrow"/></label>`
-            : "- "
-        }<span class="documentTitle ${
+            ? '<ion-icon name="chevron-down-outline" class="arrow"/>'
+            : '<ion-icon name="radio-button-on-outline"/>'
+        }</span><span class="documentTitle ${
           Number(targetId) === id ? "selected" : ""
         }" data-id="${id}">${title}</span><button data-add="${id}"> + </button><button data-remove="${id}"> - </button>
           </li>${buildTree(documents, targetId, depth + 1)}`
