@@ -24,46 +24,35 @@ export default function EditButtons({ $target, initialState, onClick }) {
 
   this.render = () => {};
 
-  $div.addEventListener("click", (e) => {
-    const { className } = e.target.closest('button');
+  const toggleTag = (markDownSyntax, tag) => {
     const selection = window.getSelection();
-    let nextContent;
-    if (className === "bold-button") {
-      const textContent = selection.toString();
-      const styledText = `**${textContent}**`;
-      nextContent = this.state.replace(textContent, styledText);
-      const { outerHTML } = selection.focusNode.parentNode;
-      const isStrong = outerHTML.indexOf("<b>");
+    const textContent = selection.toString();
+    const styledText = `${markDownSyntax}${textContent}${markDownSyntax}`;
+    const { outerHTML } = selection.focusNode.parentNode;
+    const hasTag = outerHTML.includes(tag);
 
-      if (isStrong !== -1) {
-        nextContent = this.state.replace(styledText, textContent);
-      }
+    if (hasTag) {
+      onClick(this.state.replace(styledText, textContent));
+    } else {
+      onClick(this.state.replace(textContent, styledText));
+    }
+  };
 
-      onClick(nextContent);
-    } else if (className === "italic-button") {
-      const textContent = selection.toString();
-      const styledText = `_${textContent}_`;
-      nextContent = this.state.replace(textContent, styledText);
-      const { outerHTML } = selection.focusNode.parentNode;
-      const isItalic = outerHTML.indexOf("<i>");
+  $div.addEventListener("click", (e) => {
+    const { className } = e.target.closest("button");
 
-      if (isItalic !== -1) {
-        nextContent = this.state.replace(styledText, textContent);
-      }
-
-      onClick(nextContent);
-    } else if (className === "strike-button") {
-      const textContent = selection.toString();
-      const styledText = `~~${textContent}~~`;
-      nextContent = this.state.replace(textContent, styledText);
-      const { outerHTML } = selection.focusNode.parentNode;
-      const isStrike = outerHTML.indexOf("<s>");
-
-      if (isStrike !== -1) {
-        nextContent = this.state.replace(styledText, textContent);
-      }
-
-      onClick(nextContent);
+    switch (className) {
+      case "bold-button":
+        toggleTag("**", "<b>");
+        break;
+      case "italic-button":
+        toggleTag("_", "<i>");
+        break;
+      case "strike-button":
+        toggleTag("~~", "<s>");
+        break;
+      default:
+        break;
     }
   });
 }
