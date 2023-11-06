@@ -9,6 +9,7 @@ import {
     customDeleteEvent,
     customReplaceStateEvent,
 } from "../../services/router.js";
+import { createCommonElement } from "../../services/createCommonElement.js";
 
 const validateSelf = (data) => {
     if (typeof data.id !== "number")
@@ -40,27 +41,24 @@ export function DocumentNode({ initialData, appendNode, findRootOf }) {
         return;
     }
 
-    const $documentNode = document.createElement("ul");
-    const $addChildButton = document.createElement("button");
-    const $deleteButton = document.createElement("button");
-    const $title = document.createElement("span");
-
-    $documentNode.appendChild($title);
-    $title.classList.add("document-title");
-
-    $documentNode.appendChild($addChildButton);
-    $addChildButton.classList.add("add-button");
-
-    $documentNode.appendChild($deleteButton);
-    $deleteButton.classList.add("delete-button");
-
-    $documentNode.classList.add("document-node");
-
     this.id = initialData.id;
     this.title = initialData.title;
     this.documents = initialData.documents;
 
-    $documentNode.setAttribute("data-id", `${this.id}`);
+    const $addChildButton = createCommonElement("button", {
+        class: "add-button",
+    });
+    const $deleteButton = createCommonElement("button", {
+        class: "delete-button",
+    });
+    const $title = createCommonElement("span", { class: "document-title" });
+    const $documentNode = createCommonElement(
+        "ul",
+        { class: "document-node", "data-id": `${this.id}` },
+        $title,
+        $addChildButton,
+        $deleteButton
+    );
 
     this.getNode = () => {
         return $documentNode;

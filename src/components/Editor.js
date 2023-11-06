@@ -1,22 +1,26 @@
 import { updateDocument } from "../services/apiManager/index.js";
+import { createCommonElement } from "../services/createCommonElement.js";
 import requireNew from "../services/requireNew.js";
 
 export function Editor({ $target, initialContent, changeTitle }) {
     requireNew(new.target);
 
-    const $editor = document.createElement("div");
-    $editor.classList.add("editor");
+    const $title = createCommonElement("input", {
+        class: "editor-title",
+        placeholder: "제목 입력",
+    });
 
-    const $title = document.createElement("input");
-    $title.classList.add("editor-title");
-    $title.setAttribute("placeholder", "제목 입력");
+    const $content = createCommonElement("textarea", {
+        class: "editor-content",
+        autofocus: true,
+    });
 
-    const $content = document.createElement("textarea");
-    $content.classList.add("editor-content");
-    $content.setAttribute("autofocus", "true");
-
-    $editor.appendChild($title);
-    $editor.appendChild($content);
+    const $editor = createCommonElement(
+        "div",
+        { class: "editor" },
+        $title,
+        $content
+    );
 
     this.state = initialContent;
 
@@ -27,11 +31,11 @@ export function Editor({ $target, initialContent, changeTitle }) {
 
     this.appendEditor = () => {
         $target.appendChild($editor);
-    }
+    };
 
     this.removeEditor = () => {
-        $editor.remove()
-    }
+        $editor.remove();
+    };
 
     let timeoutId;
 
@@ -48,6 +52,7 @@ export function Editor({ $target, initialContent, changeTitle }) {
 
         timeoutId = setTimeout(() => {
             updateDocument(history.state.documentId, this.state);
+            console.log("render");
         }, 2000);
     });
 

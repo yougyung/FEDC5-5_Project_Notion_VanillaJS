@@ -1,13 +1,13 @@
 import { DocumentNode, validateDocumentNode } from "./model.js";
 import { initialDocument } from "../../constants/initialData.js";
+import { createCommonElement } from "../../services/createCommonElement.js";
 
 import requireNew from "../../services/requireNew.js";
 
 export function DocumentTree({ $target, initialData }) {
     requireNew(new.target);
 
-    const $documentTree = document.createElement("ul");
-    $documentTree.classList.add("document-tree");
+    const $documentTree = createCommonElement("ul", { class: "document-tree" });
 
     $target.appendChild($documentTree);
 
@@ -38,8 +38,9 @@ export function DocumentTree({ $target, initialData }) {
             findRootOf,
         })
     ) => {
-        const $container = document.createElement("li");
-        $container.classList.add("document-node", "container");
+        const $container = createCommonElement("li", {
+            class: "document-node container",
+        });
         const $currentNode = currentInstance.getNode();
         $container.appendChild($currentNode);
         $parentNode.appendChild($container);
