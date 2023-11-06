@@ -2,7 +2,7 @@ import { Sidebar, DocumentEditPage } from "./components/index.js";
 import { initRouter, documentsApi } from "./utils/index.js";
 
 export default function App({ $target }) {
-  const { getDocuments, createDocument, updateDocument, deleteDocument } = documentsApi();
+  const { getDocument, createDocument, updateDocument, deleteDocument } = documentsApi();
   let timer = null;
 
   const Init = () => {
@@ -52,7 +52,7 @@ export default function App({ $target }) {
 
   const onDelete = async (id) => {
     try {
-      const document = await getDocuments(id);
+      const document = await getDocument(id);
 
       if (!document) {
         alert("존재하지 않는 페이지이므로 초기 페이지로 이동합니다.");

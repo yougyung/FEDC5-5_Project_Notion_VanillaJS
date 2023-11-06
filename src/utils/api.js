@@ -24,7 +24,11 @@ export const request = async (url, options = {}) => {
 };
 
 export const documentsApi = () => {
-  const getDocuments = async (id) => {
+  const getDocuments = async () => {
+    return await request("/documents");
+  };
+
+  const getDocument = async (id) => {
     return await request(`/documents/${id}`);
   };
 
@@ -56,6 +60,7 @@ export const documentsApi = () => {
 
   return {
     getDocuments,
+    getDocument,
     createDocument,
     updateDocument,
     deleteDocument,
