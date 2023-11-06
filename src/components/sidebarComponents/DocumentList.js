@@ -1,5 +1,5 @@
 import { MAX_TITLE_LENGTH } from "../../constants.js";
-import { push } from "../../utils.js";
+import { push } from "../../utils/index.js";
 import { filterTitle } from "../../utils/filterTitle.js";
 import { ToggleButton } from "./ToggleButton.js";
 

@@ -1,5 +1,5 @@
 import { Sidebar, DocumentEditPage } from "./components/index.js";
-import { request, initRouter } from "./utils.js";
+import { request, initRouter } from "./utils/index.js";
 
 export default function App({ $target }) {
   let timer = null;

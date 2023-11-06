@@ -1,4 +1,4 @@
-import { request } from "../utils.js";
+import { request } from "../utils/index.js";
 import { Editor, DocumentHeader, SubDocumentList } from "./documentComponents/index.js";
 
 export default function DocumentEditPage({ $target, initialState, onEdit, onDelete }) {

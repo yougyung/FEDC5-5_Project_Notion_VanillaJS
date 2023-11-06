@@ -1,4 +1,4 @@
-import { push } from "../../utils.js";
+import { push } from "../../utils/index.js";
 
 export default function SubDocumentList({ $target, initialState }) {
   const $editorFooter = document.createElement("nav");

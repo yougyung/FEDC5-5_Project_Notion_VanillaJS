@@ -1,4 +1,4 @@
-import { request } from "../utils.js";
+import { request } from "../utils/index.js";
 import { DocumentListHeader, DocumentList, SidebarHeader } from "./sidebarComponents/index.js";
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {

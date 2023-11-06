@@ -1,4 +1,4 @@
-import { request } from "../../../utils.js";
+import { request } from "../../../utils/index.js";
 import DocumentLink from "./DocumentLink.js";
 
 export default function DocumentLinkList({ $parent, $target, initialState, onClose }) {

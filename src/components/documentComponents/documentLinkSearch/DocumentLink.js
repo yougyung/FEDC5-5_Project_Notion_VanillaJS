@@ -1,4 +1,4 @@
-import { push } from "../../../utils.js";
+import { push } from "../../../utils/index.js";
 
 export default function DocumentLink({ $target, id, title }) {
   const $documentLinkWrapper = document.createElement("div");

@@ -1,4 +1,4 @@
-import { getItem, setItem } from "../../utils.js";
+import { getItem, setItem } from "../../utils/index.js";
 
 export const ToggleButton = () => {
   const openIds = getItem("openIds", []);
