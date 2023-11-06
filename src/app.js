@@ -51,15 +51,15 @@ export default function App({ $target }) {
       });
     },
     onPlusClick: async (parent) => {
-      const res = await request("", {
+      const postedDocument = await request("", {
         method: "POST",
         body: JSON.stringify({ title: "제목없음", parent }),
       });
 
-      push(`${res.id}`);
+      push(`${postedDocument.id}`);
       this.setState({
         ...this.state,
-        selectedDocumentId: res.id,
+        selectedDocumentId: postedDocument.id,
       });
       await fetchSelectedDocument();
       await fetchDocumentList();
