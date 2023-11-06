@@ -2,7 +2,6 @@ import MatchedDocument from "./components/MatchedDocument.js";
 import Posting from "./components/Posting.js";
 import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
-import { titleMatched } from "./utils/match.js";
 import { initRouter, push } from "./utils/router.js";
 
 export default function App({ $target }) {
@@ -82,7 +81,14 @@ export default function App({ $target }) {
         );
 
         if (sameTitleDocument && id !== sameTitleDocument.id) {
-          titleMatched(sameTitleDocument.id, sameTitleDocument.title);
+          window.dispatchEvent(
+            new CustomEvent("input-change", {
+              detail: {
+                id: sameTitleDocument.id,
+                title: sameTitleDocument.title,
+              },
+            })
+          );
           matchedDocument.setState({
             matched: true,
             linkText: sameTitleDocument.title,
