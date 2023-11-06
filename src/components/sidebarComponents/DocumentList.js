@@ -64,32 +64,31 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
         `;
   };
 
-  $documentList.addEventListener("click", ({ target }) => {
-    if (target.closest(".no-subdocuments")) return;
+  const onClickDocumentList = ({ target }) => {
+    const dataId = target.closest("[data-id]");
 
-    const $delete = target.closest(".delete-button");
-    const $add = target.closest(".add-button");
-    const $toggle = target.closest(".toggle-button");
-    const $li = target.closest(".list-item");
+    if (!dataId) return;
 
-    if ($toggle) {
-      const { id } = $toggle.dataset;
+    const { id } = dataId.dataset;
 
+    if (target.closest(".toggle-button")) {
       toggleDocumentList(parseInt(id));
       this.render();
-    } else if ($delete) {
-      const { id } = $delete.dataset;
+    }
 
+    if (target.closest(".delete-button")) {
       onDelete(parseInt(id));
-    } else if ($add) {
-      const { id } = $add.dataset;
+    }
 
+    if (target.closest(".add-button")) {
       onAdd(parseInt(id));
       openDocumentList(parseInt(id));
-    } else if ($li) {
-      const { id } = $li.dataset;
+    }
 
+    if (target.closest(".list-item")) {
       push(`${id}`);
     }
-  });
+  };
+
+  $documentList.addEventListener("click", onClickDocumentList);
 }
