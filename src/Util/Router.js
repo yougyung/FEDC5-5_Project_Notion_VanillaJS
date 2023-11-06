@@ -28,7 +28,7 @@ export const replaceState = (pathname) => {
 };
 
 // 뒤로가기 시 pathname에 맞는 라우팅
-export const popState = (route) => {
+export const movePage = (route) => {
   window.addEventListener("popstate", (e) => {
     route();
   });

@@ -1,7 +1,7 @@
 import EditorApp from "./Editor/App.js";
 import MenuBarApp from "./MenuBar/App.js";
 import { HTTPRequest } from "./Util/Api.js";
-import { getCustomEvent, popState } from "./Util/Router.js";
+import { getCustomEvent, movePage } from "./Util/Router.js";
 
 export default function App({ $target, initialState }) {
   this.state = initialState;
@@ -72,5 +72,5 @@ export default function App({ $target, initialState }) {
   getCustomEvent(route);
 
   // 뒤로가기 라우팅
-  popState(route);
+  movePage(route);
 }
