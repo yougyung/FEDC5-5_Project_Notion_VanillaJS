@@ -21,18 +21,14 @@ export default function SubDocumentLinkList({
 	this.render = () => {
 		const { documents } = this.state;
 		if (documents) {
-			try {
-				$ul.innerHTML = documents
-					.map(
-						({ title, id }) =>
-							`<li class='sub_document_link_container' data-id=${id}>${SVG_DOCUMENT}<span class="text">${
-								title ? title : EMPTY_TITLE
-							}<span></li>`,
-					)
-					.join('');
-			} catch (e) {
-				console.log(e);
-			}
+			$ul.innerHTML = documents
+				.map(
+					({ title, id }) =>
+						`<li class='sub_document_link_container' data-id=${id}>${SVG_DOCUMENT}<span class="text">${
+							title ? title : EMPTY_TITLE
+						}<span></li>`,
+				)
+				.join('');
 		} else {
 			$ul.innerHTML = '';
 		}
@@ -40,7 +36,9 @@ export default function SubDocumentLinkList({
 
 	$ul.addEventListener('click', (event) => {
 		const { target } = event;
+
 		if (target.tagName !== 'SPAN') return;
+
 		const { id } = target.closest('li').dataset;
 		onSubDocumentLinkClick(id);
 	});
