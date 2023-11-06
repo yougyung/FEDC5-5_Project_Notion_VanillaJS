@@ -160,7 +160,7 @@ export default function App({ $target }) {
     }
   };
 
-  this.route = () => {
+  this.updateStateBasedOnURL = () => {
     const { pathname } = window.location;
 
     if (pathname.length > 1) {
@@ -173,7 +173,7 @@ export default function App({ $target }) {
     fetchSelectedDocument();
   };
 
-  this.route();
+  this.updateStateBasedOnURL();
 
-  initRouter(this.route);
+  initRouter(this.updateStateBasedOnURL);
 }
