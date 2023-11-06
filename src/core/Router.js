@@ -18,7 +18,6 @@ export default class Router {
         initialState: route.initialState,
       })
     );
-    console.log(this.routesMap.get("documents"));
   }
   handleRoute() {
     const [path, pathData] = getPathData();
