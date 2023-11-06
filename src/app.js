@@ -4,7 +4,6 @@ import SideMenu from "./components/SideMenu.js";
 import { request } from "./utils/api.js";
 import { titleMatched } from "./utils/match.js";
 import { initRouter, push } from "./utils/router.js";
-import { findTitleInTree } from "./utils/tree.js";
 
 export default function App({ $target }) {
   const $sideMenuContainer = document.createElement("div");
@@ -177,3 +176,14 @@ export default function App({ $target }) {
 
   initRouter(this.updateStateBasedOnURL);
 }
+
+const findTitleInTree = (documents, targetTitle) => {
+  for (const document of documents) {
+    if (document.title === targetTitle) return document;
+    if (document.documents.length > 0) {
+      const result = findTitleInTree(document.documents, targetTitle);
+      if (result) return result;
+    }
+  }
+  return null;
+};
