@@ -60,13 +60,8 @@ export default function SideMenu({
     const $toggle = e.target.closest("label");
     if ($toggle) {
       const subCategory = $toggle.parentNode.nextElementSibling;
-      if (subCategory.hasAttribute("hidden")) {
-        subCategory.removeAttribute("hidden");
-        $toggle.className = "";
-      } else {
-        subCategory.setAttribute("hidden", true);
-        $toggle.className = "rotate";
-      }
+      subCategory.toggleAttribute("hidden");
+      $toggle.classList.toggle("rotate");
     }
   });
 }
