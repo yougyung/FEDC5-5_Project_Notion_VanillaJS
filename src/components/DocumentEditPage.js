@@ -1,4 +1,4 @@
-import { request } from "../utils/index.js";
+import { documentsApi } from "../utils/index.js";
 import { Editor, DocumentHeader, SubDocumentList } from "./documentComponents/index.js";
 
 export default function DocumentEditPage({ $target, initialState, onEdit, onDelete }) {
@@ -12,7 +12,9 @@ export default function DocumentEditPage({ $target, initialState, onEdit, onDele
   const fetchDocument = async () => {
     try {
       const { documentId } = this.state;
-      const { id, title, content, documents } = await request(`/documents/${documentId}`);
+
+      const { getDocument } = documentsApi();
+      const { id, title, content, documents } = await getDocument(documentId);
 
       documentHeader.setState({
         ...documentHeader.state,

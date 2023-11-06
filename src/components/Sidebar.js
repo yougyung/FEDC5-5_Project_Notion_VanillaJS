@@ -1,4 +1,4 @@
-import { request } from "../utils/index.js";
+import { documentsApi } from "../utils/index.js";
 import { DocumentListHeader, DocumentList, SidebarHeader } from "./sidebarComponents/index.js";
 
 export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
@@ -34,7 +34,7 @@ export default function Sidebar({ $target, initialState, onAdd, onDelete }) {
   });
 
   this.render = async () => {
-    const documents = await request("/documents");
+    const documents = await documentsApi().getDocuments();
 
     documentList.setState({
       documents,

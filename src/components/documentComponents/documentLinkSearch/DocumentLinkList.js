@@ -1,4 +1,4 @@
-import { request } from "../../../utils/index.js";
+import { documentsApi } from "../../../utils/index.js";
 import DocumentLink from "./DocumentLink.js";
 
 export default function DocumentLinkList({ $parent, $target, initialState, onClose }) {
@@ -10,7 +10,7 @@ export default function DocumentLinkList({ $parent, $target, initialState, onClo
   this.state = initialState;
 
   this.componentDidMount = async () => {
-    const documents = await request("/documents");
+    const documents = await documentsApi().getDocuments();
     const documentLinks = documents.map(({ id, title, documents }) => ({
       id,
       title,
