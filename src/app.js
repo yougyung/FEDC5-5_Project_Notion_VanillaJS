@@ -29,22 +29,19 @@ export default function App({ $target }) {
       documentList: this.state.documentList,
     },
     onHeaderClick: async () => {
-      push("/");
       this.setState({
         ...this.state,
         selectedDocumentId: "new",
       });
-
-      await fetchSelectedDocument();
+      push("/");
     },
     onSelect: async (documentId) => {
-      push(`${documentId}`);
       this.setState({
         ...this.state,
         selectedDocumentId: documentId,
       });
+      push(`${documentId}`);
 
-      await fetchSelectedDocument();
       sideMenu.setState({
         selectedDocumentId: documentId,
         documentList: this.state.documentList,
@@ -56,13 +53,12 @@ export default function App({ $target }) {
         body: JSON.stringify({ title: "제목없음", parent }),
       });
 
-      push(`${postedDocument.id}`);
       this.setState({
         ...this.state,
         selectedDocumentId: postedDocument.id,
       });
-      await fetchSelectedDocument();
-      await fetchDocumentList();
+      push(`${postedDocument.id}`);
+
       document.getElementsByTagName("input")[0].select();
     },
     onDeleteClick: async (documentId) => {
@@ -95,7 +91,7 @@ export default function App({ $target }) {
           return;
         }
 
-        if (title.length === 0) return; // title can't be empty string
+        if (title.length === 0) return;
 
         if (isNew) {
           const createdPost = await request("", {
@@ -106,8 +102,7 @@ export default function App({ $target }) {
             }),
           });
           this.setState({ ...this.state, selectedDocumentId: createdPost.id });
-          await fetchSelectedDocument();
-          await fetchDocumentList();
+
           push(`${createdPost.id}`);
         } else {
           await request(`${id}`, {
@@ -167,6 +162,7 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
+
     if (pathname.length > 1) {
       this.setState({
         ...this.state,
