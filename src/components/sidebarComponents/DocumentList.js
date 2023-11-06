@@ -65,6 +65,8 @@ export default function DocumentList({ $target, initialState, onAdd, onDelete })
   };
 
   $documentList.addEventListener("click", ({ target }) => {
+    if (target.closest(".no-subdocuments")) return;
+
     const $delete = target.closest(".delete-button");
     const $add = target.closest(".add-button");
     const $toggle = target.closest(".toggle-button");
