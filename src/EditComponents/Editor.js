@@ -104,32 +104,24 @@ export default function Editor({ $target, initialState, onEditing }) {
     let docsText = [];
     docsTextList.forEach((node) => {
       const nodeClass = [...node.classList];
-      const isH1 = nodeClass.find((c) => c === 'h1-title');
-      const isH2 = nodeClass.find((c) => c === 'h2-title');
-      const isH3 = nodeClass.find((c) => c === 'h3-title');
+      const markDownClassList = ['h1-title', 'h2-title', 'h3-title'];
 
-      let textLine = {};
-      if (isH1) {
+      const textTypeList = markDownClassList.filter(
+        (className) => nodeClass.find((c) => c === className) === className
+      );
+
+      let textLine = {
+        type: 'content',
+      };
+
+      if (textTypeList.length !== 0) {
         textLine = {
-          type: isH1,
-        };
-      } else if (isH2) {
-        textLine = {
-          type: isH2,
-        };
-      } else if (isH3) {
-        textLine = {
-          type: isH3,
-        };
-      } else {
-        textLine = {
-          type: 'content',
+          ...textLine,
+          type: textTypeList[0],
         };
       }
 
-      const text = node.innerHTML;
-
-      textLine = { ...textLine, text: text };
+      textLine = { ...textLine, text: node.innerHTML };
 
       docsText.push(textLine);
     });
