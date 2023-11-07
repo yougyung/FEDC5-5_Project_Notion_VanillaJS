@@ -4,43 +4,43 @@ export default function CheckRequestStatus(res) {
   const status = res.status;
   const statusText = res.statusText;
   if (status === 400) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청의 문법이 잘못되었습니다. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 401) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청에 대한 리소스 액세스 권한이 없습니다. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 402) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청에 대한 리소스 액세스 권한이 없습니다. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 404) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청한 페이지를 찾을 수 없습니다. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 405) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청이 허용되지 않은 HTTP Method를 사용했습니다. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 408) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청을 응답하는 시간이 너무 많이 소요됩니다. 잠시 후 다시 시도해주세요. 홈 화면으로 이동합니다.`
     );
   }
   if (status === 409) {
-    push("");
+    push("/");
     throw new Error(
       `${status} : ${statusText} 😭 \n요청의 충돌이 발생했습니다. 홈 화면으로 이동합니다.`
     );

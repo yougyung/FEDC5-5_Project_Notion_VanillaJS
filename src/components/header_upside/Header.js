@@ -10,6 +10,6 @@ export default function Header({ $target, title }) {
   $target.appendChild($div);
 
   $p.addEventListener("click", (e) => {
-    push("");
+    push("/");
   });
 }
