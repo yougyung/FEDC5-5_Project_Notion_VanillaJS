@@ -6,6 +6,7 @@ import {
   SELECTED_POST_KEY,
 } from "../post_leftside/PostList.js";
 
+// 편집기 하단의 새로운 하위 post 추가 버튼 클릭 시 
 export default async function CreateChildPostButtonEvent(id) {
   const newData = await addNewData(id);
   const showLists = getItem(OPENED_POST_KEY, []);

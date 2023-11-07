@@ -10,7 +10,8 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.setState = (nextState) => {
     // index를 전달받았다면, 빈 화면
     if (nextState.id === "index") {
-      $div.innerHTML = "";
+      $div.innerHTML = "📚 황 민호의 Notion에 오신 것을 환영합니다.";
+      $div.classList.add("home");
       return;
     }
     this.state = nextState;

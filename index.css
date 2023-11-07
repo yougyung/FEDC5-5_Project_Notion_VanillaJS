@@ -251,3 +251,8 @@ textarea::placeholder {
 .header-title:hover {
   cursor: pointer;
 }
+
+.home {
+  color: rgb(36, 36, 36);
+  font-size: 18px;
+}

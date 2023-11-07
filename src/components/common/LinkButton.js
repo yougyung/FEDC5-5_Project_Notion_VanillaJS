@@ -1,3 +1,4 @@
+// 버튼 생성하고 dom에 추가하는 함수
 export default function LinkButton({
   $target,
   buttonName,
