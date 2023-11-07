@@ -102,30 +102,38 @@ export default function SideNav({
   });
 
   $navDocuments.addEventListener('mouseover', (e) => {
-    const { dataset } = e.target.closest('.nav-document-container');
+    const $navContainer = e.target.closest('.nav-document-container');
 
-    const $plusButton = document.querySelector(
-      `.nav-plus-btn[data-id="${dataset.id}"]`
-    );
-    const $deleteButton = document.querySelector(
-      `.nav-delete-btn[data-id="${dataset.id}"]`
-    );
+    if ($navContainer) {
+      const { dataset } = $navContainer;
 
-    $plusButton.classList.remove('hidden');
-    $deleteButton.classList.remove('hidden');
+      const $plusButton = document.querySelector(
+        `.nav-plus-btn[data-id="${dataset.id}"]`
+      );
+      const $deleteButton = document.querySelector(
+        `.nav-delete-btn[data-id="${dataset.id}"]`
+      );
+
+      $plusButton.classList.remove('hidden');
+      $deleteButton.classList.remove('hidden');
+    }
   });
 
   $navDocuments.addEventListener('mouseout', (e) => {
-    const { dataset } = e.target.closest('.nav-document-container');
+    const $navContainer = e.target.closest('.nav-document-container');
 
-    const $plusButton = document.querySelector(
-      `.nav-plus-btn[data-id="${dataset.id}"]`
-    );
-    const $deleteButton = document.querySelector(
-      `.nav-delete-btn[data-id="${dataset.id}"]`
-    );
+    if ($navContainer) {
+      const { dataset } = $navContainer;
 
-    $plusButton.classList.add('hidden');
-    $deleteButton.classList.add('hidden');
+      const $plusButton = document.querySelector(
+        `.nav-plus-btn[data-id="${dataset.id}"]`
+      );
+      const $deleteButton = document.querySelector(
+        `.nav-delete-btn[data-id="${dataset.id}"]`
+      );
+
+      $plusButton.classList.add('hidden');
+      $deleteButton.classList.add('hidden');
+    }
   });
 }
