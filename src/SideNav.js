@@ -77,7 +77,6 @@ export default function SideNav({
     const { className, dataset, classList } = e.target;
 
     if (className === 'nav-plus-btn') {
-      console.log(dataset.id);
       onClickPlusBtn(dataset.id);
     }
 
@@ -103,50 +102,30 @@ export default function SideNav({
   });
 
   $navDocuments.addEventListener('mouseover', (e) => {
-    const { classList, dataset } = e.target;
+    const { dataset } = e.target.closest('.nav-document-container');
 
-    if (
-      classList.contains('nav-document') ||
-      classList.contains('nav-document-container') ||
-      classList.contains('nav-toggle-btn') ||
-      !classList.contains('nav-delete-btn') ||
-      !classList.contains('nav-plus-btn')
-    ) {
-      const $plusButton = document.querySelector(
-        `.nav-plus-btn[data-id="${dataset.id}"]`
-      );
-      const $deleteButton = document.querySelector(
-        `.nav-delete-btn[data-id="${dataset.id}"]`
-      );
+    const $plusButton = document.querySelector(
+      `.nav-plus-btn[data-id="${dataset.id}"]`
+    );
+    const $deleteButton = document.querySelector(
+      `.nav-delete-btn[data-id="${dataset.id}"]`
+    );
 
-      if ($plusButton && $deleteButton) {
-        $plusButton.classList.remove('hidden');
-        $deleteButton.classList.remove('hidden');
-      }
-    }
+    $plusButton.classList.remove('hidden');
+    $deleteButton.classList.remove('hidden');
   });
 
   $navDocuments.addEventListener('mouseout', (e) => {
-    const { classList, dataset } = e.target;
+    const { dataset } = e.target.closest('.nav-document-container');
 
-    if (
-      classList.contains('nav-document') ||
-      classList.contains('nav-document-container') ||
-      classList.contains('nav-toggle-btn') ||
-      !classList.contains('nav-delete-btn') ||
-      !classList.contains('nav-plus-btn')
-    ) {
-      const $plusButton = document.querySelector(
-        `.nav-plus-btn[data-id="${dataset.id}"]`
-      );
-      const $deleteButton = document.querySelector(
-        `.nav-delete-btn[data-id="${dataset.id}"]`
-      );
+    const $plusButton = document.querySelector(
+      `.nav-plus-btn[data-id="${dataset.id}"]`
+    );
+    const $deleteButton = document.querySelector(
+      `.nav-delete-btn[data-id="${dataset.id}"]`
+    );
 
-      if ($plusButton && $deleteButton) {
-        $plusButton.classList.add('hidden');
-        $deleteButton.classList.add('hidden');
-      }
-    }
+    $plusButton.classList.add('hidden');
+    $deleteButton.classList.add('hidden');
   });
 }
