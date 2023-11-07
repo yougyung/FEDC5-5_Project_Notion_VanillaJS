@@ -85,27 +85,19 @@ export default function Editor({ $target, initialState, onEditing }) {
     const text = e.target.innerText;
 
     const selection = window.getSelection();
-
-    const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
-
+    const { anchorNode } = selection;
     const currentSelection = anchorNode.parentElement;
 
-    if (text === '# ') {
+    const translateClass = {
+      '# ': 'h1-title',
+      '## ': 'h2-title',
+      '### ': 'h3-title',
+    };
+
+    // 마크다운 변환
+    if (translateClass[text]) {
       target.innerText = '';
-
-      target.classList.add('h1-title');
-    }
-
-    if (text === '## ') {
-      target.innerText = '';
-
-      target.classList.add('h2-title');
-    }
-
-    if (text === '### ') {
-      target.innerText = '';
-
-      target.classList.add('h3-title');
+      target.classList.add(translateClass[text]);
     }
 
     const docsTextList = document.querySelectorAll('.edit-line');
