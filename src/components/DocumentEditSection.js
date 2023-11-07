@@ -1,6 +1,7 @@
 import Editor from "./Editor.js";
 import { request } from "../utils/api.js";
 import { setItem, removeItem, getItem } from "../utils/storage.js";
+import { replace } from "../utils/route.js";
 
 export default function DocumentEditSection({
   $target,
@@ -50,7 +51,7 @@ export default function DocumentEditSection({
             }),
           });
 
-          history.replaceState(null, null, `/document/${createDocument.id}`);
+          replace(`/document/${createDocument.id}`, null);
 
           createDocument.content = getItem(
             documentLocalSaveKey,
@@ -135,7 +136,7 @@ export default function DocumentEditSection({
     if (documentId === "new") return;
 
     documentLocalSaveKey = `temp-document-${documentId}`;
-    
+
     const storedDocument = getItem(documentLocalSaveKey, defaultDocumentValue);
     const { tempSaveDate } = storedDocument;
 
