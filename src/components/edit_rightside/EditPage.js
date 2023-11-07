@@ -1,9 +1,16 @@
 import Editor from "./Editor.js";
 import LinkChildPost from "../link_rightside/LinkChildPost.js";
+import { request } from "../../api/Api.js";
 
 export default function EditPage({ $target, initialState, onNewTitle }) {
   // const $div = document.createElement("div");
   // $target.appendChild($div);
+
+  this.getPostApi = async (id) => {
+    const selectedData = await request(`/${id}`);
+    const data = { ...selectedData, isRender: false };
+    this.setState(data);
+  };
 
   this.state = initialState;
 

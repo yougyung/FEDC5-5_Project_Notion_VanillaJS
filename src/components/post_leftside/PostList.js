@@ -1,4 +1,5 @@
 import Post from "./Post.js";
+import { request } from "../../api/Api.js";
 import CreateListInPost from "./CreateListInPost.js";
 import SelectPostEvent from "../event/SelectPostEvent.js";
 import InsertButtonEvent from "../event/InsertButtonEvent.js";
@@ -12,6 +13,11 @@ export const SELECTED_POST_KEY = "selectedListId"; // 현재 선택된 post의 i
 export default function PostList({ $target }) {
   const $div = document.createElement("div");
   $target.appendChild($div);
+
+  this.getPostListApi = async () => {
+    const rootData = await request("");
+    this.setState(rootData);
+  };
 
   let isRender = false; // 렌더 체크
   let newPageButtonRender = false;

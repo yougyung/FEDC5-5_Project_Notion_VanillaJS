@@ -9,19 +9,19 @@ const NOTION_NAME = "📚 황 민호의 Notion";
 
 export default function App({ $target }) {
   // 왼쪽 화면(postList)과 연결
-  const getPostListApi = async () => {
-    const rootData = await request("");
-    postList.setState(rootData);
-  };
+  // const getPostListApi = async () => {
+  //   const rootData = await request("");
+  //   postList.setState(rootData);
+  // };
 
   // 오른쪽 화면(editpage)과 연결
-  const getPostApi = async (id) => {
-    const selectedData = await request(`/${id}`);
-    if (selectedData) {
-      const data = { ...selectedData, isRender: false };
-      editpage.setState(data);
-    }
-  };
+  // const getPostApi = async (id) => {
+  //   const selectedData = await request(`/${id}`);
+  //   if (selectedData) {
+  //     const data = { ...selectedData, isRender: false };
+  //     editpage.setState(data);
+  //   }
+  // };
 
   new Header({ $target, title: NOTION_NAME });
 
@@ -47,7 +47,7 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
-    getPostListApi();
+    postList.getPostListApi();
     // // 초기 화면 렌더링
     // if (pathname === "/") {
     //   editpage.setState({ id: "index" });
@@ -64,7 +64,7 @@ export default function App({ $target }) {
       case /^\/\d/.test(pathname):
         const id = pathname.split("/")[1];
         if (id) {
-          getPostApi(id);
+          editpage.getPostApi(id);
         }
         break;
 
