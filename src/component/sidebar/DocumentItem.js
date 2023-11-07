@@ -61,18 +61,18 @@ export default class DocumentItem {
 
     setEvent(addButtonElement, deleteButtonElement, parentElement) {
         this.documentNameLabelElement.addEventListener('click', (event) => {
-            if (event.target.id === "documentbtn" + this.item.id) {
+            if (event.target.id === `documentbtn${this.item.id}`) {
                 this.onSetPage(this.item.id);
             }
         });
         this.slotButtonElement.addEventListener('click', (event) => {
-            if (event.target.id === "slotbtn" + this.item.id) {
+            if (event.target.id === `slotbtn${this.item.id}`) {
                 this.isSlotOpen = !this.isSlotOpen;
                 this.render();
             }
         });
         addButtonElement.addEventListener('click', async (event) => {
-            if (event.target.id === "addbtn" + this.item.id) {
+            if (event.target.id === `addbtn${this.item.id}`) {
                 const req = request("/documents", {
                     method: `POST`,
                     body: JSON.stringify({
@@ -85,7 +85,7 @@ export default class DocumentItem {
             }
         });
         deleteButtonElement.addEventListener('click', (event) => {
-            if (event.target.id === "deletebtn" + this.item.id) {
+            if (event.target.id === `deletebtn${this.item.id}`) {
                 this.onDeleteItem();
                 const dfs = (node) => {
                     node.documents.map((documentItem) => {
