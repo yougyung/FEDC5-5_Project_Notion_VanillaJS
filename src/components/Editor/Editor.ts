@@ -25,6 +25,7 @@ function Editor({ documentId, modifyDocument }: EditorProps) {
 
         setDocumentForm({ title, content: content ?? "" });
         setChildDocuments(documents);
+        setIsDocumentNotFound(false);
       } catch (error) {
         console.error(error);
         setIsDocumentNotFound(true);
