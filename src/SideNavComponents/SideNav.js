@@ -72,7 +72,7 @@ export default function SideNav({
   this.render();
 
   // onClickPlusBtn & onClickDeleteBtn & onClickDoc
-  $sideNav.addEventListener('click', async (e) => {
+  $sideNav.addEventListener('click', (e) => {
     e.stopPropagation();
     const { className, dataset, classList } = e.target;
 
