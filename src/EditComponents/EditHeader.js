@@ -42,7 +42,7 @@ export default function EditHeader({ $target, initialState, onEditing }) {
 
     const $editHeaderInput = document.querySelector('input#title');
 
-    if (!!$editHeaderInput) {
+    if ($editHeaderInput) {
       // focus 이벤트
       $editHeaderInput.addEventListener('focus', (e) => {
         const $input = e.target;
@@ -67,7 +67,7 @@ export default function EditHeader({ $target, initialState, onEditing }) {
         const newDoc = { ...editDoc, title: newTitle };
 
         // 엔터키 이벤트
-        if (e.keyCode === 13) {
+        if (e.key === 'Enter') {
           $editHeader.nextSibling.firstChild.focus();
         } else {
           if (timer !== null) clearTimeout(timer);
@@ -81,6 +81,4 @@ export default function EditHeader({ $target, initialState, onEditing }) {
       });
     }
   };
-
-  // this.render();
 }
