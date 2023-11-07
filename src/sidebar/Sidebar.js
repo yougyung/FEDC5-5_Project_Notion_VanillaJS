@@ -1,7 +1,6 @@
 import { request } from "../utils/api.js";
 import Documents from "./Documents.js";
 import Header from "./Header.js";
-import Title from "./Title.js";
 
 export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("aside");
