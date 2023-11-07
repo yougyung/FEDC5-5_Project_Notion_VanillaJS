@@ -175,11 +175,20 @@ export default function Editor({ $target, initialState, onEditing }) {
     const target = e.target;
     const selection = window.getSelection();
 
-    const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
+    const { anchorOffset } = selection;
+    // 커서 이동 함수
+    const moveCursor = ($element) => {
+      const range = document.createRange();
 
-    const { keyCode } = e;
+      range.selectNodeContents($element);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    };
+
+    const { key } = e;
     // 엔터키
-    if (keyCode === 13) {
+    if (key === 'Enter') {
       e.preventDefault();
       const $newLine = document.createElement('div');
       $newLine.setAttribute('contenteditable', 'true');
@@ -188,23 +197,18 @@ export default function Editor({ $target, initialState, onEditing }) {
       $newLine.focus();
     }
     // backspace
-    if (keyCode === 8 && anchorOffset === 0) {
+    if (key === 'Backspace' && anchorOffset === 0) {
       e.preventDefault();
       const $preLine = target.previousElementSibling;
 
       if ($preLine) {
         const currentLineText = target.innerText;
 
-        const range = document.createRange();
-
         target.remove();
 
         $preLine.innerText += currentLineText;
 
-        range.selectNodeContents($preLine);
-        range.collapse(false);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        moveCursor($preLine);
       } else {
         const $newLine = document.createElement('div');
         $newLine.setAttribute('contenteditable', 'true');
@@ -216,35 +220,21 @@ export default function Editor({ $target, initialState, onEditing }) {
     }
 
     // 화살표 위
-    if (keyCode === 38) {
+    if (key === 'ArrowUp') {
       e.preventDefault();
       const $preLine = target.previousElementSibling;
 
       if ($preLine) {
-        // $preLine.focus();
-
-        const range = document.createRange();
-
-        range.selectNodeContents($preLine);
-        range.collapse(false);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        moveCursor($preLine);
       }
     }
     // 화살표 아래
-    if (keyCode === 40) {
+    if (key === 'ArrowDown') {
       e.preventDefault();
 
       const $nextLine = target.nextElementSibling;
       if ($nextLine) {
-        // $nextLine.focus();
-
-        const range = document.createRange();
-
-        range.selectNodeContents($nextLine);
-        range.collapse(false);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        moveCursor($nextLine);
       }
     }
   });
