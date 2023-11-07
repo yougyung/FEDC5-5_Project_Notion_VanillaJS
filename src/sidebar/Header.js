@@ -19,10 +19,9 @@ export default function Header({ $target, text }) {
 
   $header.addEventListener("click", (e) => {
     const { target } = e;
+    const isExist = getItem(CREATED_DOCUMENTS_PARENT_ID_KEY, null);
 
-    if (target.classList.contains("add")) {
-      const isExist = getItem(CREATED_DOCUMENTS_PARENT_ID_KEY, null);
-      if (isExist) removeItem(CREATED_DOCUMENTS_PARENT_ID_KEY);
+    if (target.classList.contains("add") && isExist) {
       push(`/documents/new`);
     }
   });
