@@ -11,9 +11,9 @@ export function ToggleElements({ id, isWrap }, depth) {
 
 export function LiElements({ id, title }) {
   return `
-    <li class='title' data-id='${id}' > 
+    <span class='title' data-id='${id}' > 
       ${title} 
-    </li>
+    </span>
   `;
 }
 

@@ -29,7 +29,7 @@ export default function Documents({ $target, initialState, onDeleteDocument }) {
 
   const paint = ({ id, title, documents }, depth) => {
     const isWrap = getItem(`isWrap-${id}`, true);
-    return `
+    return `      
       <div class='documents'>
         <div class='document' data-id='${id}'>
           ${ToggleElements({ id, isWrap }, depth)}
@@ -51,9 +51,9 @@ export default function Documents({ $target, initialState, onDeleteDocument }) {
   this.render = () => {
     if (this.state.length > 0) {
       $documents.innerHTML = `
-       <ul class='top'>
+       <div class='top'>
          ${this.state.map((document) => paint(document, 0)).join("")}
-       </ul>
+       </div>
       `;
     } else {
       $documents.innerHTML = `
