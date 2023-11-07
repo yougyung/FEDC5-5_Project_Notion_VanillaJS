@@ -91,29 +91,31 @@ export default function PostList({ $target }) {
     const $li = e.target.closest("li");
     const { id } = $li.dataset;
 
+    function hasClassName(className, nameList) {
+      return nameList.some((name) => name === className);
+    }
+
     // post 선택 시 이벤트 처리
-    if (className === "list" || className === "title") {
+    if (hasClassName(className, ["list", "title"])) {
       SelectPostEvent(id);
       // 추가 버튼 클릭 시 이벤트 처리
-    } else if (
-      className === "insert-button" ||
-      className === "fa-solid fa-plus"
-    ) {
+    } else if (hasClassName(className, ["insert-button", "fa-solid fa-plus"])) {
       InsertButtonEvent(id);
       // 삭제 버튼 클릭 시 이벤트 처리
     } else if (
-      className === "delete-button" ||
-      className === "fa-regular fa-trash-can"
+      hasClassName(className, ["delete-button", "fa-regular fa-trash-can"])
     ) {
       DeleteButtonEvent(id);
       // 새 페이지 버튼 클릭 시 이벤트 처리
-    } else if (className === "newpage-button") {
+    } else if (hasClassName(className, ["newpage-button"])) {
       NewpageButtonEvent();
       // 토글 버튼 클릭 시 이벤트 처리
     } else if (
-      className === "toggle-button" ||
-      className === "fa-solid fa-angle-right" ||
-      className === "fa-solid fa-angle-down"
+      hasClassName(className, [
+        "toggle-button",
+        "fa-solid fa-angle-right",
+        "fa-solid fa-angle-down",
+      ])
     ) {
       ToggleButtonEvent(id, $li);
     }
