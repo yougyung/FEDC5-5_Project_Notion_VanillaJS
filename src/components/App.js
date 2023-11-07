@@ -6,7 +6,7 @@ import { initRouter, push } from "../utils/route.js";
 export default function App({ $target, initialState }) {
   this.state = initialState;
 
-  this.setState = async (nextState) => {
+  this.setState = (nextState) => {
     if (nextState.documentId !== this.state.documentId) {
       this.state = nextState;
       const { documentId, selectedDocument } = this.state;
@@ -44,11 +44,7 @@ export default function App({ $target, initialState }) {
   });
 
   const $editorSection = document.createElement("div");
-
-  this.render = () => {
-    $target.appendChild($editorSection);
-    $editorSection.setAttribute("class", "editor-page");
-  };
+  $editorSection.className = "editor-page";
 
   const documentEditSection = new DocumentEditSection({
     $target: $editorSection,
@@ -56,7 +52,7 @@ export default function App({ $target, initialState }) {
       documentId: this.state.documentId,
       document: this.state.selectedDocument,
     },
-    onCreateDocument: ({ document, documentId }) => {
+    onChangeDocument: ({ document, documentId }) => {
       this.setState({
         ...this.state,
         selectedDocument: document,
@@ -65,6 +61,10 @@ export default function App({ $target, initialState }) {
       fetchDocments();
     },
   });
+
+  this.render = () => {
+    $target.appendChild($editorSection);
+  };
 
   this.route = () => {
     const { pathname } = window.location;

@@ -3,7 +3,7 @@ import { transformTag, transformText, deleteText } from "../utils/transform.js";
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
-  $editor.setAttribute("class", "editor-wrap");
+  $editor.className = "editor-wrap";
 
   $editor.innerHTML = `
     <input type="text" id="editor-title" name="title" placeholder="제목을 입력해주세요." />
@@ -76,7 +76,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     const elementPosition = getPosition(node.parentElement, offset);
 
     const $empty = document.createElement("span");
-    $empty.setAttribute("class", "empty");
+    $empty.className = "empty";
 
     // 변환이 되면서 줄어든 문자열을 반영
     const text = transformText(node.data);

@@ -5,13 +5,18 @@ import { setItem, removeItem, getItem } from "../utils/storage.js";
 export default function DocumentEditSection({
   $target,
   initialState,
-  onCreateDocument,
+  onChangeDocument,
 }) {
   const $div = document.createElement("div");
 
   this.state = initialState;
 
-  let documentLocalSaveKey = `temp-post-${this.state.documentId}`;
+  let documentLocalSaveKey = '';
+
+  const defaultDocumentValue = {
+    title: "",
+    content: "",
+  };
 
   let timer = null;
 
@@ -46,9 +51,11 @@ export default function DocumentEditSection({
           });
 
           history.replaceState(null, null, `/document/${createDocument.id}`);
-          createDocument.content = getItem(documentLocalSaveKey, "").content;
 
-          documentLocalSaveKey = `temp-document-${createDocument.id}`;
+          createDocument.content = getItem(
+            documentLocalSaveKey,
+            defaultDocumentValue
+          ).content;
 
           await request(`/documents/${createDocument.id}`, {
             method: "PUT",
@@ -58,23 +65,30 @@ export default function DocumentEditSection({
             }),
           });
 
+          documentLocalSaveKey = `temp-document-${createDocument.id}`;
+
           setItem(documentLocalSaveKey, {
             ...createDocument,
             tempSaveDate: new Date(),
           });
           removeItem("temp-document-new");
 
-          onCreateDocument({
+          onChangeDocument({
             documentId: createDocument.id,
             document: createDocument,
           });
-        } else {
-          await request(`/documents/${document.id}`, {
+        } else if(this.state.documentId !== "new") {
+          const updateDocument = await request(`/documents/${document.id}`, {
             method: "PUT",
             body: JSON.stringify({
               title: document.title,
               content: document.content,
             }),
+          });
+
+          onChangeDocument({
+            documentId: document.id,
+            document: updateDocument,
           });
           documentLocalSaveKey = `temp-document-${document.id}`;
           removeItem(documentLocalSaveKey);
@@ -86,31 +100,23 @@ export default function DocumentEditSection({
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
       this.state = nextState;
-      documentLocalSaveKey = `temp-document-${this.state.documentId || "new"}`;
 
       if (this.state.documentId === "new") {
-        const storedDocument = getItem("temp-document-new", "");
-        const defaultValue = {
-          title: "",
-          content: "",
-        };
-
-        if (storedDocument !== "") {
-          if (confirm("저장안된 임시 데이터가 존재합니다. 불러올까요?")) {
-            this.render();
-            editor.setState(storedDocument);
-          } else {
-            this.render();
-            editor.setState(defaultValue);
-          }
+        const storedDocument = getItem("temp-document-new");
+        if (storedDocument) {
+          const confirmGetLocalData = window.confirm(
+            "저장안된 임시 데이터가 존재합니다. 불러올까요??"
+          );
+          this.render();
+          editor.setState(
+            confirmGetLocalData ? storedDocument : defaultDocumentValue
+          );
         } else {
-          editor.setState(defaultValue);
+          editor.setState(defaultDocumentValue);
         }
-      } else {
-        if (this.state.documentId !== "new") {
-          await fetchDocument();
-          return;
-        }
+      } else if (this.state.documentId !== "new") {
+        await fetchDocument();
+        return;
       }
     }
 
@@ -128,16 +134,13 @@ export default function DocumentEditSection({
 
     if (documentId === "new") return;
 
+    documentLocalSaveKey = `temp-document-${documentId}`;
+    
+    const storedDocument = getItem(documentLocalSaveKey, defaultDocumentValue);
+    const { tempSaveDate } = storedDocument;
+
     const document = await request(`/documents/${documentId}`);
 
-    documentLocalSaveKey = `temp-document-${documentId}`;
-
-    const storedDocument = getItem(documentLocalSaveKey, {
-      title: "",
-      content: "",
-    });
-
-    const { tempSaveDate } = storedDocument;
     if (tempSaveDate && tempSaveDate > document.updatedAt) {
       if (confirm("저장안된 임시 데이터가 존재합니다. 불러올까요?")) {
         this.setState({

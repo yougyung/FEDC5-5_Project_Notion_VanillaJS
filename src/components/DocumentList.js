@@ -20,10 +20,13 @@ export default function DocumentList({
   const documentPrint = (documents) => {
     let htmlString = "";
     documents.forEach((document) => {
-
       htmlString += `
         <div class="documents-item">
-            <div class="document-item-title-wrap ${document.id === parseInt(this.state.documentId) ? 'selected-document' : ''}" data-id="${document.id}">
+            <div class="document-item-title-wrap ${
+              document.id === parseInt(this.state.documentId)
+                ? "selected-document"
+                : ""
+            }" data-id="${document.id}">
                 <button class="toggle">
                   <i class="fas fa-chevron-right" style="color: #797979;"></i>
                 </button>
@@ -78,32 +81,42 @@ export default function DocumentList({
     const id = $documentItem ? $documentItem.dataset.id : null;
     const $button = e.target.closest("button");
 
-    if(e.target.className === 'add-document-wrap') {
+    if (e.target.className === "add-document-wrap") {
       push("/document/new");
       return;
     }
 
     if ($button) {
       const { className } = $button;
-      if (className === "add-document") {
-        let state = { parentId: id };
-        push("/document/new", state);
-      } else if (className === "toggle") {
-        const $hideItem = $documentItem.closest(".documents-item").children[1];
-        if ($hideItem) {
-          $hideItem.classList.toggle("fold");
-          $hideItem.classList.toggle("show");
-        }
-      } else if (className === "remove-document") {
-        onDocumentRemove(id);
+
+      switch (className) {
+        case "add-document":
+          push("/document/new", { parentId: id });
+          break;
+        case "toggle":
+          const $hideItem = $documentItem.closest(".documents-item").children[1];
+          if ($hideItem) {
+            $hideItem.classList.toggle("fold");
+            $hideItem.classList.toggle("show");
+          }
+          break;
+        case "remove-document":
+          onDocumentRemove(id);
+          break;
+        default:
+          break;
       }
-    } else if ($documentItem) {
-      const $title = $documentItem.querySelector('.document-item-title');
-      if($title) {
+
+      return;
+    }
+
+    if ($documentItem) {
+      const $title = $documentItem.querySelector(".document-item-title");
+      if ($title) {
         this.setState({
           ...this.state,
-          documentId: id
-        })
+          documentId: id,
+        });
       }
       push(`/document/${id}`);
     }

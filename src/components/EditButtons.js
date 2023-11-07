@@ -5,14 +5,14 @@ export default function EditButtons({ $target, initialState, onClick }) {
 
   $div.innerHTML = `
     <button class="bold-button">
-        <i class="fas fa-bold"></i>
-    </bold>
+      <i class="fas fa-bold"></i>
+    </button>
     <button class="italic-button">
-        <i class="fas fa-italic"></i>
-    </bold>
+      <i class="fas fa-italic"></i>
+    </button>
     <button class="strike-button">
-        <i class="fas fa-strikethrough"></i>
-    </bold>
+      <i class="fas fa-strikethrough"></i>
+    </button>
   `;
 
   this.state = initialState;
