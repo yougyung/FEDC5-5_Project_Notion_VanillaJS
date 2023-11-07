@@ -1,4 +1,4 @@
-import { addStorage } from './storage.js';
+import { addStorage } from '../utils/storage.js';
 
 export default function EditFooter({ $target, initialState, onClick }) {
   const $footer = document.createElement('footer');

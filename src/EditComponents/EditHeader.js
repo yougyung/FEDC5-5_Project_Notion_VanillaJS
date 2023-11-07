@@ -1,9 +1,8 @@
-import { addStorage, getStorage } from './storage.js';
+import { addStorage, getStorage } from '../utils/storage.js';
 
 export default function EditHeader({ $target, initialState, onEditing }) {
   const $editHeader = document.createElement('header');
   $editHeader.className = 'edit-header';
-  $target.appendChild($editHeader);
 
   this.state = initialState;
 
@@ -77,11 +76,11 @@ export default function EditHeader({ $target, initialState, onEditing }) {
             addStorage('selectedDoc', newDoc);
 
             onEditing(newDoc);
-          }, 1500);
+          }, 300);
         }
       });
     }
   };
 
-  this.render();
+  // this.render();
 }

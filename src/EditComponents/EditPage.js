@@ -1,8 +1,8 @@
 import EditHeader from './EditHeader.js';
 import Editor from './Editor.js';
 import EditFooter from './EditFooter.js';
-import { request } from './api.js';
-import { getStorage } from './storage.js';
+import { request } from '../utils/api.js';
+import { getStorage } from '../utils/storage.js';
 import EditNav from './EditNav.js';
 
 export default function EditPage({
@@ -27,10 +27,10 @@ export default function EditPage({
 
     editFooter.setState(nextState);
 
-    this.render();
+    // this.render();
   };
 
-  this.render = () => {};
+  // this.render = () => {};
 
   $target.appendChild($editPage);
   // edit-nav

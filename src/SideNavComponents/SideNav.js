@@ -1,5 +1,5 @@
-import { makeDocTree } from './makeDocTree.js';
-import { getStorage } from './storage.js';
+import { makeDocTree } from '../utils/makeDocTree.js';
+import { getStorage } from '../utils/storage.js';
 
 export default function SideNav({
   $target,

@@ -1,8 +1,8 @@
-import EditPage from './EditPage.js';
-import SideNav from './SideNav.js';
-import { request } from './api.js';
-import { initRouter, push } from './router.js';
-import { addStorage, getStorage, removeStorage } from './storage.js';
+import EditPage from './EditComponents/EditPage.js';
+import SideNav from './SideNavComponents/SideNav.js';
+import { request } from './utils/api.js';
+import { initRouter, push } from './utils/router.js';
+import { addStorage, getStorage, removeStorage } from './utils/storage.js';
 
 export default function App({ $target }) {
   // 상태 관리

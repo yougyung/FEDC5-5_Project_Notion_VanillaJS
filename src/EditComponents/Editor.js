@@ -1,4 +1,4 @@
-import { addStorage, getStorage } from './storage.js';
+import { addStorage, getStorage } from '../utils/storage.js';
 
 export default function Editor({ $target, initialState, onEditing }) {
   // contenteditable 에디터
