@@ -3,7 +3,7 @@ import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';
 import DocumentObserver from '../../../../Util/DocumentObserver.js';
-import { DOCUMENT_CHILD_LIST, DOCUMENT_LIST } from '../../../../../Constants/Observer.js';
+import { DOCUMENT_CHILD_LIST, DOCUMENT_LIST } from '../../../../Constants/Observer.js';
 import { DOCUMENT_TOGGLE_KEY, setItem, getItem } from '../../../../Store/LocalStroage.js';
 
 // state = { documentList: [] }

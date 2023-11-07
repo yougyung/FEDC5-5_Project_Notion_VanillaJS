@@ -2,7 +2,7 @@ import DocumentItems from '../../Common/DocumentItems/DocumentItems.js';
 import { createNewElement } from '../../../Util/Element.js';
 import RouterManger from '../../../Util/Router.js';
 import DocumentObserver from '../../../Util/DocumentObserver.js';
-import { DOCUMENT_LIST } from '../../../../Constants/Observer.js';
+import { DOCUMENT_LIST } from '../../../Constants/Observer.js';
 
 // state = { documentList: [] }
 

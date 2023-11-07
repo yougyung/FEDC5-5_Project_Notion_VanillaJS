@@ -1,4 +1,4 @@
-import { DOCUMENT_API_ADDRESS, headers } from '../../Constants/Api.js';
+import { DOCUMENT_API_ADDRESS, headers } from '../Constants/Api.js';
 
 // document 데이터 추가하기
 export const fetchPostDocument = async (parentId, title = '') => {

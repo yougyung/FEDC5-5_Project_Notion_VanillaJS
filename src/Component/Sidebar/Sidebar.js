@@ -1,7 +1,7 @@
 import Header from './Header/Header.js';
 import Document from './Document/Document.js';
 import { createNewElement } from '../../Util/Element.js';
-import { userName } from '../../../Constants/User.js';
+import { userName } from '../../Constants/User.js';
 
 export default class Sidebar {
     constructor({ $target }) {
