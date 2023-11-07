@@ -2,31 +2,33 @@ import { currentComponent } from "@/core";
 import { deepEqual, isObject } from "@/utils";
 
 type EffectCallback = () => void;
-type DepsArray = ReadonlyArray<unknown>;
+type DependenciesArray = ReadonlyArray<unknown>;
 
-const previousDepsMap = new Map<string, DepsArray | []>();
+const previousDependenciesMap = new Map<string, DependenciesArray | []>();
 
-const hasDepsChanged = (newDeps: DepsArray, oldDeps: DepsArray): boolean =>
-  newDeps.some((dep, i) => (isObject(dep) ? !deepEqual(dep, oldDeps[i]) : dep !== oldDeps[i]));
+const hasDepsChanged = (newDependencies: DependenciesArray, oldDependencies: DependenciesArray): boolean =>
+  newDependencies.some((dependency, i) =>
+    isObject(dependency) ? !deepEqual(dependency, oldDependencies[i]) : dependency !== oldDependencies[i],
+  );
 
-const useEffect = (callback: EffectCallback, deps: DepsArray) => {
+const useEffect = (callback: EffectCallback, dependencies: DependenciesArray) => {
   if (!currentComponent) {
     throw new Error("useEffect는 컴포넌트 안에서만 호출될 수 있습니다..");
   }
 
   const { id } = currentComponent;
 
-  const previousDeps = previousDepsMap.get(id);
+  const previousDependencies = previousDependenciesMap.get(id);
 
-  if (!previousDeps) {
+  if (!previousDependencies) {
     callback();
   }
 
-  if (previousDeps && hasDepsChanged(deps, previousDeps)) {
+  if (previousDependencies && hasDepsChanged(dependencies, previousDependencies)) {
     callback();
   }
 
-  previousDepsMap.set(id, deps);
+  previousDependenciesMap.set(id, dependencies);
 };
 
 export default useEffect;
