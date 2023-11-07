@@ -1,4 +1,4 @@
-import { render } from "../index";
+import { dispatchCustomEvent } from "./events";
 
 export const navigateTo = (newPath: string) => {
   if (newPath === window.location.pathname) {
@@ -6,5 +6,5 @@ export const navigateTo = (newPath: string) => {
   }
 
   history.pushState({}, "", newPath);
-  render();
+  dispatchCustomEvent("navigate", { path: newPath });
 };
