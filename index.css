@@ -193,15 +193,19 @@ main {
   width: 100%;
   overflow: hidden;
   color: rgba(255, 255, 255, 0.81);
+  padding: 40px;
 }
 
 /* edit header */
 .edit-header {
-  margin: 10px auto;
-  width: 900px;
+  display: flex;
+  margin: 10px 0;
+
+  text-align: center;
 }
 .edit-header > #title {
-  width: 100%;
+  width: 60%;
+  margin: 0 auto;
   border: 0;
   outline: 0;
   font-weight: 700;
@@ -227,8 +231,6 @@ main {
 
 /* edit-container */
 .edit-container {
-  margin: 0px auto;
-  width: 900px;
   flex-direction: column;
   padding: 3px 2px;
   height: 80%;
@@ -243,8 +245,8 @@ main {
 }
 
 .edit-line {
-  margin: 0 auto;
-  max-width: 100%;
+  margin: 3px auto;
+  max-width: 60%;
   height: 20px;
   width: 100%;
   white-space: pre-wrap;
@@ -293,9 +295,9 @@ main {
 
 /* editor footer */
 .edit-footer {
-  display: flex;
-  width: 900px;
   margin: 0 auto;
+  width: 60%;
+  display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
