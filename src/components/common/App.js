@@ -17,8 +17,10 @@ export default function App({ $target }) {
   // 오른쪽 화면(editpage)과 연결
   const getPostApi = async (id) => {
     const selectedData = await request(`/${id}`);
-    const data = { ...selectedData, isRender: false };
-    editpage.setState(data);
+    if (selectedData) {
+      const data = { ...selectedData, isRender: false };
+      editpage.setState(data);
+    }
   };
 
   new Header({ $target, title: NOTION_NAME });
@@ -46,17 +48,36 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
     getPostListApi();
-    // 초기 화면 렌더링
-    if (pathname === "/") {
-      editpage.setState({ id: "index" });
-      //특정 id를 가진 post 렌더링
-    } else if (pathname !== "/" && pathname.indexOf("/") === 0) {
-      const id = pathname.split("/")[1];
-      getPostApi(id);
-    } else {
-      editpage.setState({ id: "index" });
+    // // 초기 화면 렌더링
+    // if (pathname === "/") {
+    //   editpage.setState({ id: "index" });
+    //   //특정 id를 가진 post 렌더링
+    // } else if (pathname !== "/" && pathname.indexOf("/") === 0) {
+    //   const id = pathname.split("/")[1];
+    //   getPostApi(id);
+    // } else {
+    //   editpage.setState({ id: "index" });
+    // }
+
+    // 정규표현식 활용하여 구현
+    switch (true) {
+      case /^\/\d/.test(pathname):
+        const id = pathname.split("/")[1];
+        if (id) {
+          getPostApi(id);
+        }
+        break;
+
+      case /^\/$/.test(pathname):
+        editpage.setState({ id: "index" });
+        break;
+      default:
+        editpage.setState({ id: "index" });
+        alert("잘못된 URL입니다.😭 \n홈 화면으로 이동합니다.");
+        throw new Error("잘못된 URL입니다. \n홈 화면으로 이동합니다.");
     }
   };
+
   this.route();
   initRouter(() => this.route());
 }
