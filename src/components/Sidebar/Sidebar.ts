@@ -19,6 +19,7 @@ function Sidebar({ documents, createDocument, removeDocument }: SidebarProps) {
 
   const handleClickDeleteButton = (id: number) => {
     removeDocument(id);
+    navigateTo("/");
   };
 
   const handleClickAddRootDocumentButton = () => {
