@@ -86,16 +86,23 @@ export default class DocumentItem {
         });
         deleteButtonElement.addEventListener('click', (event) => {
             if (event.target.id === `deletebtn${this.item.id}`) {
-                this.onDeleteItem();
-                const dfs = (node) => {
+                this.onDeleteItem();                                                // 낙관적 업데이트
+
+                const removeList = [];                                     // 삭제할 때, 해당 도큐먼트의 자식들까지 찾은 후 모두 삭제
+                const findChildDoucments = (node) => {
                     node.documents.map((documentItem) => {
-                        dfs(documentItem);
+                        findChildDoucments(documentItem);
                     });
-                    request(`/documents/${node.id}`, {
+                    return removeList.push(node.id)
+                };
+                findChildDoucments(this.item);
+
+                removeList.forEach(id => {
+                    console.log(id);
+                    request(`/documents/${id}`, {
                         method: `DELETE`
                     });
-                };
-                dfs(this.item);
+                });
             }
             parentElement.removeChild(this.parentListElement);
         });
