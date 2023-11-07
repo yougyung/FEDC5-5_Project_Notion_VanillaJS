@@ -23,7 +23,7 @@ export default function Editor({ $target, initialState, onEditing }) {
         if(content == null) {
             return ''
         }
-        const richContent = this.state.content == null ? '' : this.state.content
+        const richContent = content == null ? '' : content
             .split('<div>')
             .map(line => {
                 line = line.replace('</div>','')
@@ -78,6 +78,7 @@ export default function Editor({ $target, initialState, onEditing }) {
         if (isComposition) {
             return;
         }
+        
         
         const nextState = {
             ...this.state,

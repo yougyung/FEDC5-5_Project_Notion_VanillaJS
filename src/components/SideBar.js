@@ -7,11 +7,11 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
 
     $target.appendChild($sideBar)
 
-    const $header = document.createElement('span')
+    const $header = document.createElement('div')
     $header.innerHTML= `<img class="notion-icon" src="../../images/notion.png" /><h3>hyunjoo의 Notion</h3>`
     $header.className = 'document-header'
 
-    const $addButton = document.createElement('span')
+    const $addButton = document.createElement('div')
     $addButton.innerHTML= '<input type="button" data-name="addButton" class="new-page-add-button" value="새로운 페이지 생성">'
     $addButton.className='new-page-add-span'
     $addButton.dataset.name = 'addButton'
@@ -41,7 +41,6 @@ export default function SideBar({ $target, initialState, onAdd, onDelete}) {
         const $li = e.target.closest('li')
 
         const $arrowButton = e.target.closest('.arrow-button')
-        console.log($arrowButton)
 
         if($button) {
             const {id, name} = $button.dataset

@@ -1,7 +1,7 @@
 import NotionEditPage from "./components/NotionEditPage.js"
 import SideBar from "./components/SideBar.js"
-import { request } from "./utils/api.js"
 import { push, initRouter } from "./utils/router.js"
+import { fetchDocuments, addDocument, deleteDocument } from  "./service/fetchDocuments.js"
 
 export default function App({$target}) {
     this.state = []
@@ -10,48 +10,36 @@ export default function App({$target}) {
         this.state = nextState
     }
 
-    const fetchDocuments = async() => {
-        const documents = await request('/documents')
+    const fetchState = async() => { 
+        const documents = await fetchDocuments()
         this.setState(documents)
         sideBar.setState(documents)
-    }
-    
-    const addDocument = async (parent=null) => {
-        const res = await request('/documents', {
-            method: "POST",
-            body: JSON.stringify({
-                title : '',
-                parent
-            })
-        })
-        push(`../documents/${res.id}`)
-        this.route();
-    }
-
-    const deleteDocuments = async (id) => {
-        await request(`/documents/${id}`, {
-            method: "DELETE"
-        })
-        history.replaceState(null, null, "/");
-        this.route();
     }
 
     const sideBar = new SideBar({
         $target, 
         initialState: this.state,
-        onAdd: addDocument,
-        onDelete: deleteDocuments
+        onAdd: async (parentId) => {
+            const document = await addDocument(parentId)
+            push(`../documents/${document.id}`)
+            this.route();
+        },
+        onDelete: async(id) => {
+            await deleteDocument(id)
+            history.replaceState(null, null, "/");
+            this.route();
+        }
     })
 
     const notionEditPage = new NotionEditPage({
         $target, 
-        fetchDocuments
+        fetchDocuments: fetchState
     })
 
     this.route = () => {
         const {pathname} = window.location
 
-        fetchDocuments()
+        fetchState()
 
         if(pathname === '/') {
             notionEditPage.setState('')
@@ -65,8 +53,4 @@ export default function App({$target}) {
     this.route()
 
     initRouter(() => this.route())
-
-    window.addEventListener("popstate", () => {
-        this.route();
-      });
 }

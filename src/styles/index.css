@@ -105,12 +105,16 @@ html, body {
     display: flex;
     align-items: center;
     padding: 3px 5px;
+    
 }
 
 .document-item-div :hover {
     background-color: rgb(226, 221, 214);
 }
 
+.document-title {
+    cursor: pointer;
+}
 
 .arrow-button {
     border: none;
