@@ -35,15 +35,7 @@ export default function Editor({ $target, initialState, onEditing }) {
           const $newLine = document.createElement('div');
           $newLine.setAttribute('contenteditable', 'true');
           $newLine.innerText = text;
-          $newLine.className = 'edit-line';
-
-          if (type === 'h1-title') {
-            $newLine.className = 'edit-line h1-title';
-          } else if (type === 'h2-title') {
-            $newLine.className = 'edit-line h2-title';
-          } else if (type === 'h3-title') {
-            $newLine.className = 'edit-line h3-title';
-          }
+          $newLine.className = `edit-line ${type}`;
 
           $editContainer.appendChild($newLine);
         });
