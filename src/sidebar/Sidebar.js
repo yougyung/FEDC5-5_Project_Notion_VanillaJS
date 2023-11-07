@@ -7,11 +7,6 @@ export default function Sidebar({ $target }) {
   const $sidebar = document.createElement("aside");
   $sidebar.className = "sidebar";
 
-  // 헤더를 만들건데, 만약 로컬스토리지에 먼가 있따? 바로 삭제.
-  new Title({
-    $target: $sidebar,
-  });
-
   new Header({
     $target: $sidebar,
     text: "개인 페이지",
