@@ -11,6 +11,7 @@ const sidebar = new Sidebar({
     },
     onDeleteItem: () => {
         page.showNotDataPage();
+        history.replaceState(null, null, "/");
     }
 });
 const page = new Page({
