@@ -36,13 +36,21 @@ export default function Editor({ $target, initialState, onEditing }) {
   };
 
   // keyup 이벤트 핸들러
+  // 디바운스 구현
+  let timer = null;
+
   $div.addEventListener("keyup", (e) => {
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
     const name = e.target.getAttribute("name");
-    const nextState = {
-      ...this.state,
-      [name]: e.target.value,
-    };
-    this.setState(nextState); // 계속해서 로컬에 저장됨
-    onEditing(nextState.id);
+    timer = setTimeout(() => {
+      const nextState = {
+        ...this.state,
+        [name]: e.target.value,
+      };
+      this.setState(nextState); // 계속해서 로컬에 저장됨
+      onEditing(nextState.id);
+    }, 500);
   });
 }
