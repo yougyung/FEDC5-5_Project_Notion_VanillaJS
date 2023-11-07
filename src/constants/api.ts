@@ -4,4 +4,4 @@ export const HTTP_METHODS = {
   PATCH: "patch",
   PUT: "put",
   DELETE: "delete",
-};
+} as const;
