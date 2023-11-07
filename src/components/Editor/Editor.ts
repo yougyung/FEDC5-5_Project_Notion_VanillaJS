@@ -3,18 +3,18 @@ import debounce from "lodash.debounce";
 import { createComponent, useEffect, useState } from "@/core";
 import { ChildDocumentLinks, NotFound } from "@/components";
 import { getDocument } from "@/apis";
-import { DocumentMetaDto, DocumentPutRequestDto, DocumentPutResponseDto } from "@/types";
+import { DocumentMeta, DocumentPutRequest, DocumentPutResponse } from "@/types";
 import styles from "./editor.module.scss";
 
 const { s_editorForm, s_editorInput, s_editorContent, s_childDocuments } = styles;
 
 interface EditorProps {
   documentId: number;
-  modifyDocument: ({ id, title, content }: DocumentPutRequestDto) => Promise<DocumentPutResponseDto>;
+  modifyDocument: ({ id, title, content }: DocumentPutRequest) => Promise<DocumentPutResponse>;
 }
 
 function Editor({ documentId, modifyDocument }: EditorProps) {
-  const [childDocuments, setChildDocuments] = useState<DocumentMetaDto[]>([]);
+  const [childDocuments, setChildDocuments] = useState<DocumentMeta[]>([]);
   const [documentForm, setDocumentForm] = useState({ title: "", content: "" });
   const [isDocumentNotFound, setIsDocumentNotFound] = useState(false);
 

@@ -1,14 +1,14 @@
 import { createComponent } from "@/core";
 import { DocumentItem } from "@/components";
 import { handleClickAnchor, navigateTo } from "@/utils";
-import { DocumentPostRequestDto, DocumentPostResponseDto, DocumentResponseDto } from "@/types";
+import { DocumentPostRequest, DocumentPostResponse, DocumentResponse } from "@/types";
 import styles from "./sidebar.module.scss";
 
 const { s_sidebar, s_button } = styles;
 
 interface SidebarProps {
-  documents: DocumentResponseDto[];
-  createDocument: ({ title, parent }: DocumentPostRequestDto) => Promise<DocumentPostResponseDto>;
+  documents: DocumentResponse[];
+  createDocument: ({ title, parent }: DocumentPostRequest) => Promise<DocumentPostResponse>;
   removeDocument: (id: number) => void;
 }
 

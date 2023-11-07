@@ -1,10 +1,10 @@
 import { useState, useEffect } from "@/core";
 import { deleteDocument, getDocuments, postDocument, updateDocument } from "@/apis";
 import { navigateTo } from "@/utils";
-import { DocumentPostRequestDto, DocumentPutRequestDto, DocumentResponseDto } from "@/types";
+import { DocumentPostRequest, DocumentPutRequest, DocumentResponse } from "@/types";
 
 const useDocuments = () => {
-  const [documents, setDocuments] = useState<DocumentResponseDto[]>([]);
+  const [documents, setDocuments] = useState<DocumentResponse[]>([]);
 
   const fetchDocuments = async () => {
     try {
@@ -17,7 +17,7 @@ const useDocuments = () => {
     }
   };
 
-  const createDocument = async ({ title, parent }: DocumentPostRequestDto) => {
+  const createDocument = async ({ title, parent }: DocumentPostRequest) => {
     try {
       const postedDocument = await postDocument({ title, parent });
 
@@ -30,7 +30,7 @@ const useDocuments = () => {
     }
   };
 
-  const modifyDocument = async ({ id, title, content }: DocumentPutRequestDto) => {
+  const modifyDocument = async ({ id, title, content }: DocumentPutRequest) => {
     try {
       const updatedDocument = await updateDocument({ id, title, content });
 

@@ -1,44 +1,33 @@
-export interface DocumentResponseDto {
+export interface DocumentResponse {
   id: number;
   title: string;
-  documents: DocumentResponseDto[];
+  documents: DocumentResponse[];
 }
 
-export interface DocumentDetailResponseDto {
-  id: number;
-  title: string;
-  content: string;
-  documents: DocumentMetaDto[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface DocumentMetaDto {
-  id: number;
-  title: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface DocumentPostRequestDto {
-  title: string;
-  parent: number | null;
-}
-
-export interface DocumentPostResponseDto {
-  id: number;
-  title: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface DocumentPutRequestDto {
+export interface DocumentDetailResponse {
   id: number;
   title: string;
   content: string;
+  documents: DocumentMeta[];
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface DocumentPutResponseDto {
+export interface DocumentMeta {
+  id: number;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DocumentPostResponse {
+  id: number;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DocumentPutResponse {
   id: number;
   title: string;
   content: string;
@@ -48,12 +37,23 @@ export interface DocumentPutResponseDto {
   username: string;
 }
 
-export interface DocumentDeleteResponseDto {
+export interface DocumentDeleteResponse {
   id: number;
   title: string;
   content: string;
-  parent: DocumentDeleteResponseDto;
+  parent: DocumentDeleteResponse;
   createdAt: Date;
   updatedAt: Date;
   username: string;
+}
+
+export interface DocumentPostRequest {
+  title: string;
+  parent: number | null;
+}
+
+export interface DocumentPutRequest {
+  id: number;
+  title: string;
+  content: string;
 }

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 
 import { createComponent } from "@/core";
-import { DocumentResponseDto } from "@/types";
+import { DocumentResponse } from "@/types";
 import styles from "./documentItem.module.scss";
 
 interface DocumentItemProps {
-  document: DocumentResponseDto;
+  document: DocumentResponse;
 }
 
 interface DocumentItemReturnType {

@@ -1,9 +1,9 @@
-import { DocumentMetaDto } from "@/types";
+import { DocumentMeta } from "@/types";
 import { handleClickAnchor } from "@/utils";
 import styles from "./childDocuments.module.scss";
 
 interface ChildDocumentLinksProps {
-  documents: DocumentMetaDto[];
+  documents: DocumentMeta[];
 }
 
 const { s_childDocumentsList } = styles;
