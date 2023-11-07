@@ -1,5 +1,10 @@
 import request from "../../api.js";
 
+const JLOGO_PNG_SRC = "/public/jlogo.png"
+const PLUSICON_PNG_SRC = "/public/plusicon.png"
+const SEARCHICON_PNG_SRC = "/public/searchicon.png"
+
+
 export function sidebarHeader() {
     const headerElement = document.createElement('div');
     const textElement = document.createElement('span');
@@ -7,7 +12,7 @@ export function sidebarHeader() {
 
     headerElement.className = "sidebarheader";
     textElement.textContent = "JuJangGwon의 노션";
-    imgElement.src = "../../../public/jlogo.png";
+    imgElement.src = JLOGO_PNG_SRC;
 
     headerElement.appendChild(imgElement);
     headerElement.appendChild(textElement);
@@ -21,7 +26,7 @@ export function addDocumentButton({ onClick }) {
     const imgElement = document.createElement('img');
     const textElement = document.createElement('span');
 
-    imgElement.src = "../../../public/plusicon.png";
+    imgElement.src = PLUSICON_PNG_SRC;
     textElement.textContent = "페이지 추가";
     addDocumentButtonElement.className = "addDocumentButton"
 
@@ -40,7 +45,7 @@ export function serachButton() {
     const textElement = document.createElement('span');
 
 
-    imgElement.src = "../../../public/searchicon.png";
+    imgElement.src = SEARCHICON_PNG_SRC;
     textElement.textContent = "검색";
     findDocumentButtonElement.className = "addDocumentButton";
 

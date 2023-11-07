@@ -1,5 +1,9 @@
 import request from "../../api.js";
 
+
+const SLOTOPEN_PNG_SRC = "/public/slotopen.png";
+const SLOTCLOES_PNG_SRC = "/public/slotclose.png";
+
 export default class DocumentItem {
 
     documentItemList = [];
@@ -50,7 +54,7 @@ export default class DocumentItem {
     }
 
     render() {
-        this.slotImgElement.src = this.isSlotOpen ? "/public/slotopen.png" : "/public/slotclose.png";
+        this.slotImgElement.src = this.isSlotOpen ? SLOTOPEN_PNG_SRC : SLOTCLOES_PNG_SRC;
         this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
     };
 

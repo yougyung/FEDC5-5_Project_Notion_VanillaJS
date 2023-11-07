@@ -1,6 +1,8 @@
 import request from "../../api.js";
 import SearchResultItem from "./searchResultItem.js";
 
+const SEARCHICON_PNG_SRC = "/public/searchicon.png"
+
 export default class SearchModal {
 
     constructor({ rootElement, setPage }) {
@@ -12,7 +14,7 @@ export default class SearchModal {
         const hr = document.createElement("hr");
         this.searchResultElement = document.createElement("div");
 
-        searchIcon.src = "../../../public/searchicon.png";
+        searchIcon.src = SEARCHICON_PNG_SRC;
         searchBgElement.className = "searchModalBackground";
         searchModalElement.className = "searchModal";
         headerElement.className = "searchHeader";
