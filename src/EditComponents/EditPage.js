@@ -19,11 +19,8 @@ export default function EditPage({
     this.state = nextState;
 
     editNav.setState(nextState);
-
     editHeader.setState(nextState);
-
     editor.setState(nextState);
-
     editFooter.setState(nextState);
   };
 
