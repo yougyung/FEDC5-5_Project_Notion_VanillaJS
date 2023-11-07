@@ -2,6 +2,7 @@ import DocumentItems from '../../Common/DocumentItems/DocumentItems.js';
 import { createNewElement } from '../../../Util/Element.js';
 import RouterManger from '../../../Util/Router.js';
 import DocumentObserver from '../../../Util/DocumentObserver.js';
+import { DOCUMENT_LIST } from '../../../../Constants/Observer.js';
 
 // state = { documentList: [] }
 
@@ -61,7 +62,7 @@ export default class ChildDocumentsViewer {
             // documentChild 클릭시 해당 document로 이동
             RouterManger.getInstance().changeUrl(`/document/${documentId}`);
             // 이동되면 sidebar에서도 현재 document 표시를 위해 알림을 준다.
-            DocumentObserver.getInstance().notifyAll();
+            DocumentObserver.getInstance().notifyAll(DOCUMENT_LIST);
         }
     }
 }

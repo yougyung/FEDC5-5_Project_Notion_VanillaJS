@@ -19,15 +19,22 @@ export default class DocumentObserver {
         console.log(this.observers);
     }
 
-    subscribe(observer) {
-        this.observers.push(observer);
+    subscribe(key, observer) {
+        if (!this.observers[key]) {
+            this.observers[key] = [];
+        }
+        this.observers[key].push(observer);
     }
 
-    unsubscribe(observer) {
-        this.observers.splice(this.observers.indexOf(observer), 1);
+    unsubscribe(key, observer) {
+        if (this.observers[key]) {
+            this.observers[key] = this.observers[key].filter((obs) => obs !== observer);
+        }
     }
 
-    notifyAll() {
-        this.observers.forEach((observer) => observer());
+    notifyAll(key) {
+        if (this.observers[key]) {
+            this.observers[key].forEach((observer) => observer());
+        }
     }
 }

@@ -1,10 +1,4 @@
-import { getUserName } from '../Util/userName.js';
-
-const DOCUMENT_API_ADDRESS = 'https://kdt-frontend.programmers.co.kr';
-const headers = {
-    'Content-Type': 'application/json',
-    'x-username': getUserName(),
-};
+import { DOCUMENT_API_ADDRESS, headers } from '../../Constants/Api.js';
 
 // document 데이터 추가하기
 export const fetchPostDocument = async (parentId, title = '') => {
@@ -15,7 +9,15 @@ export const fetchPostDocument = async (parentId, title = '') => {
             body: JSON.stringify({ title, parent: parentId }),
         });
 
-        if (!res.ok || res.status !== 200) {
+        if (res.status >= 400 && res.status < 500) {
+            throw new Error('잘못된 요청입니다. 다시 시도해 주세요.');
+        }
+
+        if (res.status >= 500) {
+            throw new Error('서버에 문제가 있습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+        if (!res.ok) {
             throw new Error('통신 실패!');
         }
 
@@ -25,7 +27,7 @@ export const fetchPostDocument = async (parentId, title = '') => {
     }
 };
 
-// document 데이터 가져오기
+// document List 데이터 가져오기
 export const fetchGetDocumentList = async () => {
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents`, {
@@ -33,7 +35,15 @@ export const fetchGetDocumentList = async () => {
             headers,
         });
 
-        if (!res.ok || res.status !== 200) {
+        if (res.status >= 400 && res.status < 500) {
+            throw new Error('잘못된 요청입니다. 다시 시도해 주세요.');
+        }
+
+        if (res.status >= 500) {
+            throw new Error('서버에 문제가 있습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+        if (!res.ok) {
             throw new Error('통신 실패!');
         }
 
@@ -43,7 +53,7 @@ export const fetchGetDocumentList = async () => {
     }
 };
 
-// document 데이터 가져오기
+// document Content 데이터 가져오기
 export const fetchGetDocumentContent = async (documentId) => {
     if (!documentId) {
         return;
@@ -54,7 +64,15 @@ export const fetchGetDocumentContent = async (documentId) => {
             headers,
         });
 
-        if (!res.ok || res.status !== 200) {
+        if (res.status >= 400 && res.status < 500) {
+            throw new Error('잘못된 요청입니다. 다시 시도해 주세요.');
+        }
+
+        if (res.status >= 500) {
+            throw new Error('서버에 문제가 있습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+        if (!res.ok) {
             throw new Error('통신 실패!');
         }
 
@@ -72,7 +90,15 @@ export const fetchDeleteDocument = async (documentId) => {
     try {
         const res = await fetch(`${DOCUMENT_API_ADDRESS}/documents/${documentId}`, { method: 'DELETE', headers });
 
-        if (!res.ok || res.status !== 200) {
+        if (res.status >= 400 && res.status < 500) {
+            throw new Error('잘못된 요청입니다. 다시 시도해 주세요.');
+        }
+
+        if (res.status >= 500) {
+            throw new Error('서버에 문제가 있습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+        if (!res.ok) {
             throw new Error('통신 실패!');
         }
 
@@ -94,7 +120,15 @@ export const fetchPutDocument = async (documentId, title, content) => {
             headers,
         });
 
-        if (!res.ok || res.status !== 200) {
+        if (res.status >= 400 && res.status < 500) {
+            throw new Error('잘못된 요청입니다. 다시 시도해 주세요.');
+        }
+
+        if (res.status >= 500) {
+            throw new Error('서버에 문제가 있습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+        if (!res.ok) {
             throw new Error('통신 실패!');
         }
 

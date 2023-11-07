@@ -3,6 +3,7 @@ import { createNewElement } from '../../../../Util/Element.js';
 import { fetchDeleteDocument, fetchGetDocumentList, fetchPostDocument } from '../../../../Service/PostApi.js';
 import RouterManger from '../../../../Util/Router.js';
 import DocumentObserver from '../../../../Util/DocumentObserver.js';
+import { DOCUMENT_CHILD_LIST, DOCUMENT_LIST } from '../../../../../Constants/Observer.js';
 import { DOCUMENT_TOGGLE_KEY, setItem, getItem } from '../../../../Store/LocalStroage.js';
 
 // state = { documentList: [] }
@@ -22,7 +23,7 @@ export default class DocumentList {
         this.$documentList.addEventListener('click', (e) => this.handleOnClick(e));
 
         // documetList 데이터를 다시 불러오는 함수를 구독
-        DocumentObserver.getInstance().subscribe(() => this.getDocumentList());
+        DocumentObserver.getInstance().subscribe(DOCUMENT_LIST, () => this.getDocumentList());
         this.getDocumentList();
         this.render();
     }
@@ -87,7 +88,8 @@ export default class DocumentList {
 
             await this.postDocument(documentId);
             // editor page의 documentChilde 컴포넌트에게 알림을 준다
-            DocumentObserver.getInstance().notifyAll();
+            DocumentObserver.getInstance().notifyAll(DOCUMENT_LIST);
+            DocumentObserver.getInstance().notifyAll(DOCUMENT_CHILD_LIST);
         }
 
         // document 삭제 이벤트
@@ -103,7 +105,8 @@ export default class DocumentList {
                 RouterManger.getInstance().changeUrl(`/`);
             } else {
                 // 아니면 documentList가 변경됨을 documentChild 컴포넌트에게 알림을 준다.
-                DocumentObserver.getInstance().notifyAll();
+                DocumentObserver.getInstance().notifyAll(DOCUMENT_LIST);
+                DocumentObserver.getInstance().notifyAll(DOCUMENT_CHILD_LIST);
             }
         }
 
