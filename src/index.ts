@@ -21,4 +21,8 @@ window.addEventListener("popstate", () => {
   render();
 });
 
+window.addEventListener("navigate", () => {
+  render();
+});
+
 render();
