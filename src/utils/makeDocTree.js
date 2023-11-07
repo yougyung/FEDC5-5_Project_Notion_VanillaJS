@@ -1,5 +1,3 @@
-import { addStorage, getStorage } from './storage.js';
-
 export function makeDocTree(root, depth, domTree = [], closeList, hideList) {
   // 루트 문서 순회
   root.forEach((child) => {
