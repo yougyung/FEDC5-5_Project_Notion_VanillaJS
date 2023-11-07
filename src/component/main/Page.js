@@ -28,7 +28,7 @@ export default class Page {
 
         this.id = id;
         this.editor.id = id;
-        this.PageTitle.setTitle(id);
+        this.PageTitle.setBreadCrumb(id);
 
         const { title, content } = await request(`/documents/${this.id}`, { method: `GET` });
         this.editor.titleEditorElement.textContent = title;

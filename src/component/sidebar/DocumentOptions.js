@@ -34,8 +34,7 @@ export function addDocumentButton({ onClick }) {
     return addDocumentButtonElement;
 }
 
-export function serachButton(text) {
-    text = "없음";
+export function serachButton() {
     const findDocumentButtonElement = document.createElement('button');
     const imgElement = document.createElement('img');
     const textElement = document.createElement('span');

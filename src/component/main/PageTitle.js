@@ -4,22 +4,22 @@ export default class PageTitle {
         this.titleElement.className = "pageTitle";
         rootElelment.appendChild(this.titleElement);
 
-        this.setTitle();
+        this.setBreadCrumb();
     }
 
-    setTitle(id) {
+    setBreadCrumb(id) {
         if (!id) return;
         const title = this.findParentTracking(id);
         this.titleElement.textContent = title.join(" / ");
     }
 
-    findParentTracking(id) { 
+    findParentTracking(id) {
         let node = document.querySelector(`#l${id}`);
         const documentNodeTrackArr = [node.getAttribute("titlename")]
         while (node.parentElement.parentElement.getAttribute("titlename")) {
             node = node.parentElement.parentElement;
             documentNodeTrackArr.push(node.getAttribute("titlename"));
         }
-        return documentNodeTrackArr;
+        return documentNodeTrackArr.reverse();
     }
 }

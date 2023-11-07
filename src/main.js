@@ -16,7 +16,7 @@ const sidebar = new Sidebar({
 const page = new Page({
     rootElement,
     onChangeTitle: (id, title) => {
-        page.PageTitle.setTitle(id);
+        page.PageTitle.setBreadCrumb(id);
         sidebar.documentList.updateDocumentTitle(id, title);
     }
 });
