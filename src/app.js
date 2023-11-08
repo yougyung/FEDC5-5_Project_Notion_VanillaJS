@@ -149,11 +149,15 @@ export default function App({ $target }) {
 
   // 새로운 글을 post하는 함수
   const createNewPage = async (url, parentTag) => {
-    const createdDefaultTitleText = "새 페이지";
+    // const createdDefaultTitleText = "새 페이지";
+    const createdDefaultTitleText = "";
     const createdDefaultParent = parentTag ? parentTag : "null";
     const newPageRes = await request(url, {
       method: "POST",
-      body: JSON.stringify({ title: createdDefaultTitleText, parent: createdDefaultParent }),
+      body: JSON.stringify({
+        title: createdDefaultTitleText,
+        parent: createdDefaultParent,
+      }),
     });
     return newPageRes;
   };
@@ -170,9 +174,15 @@ export default function App({ $target }) {
     const nowDocsId = id;
     if (nowDocsId !== 0) {
       const selectedDocs = await request(`/documents/${nowDocsId}`);
-      textAreaRender.setState({ ...selectedDocs, isLoading: false, pageType: "NOT_ROOT" });
+      textAreaRender.setState({
+        ...selectedDocs,
+        isLoading: false,
+        pageType: "NOT_ROOT",
+      });
     } else {
-      console.error(`nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`);
+      console.error(
+        `nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`
+      );
     }
   };
 
