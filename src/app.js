@@ -174,11 +174,24 @@ export default function App({ $target }) {
     const nowDocsId = id;
     if (nowDocsId !== 0) {
       const selectedDocs = await request(`/documents/${nowDocsId}`);
-      textAreaRender.setState({
-        ...selectedDocs,
-        isLoading: false,
-        pageType: "NOT_ROOT",
-      });
+
+      if(selectedDocs){
+        textAreaRender.setState({
+          ...selectedDocs,
+          isLoading: false,
+          pageType: "NOT_ROOT",
+        });
+      }else{
+        alert(`올바르지 않은 접근입니다! 메인화면으로 이동합니다!!`);
+        textAreaRender.setState({
+          title: "👋안녕하세요!",
+          content:
+            "Notion Cloning by KSJ 페이지에 오신 것을 환영합니다.\n이 페이지는 수정이 불가능해요.\n좌측에서 페이지를 선택해서 편집을 진행해주세요!",
+          isLoading: false,
+          pageType: "ROOT",
+        });
+        history.pushState(null, null, `/`);
+      }
     } else {
       console.error(
         `nowDocsId의 값이 비어있거나 숫자가 아닙니다!! nowDocsId === ${nowDocsId}`
