@@ -1,5 +1,5 @@
 const $ = document;
-export default function SideAreaPage({ $target, initialState, onClickPage, onClickButton, onClickDeleteButton }) {
+export default function SideAreaPage({ $target, initialState, onClickPage, onClickCreateNewPageButton, onClickDeleteButton }) {
   const $pageList = $.createElement("div");
   $pageList.className = "sideBarPageList";
   $target.appendChild($pageList);
@@ -142,7 +142,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
         }
 
         if (targetTag.id === "addPageButton") {
-          onClickButton(targetTag.parentElement.dataset.id);
+          onClickCreateNewPageButton(targetTag.parentElement.dataset.id);
         }
 
         if (targetTag.id === "addDeletePageButton") {

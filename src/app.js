@@ -36,10 +36,10 @@ export default function App({ $target }) {
   const sideAreaRender = new SideAreaRender({
     $target: $sideBarWrapperDiv,
     initialState: this.state,
-    onClickPage: async (id) => {
-      await fetchSelectedDocs(id);
+    onClickPage: (id) => {
+      fetchSelectedDocs(id);
     },
-    onClickButton: async (id) => {
+    onClickCreateNewPageButton: async (id) => {
       const newPageLog = await createNewPage("/documents", id);
       await fetchRootDocs();
       if (!id) {

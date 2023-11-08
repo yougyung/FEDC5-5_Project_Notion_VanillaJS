@@ -1,6 +1,6 @@
 const $ = document;
 
-export default function SideAreaFooter({ $target, onClickButton }) {
+export default function SideAreaFooter({ $target, onClickCreateNewPageButton }) {
   const $newAddButton = $.createElement("div");
   $newAddButton.innerText = "+ 새 페이지 추가";
   $newAddButton.className = "addNewPageWithoutRoot";
@@ -8,7 +8,7 @@ export default function SideAreaFooter({ $target, onClickButton }) {
   $newAddButton.addEventListener("click", (e) => {
     const targetTag = e.target;
     if (targetTag.tagName === "DIV") {
-      onClickButton(null);
+      onClickCreateNewPageButton(null);
     }
   });
 }
