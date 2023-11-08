@@ -7,35 +7,20 @@ const SLOTCLOES_PNG_SRC = "/public/slotclose.png";
 export default class DocumentItem {
 
     documentItemList = [];
+    isSlotOpen = false;
 
     constructor(item, parentElement, onSetPage, onDeleteItem) {
         this.item = item;
-        this.isSlotOpen = false;
 
         if (onDeleteItem) this.onDeleteItem = onDeleteItem.bind(this);
         if (onSetPage) this.onSetPage = onSetPage.bind(this);
 
-        this.parentElement = parentElement;
-
-        this.parentListElement = makeElement("li", `l${this.item.id}`, "childPageList", this.parentElement);
-        this.slotButtonElement = makeElement('button', null, null, parentListElement);
-        this.slotImgElement = makeElement('img', `slotbtn${item.id}`, "slotbtn", this.slotButtonElement);
-        this.documentNameLabelElement = makeElement('label', `documentbtn${item.id}`, null, this.parentListElement);
-        this.childListElement = makeElement('ul', null, null, this.parentListElement);
-        const addButtonElement = makeElement('button', `addbtn${item.id}`, null, this.parentListElement);
-        const deleteButtonElement = makeElement('button', `deletebtn${item.id}`, null, this.parentListElement);
-
-        this.parentListElement.setAttribute("titlename", this.item.title);
-        this.childListElement.style.display = "none";
-
-        this.documentNameLabelElement.textContent = this.item.title;
-        addButtonElement.textContent = "+";
-        deleteButtonElement.textContent = "x";
+        this.createDOMElements(parentElement);
 
         item.documents.map((documentItem) => {
             this.documentItemList.push(new DocumentItem(documentItem, this.childListElement, this.onSetPage, this.onDeleteItem));
         });
-        this.setEvent(addButtonElement, deleteButtonElement, parentElement);
+
         this.render();
     }
 
@@ -44,6 +29,27 @@ export default class DocumentItem {
         this.isSlotOpen ? this.childListElement.style.display = "block" : this.childListElement.style.display = "none";
     };
 
+    createDOMElements(parentElement) {
+
+        const { id, title } = this.item;
+
+        this.parentListElement = makeElement("li", `l${id}`, "childPageList", parentElement);
+        this.slotButtonElement = makeElement('button', null, null, this.parentListElement);
+        this.slotImgElement = makeElement('img', `slotbtn${id}`, "slotbtn", this.slotButtonElement);
+        this.documentNameLabelElement = makeElement('label', `documentbtn${id}`, null, this.parentListElement);
+        this.childListElement = makeElement('ul', null, null, this.parentListElement);
+        const addButtonElement = makeElement('button', `addbtn${id}`, null, this.parentListElement);
+        const deleteButtonElement = makeElement('button', `deletebtn${id}`, null, this.parentListElement);
+
+        this.parentListElement.setAttribute("titlename", title);
+        this.childListElement.style.display = "none";
+
+        this.documentNameLabelElement.textContent = title;
+        addButtonElement.textContent = "+";
+        deleteButtonElement.textContent = "x";
+
+        this.setEvent(addButtonElement, deleteButtonElement, parentElement);
+    }
 
     setEvent(addButtonElement, deleteButtonElement, parentElement) {
         this.documentNameLabelElement.addEventListener('click', (event) => {

@@ -1,4 +1,4 @@
-import makeElement from "../Element";
+import makeElement from "../Element.js";
 
 const JLOGO_PNG_SRC = "/public/jlogo.png"
 const PLUSICON_PNG_SRC = "/public/plusicon.png"

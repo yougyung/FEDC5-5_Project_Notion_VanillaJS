@@ -1,4 +1,4 @@
-import makeElement from "../Element";
+import makeElement from "../Element.js";
 
 export default class PageTitle {
     constructor(rootElelment) {

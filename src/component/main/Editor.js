@@ -6,8 +6,8 @@ export default class Editor {
     constructor({ pageElement, onChangeTitle }) {
         this.onChangeTitle = onChangeTitle.bind(this);
         const boardElement = makeElement('div', null, "editor", pageElement);
-        this.titleEditorElement = makeElement('h1', null, boardElement);
-        this.editorElement = makeElement('form', null, "textEditor", this.editorElement);
+        this.titleEditorElement = makeElement('h1', null, null, boardElement);
+        this.editorElement = makeElement('form', null, "textEditor", boardElement);
 
         this.titleEditorElement.placeholder = "제목 없음";
         this.titleEditorElement.setAttribute("contenteditable", "true");
