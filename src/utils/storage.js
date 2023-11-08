@@ -12,7 +12,10 @@ export const setItem = (value) => {
 export const getItem = () => {
   try {
     const storedValue = storage.getItem(NOTION_CLONE_LOCALSTORAGE_KEY);
-    return JSON.parse(storedValue);
+    if (storedValue) {
+      return JSON.parse(storedValue);
+    }
+    return null;
   } catch (e) {
     console.error(e);
   }
