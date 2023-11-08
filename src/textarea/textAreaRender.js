@@ -7,15 +7,10 @@ export default function TextAreaRender({ $target, initialState, onTextEditing, o
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    textAreaPage.setState(this.state);
+    textAreaFooter.setState(this.state.documents);
   };
 
   const textAreaPage = new TextAreaPage({ $target, initialState, onTextEditing, onTitleEditing });
   const textAreaFooter = new TextAreaFooter({ $target, initialState, onClickChildPage });
-
-  this.render = () => {
-    textAreaPage.setState(this.state);
-    textAreaFooter.setState(this.state.documents);
-  };
-  this.render();
 }
