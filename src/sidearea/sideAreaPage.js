@@ -7,7 +7,6 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
   this.state = initialState;
 
   this.setState = (nextState) => {
-    $pageList.innerHTML = "";
     this.state = nextState;
     this.render();
     addEventDocs();
@@ -127,6 +126,7 @@ export default function SideAreaPage({ $target, initialState, onClickPage, onCli
   };
 
   this.render = () => {
+    $pageList.innerHTML = "";
     pageListRenderer($pageList, this.state);
   };
 
