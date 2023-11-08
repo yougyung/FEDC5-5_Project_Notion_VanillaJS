@@ -100,8 +100,7 @@ export default function App({ $target }) {
         clearTimeout(timerForText);
       }
       timerForText = setTimeout(async () => {
-        // const modifyTextPageText = await request(`/documents/${location.pathname.split("/")[2]}`, {
-        const modifyTextPageText = await request(`/documents/${id}`, {
+        await request(`/documents/${id}`, {
           method: "PUT",
           body: JSON.stringify({ title: title, content: target }),
         });
