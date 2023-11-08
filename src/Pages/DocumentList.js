@@ -1,5 +1,5 @@
-import { request } from "./api.js";
-import { push } from "./router.js";
+import { request } from "../api/api.js";
+import { push } from "../router.js";
 
 export default function DocumentList({
   $target,
@@ -113,17 +113,7 @@ export default function DocumentList({
     } else {
       const { id } = $li;
       const parent = e.target.closest(".rootDocument_data");
-
-      if (e.target.className === "documentCreateButton") {
-        fetchPostDocument(id);
-      } else if (e.target.className === "documentDeleteButton") {
-        fetchDeleteDocument(id);
-      } else if (e.target.classList.contains("documentToggleButton")) {
-        onToggle(parent.id, id);
-        push(`/documents/${id}`);
-      } else {
-        push(`/documents/${id}`);
-      }
+      fetchOrPush(e.target.className, id, parent.id);
     }
   });
 
@@ -144,5 +134,18 @@ export default function DocumentList({
       }),
     });
     push(`/documents/${createdDocument.id}`);
+  };
+
+  const fetchOrPush = (className, id, parentId) => {
+    if (className === "documentCreateButton") {
+      fetchPostDocument(id);
+    } else if (className === "documentDeleteButton") {
+      fetchDeleteDocument(id);
+    } else if (classList.contains("documentToggleButton")) {
+      onToggle(parentId, id);
+      push(`/documents/${id}`);
+    } else {
+      push(`/documents/${id}`);
+    }
   };
 }

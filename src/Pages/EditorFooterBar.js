@@ -1,4 +1,4 @@
-import { push } from "./router.js";
+import { push } from "../router.js";
 
 export default function EditorFooterBar({ $target, initialState }) {
   const $div = document.createElement("div");

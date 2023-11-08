@@ -1,4 +1,4 @@
-import { API_END_POINT, USER_NAME } from "./env/apiIgnore.js";
+import { API_END_POINT, USER_NAME } from "../env/apiIgnore.js";
 
 export const request = async (url, options = {}) => {
   try {

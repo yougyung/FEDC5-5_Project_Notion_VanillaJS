@@ -1,6 +1,6 @@
-import DocumentEditor from "./DocumentEditor.js";
-import EditorFooterBar from "./EditorFooterBar.js";
-import { request } from "./api.js";
+import DocumentEditor from "../Pages/DocumentEditor.js";
+import EditorFooterBar from "../Pages/EditorFooterBar.js";
+import { request } from "../api/api.js";
 
 export default function DocumentEditComponent({
   $target,

@@ -1,6 +1,6 @@
 import EditorFooterBar from "./EditorFooterBar.js";
 import EditorStyle from "./EditorStyle.js";
-import { push } from "./router.js";
+import { push } from "../router.js";
 
 export default function DocumentEditor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");

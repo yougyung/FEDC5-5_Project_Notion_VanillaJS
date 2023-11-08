@@ -1,6 +1,6 @@
 import DocumentEditComponent from "./DocumentEditComponent.js";
 import DocumentListComponent from "./DocumentListComponent.js";
-import { initRouter } from "./router.js";
+import { initRouter } from "../router.js";
 
 export default function App({ $target }) {
   const $documentListDiv = document.createElement("div");

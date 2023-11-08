@@ -1,7 +1,7 @@
-import DocumentList from "./DocumentList.js";
-import Header from "./Header.js";
-import { request } from "./api.js";
-import { USER_NAME } from "./env/apiIgnore.js";
+import DocumentList from "../Pages/DocumentList.js";
+import Header from "../Pages/Header.js";
+import { request } from "../api/api.js";
+import { USER_NAME } from "../env/apiIgnore.js";
 /*
   토글된 아이디들을 저장 - 하지만 
   [
