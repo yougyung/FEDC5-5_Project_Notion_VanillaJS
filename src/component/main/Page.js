@@ -1,4 +1,5 @@
 import request from "../../api.js";
+import makeElement from "../Element.js";
 
 import Editor from "./Editor.js";
 import PageTitle from "./PageTitle.js";
@@ -7,14 +8,13 @@ import notDatapage from "./tempPage/notdataPage.js";
 export default class Page {
 
     constructor({ rootElement, onChangeTitle }) {
-        this.pageElement = document.createElement('div');
-        this.pageElement.className = "page";
+        this.pageElement = makeElement('div', null, 'page', rootElement);
         this.notDatapageElement = notDatapage();
+        
         this.PageTitle = new PageTitle(this.pageElement);
         this.editor = new Editor({ pageElement: this.pageElement, onChangeTitle });
         this.pageElement.style.display = "block";
 
-        rootElement.appendChild(this.pageElement);
         rootElement.appendChild(this.notDatapageElement);
 
         this.setEvent();

@@ -1,23 +1,17 @@
 import request from "../../api.js";
+import makeElement from "../Element.js";
 
 export default class Editor {
 
     constructor({ pageElement, onChangeTitle }) {
         this.onChangeTitle = onChangeTitle.bind(this);
-        const boardElement = document.createElement('div');
-        this.titleEditorElement = document.createElement('h1');
-        this.editorElement = document.createElement('form');
+        const boardElement = makeElement('div', null, "editor", pageElement);
+        this.titleEditorElement = makeElement('h1', null, boardElement);
+        this.editorElement = makeElement('form', null, "textEditor", this.editorElement);
 
-        boardElement.className = "editor";
-        this.editorElement.id = "asdf";
-        this.editorElement.className = "textEditor";
         this.titleEditorElement.placeholder = "제목 없음";
         this.titleEditorElement.setAttribute("contenteditable", "true");
         this.editorElement.setAttribute("contenteditable", "true");
-
-        pageElement.appendChild(boardElement);
-        boardElement.appendChild(this.titleEditorElement);
-        boardElement.appendChild(this.editorElement);
 
         this.setEvent();
     }

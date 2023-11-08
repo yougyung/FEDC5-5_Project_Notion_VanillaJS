@@ -1,5 +1,5 @@
 import request from "../../api.js";
-
+import makeElement from "../Element.js";
 
 const SLOTOPEN_PNG_SRC = "/public/slotopen.png";
 const SLOTCLOES_PNG_SRC = "/public/slotclose.png";
@@ -16,33 +16,19 @@ export default class DocumentItem {
         if (onSetPage) this.onSetPage = onSetPage.bind(this);
 
         this.parentElement = parentElement;
-        this.parentListElement = document.createElement('li');
-        this.slotButtonElement = document.createElement('button');
-        this.slotImgElement = document.createElement('img');
-        this.documentNameLabelElement = document.createElement('label');
-        this.childListElement = document.createElement('ul');
 
-        const addButtonElement = document.createElement('button');
-        const deleteButtonElement = document.createElement('button');
-
-        parentElement.appendChild(this.parentListElement);
-        this.parentListElement.appendChild(this.slotButtonElement);
-        this.parentListElement.appendChild(this.documentNameLabelElement);
-        this.parentListElement.appendChild(addButtonElement);
-        this.parentListElement.appendChild(deleteButtonElement);
-        this.parentListElement.appendChild(this.childListElement);
-        this.slotButtonElement.appendChild(this.slotImgElement);
+        this.parentListElement = makeElement("li", `l${this.item.id}`, "childPageList", this.parentElement);
+        this.slotButtonElement = makeElement('button', null, null, parentListElement);
+        this.slotImgElement = makeElement('img', `slotbtn${item.id}`, "slotbtn", this.slotButtonElement);
+        this.documentNameLabelElement = makeElement('label', `documentbtn${item.id}`, null, this.parentListElement);
+        this.childListElement = makeElement('ul', null, null, this.parentListElement);
+        const addButtonElement = makeElement('button', `addbtn${item.id}`, null, this.parentListElement);
+        const deleteButtonElement = makeElement('button', `deletebtn${item.id}`, null, this.parentListElement);
 
         this.parentListElement.setAttribute("titlename", this.item.title);
-        this.parentListElement.id = "l" + this.item.id;
-        this.documentNameLabelElement.textContent = this.item.title;
-        this.parentListElement.className = "childPageList";
-        this.documentNameLabelElement.id = `documentbtn${item.id}`;
-        this.slotImgElement.className = `slotbtn`;
-        this.slotImgElement.id = `slotbtn${item.id}`;
-        deleteButtonElement.id = `deletebtn${item.id}`;
         this.childListElement.style.display = "none";
-        addButtonElement.id = `addbtn${item.id}`
+
+        this.documentNameLabelElement.textContent = this.item.title;
         addButtonElement.textContent = "+";
         deleteButtonElement.textContent = "x";
 

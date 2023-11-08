@@ -1,17 +1,17 @@
+import makeElement from "../Element";
+
 export default function SearchResultItem(searchBgElement, title, id, setPage) {
-   
+
     if (setPage) setPage = setPage.bind(this);
-   
-    const SearchResultItemElement = document.createElement('div');
-    const titleElement = document.createElement('p');
+
+    const SearchResultItemElement = makeElement('div', null, null, null);
+    const titleElement = makeElement('p', null, null, SearchResultItemElement);
 
     titleElement.textContent = title;
-    SearchResultItemElement.appendChild(titleElement);
-
     SearchResultItemElement.addEventListener('click', () => {
         setPage(id);
         searchBgElement.style.display = "none";
     });
-    
+
     return SearchResultItemElement;
 }

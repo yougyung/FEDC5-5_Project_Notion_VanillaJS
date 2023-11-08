@@ -1,4 +1,5 @@
 import request from "../../api.js";
+import makeElement from "../Element.js";
 
 import DocumentList from "./DocumentList.js";
 import DocumentItem from "./DocumentItem.js";
@@ -6,8 +7,8 @@ import { addDocumentButton, serachButton, sidebarHeader } from "./DocumentOption
 
 export default class Sidebar {
     constructor({ rootElement, onSetPage, onDeleteItem }) {
-        const sidebarElement = document.createElement('div');
-        sidebarElement.className = "sidebar";
+        const sidebarElement = makeElement('div', null, "sidebar", rootElement);
+        console.log(sidebarElement);
         const searchButtonElement = serachButton();
         const headerElement = sidebarHeader();
         const addDocumentButtonElement = addDocumentButton({
@@ -25,10 +26,10 @@ export default class Sidebar {
             }
         });
 
-        rootElement.appendChild(sidebarElement);
         sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
         this.documentList = new DocumentList(sidebarElement, onSetPage, onDeleteItem);
         sidebarElement.appendChild(addDocumentButtonElement);
+
     }
 }

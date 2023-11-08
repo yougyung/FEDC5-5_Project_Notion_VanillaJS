@@ -1,17 +1,16 @@
 import request from "../../api.js";
 import DocumentItem from "./DocumentItem.js";
+import makeElement from "../Element.js";
 
 export default class DocumentList {
 
     documentItemList = [];
 
     constructor(sidebarElement, onSetPage, onDeleteItem) {
-        this.documentListElement = document.createElement('ul');
-        this.documentListElement.className = "parentPageList";
+        this.documentListElement = makeElement('ul', null, "parentPageList", sidebarElement);
         this.onSetPage = onSetPage;
         this.onDeleteItem = onDeleteItem;
 
-        sidebarElement.appendChild(this.documentListElement);
         this.init();
     }
     async init() {

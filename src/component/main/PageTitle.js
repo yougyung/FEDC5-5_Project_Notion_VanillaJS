@@ -1,8 +1,8 @@
+import makeElement from "../Element";
+
 export default class PageTitle {
     constructor(rootElelment) {
-        this.titleElement = document.createElement('p');
-        this.titleElement.className = "pageTitle";
-        rootElelment.appendChild(this.titleElement);
+        this.titleElement = makeElement('p', null, "pageTitle", rootElelment);
 
         this.setBreadCrumb();
     }

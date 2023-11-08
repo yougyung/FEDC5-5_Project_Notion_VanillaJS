@@ -1,32 +1,22 @@
 import request from "../../api.js";
 import SearchResultItem from "./searchResultItem.js";
+import makeElement from "../Element.js";
 
 const SEARCHICON_PNG_SRC = "/public/searchicon.png"
 
 export default class SearchModal {
 
     constructor({ rootElement, setPage }) {
-        const searchBgElement = document.createElement("div");
-        const searchModalElement = document.createElement("div");
-        const headerElement = document.createElement("div");
-        const searchIcon = document.createElement("img");
-        const searchInput = document.createElement("input");
-        const hr = document.createElement("hr");
-        this.searchResultElement = document.createElement("div");
+        const searchBgElement = makeElement("div", null, "searchModalBackground", rootElement);
+        const searchModalElement = makeElement("div", null, "searchModal", searchBgElement);
+        const headerElement = makeElement("div", null, "searchHeader", searchBgElement);
+        const searchIcon = makeElement("img", null, null, headerElement);
+        const searchInput = makeElement("input", null, null, headerElement);
+        const hr = makeElement("hr", null, null, searchModalElement);
+        this.searchResultElement = makeElement("div", null, null, searchModalElement);
 
         searchIcon.src = SEARCHICON_PNG_SRC;
-        searchBgElement.className = "searchModalBackground";
-        searchModalElement.className = "searchModal";
-        headerElement.className = "searchHeader";
         searchInput.placeholder = "단어를 입력하고 엔터키를 눌러주세요.";
-
-        rootElement.appendChild(searchBgElement);
-        searchBgElement.appendChild(searchModalElement);
-        searchModalElement.appendChild(headerElement);
-        headerElement.appendChild(searchIcon);
-        headerElement.appendChild(searchInput);
-        searchModalElement.appendChild(hr);
-        searchModalElement.appendChild(this.searchResultElement);
 
         this.setEvent(searchBgElement, searchInput, searchModalElement, setPage);
     }
