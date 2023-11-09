@@ -7,17 +7,8 @@ const SEARCHICON_PNG_SRC = "/public/searchicon.png"
 export default class SearchModal {
 
     constructor({ rootElement, setPage }) {
-        const searchBgElement = makeElement("div", null, "searchModalBackground", rootElement);
-        const searchModalElement = makeElement("div", null, "searchModal", searchBgElement);
-        const headerElement = makeElement("div", null, "searchHeader", searchBgElement);
-        const searchIcon = makeElement("img", null, null, headerElement);
-        const searchInput = makeElement("input", null, null, headerElement);
-        const hr = makeElement("hr", null, null, searchModalElement);
-        this.searchResultElement = makeElement("div", null, null, searchModalElement);
 
-        searchIcon.src = SEARCHICON_PNG_SRC;
-        searchInput.placeholder = "단어를 입력하고 엔터키를 눌러주세요.";
-
+        this.createDOMElements(rootElement);
         this.setEvent(searchBgElement, searchInput, searchModalElement, setPage);
     }
 
@@ -63,5 +54,18 @@ export default class SearchModal {
                 this.searchResultElement.appendChild(resultItem);
             })
         });
+    }
+
+    createDOMElements(rootElement) {
+        const searchBgElement = makeElement("div", null, "searchModalBackground", rootElement);
+        const searchModalElement = makeElement("div", null, "searchModal", searchBgElement);
+        const headerElement = makeElement("div", null, "searchHeader", searchBgElement);
+        const searchIcon = makeElement("img", null, null, headerElement);
+        const searchInput = makeElement("input", null, null, headerElement);
+        const hr = makeElement("hr", null, null, searchModalElement);
+        this.searchResultElement = makeElement("div", null, null, searchModalElement);
+
+        searchIcon.src = SEARCHICON_PNG_SRC;
+        searchInput.placeholder = "단어를 입력하고 엔터키를 눌러주세요.";
     }
 }
