@@ -7,8 +7,14 @@ import { addDocumentButton, serachButton, sidebarHeader } from "./DocumentOption
 
 export default class Sidebar {
     constructor({ rootElement, onSetPage, onDeleteItem }) {
+        createDOMElements(rootElement);
+
+        this.documentList = new DocumentList(sidebarElement, onSetPage, onDeleteItem);
+    }
+    
+    createDOMElements(rootElement) {
         const sidebarElement = makeElement('div', null, "sidebar", rootElement);
-        console.log(sidebarElement);
+
         const searchButtonElement = serachButton();
         const headerElement = sidebarHeader();
         const addDocumentButtonElement = addDocumentButton({
@@ -25,11 +31,8 @@ export default class Sidebar {
                 })
             }
         });
-
         sidebarElement.appendChild(headerElement);
         sidebarElement.appendChild(searchButtonElement);
-        this.documentList = new DocumentList(sidebarElement, onSetPage, onDeleteItem);
         sidebarElement.appendChild(addDocumentButtonElement);
-
     }
 }
