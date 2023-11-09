@@ -8,16 +8,20 @@ import notDatapage from "./tempPage/notdataPage.js";
 export default class Page {
 
     constructor({ rootElement, onChangeTitle }) {
+
+        this.createDOMElements(rootElement, onChangeTitle)
+        this.setEvent();
+    }
+
+    createDOMElements(rootElement, onChangeTitle) {
         this.pageElement = makeElement('div', null, 'page', rootElement);
         this.notDatapageElement = notDatapage();
-        
+
         this.PageTitle = new PageTitle(this.pageElement);
         this.editor = new Editor({ pageElement: this.pageElement, onChangeTitle });
         this.pageElement.style.display = "block";
 
         rootElement.appendChild(this.notDatapageElement);
-
-        this.setEvent();
     }
 
     async getDocument(id) {
@@ -42,6 +46,8 @@ export default class Page {
         this.pageElement.style.display = "none";
         this.notDatapageElement.style.display = "block";
     }
+
+
 
     setEvent() {
         window.addEventListener('popstate', e => {
