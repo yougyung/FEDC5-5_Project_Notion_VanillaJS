@@ -128,32 +128,3 @@ export default function EditPage({ $target, initialState, onCreateDocument }) {
     }
   };
 }
-
-// import Editor from "./Editor.js";
-
-// export default function EditPage({ $target, initialState, onCreateDocument }) {
-//   const $editPage = document.createElement("section");
-//   $editPage.className = "editPage";
-
-//   this.state = initialState;
-
-//   this.setState= (nextState) => {
-//     this.state = nextState;
-//     this.render();
-//   };
-
-//   new Editor({
-//     $target: $editPage,
-//     initialState: this.state,
-//     onEditing: (data) => {
-//       // 디바운스를 위한 코드
-//     },
-//     onCreateDocument,
-//   });
-
-//   this.render = () => {
-//     $target.appendChild($editPage);
-//   }
-
-//   this.render();
-// }
