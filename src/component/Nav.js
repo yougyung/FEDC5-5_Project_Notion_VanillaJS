@@ -14,12 +14,9 @@ export default function Nav({ $target }) {
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   $target.prepend($nav);
   //문서 리스트를 가져온다.
-  store.dispatch(fetchDocumentsAsync());
   this.getDocuments = async () => {
-    const documentsTree = await request("/documents");
-    documentList.setState(documentsTree);
+    store.dispatch(fetchDocumentsAsync());
   };
-  observer.subscribe(this.getDocuments);
   const createDocument = async (id = null) => {
     const body = { title: "제목 없음", parent: id };
     const response = await request("/documents", {
@@ -44,12 +41,11 @@ export default function Nav({ $target }) {
       (state) => state.documentsReducer,
       this.render
     );
-    console.log(data);
     $nav.innerHTML = "";
     new DocumentListHeader({ $target: $nav });
     documentList = new DocumentList({
       $target: $nav,
-      initialState: [{ id: null, title: "", documents: [] }],
+      initialState: data.documents,
       createDocument,
       removeDocument,
     });
@@ -67,12 +63,12 @@ export default function Nav({ $target }) {
 
   const maxNavWidth = 500;
   const minNavWidth = 250;
+  const gap = 15;
   document.addEventListener("mousedown", (e) => {
     //마우스 다운시점의 시작 x좌표와, nav바의 너비를 저장해둠.
     const startX = e.clientX;
     const initialWidth = $nav.offsetWidth;
-    //마우스가 10px전후로 넘어가면 별로다
-    if (Math.abs(startX - initialWidth) > 10) return;
+    if (Math.abs(startX - initialWidth) > gap) return;
     const onMouseMove = (e) => {
       const newX = e.clientX;
       const delta = newX - startX;
@@ -98,12 +94,12 @@ export default function Nav({ $target }) {
   document.addEventListener("mousemove", (e) => {
     const startX = e.clientX;
     const initialWidth = $nav.offsetWidth;
-    if (Math.abs(startX - initialWidth) > 10) {
-      e.target.classList.remove("resize-cursor");
+    if (Math.abs(startX - initialWidth) > gap) {
+      document.body.classList.remove("resize-cursor");
       $nav.classList.remove("resize-cursor");
       $nav.classList.remove("thick-border");
     } else {
-      e.target.classList.add("resize-cursor");
+      document.body.classList.add("resize-cursor");
       $nav.classList.add("thick-border");
     }
   });

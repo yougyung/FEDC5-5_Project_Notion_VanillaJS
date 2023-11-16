@@ -8,7 +8,6 @@ import { getPathData } from "../utils/getPathData.js";
 // initialState : {doucmentId :null, document:null}
 export default function DocumentPage({ $target, initialState }) {
   const [path, documentId = pathData] = getPathData();
-  console.log(documentId);
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
   this.state = initialState;
