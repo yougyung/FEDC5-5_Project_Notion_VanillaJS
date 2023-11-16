@@ -5,6 +5,7 @@ import { initRouter } from "../utils/handleRouteEvent.js";
 export default class Router {
   constructor({ $target }, ...routes) {
     //appendChild로 붙일 부모노드(target)와 라우트기능이 필요한 컴포넌트들을 받아옴.
+    this.fragment = new DocumentFragment();
     this.routesMap = new Map();
     this.routes = routes;
     this.$target = $target;
@@ -26,12 +27,9 @@ export default class Router {
       component: ErrorPage,
       initialState: "",
     };
-    if (path === "") {
-      //메인이면 도큐먼트 페이지를 비워준다.
-      this.$target.innerHTML = "";
-      return;
-    }
-    new component({ $target: this.$target, initialState });
+    this.fragment.innerHTML = "";
+    this.$target.appendChild(this.fragment);
+    new component({ $target: this.fragment, initialState });
   }
   addRouteEvent() {
     initRouter(() => this.handleRoute());

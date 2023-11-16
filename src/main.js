@@ -6,5 +6,5 @@ import Observer from "./utils/observer/Observable.js";
 const observer = Object.freeze(new Observer());
 const store = createStore(documentsReducer, thunk);
 export { store, observer };
-const $root = document.getElementById("root");
-new App({ $target: $root });
+const $app = document.getElementById("app");
+new App({ $target: $app });

@@ -1,21 +1,19 @@
+import Component from "../core/Component.js";
 import { addDependOnPathEvent } from "../utils/handleRouteEvent.js";
 import DocumentItem from "./DocumentItem.js";
 
-export default function DocumentList({
-  $target,
-  initialState,
-  createDocument,
-  removeDocument,
-  depth = 0,
-}) {
-  const $documentList = document.createElement("div");
-  this.state = initialState;
-  $target.appendChild($documentList);
-  $documentList.classList.add("document-list");
-  if (depth > 0) {
-    $documentList.classList.add("document-children", "display-none");
+export default class DocumentList extends Component {
+  constructor({ $target, props, depth = 0 }) {
+    super({ $target, tagName: "div", props });
+    this.wrapper.classList.add("document-list");
+    this.depth = depth;
+    if (this.depth > 0) {
+      this.wrapper.classList.add("document-children", "display-none");
+    }
+    this.highlightSelectedDocument();
+    addDependOnPathEvent(this.highlightSelectedDocument);
   }
-  const highlightSelectedDocument = () => {
+  highlightSelectedDocument() {
     const documentList = document.querySelectorAll(".document-item-inner");
     const { pathname } = window.location;
     const [, , pathdata] = pathname.split("/");
@@ -26,27 +24,20 @@ export default function DocumentList({
         node.classList.remove("selected-document");
       }
     });
-  };
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
-  this.render = () => {
+  }
+  render() {
     //상태가 바뀔때, 렌더가 일어난다. 비워두지 않으면 현재 상태+새로운 상태가 되어 노드가 2배 생김
-    $documentList.innerHTML = "";
+    this.wrapper.innerHTML = "";
+    const { createDocument, removeDocument } = this.props;
     this.state.forEach((document) => {
       new DocumentItem({
-        $target: $documentList,
+        $target: this.wrapper,
         initialState: document,
         createDocument,
         removeDocument,
-        depth: depth + 1,
-        highlightSelectedDocument,
+        depth: this.depth + 1,
+        highlightSelectedDocument: this.highlightSelectedDocument,
       });
     });
-  };
-
-  this.render();
-  addDependOnPathEvent(highlightSelectedDocument);
-  highlightSelectedDocument();
+  }
 }

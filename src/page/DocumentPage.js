@@ -36,7 +36,7 @@ export default function DocumentPage({ $target, initialState }) {
     editor.renderContent();
   };
   this.render = () => {
-    $target.replaceChildren($documentPage);
+    $target.appendChild($documentPage);
   };
   const documentHeader = new Title({
     $target: $documentPage,

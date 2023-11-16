@@ -2,9 +2,12 @@ import { validateState } from "../utils/validateState.js";
 
 export default class Component {
   state;
-  constructor({ $target, tagName = null }) {
+  props;
+  constructor({ $target, tagName, props }) {
     this.$target = $target;
     this.wrapper = tagName ? document.createElement(tagName) : null;
+    this.props = props;
+    this.state = props?.initialState;
     this.wrapper && this.$target.appendChild(this.wrapper);
     this.setEvent();
     this.render();

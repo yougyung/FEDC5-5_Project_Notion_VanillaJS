@@ -12,7 +12,7 @@ export default class Observable {
     this.#observers.delete(observerCallback);
   }
   notify() {
-    this.#observers.forEach((subscriber) => subscriber?.());
+    this.#observers.forEach((subscriber) => subscriber());
   }
   changedState(nextState) {
     this.state = { ...getDeepCopy(this.state), ...getDeepCopy(nextState) };

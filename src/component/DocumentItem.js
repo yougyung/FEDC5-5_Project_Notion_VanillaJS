@@ -95,9 +95,11 @@ export default function DocumentItem({
     if (this.state.documents.length) {
       new DocumentList({
         $target: $documentItem,
-        initialState: this.state.documents,
-        createDocument,
-        removeDocument,
+        props: {
+          initialState: this.state.documents,
+          createDocument,
+          removeDocument,
+        },
         depth: depth,
       });
     } else {

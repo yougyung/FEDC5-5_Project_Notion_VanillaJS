@@ -21,7 +21,7 @@ export const createStore = (reducer, middleware) => {
     }
     const nextState = reducer(getDeepCopy(state[reducer.name]), action);
     state[reducer.name] = nextState;
-    observable?.notify();
+    observable && observable.notify();
   };
   const useSelector = (func, callback) => {
     const selectedState = func(state);
