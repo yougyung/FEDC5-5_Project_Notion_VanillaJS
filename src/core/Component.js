@@ -10,6 +10,7 @@ export default class Component {
     this.state = props?.initialState;
     this.wrapper && this.$target.appendChild(this.wrapper);
     this.setEvent();
+    this.prepare();
     this.render();
   }
   render() {
@@ -34,6 +35,7 @@ export default class Component {
       callback(e);
     });
   }
+  prepare() {}
   renderChild() {}
   setState(nextState) {
     const prevState = this.state;

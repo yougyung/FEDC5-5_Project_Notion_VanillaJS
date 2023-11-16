@@ -56,7 +56,7 @@ export default class Nav extends Component {
       content: `${plusIcon} <span>페이지 추가</span>`,
       attributes: [{ name: "class", value: "add-root-doc-btn" }],
       onClick: async () => {
-        const response = await createDocument();
+        const response = await this.createDocument();
         const storage = new Storage(window.localStorage);
         storage.setItem(response.id, { isFolded: true });
       },

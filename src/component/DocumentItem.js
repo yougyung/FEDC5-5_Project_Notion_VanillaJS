@@ -17,6 +17,7 @@ export default function DocumentItem({
   depth,
   highlightSelectedDocument,
 }) {
+  console.log(depth);
   this.state = initialState;
   const $documentItem = document.createElement("div");
   const $documentItemInner = document.createElement("div");

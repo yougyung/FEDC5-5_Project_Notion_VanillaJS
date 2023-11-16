@@ -5,13 +5,16 @@ import DocumentItem from "./DocumentItem.js";
 export default class DocumentList extends Component {
   constructor({ $target, props, depth = 0 }) {
     super({ $target, tagName: "div", props });
+    console.log(depth);
     this.wrapper.classList.add("document-list");
     this.depth = depth;
+    this.highlightSelectedDocument();
+    addDependOnPathEvent(this.highlightSelectedDocument);
+  }
+  prepare() {
     if (this.depth > 0) {
       this.wrapper.classList.add("document-children", "display-none");
     }
-    this.highlightSelectedDocument();
-    addDependOnPathEvent(this.highlightSelectedDocument);
   }
   highlightSelectedDocument() {
     const documentList = document.querySelectorAll(".document-item-inner");
