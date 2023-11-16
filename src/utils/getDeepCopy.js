@@ -1,12 +1,8 @@
 import { getTag } from "./getTag.js";
 
 const getDeepCopy = (value) => {
-  //배열이면 배열에 담고, 객체만 객체에 담는다.
-  if (
-    getTag(value) !== "Null" &&
-    getTag(value) !== "Object" &&
-    !Array.isArray(value)
-  ) {
+  //객체나 배열이 아니라면 그대로 반환한다.
+  if (getTag(value) !== "Object" && !Array.isArray(value)) {
     return value;
   }
   if (Array.isArray(value)) {

@@ -1,12 +1,18 @@
 import { request } from "../utils/api.js";
+import getDeepCopy from "../utils/getDeepCopy.js";
 
 const FETCH_DOCUMENTS = "documents/FETCH_DOCUMENTS";
 const FETCH_CURRENT_DOCUMENT = "documents/FETCH_CURRENT_DOCUMENT";
 const UPDATE_DOCUMENT = "documents/UPDATE_DOCUMENT";
 
-export const fetchDocuments = () => ({
-  type: FETCH_DOCUMENTS,
-});
+export const fetchDocumentsAsync = () => async (dispatch) => {
+  try {
+    const documents = await request("/documents");
+    dispatch({ type: FETCH_DOCUMENTS, payload: documents });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const fetchCurrentDocument = (documentId) => ({
   type: FETCH_CURRENT_DOCUMENT,
@@ -29,14 +35,10 @@ const initialState = {
   documents: [],
 };
 
-export default async function documentsReducer(
-  state = initialState,
-  action = {}
-) {
+export default function documentsReducer(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_DOCUMENTS: {
-      const documents = await request("/documents");
-      return { ...state, documents };
+      return { ...state, documents: action.payload };
     }
     default:
       return state;

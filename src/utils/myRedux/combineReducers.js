@@ -6,11 +6,11 @@ export const combineReducers = (reducers) => {
   //state들의 key는 리듀서 이름으로 된다.
   const combinatedReducer = (state = {}, action) => {
     const nextState = {};
-    reducerKeys.forEach((reducerKey) => {
-      const reducer = reducers[reducerKey];
-      const prevStateForKey = state[reducerKey];
-      const nextStateForKey = reducer(prevStateForKey, action);
-      nextState[reducerKey] = getDeepCopy(nextStateForKey);
+    reducerKeys.forEach((reducerName) => {
+      const reducer = reducers[reducerName];
+      const prevStateOfReducer = state[reducerName];
+      const nextStateOfReducer = reducer(prevStateOfReducer, action);
+      nextState[reducerName] = getDeepCopy(nextStateOfReducer);
     });
     return nextState;
   };
