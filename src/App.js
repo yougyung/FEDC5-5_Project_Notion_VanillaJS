@@ -32,8 +32,9 @@ export default function App({ $target }) {
       removeItem(CREATED_DOCUMENTS_PARENT_ID_KEY);
     }
     if (pathname.indexOf("/documents/") === 0) {
-      const [, , documentId] = pathname.split("/");
-      editPage.setState({ documentId });
+      const regex = /\/(\d+)$/;
+      const id = pathname.match(regex) ? match[1] : null;
+      editPage.setState({ id });
     }
   };
 
