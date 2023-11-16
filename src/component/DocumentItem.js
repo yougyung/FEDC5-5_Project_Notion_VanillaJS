@@ -100,8 +100,8 @@ export default function DocumentItem({
           initialState: this.state.documents,
           createDocument,
           removeDocument,
+          depth: depth,
         },
-        depth: depth,
       });
     } else {
       new NoSubDocument({

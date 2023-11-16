@@ -3,18 +3,11 @@ import { addDependOnPathEvent } from "../utils/handleRouteEvent.js";
 import DocumentItem from "./DocumentItem.js";
 
 export default class DocumentList extends Component {
-  constructor({ $target, props, depth = 0 }) {
+  constructor({ $target, props }) {
     super({ $target, tagName: "div", props });
-    console.log(depth);
     this.wrapper.classList.add("document-list");
-    this.depth = depth;
     this.highlightSelectedDocument();
     addDependOnPathEvent(this.highlightSelectedDocument);
-  }
-  prepare() {
-    if (this.depth > 0) {
-      this.wrapper.classList.add("document-children", "display-none");
-    }
   }
   highlightSelectedDocument() {
     const documentList = document.querySelectorAll(".document-item-inner");
@@ -31,14 +24,14 @@ export default class DocumentList extends Component {
   render() {
     //상태가 바뀔때, 렌더가 일어난다. 비워두지 않으면 현재 상태+새로운 상태가 되어 노드가 2배 생김
     this.wrapper.innerHTML = "";
-    const { createDocument, removeDocument } = this.props;
+    const { createDocument, removeDocument, depth } = this.props;
     this.state.forEach((document) => {
       new DocumentItem({
         $target: this.wrapper,
         initialState: document,
         createDocument,
         removeDocument,
-        depth: this.depth + 1,
+        depth: depth + 1,
         highlightSelectedDocument: this.highlightSelectedDocument,
       });
     });

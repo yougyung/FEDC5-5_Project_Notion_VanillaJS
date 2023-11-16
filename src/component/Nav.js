@@ -49,6 +49,7 @@ export default class Nav extends Component {
         initialState: data.documents,
         createDocument: this.createDocument.bind(this),
         removeDocument: this.removeDocument.bind(this),
+        depth: 0,
       },
     });
     new Button({
