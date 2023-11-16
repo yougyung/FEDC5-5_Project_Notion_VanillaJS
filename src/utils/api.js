@@ -1,3 +1,5 @@
+import { USER_NAME } from "./key";
+
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
 export const request = async (url, options = {}) => {
@@ -5,7 +7,7 @@ export const request = async (url, options = {}) => {
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
-        "x-username": "meowTarae",
+        "x-username": USER_NAME,
         "Content-Type": "application/json",
       },
     });
