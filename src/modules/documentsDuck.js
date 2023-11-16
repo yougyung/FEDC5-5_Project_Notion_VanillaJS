@@ -1,4 +1,5 @@
 import { request } from "../utils/api.js";
+import { push } from "../utils/handleRouteEvent.js";
 const FETCH_DOCUMENTS = "documents/FETCH_DOCUMENTS";
 const FETCH_CURRENT_DOCUMENT = "documents/FETCH_CURRENT_DOCUMENT";
 const UPDATE_DOCUMENT = "documents/UPDATE_DOCUMENT";
@@ -19,6 +20,8 @@ export const fetchCurrentDocumentAsync = (documentId) => async (dispatch) => {
     dispatch({ type: FETCH_CURRENT_DOCUMENT, payload: selectedDocument });
   } catch (e) {
     console.log(e);
+    alert("존재하지 않는 문서군요?");
+    push("/");
   }
 };
 

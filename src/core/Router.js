@@ -28,7 +28,9 @@ export default class Router {
     };
     new component({
       $target: this.$target,
-      initialState,
+      props: {
+        initialState,
+      },
     });
   }
   addRouteEvent() {

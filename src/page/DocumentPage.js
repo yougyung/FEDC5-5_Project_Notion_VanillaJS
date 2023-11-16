@@ -5,75 +5,60 @@ import { push } from "../utils/handleRouteEvent.js";
 import { getPathData } from "../utils/getPathData.js";
 import { store } from "../main.js";
 import { fetchCurrentDocumentAsync } from "../modules/documentsDuck.js";
+import Component from "../core/Component.js";
 
 // initialState : {doucmentId :null, document:null}
-export default function DocumentPage({ $target, initialState }) {
-  const [path, documentId = pathData] = getPathData();
-  const $documentPage = document.createElement("div");
-  $documentPage.classList.add("document-page");
-  this.state = initialState;
-  this.getElement = () => {
-    return $documentPage;
-  };
-  store.dispatch(fetchCurrentDocumentAsync(documentId));
-  const test = store.useSelector(
-    (state) => state.documentsReducer.selectedDocument,
-    this.render
-  );
-  this.fetchDocument = async (documentId) => {
-    const document = await request(`/documents/${documentId}`);
-    if (!document) {
-      alert("존재하지 않는 문서군요?");
-      push("/");
-      return;
-    }
-    this.setState(document);
-  };
-  this.fetchDocument(documentId);
-  this.setState = async (nextState) => {
-    this.state = nextState;
-    const { id, title } = this.state;
+export default class DocumentPage extends Component {
+  constructor({ $target, props }) {
+    super({ $target, props, tagName: "div" });
+    this.getCurrentDocument();
+    this.data;
+  }
+  prepare() {
+    this.wrapper.classList.add("document-page");
+    const [path, documentId = pathData] = getPathData();
+    this.documentId = documentId;
+  }
+  getCurrentDocument() {
+    store.dispatch(fetchCurrentDocumentAsync(this.documentId));
+    const { id, title } = this.data;
     this.render();
-    documentHeader.setState({ href: id, title });
-    editor.setState({
-      ...this.state,
+    this.editor.renderContent();
+  }
+  render() {
+    this.wrapper.innerHTML = "";
+    this.$target.replaceChildren(this.wrapper);
+    this.data = store.useSelector(
+      (state) => state.documentsReducer.selectedDocument,
+      this.render.bind(this)
+    );
+    const { id, title, content } = this.data;
+    this.documentHeader = new Title({
+      $target: this.wrapper,
+      initialState: {
+        href: id,
+        title,
+      },
     });
-    editor.richEditorState = {
-      ...this.richEditorState,
-      content: this.state.content,
-    };
-    editor.renderContent();
-  };
-  this.render = () => {
-    $target.replaceChildren($documentPage);
-  };
-
-  const documentHeader = new Title({
-    $target: $documentPage,
-    initialState: {
-      href: "",
-      title: "",
-    },
-  });
-  let timerOfSetTimeout = null;
-  const editor = new Editor({
-    $target: $documentPage,
-    initialState: {
-      title: "",
-      content: "",
-      contentBuffer: "",
-    },
-    documentAutoSave: (documentId, requestBody) => {
-      if (timerOfSetTimeout !== null) {
-        clearTimeout(timerOfSetTimeout);
-      }
-      timerOfSetTimeout = setTimeout(async () => {
-        const response = await request(`/documents/${documentId}`, {
-          method: "PUT",
-          body: JSON.stringify(requestBody),
-        });
-        documentHeader.setState({ title: response.title });
-      }, 1500);
-    },
-  });
+    let timerOfSetTimeout = null;
+    this.editor = new Editor({
+      $target: this.wrapper,
+      initialState: {
+        title,
+        content,
+      },
+      documentAutoSave: (documentId, requestBody) => {
+        if (timerOfSetTimeout !== null) {
+          clearTimeout(timerOfSetTimeout);
+        }
+        timerOfSetTimeout = setTimeout(async () => {
+          const response = await request(`/documents/${documentId}`, {
+            method: "PUT",
+            body: JSON.stringify(requestBody),
+          });
+          documentHeader.setState({ title: response.title });
+        }, 1500);
+      },
+    });
+  }
 }

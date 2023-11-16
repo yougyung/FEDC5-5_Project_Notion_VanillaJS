@@ -6,7 +6,7 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
   $editor.classList.add("editor");
   $target.appendChild($editor);
   this.state = initialState;
-  this.richEditorState = { content: null };
+  this.richEditorState = { content: initialState.content };
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
