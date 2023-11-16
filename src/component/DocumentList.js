@@ -9,6 +9,12 @@ export default class DocumentList extends Component {
     this.highlightSelectedDocument();
     addDependOnPathEvent(this.highlightSelectedDocument);
   }
+  prepare() {
+    const { depth } = this.props;
+    if (depth > 0) {
+      this.wrapper.classList.add("document-children");
+    }
+  }
   highlightSelectedDocument() {
     const documentList = document.querySelectorAll(".document-item-inner");
     const { pathname } = window.location;
@@ -28,11 +34,13 @@ export default class DocumentList extends Component {
     this.state.forEach((document) => {
       new DocumentItem({
         $target: this.wrapper,
-        initialState: document,
-        createDocument,
-        removeDocument,
-        depth: depth + 1,
-        highlightSelectedDocument: this.highlightSelectedDocument,
+        props: {
+          initialState: document,
+          createDocument,
+          removeDocument,
+          depth: depth + 1,
+          highlightSelectedDocument: this.highlightSelectedDocument.bind(this),
+        },
       });
     });
   }
