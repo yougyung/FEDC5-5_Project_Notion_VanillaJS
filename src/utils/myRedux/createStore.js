@@ -6,8 +6,8 @@ export const createStore = (reducer, middleware) => {
   const state = {
     [reducer.name]: reducer(undefined, undefined),
   };
-  const observable = Object.freeze(new Observable(state));
-  const subscribe = (callback) => observable.subscribe(callback);
+  let observable = null;
+  const subscribe = (callback) => observable?.subscribe(callback);
   const getState = () => Object.freeze(state);
   /* 
     미들웨어에 들려서 어떤 값을 리턴함.
@@ -20,9 +20,14 @@ export const createStore = (reducer, middleware) => {
       return middleware({ dispatch, getState })(dispatch)(action);
     }
     const nextState = reducer(getDeepCopy(state[reducer.name]), action);
-    console.log(state[reducer.name], nextState);
-    state[reducer.name] = getDeepCopy(nextState);
-    observable.notify();
+    state[reducer.name] = nextState;
+    observable?.notify();
   };
-  return { subscribe, dispatch, getState };
+  const useSelector = (func, callback) => {
+    const selectedState = func(state);
+    observable = Object.freeze(new Observable(selectedState));
+    observable.subscribe(callback);
+    return selectedState;
+  };
+  return { subscribe, dispatch, getState, useSelector };
 };

@@ -14,7 +14,7 @@ export default function Nav({ $target }) {
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   $target.prepend($nav);
   //문서 리스트를 가져온다.
-  store.dispatch(fetchDocumentsAsync()).then((res) => console.log(res));
+  store.dispatch(fetchDocumentsAsync());
   this.getDocuments = async () => {
     const documentsTree = await request("/documents");
     documentList.setState(documentsTree);
@@ -40,6 +40,12 @@ export default function Nav({ $target }) {
   let documentList = null;
   this.getDocuments();
   this.render = () => {
+    const data = store.useSelector(
+      (state) => state.documentsReducer,
+      this.render
+    );
+    console.log(data);
+    $nav.innerHTML = "";
     new DocumentListHeader({ $target: $nav });
     documentList = new DocumentList({
       $target: $nav,

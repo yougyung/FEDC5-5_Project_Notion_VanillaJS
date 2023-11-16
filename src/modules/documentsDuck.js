@@ -5,7 +5,7 @@ const FETCH_DOCUMENTS = "documents/FETCH_DOCUMENTS";
 const FETCH_CURRENT_DOCUMENT = "documents/FETCH_CURRENT_DOCUMENT";
 const UPDATE_DOCUMENT = "documents/UPDATE_DOCUMENT";
 
-export const fetchDocumentsAsync = () => async (dispatch) => {
+export const fetchDocumentsAsync = () => async (dispatch, getState) => {
   try {
     const documents = await request("/documents");
     dispatch({ type: FETCH_DOCUMENTS, payload: documents });
