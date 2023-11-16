@@ -3,7 +3,7 @@ import { validateState } from "../utils/validateState.js";
 export default class Component {
   state;
   props;
-  constructor({ $target, tagName, props }) {
+  constructor({ $target, tagName = null, props }) {
     this.$target = $target;
     this.wrapper = tagName ? document.createElement(tagName) : null;
     this.props = props;

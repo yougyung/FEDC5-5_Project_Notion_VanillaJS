@@ -38,7 +38,7 @@ export default class Nav extends Component {
   }
   render() {
     const data = store.useSelector(
-      (state) => state.documentsReducer,
+      (state) => state.documentsReducer.documents,
       this.render.bind(this)
     );
     this.wrapper.innerHTML = "";
@@ -46,7 +46,7 @@ export default class Nav extends Component {
     new DocumentList({
       $target: this.wrapper,
       props: {
-        initialState: data.documents,
+        initialState: data,
         createDocument: this.createDocument.bind(this),
         removeDocument: this.removeDocument.bind(this),
         depth: 0,

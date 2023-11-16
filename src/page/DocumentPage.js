@@ -3,6 +3,8 @@ import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 import { push } from "../utils/handleRouteEvent.js";
 import { getPathData } from "../utils/getPathData.js";
+import { store } from "../main.js";
+import { fetchCurrentDocumentAsync } from "../modules/documentsDuck.js";
 
 // initialState : {doucmentId :null, document:null}
 export default function DocumentPage({ $target, initialState }) {
@@ -10,6 +12,14 @@ export default function DocumentPage({ $target, initialState }) {
   const $documentPage = document.createElement("div");
   $documentPage.classList.add("document-page");
   this.state = initialState;
+  this.getElement = () => {
+    return $documentPage;
+  };
+  store.dispatch(fetchCurrentDocumentAsync(documentId));
+  const test = store.useSelector(
+    (state) => state.documentsReducer.selectedDocument,
+    this.render
+  );
   this.fetchDocument = async (documentId) => {
     const document = await request(`/documents/${documentId}`);
     if (!document) {
@@ -35,8 +45,9 @@ export default function DocumentPage({ $target, initialState }) {
     editor.renderContent();
   };
   this.render = () => {
-    $target.appendChild($documentPage);
+    $target.replaceChildren($documentPage);
   };
+
   const documentHeader = new Title({
     $target: $documentPage,
     initialState: {

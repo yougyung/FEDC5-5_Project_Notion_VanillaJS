@@ -13,12 +13,12 @@ export const fetchDocumentsAsync = () => async (dispatch, getState) => {
   }
 };
 
-export const fetchCurrentDocumentAsync = () => async (dispatch, documentId) => {
+export const fetchCurrentDocumentAsync = (documentId) => async (dispatch) => {
   try {
-    const selectedDocument = await request(`/documnets/${documentId}`);
+    const selectedDocument = await request(`/documents/${documentId}`);
     dispatch({ type: FETCH_CURRENT_DOCUMENT, payload: selectedDocument });
   } catch (e) {
-    console.log(error);
+    console.log(e);
   }
 };
 
