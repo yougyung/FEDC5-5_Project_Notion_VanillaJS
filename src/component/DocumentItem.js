@@ -116,7 +116,6 @@ export default class DocumentItem extends Component {
       }
       if (!e.target.closest("button")) {
         e.stopPropagation();
-        console.log("hi");
         push(
           `/documents/${this.wrapper.dataset.id}`,
           this.props.highlightSelectedDocument

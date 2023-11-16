@@ -115,7 +115,6 @@ export default function Editor({ $target, initialState, documentAutoSave }) {
       };
     } else if (e.target.classList.contains("content")) {
       const [converted, isConverted] = convertMarkDown(e.target.innerHTML);
-      console.log(isConverted);
       if (isConverted) {
         e.target.innerHTML = converted;
         e.target.focus();
