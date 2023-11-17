@@ -1,4 +1,4 @@
-import { USER_NAME } from "./key";
+import { USER_NAME } from "./key.js";
 
 const API_END_POINT = "https://kdt-frontend.programmers.co.kr";
 
