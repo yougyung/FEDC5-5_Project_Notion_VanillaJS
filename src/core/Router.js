@@ -26,6 +26,8 @@ export default class Router {
       component: ErrorPage,
       initialState: "",
     };
+
+    this.$target.innerHTML = "";
     new component({
       $target: this.$target,
       props: {

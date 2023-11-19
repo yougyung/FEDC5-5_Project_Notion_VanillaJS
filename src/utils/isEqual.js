@@ -23,8 +23,7 @@ export const isEqual = (value1, value2) => {
     if (value1Keys.length !== value2Keys.length) {
       return false;
     }
-    const longObj =
-      value1Keys.length > value2Keys.length ? value1Keys : value2Keys;
+    const longObj = value1Keys.length >= value2Keys.length ? value1 : value2;
     for (const key in longObj) {
       if (!isEqual(value1[key], value2[key])) {
         return false;

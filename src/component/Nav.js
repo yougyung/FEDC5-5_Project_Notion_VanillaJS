@@ -13,12 +13,13 @@ import { observe } from "../utils/observer/Observe.js";
 export default class Nav extends Component {
   constructor({ $target }) {
     super({ $target, tagName: "nav" });
-    observe(this.render.bind(this));
   }
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   //문서 리스트를 가져온다.
   prepare() {
     this.getDocuments();
+    this.rerender = () => this.render();
+    observe(this.rerender);
   }
   getDocuments() {
     store.dispatch(fetchDocumentsAsync());
@@ -41,6 +42,7 @@ export default class Nav extends Component {
     push("/");
   }
   render() {
+    console.log("nav 렌더됨");
     const data = store.useSelector((state) => state.documentsReducer.documents);
     this.wrapper.innerHTML = "";
     new DocumentListHeader({ $target: this.wrapper });

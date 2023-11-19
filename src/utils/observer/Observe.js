@@ -1,9 +1,11 @@
 import { isEqual } from "../isEqual.js";
 
 let currentObserver = null;
+let currentUnObserver = null;
 const observers = {};
 
 export const observe = (fn) => (currentObserver = fn);
+export const unobserve = (fn) => (currentUnObserver = fn);
 export const observable = (obj) => {
   //상태마다 돌면서 get,set 지정
   const stateKeys = Object.keys(obj);
@@ -26,6 +28,10 @@ export const observable = (obj) => {
         }
         _value = value;
         observers[key].forEach((fn) => fn());
+        if (currentUnObserver) {
+          observers[key].delete(currentUnObserver);
+          currentUnObserver = null;
+        }
       },
     });
   });

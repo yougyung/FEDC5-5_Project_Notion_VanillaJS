@@ -10,9 +10,8 @@ export const initRouter = (onRoute) => {
     }
   });
   //뒤로, 앞으로 가기시 라우팅(렌더링)
-  window.addEventListener("popstate", () => {
-    onRoute();
-  });
+  window.addEventListener("popstate", () => onRoute());
+  window.addEventListener("DOMContentLoaded", () => onRoute());
 };
 export const push = (nextUrl, callback) => {
   window.dispatchEvent(
@@ -26,7 +25,5 @@ export const push = (nextUrl, callback) => {
 };
 
 export const addDependOnPathEvent = (callback) => {
-  window.addEventListener("popstate", () => {
-    callback();
-  });
+  window.addEventListener("popstate", () => callback());
 };

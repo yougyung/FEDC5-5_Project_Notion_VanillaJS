@@ -5,11 +5,11 @@ import DocumentItem from "./DocumentItem.js";
 export default class DocumentList extends Component {
   constructor({ $target, props }) {
     super({ $target, tagName: "div", props });
-    this.wrapper.classList.add("document-list");
     this.highlightSelectedDocument();
     addDependOnPathEvent(this.highlightSelectedDocument);
   }
   prepare() {
+    this.wrapper.classList.add("document-list");
     const { depth } = this.props;
     if (depth > 0) {
       this.wrapper.classList.add("document-children");
