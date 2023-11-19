@@ -1,4 +1,4 @@
-import getDeepCopy from "../getDeepCopy.js";
+import getDeepCopy from "../utils/getDeepCopy.js";
 
 export default class Observable {
   #observers = new Set();

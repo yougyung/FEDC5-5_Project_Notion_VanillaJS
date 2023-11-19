@@ -35,7 +35,7 @@ export const updateDocument = (title, content) => ({
 
 const initialState = {
   documents: [],
-  selectedDocument: [],
+  selectedDocument: {},
 };
 
 export default function documentsReducer(state = initialState, action = {}) {

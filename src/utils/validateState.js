@@ -1,5 +1,5 @@
 import { getTag } from "./getTag.js";
-import { isEqaulType } from "./isEqualType.js";
+import { isEqualType } from "./isEqualType.js";
 
 export const validateState = (initialState, nextState) => {
   const initialStateType = getTag(initialState);
@@ -16,7 +16,7 @@ export const validateState = (initialState, nextState) => {
     return nextState;
   }
   //배열...은 어떻게 처리하지?
-  if (!isEqaulType(initialState, nextState)) {
+  if (!isEqualType(initialState, nextState)) {
     throw new Error("초기상태와 다음상태의 타입이 다릅니다!");
   }
   return nextState;

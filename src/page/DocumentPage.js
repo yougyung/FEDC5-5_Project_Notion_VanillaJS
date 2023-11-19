@@ -1,38 +1,37 @@
 import Editor from "../component/Editor.js";
 import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
-import { push } from "../utils/handleRouteEvent.js";
 import { getPathData } from "../utils/getPathData.js";
 import { store } from "../main.js";
 import { fetchCurrentDocumentAsync } from "../modules/documentsDuck.js";
 import Component from "../core/Component.js";
+import { observe } from "../utils/observer/Observe.js";
 
 // initialState : {doucmentId :null, document:null}
 export default class DocumentPage extends Component {
   constructor({ $target, props }) {
     super({ $target, props, tagName: "div" });
-    this.getCurrentDocument();
-    this.data;
+    observe(this.render.bind(this));
   }
   prepare() {
     this.wrapper.classList.add("document-page");
     const [path, documentId = pathData] = getPathData();
     this.documentId = documentId;
+    this.getCurrentDocument();
   }
   getCurrentDocument() {
     store.dispatch(fetchCurrentDocumentAsync(this.documentId));
-    const { id, title } = this.data;
-    this.render();
+  }
+  renderChild() {
     this.editor.renderContent();
   }
   render() {
+    const data = store.useSelector(
+      (state) => state.documentsReducer.selectedDocument
+    );
     this.wrapper.innerHTML = "";
     this.$target.replaceChildren(this.wrapper);
-    this.data = store.useSelector(
-      (state) => state.documentsReducer.selectedDocument,
-      this.render.bind(this)
-    );
-    const { id, title, content } = this.data;
+    const { id, title, content } = data;
     this.documentHeader = new Title({
       $target: this.wrapper,
       initialState: {

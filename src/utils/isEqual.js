@@ -1,6 +1,6 @@
 import { getTag } from "./getTag.js";
 
-export const isEqaul = (value1, value2) => {
+export const isEqual = (value1, value2) => {
   //두 값이 같은지 끝까지 재귀적으로 내려가며 처리해야할듯...
   /* 
     1. 두 값의 타입 비교
@@ -18,8 +18,15 @@ export const isEqaul = (value1, value2) => {
     return value1 === value2;
   }
   if (value1Type === OBJ_TAG) {
-    for (const key in value1) {
-      if (!isEqaul(value1[key], value2[key])) {
+    const value1Keys = Object.keys(value1);
+    const value2Keys = Object.keys(value2);
+    if (value1Keys.length !== value2Keys.length) {
+      return false;
+    }
+    const longObj =
+      value1Keys.length > value2Keys.length ? value1Keys : value2Keys;
+    for (const key in longObj) {
+      if (!isEqual(value1[key], value2[key])) {
         return false;
       }
     }
@@ -28,7 +35,7 @@ export const isEqaul = (value1, value2) => {
       return false;
     }
     for (let i = 0; i < value1.length; i++) {
-      if (!isEqaul(value1[i], value2[i])) {
+      if (!isEqual(value1[i], value2[i])) {
         return false;
       }
     }

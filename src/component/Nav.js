@@ -8,14 +8,18 @@ import Storage from "../utils/storage.js";
 import { store } from "../main.js";
 import { fetchDocumentsAsync } from "../modules/documentsDuck.js";
 import Component from "../core/Component.js";
+import { observe } from "../utils/observer/Observe.js";
 
 export default class Nav extends Component {
   constructor({ $target }) {
     super({ $target, tagName: "nav" });
-    this.getDocuments();
+    observe(this.render.bind(this));
   }
   //항상 존재해야하는 컴포넌트라서, 내부에서 타겟에 붙여주었다.
   //문서 리스트를 가져온다.
+  prepare() {
+    this.getDocuments();
+  }
   getDocuments() {
     store.dispatch(fetchDocumentsAsync());
   }
@@ -37,10 +41,7 @@ export default class Nav extends Component {
     push("/");
   }
   render() {
-    const data = store.useSelector(
-      (state) => state.documentsReducer.documents,
-      this.render.bind(this)
-    );
+    const data = store.useSelector((state) => state.documentsReducer.documents);
     this.wrapper.innerHTML = "";
     new DocumentListHeader({ $target: this.wrapper });
     new DocumentList({
