@@ -70,9 +70,11 @@ export default class DocumentItem extends Component {
     });
     new Title({
       $target: this.$documentItemInner,
-      initialState: {
-        href: `documents/${this.state.id}`,
-        title: this.state.title,
+      props: {
+        initialState: {
+          href: `documents/${this.state.id}`,
+          title: this.state.title,
+        },
       },
     });
     new Button({

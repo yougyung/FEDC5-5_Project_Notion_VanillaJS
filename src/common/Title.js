@@ -1,19 +1,22 @@
-export default function Title({ $target, initialState }) {
-  // state = {title, href}
-  const $title = document.createElement("a");
-  this.state = initialState;
-  $target.appendChild($title);
-  $title.setAttribute("href", this.state.href);
-  $title.classList.add("title");
-  this.render = () => {
-    $title.textContent = this.state.title;
-  };
-  this.setState = (nextState) => {
+import Component from "../core/Component.js";
+
+export default class Title extends Component {
+  constructor({ $target, props }) {
+    super({ $target, props, tagName: "a" });
+  }
+  prepare() {
+    this.wrapper.setAttribute("href", this.state.href);
+    this.wrapper.classList.add("title");
+  }
+  // state = {  title,  href}
+  render() {
+    this.wrapper.textContent = this.state.title;
+  }
+  setState(nextState) {
     this.state = nextState;
     this.render();
-  };
-  $title.addEventListener("click", (e) => {
-    e.preventDefault();
-  });
-  this.render();
+  }
+  setEvent() {
+    this.addEvent("click", ".title", (e) => e.preventDefault());
+  }
 }

@@ -36,9 +36,11 @@ export default class DocumentPage extends Component {
     if (data.id) {
       this.documentHeader = new Title({
         $target: this.wrapper,
-        initialState: {
-          href: id,
-          title,
+        props: {
+          initialState: {
+            href: id,
+            title,
+          },
         },
       });
       let timerOfSetTimeout = null;
@@ -57,7 +59,10 @@ export default class DocumentPage extends Component {
               method: "PUT",
               body: JSON.stringify(requestBody),
             });
-            documentHeader.setState({ title: response.title });
+            documentHeader.setState({
+              ...this.documentHeader.state,
+              title: response.title,
+            });
           }, 1500);
         },
       });
