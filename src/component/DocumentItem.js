@@ -116,7 +116,11 @@ export default class DocumentItem extends Component {
     } else {
       new NoSubDocument({
         $target: this.wrapper,
-        depth: this.props.depth,
+        props: {
+          initialState: {
+            depth: this.props.depth,
+          },
+        },
       });
     }
     //dom이 모두 생기고 난 후, 접기 체크
