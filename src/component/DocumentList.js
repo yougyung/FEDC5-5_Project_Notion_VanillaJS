@@ -27,9 +27,7 @@ export default class DocumentList extends Component {
       }
     });
   }
-  render() {
-    //상태가 바뀔때, 렌더가 일어난다. 비워두지 않으면 현재 상태+새로운 상태가 되어 노드가 2배 생김
-    this.wrapper.innerHTML = "";
+  renderChild() {
     const { createDocument, removeDocument, depth } = this.props;
     this.state.forEach((document) => {
       new DocumentItem({

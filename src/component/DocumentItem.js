@@ -58,15 +58,18 @@ export default class DocumentItem extends Component {
       this.rotateSvg();
     }
   }
-  render() {
-    this.wrapper.innerHTML = "";
+  renderChild() {
     this.wrapper.appendChild(this.$documentItemInner);
     const { createDocument, removeDocument } = this.props;
     new Button({
       $target: this.$documentItemInner,
-      attributes: [{ name: "class", value: "arrow-btn" }],
-      content: arrowIconSvg,
-      onClick: this.onArrowBtnClick.bind(this),
+      props: {
+        initialState: {
+          attributes: [{ name: "class", value: "arrow-btn" }],
+          content: arrowIconSvg,
+        },
+        onClick: this.onArrowBtnClick.bind(this),
+      },
     });
     new Title({
       $target: this.$documentItemInner,
@@ -79,18 +82,26 @@ export default class DocumentItem extends Component {
     });
     new Button({
       $target: this.$documentItemInner,
-      content: xIcon,
-      onClick: (e) => {
-        removeDocument(this.wrapper.dataset.id);
-        this.storage.removeItem(this.wrapper.dataset.id);
+      props: {
+        initialState: {
+          content: xIcon,
+        },
+        onClick: (e) => {
+          removeDocument(this.wrapper.dataset.id);
+          this.storage.removeItem(this.wrapper.dataset.id);
+        },
       },
     });
     new Button({
       $target: this.$documentItemInner,
-      content: plusIcon,
-      onClick: () => {
-        createDocument(this.wrapper.dataset.id);
-        this.storage.setItem(this.wrapper.dataset.id, { isFolded: false });
+      props: {
+        initialState: {
+          content: plusIcon,
+          onClick: () => {
+            createDocument(this.wrapper.dataset.id);
+            this.storage.setItem(this.wrapper.dataset.id, { isFolded: false });
+          },
+        },
       },
     });
     //if문 내부를 다른 컴포넌트로 빼보자
