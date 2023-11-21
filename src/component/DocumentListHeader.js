@@ -1,14 +1,17 @@
+import Component from "../core/Component.js";
 import notionIcon from "../svg/notionIcon.js";
 
-export default function DocumentListHeader({ $target }) {
-  const $documentListHeader = document.createElement("header");
-  $documentListHeader.classList.add("document-list-header");
-  $target.appendChild($documentListHeader);
-  this.render = () => {
-    $documentListHeader.innerHTML = `
+export default class DocumentListHeader extends Component {
+  constructor({ $target }) {
+    super({ $target, tagName: "header" });
+  }
+  prepare() {
+    this.wrapper.classList.add("document-list-header");
+  }
+  createTemplate() {
+    return `
     ${notionIcon}
     <span>김영현의 노션</span>
     `;
-  };
-  this.render();
+  }
 }

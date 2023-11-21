@@ -9,8 +9,8 @@ export default class Title extends Component {
     this.wrapper.classList.add("title");
   }
   // state = {  title,  href}
-  render() {
-    this.wrapper.textContent = this.state.title;
+  createTemplate() {
+    return this.state.title;
   }
   setState(nextState) {
     this.state = nextState;

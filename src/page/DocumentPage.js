@@ -47,6 +47,7 @@ export default class DocumentPage extends Component {
       this.editor = new Editor({
         $target: this.wrapper,
         initialState: {
+          id,
           title,
           content,
         },
@@ -59,7 +60,7 @@ export default class DocumentPage extends Component {
               method: "PUT",
               body: JSON.stringify(requestBody),
             });
-            documentHeader.setState({
+            this.documentHeader.setState({
               ...this.documentHeader.state,
               title: response.title,
             });
