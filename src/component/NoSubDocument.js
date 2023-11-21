@@ -13,7 +13,7 @@ export default class NoSubDocument extends Component {
       "display-none"
     );
     this.wrapper.style.paddingLeft = `${
-      this.state.depth * paddingCoefficient + 24
+      this.state.depth * paddingCoefficient + 24 //왼쪽 화살표버튼크기 + 기본패딩값 더해줘야함
     }px`;
   }
   renderChild() {

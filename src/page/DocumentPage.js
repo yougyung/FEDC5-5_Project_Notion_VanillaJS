@@ -31,6 +31,7 @@ export default class DocumentPage extends Component {
     const data = store.useSelector(
       (state) => state.documentsReducer.selectedDocument
     );
+    console.log(data);
     this.wrapper.innerHTML = "";
     const { id, title, content } = data;
     if (data.id) {

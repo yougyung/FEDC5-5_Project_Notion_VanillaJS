@@ -1,9 +1,10 @@
-export default function ErrorPage({ $target }) {
-  const $errorPage = document.createElement("div");
-  $target.appendChild($errorPage);
-  this.render = () => {
-    $errorPage.innerHTML = `
-    컴포넌트가 존재하지 않습니다!
-    `;
-  };
+import Component from "../core/Component.js";
+
+export default class ErrorPage extends Component {
+  constructor({ $target }) {
+    super({ $target, tagName: "div" });
+  }
+  createTemplate() {
+    return "컴포넌트가 존재하지 않습니다!";
+  }
 }

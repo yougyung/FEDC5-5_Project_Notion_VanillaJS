@@ -5,7 +5,9 @@ export default class Title extends Component {
     super({ $target, props, tagName: "a" });
   }
   prepare() {
-    this.wrapper.setAttribute("href", this.state.href);
+    if (this.state.href) {
+      this.wrapper.setAttribute("href", this.state.href);
+    }
     this.wrapper.classList.add("title");
   }
   // state = {  title,  href}
