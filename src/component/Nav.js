@@ -44,7 +44,6 @@ export default class Nav extends Component {
   render() {
     console.log("nav 렌더됨");
     const data = store.useSelector((state) => state.documentsReducer.documents);
-    console.log(data);
     this.wrapper.innerHTML = "";
     new DocumentListHeader({ $target: this.wrapper });
     new DocumentList({

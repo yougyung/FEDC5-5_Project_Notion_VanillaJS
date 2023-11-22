@@ -97,10 +97,10 @@ export default class DocumentItem extends Component {
       props: {
         initialState: {
           content: plusIcon,
-          onClick: () => {
-            createDocument(this.wrapper.dataset.id);
-            this.storage.setItem(this.wrapper.dataset.id, { isFolded: false });
-          },
+        },
+        onClick: () => {
+          createDocument(this.wrapper.dataset.id);
+          this.storage.setItem(this.wrapper.dataset.id, { isFolded: false });
         },
       },
     });

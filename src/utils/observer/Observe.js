@@ -9,6 +9,7 @@ export const unobserve = (fn) => (currentUnObserver = fn);
 export const observable = (obj) => {
   //상태마다 돌면서 get,set 지정
   const stateKeys = Object.keys(obj);
+  // documents, selectedDocument
   stateKeys.forEach((key) => {
     let _value = obj[key];
     if (observers[key] === undefined) {

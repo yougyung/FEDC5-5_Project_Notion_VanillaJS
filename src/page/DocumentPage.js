@@ -3,7 +3,10 @@ import Title from "../common/Title.js";
 import { request } from "../utils/api.js";
 import { getPathData } from "../utils/getPathData.js";
 import { store } from "../main.js";
-import { fetchCurrentDocumentAsync } from "../modules/documentsDuck.js";
+import {
+  fetchCurrentDocumentAsync,
+  updateDocumentAsync,
+} from "../modules/documentsDuck.js";
 import Component from "../core/Component.js";
 import { observe, unobserve } from "../utils/observer/Observe.js";
 
@@ -19,23 +22,19 @@ export default class DocumentPage extends Component {
     this.getCurrentDocument();
     this.rerender = () => this.render();
     observe(this.rerender);
+    this.data = store.useSelector(
+      (state) => state.documentsReducer.selectedDocument
+    );
   }
   getCurrentDocument() {
     store.dispatch(fetchCurrentDocumentAsync(this.documentId));
   }
-  renderChild() {
-    this.editor.renderContent();
-  }
   render() {
     console.log("돜페이지 렌더됨");
-    const data = store.useSelector(
-      (state) => state.documentsReducer.selectedDocument
-    );
-    console.log(data);
     this.wrapper.innerHTML = "";
-    const { id, title, content } = data;
-    if (data.id) {
-      this.documentHeader = new Title({
+    const { id, title, content } = this.data;
+    if (id) {
+      new Title({
         $target: this.wrapper,
         props: {
           initialState: {
@@ -45,31 +44,33 @@ export default class DocumentPage extends Component {
         },
       });
       let timerOfSetTimeout = null;
-      this.editor = new Editor({
+      new Editor({
         $target: this.wrapper,
-        initialState: {
-          id,
-          title,
-          content,
-        },
-        documentAutoSave: (documentId, requestBody) => {
-          if (timerOfSetTimeout !== null) {
-            clearTimeout(timerOfSetTimeout);
-          }
-          timerOfSetTimeout = setTimeout(async () => {
-            const response = await request(`/documents/${documentId}`, {
-              method: "PUT",
-              body: JSON.stringify(requestBody),
-            });
-            this.documentHeader.setState({
-              ...this.documentHeader.state,
-              title: response.title,
-            });
-          }, 1500);
+        props: {
+          initialState: {
+            id,
+            title,
+            content,
+          },
+          documentAutoSave: (documentData) => {
+            if (timerOfSetTimeout !== null) {
+              clearTimeout(timerOfSetTimeout);
+            }
+            timerOfSetTimeout = setTimeout(
+              () => store.dispatch(updateDocumentAsync(documentData)),
+              1500
+            );
+          },
         },
       });
       this.renderChild();
     }
+  }
+  beforeUnmount() {
     unobserve(this.rerender);
+  }
+  unmount() {
+    this.beforeUnmount();
+    this.$target.removeChild(this.wrapper);
   }
 }

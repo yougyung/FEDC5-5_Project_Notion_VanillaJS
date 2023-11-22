@@ -1,3 +1,4 @@
+import { isEqual } from "../utils/isEqual.js";
 import { validateState } from "../utils/validateState.js";
 
 export default class Component {
@@ -39,7 +40,7 @@ export default class Component {
   renderChild() {}
   setState(nextState) {
     const prevState = this.state;
-    if (!isEqaul(prevState, nextState)) {
+    if (!isEqual(prevState, nextState)) {
       this.state = validateState(this.state, nextState);
       this.render();
     }
