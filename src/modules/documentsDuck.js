@@ -45,6 +45,7 @@ export const updateDocumentAsync = (documentData) => async (dispatch) => {
       title,
       content,
     };
+    console.log(requestBody);
     const updateDocument = await request(`/documents/${id}`, {
       method: "PUT",
       body: JSON.stringify(requestBody),

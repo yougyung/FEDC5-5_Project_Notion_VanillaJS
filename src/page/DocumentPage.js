@@ -22,17 +22,17 @@ export default class DocumentPage extends Component {
     this.getCurrentDocument();
     this.rerender = () => this.render();
     observe(this.rerender);
-    this.data = store.useSelector(
-      (state) => state.documentsReducer.selectedDocument
-    );
   }
   getCurrentDocument() {
     store.dispatch(fetchCurrentDocumentAsync(this.documentId));
   }
   render() {
+    const data = store.useSelector(
+      (state) => state.documentsReducer.selectedDocument
+    );
     console.log("돜페이지 렌더됨");
     this.wrapper.innerHTML = "";
-    const { id, title, content } = this.data;
+    const { id, title, content } = data;
     if (id) {
       new Title({
         $target: this.wrapper,

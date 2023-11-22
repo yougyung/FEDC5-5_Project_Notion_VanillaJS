@@ -7,6 +7,7 @@ initialState = {title, content:HTML 요소}
 export default class Editor extends Component {
   constructor({ $target, props }) {
     super({ $target, props, tagName: "section" });
+    this.renderContent();
   }
   prepare() {
     this.wrapper.classList.add("editor");
@@ -112,7 +113,9 @@ export default class Editor extends Component {
           title: e.target.value,
         };
       } else if (e.target.classList.contains("content")) {
-        const [converted, isConverted] = convertMarkDown(e.target.innerHTML);
+        const [converted, isConverted] = this.convertMarkDown(
+          e.target.innerHTML
+        );
         if (isConverted) {
           e.target.innerHTML = converted;
           e.target.focus();
@@ -137,5 +140,6 @@ export default class Editor extends Component {
   }
   setState(nextState) {
     this.state = getDeepCopy(nextState);
+    this.richEditorState = { content: this.state.content };
   }
 }
