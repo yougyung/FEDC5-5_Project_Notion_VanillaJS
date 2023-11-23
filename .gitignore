@@ -3,4 +3,4 @@
 node_modules
 
 # 빌드 파일
-dist
+public/*.js

@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "lint": "eslint --fix",
-        "build": "esbuild src/index.js --bundle --outfile=dist/index.js",
+        "build": "esbuild src/index.js --bundle --outfile=public/index.js",
         "dev": "serve --config ./serve.json"
     },
     "keywords": [
