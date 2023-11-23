@@ -1,4 +1,5 @@
-import { $ } from "../../shared/$.js";
+import { Component, jsx } from "@seongbin9786/my-renderer";
+
 import {
     handlePopUpAttachLink,
     handlePopUpFormatBold,
@@ -14,9 +15,14 @@ import {
 
 // TODO: 팝업의 버튼을 엔터로 누를 수 있게 하기 + 버튼 눌러도 안 닫히게
 // TODO: 팝업에서 ESC를 누르면 팝업이 닫히게
-export const Popup = () => {
-    const $popup = $`
-        <div className=editor__popup>
+export class Popup extends Component {
+    // 시작 상태를 안 보이게 시작해야 함. TODO: 더 좋은 방법 = ?
+    render() {
+        return jsx`
+        <div 
+            className=editor__popup
+            style=${{ display: "none" }}
+        >
             <button 
                 className=editor__popup_item 
                 onclick=${handlePopUpFormatHeading}
@@ -54,9 +60,5 @@ export const Popup = () => {
             </button>
         </div>
     `;
-
-    // 시작 상태를 안 보이게 시작해야 함. TODO: 더 좋은 방법 = ?
-    $popup.style.display = "none";
-
-    return $popup;
-};
+    }
+}

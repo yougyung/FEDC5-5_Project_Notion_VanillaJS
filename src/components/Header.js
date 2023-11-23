@@ -1,7 +1,13 @@
-import { $ } from "../shared/$.js";
+import { Component, jsx } from "@seongbin9786/my-renderer";
 
-export const Header = () => $`
-    <header>
-        header
-    </header>
-`;
+export class Header extends Component {
+    render() {
+        console.log("Header re-render");
+
+        return jsx`
+            <header>
+                header
+            </header>
+        `;
+    }
+}

@@ -1,5 +1,5 @@
 import { EMOJI_EMPTY_DOC_HTML } from "../../assets/EMOJI_EMPTY_DOC.js";
-import { goToDocument } from "../../shared/goToDocument.js";
+import { goToDocument } from "../../goToDocument.js";
 
 // TODO: 핸들러에 필요한 인자를 제공하거나 핸들러를 클로저에서 정의하기 (클래스로 정의하는 게 나을 듯)
 // TODO: 툴팁 표시도 구현하기
