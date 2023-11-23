@@ -10,8 +10,8 @@ import { Editor } from "./components/Editor/Editor.js";
 
 // enableDebugModule("Parser");
 // enableDebugModule("NodeParser");
-enableDebugModule("Renderer");
-enableDebugModule("VDOM");
+// enableDebugModule("Renderer");
+// enableDebugModule("VDOM");
 // enableDebugModule("Popup");
 // enableDebugModule("Dropdown");
 // enableDebugModule("Editor/ShowPlaceholderOnEmptyBlock");

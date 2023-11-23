@@ -2,7 +2,7 @@ import { Component, jsx } from "@seongbin9786/my-renderer";
 
 export class App extends Component {
     state = {
-        nextId: this.parseDocumentIdFromUrl() ?? "",
+        nextId: this.parseDocumentIdFromUrl(),
         rootDocumentList: null,
         currentDocument: null,
     };
