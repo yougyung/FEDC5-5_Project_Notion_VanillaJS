@@ -1,11 +1,7 @@
 import { Component, jsx } from "@seongbin9786/my-renderer";
 
 import { goToDocument } from "../../goToDocument.js";
-import {
-    closeDropdownOnDeleteSlash,
-    displayDropdownOnMouseEvent,
-    openDropdownOnSlash,
-} from "./eventHandlers/attachDropdown.js";
+import { closeDropdownOnDeleteSlash, openDropdownOnSlash } from "./eventHandlers/attachDropdown.js";
 import { checkSelectionAndDisplayPopup } from "./eventHandlers/attachPopup.js";
 import { handleFormatShorcut } from "./eventHandlers/formatShortcut.js";
 import {
@@ -77,9 +73,6 @@ export class Editor extends Component {
         checkSelectionAndDisplayPopup(e);
         handleEditorUndo(e);
         handleFormatShorcut(e);
-
-        // TODO: display 여부는 여기서 결정해야 할 듯
-        displayDropdownOnMouseEvent();
     }
 
     handleMouseUp() {
