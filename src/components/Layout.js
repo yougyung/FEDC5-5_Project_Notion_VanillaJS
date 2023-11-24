@@ -10,8 +10,6 @@ export class Layout extends Component {
     render() {
         const { rootDocumentList, currentDocument } = this.props;
 
-        console.log("Layout re-render on props change:", this.props);
-
         return jsx`
             <div id=notion-app>
                 <Sidebar rootDocumentList=${rootDocumentList} />

@@ -50,8 +50,6 @@ export class Sidebar extends Component {
     render() {
         const { rootDocumentList } = this.props;
 
-        console.log("Sidebar re-render:", this.props);
-
         return jsx`
             <nav className=sidebar>
                 <header className=sidebar--header>

@@ -1,4 +1,4 @@
-import { enableDebugModule, jsx, registerComponent, renderRoot } from "@seongbin9786/my-renderer";
+import { jsx, registerComponent, renderRoot } from "@seongbin9786/my-renderer";
 import { DocumentAPI } from "./api/DocumentAPI.js";
 import { App } from "./components/App.js";
 import { Header } from "./components/Header.js";
@@ -32,6 +32,8 @@ registerComponent("Editor", Editor);
 
 const $body = document.getElementsByTagName("body").item(0);
 
-console.log($body);
+if (!$body) {
+    throw new Error("<body>가 없습니다.");
+}
 
 renderRoot(jsx`<App />`, $body);

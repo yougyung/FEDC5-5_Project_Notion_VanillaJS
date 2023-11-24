@@ -74,14 +74,12 @@ export const createDropdownItems = (documentId) => [
             const currentContent = document
                 .getElementsByClassName("editor__content_root")
                 .item(0).innerHTML;
-            console.log("TO SAVE:", currentTitle, currentContent);
 
             // 굳이 await 할 필요 없을 듯
             window.api.update(parentId, currentTitle, currentContent);
 
             // 생성 후 이동해야지.
-            const created = await window.api.create(parentId);
-            console.log("created:", created);
+            await window.api.create(parentId);
 
             // 5. 신규 페이지로 이동한다.
             // history를 어떻게 이용해야 하지?

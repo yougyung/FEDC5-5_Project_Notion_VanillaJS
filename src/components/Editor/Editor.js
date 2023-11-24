@@ -97,8 +97,6 @@ export class Editor extends Component {
         const { currentDocument } = this.props;
         const { id, title, content: contentHTML } = currentDocument;
 
-        console.log("Editor re-render on props change:", currentDocument);
-
         return jsx`
             <main 
                 className=editor

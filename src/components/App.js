@@ -18,8 +18,6 @@ export class App extends Component {
         const id = currentDocumentId ?? rootDocumentList[0].id;
         const currentDocument = await window.api.content(id);
 
-        console.log(rootDocumentList, currentDocument);
-
         this.setState({
             rootDocumentList,
             currentDocument,
@@ -30,7 +28,6 @@ export class App extends Component {
     parseDocumentIdFromUrl() {
         // /documents/120510
         const path = window.location.pathname;
-        console.log("popstate - path:", path);
 
         const matched = path.match(/\/documents\/(\d+)\/?/);
         if (!matched || matched.length < 2) {
@@ -38,7 +35,6 @@ export class App extends Component {
         }
 
         const id = Number(matched[1]);
-        console.log("popstate - documentId:", id);
 
         return id;
     }
@@ -55,8 +51,6 @@ export class App extends Component {
 
     render() {
         const { rootDocumentList, currentDocument } = this.state;
-
-        console.log("re-render App:", this.state);
 
         // 최초 렌더링
         if (!rootDocumentList) {
