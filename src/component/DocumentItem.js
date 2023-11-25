@@ -28,18 +28,19 @@ export default class DocumentItem extends Component {
   getChildDocuments() {
     return this.wrapper.querySelector(".document-children");
   }
-  rotateSvg() {
-    const arrowIcon = this.wrapper.querySelector(".arrow-icon");
+  rotateSvg(selector) {
+    const arrowIcon = selector.querySelector(".arrow-icon");
     arrowIcon.classList.toggle("rotate-90edge");
     arrowIcon.classList.toggle("rotate-default");
   }
-  onArrowBtnClick() {
+  onArrowBtnClick(e) {
     const childDocuments = this.getChildDocuments();
     if (!childDocuments) {
       return;
     }
     childDocuments.classList.toggle("display-none");
-    this.rotateSvg();
+    //클릭한 노드와 제일 가까운 document-item클래스 노드를 찾아서 rotateSvg에 전달
+    this.rotateSvg(e.target.closest(".document-item"));
     const { id } = this.wrapper.dataset;
     //이전의 isFolded값을 가져와서, 반대값으로 바꿔준다
     const { isFolded: savedIsFolded } = this.storage.getItem(id, {
@@ -53,9 +54,14 @@ export default class DocumentItem extends Component {
     const { isFolded } = this.storage.getItem(this.wrapper.dataset.id, {
       isFolded: true,
     });
+    //
+    console.log(this.wrapper, isFolded);
     if (!isFolded) {
       childDocuments.classList.remove("display-none");
-      this.rotateSvg();
+      //원래는 default니까, rotate를 토글해주면됨
+      this.rotateSvg(this.wrapper);
+    } else {
+      childDocuments.classList.add("display-none");
     }
   }
   renderChild() {

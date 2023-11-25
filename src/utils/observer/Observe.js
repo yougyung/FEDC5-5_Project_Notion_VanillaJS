@@ -17,7 +17,6 @@ export const observable = (obj) => {
     }
     Object.defineProperty(obj, key, {
       get() {
-        console.log(observers);
         if (currentObserver) {
           observers[key].add(currentObserver);
           currentObserver = null;

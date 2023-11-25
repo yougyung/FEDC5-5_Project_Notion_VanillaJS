@@ -7,7 +7,6 @@ export const createStore = (reducer, middleware) => {
     //state.documentsReducer
     [reducer.name]: observable(reducer(undefined, undefined)),
   };
-
   //subscribe는 상태 전체를 구독함.
   const subscribe = (callback) => observableAllState.subscribe(callback);
 

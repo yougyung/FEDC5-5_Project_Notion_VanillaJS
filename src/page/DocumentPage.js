@@ -30,7 +30,6 @@ export default class DocumentPage extends Component {
     const data = store.useSelector(
       (state) => state.documentsReducer.selectedDocument
     );
-    console.log("돜페이지 렌더됨");
     this.wrapper.innerHTML = "";
     const { id, title, content } = data;
     if (id) {
