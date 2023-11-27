@@ -1,6 +1,6 @@
 import getDeepCopy from "../getDeepCopy.js";
 import { getTag } from "../getTag.js";
-import { observable } from "../observer/Observe.js";
+import { observable, observe } from "../observer/Observe.js";
 
 export const createStore = (reducer, middleware) => {
   const state = {
@@ -8,9 +8,13 @@ export const createStore = (reducer, middleware) => {
     [reducer.name]: observable(reducer(undefined, undefined)),
   };
   //subscribe는 상태 전체를 구독함.
-  const subscribe = (callback) => observableAllState.subscribe(callback);
+  const subscribe = (callback) => {
+    //state 구독하고, callback을 observe...
+    //useSelector에서 어떻게 사용할까?
+    //특정 state를 subscribe..?
+  };
 
-  const getState = () => Object.freeze(getDeepCopy(state));
+  const getState = () => Object.freeze(state);
 
   const dispatch = (action) => {
     if (getTag(action).includes("Function")) {
@@ -24,7 +28,9 @@ export const createStore = (reducer, middleware) => {
   };
 
   const useSelector = (selector) => {
-    const selectedState = selector(state);
+    //셀렉터로 참조중인 값이 바뀌면...
+
+    const selectedState = selector(getState());
     /* 
       1. 컴포넌트에서 각 상태를 가져간다.
       2. 가져가는 상태를 관찰 가능하게.

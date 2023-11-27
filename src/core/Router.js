@@ -23,16 +23,17 @@ export default class Router {
   handleRoute() {
     const [path, pathData] = getPathData();
     if (!path) {
+      this.$target.innerHTML = "";
       return;
+    }
+    if (this.prevComponent) {
+      this.prevComponent.unmount();
     }
     const { component, initialState } = this.routesMap.get(path) || {
       //routes.Map에 없을때 에러처리용
       component: ErrorPage,
       initialState: "",
     };
-    if (this.prevComponent) {
-      this.prevComponent.unmount();
-    }
     this.prevComponent = new component({
       $target: this.$target,
       props: {

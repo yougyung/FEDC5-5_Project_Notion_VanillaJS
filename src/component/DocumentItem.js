@@ -55,7 +55,6 @@ export default class DocumentItem extends Component {
       isFolded: true,
     });
     //
-    console.log(this.wrapper, isFolded);
     if (!isFolded) {
       childDocuments.classList.remove("display-none");
       //원래는 default니까, rotate를 토글해주면됨

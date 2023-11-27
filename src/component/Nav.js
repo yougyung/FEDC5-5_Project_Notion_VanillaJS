@@ -18,8 +18,7 @@ export default class Nav extends Component {
   //문서 리스트를 가져온다.
   prepare() {
     this.getDocuments();
-    this.rerender = () => this.render();
-    observe(this.rerender);
+    observe(this);
   }
   getDocuments() {
     store.dispatch(fetchDocumentsAsync());
@@ -43,6 +42,7 @@ export default class Nav extends Component {
   }
   render() {
     const data = store.useSelector((state) => state.documentsReducer.documents);
+    console.log("nav rendered");
     this.wrapper.innerHTML = "";
     new DocumentListHeader({ $target: this.wrapper });
     new DocumentList({

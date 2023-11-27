@@ -20,8 +20,7 @@ export default class DocumentPage extends Component {
     const [path, documentId = pathData] = getPathData();
     this.documentId = documentId;
     this.getCurrentDocument();
-    this.rerender = () => this.render();
-    observe(this.rerender);
+    observe(this);
   }
   getCurrentDocument() {
     store.dispatch(fetchCurrentDocumentAsync(this.documentId));
@@ -32,6 +31,7 @@ export default class DocumentPage extends Component {
     );
     this.wrapper.innerHTML = "";
     const { id, title, content } = data;
+    console.log("docpage rendered");
     if (id) {
       new Title({
         $target: this.wrapper,
@@ -65,11 +65,8 @@ export default class DocumentPage extends Component {
       this.renderChild();
     }
   }
-  beforeUnmount() {
-    unobserve(this.rerender);
-  }
   unmount() {
-    this.beforeUnmount();
+    unobserve(this);
     this.$target.removeChild(this.wrapper);
   }
 }

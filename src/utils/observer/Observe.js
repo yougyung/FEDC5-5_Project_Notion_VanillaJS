@@ -21,6 +21,10 @@ export const observable = (obj) => {
           observers[key].add(currentObserver);
           currentObserver = null;
         }
+        if (currentUnObserver) {
+          observers[key].delete(currentUnObserver);
+          currentUnObserver = null;
+        }
         return _value;
       },
       set(value) {
@@ -28,11 +32,7 @@ export const observable = (obj) => {
           return;
         }
         _value = value;
-        observers[key].forEach((fn) => fn());
-        if (currentUnObserver) {
-          observers[key].delete(currentUnObserver);
-          currentUnObserver = null;
-        }
+        observers[key].forEach((component) => component.render());
       },
     });
   });
