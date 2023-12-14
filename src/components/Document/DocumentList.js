@@ -1,3 +1,5 @@
+import { addEvent, createDOM } from '../../utils/dom.js';
+
 export default function DocumentList({
   $target,
   initialState,
@@ -5,8 +7,7 @@ export default function DocumentList({
   onClickAddButton,
   onClickRemoveButton,
 }) {
-  const $documentList = document.createElement('div');
-  $documentList.className = 'document-list';
+  const $documentList = createDOM({ tag: 'div', className: 'document-list' });
 
   $target.appendChild($documentList);
 
@@ -60,26 +61,57 @@ export default function DocumentList({
     $documentList.innerHTML = renderDocumentsTree(this.state);
   };
 
-  $documentList.addEventListener('click', (e) => {
-    const $li = e.target.closest('li');
+  this.render();
 
+  this.handleAddDocument = (e) => {
+    const $li = e.target.closest('li');
     if ($li) {
       const { id } = $li.dataset;
-      const { className } = e.target;
+      const { target } = e;
 
-      if (className === 'add-button' || className === 'fa-solid fa-plus') {
+      if (
+        target.matches('.add-button') ||
+        target.matches('.fa-solid.fa-plus')
+      ) {
         onClickAddButton(id);
-      } else if (className === 'title') {
-        onClickDocument(id);
-      } else if (
-        className === 'remove-button' ||
-        className === 'fa-solid fa-trash-can'
+      }
+    }
+  };
+
+  this.handleClickDocument = (e) => {
+    const $li = e.target.closest('li');
+    if ($li) {
+      const { id } = $li.dataset;
+      const { target } = e;
+
+      if (target.matches('.title')) onClickDocument(id);
+    }
+  };
+
+  this.handleRemoveDocument = (e) => {
+    const $li = e.target.closest('li');
+    if ($li) {
+      const { id } = $li.dataset;
+      const { target } = e;
+
+      if (
+        target.matches('.remove-button') ||
+        target.matches('.fa-solid.fa-trash-can')
       ) {
         onClickRemoveButton(id);
-      } else if (
-        className === 'fold-button' ||
-        className === 'fa-solid fa-chevron-right' ||
-        className === 'fa-solid fa-chevron-down'
+      }
+    }
+  };
+
+  this.handleFoldDocument = (e) => {
+    const $li = e.target.closest('li');
+    if ($li) {
+      const { target } = e;
+
+      if (
+        target.matches('.fold-button') ||
+        target.matches('.fa-solid.fa-chevron-right') ||
+        target.matches('.fa-solid.fa-chevron-down')
       ) {
         const $ul = $li.querySelector('ul');
         const $foldButton = $li.querySelector('.fold-button');
@@ -94,7 +126,10 @@ export default function DocumentList({
         }
       }
     }
-  });
+  };
 
-  this.render();
+  addEvent($documentList, null, this.handleAddDocument);
+  addEvent($documentList, null, 'click', this.handleClickDocument);
+  addEvent($documentList, null, 'click', this.handleRemoveDocument);
+  addEvent($documentList, null, 'click', this.handleFoldDocument);
 }

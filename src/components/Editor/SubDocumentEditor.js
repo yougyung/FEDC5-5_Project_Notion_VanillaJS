@@ -1,6 +1,10 @@
+import { addEvent, createDOM } from '../../utils/dom.js';
+
 export default function SubDocumetFooter({ $target, initialState, onClick }) {
-  const $subDocumentFooter = document.createElement('div');
-  $subDocumentFooter.className = 'sub-document-footer';
+  const $subDocumentFooter = createDOM({
+    tag: 'div',
+    className: 'sub-document-footer',
+  });
 
   $target.appendChild($subDocumentFooter);
 
@@ -24,7 +28,7 @@ export default function SubDocumetFooter({ $target, initialState, onClick }) {
     `;
   };
 
-  $subDocumentFooter.addEventListener('click', (e) => {
+  this.handleClickSubDocumentItem = (e) => {
     const $subDocumentItem = e.target.closest('.sub-document-item');
     if ($subDocumentItem) {
       const { id } = $subDocumentItem.dataset;
@@ -32,5 +36,7 @@ export default function SubDocumetFooter({ $target, initialState, onClick }) {
         onClick(id);
       }
     }
-  });
+  };
+
+  addEvent($subDocumentFooter, null, 'click', this.handleClickSubDocumentItem);
 }

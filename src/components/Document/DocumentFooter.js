@@ -1,42 +1,38 @@
-import Modal from '../ui/Modal.js';
+import { addEvent, appendChildAll, createDOM } from '../../utils/dom.js';
+import Modal from '../common/Modal.js';
 
 export default function DocumentFooter({ $target, onOpen }) {
-  const $documentFooter = document.createElement('div');
-  $documentFooter.className = 'document-footer';
-
-  const $helpButton = document.createElement('button');
-  $helpButton.className = 'help-button';
-  $helpButton.innerHTML = `
-  <i class="fa-regular fa-circle-question"></i>
-  `;
-
-  const $socialGroup = document.createElement('div');
-  $socialGroup.className = 'social-group';
-
-  const $githubButton = document.createElement('button');
-  $githubButton.className = 'github-button';
-  $githubButton.innerHTML = `
-    <a href="https://github.com/lunarmoon7" target="_blank">
-      <i class="fa-brands fa-github"></i>
-    </a>
-  `;
-
-  const $velogButton = document.createElement('button');
-  $velogButton.className = 'velog-button';
-  $velogButton.innerHTML = `
-    <a href="https://velog.io/@49crehbgr" target="_blank">
-      <i class="fa-brands fa-vimeo"></i>
-    </a>
-  `;
-
-  $socialGroup.appendChild($githubButton);
-  $socialGroup.appendChild($velogButton);
-
-  $documentFooter.appendChild($helpButton);
-  $documentFooter.appendChild($socialGroup);
-  $target.appendChild($documentFooter);
-
-  $helpButton.addEventListener('click', () => {
-    new Modal();
+  const $documentFooter = createDOM({
+    tag: 'div',
+    className: 'document-footer',
   });
+  const $helpButton = createDOM({
+    tag: 'button',
+    className: 'help-button',
+    innerHTML: '<i class="fa-regular fa-circle-question"></i>',
+  });
+
+  const $socialGroup = createDOM({ tag: 'div', className: 'social-group' });
+  const $githubButton = createDOM({
+    tag: 'button',
+    className: 'github-button',
+    innerHTML:
+      '<a href="https://github.com/lunarmoon7" target="_blank"><i class="fa-brands fa-github"></i></a>',
+  });
+  const $velogButton = createDOM({
+    tag: 'button',
+    className: 'velog-button',
+    innerHTML:
+      '<a href="https://velog.io/@49crehbgr" target="_blank"><i class="fa-brands fa-vimeo"></i></a>',
+  });
+
+  appendChildAll($socialGroup, [$githubButton, $velogButton]);
+  appendChildAll($documentFooter, [$helpButton, $socialGroup]);
+  appendChildAll($target, [$documentFooter]);
+
+  this.handleModal = () => {
+    new Modal();
+  };
+
+  addEvent($documentFooter, 'help-button', 'click', this.handleModal);
 }
