@@ -9,7 +9,7 @@ export const request = async (url = '', options = {}) => {
     const response = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
-        'x-username': 'zentechie',
+        'x-username': 'coggie',
         'Content-Type': 'application/json',
       },
     });
