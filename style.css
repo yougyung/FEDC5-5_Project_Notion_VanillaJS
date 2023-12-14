@@ -5,11 +5,17 @@
   box-sizing: border-box;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 body {
   margin: 0;
   position: relative;
   width: 100vw;
   height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 .app {
@@ -192,6 +198,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 20px;
 }
 
 .document-footer button {
@@ -201,9 +208,11 @@ body {
   color: #6e6e6e;
   cursor: pointer;
   transition: 0.3s;
+  background-color: dodgerblue;
 }
 
 .document-footer button a {
+  display: block;
   text-decoration: none;
   color: inherit;
 }
@@ -214,6 +223,13 @@ body {
 
 .document-footer .help-button:hover {
   color: #609ed7;
+}
+
+.document-footer .social-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
 }
 
 .document-footer .social-group .github-button:hover {
