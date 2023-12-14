@@ -27,17 +27,18 @@ export default function DocumentFooter({ $target, onOpen }) {
   });
 
   appendChildAll($socialGroup, [$githubButton, $velogButton]);
-  appendChildAll($documentFooter, [$helpButton, $socialGroup]);
+  // appendChildAll($documentFooter, [$helpButton, $socialGroup]);
   appendChildAll($target, [$documentFooter]);
 
-  this.handleModal = () => {
-    new Modal();
-  };
+  // this.handleModal = () => {
+  //   new Modal();
+  // };
 
-  addEvent({
-    $dom: $documentFooter,
-    className: 'help-button',
-    type: 'click',
-    callback: this.handleModal,
-  });
+  // // Add Event
+  // addEvent({
+  //   $dom: $documentFooter,
+  //   className: 'help-button',
+  //   type: 'click',
+  //   callback: this.handleModal,
+  // });
 }
