@@ -2,20 +2,28 @@ import DocumentHeader from './components/document/DocumentHeader.js';
 import DocumentList from './components/document/DocumentList.js';
 import Editor from './components/editor/Editor.js';
 import SubDocumentEditor from './components/editor/SubDocumentEditor.js';
-import { request } from './api/api.js';
 import { initRouter, push } from './router/router.js';
-import Splitter from './components/ui/Splitter.js';
+import Splitter from './components/common/Splitter.js';
 import DocumentFooter from './components/document/DocumentFooter.js';
 import { debounce } from './utils/debounce.js';
+import {
+  addDocument,
+  editDocument,
+  getRootDocuments,
+  getSelectedDocument,
+} from './api/documentHandler.js';
+import { createDOM } from './utils/dom.js';
 
 export default function App({ $target }) {
-  const $documentListContainer = document.createElement('div');
-  $documentListContainer.className = 'document-list-container';
+  const $documentListContainer = createDOM({
+    tagName: 'div',
+    className: 'document-list-container',
+  });
 
-  const $editorContainer = document.createElement('div');
-  $editorContainer.className = 'editor-container';
-
-  let timer = null;
+  const $editorContainer = createDOM({
+    tagName: 'div',
+    className: 'editor-container',
+  });
 
   this.state = {
     selectedDocument: null,
@@ -28,7 +36,9 @@ export default function App({ $target }) {
   };
 
   this.render = async () => {
-    await getRootDocuments();
+    const rootDocuments = await getRootDocuments();
+    documentList.setState(rootDocuments);
+
     const { selectedDocument } = this.state;
     if (selectedDocument) {
       $editorContainer.style.display = 'block';
@@ -58,7 +68,17 @@ export default function App({ $target }) {
     $target: $documentListContainer,
     initialState: [],
     onClickDocument: async (id) => {
-      await getSelectedDocument(id);
+      const selectedDocument = await getSelectedDocument(id);
+
+      this.setState({
+        ...this.state,
+        selectedDocument,
+        subDocuments: selectedDocument.documents,
+      });
+
+      editor.setState(selectedDocument);
+      subDocumentEditor.setState(selectedDocument.documents);
+
       push(`/${id}`);
       subDocumentEditor.setState(this.state.subDocuments);
     },
@@ -109,21 +129,21 @@ export default function App({ $target }) {
     $target: $editorContainer,
     initialState: this.state.subDocuments ? this.state.subDocuments : [],
     onClick: async (id) => {
-      await getSelectedDocument(id);
+      const selectedDocument = await getSelectedDocument(id);
+      this.setState({
+        ...this.state,
+        selectedDocument,
+        subDocuments: selectedDocument.documents,
+      });
+
+      editor.setState(selectedDocument);
+      subDocumentEditor.setState(selectedDocument.documents);
+
       push(`/${id}`);
     },
   });
 
-  // API: Root Documents 가져오기
-  const getRootDocuments = async () => {
-    const rootDocuments = await request();
-    documentList.setState(rootDocuments);
-  };
-
-  // API: 특정 Document의 content 조회하기
-  const getSelectedDocument = async (id) => {
-    const selectedDocument = await request(`/${id}`);
-
+  this.handleOnSelectDocument = (selectedDocument) => {
     this.setState({
       ...this.state,
       selectedDocument,
@@ -134,38 +154,12 @@ export default function App({ $target }) {
     subDocumentEditor.setState(selectedDocument.documents);
   };
 
-  // API: Document 추가하기
-  const addDocument = async (parentId) => {
-    const newDocument = await request('', {
-      method: 'POST',
-      body: {
-        title: '제목 없음',
-        parent: parentId,
-      },
-    });
-    return newDocument;
-  };
-
-  // API: 특정 Document 수정하기
-  const editDocument = async (id, title, content) => {
-    await request(`/${id}`, {
-      method: 'PUT',
-      body: {
-        title: title,
-        content: content,
-      },
-    });
-  };
-  // API: 특정 Document 삭제하기
-  const removeDocument = async (id) => {
-    await request(`/${id}`, {
-      method: 'DELETE',
-    });
-  };
-
   // 라우팅
   this.route = async () => {
-    await getRootDocuments();
+    const rootDocuments = await getRootDocuments();
+    if (rootDocuments) {
+      documentList.setState(rootDocuments);
+    }
     const { pathname } = window.location;
     if (pathname === '/') {
       this.setState({
@@ -174,7 +168,8 @@ export default function App({ $target }) {
       });
     } else {
       const id = pathname.slice(1);
-      await getSelectedDocument(id);
+      const selectedDocument = await getSelectedDocument(id);
+      this.handleOnSelectDocument(selectedDocument);
     }
   };
 
