@@ -36,18 +36,28 @@ export default function Modal() {
   this.handleCloseModal = () => {
     $modalOverlay.style.display = 'none';
     $modalOverlay.removeChild($modal);
-  }
+  };
 
   this.handleClickOverlay = (e) => {
-    const {target} = e;
+    const { target } = e;
     if (target === $modalOverlay) {
       $modalOverlay.style.display = 'none';
       $modalOverlay.removeChild($modal);
     }
-  }
+  };
 
-  addEvent($modal, 'close-button', 'click', this.handleCloseModal);
-  addEvent(window, null, 'click', this.handleClickOverlay);
+  addEvent({
+    $dom: $modal,
+    className: 'close-button',
+    type: 'click',
+    callback: this.handleCloseModal,
+  });
+  addEvent({
+    $dom: window,
+    className: null,
+    type: 'click',
+    callback: this.handleClickOverlay,
+  });
 
   this.render();
 

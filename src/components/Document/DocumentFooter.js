@@ -34,5 +34,10 @@ export default function DocumentFooter({ $target, onOpen }) {
     new Modal();
   };
 
-  addEvent($documentFooter, 'help-button', 'click', this.handleModal);
+  addEvent({
+    $dom: $documentFooter,
+    className: 'help-button',
+    type: 'click',
+    callback: this.handleModal,
+  });
 }

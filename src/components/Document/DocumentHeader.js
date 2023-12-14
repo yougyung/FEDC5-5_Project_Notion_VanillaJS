@@ -65,6 +65,16 @@ export default function DocumentHeader({ $target, onClickPageAddButton }) {
   };
 
   // this로 핸들러를 callback으로 넘겨주면, callback이 function이 아니라는 에러가 발생한다.
-  addEvent($documentHeader, 'group', 'click', this.handleAddPage);
-  addEvent($documentHeader, 'logo', 'click', this.handleClickLogo);
+  addEvent({
+    $dom: $documentHeader,
+    className: 'group',
+    type: 'click',
+    callback: this.handleAddPage,
+  });
+  addEvent({
+    $dom: $documentHeader,
+    className: 'logo',
+    type: 'click',
+    callback: this.handleClickLogo,
+  });
 }

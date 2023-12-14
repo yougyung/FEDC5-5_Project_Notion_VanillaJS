@@ -128,8 +128,28 @@ export default function DocumentList({
     }
   };
 
-  addEvent($documentList, null, this.handleAddDocument);
-  addEvent($documentList, null, 'click', this.handleClickDocument);
-  addEvent($documentList, null, 'click', this.handleRemoveDocument);
-  addEvent($documentList, null, 'click', this.handleFoldDocument);
+  addEvent({
+    $dom: $documentList,
+    className: null,
+    type: 'click',
+    callback: this.handleAddDocument,
+  });
+  addEvent({
+    $dom: $documentList,
+    className: null,
+    type: 'click',
+    callback: this.handleClickDocument,
+  });
+  addEvent({
+    $dom: $documentList,
+    className: null,
+    type: 'click',
+    callback: this.handleRemoveDocument,
+  });
+  addEvent({
+    $dom: $documentList,
+    className: null,
+    type: 'click',
+    callback: this.handleFoldDocument,
+  });
 }

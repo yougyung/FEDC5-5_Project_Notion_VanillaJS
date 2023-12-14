@@ -19,7 +19,7 @@ export const appendChildAll = ($parent, $children) => {
   });
 };
 
-export const addEvent = ($dom, className, type, callback) => {
+export const addEvent = ({ $dom, className, type, callback }) => {
   if (!className) {
     $dom.addEventListener(type, (e) => callback(e));
     return;

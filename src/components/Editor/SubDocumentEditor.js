@@ -38,5 +38,10 @@ export default function SubDocumetFooter({ $target, initialState, onClick }) {
     }
   };
 
-  addEvent($subDocumentFooter, null, 'click', this.handleClickSubDocumentItem);
+  addEvent({
+    $dom: $subDocumentFooter,
+    className: null,
+    type: 'click',
+    callback: this.handleClickSubDocumentItem,
+  });
 }
