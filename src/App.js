@@ -146,7 +146,6 @@ export default function App({ $target }) {
   this.route = async () => {
     const rootDocuments = await getRootDocuments();
     if (rootDocuments) {
-      // documentList.setState(rootDocuments);
       documentPage.setState(rootDocuments);
     }
     const { pathname } = window.location;
