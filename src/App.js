@@ -1,30 +1,17 @@
-import DocumentHeader from './components/document/DocumentHeader.js';
-import DocumentList from './components/document/DocumentList.js';
-import Editor from './components/editor/Editor.js';
-import SubDocumentEditor from './components/editor/SubDocumentEditor.js';
 import { initRouter, push } from './router/router.js';
 import Splitter from './components/common/Splitter.js';
-import DocumentFooter from './components/document/DocumentFooter.js';
 import { debounce } from './utils/debounce.js';
 import {
   addDocument,
   editDocument,
+  removeDocument,
   getRootDocuments,
   getSelectedDocument,
 } from './api/documentHandler.js';
-import { createDOM } from './utils/dom.js';
+import DocumentPage from './pages/DocumentPage.js';
+import EditPage from './pages/EditPage.js';
 
 export default function App({ $target }) {
-  const $documentListContainer = createDOM({
-    tagName: 'div',
-    className: 'document-list-container',
-  });
-
-  const $editorContainer = createDOM({
-    tagName: 'div',
-    className: 'editor-container',
-  });
-
   this.state = {
     selectedDocument: null,
     subDocuments: null,
@@ -37,111 +24,82 @@ export default function App({ $target }) {
 
   this.render = async () => {
     const rootDocuments = await getRootDocuments();
-    documentList.setState(rootDocuments);
+    documentPage.setState(rootDocuments);
 
     const { selectedDocument } = this.state;
     if (selectedDocument) {
-      $editorContainer.style.display = 'block';
+      // $editorContainer.style.display = 'block';
     } else {
-      $editorContainer.style.display = 'none';
+      // $editorContainer.style.display = 'none';
     }
   };
 
-  // Document Header Component
-  const documentHeader = new DocumentHeader({
-    $target: $documentListContainer,
-    onClickPageAddButton: async () => {
-      const addedDocument = await addDocument(null);
+  this.handleAddRootDocument = async () => {
+    const addedDocument = await addDocument(null);
+    this.setState({
+      ...this.state,
+      selectedDocument: addedDocument,
+    });
+    editPage.setState({ ...editPage.state, selectedDocument: addedDocument });
+    push(`/${addedDocument.id}`);
+  };
 
-      this.setState({
-        ...this.state,
-        selectedDocument: addedDocument,
-      });
+  this.handleClickDocument = async (id) => {
+    const selectedDocument = await getSelectedDocument(id);
 
-      editor.setState(addedDocument);
-      push(`/${addedDocument.id}`);
-    },
-  });
+    this.setState({
+      ...this.state,
+      selectedDocument,
+      subDocuments: selectedDocument.documents,
+    });
 
-  // Document List Component
-  const documentList = new DocumentList({
-    $target: $documentListContainer,
-    initialState: [],
-    onClickDocument: async (id) => {
-      const selectedDocument = await getSelectedDocument(id);
+    editPage.setState({
+      selectedDocument: selectedDocument,
+      subDocuments: selectedDocument.documents,
+    });
+    push(`/${id}`);
+  };
 
-      this.setState({
-        ...this.state,
-        selectedDocument,
-        subDocuments: selectedDocument.documents,
-      });
+  this.handleAddDocument = async (id) => {
+    const addedDocument = await addDocument(id);
 
-      editor.setState(selectedDocument);
-      subDocumentEditor.setState(selectedDocument.documents);
+    this.setState({
+      ...this.state,
+      selectedDocument: addedDocument,
+    });
 
-      push(`/${id}`);
-      subDocumentEditor.setState(this.state.subDocuments);
-    },
-    onClickAddButton: async (id) => {
-      const addedDocument = await addDocument(id);
+    editPage.setState({ ...editPage.state, selectedDocument: addedDocument });
+    push(`/${addedDocument.id}`);
+  };
 
-      this.setState({
-        ...this.state,
-        selectedDocument: addedDocument,
-      });
+  this.handleRemoveDocument = async (id) => {
+    await removeDocument(id);
+    this.setState({
+      ...this.state,
+      selectedDocument: null,
+    });
+  };
 
-      editor.setState(addedDocument);
-      push(`/${addedDocument.id}`);
-    },
-    onClickRemoveButton: async (id) => {
-      await removeDocument(id);
-      this.setState({
-        ...this.state,
-        selectedDocument: null,
-      });
-    },
-  });
+  this.handleEditDocument = async (document) => {
+    debounce(async () => {
+      await editDocument(document.id, document.title, document.content);
+    }, 1000);
+  };
 
-  // Document Footer Component
-  const documentFooter = new DocumentFooter({
-    $target: $documentListContainer,
-  });
-  $target.appendChild($documentListContainer);
+  this.handleClickSubDocument = async (id) => {
+    const selectedDocument = await getSelectedDocument(id);
+    this.setState({
+      ...this.state,
+      selectedDocument,
+      subDocuments: selectedDocument.documents,
+    });
 
-  // Splitter Component
-  const splitter = new Splitter({ $target });
-
-  // Editor Component
-  const editor = new Editor({
-    $target: $editorContainer,
-    initialState: this.state.selectedDocument,
-    onEditing: (document) => {
-      debounce(async () => {
-        await editDocument(document.id, document.title, document.content);
-      }, 1000);
-    },
-  });
-
-  $target.appendChild($editorContainer);
-
-  // Sub Document Footer Component
-  const subDocumentEditor = new SubDocumentEditor({
-    $target: $editorContainer,
-    initialState: this.state.subDocuments ? this.state.subDocuments : [],
-    onClick: async (id) => {
-      const selectedDocument = await getSelectedDocument(id);
-      this.setState({
-        ...this.state,
-        selectedDocument,
-        subDocuments: selectedDocument.documents,
-      });
-
-      editor.setState(selectedDocument);
-      subDocumentEditor.setState(selectedDocument.documents);
-
-      push(`/${id}`);
-    },
-  });
+    editPage.setState({
+      selectedDocument: selectedDocument,
+      subDocuments: selectedDocument.documents,
+    });
+    push(`/${id}`);
+  };
 
   this.handleOnSelectDocument = (selectedDocument) => {
     this.setState({
@@ -150,15 +108,42 @@ export default function App({ $target }) {
       subDocuments: selectedDocument.documents,
     });
 
-    editor.setState(selectedDocument);
-    subDocumentEditor.setState(selectedDocument.documents);
+    editPage.setState({
+      selectedDocument: selectedDocument,
+      subDocuments: selectedDocument.documents,
+    });
   };
+
+  const documentPage = new DocumentPage({
+    $target,
+    initialState: [],
+    onAddRootDocument: this.handleAddRootDocument,
+    onClickDocument: this.handleClickDocument,
+    onAddDocument: this.handleAddDocument,
+    onRemoveDocument: this.handleRemoveDocument,
+  });
+
+  const editPage = new EditPage({
+    $target,
+    initialState: {
+      selectedDocument: this.state.selectedDocument
+        ? this.state.selectedDocument
+        : {},
+      subDocuments: this.state.subDocuments ? this.state.subDocuments : [],
+    },
+    onEditDocument: this.handleEditDocument,
+    onClickSubDocument: this.handleClickSubDocument,
+  });
+
+  // Splitter Component
+  const splitter = new Splitter({ $target });
 
   // 라우팅
   this.route = async () => {
     const rootDocuments = await getRootDocuments();
     if (rootDocuments) {
-      documentList.setState(rootDocuments);
+      // documentList.setState(rootDocuments);
+      documentPage.setState(rootDocuments);
     }
     const { pathname } = window.location;
     if (pathname === '/') {
