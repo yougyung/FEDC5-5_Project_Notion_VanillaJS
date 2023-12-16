@@ -25,8 +25,14 @@ export default function DocumentFooter({ $target, onOpen }) {
     innerHTML:
       '<a href="https://velog.io/@49crehbgr" target="_blank"><i class="fa-brands fa-vimeo"></i></a>',
   });
+  const $blogButton = createDOM({
+    tagName: 'button',
+    className: 'blog-button',
+    innerHTML:
+      '<a href="https://coggie.dev" target="_blank"><i class="fa-solid fa-blog"></i></a>',
+  });
 
-  appendChildAll($socialGroup, [$githubButton, $velogButton]);
+  appendChildAll($socialGroup, [$githubButton, $velogButton, $blogButton]);
   appendChildAll($documentFooter, [$helpButton, $socialGroup]);
   // appendChildAll($documentFooter, [$helpButton, $socialGroup]);
   appendChildAll($target, [$documentFooter]);
