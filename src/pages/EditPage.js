@@ -25,6 +25,10 @@ export default function EditPage({
     subDocumentFooter.setState(this.state.subDocuments);
   };
 
+  this.toggle = () => {
+    $editPageContainer.classList.toggle('hidden');
+  }
+  
   const editor = new Editor({
     $target: $editPageContainer,
     initialState: this.state,
