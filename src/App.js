@@ -10,6 +10,7 @@ import {
 } from './api/documentHandler.js';
 import DocumentPage from './pages/DocumentPage.js';
 import EditPage from './pages/EditPage.js';
+import NotFoundPage from './pages/NotFoundPage.js';
 
 export default function App({ $target }) {
   this.state = {
@@ -28,10 +29,11 @@ export default function App({ $target }) {
 
     const { selectedDocument } = this.state;
     if (selectedDocument) {
-      // $editorContainer.style.display = 'block';
+      notFoundPage.close();
     } else {
-      // $editorContainer.style.display = 'none';
+      notFoundPage.show();
     }
+    editPage.toggle();
   };
 
   this.handleAddRootDocument = async () => {
@@ -134,6 +136,8 @@ export default function App({ $target }) {
     onEditDocument: this.handleEditDocument,
     onClickSubDocument: this.handleClickSubDocument,
   });
+
+  const notFoundPage = new NotFoundPage({ $target });
 
   // Splitter Component
   const splitter = new Splitter({ $target });
