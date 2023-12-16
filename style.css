@@ -237,13 +237,16 @@ a {
 }
 
 .document-page-container .document-footer .social-group .github-button:hover {
-  color: black;
+  color: #000;
 }
 
 .document-page-container .document-footer .social-group .velog-button:hover {
   color: rgb(32, 201, 151);
 }
 
+.document-page-container .document-footer .social-group .blog-button:hover {
+  color: #F27D52;
+}
 /* For Edit Component */
 .editor-container {
   flex: 1;
