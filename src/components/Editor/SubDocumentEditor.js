@@ -2,7 +2,7 @@ import { addEvent, createDOM } from '../../utils/dom.js';
 
 export default function SubDocumetFooter({ $target, initialState, onClick }) {
   const $subDocumentFooter = createDOM({
-    tag: 'div',
+    tagName: 'div',
     className: 'sub-document-footer',
   });
 

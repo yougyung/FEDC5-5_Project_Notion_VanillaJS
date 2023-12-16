@@ -4,7 +4,7 @@ import { handleCursor } from '../../utils/handleCursor.js';
 
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = createDOM({
-    tag: 'div',
+    tagName: 'div',
     className: 'editor',
     innerHTML: `<input class='edit-title' type="text" name="title" placeholder='제목을 입력하세요'/>
   <div class='edit-main' name="content" contentEditable='true' placeholder='내용을 입력하세요.'></div>`,
