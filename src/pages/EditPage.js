@@ -1,5 +1,5 @@
 import Editor from '../components/editor/Editor.js';
-import SubDocumetFooter from '../components/editor/SubDocumentEditor.js';
+import SubDocumetFooter from '../components/editor/SubDocumentFooter.js';
 import { createDOM } from '../utils/dom.js';
 
 export default function EditPage({
@@ -12,6 +12,7 @@ export default function EditPage({
     tagName: 'div',
     className: 'edit-page-container',
   });
+  $editPageContainer.style.display = 'none';
 
   this.state = initialState;
 
@@ -26,9 +27,13 @@ export default function EditPage({
   };
 
   this.toggle = () => {
-    $editPageContainer.classList.toggle('hidden');
-  }
-  
+    if (this.state.selectedDocument.id) {
+      $editPageContainer.style.display = 'flex';
+    } else {
+      $editPageContainer.style.display = 'none';
+    }
+  };
+
   const editor = new Editor({
     $target: $editPageContainer,
     initialState: this.state,

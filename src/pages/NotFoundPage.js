@@ -11,10 +11,14 @@ export default function NotFoundPage({ $target }) {
   });
 
   this.show = () => {
+    if ($target.contains($notFoundPageContainer)) return;
     $target.appendChild($notFoundPageContainer);
-  }
+  };
 
   this.close = () => {
-    $target.removeChild($notFoundPageContainer);
-  }
+    if ($target.contains($notFoundPageContainer)) {
+      $target.removeChild($notFoundPageContainer);
+    }
+  };
+  $target.appendChild($notFoundPageContainer);
 }
